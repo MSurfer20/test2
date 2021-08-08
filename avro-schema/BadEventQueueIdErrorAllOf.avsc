@@ -1,0 +1,33 @@
+{
+  "namespace": "model",
+  "type": "record",
+  "doc": "",
+  "name": "BadEventQueueIdErrorAllOf",
+  "fields": [
+    {
+      "name": "result",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "msg",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "code",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "queue_id",
+      "type": ["null", "string"],
+      "doc": "The string that identifies the invalid event queue. ",
+      "default": null
+    }
+  ]
+
+}

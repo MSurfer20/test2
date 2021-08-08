@@ -1,0 +1,31 @@
+{
+  "namespace": "model",
+  "type": "record",
+  "doc": "",
+  "name": "NonExistingStreamError",
+  "fields": [
+    {
+      "name": "result",
+      "type": ,
+      "doc": ""
+    },
+    {
+      "name": "msg",
+      "type": ,
+      "doc": ""
+    },
+    {
+      "name": "code",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "stream",
+      "type": ["null", "string"],
+      "doc": "The name of the stream that could not be found. ",
+      "default": null
+    }
+  ]
+
+}

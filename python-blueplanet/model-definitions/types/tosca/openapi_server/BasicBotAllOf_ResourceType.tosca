@@ -1,0 +1,75 @@
+"$schema"   = "http://cyaninc.com/json-schemas/tosca-lite-v1/definition-module#"
+title       = "openapi_server BasicBotAllOf"
+package     = openapi_server
+version     = "1.0"
+description = "Defines a BasicBotAllOf"
+authors     = ["F. Bar (foo@bar.baz)"]
+
+imports {
+  Root = tosca.resourceTypes.Root
+}
+resourceTypes {
+
+  BasicBotAllOf {
+    title = BasicBotAllOf
+    description = BasicBotAllOf
+    derivedFrom = Root
+    properties {
+        user_id {
+          type =  
+          description = ""
+          optional = false
+        }
+        full_name {
+          type =  
+          description = ""
+          optional = false
+        }
+        api_key {
+          type =  
+          description = ""
+          optional = false
+        }
+        default_sending_stream {
+          type =  
+          description = ""
+          optional = false
+        }
+        default_events_register_stream {
+          type =  
+          description = ""
+          optional = false
+        }
+        default_all_public_streams {
+          type =  
+          description = ""
+          optional = false
+        }
+        avatar_url {
+          type =  
+          description = ""
+          optional = false
+        }
+        owner_id {
+          type =  
+          description = ""
+          optional = false
+        }
+        services {
+          type =  
+          description = ""
+          optional = false
+        }
+    }
+  }
+}
+
+serviceTemplates {
+
+  BasicBotAllOf {
+    title = BasicBotAllOf
+    description = BasicBotAllOf
+    implements = openapi_server.resourceTypes.BasicBotAllOf
+
+  }
+}

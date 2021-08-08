@@ -1,0 +1,130 @@
+{
+  "namespace": "model",
+  "type": "record",
+  "doc": "A dictionary containing basic data on a given Zulip user. ",
+  "name": "UserBase",
+  "fields": [
+    {
+      "name": "email",
+      "type": ["null", "string"],
+      "doc": "The Zulip API email address of the user or bot.  If you do not have permission to view the email address of the target user, this will be a fake email address that is usable for the Zulip API but nothing else. ",
+      "default": null
+    },
+    {
+      "name": "is_bot",
+      "type": ["null", "boolean"],
+      "doc": "A boolean specifying whether the user is a bot or full account. ",
+      "default": null
+    },
+    {
+      "name": "avatar_url",
+      "type": ["null", "string"],
+      "doc": "URL for the user's avatar.  Will be `null` if the `client_gravatar` query parameter was set to `True` and the user's avatar is hosted by the Gravatar provider (i.e. the user has never uploaded an avatar).  **Changes**: In Zulip 3.0 (feature level 18), if the client has the `user_avatar_url_field_optional` capability, this will be missing at the server's sole discretion. ",
+      "default": null
+    },
+    {
+      "name": "avatar_version",
+      "type": ["null", "int"],
+      "doc": "Version for the user's avatar.  Used for cache-busting requests for the user's avatar.  Clients generally shouldn't need to use this; most avatar URLs sent by Zulip will already end with `?v={avatar_version}`. ",
+      "default": null
+    },
+    {
+      "name": "full_name",
+      "type": ["null", "string"],
+      "doc": "Full name of the user or bot, used for all display purposes. ",
+      "default": null
+    },
+    {
+      "name": "is_admin",
+      "type": ["null", "boolean"],
+      "doc": "A boolean specifying whether the user is an organization administrator. ",
+      "default": null
+    },
+    {
+      "name": "is_owner",
+      "type": ["null", "boolean"],
+      "doc": "A boolean specifying whether the user is an organization owner. If true, is_admin will also be true.  **Changes**: New in Zulip 3.0 (feature level 8). ",
+      "default": null
+    },
+    {
+      "name": "is_billing_admin",
+      "type": ["null", "boolean"],
+      "doc": "A boolean specifying whether the user is a billing administrator.  **Changes**: New in Zulip 5.0 (feature level 73). ",
+      "default": null
+    },
+    {
+      "name": "role",
+      "type": ["null", {
+        "type": "enum",
+        "name": "UserBase_role",
+        "symbols": [
+          "100",
+          "200",
+          "300",
+          "400",
+          "600"
+        ]
+      }],
+      "doc": "[Organization-level role](/help/roles-and-permissions)) of the user. Poosible values are:  * Organization owner => 100 * Organization administrator => 200 * Organization moderator => 300 * Member => 400 * Guest => 600  **Changes**: New in Zulip 4.0 (feature level 59). ",
+      "default": null
+    },
+    {
+      "name": "bot_type",
+      "type": ["null", "int"],
+      "doc": "An integer describing the type of bot: * `null` if the user isn't a bot. * `1` for a `Generic` bot. * `2` for an `Incoming webhook` bot. * `3` for an `Outgoing webhook` bot. * `4` for an `Embedded` bot. ",
+      "default": null
+    },
+    {
+      "name": "user_id",
+      "type": ["null", "int"],
+      "doc": "The unique ID of the user. ",
+      "default": null
+    },
+    {
+      "name": "bot_owner_id",
+      "type": ["null", "int"],
+      "doc": "If the user is a bot (i.e. `is_bot` is `True`), `bot_owner` is the user ID of the bot's owner (usually, whoever created the bot).  Will be null for legacy bots that do not have an owner.  **Changes**: New in Zulip 3.0 (feature level 1).  In previous versions, there was a `bot_owner` field containing the email address of the bot's owner. ",
+      "default": null
+    },
+    {
+      "name": "is_active",
+      "type": ["null", "boolean"],
+      "doc": "A boolean specifying whether the user account has been deactivated. ",
+      "default": null
+    },
+    {
+      "name": "is_guest",
+      "type": ["null", "boolean"],
+      "doc": "A boolean specifying whether the user is a guest user. ",
+      "default": null
+    },
+    {
+      "name": "timezone",
+      "type": ["null", "string"],
+      "doc": "The time zone of the user. ",
+      "default": null
+    },
+    {
+      "name": "date_joined",
+      "type": ["null", "string"],
+      "doc": "The time the user account was created. ",
+      "default": null
+    },
+    {
+      "name": "delivery_email",
+      "type": ["null", "string"],
+      "doc": "The user's real email address.  This field is present only if [email address visibility](/help/restrict-visibility-of-email-addresses) is limited and you are an administrator with access to real email addresses under the configured policy. ",
+      "default": null
+    },
+    {
+      "name": "profile_data",
+      "type": ["null", {
+        "type": "map",
+        "items": "model.Object"
+      }],
+      "doc": "A dictionary containing custom profile field data for the user. Each entry maps the integer ID of a custom profile field in the organization to a dictionary containing the user's data for that field.  Generally the data includes just a single `value` key; for those custom profile fields supporting Markdown, a `rendered_value` key will also be present. ",
+      "default": null
+    }
+  ]
+
+}

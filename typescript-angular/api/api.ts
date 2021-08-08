@@ -1,0 +1,15 @@
+export * from './authentication.service';
+import { AuthenticationService } from './authentication.service';
+export * from './messages.service';
+import { MessagesService } from './messages.service';
+export * from './realTimeEvents.service';
+import { RealTimeEventsService } from './realTimeEvents.service';
+export * from './serverAndOrganizations.service';
+import { ServerAndOrganizationsService } from './serverAndOrganizations.service';
+export * from './streams.service';
+import { StreamsService } from './streams.service';
+export * from './users.service';
+import { UsersService } from './users.service';
+export * from './webhooks.service';
+import { WebhooksService } from './webhooks.service';
+export const APIS = [AuthenticationService, MessagesService, RealTimeEventsService, ServerAndOrganizationsService, StreamsService, UsersService, WebhooksService];

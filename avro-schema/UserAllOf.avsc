@@ -1,0 +1,117 @@
+{
+  "namespace": "model",
+  "type": "record",
+  "doc": "",
+  "name": "UserAllOf",
+  "fields": [
+    {
+      "name": "email",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "is_bot",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "avatar_url",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "avatar_version",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "full_name",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "is_admin",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "is_owner",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "is_billing_admin",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "role",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "bot_type",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "user_id",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "bot_owner_id",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "is_active",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "is_guest",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "timezone",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "date_joined",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "delivery_email",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "profile_data",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    }
+  ]
+
+}

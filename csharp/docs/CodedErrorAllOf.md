@@ -1,0 +1,15 @@
+
+# Org.OpenAPITools.Model.CodedErrorAllOf
+
+## Properties
+
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**Result** | **Object** |  | [optional] 
+**Msg** | **Object** |  | [optional] 
+**Code** | **Object** |  | [optional] 
+
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to README]](../README.md)
+

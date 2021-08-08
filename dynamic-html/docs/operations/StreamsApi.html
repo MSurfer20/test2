@@ -1,0 +1,581 @@
+<div class="main-content">
+  <h2><a name=""></a></h2>
+  <p>This is the  API</p>
+
+  <h2><a name="archiveStream"></a>archiveStream</h2>
+  <hr>
+  <p></p>
+  <p>[Archive the stream](/help/archive-a-stream) with the ID &#x60;stream_id&#x60;.  &#x60;DELETE {{ api_url }}/v1/streams/{stream_id}&#x60; </p>
+  <h3 class="section">URL</h3>
+  <code>https://example.zulipchat.com/api/v1/streams/{stream_id}</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>DELETE</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" data-model="JsonSuccess"><a href="">JsonSuccess</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+	  <li class="parameter">
+      
+      
+      <span class="param-in">Path: </span>
+      
+      
+      <span class="param-name">stream_id</span>
+      <span class="param-type">Integer</span>
+      
+      <p class="param-description">The ID of the stream to access. </p>
+	  </li>
+  </ul>
+  <h2><a name="createBigBlueButtonVideoCall"></a>createBigBlueButtonVideoCall</h2>
+  <hr>
+  <p></p>
+  <p>Create a video call URL for a BigBlueButton video call. Requires BigBlueButton to be configured on the Zulip server. </p>
+  <h3 class="section">URL</h3>
+  <code>https://example.zulipchat.com/api/v1/calls/bigbluebutton/create</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>GET</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" data-model="JsonSuccessBase"><a href="">JsonSuccessBase</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+  </ul>
+  <h2><a name="getStreamId"></a>getStreamId</h2>
+  <hr>
+  <p></p>
+  <p>Get the unique ID of a given stream.  &#x60;GET {{ api_url }}/v1/get_stream_id&#x60; </p>
+  <h3 class="section">URL</h3>
+  <code>https://example.zulipchat.com/api/v1/get_stream_id</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>GET</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" data-model="JsonSuccessBase"><a href="">JsonSuccessBase</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+	  <li class="parameter">
+      
+      <span class="param-in">Query: </span>
+      
+      
+      
+      <span class="param-name">stream</span>
+      <span class="param-type">String</span>
+      
+      <p class="param-description">The name of the stream to access. </p>
+	  </li>
+  </ul>
+  <h2><a name="getStreamTopics"></a>getStreamTopics</h2>
+  <hr>
+  <p></p>
+  <p>Get all the topics in a specific stream  &#x60;GET {{ api_url }}/v1/users/me/{stream_id}/topics&#x60; </p>
+  <h3 class="section">URL</h3>
+  <code>https://example.zulipchat.com/api/v1/users/me/{stream_id}/topics</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>GET</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" data-model="JsonSuccessBase"><a href="">JsonSuccessBase</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+	  <li class="parameter">
+      
+      
+      <span class="param-in">Path: </span>
+      
+      
+      <span class="param-name">stream_id</span>
+      <span class="param-type">Integer</span>
+      
+      <p class="param-description">The ID of the stream to access. </p>
+	  </li>
+  </ul>
+  <h2><a name="getStreams"></a>getStreams</h2>
+  <hr>
+  <p></p>
+  <p>Get all streams that the user has access to.  &#x60;GET {{ api_url }}/v1/streams&#x60; </p>
+  <h3 class="section">URL</h3>
+  <code>https://example.zulipchat.com/api/v1/streams</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>GET</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" data-model="JsonSuccessBase"><a href="">JsonSuccessBase</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+	  <li class="parameter">
+      
+      <span class="param-in">Query: </span>
+      
+      
+      
+      <span class="param-name">include_public</span>
+      <span class="param-type">Boolean</span>
+      
+      <p class="param-description">Include all public streams. </p>
+	  </li>
+	  <li class="parameter">
+      
+      <span class="param-in">Query: </span>
+      
+      
+      
+      <span class="param-name">include_web_public</span>
+      <span class="param-type">Boolean</span>
+      
+      <p class="param-description">Include all web public streams. </p>
+	  </li>
+	  <li class="parameter">
+      
+      <span class="param-in">Query: </span>
+      
+      
+      
+      <span class="param-name">include_subscribed</span>
+      <span class="param-type">Boolean</span>
+      
+      <p class="param-description">Include all streams that the user is subscribed to. </p>
+	  </li>
+	  <li class="parameter">
+      
+      <span class="param-in">Query: </span>
+      
+      
+      
+      <span class="param-name">include_all_active</span>
+      <span class="param-type">Boolean</span>
+      
+      <p class="param-description">Include all active streams. The user must have administrative privileges to use this parameter. </p>
+	  </li>
+	  <li class="parameter">
+      
+      <span class="param-in">Query: </span>
+      
+      
+      
+      <span class="param-name">include_default</span>
+      <span class="param-type">Boolean</span>
+      
+      <p class="param-description">Include all default streams for the user&#39;s realm. </p>
+	  </li>
+	  <li class="parameter">
+      
+      <span class="param-in">Query: </span>
+      
+      
+      
+      <span class="param-name">include_owner_subscribed</span>
+      <span class="param-type">Boolean</span>
+      
+      <p class="param-description">If the user is a bot, include all streams that the bot&#39;s owner is subscribed to. </p>
+	  </li>
+  </ul>
+  <h2><a name="getSubscriptionStatus"></a>getSubscriptionStatus</h2>
+  <hr>
+  <p></p>
+  <p>Check whether a user is subscribed to a stream.  &#x60;GET {{ api_url }}/v1/users/{user_id}/subscriptions/{stream_id}&#x60;  **Changes**: New in Zulip 3.0 (feature level 11). </p>
+  <h3 class="section">URL</h3>
+  <code>https://example.zulipchat.com/api/v1/users/{user_id}/subscriptions/{stream_id}</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>GET</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" data-model="JsonSuccessBase"><a href="">JsonSuccessBase</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+	  <li class="parameter">
+      
+      
+      <span class="param-in">Path: </span>
+      
+      
+      <span class="param-name">user_id</span>
+      <span class="param-type">Integer</span>
+      
+      <p class="param-description">The target user&#39;s ID. </p>
+	  </li>
+	  <li class="parameter">
+      
+      
+      <span class="param-in">Path: </span>
+      
+      
+      <span class="param-name">stream_id</span>
+      <span class="param-type">Integer</span>
+      
+      <p class="param-description">The ID of the stream to access. </p>
+	  </li>
+  </ul>
+  <h2><a name="getSubscriptions"></a>getSubscriptions</h2>
+  <hr>
+  <p></p>
+  <p>Get all streams that the user is subscribed to.  &#x60;GET {{ api_url }}/v1/users/me/subscriptions&#x60; </p>
+  <h3 class="section">URL</h3>
+  <code>https://example.zulipchat.com/api/v1/users/me/subscriptions</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>GET</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" data-model="JsonSuccessBase"><a href="">JsonSuccessBase</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+	  <li class="parameter">
+      
+      <span class="param-in">Query: </span>
+      
+      
+      
+      <span class="param-name">include_subscribers</span>
+      <span class="param-type">Boolean</span>
+      
+      <p class="param-description">Whether each returned stream object should include a &#x60;subscribers&#x60; field containing a list of the user IDs of its subscribers.  (This may be significantly slower in organizations with thousands of users subscribed to many streams.)  **Changes**: New in Zulip 2.1.0. </p>
+	  </li>
+  </ul>
+  <h2><a name="muteTopic"></a>muteTopic</h2>
+  <hr>
+  <p></p>
+  <p>This endpoint mutes/unmutes a topic within a stream that the current user is subscribed to.  Muted topics are displayed faded in the Zulip UI, and are not included in the user&#39;s unread count totals.  &#x60;PATCH {{ api_url }}/v1/users/me/subscriptions/muted_topics&#x60; </p>
+  <h3 class="section">URL</h3>
+  <code>https://example.zulipchat.com/api/v1/users/me/subscriptions/muted_topics</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>PATCH</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" data-model="JsonSuccess"><a href="">JsonSuccess</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+	  <li class="parameter">
+      
+      <span class="param-in">Query: </span>
+      
+      
+      
+      <span class="param-name">topic</span>
+      <span class="param-type">String</span>
+      
+      <p class="param-description">The topic to (un)mute. Note that the request will succeed regardless of whether any messages have been sent to the specified topic. </p>
+	  </li>
+	  <li class="parameter">
+      
+      <span class="param-in">Query: </span>
+      
+      
+      
+      <span class="param-name">op</span>
+      <span class="param-type">String</span>
+      
+      <p class="param-description">Whether to mute (&#x60;add&#x60;) or unmute (&#x60;remove&#x60;) the provided topic. </p>
+	  </li>
+	  <li class="parameter">
+      
+      <span class="param-in">Query: </span>
+      
+      
+      
+      <span class="param-name">stream</span>
+      <span class="param-type">String</span>
+      
+      <p class="param-description">The name of the stream to access. </p>
+	  </li>
+	  <li class="parameter">
+      
+      <span class="param-in">Query: </span>
+      
+      
+      
+      <span class="param-name">stream_id</span>
+      <span class="param-type">Integer</span>
+      
+      <p class="param-description">The ID of the stream to access. </p>
+	  </li>
+  </ul>
+  <h2><a name="subscribe"></a>subscribe</h2>
+  <hr>
+  <p></p>
+  <p>Subscribe one or more users to one or more streams.  &#x60;POST {{ api_url }}/v1/users/me/subscriptions&#x60;  If any of the specified streams do not exist, they are automatically created.  The initial [stream settings](/api/update-stream) will be determined by the optional parameters like &#x60;invite_only&#x60; detailed below. </p>
+  <h3 class="section">URL</h3>
+  <code>https://example.zulipchat.com/api/v1/users/me/subscriptions</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>POST</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" data-model="oneOf&lt;object,object&gt;"><a href="">oneOf&lt;object,object&gt;</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+	  <li class="parameter">
+      
+      <span class="param-in">Query: </span>
+      
+      
+      
+      <span class="param-name">subscriptions</span>
+      <span class="param-type">List(Object)</span>
+      
+      <p class="param-description">A list of dictionaries containing the key &#x60;name&#x60; and value specifying the name of the stream to subscribe. If the stream does not exist a new stream is created. The description of the stream created can be specified by setting the dictionary key &#x60;description&#x60; with an appropriate value. </p>
+	  </li>
+	  <li class="parameter">
+      
+      <span class="param-in">Query: </span>
+      
+      
+      
+      <span class="param-name">principals</span>
+      <span class="param-type">List(oneOf&lt;string,integer&gt;)</span>
+      
+      <p class="param-description">A list of user ids (preferred) or Zulip display email addresses of the users to be subscribed to or unsubscribed from the streams specified in the &#x60;subscriptions&#x60; parameter. If not provided, then the requesting user/bot is subscribed.  **Changes**: The integer format is new in Zulip 3.0 (feature level 9). </p>
+	  </li>
+	  <li class="parameter">
+      
+      <span class="param-in">Query: </span>
+      
+      
+      
+      <span class="param-name">authorization_errors_fatal</span>
+      <span class="param-type">Boolean</span>
+      
+      <p class="param-description">A boolean specifying whether authorization errors (such as when the requesting user is not authorized to access a private stream) should be considered fatal or not. When &#x60;True&#x60;, an authorization error is reported as such. When set to &#x60;False&#x60;, the response will be a 200 and any streams where the request encountered an authorization error will be listed in the &#x60;unauthorized&#x60; key. </p>
+	  </li>
+	  <li class="parameter">
+      
+      <span class="param-in">Query: </span>
+      
+      
+      
+      <span class="param-name">announce</span>
+      <span class="param-type">Boolean</span>
+      
+      <p class="param-description">If one of the streams specified did not exist previously and is thus craeted by this call, this determines whether [notification bot](/help/configure-notification-bot) will send an announcement about the new stream&#39;s creation. </p>
+	  </li>
+	  <li class="parameter">
+      
+      <span class="param-in">Query: </span>
+      
+      
+      
+      <span class="param-name">invite_only</span>
+      <span class="param-type">Boolean</span>
+      
+      <p class="param-description">As described above, this endpoint will create a new stream if passed a stream name that doesn&#39;t already exist.  This parameters and the ones that follow are used to request an initial configuration of a created stream; they are ignored for streams that already exist.  This parameter determines whether any newly created streams will be private streams. </p>
+	  </li>
+	  <li class="parameter">
+      
+      <span class="param-in">Query: </span>
+      
+      
+      
+      <span class="param-name">history_public_to_subscribers</span>
+      <span class="param-type">Boolean</span>
+      
+      <p class="param-description">Whether the stream&#39;s message history should be available to newly subscribed members, or users can only access messages they actually received while subscribed to the stream.  Corresponds to the [shared history](/help/stream-permissions) option in documentation. </p>
+	  </li>
+	  <li class="parameter">
+      
+      <span class="param-in">Query: </span>
+      
+      
+      
+      <span class="param-name">stream_post_policy</span>
+      <span class="param-type">Integer</span>
+      
+      <p class="param-description">Policy for which users can post messages to the stream.  * 1 &#x3D;&gt; Any user can post. * 2 &#x3D;&gt; Only administrators can post. * 3 &#x3D;&gt; Only full members can post. * 4 &#x3D;&gt; Only moderators can post.  **Changes**: New in Zulip 3.0, replacing the previous &#x60;is_announcement_only&#x60; boolean. </p>
+	  </li>
+	  <li class="parameter">
+      
+      <span class="param-in">Query: </span>
+      
+      
+      
+      <span class="param-name">message_retention_days</span>
+      <span class="param-type">oneOf&lt;string,integer&gt;</span>
+      
+      <p class="param-description">Number of days that messages sent to this stream will be stored before being automatically deleted by the [message retention policy](/help/message-retention-policy).  Two special string format values are supported:  * \&quot;realm_default\&quot; &#x3D;&gt; Return to the organization-level setting. * \&quot;forever\&quot; &#x3D;&gt; Retain messages forever.  **Changes**: New in Zulip 3.0 (feature level 17). </p>
+	  </li>
+  </ul>
+  <h2><a name="unsubscribe"></a>unsubscribe</h2>
+  <hr>
+  <p></p>
+  <p>Unsubscribe yourself or other users from one or more streams.  &#x60;DELETE {{ api_url }}/v1/users/me/subscriptions&#x60; </p>
+  <h3 class="section">URL</h3>
+  <code>https://example.zulipchat.com/api/v1/users/me/subscriptions</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>DELETE</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" data-model="JsonSuccessBase"><a href="">JsonSuccessBase</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+	  <li class="parameter">
+      
+      <span class="param-in">Query: </span>
+      
+      
+      
+      <span class="param-name">subscriptions</span>
+      <span class="param-type">List(String)</span>
+      
+      <p class="param-description">A list of stream names to unsubscribe from. This parameter is called &#x60;streams&#x60; in our Python API. </p>
+	  </li>
+	  <li class="parameter">
+      
+      <span class="param-in">Query: </span>
+      
+      
+      
+      <span class="param-name">principals</span>
+      <span class="param-type">List(oneOf&lt;string,integer&gt;)</span>
+      
+      <p class="param-description">A list of user ids (preferred) or Zulip display email addresses of the users to be subscribed to or unsubscribed from the streams specified in the &#x60;subscriptions&#x60; parameter. If not provided, then the requesting user/bot is subscribed.  **Changes**: The integer format is new in Zulip 3.0 (feature level 9). </p>
+	  </li>
+  </ul>
+  <h2><a name="updateStream"></a>updateStream</h2>
+  <hr>
+  <p></p>
+  <p>Configure the stream with the ID &#x60;stream_id&#x60;.  This endpoint supports an organization administrator editing any property of a stream, including:  * Stream [name](/help/rename-a-stream) and [description](/help/change-the-stream-description) * Stream [permissions](/help/stream-permissions), including [privacy](/help/change-the-privacy-of-a-stream) and [who can send](/help/stream-sending-policy).  &#x60;PATCH {{ api_url }}/v1/streams/{stream_id}&#x60; </p>
+  <h3 class="section">URL</h3>
+  <code>https://example.zulipchat.com/api/v1/streams/{stream_id}</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>PATCH</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" data-model="JsonSuccess"><a href="">JsonSuccess</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+	  <li class="parameter">
+      
+      
+      <span class="param-in">Path: </span>
+      
+      
+      <span class="param-name">stream_id</span>
+      <span class="param-type">Integer</span>
+      
+      <p class="param-description">The ID of the stream to access. </p>
+	  </li>
+	  <li class="parameter">
+      
+      <span class="param-in">Query: </span>
+      
+      
+      
+      <span class="param-name">description</span>
+      <span class="param-type">String</span>
+      
+      <p class="param-description">The new description for the stream. Limited Zulip markdown is allowed in this field.  **Changes**: Removed unnecessary JSON-encoding of this parameter in Zulip 4.0 (feature level 64). </p>
+	  </li>
+	  <li class="parameter">
+      
+      <span class="param-in">Query: </span>
+      
+      
+      
+      <span class="param-name">new_name</span>
+      <span class="param-type">String</span>
+      
+      <p class="param-description">The new name for the stream.  **Changes**: Removed unnecessary JSON-encoding of this parameter in Zulip 4.0 (feature level 64). </p>
+	  </li>
+	  <li class="parameter">
+      
+      <span class="param-in">Query: </span>
+      
+      
+      
+      <span class="param-name">is_private</span>
+      <span class="param-type">Boolean</span>
+      
+      <p class="param-description">Change whether the stream is a private stream. </p>
+	  </li>
+	  <li class="parameter">
+      
+      <span class="param-in">Query: </span>
+      
+      
+      
+      <span class="param-name">is_announcement_only</span>
+      <span class="param-type">Boolean</span>
+      
+      <p class="param-description">Whether the stream is limited to announcements.  **Changes**: Deprecated in Zulip 3.0 (feature level 1), use   &#x60;stream_post_policy&#x60; instead. </p>
+	  </li>
+	  <li class="parameter">
+      
+      <span class="param-in">Query: </span>
+      
+      
+      
+      <span class="param-name">stream_post_policy</span>
+      <span class="param-type">Integer</span>
+      
+      <p class="param-description">Policy for which users can post messages to the stream.  * 1 &#x3D;&gt; Any user can post. * 2 &#x3D;&gt; Only administrators can post. * 3 &#x3D;&gt; Only full members can post. * 4 &#x3D;&gt; Only moderators can post.  **Changes**: New in Zulip 3.0, replacing the previous &#x60;is_announcement_only&#x60; boolean. </p>
+	  </li>
+	  <li class="parameter">
+      
+      <span class="param-in">Query: </span>
+      
+      
+      
+      <span class="param-name">history_public_to_subscribers</span>
+      <span class="param-type">Boolean</span>
+      
+      <p class="param-description">Whether the stream&#39;s message history should be available to newly subscribed members, or users can only access messages they actually received while subscribed to the stream.  Corresponds to the [shared history](/help/stream-permissions) option in documentation. </p>
+	  </li>
+	  <li class="parameter">
+      
+      <span class="param-in">Query: </span>
+      
+      
+      
+      <span class="param-name">message_retention_days</span>
+      <span class="param-type">oneOf&lt;string,integer&gt;</span>
+      
+      <p class="param-description">Number of days that messages sent to this stream will be stored before being automatically deleted by the [message retention policy](/help/message-retention-policy).  Two special string format values are supported:  * \&quot;realm_default\&quot; &#x3D;&gt; Return to the organization-level setting. * \&quot;forever\&quot; &#x3D;&gt; Retain messages forever.  **Changes**: New in Zulip 3.0 (feature level 17). </p>
+	  </li>
+  </ul>
+  <h2><a name="updateSubscriptionSettings"></a>updateSubscriptionSettings</h2>
+  <hr>
+  <p></p>
+  <p>This endpoint is used to update the user&#39;s personal settings for the streams they are subscribed to, including muting, color, pinning, and per-stream notification settings.  &#x60;POST {{ api_url }}/v1/users/me/subscriptions/properties&#x60; </p>
+  <h3 class="section">URL</h3>
+  <code>https://example.zulipchat.com/api/v1/users/me/subscriptions/properties</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>POST</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" data-model="JsonSuccessBase"><a href="">JsonSuccessBase</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+	  <li class="parameter">
+      
+      <span class="param-in">Query: </span>
+      
+      
+      
+      <span class="param-name">subscription_data</span>
+      <span class="param-type">List(Object)</span>
+      
+      <p class="param-description">A list of objects that describe the changes that should be applied in each subscription. Each object represents a subscription, and must have a &#x60;stream_id&#x60; key that identifies the stream, as well as the &#x60;property&#x60; being modified and its new &#x60;value&#x60;.  The possible values for each &#x60;property&#x60; and &#x60;value&#x60; pairs are:  * &#x60;color&#x60; (string): the hex value of the user&#39;s display color for the stream. * &#x60;is_muted&#x60; (boolean): whether the stream is   [muted](/help/mute-a-stream).  Prior to Zulip 2.1, this feature was   represented by the more confusingly named &#x60;in_home_view&#x60; (with the   opposite value, &#x60;in_home_view&#x3D;!is_muted&#x60;); for   backwards-compatibility, modern Zulip still accepts that value. * &#x60;pin_to_top&#x60; (boolean): whether to pin the stream at the top of the stream list. * &#x60;desktop_notifications&#x60; (boolean): whether to show desktop notifications     for all messages sent to the stream. * &#x60;audible_notifications&#x60; (boolean): whether to play a sound   notification for all messages sent to the stream. * &#x60;push_notifications&#x60; (boolean): whether to trigger a mobile push     notification for all messages sent to the stream. * &#x60;email_notifications&#x60; (boolean): whether to trigger an email     notification for all messages sent to the stream. </p>
+	  </li>
+  </ul>
+  <h2><a name="updateSubscriptions"></a>updateSubscriptions</h2>
+  <hr>
+  <p></p>
+  <p>Update which streams you are are subscribed to. </p>
+  <h3 class="section">URL</h3>
+  <code>https://example.zulipchat.com/api/v1/users/me/subscriptions</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>PATCH</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" data-model="JsonSuccessBase"><a href="">JsonSuccessBase</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+	  <li class="parameter">
+      
+      <span class="param-in">Query: </span>
+      
+      
+      
+      <span class="param-name">delete</span>
+      <span class="param-type">List(String)</span>
+      
+      <p class="param-description">A list of stream names to unsubscribe from. </p>
+	  </li>
+	  <li class="parameter">
+      
+      <span class="param-in">Query: </span>
+      
+      
+      
+      <span class="param-name">add</span>
+      <span class="param-type">List(Object)</span>
+      
+      <p class="param-description">A list of objects describing which streams to subscribe to, optionally including per-user subscription parameters (e.g. color) and if the stream is to be created, its description. </p>
+	  </li>
+  </ul>
+</div>

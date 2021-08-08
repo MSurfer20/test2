@@ -1,0 +1,40 @@
+{
+  "namespace": "model",
+  "type": "record",
+  "doc": "`{client_name}`: Object containing the details of the user's presence on a particular platform with the client's platform name being the object key. ",
+  "name": "Presence",
+  "fields": [
+    {
+      "name": "client",
+      "type": ["null", "string"],
+      "doc": "The client's platform name. ",
+      "default": null
+    },
+    {
+      "name": "status",
+      "type": ["null", {
+        "type": "enum",
+        "name": "Presence_status",
+        "symbols": [
+          "idle",
+          "active"
+        ]
+      }],
+      "doc": "The status of the user on this client. It is either `idle` or `active`. ",
+      "default": null
+    },
+    {
+      "name": "timestamp",
+      "type": ["null", "int"],
+      "doc": "The UNIX timestamp of when this client sent the user's presence to the server with the precision of a second. ",
+      "default": null
+    },
+    {
+      "name": "pushable",
+      "type": ["null", "boolean"],
+      "doc": "Whether the client is capable of showing mobile/push notifications to the user. ",
+      "default": null
+    }
+  ]
+
+}

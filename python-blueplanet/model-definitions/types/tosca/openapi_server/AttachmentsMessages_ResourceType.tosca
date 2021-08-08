@@ -1,0 +1,40 @@
+"$schema"   = "http://cyaninc.com/json-schemas/tosca-lite-v1/definition-module#"
+title       = "openapi_server AttachmentsMessages"
+package     = openapi_server
+version     = "1.0"
+description = "Defines a AttachmentsMessages"
+authors     = ["F. Bar (foo@bar.baz)"]
+
+imports {
+  Root = tosca.resourceTypes.Root
+}
+resourceTypes {
+
+  AttachmentsMessages {
+    title = AttachmentsMessages
+    description = AttachmentsMessages
+    derivedFrom = Root
+    properties {
+        date_sent {
+          type =  integer
+          description = "Time when the message was sent as a UNIX timestamp multiplied by 1000 (matching the format of getTime() in JavaScript).  **Changes**: Changed in Zulip 2.2 (feature level 22).  This field was previously strangely called &#x60;name&#x60; and was a floating point number. "
+          optional = false
+        }
+        id {
+          type =  integer
+          description = "The unique message ID.  Messages should always be displayed sorted by ID. "
+          optional = false
+        }
+    }
+  }
+}
+
+serviceTemplates {
+
+  AttachmentsMessages {
+    title = AttachmentsMessages
+    description = AttachmentsMessages
+    implements = openapi_server.resourceTypes.AttachmentsMessages
+
+  }
+}

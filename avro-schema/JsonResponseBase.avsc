@@ -1,0 +1,15 @@
+{
+  "namespace": "model",
+  "type": "record",
+  "doc": "",
+  "name": "JsonResponseBase",
+  "fields": [
+    {
+      "name": "result",
+      "type": ["null", "string"],
+      "doc": "",
+      "default": null
+    }
+  ]
+
+}

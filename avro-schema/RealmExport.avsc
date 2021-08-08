@@ -1,0 +1,51 @@
+{
+  "namespace": "model",
+  "type": "record",
+  "doc": "Object containing details about a realm export. ",
+  "name": "RealmExport",
+  "fields": [
+    {
+      "name": "id",
+      "type": ["null", "int"],
+      "doc": "The id of the export. ",
+      "default": null
+    },
+    {
+      "name": "acting_user_id",
+      "type": ["null", "int"],
+      "doc": "The id of the user who did the export. ",
+      "default": null
+    },
+    {
+      "name": "export_time",
+      "type": ["null", "double"],
+      "doc": "The UNIX timestamp of when the export was made. ",
+      "default": null
+    },
+    {
+      "name": "deleted_timestamp",
+      "type": ["null", "double"],
+      "doc": "The timestamp of when the export was deleted. Null if it wasn't. ",
+      "default": null
+    },
+    {
+      "name": "failed_timestamp",
+      "type": ["null", "double"],
+      "doc": "The timestamp of when the export failed. Null if it didn't. ",
+      "default": null
+    },
+    {
+      "name": "export_url",
+      "type": ["null", "string"],
+      "doc": "The URL of the export. `null` if there's no URL. ",
+      "default": null
+    },
+    {
+      "name": "pending",
+      "type": ["null", "boolean"],
+      "doc": "Whether the export is pending or not. ",
+      "default": null
+    }
+  ]
+
+}

@@ -1,0 +1,150 @@
+{
+  "namespace": "model",
+  "type": "record",
+  "doc": "",
+  "name": "GetMessagesAllOf",
+  "fields": [
+    {
+      "name": "avatar_url",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "client",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "content",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "content_type",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "display_recipient",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "id",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "is_me_message",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "reactions",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "recipient_id",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "sender_email",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "sender_full_name",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "sender_id",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "sender_realm_str",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "stream_id",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "subject",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "topic_links",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "submessages",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "timestamp",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "type",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "flags",
+      "type": ["null", {
+        "type": "array",
+        "items": "string"
+      }],
+      "doc": "The user's [message flags][message-flags] for the message.  [message-flags]: /api/update-message-flags#available-flags ",
+      "default": null
+    },
+    {
+      "name": "last_edit_timestamp",
+      "type": ["null", "int"],
+      "doc": "The UNIX timestamp for when the message was last edited, in UTC seconds. ",
+      "default": null
+    },
+    {
+      "name": "match_content",
+      "type": ["null", "string"],
+      "doc": "Only present if keyword search was included among the narrow parameters. HTML content of a queried message that matches the narrow, with `<span class=\"highlight\">` elements wrapping the matches for the search keywords. ",
+      "default": null
+    },
+    {
+      "name": "match_subject",
+      "type": ["null", "string"],
+      "doc": "Only present if keyword search was included among the narrow parameters. HTML-escaped topic of a queried message that matches the narrow, with `<span class=\"highlight\">` elements wrapping the matches for the search keywords. ",
+      "default": null
+    }
+  ]
+
+}

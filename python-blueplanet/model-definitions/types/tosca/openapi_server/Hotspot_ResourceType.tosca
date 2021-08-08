@@ -1,0 +1,50 @@
+"$schema"   = "http://cyaninc.com/json-schemas/tosca-lite-v1/definition-module#"
+title       = "openapi_server Hotspot"
+package     = openapi_server
+version     = "1.0"
+description = "Defines a Hotspot"
+authors     = ["F. Bar (foo@bar.baz)"]
+
+imports {
+  Root = tosca.resourceTypes.Root
+}
+resourceTypes {
+
+  Hotspot {
+    title = Hotspot
+    description = Hotspot
+    derivedFrom = Root
+    properties {
+        delay {
+          type =  
+          description = "The delay after which the user should be shown the hotspot. "
+          optional = false
+        }
+        name {
+          type =  string
+          description = "The name of the hotspot. "
+          optional = false
+        }
+        title {
+          type =  string
+          description = "The title of the hotspot, as will be displayed to the user. "
+          optional = false
+        }
+        description {
+          type =  string
+          description = "The description of the hotspot, as will be displayed to the user. "
+          optional = false
+        }
+    }
+  }
+}
+
+serviceTemplates {
+
+  Hotspot {
+    title = Hotspot
+    description = Hotspot
+    implements = openapi_server.resourceTypes.Hotspot
+
+  }
+}

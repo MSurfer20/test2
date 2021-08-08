@@ -1,0 +1,57 @@
+"$schema"   = "http://cyaninc.com/json-schemas/tosca-lite-v1/definition-module#"
+title       = "openapi_server EmojiReaction"
+package     = openapi_server
+version     = "1.0"
+description = "Defines a EmojiReaction"
+authors     = ["F. Bar (foo@bar.baz)"]
+
+imports {
+  Root = tosca.resourceTypes.Root
+  EmojiReactionAllOf = openapi_server.resourceTypes.EmojiReactionAllOf
+  EmojiReactionBase = openapi_server.resourceTypes.EmojiReactionBase
+}
+resourceTypes {
+
+  EmojiReaction {
+    title = EmojiReaction
+    description = EmojiReaction
+    derivedFrom = Root
+    properties {
+        emoji_code {
+          type =  
+          description = ""
+          optional = false
+        }
+        emoji_name {
+          type =  
+          description = ""
+          optional = false
+        }
+        reaction_type {
+          type =  
+          description = ""
+          optional = false
+        }
+        user_id {
+          type =  
+          description = ""
+          optional = false
+        }
+        user {
+          type =  
+          description = ""
+          optional = false
+        }
+    }
+  }
+}
+
+serviceTemplates {
+
+  EmojiReaction {
+    title = EmojiReaction
+    description = EmojiReaction
+    implements = openapi_server.resourceTypes.EmojiReaction
+
+  }
+}

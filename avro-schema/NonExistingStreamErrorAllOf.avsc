@@ -1,0 +1,33 @@
+{
+  "namespace": "model",
+  "type": "record",
+  "doc": "",
+  "name": "NonExistingStreamErrorAllOf",
+  "fields": [
+    {
+      "name": "result",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "msg",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "code",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "stream",
+      "type": ["null", "string"],
+      "doc": "The name of the stream that could not be found. ",
+      "default": null
+    }
+  ]
+
+}

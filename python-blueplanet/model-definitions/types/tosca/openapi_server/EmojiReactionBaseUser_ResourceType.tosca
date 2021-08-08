@@ -1,0 +1,50 @@
+"$schema"   = "http://cyaninc.com/json-schemas/tosca-lite-v1/definition-module#"
+title       = "openapi_server EmojiReactionBaseUser"
+package     = openapi_server
+version     = "1.0"
+description = "Defines a EmojiReactionBaseUser"
+authors     = ["F. Bar (foo@bar.baz)"]
+
+imports {
+  Root = tosca.resourceTypes.Root
+}
+resourceTypes {
+
+  EmojiReactionBaseUser {
+    title = EmojiReactionBaseUser
+    description = EmojiReactionBaseUser
+    derivedFrom = Root
+    properties {
+        id {
+          type =  integer
+          description = "ID of the user. "
+          optional = false
+        }
+        email {
+          type =  string
+          description = "Email of the user. "
+          optional = false
+        }
+        full_name {
+          type =  string
+          description = "Full name of the user. "
+          optional = false
+        }
+        is_mirror_dummy {
+          type =  boolean
+          description = "Whether the user is a mirror dummy. "
+          optional = false
+        }
+    }
+  }
+}
+
+serviceTemplates {
+
+  EmojiReactionBaseUser {
+    title = EmojiReactionBaseUser
+    description = EmojiReactionBaseUser
+    implements = openapi_server.resourceTypes.EmojiReactionBaseUser
+
+  }
+}

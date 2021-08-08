@@ -1,0 +1,2 @@
+testCase,httpStatusCode,queueId,queueId,lastEventId,dontBlock,eventTypes,narrow,allPublicStreams,applyMarkdown,clientGravatar,slimPresence,eventTypes,allPublicStreams,includeSubscribers,clientCapabilities,fetchEventTypes,narrow
+Success,200,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0

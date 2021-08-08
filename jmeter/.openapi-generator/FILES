@@ -1,0 +1,15 @@
+.openapi-generator-ignore
+AuthenticationApi.csv
+AuthenticationApi.jmx
+MessagesApi.csv
+MessagesApi.jmx
+RealTimeEventsApi.csv
+RealTimeEventsApi.jmx
+ServerAndOrganizationsApi.csv
+ServerAndOrganizationsApi.jmx
+StreamsApi.csv
+StreamsApi.jmx
+UsersApi.csv
+UsersApi.jmx
+WebhooksApi.csv
+WebhooksApi.jmx

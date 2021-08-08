@@ -1,0 +1,52 @@
+"$schema"   = "http://cyaninc.com/json-schemas/tosca-lite-v1/definition-module#"
+title       = "openapi_server ApiKeyResponse"
+package     = openapi_server
+version     = "1.0"
+description = "Defines a ApiKeyResponse"
+authors     = ["F. Bar (foo@bar.baz)"]
+
+imports {
+  Root = tosca.resourceTypes.Root
+  ApiKeyResponseAllOf = openapi_server.resourceTypes.ApiKeyResponseAllOf
+  JsonSuccessBase = openapi_server.resourceTypes.JsonSuccessBase
+}
+resourceTypes {
+
+  ApiKeyResponse {
+    title = ApiKeyResponse
+    description = ApiKeyResponse
+    derivedFrom = Root
+    properties {
+        result {
+          type =  
+          description = ""
+          optional = true
+        }
+        msg {
+          type =  
+          description = ""
+          optional = true
+        }
+        api_key {
+          type =  string
+          description = "The API key that can be used to authenticate as the requested user. "
+          optional = true
+        }
+        email {
+          type =  string
+          description = "The email address of the user who owns the API key "
+          optional = true
+        }
+    }
+  }
+}
+
+serviceTemplates {
+
+  ApiKeyResponse {
+    title = ApiKeyResponse
+    description = ApiKeyResponse
+    implements = openapi_server.resourceTypes.ApiKeyResponse
+
+  }
+}

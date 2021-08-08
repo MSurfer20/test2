@@ -1,0 +1,52 @@
+"$schema"   = "http://cyaninc.com/json-schemas/tosca-lite-v1/definition-module#"
+title       = "openapi_server DefaultStreamGroup"
+package     = openapi_server
+version     = "1.0"
+description = "Defines a DefaultStreamGroup"
+authors     = ["F. Bar (foo@bar.baz)"]
+
+imports {
+  Root = tosca.resourceTypes.Root
+  BasicStream = openapi_server.resourceTypes.BasicStream
+}
+resourceTypes {
+
+  DefaultStreamGroup {
+    title = DefaultStreamGroup
+    description = DefaultStreamGroup
+    derivedFrom = Root
+    properties {
+        name {
+          type =  string
+          description = "Name of the default stream group. "
+          optional = false
+        }
+        description {
+          type =  string
+          description = "Description of the default stream group. "
+          optional = false
+        }
+        id {
+          type =  integer
+          description = "id of the default stream group. "
+          optional = false
+        }
+        streams {
+          type = array
+          items.type = BasicStream
+          description = "Array containing details about the streams in the default stream group. "
+          optional = false
+        }
+    }
+  }
+}
+
+serviceTemplates {
+
+  DefaultStreamGroup {
+    title = DefaultStreamGroup
+    description = DefaultStreamGroup
+    implements = openapi_server.resourceTypes.DefaultStreamGroup
+
+  }
+}

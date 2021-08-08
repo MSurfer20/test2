@@ -1,0 +1,61 @@
+"$schema"   = "http://cyaninc.com/json-schemas/tosca-lite-v1/definition-module#"
+title       = "openapi_server InlineResponse200"
+package     = openapi_server
+version     = "1.0"
+description = "Defines a InlineResponse200"
+authors     = ["F. Bar (foo@bar.baz)"]
+
+imports {
+  Root = tosca.resourceTypes.Root
+  MessagesBase = openapi_server.resourceTypes.MessagesBase
+}
+resourceTypes {
+
+  InlineResponse200 {
+    title = InlineResponse200
+    description = InlineResponse200
+    derivedFrom = Root
+    properties {
+        bot_email {
+          type =  string
+          description = "Email of the bot user. "
+          optional = false
+        }
+        bot_full_name {
+          type =  string
+          description = "The full name of the bot user. "
+          optional = false
+        }
+        data {
+          type =  string
+          description = "The message content, in raw Markdown format (not rendered to HTML). "
+          optional = false
+        }
+        trigger {
+          type =  string
+          description = "What aspect of the message triggered the outgoing webhook notification. Possible values include &#x60;private_message&#x60; and &#x60;mention&#x60;. "
+          optional = false
+        }
+        token {
+          type =  string
+          description = "A string of alphanumeric characters that can be used to authenticate the webhook request (each bot user uses a fixed token). You can get the token used by a given outgoing webhook bot in the &#x60;zuliprc&#x60; file downloaded when creating the bot. "
+          optional = false
+        }
+        message {
+          type = MessagesBase
+          description = "A dict containing details on the message that triggered the outgoing webhook, in the format used by [&#x60;GET /messages&#x60;](/api/get-messages). "
+          optional = false
+        }
+    }
+  }
+}
+
+serviceTemplates {
+
+  InlineResponse200 {
+    title = InlineResponse200
+    description = InlineResponse200
+    implements = openapi_server.resourceTypes.InlineResponse200
+
+  }
+}

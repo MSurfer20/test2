@@ -1,0 +1,32 @@
+
+<h2>Attachments</h2>
+<ul class="parameter">
+  <li class="param-required-false">id : Integer
+    <br/>The unique ID for the attachment. 
+  </li>
+</ul>
+<ul class="parameter">
+  <li class="param-required-false">name : String
+    <br/>Name of the uploaded file. 
+  </li>
+</ul>
+<ul class="parameter">
+  <li class="param-required-false">pathUnderscoreid : String
+    <br/>A representation of the path of the file within the repository of user-uploaded files.  If the &#x60;path_id&#x60; of a file is &#x60;{realm_id}/ab/cdef/temp_file.py&#x60;, its URL will be: &#x60;{server_url}/user_uploads/{realm_id}/ab/cdef/temp_file.py&#x60;. 
+  </li>
+</ul>
+<ul class="parameter">
+  <li class="param-required-false">size : Integer
+    <br/>Size of the file in bytes. 
+  </li>
+</ul>
+<ul class="parameter">
+  <li class="param-required-false">createUnderscoretime : Integer
+    <br/>Time when the attachment was uploaded as a UNIX timestamp multiplied by 1000 (matching the format of getTime() in JavaScript).  **Changes**: Changed in Zulip 2.2 (feature level 22).  This field was previously a floating point number. 
+  </li>
+</ul>
+<ul class="parameter">
+  <li class="param-required-false">messages : List
+    <br/>Contains basic details on any Zulip messages that have been sent referencing this [uploaded file](/api/upload-file). This includes messages sent by any user in the Zulip organization who sent a message containing a link to the uploaded file. 
+  </li>
+</ul>

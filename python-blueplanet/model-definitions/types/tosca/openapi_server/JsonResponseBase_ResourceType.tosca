@@ -1,0 +1,35 @@
+"$schema"   = "http://cyaninc.com/json-schemas/tosca-lite-v1/definition-module#"
+title       = "openapi_server JsonResponseBase"
+package     = openapi_server
+version     = "1.0"
+description = "Defines a JsonResponseBase"
+authors     = ["F. Bar (foo@bar.baz)"]
+
+imports {
+  Root = tosca.resourceTypes.Root
+}
+resourceTypes {
+
+  JsonResponseBase {
+    title = JsonResponseBase
+    description = JsonResponseBase
+    derivedFrom = Root
+    properties {
+        result {
+          type =  string
+          description = ""
+          optional = false
+        }
+    }
+  }
+}
+
+serviceTemplates {
+
+  JsonResponseBase {
+    title = JsonResponseBase
+    description = JsonResponseBase
+    implements = openapi_server.resourceTypes.JsonResponseBase
+
+  }
+}

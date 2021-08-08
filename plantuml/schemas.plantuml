@@ -1,0 +1,459 @@
+@startuml
+
+title Zulip REST API Schemas Diagram
+
+entity AddSubscriptionsResponse { 
+    result: OasAnyTypeNotMapped
+    msg: OasAnyTypeNotMapped
+    subscribed: Map
+    already_subscribed: Map
+    unauthorized: List<String>
+}
+
+entity ApiKeyResponse { 
+    result: OasAnyTypeNotMapped
+    msg: OasAnyTypeNotMapped
+    * api_key: String
+    * email: String
+}
+
+entity Attachments { 
+    id: Integer
+    name: String
+    path_id: String
+    size: Integer
+    create_time: Integer
+    messages: List<AttachmentsMessages>
+}
+
+entity AttachmentsMessages { 
+    date_sent: Integer
+    id: Integer
+}
+
+entity BadEventQueueIdError { 
+    result: OasAnyTypeNotMapped
+    msg: OasAnyTypeNotMapped
+    code: OasAnyTypeNotMapped
+    queue_id: String
+}
+
+entity BasicBot { 
+    user_id: OasAnyTypeNotMapped
+    full_name: OasAnyTypeNotMapped
+    api_key: OasAnyTypeNotMapped
+    default_sending_stream: OasAnyTypeNotMapped
+    default_events_register_stream: OasAnyTypeNotMapped
+    default_all_public_streams: OasAnyTypeNotMapped
+    avatar_url: OasAnyTypeNotMapped
+    owner_id: OasAnyTypeNotMapped
+    services: OasAnyTypeNotMapped
+}
+
+entity BasicBotBase { 
+    user_id: Integer
+    full_name: String
+    api_key: String
+    default_sending_stream: String
+    default_events_register_stream: String
+    default_all_public_streams: Boolean
+    avatar_url: String
+    owner_id: Integer
+    services: List<OneOf<object,object>>
+}
+
+entity BasicStream { 
+    stream_id: OasAnyTypeNotMapped
+    name: OasAnyTypeNotMapped
+    description: OasAnyTypeNotMapped
+    date_created: OasAnyTypeNotMapped
+    invite_only: OasAnyTypeNotMapped
+    rendered_description: OasAnyTypeNotMapped
+    is_web_public: OasAnyTypeNotMapped
+    stream_post_policy: OasAnyTypeNotMapped
+    message_retention_days: OasAnyTypeNotMapped
+    history_public_to_subscribers: OasAnyTypeNotMapped
+    first_message_id: OasAnyTypeNotMapped
+    is_announcement_only: OasAnyTypeNotMapped
+}
+
+entity BasicStreamBase { 
+    stream_id: Integer
+    name: String
+    description: String
+    date_created: Integer
+    invite_only: Boolean
+    rendered_description: String
+    is_web_public: Boolean
+    stream_post_policy: Integer
+    message_retention_days: Integer
+    history_public_to_subscribers: Boolean
+    first_message_id: Integer
+    is_announcement_only: Boolean
+}
+
+entity Bot { 
+    user_id: OasAnyTypeNotMapped
+    full_name: OasAnyTypeNotMapped
+    api_key: OasAnyTypeNotMapped
+    default_sending_stream: OasAnyTypeNotMapped
+    default_events_register_stream: OasAnyTypeNotMapped
+    default_all_public_streams: OasAnyTypeNotMapped
+    avatar_url: OasAnyTypeNotMapped
+    owner_id: OasAnyTypeNotMapped
+    services: OasAnyTypeNotMapped
+    email: String
+    bot_type: Integer
+    is_active: Boolean
+}
+
+entity CodedError { 
+    result: OasAnyTypeNotMapped
+    msg: OasAnyTypeNotMapped
+    code: OasAnyTypeNotMapped
+}
+
+entity CodedErrorBase { 
+    result: OasAnyTypeNotMapped
+    msg: OasAnyTypeNotMapped
+    code: String
+}
+
+entity CustomProfileField { 
+    id: Integer
+    type: Integer
+    order: Integer
+    name: String
+    hint: String
+    field_data: String
+}
+
+entity DefaultStreamGroup { 
+    name: String
+    description: String
+    id: Integer
+    streams: List<BasicStream>
+}
+
+entity EmojiReaction { 
+    emoji_code: OasAnyTypeNotMapped
+    emoji_name: OasAnyTypeNotMapped
+    reaction_type: OasAnyTypeNotMapped
+    user_id: OasAnyTypeNotMapped
+    user: OasAnyTypeNotMapped
+}
+
+entity EmojiReactionBase { 
+    emoji_code: String
+    emoji_name: String
+    reaction_type: String
+    user_id: Integer
+    user: EmojiReactionBaseUser
+}
+
+entity EmojiReactionBaseUser { 
+    id: Integer
+    email: String
+    full_name: String
+    is_mirror_dummy: Boolean
+}
+
+entity GetMessages { 
+    avatar_url: OasAnyTypeNotMapped
+    client: OasAnyTypeNotMapped
+    content: OasAnyTypeNotMapped
+    content_type: OasAnyTypeNotMapped
+    display_recipient: OasAnyTypeNotMapped
+    id: OasAnyTypeNotMapped
+    is_me_message: OasAnyTypeNotMapped
+    reactions: OasAnyTypeNotMapped
+    recipient_id: OasAnyTypeNotMapped
+    sender_email: OasAnyTypeNotMapped
+    sender_full_name: OasAnyTypeNotMapped
+    sender_id: OasAnyTypeNotMapped
+    sender_realm_str: OasAnyTypeNotMapped
+    stream_id: OasAnyTypeNotMapped
+    subject: OasAnyTypeNotMapped
+    topic_links: OasAnyTypeNotMapped
+    submessages: OasAnyTypeNotMapped
+    timestamp: OasAnyTypeNotMapped
+    type: OasAnyTypeNotMapped
+    flags: List<String>
+    last_edit_timestamp: Integer
+    match_content: String
+    match_subject: String
+}
+
+entity Hotspot { 
+    delay: BigDecimal
+    name: String
+    title: String
+    description: String
+}
+
+entity InlineResponse200 { 
+    bot_email: String
+    bot_full_name: String
+    data: String
+    trigger: String
+    token: String
+    message: MessagesBase
+}
+
+entity InvalidApiKeyError { 
+}
+
+entity InvalidMessageError { 
+    result: OasAnyTypeNotMapped
+    msg: OasAnyTypeNotMapped
+    raw_content: String
+}
+
+entity JsonError { 
+    result: OasAnyTypeNotMapped
+    msg: OasAnyTypeNotMapped
+}
+
+entity JsonErrorBase { 
+    * result: String
+    * msg: String
+}
+
+entity JsonResponseBase { 
+    result: String
+}
+
+entity JsonSuccess { 
+    result: OasAnyTypeNotMapped
+    msg: OasAnyTypeNotMapped
+}
+
+entity JsonSuccessBase { 
+    * result: String
+    * msg: String
+}
+
+entity Messages { 
+    avatar_url: OasAnyTypeNotMapped
+    client: OasAnyTypeNotMapped
+    content: OasAnyTypeNotMapped
+    content_type: OasAnyTypeNotMapped
+    display_recipient: OasAnyTypeNotMapped
+    id: OasAnyTypeNotMapped
+    is_me_message: OasAnyTypeNotMapped
+    reactions: OasAnyTypeNotMapped
+    recipient_id: OasAnyTypeNotMapped
+    sender_email: OasAnyTypeNotMapped
+    sender_full_name: OasAnyTypeNotMapped
+    sender_id: OasAnyTypeNotMapped
+    sender_realm_str: OasAnyTypeNotMapped
+    stream_id: OasAnyTypeNotMapped
+    subject: OasAnyTypeNotMapped
+    topic_links: OasAnyTypeNotMapped
+    submessages: OasAnyTypeNotMapped
+    timestamp: OasAnyTypeNotMapped
+    type: OasAnyTypeNotMapped
+}
+
+entity MessagesBase { 
+    avatar_url: String
+    client: String
+    content: String
+    content_type: String
+    display_recipient: OneOf<string,array>
+    id: Integer
+    is_me_message: Boolean
+    reactions: List<EmojiReaction>
+    recipient_id: Integer
+    sender_email: String
+    sender_full_name: String
+    sender_id: Integer
+    sender_realm_str: String
+    stream_id: Integer
+    subject: String
+    topic_links: List<MessagesBaseTopicLinks>
+    submessages: List<String>
+    timestamp: Integer
+    type: String
+}
+
+entity MessagesBaseTopicLinks { 
+    text: String
+    url: String
+}
+
+entity MissingArgumentError { 
+    result: OasAnyTypeNotMapped
+    msg: OasAnyTypeNotMapped
+    code: OasAnyTypeNotMapped
+    var_name: String
+}
+
+entity NonExistingStreamError { 
+    result: OasAnyTypeNotMapped
+    msg: OasAnyTypeNotMapped
+    code: OasAnyTypeNotMapped
+    stream: String
+}
+
+entity Presence { 
+    client: String
+    status: String
+    timestamp: Integer
+    pushable: Boolean
+}
+
+entity RateLimitedError { 
+}
+
+entity RealmDeactivatedError { 
+}
+
+entity RealmDomain { 
+    domain: String
+    allow_subdomains: Boolean
+}
+
+entity RealmEmoji { 
+    id: String
+    name: String
+    source_url: String
+    deactivated: Boolean
+    author_id: Integer
+}
+
+entity RealmExport { 
+    id: Integer
+    acting_user_id: Integer
+    export_time: BigDecimal
+    deleted_timestamp: BigDecimal
+    failed_timestamp: BigDecimal
+    export_url: String
+    pending: Boolean
+}
+
+entity RealmPlayground { 
+    id: Integer
+    name: String
+    pygments_language: String
+    url_prefix: String
+}
+
+entity Subscriptions { 
+    stream_id: Integer
+    name: String
+    description: String
+    rendered_description: String
+    date_created: Integer
+    invite_only: Boolean
+    subscribers: List<Integer>
+    desktop_notifications: Boolean
+    email_notifications: Boolean
+    wildcard_mentions_notify: Boolean
+    push_notifications: Boolean
+    audible_notifications: Boolean
+    pin_to_top: Boolean
+    email_address: String
+    is_muted: Boolean
+    in_home_view: Boolean
+    is_announcement_only: Boolean
+    is_web_public: Boolean
+    role: Integer
+    color: String
+    stream_post_policy: Integer
+    message_retention_days: Integer
+    history_public_to_subscribers: Boolean
+    first_message_id: Integer
+    stream_weekly_traffic: Integer
+}
+
+entity User { 
+    email: OasAnyTypeNotMapped
+    is_bot: OasAnyTypeNotMapped
+    avatar_url: OasAnyTypeNotMapped
+    avatar_version: OasAnyTypeNotMapped
+    full_name: OasAnyTypeNotMapped
+    is_admin: OasAnyTypeNotMapped
+    is_owner: OasAnyTypeNotMapped
+    is_billing_admin: OasAnyTypeNotMapped
+    role: OasAnyTypeNotMapped
+    bot_type: OasAnyTypeNotMapped
+    user_id: OasAnyTypeNotMapped
+    bot_owner_id: OasAnyTypeNotMapped
+    is_active: OasAnyTypeNotMapped
+    is_guest: OasAnyTypeNotMapped
+    timezone: OasAnyTypeNotMapped
+    date_joined: OasAnyTypeNotMapped
+    delivery_email: OasAnyTypeNotMapped
+    profile_data: OasAnyTypeNotMapped
+}
+
+entity UserBase { 
+    email: String
+    is_bot: Boolean
+    avatar_url: String
+    avatar_version: Integer
+    full_name: String
+    is_admin: Boolean
+    is_owner: Boolean
+    is_billing_admin: Boolean
+    role: Integer
+    bot_type: Integer
+    user_id: Integer
+    bot_owner_id: Integer
+    is_active: Boolean
+    is_guest: Boolean
+    timezone: String
+    date_joined: String
+    delivery_email: String
+    profile_data: Map
+}
+
+entity UserDeactivatedError { 
+}
+
+entity UserGroup { 
+    name: String
+    description: String
+    members: List<Integer>
+    id: Integer
+}
+
+entity UserNotAuthorizedError { 
+}
+
+JsonSuccessBase <|--- AddSubscriptionsResponse
+JsonSuccessBase <|--- ApiKeyResponse
+CodedErrorBase <|--- BadEventQueueIdError
+BasicBotBase <|--- BasicBot
+BasicStreamBase <|--- BasicStream
+BasicBotBase <|--- Bot
+CodedErrorBase <|--- CodedError
+JsonErrorBase <|--- CodedErrorBase
+EmojiReactionBase <|--- EmojiReaction
+MessagesBase <|--- GetMessages
+JsonError <|--- InvalidApiKeyError
+JsonSuccessBase <|--- InvalidMessageError
+JsonErrorBase <|--- JsonError
+JsonResponseBase <|--- JsonErrorBase
+JsonSuccessBase <|--- JsonSuccess
+JsonResponseBase <|--- JsonSuccessBase
+MessagesBase <|--- Messages
+CodedErrorBase <|--- MissingArgumentError
+CodedErrorBase <|--- NonExistingStreamError
+CodedError <|--- RateLimitedError
+CodedError <|--- RealmDeactivatedError
+UserBase <|--- User
+CodedError <|--- UserDeactivatedError
+CodedError <|--- UserNotAuthorizedError
+
+InlineResponse200 -- MessagesBase : message
+Attachments -- "0..*" AttachmentsMessages : messages
+BasicBotBase -- "0..*" OneOf<object,object> : services
+EmojiReactionBase -- EmojiReactionBaseUser : user
+MessagesBase -- OneOf<string,array> : display_recipient
+MessagesBase -- "0..*" EmojiReaction : reactions
+MessagesBase -- "0..*" MessagesBaseTopicLinks : topic_links
+DefaultStreamGroup -- "0..*" BasicStream : streams
+
+@enduml

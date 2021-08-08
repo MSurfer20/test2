@@ -1,0 +1,21 @@
+{
+  "namespace": "model",
+  "type": "record",
+  "doc": "",
+  "name": "AttachmentsMessages",
+  "fields": [
+    {
+      "name": "date_sent",
+      "type": ["null", "int"],
+      "doc": "Time when the message was sent as a UNIX timestamp multiplied by 1000 (matching the format of getTime() in JavaScript).  **Changes**: Changed in Zulip 2.2 (feature level 22).  This field was previously strangely called `name` and was a floating point number. ",
+      "default": null
+    },
+    {
+      "name": "id",
+      "type": ["null", "int"],
+      "doc": "The unique message ID.  Messages should always be displayed sorted by ID. ",
+      "default": null
+    }
+  ]
+
+}

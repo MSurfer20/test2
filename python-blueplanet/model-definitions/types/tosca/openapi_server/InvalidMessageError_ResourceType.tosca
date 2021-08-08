@@ -1,0 +1,47 @@
+"$schema"   = "http://cyaninc.com/json-schemas/tosca-lite-v1/definition-module#"
+title       = "openapi_server InvalidMessageError"
+package     = openapi_server
+version     = "1.0"
+description = "Defines a InvalidMessageError"
+authors     = ["F. Bar (foo@bar.baz)"]
+
+imports {
+  Root = tosca.resourceTypes.Root
+  InvalidMessageErrorAllOf = openapi_server.resourceTypes.InvalidMessageErrorAllOf
+  JsonSuccessBase = openapi_server.resourceTypes.JsonSuccessBase
+}
+resourceTypes {
+
+  InvalidMessageError {
+    title = InvalidMessageError
+    description = InvalidMessageError
+    derivedFrom = Root
+    properties {
+        result {
+          type =  
+          description = ""
+          optional = true
+        }
+        msg {
+          type =  
+          description = ""
+          optional = true
+        }
+        raw_content {
+          type =  string
+          description = "The raw content of the message. "
+          optional = false
+        }
+    }
+  }
+}
+
+serviceTemplates {
+
+  InvalidMessageError {
+    title = InvalidMessageError
+    description = InvalidMessageError
+    implements = openapi_server.resourceTypes.InvalidMessageError
+
+  }
+}

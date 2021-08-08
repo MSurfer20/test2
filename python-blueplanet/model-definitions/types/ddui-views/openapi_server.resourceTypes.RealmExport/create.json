@@ -1,0 +1,23 @@
+{
+  "type": "form",
+  "version": "2.0",
+  "cells": [{
+    "label": "General",
+    "children": [
+      {"model": "label"},
+      {"model": "description"}
+    ]
+  },{
+    "label": "Details",
+    "model": "properties",
+    "children": [
+      {"model": "id" },
+      {"model": "acting_user_id" },
+      {"model": "export_time" },
+      {"model": "deleted_timestamp" },
+      {"model": "failed_timestamp" },
+      {"model": "export_url" },
+      {"model": "pending" },
+    ]
+  }]
+}

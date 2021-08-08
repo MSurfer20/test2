@@ -1,0 +1,46 @@
+"$schema"   = "http://cyaninc.com/json-schemas/tosca-lite-v1/definition-module#"
+title       = "openapi_server UserDeactivatedError"
+package     = openapi_server
+version     = "1.0"
+description = "Defines a UserDeactivatedError"
+authors     = ["F. Bar (foo@bar.baz)"]
+
+imports {
+  Root = tosca.resourceTypes.Root
+  CodedError = openapi_server.resourceTypes.CodedError
+}
+resourceTypes {
+
+  UserDeactivatedError {
+    title = UserDeactivatedError
+    description = UserDeactivatedError
+    derivedFrom = Root
+    properties {
+        result {
+          type =  
+          description = ""
+          optional = true
+        }
+        msg {
+          type =  
+          description = ""
+          optional = true
+        }
+        code {
+          type =  
+          description = ""
+          optional = false
+        }
+    }
+  }
+}
+
+serviceTemplates {
+
+  UserDeactivatedError {
+    title = UserDeactivatedError
+    description = UserDeactivatedError
+    implements = openapi_server.resourceTypes.UserDeactivatedError
+
+  }
+}

@@ -1,0 +1,51 @@
+"$schema"   = "http://cyaninc.com/json-schemas/tosca-lite-v1/definition-module#"
+title       = "openapi_server Presence"
+package     = openapi_server
+version     = "1.0"
+description = "Defines a Presence"
+authors     = ["F. Bar (foo@bar.baz)"]
+
+imports {
+  Root = tosca.resourceTypes.Root
+}
+resourceTypes {
+
+  Presence {
+    title = Presence
+    description = Presence
+    derivedFrom = Root
+    properties {
+        client {
+          type =  string
+          description = "The client&#39;s platform name. "
+          optional = false
+        }
+        status {
+          type =  string
+          description = "The status of the user on this client. It is either &#x60;idle&#x60; or &#x60;active&#x60;. "
+          enum = ["idle", "active"]
+          optional = false
+        }
+        timestamp {
+          type =  integer
+          description = "The UNIX timestamp of when this client sent the user&#39;s presence to the server with the precision of a second. "
+          optional = false
+        }
+        pushable {
+          type =  boolean
+          description = "Whether the client is capable of showing mobile/push notifications to the user. "
+          optional = false
+        }
+    }
+  }
+}
+
+serviceTemplates {
+
+  Presence {
+    title = Presence
+    description = Presence
+    implements = openapi_server.resourceTypes.Presence
+
+  }
+}

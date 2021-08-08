@@ -1,0 +1,25 @@
+{
+  "namespace": "model",
+  "type": "record",
+  "doc": "",
+  "name": "RealmDeactivatedError",
+  "fields": [
+    {
+      "name": "result",
+      "type": ,
+      "doc": ""
+    },
+    {
+      "name": "msg",
+      "type": ,
+      "doc": ""
+    },
+    {
+      "name": "code",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    }
+  ]
+
+}

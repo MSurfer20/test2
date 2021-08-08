@@ -1,0 +1,41 @@
+"$schema"   = "http://cyaninc.com/json-schemas/tosca-lite-v1/definition-module#"
+title       = "openapi_server InvalidApiKeyError"
+package     = openapi_server
+version     = "1.0"
+description = "Defines a InvalidApiKeyError"
+authors     = ["F. Bar (foo@bar.baz)"]
+
+imports {
+  Root = tosca.resourceTypes.Root
+  JsonError = openapi_server.resourceTypes.JsonError
+}
+resourceTypes {
+
+  InvalidApiKeyError {
+    title = InvalidApiKeyError
+    description = InvalidApiKeyError
+    derivedFrom = Root
+    properties {
+        result {
+          type =  
+          description = ""
+          optional = true
+        }
+        msg {
+          type =  
+          description = ""
+          optional = true
+        }
+    }
+  }
+}
+
+serviceTemplates {
+
+  InvalidApiKeyError {
+    title = InvalidApiKeyError
+    description = InvalidApiKeyError
+    implements = openapi_server.resourceTypes.InvalidApiKeyError
+
+  }
+}

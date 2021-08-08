@@ -1,0 +1,51 @@
+"$schema"   = "http://cyaninc.com/json-schemas/tosca-lite-v1/definition-module#"
+title       = "openapi_server UserGroup"
+package     = openapi_server
+version     = "1.0"
+description = "Defines a UserGroup"
+authors     = ["F. Bar (foo@bar.baz)"]
+
+imports {
+  Root = tosca.resourceTypes.Root
+}
+resourceTypes {
+
+  UserGroup {
+    title = UserGroup
+    description = UserGroup
+    derivedFrom = Root
+    properties {
+        name {
+          type =  string
+          description = "The name of the user group. "
+          optional = false
+        }
+        description {
+          type =  string
+          description = "The description of the user group. "
+          optional = false
+        }
+        members {
+          type = array
+          items.type =  integer
+          description = "Array containing the id of the users who are members of this user group. "
+          optional = false
+        }
+        id {
+          type =  integer
+          description = "The ID of the user group. "
+          optional = false
+        }
+    }
+  }
+}
+
+serviceTemplates {
+
+  UserGroup {
+    title = UserGroup
+    description = UserGroup
+    implements = openapi_server.resourceTypes.UserGroup
+
+  }
+}

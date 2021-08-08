@@ -1,0 +1,19 @@
+{
+  "namespace": "model",
+  "type": "record",
+  "doc": "",
+  "name": "JsonSuccess",
+  "fields": [
+    {
+      "name": "result",
+      "type": ,
+      "doc": ""
+    },
+    {
+      "name": "msg",
+      "type": ,
+      "doc": ""
+    }
+  ]
+
+}

@@ -1,0 +1,34 @@
+{
+  "type": "form",
+  "version": "2.0",
+  "cells": [{
+    "label": "General",
+    "children": [
+      {"model": "label"},
+      {"model": "description"}
+    ]
+  },{
+    "label": "Details",
+    "model": "properties",
+    "children": [
+      {"model": "email" },
+      {"model": "is_bot" },
+      {"model": "avatar_url" },
+      {"model": "avatar_version" },
+      {"model": "full_name" },
+      {"model": "is_admin" },
+      {"model": "is_owner" },
+      {"model": "is_billing_admin" },
+      {"model": "role" },
+      {"model": "bot_type" },
+      {"model": "user_id" },
+      {"model": "bot_owner_id" },
+      {"model": "is_active" },
+      {"model": "is_guest" },
+      {"model": "timezone" },
+      {"model": "date_joined" },
+      {"model": "delivery_email" },
+      {"model": "profile_data" },
+    ]
+  }]
+}

@@ -1,0 +1,25 @@
+{
+  "namespace": "model",
+  "type": "record",
+  "doc": "",
+  "name": "InvalidMessageError",
+  "fields": [
+    {
+      "name": "result",
+      "type": ,
+      "doc": ""
+    },
+    {
+      "name": "msg",
+      "type": ,
+      "doc": ""
+    },
+    {
+      "name": "raw_content",
+      "type": ["null", "string"],
+      "doc": "The raw content of the message. ",
+      "default": null
+    }
+  ]
+
+}

@@ -1,0 +1,21 @@
+{
+  "namespace": "model",
+  "type": "record",
+  "doc": "",
+  "name": "JsonSuccessAllOf",
+  "fields": [
+    {
+      "name": "result",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "msg",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    }
+  ]
+
+}

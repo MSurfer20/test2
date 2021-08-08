@@ -1,0 +1,36 @@
+{
+  "namespace": "model",
+  "type": "record",
+  "doc": "Dictionary containing details of a default stream group. ",
+  "name": "DefaultStreamGroup",
+  "fields": [
+    {
+      "name": "name",
+      "type": ["null", "string"],
+      "doc": "Name of the default stream group. ",
+      "default": null
+    },
+    {
+      "name": "description",
+      "type": ["null", "string"],
+      "doc": "Description of the default stream group. ",
+      "default": null
+    },
+    {
+      "name": "id",
+      "type": ["null", "int"],
+      "doc": "id of the default stream group. ",
+      "default": null
+    },
+    {
+      "name": "streams",
+      "type": ["null", {
+        "type": "array",
+        "items": "model.BasicStream"
+      }],
+      "doc": "Array containing details about the streams in the default stream group. ",
+      "default": null
+    }
+  ]
+
+}

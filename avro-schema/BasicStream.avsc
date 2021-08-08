@@ -1,0 +1,81 @@
+{
+  "namespace": "model",
+  "type": "record",
+  "doc": "",
+  "name": "BasicStream",
+  "fields": [
+    {
+      "name": "stream_id",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "name",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "description",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "date_created",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "invite_only",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "rendered_description",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "is_web_public",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "stream_post_policy",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "message_retention_days",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "history_public_to_subscribers",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "first_message_id",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "is_announcement_only",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    }
+  ]
+
+}

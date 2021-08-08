@@ -1,0 +1,117 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <Description>OpenAPI</Description>
+    <Copyright>OpenAPI</Copyright>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <AzureFunctionsVersion>v2</AzureFunctionsVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="1.0.24" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+  </ItemGroup>
+  <ItemGroup> 
+    <None Include="host.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="local.settings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="src/model/CodedErrorBaseAllOf.fs" />
+    <Compile Include="src/model/UserGroup.fs" />
+    <Compile Include="src/model/JsonErrorBaseAllOf.fs" />
+    <Compile Include="src/model/UserBase.fs" />
+    <Compile Include="src/model/UserAllOf.fs" />
+    <Compile Include="src/model/User.fs" />
+    <Compile Include="src/model/Subscriptions.fs" />
+    <Compile Include="src/model/RealmPlayground.fs" />
+    <Compile Include="src/model/RealmExport.fs" />
+    <Compile Include="src/model/RealmEmoji.fs" />
+    <Compile Include="src/model/RealmDomain.fs" />
+    <Compile Include="src/model/JsonResponseBase.fs" />
+    <Compile Include="src/model/CodedErrorAllOf.fs" />
+    <Compile Include="src/model/Presence.fs" />
+    <Compile Include="src/model/NonExistingStreamErrorAllOf.fs" />
+    <Compile Include="src/model/JsonErrorBase.fs" />
+    <Compile Include="src/model/MissingArgumentErrorAllOf.fs" />
+    <Compile Include="src/model/CodedErrorBase.fs" />
+    <Compile Include="src/model/MessagesBaseTopicLinks.fs" />
+    <Compile Include="src/model/EmojiReactionAllOf.fs" />
+    <Compile Include="src/model/MessagesAllOf.fs" />
+    <Compile Include="src/model/EmojiReactionBaseUser.fs" />
+    <Compile Include="src/model/JsonSuccessBaseAllOf.fs" />
+    <Compile Include="src/model/CodedError.fs" />
+    <Compile Include="src/model/JsonSuccessAllOf.fs" />
+    <Compile Include="src/model/JsonSuccessBase.fs" />
+    <Compile Include="src/model/JsonSuccess.fs" />
+    <Compile Include="src/model/UserNotAuthorizedError.fs" />
+    <Compile Include="src/model/UserDeactivatedError.fs" />
+    <Compile Include="src/model/JsonError.fs" />
+    <Compile Include="src/model/InvalidMessageErrorAllOf.fs" />
+    <Compile Include="src/model/InvalidMessageError.fs" />
+    <Compile Include="src/model/InvalidApiKeyError.fs" />
+    <Compile Include="src/model/EmojiReactionBase.fs" />
+    <Compile Include="src/model/Hotspot.fs" />
+    <Compile Include="src/model/GetMessagesAllOf.fs" />
+    <Compile Include="src/model/EmojiReaction.fs" />
+    <Compile Include="src/model/MessagesBase.fs" />
+    <Compile Include="src/model/Messages.fs" />
+    <Compile Include="src/model/InlineResponse200.fs" />
+    <Compile Include="src/model/GetMessages.fs" />
+    <Compile Include="src/model/BasicStreamAllOf.fs" />
+    <Compile Include="src/model/CustomProfileField.fs" />
+    <Compile Include="src/model/NonExistingStreamError.fs" />
+    <Compile Include="src/model/MissingArgumentError.fs" />
+    <Compile Include="src/model/RealmDeactivatedError.fs" />
+    <Compile Include="src/model/RateLimitedError.fs" />
+    <Compile Include="src/model/BotAllOf.fs" />
+    <Compile Include="src/model/BasicBotBase.fs" />
+    <Compile Include="src/model/BasicStreamBase.fs" />
+    <Compile Include="src/model/BasicStream.fs" />
+    <Compile Include="src/model/DefaultStreamGroup.fs" />
+    <Compile Include="src/model/Bot.fs" />
+    <Compile Include="src/model/BasicBotAllOf.fs" />
+    <Compile Include="src/model/BasicBot.fs" />
+    <Compile Include="src/model/BadEventQueueIdErrorAllOf.fs" />
+    <Compile Include="src/model/BadEventQueueIdError.fs" />
+    <Compile Include="src/model/AttachmentsMessages.fs" />
+    <Compile Include="src/model/Attachments.fs" />
+    <Compile Include="src/model/ApiKeyResponseAllOf.fs" />
+    <Compile Include="src/model/ApiKeyResponse.fs" />
+    <Compile Include="src/model/AddSubscriptionsResponseAllOf.fs" />
+    <Compile Include="src/model/AddSubscriptionsResponse.fs" />
+    <Compile Include="src/api/AuthenticationApiHandlerParams.fs" />
+    <Compile Include="src/api/AuthenticationApiServiceInterface.fs" />
+    <Compile Include="src/impl/AuthenticationApiService.fs" />
+    <Compile Include="src/api/AuthenticationApiHandler.fs" />
+    <Compile Include="src/api/MessagesApiHandlerParams.fs" />
+    <Compile Include="src/api/MessagesApiServiceInterface.fs" />
+    <Compile Include="src/impl/MessagesApiService.fs" />
+    <Compile Include="src/api/MessagesApiHandler.fs" />
+    <Compile Include="src/api/RealTimeEventsApiHandlerParams.fs" />
+    <Compile Include="src/api/RealTimeEventsApiServiceInterface.fs" />
+    <Compile Include="src/impl/RealTimeEventsApiService.fs" />
+    <Compile Include="src/api/RealTimeEventsApiHandler.fs" />
+    <Compile Include="src/api/ServerAndOrganizationsApiHandlerParams.fs" />
+    <Compile Include="src/api/ServerAndOrganizationsApiServiceInterface.fs" />
+    <Compile Include="src/impl/ServerAndOrganizationsApiService.fs" />
+    <Compile Include="src/api/ServerAndOrganizationsApiHandler.fs" />
+    <Compile Include="src/api/StreamsApiHandlerParams.fs" />
+    <Compile Include="src/api/StreamsApiServiceInterface.fs" />
+    <Compile Include="src/impl/StreamsApiService.fs" />
+    <Compile Include="src/api/StreamsApiHandler.fs" />
+    <Compile Include="src/api/UsersApiHandlerParams.fs" />
+    <Compile Include="src/api/UsersApiServiceInterface.fs" />
+    <Compile Include="src/impl/UsersApiService.fs" />
+    <Compile Include="src/api/UsersApiHandler.fs" />
+    <Compile Include="src/api/WebhooksApiHandlerParams.fs" />
+    <Compile Include="src/api/WebhooksApiServiceInterface.fs" />
+    <Compile Include="src/impl/WebhooksApiService.fs" />
+    <Compile Include="src/api/WebhooksApiHandler.fs" />
+  </ItemGroup>
+
+</Project>

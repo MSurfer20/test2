@@ -1,0 +1,28 @@
+
+<h2>Presence</h2>
+<ul class="parameter">
+  <li class="param-required-false">client : String
+    <br/>The client&#39;s platform name. 
+  </li>
+</ul>
+<ul class="parameter">
+  <li class="param-required-false">status : String
+    <br/>The status of the user on this client. It is either &#x60;idle&#x60; or &#x60;active&#x60;. 
+      <dl class="param-enum">
+        <dt>Enum:
+            <dd>idle</dd>
+            <dd>active</dd>
+        </dt>
+      </dl>
+  </li>
+</ul>
+<ul class="parameter">
+  <li class="param-required-false">timestamp : Integer
+    <br/>The UNIX timestamp of when this client sent the user&#39;s presence to the server with the precision of a second. 
+  </li>
+</ul>
+<ul class="parameter">
+  <li class="param-required-false">pushable : Boolean
+    <br/>Whether the client is capable of showing mobile/push notifications to the user. 
+  </li>
+</ul>

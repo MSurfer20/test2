@@ -1,0 +1,28 @@
+{
+  "type": "form",
+  "version": "2.0",
+  "cells": [{
+    "label": "General",
+    "children": [
+      {"model": "label"},
+      {"model": "description"}
+    ]
+  },{
+    "label": "Details",
+    "model": "properties",
+    "children": [
+      {"model": "stream_id" },
+      {"model": "name" },
+      {"model": "description" },
+      {"model": "date_created" },
+      {"model": "invite_only" },
+      {"model": "rendered_description" },
+      {"model": "is_web_public" },
+      {"model": "stream_post_policy" },
+      {"model": "message_retention_days" },
+      {"model": "history_public_to_subscribers" },
+      {"model": "first_message_id" },
+      {"model": "is_announcement_only" },
+    ]
+  }]
+}

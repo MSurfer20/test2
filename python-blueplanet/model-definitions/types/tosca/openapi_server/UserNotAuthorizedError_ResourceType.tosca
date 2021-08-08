@@ -1,0 +1,46 @@
+"$schema"   = "http://cyaninc.com/json-schemas/tosca-lite-v1/definition-module#"
+title       = "openapi_server UserNotAuthorizedError"
+package     = openapi_server
+version     = "1.0"
+description = "Defines a UserNotAuthorizedError"
+authors     = ["F. Bar (foo@bar.baz)"]
+
+imports {
+  Root = tosca.resourceTypes.Root
+  CodedError = openapi_server.resourceTypes.CodedError
+}
+resourceTypes {
+
+  UserNotAuthorizedError {
+    title = UserNotAuthorizedError
+    description = UserNotAuthorizedError
+    derivedFrom = Root
+    properties {
+        result {
+          type =  
+          description = ""
+          optional = true
+        }
+        msg {
+          type =  
+          description = ""
+          optional = true
+        }
+        code {
+          type =  
+          description = ""
+          optional = false
+        }
+    }
+  }
+}
+
+serviceTemplates {
+
+  UserNotAuthorizedError {
+    title = UserNotAuthorizedError
+    description = UserNotAuthorizedError
+    implements = openapi_server.resourceTypes.UserNotAuthorizedError
+
+  }
+}

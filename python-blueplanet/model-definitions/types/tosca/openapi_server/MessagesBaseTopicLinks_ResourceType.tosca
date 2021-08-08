@@ -1,0 +1,40 @@
+"$schema"   = "http://cyaninc.com/json-schemas/tosca-lite-v1/definition-module#"
+title       = "openapi_server MessagesBaseTopicLinks"
+package     = openapi_server
+version     = "1.0"
+description = "Defines a MessagesBaseTopicLinks"
+authors     = ["F. Bar (foo@bar.baz)"]
+
+imports {
+  Root = tosca.resourceTypes.Root
+}
+resourceTypes {
+
+  MessagesBaseTopicLinks {
+    title = MessagesBaseTopicLinks
+    description = MessagesBaseTopicLinks
+    derivedFrom = Root
+    properties {
+        text {
+          type =  string
+          description = "The original link text present in the topic. "
+          optional = false
+        }
+        url {
+          type =  string
+          description = "The expanded target url which the link points to. "
+          optional = false
+        }
+    }
+  }
+}
+
+serviceTemplates {
+
+  MessagesBaseTopicLinks {
+    title = MessagesBaseTopicLinks
+    description = MessagesBaseTopicLinks
+    implements = openapi_server.resourceTypes.MessagesBaseTopicLinks
+
+  }
+}

@@ -1,0 +1,50 @@
+"$schema"   = "http://cyaninc.com/json-schemas/tosca-lite-v1/definition-module#"
+title       = "openapi_server MissingArgumentErrorAllOf"
+package     = openapi_server
+version     = "1.0"
+description = "Defines a MissingArgumentErrorAllOf"
+authors     = ["F. Bar (foo@bar.baz)"]
+
+imports {
+  Root = tosca.resourceTypes.Root
+}
+resourceTypes {
+
+  MissingArgumentErrorAllOf {
+    title = MissingArgumentErrorAllOf
+    description = MissingArgumentErrorAllOf
+    derivedFrom = Root
+    properties {
+        result {
+          type =  
+          description = ""
+          optional = false
+        }
+        msg {
+          type =  
+          description = ""
+          optional = false
+        }
+        code {
+          type =  
+          description = ""
+          optional = false
+        }
+        var_name {
+          type =  string
+          description = "It contains the information about the missing parameter. "
+          optional = false
+        }
+    }
+  }
+}
+
+serviceTemplates {
+
+  MissingArgumentErrorAllOf {
+    title = MissingArgumentErrorAllOf
+    description = MissingArgumentErrorAllOf
+    implements = openapi_server.resourceTypes.MissingArgumentErrorAllOf
+
+  }
+}

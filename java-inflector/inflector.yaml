@@ -1,0 +1,74 @@
+controllerPackage: org.openapitools.controllers
+modelPackage:  org.openapitools.model
+swaggerUrl: ./src/main/openapi/openapi.yaml
+modelMappings:
+  # to enable explicit mappings, use this syntax:
+  DefinitionFromSwaggerSpecification: fully.qualified.path.to.Model
+  AddSubscriptionsResponse : org.openapitools.model.AddSubscriptionsResponse
+AddSubscriptionsResponseAllOf : org.openapitools.model.AddSubscriptionsResponseAllOf
+ApiKeyResponse : org.openapitools.model.ApiKeyResponse
+ApiKeyResponseAllOf : org.openapitools.model.ApiKeyResponseAllOf
+Attachments : org.openapitools.model.Attachments
+AttachmentsMessages : org.openapitools.model.AttachmentsMessages
+BadEventQueueIdError : org.openapitools.model.BadEventQueueIdError
+BadEventQueueIdErrorAllOf : org.openapitools.model.BadEventQueueIdErrorAllOf
+BasicBot : org.openapitools.model.BasicBot
+BasicBotAllOf : org.openapitools.model.BasicBotAllOf
+BasicBotBase : org.openapitools.model.BasicBotBase
+BasicStream : org.openapitools.model.BasicStream
+BasicStreamAllOf : org.openapitools.model.BasicStreamAllOf
+BasicStreamBase : org.openapitools.model.BasicStreamBase
+Bot : org.openapitools.model.Bot
+BotAllOf : org.openapitools.model.BotAllOf
+CodedError : org.openapitools.model.CodedError
+CodedErrorAllOf : org.openapitools.model.CodedErrorAllOf
+CodedErrorBase : org.openapitools.model.CodedErrorBase
+CodedErrorBaseAllOf : org.openapitools.model.CodedErrorBaseAllOf
+CustomProfileField : org.openapitools.model.CustomProfileField
+DefaultStreamGroup : org.openapitools.model.DefaultStreamGroup
+EmojiReaction : org.openapitools.model.EmojiReaction
+EmojiReactionAllOf : org.openapitools.model.EmojiReactionAllOf
+EmojiReactionBase : org.openapitools.model.EmojiReactionBase
+EmojiReactionBaseUser : org.openapitools.model.EmojiReactionBaseUser
+GetMessages : org.openapitools.model.GetMessages
+GetMessagesAllOf : org.openapitools.model.GetMessagesAllOf
+Hotspot : org.openapitools.model.Hotspot
+InlineResponse200 : org.openapitools.model.InlineResponse200
+InvalidApiKeyError : org.openapitools.model.InvalidApiKeyError
+InvalidMessageError : org.openapitools.model.InvalidMessageError
+InvalidMessageErrorAllOf : org.openapitools.model.InvalidMessageErrorAllOf
+JsonError : org.openapitools.model.JsonError
+JsonErrorBase : org.openapitools.model.JsonErrorBase
+JsonErrorBaseAllOf : org.openapitools.model.JsonErrorBaseAllOf
+JsonResponseBase : org.openapitools.model.JsonResponseBase
+JsonSuccess : org.openapitools.model.JsonSuccess
+JsonSuccessAllOf : org.openapitools.model.JsonSuccessAllOf
+JsonSuccessBase : org.openapitools.model.JsonSuccessBase
+JsonSuccessBaseAllOf : org.openapitools.model.JsonSuccessBaseAllOf
+Messages : org.openapitools.model.Messages
+MessagesAllOf : org.openapitools.model.MessagesAllOf
+MessagesBase : org.openapitools.model.MessagesBase
+MessagesBaseTopicLinks : org.openapitools.model.MessagesBaseTopicLinks
+MissingArgumentError : org.openapitools.model.MissingArgumentError
+MissingArgumentErrorAllOf : org.openapitools.model.MissingArgumentErrorAllOf
+NonExistingStreamError : org.openapitools.model.NonExistingStreamError
+NonExistingStreamErrorAllOf : org.openapitools.model.NonExistingStreamErrorAllOf
+Presence : org.openapitools.model.Presence
+RateLimitedError : org.openapitools.model.RateLimitedError
+RealmDeactivatedError : org.openapitools.model.RealmDeactivatedError
+RealmDomain : org.openapitools.model.RealmDomain
+RealmEmoji : org.openapitools.model.RealmEmoji
+RealmExport : org.openapitools.model.RealmExport
+RealmPlayground : org.openapitools.model.RealmPlayground
+Subscriptions : org.openapitools.model.Subscriptions
+User : org.openapitools.model.User
+UserAllOf : org.openapitools.model.UserAllOf
+UserBase : org.openapitools.model.UserBase
+UserDeactivatedError : org.openapitools.model.UserDeactivatedError
+UserGroup : org.openapitools.model.UserGroup
+UserNotAuthorizedError : org.openapitools.model.UserNotAuthorizedError
+
+entityProcessors:
+  - json
+  - xml
+  - yaml

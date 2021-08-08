@@ -1,0 +1,52 @@
+"$schema"   = "http://cyaninc.com/json-schemas/tosca-lite-v1/definition-module#"
+title       = "openapi_server BadEventQueueIdError"
+package     = openapi_server
+version     = "1.0"
+description = "Defines a BadEventQueueIdError"
+authors     = ["F. Bar (foo@bar.baz)"]
+
+imports {
+  Root = tosca.resourceTypes.Root
+  BadEventQueueIdErrorAllOf = openapi_server.resourceTypes.BadEventQueueIdErrorAllOf
+  CodedErrorBase = openapi_server.resourceTypes.CodedErrorBase
+}
+resourceTypes {
+
+  BadEventQueueIdError {
+    title = BadEventQueueIdError
+    description = BadEventQueueIdError
+    derivedFrom = Root
+    properties {
+        result {
+          type =  
+          description = ""
+          optional = true
+        }
+        msg {
+          type =  
+          description = ""
+          optional = true
+        }
+        code {
+          type =  
+          description = ""
+          optional = false
+        }
+        queue_id {
+          type =  string
+          description = "The string that identifies the invalid event queue. "
+          optional = false
+        }
+    }
+  }
+}
+
+serviceTemplates {
+
+  BadEventQueueIdError {
+    title = BadEventQueueIdError
+    description = BadEventQueueIdError
+    implements = openapi_server.resourceTypes.BadEventQueueIdError
+
+  }
+}

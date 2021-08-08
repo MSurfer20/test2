@@ -1,0 +1,21 @@
+{
+  "type": "form",
+  "version": "2.0",
+  "cells": [{
+    "label": "General",
+    "children": [
+      {"model": "label"},
+      {"model": "description"}
+    ]
+  },{
+    "label": "Details",
+    "model": "properties",
+    "children": [
+      {"model": "emoji_code" },
+      {"model": "emoji_name" },
+      {"model": "reaction_type" },
+      {"model": "user_id" },
+      {"model": "user" },
+    ]
+  }]
+}

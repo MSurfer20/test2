@@ -1,0 +1,40 @@
+"$schema"   = "http://cyaninc.com/json-schemas/tosca-lite-v1/definition-module#"
+title       = "openapi_server JsonSuccessAllOf"
+package     = openapi_server
+version     = "1.0"
+description = "Defines a JsonSuccessAllOf"
+authors     = ["F. Bar (foo@bar.baz)"]
+
+imports {
+  Root = tosca.resourceTypes.Root
+}
+resourceTypes {
+
+  JsonSuccessAllOf {
+    title = JsonSuccessAllOf
+    description = JsonSuccessAllOf
+    derivedFrom = Root
+    properties {
+        result {
+          type =  
+          description = ""
+          optional = false
+        }
+        msg {
+          type =  
+          description = ""
+          optional = false
+        }
+    }
+  }
+}
+
+serviceTemplates {
+
+  JsonSuccessAllOf {
+    title = JsonSuccessAllOf
+    description = JsonSuccessAllOf
+    implements = openapi_server.resourceTypes.JsonSuccessAllOf
+
+  }
+}

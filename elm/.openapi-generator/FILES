@@ -1,0 +1,14 @@
+.gitignore
+.openapi-generator-ignore
+README.md
+elm.json
+src/Api.elm
+src/Api/Data.elm
+src/Api/Request/Authentication.elm
+src/Api/Request/Messages.elm
+src/Api/Request/RealTimeEvents.elm
+src/Api/Request/ServerAndOrganizations.elm
+src/Api/Request/Streams.elm
+src/Api/Request/Users.elm
+src/Api/Request/Webhooks.elm
+src/Api/Time.elm

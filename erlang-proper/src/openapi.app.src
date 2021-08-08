@@ -1,0 +1,21 @@
+{ application, openapi
+, [ {description, "Powerful open source group chat "}
+  , {vsn, "0.1.0"}
+  , {registered, []}
+  , { applications
+    , [ kernel
+      , stdlib
+      , ssl
+      , jsx
+      ]
+    }
+  , { env
+    , [ {host, "http://example.zulipchat.com"}
+      , {basic_auth, {"admin", "admin"}}
+      ]
+    }
+  , {modules, []}
+  , {maintainers, []}
+  , {licenses, ["Apache 2.0"]}
+  , {links, ["https://zulip.com"]}
+]}.

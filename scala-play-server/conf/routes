@@ -1,0 +1,102 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+
+# Routes for Authentication API
+
+POST /api/v1/dev_fetch_api_key                       api.AuthenticationApiController.devFetchApiKey()
+POST /api/v1/fetch_api_key                           api.AuthenticationApiController.fetchApiKey()
+
+# Routes for Messages API
+
+GET /api/v1/messages/matches_narrow                  api.MessagesApiController.checkMessagesMatchNarrow()
+GET /api/v1/messages                                 api.MessagesApiController.getMessages()
+POST /api/v1/mark_all_as_read                        api.MessagesApiController.markAllAsRead()
+POST /api/v1/mark_stream_as_read                     api.MessagesApiController.markStreamAsRead()
+POST /api/v1/mark_topic_as_read                      api.MessagesApiController.markTopicAsRead()
+POST /api/v1/messages/render                         api.MessagesApiController.renderMessage()
+POST /api/v1/messages                                api.MessagesApiController.sendMessage()
+POST /api/v1/messages/flags                          api.MessagesApiController.updateMessageFlags()
+POST /api/v1/user_uploads                            api.MessagesApiController.uploadFile()
+POST /api/v1/messages/:messageId/reactions           api.MessagesApiController.addReaction(messageId: Int)
+DELETE /api/v1/messages/:messageId                   api.MessagesApiController.deleteMessage(messageId: Int)
+GET /api/v1/user_uploads/:realmIdStr/:filename       api.MessagesApiController.getFileTemporaryUrl(realmIdStr: Int, filename: String)
+GET /api/v1/messages/:messageId/history              api.MessagesApiController.getMessageHistory(messageId: Int)
+GET /api/v1/messages/:messageId                      api.MessagesApiController.getRawMessage(messageId: Int)
+DELETE /api/v1/messages/:messageId/reactions         api.MessagesApiController.removeReaction(messageId: Int)
+PATCH /api/v1/messages/:messageId                    api.MessagesApiController.updateMessage(messageId: Int)
+
+# Routes for RealTimeEvents API
+
+DELETE /api/v1/events                                api.RealTimeEventsApiController.deleteQueue()
+GET /api/v1/events                                   api.RealTimeEventsApiController.getEvents()
+POST /api/v1/real-time                               api.RealTimeEventsApiController.realTimePost()
+POST /api/v1/register                                api.RealTimeEventsApiController.registerQueue()
+POST /api/v1/rest-error-handling                     api.RealTimeEventsApiController.restErrorHandling()
+
+# Routes for ServerAndOrganizations API
+
+POST /api/v1/realm/playgrounds                       api.ServerAndOrganizationsApiController.addCodePlayground()
+POST /api/v1/realm/filters                           api.ServerAndOrganizationsApiController.addLinkifier()
+POST /api/v1/realm/profile_fields                    api.ServerAndOrganizationsApiController.createCustomProfileField()
+GET /api/v1/realm/emoji                              api.ServerAndOrganizationsApiController.getCustomEmoji()
+GET /api/v1/realm/profile_fields                     api.ServerAndOrganizationsApiController.getCustomProfileFields()
+GET /api/v1/realm/linkifiers                         api.ServerAndOrganizationsApiController.getLinkifiers()
+GET /api/v1/server_settings                          api.ServerAndOrganizationsApiController.getServerSettings()
+PATCH /api/v1/realm/profile_fields                   api.ServerAndOrganizationsApiController.reorderCustomProfileFields()
+DELETE /api/v1/realm/playgrounds/:playgroundId       api.ServerAndOrganizationsApiController.removeCodePlayground(playgroundId: Int)
+DELETE /api/v1/realm/filters/:filterId               api.ServerAndOrganizationsApiController.removeLinkifier(filterId: Int)
+PATCH /api/v1/realm/filters/:filterId                api.ServerAndOrganizationsApiController.updateLinkifier(filterId: Int)
+POST /api/v1/realm/emoji/:emojiName                  api.ServerAndOrganizationsApiController.uploadCustomEmoji(emojiName: String)
+
+# Routes for Streams API
+
+GET /api/v1/calls/bigbluebutton/create               api.StreamsApiController.createBigBlueButtonVideoCall()
+GET /api/v1/get_stream_id                            api.StreamsApiController.getStreamId()
+GET /api/v1/streams                                  api.StreamsApiController.getStreams()
+GET /api/v1/users/me/subscriptions                   api.StreamsApiController.getSubscriptions()
+PATCH /api/v1/users/me/subscriptions/muted_topics    api.StreamsApiController.muteTopic()
+POST /api/v1/users/me/subscriptions                  api.StreamsApiController.subscribe()
+DELETE /api/v1/users/me/subscriptions                api.StreamsApiController.unsubscribe()
+POST /api/v1/users/me/subscriptions/properties       api.StreamsApiController.updateSubscriptionSettings()
+PATCH /api/v1/users/me/subscriptions                 api.StreamsApiController.updateSubscriptions()
+DELETE /api/v1/streams/:streamId                     api.StreamsApiController.archiveStream(streamId: Int)
+GET /api/v1/users/me/:streamId/topics                api.StreamsApiController.getStreamTopics(streamId: Int)
+GET /api/v1/users/:userId/subscriptions/:streamId    api.StreamsApiController.getSubscriptionStatus(userId: Int, streamId: Int)
+PATCH /api/v1/streams/:streamId                      api.StreamsApiController.updateStream(streamId: Int)
+
+# Routes for Users API
+
+POST /api/v1/users                                   api.UsersApiController.createUser()
+POST /api/v1/user_groups/create                      api.UsersApiController.createUserGroup()
+DELETE /api/v1/users/me                              api.UsersApiController.deactivateOwnUser()
+GET /api/v1/attachments                              api.UsersApiController.getAttachments()
+GET /api/v1/users/me                                 api.UsersApiController.getOwnUser()
+GET /api/v1/user_groups                              api.UsersApiController.getUserGroups()
+GET /api/v1/users                                    api.UsersApiController.getUsers()
+POST /api/v1/typing                                  api.UsersApiController.setTypingStatus()
+PATCH /api/v1/settings/display                       api.UsersApiController.updateDisplaySettings()
+PATCH /api/v1/settings/notifications                 api.UsersApiController.updateNotificationSettings()
+DELETE /api/v1/users/:userId                         api.UsersApiController.deactivateUser(userId: Int)
+GET /api/v1/users/:userId                            api.UsersApiController.getUser(userId: Int)
+GET /api/v1/users/:email                             api.UsersApiController.getUserByEmail(email: String)
+GET /api/v1/users/:userIdOrEmail/presence            api.UsersApiController.getUserPresence(userIdOrEmail: String)
+POST /api/v1/users/me/muted_users/:mutedUserId       api.UsersApiController.muteUser(mutedUserId: Int)
+POST /api/v1/users/:userId/reactivate                api.UsersApiController.reactivateUser(userId: Int)
+DELETE /api/v1/user_groups/:userGroupId              api.UsersApiController.removeUserGroup(userGroupId: Int)
+DELETE /api/v1/users/me/muted_users/:mutedUserId     api.UsersApiController.unmuteUser(mutedUserId: Int)
+PATCH /api/v1/users/:userId                          api.UsersApiController.updateUser(userId: Int)
+PATCH /api/v1/user_groups/:userGroupId               api.UsersApiController.updateUserGroup(userGroupId: Int)
+POST /api/v1/user_groups/:userGroupId/members        api.UsersApiController.updateUserGroupMembers(userGroupId: Int)
+
+# Routes for Webhooks API
+
+POST /api/v1/zulip-outgoing-webhook                  api.WebhooksApiController.zulipOutgoingWebhooks()
+
+# Map static resources from the /public folder to the /assets URL path
+GET /assets/*file           controllers.Assets.at(file)
+GET /versionedAssets/*file  controllers.Assets.versioned(file)
+
+# Swagger UI
+GET /api                    api.ApiDocController.api

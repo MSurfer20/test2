@@ -1,0 +1,90 @@
+"$schema"   = "http://cyaninc.com/json-schemas/tosca-lite-v1/definition-module#"
+title       = "openapi_server BotAllOf"
+package     = openapi_server
+version     = "1.0"
+description = "Defines a BotAllOf"
+authors     = ["F. Bar (foo@bar.baz)"]
+
+imports {
+  Root = tosca.resourceTypes.Root
+}
+resourceTypes {
+
+  BotAllOf {
+    title = BotAllOf
+    description = BotAllOf
+    derivedFrom = Root
+    properties {
+        user_id {
+          type =  
+          description = ""
+          optional = false
+        }
+        full_name {
+          type =  
+          description = ""
+          optional = false
+        }
+        api_key {
+          type =  
+          description = ""
+          optional = false
+        }
+        default_sending_stream {
+          type =  
+          description = ""
+          optional = false
+        }
+        default_events_register_stream {
+          type =  
+          description = ""
+          optional = false
+        }
+        default_all_public_streams {
+          type =  
+          description = ""
+          optional = false
+        }
+        avatar_url {
+          type =  
+          description = ""
+          optional = false
+        }
+        owner_id {
+          type =  
+          description = ""
+          optional = false
+        }
+        services {
+          type =  
+          description = ""
+          optional = false
+        }
+        email {
+          type =  string
+          description = "The email of the bot. "
+          optional = false
+        }
+        bot_type {
+          type =  integer
+          description = "An integer describing the type of bot: * &#x60;1&#x60; for a &#x60;Generic&#x60; bot. * &#x60;2&#x60; for an &#x60;Incoming webhook&#x60; bot. * &#x60;3&#x60; for an &#x60;Outgoing webhook&#x60; bot. * &#x60;4&#x60; for an &#x60;Embedded&#x60; bot. "
+          optional = false
+        }
+        is_active {
+          type =  boolean
+          description = "A boolean describing whether the user account has been deactivated. "
+          optional = false
+        }
+    }
+  }
+}
+
+serviceTemplates {
+
+  BotAllOf {
+    title = BotAllOf
+    description = BotAllOf
+    implements = openapi_server.resourceTypes.BotAllOf
+
+  }
+}

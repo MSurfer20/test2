@@ -1,0 +1,33 @@
+{
+  "namespace": "model",
+  "type": "record",
+  "doc": "Dictionary containing details of a single hotspot. ",
+  "name": "Hotspot",
+  "fields": [
+    {
+      "name": "delay",
+      "type": ["null", "double"],
+      "doc": "The delay after which the user should be shown the hotspot. ",
+      "default": null
+    },
+    {
+      "name": "name",
+      "type": ["null", "string"],
+      "doc": "The name of the hotspot. ",
+      "default": null
+    },
+    {
+      "name": "title",
+      "type": ["null", "string"],
+      "doc": "The title of the hotspot, as will be displayed to the user. ",
+      "default": null
+    },
+    {
+      "name": "description",
+      "type": ["null", "string"],
+      "doc": "The description of the hotspot, as will be displayed to the user. ",
+      "default": null
+    }
+  ]
+
+}

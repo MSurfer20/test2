@@ -1,0 +1,25 @@
+{
+  "namespace": "model",
+  "type": "record",
+  "doc": "",
+  "name": "CodedErrorBase",
+  "fields": [
+    {
+      "name": "result",
+      "type": ,
+      "doc": ""
+    },
+    {
+      "name": "msg",
+      "type": ,
+      "doc": ""
+    },
+    {
+      "name": "code",
+      "type": ["null", "string"],
+      "doc": "A string that identifies the error. ",
+      "default": null
+    }
+  ]
+
+}

@@ -1,0 +1,50 @@
+"$schema"   = "http://cyaninc.com/json-schemas/tosca-lite-v1/definition-module#"
+title       = "openapi_server NonExistingStreamErrorAllOf"
+package     = openapi_server
+version     = "1.0"
+description = "Defines a NonExistingStreamErrorAllOf"
+authors     = ["F. Bar (foo@bar.baz)"]
+
+imports {
+  Root = tosca.resourceTypes.Root
+}
+resourceTypes {
+
+  NonExistingStreamErrorAllOf {
+    title = NonExistingStreamErrorAllOf
+    description = NonExistingStreamErrorAllOf
+    derivedFrom = Root
+    properties {
+        result {
+          type =  
+          description = ""
+          optional = false
+        }
+        msg {
+          type =  
+          description = ""
+          optional = false
+        }
+        code {
+          type =  
+          description = ""
+          optional = false
+        }
+        stream {
+          type =  string
+          description = "The name of the stream that could not be found. "
+          optional = false
+        }
+    }
+  }
+}
+
+serviceTemplates {
+
+  NonExistingStreamErrorAllOf {
+    title = NonExistingStreamErrorAllOf
+    description = NonExistingStreamErrorAllOf
+    implements = openapi_server.resourceTypes.NonExistingStreamErrorAllOf
+
+  }
+}

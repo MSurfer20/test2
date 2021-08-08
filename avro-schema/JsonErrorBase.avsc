@@ -1,0 +1,25 @@
+{
+  "namespace": "model",
+  "type": "record",
+  "doc": "",
+  "name": "JsonErrorBase",
+  "fields": [
+    {
+      "name": "result",
+      "type": {
+        "type": "enum",
+        "name": "JsonErrorBase_result",
+        "symbols": [
+          "error"
+        ]
+      },
+      "doc": ""
+    },
+    {
+      "name": "msg",
+      "type": "string",
+      "doc": ""
+    }
+  ]
+
+}

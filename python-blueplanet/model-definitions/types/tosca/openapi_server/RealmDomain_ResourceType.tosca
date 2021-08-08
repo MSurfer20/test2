@@ -1,0 +1,40 @@
+"$schema"   = "http://cyaninc.com/json-schemas/tosca-lite-v1/definition-module#"
+title       = "openapi_server RealmDomain"
+package     = openapi_server
+version     = "1.0"
+description = "Defines a RealmDomain"
+authors     = ["F. Bar (foo@bar.baz)"]
+
+imports {
+  Root = tosca.resourceTypes.Root
+}
+resourceTypes {
+
+  RealmDomain {
+    title = RealmDomain
+    description = RealmDomain
+    derivedFrom = Root
+    properties {
+        domain {
+          type =  string
+          description = "The new allowed domain. "
+          optional = false
+        }
+        allow_subdomains {
+          type =  boolean
+          description = "Whether subdomains are allowed for this domain. "
+          optional = false
+        }
+    }
+  }
+}
+
+serviceTemplates {
+
+  RealmDomain {
+    title = RealmDomain
+    description = RealmDomain
+    implements = openapi_server.resourceTypes.RealmDomain
+
+  }
+}

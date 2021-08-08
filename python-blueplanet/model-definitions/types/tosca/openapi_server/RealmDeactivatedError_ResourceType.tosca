@@ -1,0 +1,46 @@
+"$schema"   = "http://cyaninc.com/json-schemas/tosca-lite-v1/definition-module#"
+title       = "openapi_server RealmDeactivatedError"
+package     = openapi_server
+version     = "1.0"
+description = "Defines a RealmDeactivatedError"
+authors     = ["F. Bar (foo@bar.baz)"]
+
+imports {
+  Root = tosca.resourceTypes.Root
+  CodedError = openapi_server.resourceTypes.CodedError
+}
+resourceTypes {
+
+  RealmDeactivatedError {
+    title = RealmDeactivatedError
+    description = RealmDeactivatedError
+    derivedFrom = Root
+    properties {
+        result {
+          type =  
+          description = ""
+          optional = true
+        }
+        msg {
+          type =  
+          description = ""
+          optional = true
+        }
+        code {
+          type =  
+          description = ""
+          optional = false
+        }
+    }
+  }
+}
+
+serviceTemplates {
+
+  RealmDeactivatedError {
+    title = RealmDeactivatedError
+    description = RealmDeactivatedError
+    implements = openapi_server.resourceTypes.RealmDeactivatedError
+
+  }
+}

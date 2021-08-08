@@ -1,0 +1,62 @@
+"$schema"   = "http://cyaninc.com/json-schemas/tosca-lite-v1/definition-module#"
+title       = "openapi_server Attachments"
+package     = openapi_server
+version     = "1.0"
+description = "Defines a Attachments"
+authors     = ["F. Bar (foo@bar.baz)"]
+
+imports {
+  Root = tosca.resourceTypes.Root
+  AttachmentsMessages = openapi_server.resourceTypes.AttachmentsMessages
+}
+resourceTypes {
+
+  Attachments {
+    title = Attachments
+    description = Attachments
+    derivedFrom = Root
+    properties {
+        id {
+          type =  integer
+          description = "The unique ID for the attachment. "
+          optional = false
+        }
+        name {
+          type =  string
+          description = "Name of the uploaded file. "
+          optional = false
+        }
+        path_id {
+          type =  string
+          description = "A representation of the path of the file within the repository of user-uploaded files.  If the &#x60;path_id&#x60; of a file is &#x60;{realm_id}/ab/cdef/temp_file.py&#x60;, its URL will be: &#x60;{server_url}/user_uploads/{realm_id}/ab/cdef/temp_file.py&#x60;. "
+          optional = false
+        }
+        size {
+          type =  integer
+          description = "Size of the file in bytes. "
+          optional = false
+        }
+        create_time {
+          type =  integer
+          description = "Time when the attachment was uploaded as a UNIX timestamp multiplied by 1000 (matching the format of getTime() in JavaScript).  **Changes**: Changed in Zulip 2.2 (feature level 22).  This field was previously a floating point number. "
+          optional = false
+        }
+        messages {
+          type = array
+          items.type = AttachmentsMessages
+          description = "Contains basic details on any Zulip messages that have been sent referencing this [uploaded file](/api/upload-file). This includes messages sent by any user in the Zulip organization who sent a message containing a link to the uploaded file. "
+          optional = false
+        }
+    }
+  }
+}
+
+serviceTemplates {
+
+  Attachments {
+    title = Attachments
+    description = Attachments
+    implements = openapi_server.resourceTypes.Attachments
+
+  }
+}

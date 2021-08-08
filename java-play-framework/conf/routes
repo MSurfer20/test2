@@ -1,0 +1,94 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+GET     /api                        controllers.ApiDocController.api
+
+
+#Functions for Authentication API
+POST     /api/v1/dev_fetch_api_key                     controllers.AuthenticationApiController.devFetchApiKey(request: Request)
+POST     /api/v1/fetch_api_key                     controllers.AuthenticationApiController.fetchApiKey(request: Request)
+
+#Functions for Messages API
+POST     /api/v1/messages/:messageId/reactions                     controllers.MessagesApiController.addReaction(request: Request, messageId: Integer)
+GET     /api/v1/messages/matches_narrow                     controllers.MessagesApiController.checkMessagesMatchNarrow(request: Request)
+DELETE     /api/v1/messages/:messageId                     controllers.MessagesApiController.deleteMessage(request: Request, messageId: Integer)
+GET     /api/v1/user_uploads/:realmIdStr/:filename                     controllers.MessagesApiController.getFileTemporaryUrl(request: Request, realmIdStr: Integer, filename: String)
+GET     /api/v1/messages/:messageId/history                     controllers.MessagesApiController.getMessageHistory(request: Request, messageId: Integer)
+GET     /api/v1/messages                     controllers.MessagesApiController.getMessages(request: Request)
+GET     /api/v1/messages/:messageId                     controllers.MessagesApiController.getRawMessage(request: Request, messageId: Integer)
+POST     /api/v1/mark_all_as_read                     controllers.MessagesApiController.markAllAsRead(request: Request)
+POST     /api/v1/mark_stream_as_read                     controllers.MessagesApiController.markStreamAsRead(request: Request)
+POST     /api/v1/mark_topic_as_read                     controllers.MessagesApiController.markTopicAsRead(request: Request)
+DELETE     /api/v1/messages/:messageId/reactions                     controllers.MessagesApiController.removeReaction(request: Request, messageId: Integer)
+POST     /api/v1/messages/render                     controllers.MessagesApiController.renderMessage(request: Request)
+POST     /api/v1/messages                     controllers.MessagesApiController.sendMessage(request: Request)
+PATCH     /api/v1/messages/:messageId                     controllers.MessagesApiController.updateMessage(request: Request, messageId: Integer)
+POST     /api/v1/messages/flags                     controllers.MessagesApiController.updateMessageFlags(request: Request)
+POST     /api/v1/user_uploads                     controllers.MessagesApiController.uploadFile(request: Request)
+
+#Functions for RealTimeEvents API
+DELETE     /api/v1/events                     controllers.RealTimeEventsApiController.deleteQueue(request: Request)
+GET     /api/v1/events                     controllers.RealTimeEventsApiController.getEvents(request: Request)
+POST     /api/v1/real-time                     controllers.RealTimeEventsApiController.realTimePost(request: Request)
+POST     /api/v1/register                     controllers.RealTimeEventsApiController.registerQueue(request: Request)
+POST     /api/v1/rest-error-handling                     controllers.RealTimeEventsApiController.restErrorHandling(request: Request)
+
+#Functions for ServerAndOrganizations API
+POST     /api/v1/realm/playgrounds                     controllers.ServerAndOrganizationsApiController.addCodePlayground(request: Request)
+POST     /api/v1/realm/filters                     controllers.ServerAndOrganizationsApiController.addLinkifier(request: Request)
+POST     /api/v1/realm/profile_fields                     controllers.ServerAndOrganizationsApiController.createCustomProfileField(request: Request)
+GET     /api/v1/realm/emoji                     controllers.ServerAndOrganizationsApiController.getCustomEmoji(request: Request)
+GET     /api/v1/realm/profile_fields                     controllers.ServerAndOrganizationsApiController.getCustomProfileFields(request: Request)
+GET     /api/v1/realm/linkifiers                     controllers.ServerAndOrganizationsApiController.getLinkifiers(request: Request)
+GET     /api/v1/server_settings                     controllers.ServerAndOrganizationsApiController.getServerSettings(request: Request)
+DELETE     /api/v1/realm/playgrounds/:playgroundId                     controllers.ServerAndOrganizationsApiController.removeCodePlayground(request: Request, playgroundId: Integer)
+DELETE     /api/v1/realm/filters/:filterId                     controllers.ServerAndOrganizationsApiController.removeLinkifier(request: Request, filterId: Integer)
+PATCH     /api/v1/realm/profile_fields                     controllers.ServerAndOrganizationsApiController.reorderCustomProfileFields(request: Request)
+PATCH     /api/v1/realm/filters/:filterId                     controllers.ServerAndOrganizationsApiController.updateLinkifier(request: Request, filterId: Integer)
+POST     /api/v1/realm/emoji/:emojiName                     controllers.ServerAndOrganizationsApiController.uploadCustomEmoji(request: Request, emojiName: String)
+
+#Functions for Streams API
+DELETE     /api/v1/streams/:streamId                     controllers.StreamsApiController.archiveStream(request: Request, streamId: Integer)
+GET     /api/v1/calls/bigbluebutton/create                     controllers.StreamsApiController.createBigBlueButtonVideoCall(request: Request)
+GET     /api/v1/get_stream_id                     controllers.StreamsApiController.getStreamId(request: Request)
+GET     /api/v1/users/me/:streamId/topics                     controllers.StreamsApiController.getStreamTopics(request: Request, streamId: Integer)
+GET     /api/v1/streams                     controllers.StreamsApiController.getStreams(request: Request)
+GET     /api/v1/users/:userId/subscriptions/:streamId                     controllers.StreamsApiController.getSubscriptionStatus(request: Request, userId: Integer, streamId: Integer)
+GET     /api/v1/users/me/subscriptions                     controllers.StreamsApiController.getSubscriptions(request: Request)
+PATCH     /api/v1/users/me/subscriptions/muted_topics                     controllers.StreamsApiController.muteTopic(request: Request)
+POST     /api/v1/users/me/subscriptions                     controllers.StreamsApiController.subscribe(request: Request)
+DELETE     /api/v1/users/me/subscriptions                     controllers.StreamsApiController.unsubscribe(request: Request)
+PATCH     /api/v1/streams/:streamId                     controllers.StreamsApiController.updateStream(request: Request, streamId: Integer)
+POST     /api/v1/users/me/subscriptions/properties                     controllers.StreamsApiController.updateSubscriptionSettings(request: Request)
+PATCH     /api/v1/users/me/subscriptions                     controllers.StreamsApiController.updateSubscriptions(request: Request)
+
+#Functions for Users API
+POST     /api/v1/users                     controllers.UsersApiController.createUser(request: Request)
+POST     /api/v1/user_groups/create                     controllers.UsersApiController.createUserGroup(request: Request)
+DELETE     /api/v1/users/me                     controllers.UsersApiController.deactivateOwnUser(request: Request)
+DELETE     /api/v1/users/:userId                     controllers.UsersApiController.deactivateUser(request: Request, userId: Integer)
+GET     /api/v1/attachments                     controllers.UsersApiController.getAttachments(request: Request)
+GET     /api/v1/users/me                     controllers.UsersApiController.getOwnUser(request: Request)
+GET     /api/v1/users/:userId                     controllers.UsersApiController.getUser(request: Request, userId: Integer)
+GET     /api/v1/users/:email                     controllers.UsersApiController.getUserByEmail(request: Request, email: String)
+GET     /api/v1/user_groups                     controllers.UsersApiController.getUserGroups(request: Request)
+GET     /api/v1/users/:userIdOrEmail/presence                     controllers.UsersApiController.getUserPresence(request: Request, userIdOrEmail: String)
+GET     /api/v1/users                     controllers.UsersApiController.getUsers(request: Request)
+POST     /api/v1/users/me/muted_users/:mutedUserId                     controllers.UsersApiController.muteUser(request: Request, mutedUserId: Integer)
+POST     /api/v1/users/:userId/reactivate                     controllers.UsersApiController.reactivateUser(request: Request, userId: Integer)
+DELETE     /api/v1/user_groups/:userGroupId                     controllers.UsersApiController.removeUserGroup(request: Request, userGroupId: Integer)
+POST     /api/v1/typing                     controllers.UsersApiController.setTypingStatus(request: Request)
+DELETE     /api/v1/users/me/muted_users/:mutedUserId                     controllers.UsersApiController.unmuteUser(request: Request, mutedUserId: Integer)
+PATCH     /api/v1/settings/display                     controllers.UsersApiController.updateDisplaySettings(request: Request)
+PATCH     /api/v1/settings/notifications                     controllers.UsersApiController.updateNotificationSettings(request: Request)
+PATCH     /api/v1/users/:userId                     controllers.UsersApiController.updateUser(request: Request, userId: Integer)
+PATCH     /api/v1/user_groups/:userGroupId                     controllers.UsersApiController.updateUserGroup(request: Request, userGroupId: Integer)
+POST     /api/v1/user_groups/:userGroupId/members                     controllers.UsersApiController.updateUserGroupMembers(request: Request, userGroupId: Integer)
+
+#Functions for Webhooks API
+POST     /api/v1/zulip-outgoing-webhook                     controllers.WebhooksApiController.zulipOutgoingWebhooks(request: Request)
+
+# Map static resources from the /public folder to the /assets URL path
+GET /assets/*file           controllers.Assets.at(file)
+GET /versionedAssets/*file  controllers.Assets.versioned(file)

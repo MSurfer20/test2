@@ -1,0 +1,13 @@
+
+# ApiKeyResponse
+
+## Properties
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**result** | [**AnyType**](.md) |  | 
+**msg** | [**AnyType**](.md) |  | 
+**apiKey** | **kotlin.String** | The API key that can be used to authenticate as the requested user.  | 
+**email** | **kotlin.String** | The email address of the user who owns the API key  | 
+
+
+

@@ -1,0 +1,21 @@
+{
+  "namespace": "model",
+  "type": "record",
+  "doc": "",
+  "name": "MessagesBaseTopicLinks",
+  "fields": [
+    {
+      "name": "text",
+      "type": ["null", "string"],
+      "doc": "The original link text present in the topic. ",
+      "default": null
+    },
+    {
+      "name": "url",
+      "type": ["null", "string"],
+      "doc": "The expanded target url which the link points to. ",
+      "default": null
+    }
+  ]
+
+}

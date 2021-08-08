@@ -1,0 +1,33 @@
+{
+  "namespace": "model",
+  "type": "record",
+  "doc": "## Missing request parameter(s)  A typical failed JSON response for when a required request parameter is not supplied ",
+  "name": "MissingArgumentErrorAllOf",
+  "fields": [
+    {
+      "name": "result",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "msg",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "code",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "var_name",
+      "type": ["null", "string"],
+      "doc": "It contains the information about the missing parameter. ",
+      "default": null
+    }
+  ]
+
+}

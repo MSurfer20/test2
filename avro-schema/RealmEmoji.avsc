@@ -1,0 +1,39 @@
+{
+  "namespace": "model",
+  "type": "record",
+  "doc": "`{emoji_id}`: Object containing details about the emoji with  the specified ID. It has the following properties: ",
+  "name": "RealmEmoji",
+  "fields": [
+    {
+      "name": "id",
+      "type": ["null", "string"],
+      "doc": "The ID for this emoji, same as the object's key. ",
+      "default": null
+    },
+    {
+      "name": "name",
+      "type": ["null", "string"],
+      "doc": "The user-friendly name for this emoji. Users in the organization can use this emoji by writing this name between colons (`:name  :`). ",
+      "default": null
+    },
+    {
+      "name": "source_url",
+      "type": ["null", "string"],
+      "doc": "The path relative to the organization's URL where the emoji's image can be found. ",
+      "default": null
+    },
+    {
+      "name": "deactivated",
+      "type": ["null", "boolean"],
+      "doc": "Whether the emoji has been deactivated or not. ",
+      "default": null
+    },
+    {
+      "name": "author_id",
+      "type": ["null", "int"],
+      "doc": "The user ID of the user who uploaded the custom emoji. Will be null if the uploader is unknown.  **Changes**: New in Zulip 3.0 (feature level 7).  Previously was accessible via and `author` object with an `id` field. ",
+      "default": null
+    }
+  ]
+
+}

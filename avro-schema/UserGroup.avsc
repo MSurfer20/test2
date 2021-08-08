@@ -1,0 +1,36 @@
+{
+  "namespace": "model",
+  "type": "record",
+  "doc": "Object containing the user group's attributes. ",
+  "name": "UserGroup",
+  "fields": [
+    {
+      "name": "name",
+      "type": ["null", "string"],
+      "doc": "The name of the user group. ",
+      "default": null
+    },
+    {
+      "name": "description",
+      "type": ["null", "string"],
+      "doc": "The description of the user group. ",
+      "default": null
+    },
+    {
+      "name": "members",
+      "type": ["null", {
+        "type": "array",
+        "items": "int"
+      }],
+      "doc": "Array containing the id of the users who are members of this user group. ",
+      "default": null
+    },
+    {
+      "name": "id",
+      "type": ["null", "int"],
+      "doc": "The ID of the user group. ",
+      "default": null
+    }
+  ]
+
+}

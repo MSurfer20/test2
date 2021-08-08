@@ -1,0 +1,25 @@
+{
+  "type": "form",
+  "version": "2.0",
+  "cells": [{
+    "label": "General",
+    "children": [
+      {"model": "label"},
+      {"model": "description"}
+    ]
+  },{
+    "label": "Details",
+    "model": "properties",
+    "children": [
+      {"model": "user_id" },
+      {"model": "full_name" },
+      {"model": "api_key" },
+      {"model": "default_sending_stream" },
+      {"model": "default_events_register_stream" },
+      {"model": "default_all_public_streams" },
+      {"model": "avatar_url" },
+      {"model": "owner_id" },
+      {"model": "services" },
+    ]
+  }]
+}

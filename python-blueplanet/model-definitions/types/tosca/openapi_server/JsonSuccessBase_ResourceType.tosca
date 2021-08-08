@@ -1,0 +1,43 @@
+"$schema"   = "http://cyaninc.com/json-schemas/tosca-lite-v1/definition-module#"
+title       = "openapi_server JsonSuccessBase"
+package     = openapi_server
+version     = "1.0"
+description = "Defines a JsonSuccessBase"
+authors     = ["F. Bar (foo@bar.baz)"]
+
+imports {
+  Root = tosca.resourceTypes.Root
+  JsonResponseBase = openapi_server.resourceTypes.JsonResponseBase
+  JsonSuccessBaseAllOf = openapi_server.resourceTypes.JsonSuccessBaseAllOf
+}
+resourceTypes {
+
+  JsonSuccessBase {
+    title = JsonSuccessBase
+    description = JsonSuccessBase
+    derivedFrom = Root
+    properties {
+        result {
+          type =  string
+          description = ""
+          enum = ["success"]
+          optional = true
+        }
+        msg {
+          type =  string
+          description = ""
+          optional = true
+        }
+    }
+  }
+}
+
+serviceTemplates {
+
+  JsonSuccessBase {
+    title = JsonSuccessBase
+    description = JsonSuccessBase
+    implements = openapi_server.resourceTypes.JsonSuccessBase
+
+  }
+}

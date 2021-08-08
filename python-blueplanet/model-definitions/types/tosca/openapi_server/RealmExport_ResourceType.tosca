@@ -1,0 +1,65 @@
+"$schema"   = "http://cyaninc.com/json-schemas/tosca-lite-v1/definition-module#"
+title       = "openapi_server RealmExport"
+package     = openapi_server
+version     = "1.0"
+description = "Defines a RealmExport"
+authors     = ["F. Bar (foo@bar.baz)"]
+
+imports {
+  Root = tosca.resourceTypes.Root
+}
+resourceTypes {
+
+  RealmExport {
+    title = RealmExport
+    description = RealmExport
+    derivedFrom = Root
+    properties {
+        id {
+          type =  integer
+          description = "The id of the export. "
+          optional = false
+        }
+        acting_user_id {
+          type =  integer
+          description = "The id of the user who did the export. "
+          optional = false
+        }
+        export_time {
+          type =  
+          description = "The UNIX timestamp of when the export was made. "
+          optional = false
+        }
+        deleted_timestamp {
+          type =  
+          description = "The timestamp of when the export was deleted. Null if it wasn&#39;t. "
+          optional = false
+        }
+        failed_timestamp {
+          type =  
+          description = "The timestamp of when the export failed. Null if it didn&#39;t. "
+          optional = false
+        }
+        export_url {
+          type =  string
+          description = "The URL of the export. &#x60;null&#x60; if there&#39;s no URL. "
+          optional = false
+        }
+        pending {
+          type =  boolean
+          description = "Whether the export is pending or not. "
+          optional = false
+        }
+    }
+  }
+}
+
+serviceTemplates {
+
+  RealmExport {
+    title = RealmExport
+    description = RealmExport
+    implements = openapi_server.resourceTypes.RealmExport
+
+  }
+}

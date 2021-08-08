@@ -1,0 +1,25 @@
+{
+  "namespace": "model",
+  "type": "record",
+  "doc": "",
+  "name": "JsonSuccessBaseAllOf",
+  "fields": [
+    {
+      "name": "result",
+      "type": {
+        "type": "enum",
+        "name": "JsonSuccessBaseAllOf_result",
+        "symbols": [
+          "success"
+        ]
+      },
+      "doc": ""
+    },
+    {
+      "name": "msg",
+      "type": "string",
+      "doc": ""
+    }
+  ]
+
+}

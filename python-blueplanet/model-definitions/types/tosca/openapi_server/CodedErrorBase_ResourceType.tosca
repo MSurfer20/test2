@@ -1,0 +1,47 @@
+"$schema"   = "http://cyaninc.com/json-schemas/tosca-lite-v1/definition-module#"
+title       = "openapi_server CodedErrorBase"
+package     = openapi_server
+version     = "1.0"
+description = "Defines a CodedErrorBase"
+authors     = ["F. Bar (foo@bar.baz)"]
+
+imports {
+  Root = tosca.resourceTypes.Root
+  CodedErrorBaseAllOf = openapi_server.resourceTypes.CodedErrorBaseAllOf
+  JsonErrorBase = openapi_server.resourceTypes.JsonErrorBase
+}
+resourceTypes {
+
+  CodedErrorBase {
+    title = CodedErrorBase
+    description = CodedErrorBase
+    derivedFrom = Root
+    properties {
+        result {
+          type =  
+          description = ""
+          optional = true
+        }
+        msg {
+          type =  
+          description = ""
+          optional = true
+        }
+        code {
+          type =  string
+          description = "A string that identifies the error. "
+          optional = false
+        }
+    }
+  }
+}
+
+serviceTemplates {
+
+  CodedErrorBase {
+    title = CodedErrorBase
+    description = CodedErrorBase
+    implements = openapi_server.resourceTypes.CodedErrorBase
+
+  }
+}

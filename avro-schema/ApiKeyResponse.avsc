@@ -1,0 +1,29 @@
+{
+  "namespace": "model",
+  "type": "record",
+  "doc": "",
+  "name": "ApiKeyResponse",
+  "fields": [
+    {
+      "name": "result",
+      "type": ,
+      "doc": ""
+    },
+    {
+      "name": "msg",
+      "type": ,
+      "doc": ""
+    },
+    {
+      "name": "api_key",
+      "type": "string",
+      "doc": "The API key that can be used to authenticate as the requested user. "
+    },
+    {
+      "name": "email",
+      "type": "string",
+      "doc": "The email address of the user who owns the API key "
+    }
+  ]
+
+}

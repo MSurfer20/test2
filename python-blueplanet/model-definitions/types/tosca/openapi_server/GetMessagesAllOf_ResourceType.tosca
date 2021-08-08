@@ -1,0 +1,146 @@
+"$schema"   = "http://cyaninc.com/json-schemas/tosca-lite-v1/definition-module#"
+title       = "openapi_server GetMessagesAllOf"
+package     = openapi_server
+version     = "1.0"
+description = "Defines a GetMessagesAllOf"
+authors     = ["F. Bar (foo@bar.baz)"]
+
+imports {
+  Root = tosca.resourceTypes.Root
+}
+resourceTypes {
+
+  GetMessagesAllOf {
+    title = GetMessagesAllOf
+    description = GetMessagesAllOf
+    derivedFrom = Root
+    properties {
+        avatar_url {
+          type =  
+          description = ""
+          optional = false
+        }
+        client {
+          type =  
+          description = ""
+          optional = false
+        }
+        content {
+          type =  
+          description = ""
+          optional = false
+        }
+        content_type {
+          type =  
+          description = ""
+          optional = false
+        }
+        display_recipient {
+          type =  
+          description = ""
+          optional = false
+        }
+        id {
+          type =  
+          description = ""
+          optional = false
+        }
+        is_me_message {
+          type =  
+          description = ""
+          optional = false
+        }
+        reactions {
+          type =  
+          description = ""
+          optional = false
+        }
+        recipient_id {
+          type =  
+          description = ""
+          optional = false
+        }
+        sender_email {
+          type =  
+          description = ""
+          optional = false
+        }
+        sender_full_name {
+          type =  
+          description = ""
+          optional = false
+        }
+        sender_id {
+          type =  
+          description = ""
+          optional = false
+        }
+        sender_realm_str {
+          type =  
+          description = ""
+          optional = false
+        }
+        stream_id {
+          type =  
+          description = ""
+          optional = false
+        }
+        subject {
+          type =  
+          description = ""
+          optional = false
+        }
+        topic_links {
+          type =  
+          description = ""
+          optional = false
+        }
+        submessages {
+          type =  
+          description = ""
+          optional = false
+        }
+        timestamp {
+          type =  
+          description = ""
+          optional = false
+        }
+        type {
+          type =  
+          description = ""
+          optional = false
+        }
+        flags {
+          type = array
+          items.type =  string
+          description = "The user&#39;s [message flags][message-flags] for the message.  [message-flags]: /api/update-message-flags#available-flags "
+          optional = false
+        }
+        last_edit_timestamp {
+          type =  integer
+          description = "The UNIX timestamp for when the message was last edited, in UTC seconds. "
+          optional = false
+        }
+        match_content {
+          type =  string
+          description = "Only present if keyword search was included among the narrow parameters. HTML content of a queried message that matches the narrow, with &#x60;&lt;span class&#x3D;\&quot;highlight\&quot;&gt;&#x60; elements wrapping the matches for the search keywords. "
+          optional = false
+        }
+        match_subject {
+          type =  string
+          description = "Only present if keyword search was included among the narrow parameters. HTML-escaped topic of a queried message that matches the narrow, with &#x60;&lt;span class&#x3D;\&quot;highlight\&quot;&gt;&#x60; elements wrapping the matches for the search keywords. "
+          optional = false
+        }
+    }
+  }
+}
+
+serviceTemplates {
+
+  GetMessagesAllOf {
+    title = GetMessagesAllOf
+    description = GetMessagesAllOf
+    implements = openapi_server.resourceTypes.GetMessagesAllOf
+
+  }
+}

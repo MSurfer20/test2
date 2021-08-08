@@ -1,0 +1,55 @@
+"$schema"   = "http://cyaninc.com/json-schemas/tosca-lite-v1/definition-module#"
+title       = "openapi_server RealmEmoji"
+package     = openapi_server
+version     = "1.0"
+description = "Defines a RealmEmoji"
+authors     = ["F. Bar (foo@bar.baz)"]
+
+imports {
+  Root = tosca.resourceTypes.Root
+}
+resourceTypes {
+
+  RealmEmoji {
+    title = RealmEmoji
+    description = RealmEmoji
+    derivedFrom = Root
+    properties {
+        id {
+          type =  string
+          description = "The ID for this emoji, same as the object&#39;s key. "
+          optional = false
+        }
+        name {
+          type =  string
+          description = "The user-friendly name for this emoji. Users in the organization can use this emoji by writing this name between colons (&#x60;:name  :&#x60;). "
+          optional = false
+        }
+        source_url {
+          type =  string
+          description = "The path relative to the organization&#39;s URL where the emoji&#39;s image can be found. "
+          optional = false
+        }
+        deactivated {
+          type =  boolean
+          description = "Whether the emoji has been deactivated or not. "
+          optional = false
+        }
+        author_id {
+          type =  integer
+          description = "The user ID of the user who uploaded the custom emoji. Will be null if the uploader is unknown.  **Changes**: New in Zulip 3.0 (feature level 7).  Previously was accessible via and &#x60;author&#x60; object with an &#x60;id&#x60; field. "
+          optional = false
+        }
+    }
+  }
+}
+
+serviceTemplates {
+
+  RealmEmoji {
+    title = RealmEmoji
+    description = RealmEmoji
+    implements = openapi_server.resourceTypes.RealmEmoji
+
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "type": "form",
+  "version": "2.0",
+  "cells": [{
+    "label": "General",
+    "children": [
+      {"model": "label"},
+      {"model": "description"}
+    ]
+  },{
+    "label": "Details",
+    "model": "properties",
+    "children": [
+      {"model": "stream_id" },
+      {"model": "name" },
+      {"model": "description" },
+      {"model": "rendered_description" },
+      {"model": "date_created" },
+      {"model": "invite_only" },
+      {"model": "subscribers" },
+      {"model": "desktop_notifications" },
+      {"model": "email_notifications" },
+      {"model": "wildcard_mentions_notify" },
+      {"model": "push_notifications" },
+      {"model": "audible_notifications" },
+      {"model": "pin_to_top" },
+      {"model": "email_address" },
+      {"model": "is_muted" },
+      {"model": "in_home_view" },
+      {"model": "is_announcement_only" },
+      {"model": "is_web_public" },
+      {"model": "role" },
+      {"model": "color" },
+      {"model": "stream_post_policy" },
+      {"model": "message_retention_days" },
+      {"model": "history_public_to_subscribers" },
+      {"model": "first_message_id" },
+      {"model": "stream_weekly_traffic" },
+    ]
+  }]
+}

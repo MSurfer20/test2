@@ -1,0 +1,27 @@
+
+<h2>AddSubscriptionsResponse</h2>
+<ul class="parameter">
+  <li class="param-required-true">result : oas_any_type_not_mapped
+    <br/>
+  </li>
+</ul>
+<ul class="parameter">
+  <li class="param-required-true">msg : oas_any_type_not_mapped
+    <br/>
+  </li>
+</ul>
+<ul class="parameter">
+  <li class="param-required-false">subscribed : Map
+    <br/>A dictionary where the key is the email address of the user/bot and the value is a list of the names of the streams that were subscribed to as a result of the query. 
+  </li>
+</ul>
+<ul class="parameter">
+  <li class="param-required-false">alreadyUnderscoresubscribed : Map
+    <br/>A dictionary where the key is the email address of the user/bot and the value is a list of the names of the streams that the user/bot is already subscribed to. 
+  </li>
+</ul>
+<ul class="parameter">
+  <li class="param-required-false">unauthorized : List
+    <br/>A list of names of streams that the requesting user/bot was not authorized to subscribe to.  Only present if &#x60;authorization_errors_fatal&#x3D;false&#x60;. 
+  </li>
+</ul>

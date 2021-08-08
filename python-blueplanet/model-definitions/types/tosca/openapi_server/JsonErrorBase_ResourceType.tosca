@@ -1,0 +1,43 @@
+"$schema"   = "http://cyaninc.com/json-schemas/tosca-lite-v1/definition-module#"
+title       = "openapi_server JsonErrorBase"
+package     = openapi_server
+version     = "1.0"
+description = "Defines a JsonErrorBase"
+authors     = ["F. Bar (foo@bar.baz)"]
+
+imports {
+  Root = tosca.resourceTypes.Root
+  JsonErrorBaseAllOf = openapi_server.resourceTypes.JsonErrorBaseAllOf
+  JsonResponseBase = openapi_server.resourceTypes.JsonResponseBase
+}
+resourceTypes {
+
+  JsonErrorBase {
+    title = JsonErrorBase
+    description = JsonErrorBase
+    derivedFrom = Root
+    properties {
+        result {
+          type =  string
+          description = ""
+          enum = ["error"]
+          optional = true
+        }
+        msg {
+          type =  string
+          description = ""
+          optional = true
+        }
+    }
+  }
+}
+
+serviceTemplates {
+
+  JsonErrorBase {
+    title = JsonErrorBase
+    description = JsonErrorBase
+    implements = openapi_server.resourceTypes.JsonErrorBase
+
+  }
+}

@@ -1,0 +1,123 @@
+{
+  "namespace": "model",
+  "type": "record",
+  "doc": "",
+  "name": "Messages",
+  "fields": [
+    {
+      "name": "avatar_url",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "client",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "content",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "content_type",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "display_recipient",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "id",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "is_me_message",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "reactions",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "recipient_id",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "sender_email",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "sender_full_name",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "sender_id",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "sender_realm_str",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "stream_id",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "subject",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "topic_links",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "submessages",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "timestamp",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "type",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    }
+  ]
+
+}

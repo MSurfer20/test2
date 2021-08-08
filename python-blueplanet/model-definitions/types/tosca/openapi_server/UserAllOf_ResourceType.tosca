@@ -1,0 +1,120 @@
+"$schema"   = "http://cyaninc.com/json-schemas/tosca-lite-v1/definition-module#"
+title       = "openapi_server UserAllOf"
+package     = openapi_server
+version     = "1.0"
+description = "Defines a UserAllOf"
+authors     = ["F. Bar (foo@bar.baz)"]
+
+imports {
+  Root = tosca.resourceTypes.Root
+}
+resourceTypes {
+
+  UserAllOf {
+    title = UserAllOf
+    description = UserAllOf
+    derivedFrom = Root
+    properties {
+        email {
+          type =  
+          description = ""
+          optional = false
+        }
+        is_bot {
+          type =  
+          description = ""
+          optional = false
+        }
+        avatar_url {
+          type =  
+          description = ""
+          optional = false
+        }
+        avatar_version {
+          type =  
+          description = ""
+          optional = false
+        }
+        full_name {
+          type =  
+          description = ""
+          optional = false
+        }
+        is_admin {
+          type =  
+          description = ""
+          optional = false
+        }
+        is_owner {
+          type =  
+          description = ""
+          optional = false
+        }
+        is_billing_admin {
+          type =  
+          description = ""
+          optional = false
+        }
+        role {
+          type =  
+          description = ""
+          optional = false
+        }
+        bot_type {
+          type =  
+          description = ""
+          optional = false
+        }
+        user_id {
+          type =  
+          description = ""
+          optional = false
+        }
+        bot_owner_id {
+          type =  
+          description = ""
+          optional = false
+        }
+        is_active {
+          type =  
+          description = ""
+          optional = false
+        }
+        is_guest {
+          type =  
+          description = ""
+          optional = false
+        }
+        timezone {
+          type =  
+          description = ""
+          optional = false
+        }
+        date_joined {
+          type =  
+          description = ""
+          optional = false
+        }
+        delivery_email {
+          type =  
+          description = ""
+          optional = false
+        }
+        profile_data {
+          type =  
+          description = ""
+          optional = false
+        }
+    }
+  }
+}
+
+serviceTemplates {
+
+  UserAllOf {
+    title = UserAllOf
+    description = UserAllOf
+    implements = openapi_server.resourceTypes.UserAllOf
+
+  }
+}

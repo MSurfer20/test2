@@ -1,0 +1,63 @@
+{
+  "namespace": "model",
+  "type": "record",
+  "doc": "",
+  "name": "BasicBotAllOf",
+  "fields": [
+    {
+      "name": "user_id",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "full_name",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "api_key",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "default_sending_stream",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "default_events_register_stream",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "default_all_public_streams",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "avatar_url",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "owner_id",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "services",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    }
+  ]
+
+}

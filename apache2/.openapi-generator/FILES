@@ -1,0 +1,8 @@
+.openapi-generator-ignore
+AuthenticationApi.conf
+MessagesApi.conf
+RealTimeEventsApi.conf
+ServerAndOrganizationsApi.conf
+StreamsApi.conf
+UsersApi.conf
+WebhooksApi.conf

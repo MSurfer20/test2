@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<jaxws:bindings
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:jaxws="http://java.sun.com/xml/ns/jaxws"
+  xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" jaxb:version="2.1"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  wsdlLocation="service.wsdl">
+
+    <enableWrapperStyle>true</enableWrapperStyle>
+    <enableAsyncMapping>false</enableAsyncMapping>
+    
+    <jaxws:bindings node="xsd:simpleType[@name='Result']">
+    	<jaxb:typesafeEnumClass>
+	        <jaxb:typesafeEnumMember value="error" name="ERROR" />
+	    </jaxb:typesafeEnumClass>
+    </jaxws:bindings>
+    <jaxws:bindings node="xsd:simpleType[@name='Result']">
+    	<jaxb:typesafeEnumClass>
+	        <jaxb:typesafeEnumMember value="success" name="SUCCESS" />
+	    </jaxb:typesafeEnumClass>
+    </jaxws:bindings>
+    <jaxws:bindings node="xsd:simpleType[@name='Status']">
+    	<jaxb:typesafeEnumClass>
+	        <jaxb:typesafeEnumMember value="idle" name="IDLE" />
+	        <jaxb:typesafeEnumMember value="active" name="ACTIVE" />
+	    </jaxb:typesafeEnumClass>
+    </jaxws:bindings>
+    <jaxws:bindings node="xsd:simpleType[@name='Role']">
+    	<jaxb:typesafeEnumClass>
+	        <jaxb:typesafeEnumMember value="20" name="_20" />
+	        <jaxb:typesafeEnumMember value="50" name="_50" />
+	    </jaxb:typesafeEnumClass>
+    </jaxws:bindings>
+    <jaxws:bindings node="xsd:simpleType[@name='Role']">
+    	<jaxb:typesafeEnumClass>
+	        <jaxb:typesafeEnumMember value="100" name="_100" />
+	        <jaxb:typesafeEnumMember value="200" name="_200" />
+	        <jaxb:typesafeEnumMember value="300" name="_300" />
+	        <jaxb:typesafeEnumMember value="400" name="_400" />
+	        <jaxb:typesafeEnumMember value="600" name="_600" />
+	    </jaxb:typesafeEnumClass>
+    </jaxws:bindings>
+    
+    
+</jaxws:bindings>

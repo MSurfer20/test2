@@ -1,0 +1,120 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <Description>OpenAPI</Description>
+    <Copyright>OpenAPI</Copyright>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <DebugType>portable</DebugType>
+    <EnableDefaultContentItems>false</EnableDefaultContentItems>
+    <RunWorkingDirectory>$(MSBuildThisFileDirectory)</RunWorkingDirectory>
+    <AssemblyName>OpenAPI</AssemblyName>
+    <PackageId>OpenAPI</PackageId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" />
+    <PackageReference Include="Giraffe" Version="3.4.*" />
+    <PackageReference Include="TaskBuilder.fs" Version="2.1.*" />
+    <PackageReference Include="AspNet.Security.OAuth.GitHub" Version="2.0.1" />
+    <PackageReference Include="AspNet.Security.ApiKey.Providers" Version="1.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="openapi.yaml"/>
+    <Compile Include="helpers/Helpers.fs" />
+    <Compile Include="model/CodedErrorBaseAllOf.fs" />
+    <Compile Include="model/UserGroup.fs" />
+    <Compile Include="model/JsonErrorBaseAllOf.fs" />
+    <Compile Include="model/UserBase.fs" />
+    <Compile Include="model/UserAllOf.fs" />
+    <Compile Include="model/User.fs" />
+    <Compile Include="model/Subscriptions.fs" />
+    <Compile Include="model/RealmPlayground.fs" />
+    <Compile Include="model/RealmExport.fs" />
+    <Compile Include="model/RealmEmoji.fs" />
+    <Compile Include="model/RealmDomain.fs" />
+    <Compile Include="model/JsonResponseBase.fs" />
+    <Compile Include="model/CodedErrorAllOf.fs" />
+    <Compile Include="model/Presence.fs" />
+    <Compile Include="model/NonExistingStreamErrorAllOf.fs" />
+    <Compile Include="model/JsonErrorBase.fs" />
+    <Compile Include="model/MissingArgumentErrorAllOf.fs" />
+    <Compile Include="model/CodedErrorBase.fs" />
+    <Compile Include="model/MessagesBaseTopicLinks.fs" />
+    <Compile Include="model/EmojiReactionAllOf.fs" />
+    <Compile Include="model/MessagesAllOf.fs" />
+    <Compile Include="model/EmojiReactionBaseUser.fs" />
+    <Compile Include="model/JsonSuccessBaseAllOf.fs" />
+    <Compile Include="model/CodedError.fs" />
+    <Compile Include="model/JsonSuccessAllOf.fs" />
+    <Compile Include="model/JsonSuccessBase.fs" />
+    <Compile Include="model/JsonSuccess.fs" />
+    <Compile Include="model/UserNotAuthorizedError.fs" />
+    <Compile Include="model/UserDeactivatedError.fs" />
+    <Compile Include="model/JsonError.fs" />
+    <Compile Include="model/InvalidMessageErrorAllOf.fs" />
+    <Compile Include="model/InvalidMessageError.fs" />
+    <Compile Include="model/InvalidApiKeyError.fs" />
+    <Compile Include="model/EmojiReactionBase.fs" />
+    <Compile Include="model/Hotspot.fs" />
+    <Compile Include="model/GetMessagesAllOf.fs" />
+    <Compile Include="model/EmojiReaction.fs" />
+    <Compile Include="model/MessagesBase.fs" />
+    <Compile Include="model/Messages.fs" />
+    <Compile Include="model/InlineResponse200.fs" />
+    <Compile Include="model/GetMessages.fs" />
+    <Compile Include="model/BasicStreamAllOf.fs" />
+    <Compile Include="model/CustomProfileField.fs" />
+    <Compile Include="model/NonExistingStreamError.fs" />
+    <Compile Include="model/MissingArgumentError.fs" />
+    <Compile Include="model/RealmDeactivatedError.fs" />
+    <Compile Include="model/RateLimitedError.fs" />
+    <Compile Include="model/BotAllOf.fs" />
+    <Compile Include="model/BasicBotBase.fs" />
+    <Compile Include="model/BasicStreamBase.fs" />
+    <Compile Include="model/BasicStream.fs" />
+    <Compile Include="model/DefaultStreamGroup.fs" />
+    <Compile Include="model/Bot.fs" />
+    <Compile Include="model/BasicBotAllOf.fs" />
+    <Compile Include="model/BasicBot.fs" />
+    <Compile Include="model/BadEventQueueIdErrorAllOf.fs" />
+    <Compile Include="model/BadEventQueueIdError.fs" />
+    <Compile Include="model/AttachmentsMessages.fs" />
+    <Compile Include="model/Attachments.fs" />
+    <Compile Include="model/ApiKeyResponseAllOf.fs" />
+    <Compile Include="model/ApiKeyResponse.fs" />
+    <Compile Include="model/AddSubscriptionsResponseAllOf.fs" />
+    <Compile Include="model/AddSubscriptionsResponse.fs" />
+    <Compile Include="api/AuthenticationApiHandlerParams.fs" />
+    <Compile Include="api/AuthenticationApiServiceInterface.fs" />
+    <Compile Include="impl/AuthenticationApiService.fs" />
+    <Compile Include="api/AuthenticationApiHandler.fs" />
+    <Compile Include="api/MessagesApiHandlerParams.fs" />
+    <Compile Include="api/MessagesApiServiceInterface.fs" />
+    <Compile Include="impl/MessagesApiService.fs" />
+    <Compile Include="api/MessagesApiHandler.fs" />
+    <Compile Include="api/RealTimeEventsApiHandlerParams.fs" />
+    <Compile Include="api/RealTimeEventsApiServiceInterface.fs" />
+    <Compile Include="impl/RealTimeEventsApiService.fs" />
+    <Compile Include="api/RealTimeEventsApiHandler.fs" />
+    <Compile Include="api/ServerAndOrganizationsApiHandlerParams.fs" />
+    <Compile Include="api/ServerAndOrganizationsApiServiceInterface.fs" />
+    <Compile Include="impl/ServerAndOrganizationsApiService.fs" />
+    <Compile Include="api/ServerAndOrganizationsApiHandler.fs" />
+    <Compile Include="api/StreamsApiHandlerParams.fs" />
+    <Compile Include="api/StreamsApiServiceInterface.fs" />
+    <Compile Include="impl/StreamsApiService.fs" />
+    <Compile Include="api/StreamsApiHandler.fs" />
+    <Compile Include="api/UsersApiHandlerParams.fs" />
+    <Compile Include="api/UsersApiServiceInterface.fs" />
+    <Compile Include="impl/UsersApiService.fs" />
+    <Compile Include="api/UsersApiHandler.fs" />
+    <Compile Include="api/WebhooksApiHandlerParams.fs" />
+    <Compile Include="api/WebhooksApiServiceInterface.fs" />
+    <Compile Include="impl/WebhooksApiService.fs" />
+    <Compile Include="api/WebhooksApiHandler.fs" />
+    <Compile Include="impl/CustomHandlers.fs" />
+    <Compile Include="auth/AuthSchemes.fs" />
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+
+</Project>

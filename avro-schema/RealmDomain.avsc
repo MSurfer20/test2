@@ -1,0 +1,21 @@
+{
+  "namespace": "model",
+  "type": "record",
+  "doc": "Object containing details of the newly added domain. ",
+  "name": "RealmDomain",
+  "fields": [
+    {
+      "name": "domain",
+      "type": ["null", "string"],
+      "doc": "The new allowed domain. ",
+      "default": null
+    },
+    {
+      "name": "allow_subdomains",
+      "type": ["null", "boolean"],
+      "doc": "Whether subdomains are allowed for this domain. ",
+      "default": null
+    }
+  ]
+
+}

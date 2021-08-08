@@ -1,0 +1,27 @@
+{
+  "namespace": "model",
+  "type": "record",
+  "doc": "",
+  "name": "InvalidMessageErrorAllOf",
+  "fields": [
+    {
+      "name": "result",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "msg",
+      "type": ["null", ],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "raw_content",
+      "type": ["null", "string"],
+      "doc": "The raw content of the message. ",
+      "default": null
+    }
+  ]
+
+}

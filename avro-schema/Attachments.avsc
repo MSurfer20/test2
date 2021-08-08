@@ -1,0 +1,48 @@
+{
+  "namespace": "model",
+  "type": "record",
+  "doc": "Dictionary containing details of a file uploaded by a user. ",
+  "name": "Attachments",
+  "fields": [
+    {
+      "name": "id",
+      "type": ["null", "int"],
+      "doc": "The unique ID for the attachment. ",
+      "default": null
+    },
+    {
+      "name": "name",
+      "type": ["null", "string"],
+      "doc": "Name of the uploaded file. ",
+      "default": null
+    },
+    {
+      "name": "path_id",
+      "type": ["null", "string"],
+      "doc": "A representation of the path of the file within the repository of user-uploaded files.  If the `path_id` of a file is `{realm_id}/ab/cdef/temp_file.py`, its URL will be: `{server_url}/user_uploads/{realm_id}/ab/cdef/temp_file.py`. ",
+      "default": null
+    },
+    {
+      "name": "size",
+      "type": ["null", "int"],
+      "doc": "Size of the file in bytes. ",
+      "default": null
+    },
+    {
+      "name": "create_time",
+      "type": ["null", "int"],
+      "doc": "Time when the attachment was uploaded as a UNIX timestamp multiplied by 1000 (matching the format of getTime() in JavaScript).  **Changes**: Changed in Zulip 2.2 (feature level 22).  This field was previously a floating point number. ",
+      "default": null
+    },
+    {
+      "name": "messages",
+      "type": ["null", {
+        "type": "array",
+        "items": "model.AttachmentsMessages"
+      }],
+      "doc": "Contains basic details on any Zulip messages that have been sent referencing this [uploaded file](/api/upload-file). This includes messages sent by any user in the Zulip organization who sent a message containing a link to the uploaded file. ",
+      "default": null
+    }
+  ]
+
+}

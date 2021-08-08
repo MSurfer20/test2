@@ -1,0 +1,125 @@
+"$schema"   = "http://cyaninc.com/json-schemas/tosca-lite-v1/definition-module#"
+title       = "openapi_server MessagesAllOf"
+package     = openapi_server
+version     = "1.0"
+description = "Defines a MessagesAllOf"
+authors     = ["F. Bar (foo@bar.baz)"]
+
+imports {
+  Root = tosca.resourceTypes.Root
+}
+resourceTypes {
+
+  MessagesAllOf {
+    title = MessagesAllOf
+    description = MessagesAllOf
+    derivedFrom = Root
+    properties {
+        avatar_url {
+          type =  
+          description = ""
+          optional = false
+        }
+        client {
+          type =  
+          description = ""
+          optional = false
+        }
+        content {
+          type =  
+          description = ""
+          optional = false
+        }
+        content_type {
+          type =  
+          description = ""
+          optional = false
+        }
+        display_recipient {
+          type =  
+          description = ""
+          optional = false
+        }
+        id {
+          type =  
+          description = ""
+          optional = false
+        }
+        is_me_message {
+          type =  
+          description = ""
+          optional = false
+        }
+        reactions {
+          type =  
+          description = ""
+          optional = false
+        }
+        recipient_id {
+          type =  
+          description = ""
+          optional = false
+        }
+        sender_email {
+          type =  
+          description = ""
+          optional = false
+        }
+        sender_full_name {
+          type =  
+          description = ""
+          optional = false
+        }
+        sender_id {
+          type =  
+          description = ""
+          optional = false
+        }
+        sender_realm_str {
+          type =  
+          description = ""
+          optional = false
+        }
+        stream_id {
+          type =  
+          description = ""
+          optional = false
+        }
+        subject {
+          type =  
+          description = ""
+          optional = false
+        }
+        topic_links {
+          type =  
+          description = ""
+          optional = false
+        }
+        submessages {
+          type =  
+          description = ""
+          optional = false
+        }
+        timestamp {
+          type =  
+          description = ""
+          optional = false
+        }
+        type {
+          type =  
+          description = ""
+          optional = false
+        }
+    }
+  }
+}
+
+serviceTemplates {
+
+  MessagesAllOf {
+    title = MessagesAllOf
+    description = MessagesAllOf
+    implements = openapi_server.resourceTypes.MessagesAllOf
+
+  }
+}

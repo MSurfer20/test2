@@ -1,0 +1,14 @@
+# Org.OpenAPITools.Model.MissingArgumentErrorAllOf
+## Missing request parameter(s)  A typical failed JSON response for when a required request parameter is not supplied 
+
+## Properties
+
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**Result** | **Object** |  | [optional] 
+**Msg** | **Object** |  | [optional] 
+**Code** | **Object** |  | [optional] 
+**VarName** | **string** | It contains the information about the missing parameter.  | [optional] 
+
+[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+

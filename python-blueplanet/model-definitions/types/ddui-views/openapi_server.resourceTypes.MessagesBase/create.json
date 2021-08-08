@@ -1,0 +1,35 @@
+{
+  "type": "form",
+  "version": "2.0",
+  "cells": [{
+    "label": "General",
+    "children": [
+      {"model": "label"},
+      {"model": "description"}
+    ]
+  },{
+    "label": "Details",
+    "model": "properties",
+    "children": [
+      {"model": "avatar_url" },
+      {"model": "client" },
+      {"model": "content" },
+      {"model": "content_type" },
+      {"model": "display_recipient" },
+      {"model": "id" },
+      {"model": "is_me_message" },
+      {"model": "reactions" },
+      {"model": "recipient_id" },
+      {"model": "sender_email" },
+      {"model": "sender_full_name" },
+      {"model": "sender_id" },
+      {"model": "sender_realm_str" },
+      {"model": "stream_id" },
+      {"model": "subject" },
+      {"model": "topic_links" },
+      {"model": "submessages" },
+      {"model": "timestamp" },
+      {"model": "type" },
+    ]
+  }]
+}

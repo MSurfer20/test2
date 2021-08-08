@@ -1,0 +1,92 @@
+"$schema"   = "http://cyaninc.com/json-schemas/tosca-lite-v1/definition-module#"
+title       = "openapi_server BasicStream"
+package     = openapi_server
+version     = "1.0"
+description = "Defines a BasicStream"
+authors     = ["F. Bar (foo@bar.baz)"]
+
+imports {
+  Root = tosca.resourceTypes.Root
+  BasicStreamAllOf = openapi_server.resourceTypes.BasicStreamAllOf
+  BasicStreamBase = openapi_server.resourceTypes.BasicStreamBase
+}
+resourceTypes {
+
+  BasicStream {
+    title = BasicStream
+    description = BasicStream
+    derivedFrom = Root
+    properties {
+        stream_id {
+          type =  
+          description = ""
+          optional = false
+        }
+        name {
+          type =  
+          description = ""
+          optional = false
+        }
+        description {
+          type =  
+          description = ""
+          optional = false
+        }
+        date_created {
+          type =  
+          description = ""
+          optional = false
+        }
+        invite_only {
+          type =  
+          description = ""
+          optional = false
+        }
+        rendered_description {
+          type =  
+          description = ""
+          optional = false
+        }
+        is_web_public {
+          type =  
+          description = ""
+          optional = false
+        }
+        stream_post_policy {
+          type =  
+          description = ""
+          optional = false
+        }
+        message_retention_days {
+          type =  
+          description = ""
+          optional = false
+        }
+        history_public_to_subscribers {
+          type =  
+          description = ""
+          optional = false
+        }
+        first_message_id {
+          type =  
+          description = ""
+          optional = false
+        }
+        is_announcement_only {
+          type =  
+          description = ""
+          optional = false
+        }
+    }
+  }
+}
+
+serviceTemplates {
+
+  BasicStream {
+    title = BasicStream
+    description = BasicStream
+    implements = openapi_server.resourceTypes.BasicStream
+
+  }
+}

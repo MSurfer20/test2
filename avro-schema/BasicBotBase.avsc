@@ -1,0 +1,66 @@
+{
+  "namespace": "model",
+  "type": "record",
+  "doc": "",
+  "name": "BasicBotBase",
+  "fields": [
+    {
+      "name": "user_id",
+      "type": ["null", "int"],
+      "doc": "The user id of the bot. ",
+      "default": null
+    },
+    {
+      "name": "full_name",
+      "type": ["null", "string"],
+      "doc": "The full name of the bot. ",
+      "default": null
+    },
+    {
+      "name": "api_key",
+      "type": ["null", "string"],
+      "doc": "The API key of the bot which it uses to make API requests. ",
+      "default": null
+    },
+    {
+      "name": "default_sending_stream",
+      "type": ["null", "string"],
+      "doc": "The default sending stream of the bot. Null if the bot doesn't have a default sending stream. ",
+      "default": null
+    },
+    {
+      "name": "default_events_register_stream",
+      "type": ["null", "string"],
+      "doc": "The default stream for which the bot receives events/register data. Null if the bot doesn't have such a default stream. ",
+      "default": null
+    },
+    {
+      "name": "default_all_public_streams",
+      "type": ["null", "boolean"],
+      "doc": "Whether the bot can send messages to all streams by default. ",
+      "default": null
+    },
+    {
+      "name": "avatar_url",
+      "type": ["null", "string"],
+      "doc": "The URL of the bot's avatar. ",
+      "default": null
+    },
+    {
+      "name": "owner_id",
+      "type": ["null", "int"],
+      "doc": "The user id of the bot's owner.  Null if the bot has no owner. ",
+      "default": null
+    },
+    {
+      "name": "services",
+      "type": ["null", {
+        "type": "array",
+        "items": "model.OneOf&lt;object,object&gt;"
+      }],
+      "doc": "The \"Services\" array contains extra configuration fields only relevant for Outgoing webhook bots and Embedded bots.  It is always a single-element array.  We consider this part of the Zulip API to be unstable; it is used only for UI elements for administering bots and is likely to change. ",
+      "default": null
+    }
+  ]
+
+}
