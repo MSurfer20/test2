@@ -115,14 +115,14 @@ end:
 }
 */
 
-// Functions for enum COLORSCHEME for UsersAPI_updateDisplaySettings
+// Functions for enum COLORSCHEME for UsersAPI_updateSettings
 
-static char* updateDisplaySettings_COLORSCHEME_ToString(zulip_rest_api_updateDisplaySettings_color_scheme_e COLORSCHEME){
+static char* updateSettings_COLORSCHEME_ToString(zulip_rest_api_updateSettings_color_scheme_e COLORSCHEME){
     char *COLORSCHEMEArray[] =  { "NULL", "1", "2", "3" };
     return COLORSCHEMEArray[COLORSCHEME];
 }
 
-static zulip_rest_api_updateDisplaySettings_color_scheme_e updateDisplaySettings_COLORSCHEME_FromString(char* COLORSCHEME){
+static zulip_rest_api_updateSettings_color_scheme_e updateSettings_COLORSCHEME_FromString(char* COLORSCHEME){
     int stringToReturn = 0;
     char *COLORSCHEMEArray[] =  { "NULL", "1", "2", "3" };
     size_t sizeofArray = sizeof(COLORSCHEMEArray) / sizeof(COLORSCHEMEArray[0]);
@@ -136,10 +136,10 @@ static zulip_rest_api_updateDisplaySettings_color_scheme_e updateDisplaySettings
 }
 
 /*
-// Function updateDisplaySettings_COLORSCHEME_convertToJSON is not currently used,
+// Function updateSettings_COLORSCHEME_convertToJSON is not currently used,
 // since conversion to JSON passes through the conversion of the model, and ToString. The function is kept for future reference.
 //
-static cJSON *updateDisplaySettings_COLORSCHEME_convertToJSON(zulip_rest_api_updateDisplaySettings_color_scheme_e COLORSCHEME) {
+static cJSON *updateSettings_COLORSCHEME_convertToJSON(zulip_rest_api_updateSettings_color_scheme_e COLORSCHEME) {
     cJSON *item = cJSON_CreateObject();
     return item;
     fail:
@@ -147,25 +147,25 @@ static cJSON *updateDisplaySettings_COLORSCHEME_convertToJSON(zulip_rest_api_upd
     return NULL;
 }
 
-// Function updateDisplaySettings_COLORSCHEME_parseFromJSON is not currently used,
+// Function updateSettings_COLORSCHEME_parseFromJSON is not currently used,
 // since conversion from JSON passes through the conversion of the model, and FromString. The function is kept for future reference.
 //
-static zulip_rest_api_updateDisplaySettings_color_scheme_e updateDisplaySettings_COLORSCHEME_parseFromJSON(cJSON* COLORSCHEMEJSON) {
-    zulip_rest_api_updateDisplaySettings_color_scheme_e COLORSCHEMEVariable = 0;
+static zulip_rest_api_updateSettings_color_scheme_e updateSettings_COLORSCHEME_parseFromJSON(cJSON* COLORSCHEMEJSON) {
+    zulip_rest_api_updateSettings_color_scheme_e COLORSCHEMEVariable = 0;
     return COLORSCHEMEVariable;
 end:
     return 0;
 }
 */
 
-// Functions for enum DEMOTEINACTIVESTREAMS for UsersAPI_updateDisplaySettings
+// Functions for enum DEMOTEINACTIVESTREAMS for UsersAPI_updateSettings
 
-static char* updateDisplaySettings_DEMOTEINACTIVESTREAMS_ToString(zulip_rest_api_updateDisplaySettings_demote_inactive_streams_e DEMOTEINACTIVESTREAMS){
+static char* updateSettings_DEMOTEINACTIVESTREAMS_ToString(zulip_rest_api_updateSettings_demote_inactive_streams_e DEMOTEINACTIVESTREAMS){
     char *DEMOTEINACTIVESTREAMSArray[] =  { "NULL", "1", "2", "3" };
     return DEMOTEINACTIVESTREAMSArray[DEMOTEINACTIVESTREAMS];
 }
 
-static zulip_rest_api_updateDisplaySettings_demote_inactive_streams_e updateDisplaySettings_DEMOTEINACTIVESTREAMS_FromString(char* DEMOTEINACTIVESTREAMS){
+static zulip_rest_api_updateSettings_demote_inactive_streams_e updateSettings_DEMOTEINACTIVESTREAMS_FromString(char* DEMOTEINACTIVESTREAMS){
     int stringToReturn = 0;
     char *DEMOTEINACTIVESTREAMSArray[] =  { "NULL", "1", "2", "3" };
     size_t sizeofArray = sizeof(DEMOTEINACTIVESTREAMSArray) / sizeof(DEMOTEINACTIVESTREAMSArray[0]);
@@ -179,10 +179,10 @@ static zulip_rest_api_updateDisplaySettings_demote_inactive_streams_e updateDisp
 }
 
 /*
-// Function updateDisplaySettings_DEMOTEINACTIVESTREAMS_convertToJSON is not currently used,
+// Function updateSettings_DEMOTEINACTIVESTREAMS_convertToJSON is not currently used,
 // since conversion to JSON passes through the conversion of the model, and ToString. The function is kept for future reference.
 //
-static cJSON *updateDisplaySettings_DEMOTEINACTIVESTREAMS_convertToJSON(zulip_rest_api_updateDisplaySettings_demote_inactive_streams_e DEMOTEINACTIVESTREAMS) {
+static cJSON *updateSettings_DEMOTEINACTIVESTREAMS_convertToJSON(zulip_rest_api_updateSettings_demote_inactive_streams_e DEMOTEINACTIVESTREAMS) {
     cJSON *item = cJSON_CreateObject();
     return item;
     fail:
@@ -190,25 +190,25 @@ static cJSON *updateDisplaySettings_DEMOTEINACTIVESTREAMS_convertToJSON(zulip_re
     return NULL;
 }
 
-// Function updateDisplaySettings_DEMOTEINACTIVESTREAMS_parseFromJSON is not currently used,
+// Function updateSettings_DEMOTEINACTIVESTREAMS_parseFromJSON is not currently used,
 // since conversion from JSON passes through the conversion of the model, and FromString. The function is kept for future reference.
 //
-static zulip_rest_api_updateDisplaySettings_demote_inactive_streams_e updateDisplaySettings_DEMOTEINACTIVESTREAMS_parseFromJSON(cJSON* DEMOTEINACTIVESTREAMSJSON) {
-    zulip_rest_api_updateDisplaySettings_demote_inactive_streams_e DEMOTEINACTIVESTREAMSVariable = 0;
+static zulip_rest_api_updateSettings_demote_inactive_streams_e updateSettings_DEMOTEINACTIVESTREAMS_parseFromJSON(cJSON* DEMOTEINACTIVESTREAMSJSON) {
+    zulip_rest_api_updateSettings_demote_inactive_streams_e DEMOTEINACTIVESTREAMSVariable = 0;
     return DEMOTEINACTIVESTREAMSVariable;
 end:
     return 0;
 }
 */
 
-// Functions for enum DESKTOPICONCOUNTDISPLAY for UsersAPI_updateNotificationSettings
+// Functions for enum DESKTOPICONCOUNTDISPLAY for UsersAPI_updateSettings
 
-static char* updateNotificationSettings_DESKTOPICONCOUNTDISPLAY_ToString(zulip_rest_api_updateNotificationSettings_desktop_icon_count_display_e DESKTOPICONCOUNTDISPLAY){
+static char* updateSettings_DESKTOPICONCOUNTDISPLAY_ToString(zulip_rest_api_updateSettings_desktop_icon_count_display_e DESKTOPICONCOUNTDISPLAY){
     char *DESKTOPICONCOUNTDISPLAYArray[] =  { "NULL", "1", "2", "3" };
     return DESKTOPICONCOUNTDISPLAYArray[DESKTOPICONCOUNTDISPLAY];
 }
 
-static zulip_rest_api_updateNotificationSettings_desktop_icon_count_display_e updateNotificationSettings_DESKTOPICONCOUNTDISPLAY_FromString(char* DESKTOPICONCOUNTDISPLAY){
+static zulip_rest_api_updateSettings_desktop_icon_count_display_e updateSettings_DESKTOPICONCOUNTDISPLAY_FromString(char* DESKTOPICONCOUNTDISPLAY){
     int stringToReturn = 0;
     char *DESKTOPICONCOUNTDISPLAYArray[] =  { "NULL", "1", "2", "3" };
     size_t sizeofArray = sizeof(DESKTOPICONCOUNTDISPLAYArray) / sizeof(DESKTOPICONCOUNTDISPLAYArray[0]);
@@ -222,10 +222,10 @@ static zulip_rest_api_updateNotificationSettings_desktop_icon_count_display_e up
 }
 
 /*
-// Function updateNotificationSettings_DESKTOPICONCOUNTDISPLAY_convertToJSON is not currently used,
+// Function updateSettings_DESKTOPICONCOUNTDISPLAY_convertToJSON is not currently used,
 // since conversion to JSON passes through the conversion of the model, and ToString. The function is kept for future reference.
 //
-static cJSON *updateNotificationSettings_DESKTOPICONCOUNTDISPLAY_convertToJSON(zulip_rest_api_updateNotificationSettings_desktop_icon_count_display_e DESKTOPICONCOUNTDISPLAY) {
+static cJSON *updateSettings_DESKTOPICONCOUNTDISPLAY_convertToJSON(zulip_rest_api_updateSettings_desktop_icon_count_display_e DESKTOPICONCOUNTDISPLAY) {
     cJSON *item = cJSON_CreateObject();
     return item;
     fail:
@@ -233,11 +233,11 @@ static cJSON *updateNotificationSettings_DESKTOPICONCOUNTDISPLAY_convertToJSON(z
     return NULL;
 }
 
-// Function updateNotificationSettings_DESKTOPICONCOUNTDISPLAY_parseFromJSON is not currently used,
+// Function updateSettings_DESKTOPICONCOUNTDISPLAY_parseFromJSON is not currently used,
 // since conversion from JSON passes through the conversion of the model, and FromString. The function is kept for future reference.
 //
-static zulip_rest_api_updateNotificationSettings_desktop_icon_count_display_e updateNotificationSettings_DESKTOPICONCOUNTDISPLAY_parseFromJSON(cJSON* DESKTOPICONCOUNTDISPLAYJSON) {
-    zulip_rest_api_updateNotificationSettings_desktop_icon_count_display_e DESKTOPICONCOUNTDISPLAYVariable = 0;
+static zulip_rest_api_updateSettings_desktop_icon_count_display_e updateSettings_DESKTOPICONCOUNTDISPLAY_parseFromJSON(cJSON* DESKTOPICONCOUNTDISPLAYJSON) {
+    zulip_rest_api_updateSettings_desktop_icon_count_display_e DESKTOPICONCOUNTDISPLAYVariable = 0;
     return DESKTOPICONCOUNTDISPLAYVariable;
 end:
     return 0;
@@ -1721,12 +1721,12 @@ end:
 
 }
 
-// Update display settings
+// Update settings
 //
-// This endpoint is used to edit the current user's user interface settings.  `PATCH {{ api_url }}/v1/settings/display` 
+// This endpoint is used to edit the current user's settings.  `PATCH {{ api_url }}/v1/settings`  **Changes**: Prior to Zulip 5.0 (feature level 80), this endpoint only supported the `full_name`, `email`, `old_password`, and `new_password` parameters. Notification settings were managed by `PATCH /settings/notifications`, and all other settings by `PATCH /settings/display`. The feature level 80 migration to merge these endpoints did not change how request parameters are encoded. Note, however, that it did change the handling of any invalid parameters present in a request to change notification or display settings, since the merged endpoint uses the new response format that was introduced for `/settings` in Zulip 5.0 (feature level 78).  The `/settings/display` and `/settings/notifications` endpoints are now deprecated aliases for this endpoint for backwards-compatibility, and will be removed once clients have migrated to use this endpoint. 
 //
 json_success_base_t*
-UsersAPI_updateDisplaySettings(apiClient_t *apiClient, int twenty_four_hour_time , int dense_mode , int starred_message_counts , int fluid_layout_width , int high_contrast_mode , int color_scheme , int translate_emoticons , char * default_language , char * default_view , int left_side_userlist , char * emojiset , int demote_inactive_streams , char * timezone )
+UsersAPI_updateSettings(apiClient_t *apiClient, char * full_name , char * email , char * old_password , char * new_password , int twenty_four_hour_time , int dense_mode , int starred_message_counts , int fluid_layout_width , int high_contrast_mode , int color_scheme , int enable_drafts_synchronization , int translate_emoticons , char * default_language , char * default_view , int left_side_userlist , char * emojiset , int demote_inactive_streams , char * timezone , int enable_stream_desktop_notifications , int enable_stream_email_notifications , int enable_stream_push_notifications , int enable_stream_audible_notifications , char * notification_sound , int enable_desktop_notifications , int enable_sounds , int email_notifications_batching_period_seconds , int enable_offline_email_notifications , int enable_offline_push_notifications , int enable_online_push_notifications , int enable_digest_emails , int enable_marketing_emails , int enable_login_emails , int message_content_in_email_notifications , int pm_content_in_desktop_notifications , int wildcard_mentions_notify , int desktop_icon_count_display , int realm_name_in_notifications , int presence_enabled , int enter_sends )
 {
     list_t    *localVarQueryParameters = list_create();
     list_t    *localVarHeaderParameters = NULL;
@@ -1736,12 +1736,60 @@ UsersAPI_updateDisplaySettings(apiClient_t *apiClient, int twenty_four_hour_time
     char      *localVarBodyParameters = NULL;
 
     // create the path
-    long sizeOfPath = strlen("/settings/display")+1;
+    long sizeOfPath = strlen("/settings")+1;
     char *localVarPath = malloc(sizeOfPath);
-    snprintf(localVarPath, sizeOfPath, "/settings/display");
+    snprintf(localVarPath, sizeOfPath, "/settings");
 
 
 
+
+    // query parameters
+    char *keyQuery_full_name = NULL;
+    char * valueQuery_full_name = NULL;
+    keyValuePair_t *keyPairQuery_full_name = 0;
+    if (full_name)
+    {
+        keyQuery_full_name = strdup("full_name");
+        valueQuery_full_name = strdup((full_name));
+        keyPairQuery_full_name = keyValuePair_create(keyQuery_full_name, valueQuery_full_name);
+        list_addElement(localVarQueryParameters,keyPairQuery_full_name);
+    }
+
+    // query parameters
+    char *keyQuery_email = NULL;
+    char * valueQuery_email = NULL;
+    keyValuePair_t *keyPairQuery_email = 0;
+    if (email)
+    {
+        keyQuery_email = strdup("email");
+        valueQuery_email = strdup((email));
+        keyPairQuery_email = keyValuePair_create(keyQuery_email, valueQuery_email);
+        list_addElement(localVarQueryParameters,keyPairQuery_email);
+    }
+
+    // query parameters
+    char *keyQuery_old_password = NULL;
+    char * valueQuery_old_password = NULL;
+    keyValuePair_t *keyPairQuery_old_password = 0;
+    if (old_password)
+    {
+        keyQuery_old_password = strdup("old_password");
+        valueQuery_old_password = strdup((old_password));
+        keyPairQuery_old_password = keyValuePair_create(keyQuery_old_password, valueQuery_old_password);
+        list_addElement(localVarQueryParameters,keyPairQuery_old_password);
+    }
+
+    // query parameters
+    char *keyQuery_new_password = NULL;
+    char * valueQuery_new_password = NULL;
+    keyValuePair_t *keyPairQuery_new_password = 0;
+    if (new_password)
+    {
+        keyQuery_new_password = strdup("new_password");
+        valueQuery_new_password = strdup((new_password));
+        keyPairQuery_new_password = keyValuePair_create(keyQuery_new_password, valueQuery_new_password);
+        list_addElement(localVarQueryParameters,keyPairQuery_new_password);
+    }
 
     // query parameters
     char *keyQuery_twenty_four_hour_time = NULL;
@@ -1817,9 +1865,22 @@ UsersAPI_updateDisplaySettings(apiClient_t *apiClient, int twenty_four_hour_time
         keyQuery_color_scheme = strdup("color_scheme");
         valueQuery_color_scheme = calloc(1,MAX_NUMBER_LENGTH);
         snprintf(valueQuery_color_scheme, MAX_NUMBER_LENGTH, "%d", color_scheme);
-        keyPairQuery_color_scheme = keyValuePair_create(keyQuery_color_scheme, (void *)strdup(updateDisplaySettings_COLORSCHEME_ToString(
+        keyPairQuery_color_scheme = keyValuePair_create(keyQuery_color_scheme, (void *)strdup(updateSettings_COLORSCHEME_ToString(
 		valueQuery_color_scheme)));
         list_addElement(localVarQueryParameters,keyPairQuery_color_scheme);
+    }
+
+    // query parameters
+    char *keyQuery_enable_drafts_synchronization = NULL;
+    char * valueQuery_enable_drafts_synchronization = NULL;
+    keyValuePair_t *keyPairQuery_enable_drafts_synchronization = 0;
+    if (enable_drafts_synchronization)
+    {
+        keyQuery_enable_drafts_synchronization = strdup("enable_drafts_synchronization");
+        valueQuery_enable_drafts_synchronization = calloc(1,MAX_NUMBER_LENGTH);
+        snprintf(valueQuery_enable_drafts_synchronization, MAX_NUMBER_LENGTH, "%d", enable_drafts_synchronization);
+        keyPairQuery_enable_drafts_synchronization = keyValuePair_create(keyQuery_enable_drafts_synchronization, valueQuery_enable_drafts_synchronization);
+        list_addElement(localVarQueryParameters,keyPairQuery_enable_drafts_synchronization);
     }
 
     // query parameters
@@ -1893,7 +1954,7 @@ UsersAPI_updateDisplaySettings(apiClient_t *apiClient, int twenty_four_hour_time
         keyQuery_demote_inactive_streams = strdup("demote_inactive_streams");
         valueQuery_demote_inactive_streams = calloc(1,MAX_NUMBER_LENGTH);
         snprintf(valueQuery_demote_inactive_streams, MAX_NUMBER_LENGTH, "%d", demote_inactive_streams);
-        keyPairQuery_demote_inactive_streams = keyValuePair_create(keyQuery_demote_inactive_streams, (void *)strdup(updateDisplaySettings_DEMOTEINACTIVESTREAMS_ToString(
+        keyPairQuery_demote_inactive_streams = keyValuePair_create(keyQuery_demote_inactive_streams, (void *)strdup(updateSettings_DEMOTEINACTIVESTREAMS_ToString(
 		valueQuery_demote_inactive_streams)));
         list_addElement(localVarQueryParameters,keyPairQuery_demote_inactive_streams);
     }
@@ -1909,224 +1970,6 @@ UsersAPI_updateDisplaySettings(apiClient_t *apiClient, int twenty_four_hour_time
         keyPairQuery_timezone = keyValuePair_create(keyQuery_timezone, valueQuery_timezone);
         list_addElement(localVarQueryParameters,keyPairQuery_timezone);
     }
-    list_addElement(localVarHeaderType,"application/json"); //produces
-    apiClient_invoke(apiClient,
-                    localVarPath,
-                    localVarQueryParameters,
-                    localVarHeaderParameters,
-                    localVarFormParameters,
-                    localVarHeaderType,
-                    localVarContentType,
-                    localVarBodyParameters,
-                    "PATCH");
-
-    if (apiClient->response_code == 200) {
-        printf("%s\n","Success");
-    }
-    //nonprimitive not container
-    cJSON *UsersAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
-    json_success_base_t *elementToReturn = json_success_base_parseFromJSON(UsersAPIlocalVarJSON);
-    cJSON_Delete(UsersAPIlocalVarJSON);
-    if(elementToReturn == NULL) {
-        // return 0;
-    }
-
-    //return type
-    if (apiClient->dataReceived) {
-        free(apiClient->dataReceived);
-        apiClient->dataReceived = NULL;
-        apiClient->dataReceivedLen = 0;
-    }
-    list_free(localVarQueryParameters);
-    
-    
-    list_free(localVarHeaderType);
-    
-    free(localVarPath);
-    if(keyQuery_twenty_four_hour_time){
-        free(keyQuery_twenty_four_hour_time);
-        keyQuery_twenty_four_hour_time = NULL;
-    }
-    if(valueQuery_twenty_four_hour_time){
-        free(valueQuery_twenty_four_hour_time);
-        valueQuery_twenty_four_hour_time = NULL;
-    }
-    if(keyPairQuery_twenty_four_hour_time){
-        keyValuePair_free(keyPairQuery_twenty_four_hour_time);
-        keyPairQuery_twenty_four_hour_time = NULL;
-    }
-    if(keyQuery_dense_mode){
-        free(keyQuery_dense_mode);
-        keyQuery_dense_mode = NULL;
-    }
-    if(valueQuery_dense_mode){
-        free(valueQuery_dense_mode);
-        valueQuery_dense_mode = NULL;
-    }
-    if(keyPairQuery_dense_mode){
-        keyValuePair_free(keyPairQuery_dense_mode);
-        keyPairQuery_dense_mode = NULL;
-    }
-    if(keyQuery_starred_message_counts){
-        free(keyQuery_starred_message_counts);
-        keyQuery_starred_message_counts = NULL;
-    }
-    if(valueQuery_starred_message_counts){
-        free(valueQuery_starred_message_counts);
-        valueQuery_starred_message_counts = NULL;
-    }
-    if(keyPairQuery_starred_message_counts){
-        keyValuePair_free(keyPairQuery_starred_message_counts);
-        keyPairQuery_starred_message_counts = NULL;
-    }
-    if(keyQuery_fluid_layout_width){
-        free(keyQuery_fluid_layout_width);
-        keyQuery_fluid_layout_width = NULL;
-    }
-    if(valueQuery_fluid_layout_width){
-        free(valueQuery_fluid_layout_width);
-        valueQuery_fluid_layout_width = NULL;
-    }
-    if(keyPairQuery_fluid_layout_width){
-        keyValuePair_free(keyPairQuery_fluid_layout_width);
-        keyPairQuery_fluid_layout_width = NULL;
-    }
-    if(keyQuery_high_contrast_mode){
-        free(keyQuery_high_contrast_mode);
-        keyQuery_high_contrast_mode = NULL;
-    }
-    if(valueQuery_high_contrast_mode){
-        free(valueQuery_high_contrast_mode);
-        valueQuery_high_contrast_mode = NULL;
-    }
-    if(keyPairQuery_high_contrast_mode){
-        keyValuePair_free(keyPairQuery_high_contrast_mode);
-        keyPairQuery_high_contrast_mode = NULL;
-    }
-    if(keyQuery_color_scheme){
-        free(keyQuery_color_scheme);
-        keyQuery_color_scheme = NULL;
-    }
-    if(valueQuery_color_scheme){
-        free(valueQuery_color_scheme);
-        valueQuery_color_scheme = NULL;
-    }
-    if(keyPairQuery_color_scheme){
-        keyValuePair_free(keyPairQuery_color_scheme);
-        keyPairQuery_color_scheme = NULL;
-    }
-    if(keyQuery_translate_emoticons){
-        free(keyQuery_translate_emoticons);
-        keyQuery_translate_emoticons = NULL;
-    }
-    if(valueQuery_translate_emoticons){
-        free(valueQuery_translate_emoticons);
-        valueQuery_translate_emoticons = NULL;
-    }
-    if(keyPairQuery_translate_emoticons){
-        keyValuePair_free(keyPairQuery_translate_emoticons);
-        keyPairQuery_translate_emoticons = NULL;
-    }
-    if(keyQuery_default_language){
-        free(keyQuery_default_language);
-        keyQuery_default_language = NULL;
-    }
-    if(valueQuery_default_language){
-        free(valueQuery_default_language);
-        valueQuery_default_language = NULL;
-    }
-    if(keyPairQuery_default_language){
-        keyValuePair_free(keyPairQuery_default_language);
-        keyPairQuery_default_language = NULL;
-    }
-    if(keyQuery_default_view){
-        free(keyQuery_default_view);
-        keyQuery_default_view = NULL;
-    }
-    if(valueQuery_default_view){
-        free(valueQuery_default_view);
-        valueQuery_default_view = NULL;
-    }
-    if(keyPairQuery_default_view){
-        keyValuePair_free(keyPairQuery_default_view);
-        keyPairQuery_default_view = NULL;
-    }
-    if(keyQuery_left_side_userlist){
-        free(keyQuery_left_side_userlist);
-        keyQuery_left_side_userlist = NULL;
-    }
-    if(valueQuery_left_side_userlist){
-        free(valueQuery_left_side_userlist);
-        valueQuery_left_side_userlist = NULL;
-    }
-    if(keyPairQuery_left_side_userlist){
-        keyValuePair_free(keyPairQuery_left_side_userlist);
-        keyPairQuery_left_side_userlist = NULL;
-    }
-    if(keyQuery_emojiset){
-        free(keyQuery_emojiset);
-        keyQuery_emojiset = NULL;
-    }
-    if(valueQuery_emojiset){
-        free(valueQuery_emojiset);
-        valueQuery_emojiset = NULL;
-    }
-    if(keyPairQuery_emojiset){
-        keyValuePair_free(keyPairQuery_emojiset);
-        keyPairQuery_emojiset = NULL;
-    }
-    if(keyQuery_demote_inactive_streams){
-        free(keyQuery_demote_inactive_streams);
-        keyQuery_demote_inactive_streams = NULL;
-    }
-    if(valueQuery_demote_inactive_streams){
-        free(valueQuery_demote_inactive_streams);
-        valueQuery_demote_inactive_streams = NULL;
-    }
-    if(keyPairQuery_demote_inactive_streams){
-        keyValuePair_free(keyPairQuery_demote_inactive_streams);
-        keyPairQuery_demote_inactive_streams = NULL;
-    }
-    if(keyQuery_timezone){
-        free(keyQuery_timezone);
-        keyQuery_timezone = NULL;
-    }
-    if(valueQuery_timezone){
-        free(valueQuery_timezone);
-        valueQuery_timezone = NULL;
-    }
-    if(keyPairQuery_timezone){
-        keyValuePair_free(keyPairQuery_timezone);
-        keyPairQuery_timezone = NULL;
-    }
-    return elementToReturn;
-end:
-    free(localVarPath);
-    return NULL;
-
-}
-
-// Update notification settings
-//
-// This endpoint is used to edit the user's global notification settings. See [this endpoint](/api/update-subscription-settings) for per-stream notification settings.  `PATCH {{ api_url }}/v1/settings/notifications` 
-//
-json_success_base_t*
-UsersAPI_updateNotificationSettings(apiClient_t *apiClient, int enable_stream_desktop_notifications , int enable_stream_email_notifications , int enable_stream_push_notifications , int enable_stream_audible_notifications , char * notification_sound , int enable_desktop_notifications , int enable_sounds , int enable_offline_email_notifications , int enable_offline_push_notifications , int enable_online_push_notifications , int enable_digest_emails , int enable_marketing_emails , int enable_login_emails , int message_content_in_email_notifications , int pm_content_in_desktop_notifications , int wildcard_mentions_notify , int desktop_icon_count_display , int realm_name_in_notifications , int presence_enabled )
-{
-    list_t    *localVarQueryParameters = list_create();
-    list_t    *localVarHeaderParameters = NULL;
-    list_t    *localVarFormParameters = NULL;
-    list_t *localVarHeaderType = list_create();
-    list_t *localVarContentType = NULL;
-    char      *localVarBodyParameters = NULL;
-
-    // create the path
-    long sizeOfPath = strlen("/settings/notifications")+1;
-    char *localVarPath = malloc(sizeOfPath);
-    snprintf(localVarPath, sizeOfPath, "/settings/notifications");
-
-
-
 
     // query parameters
     char *keyQuery_enable_stream_desktop_notifications = NULL;
@@ -2216,6 +2059,19 @@ UsersAPI_updateNotificationSettings(apiClient_t *apiClient, int enable_stream_de
         snprintf(valueQuery_enable_sounds, MAX_NUMBER_LENGTH, "%d", enable_sounds);
         keyPairQuery_enable_sounds = keyValuePair_create(keyQuery_enable_sounds, valueQuery_enable_sounds);
         list_addElement(localVarQueryParameters,keyPairQuery_enable_sounds);
+    }
+
+    // query parameters
+    char *keyQuery_email_notifications_batching_period_seconds = NULL;
+    char * valueQuery_email_notifications_batching_period_seconds = NULL;
+    keyValuePair_t *keyPairQuery_email_notifications_batching_period_seconds = 0;
+    if (email_notifications_batching_period_seconds)
+    {
+        keyQuery_email_notifications_batching_period_seconds = strdup("email_notifications_batching_period_seconds");
+        valueQuery_email_notifications_batching_period_seconds = calloc(1,MAX_NUMBER_LENGTH);
+        snprintf(valueQuery_email_notifications_batching_period_seconds, MAX_NUMBER_LENGTH, "%d", email_notifications_batching_period_seconds);
+        keyPairQuery_email_notifications_batching_period_seconds = keyValuePair_create(keyQuery_email_notifications_batching_period_seconds, valueQuery_email_notifications_batching_period_seconds);
+        list_addElement(localVarQueryParameters,keyPairQuery_email_notifications_batching_period_seconds);
     }
 
     // query parameters
@@ -2344,7 +2200,7 @@ UsersAPI_updateNotificationSettings(apiClient_t *apiClient, int enable_stream_de
         keyQuery_desktop_icon_count_display = strdup("desktop_icon_count_display");
         valueQuery_desktop_icon_count_display = calloc(1,MAX_NUMBER_LENGTH);
         snprintf(valueQuery_desktop_icon_count_display, MAX_NUMBER_LENGTH, "%d", desktop_icon_count_display);
-        keyPairQuery_desktop_icon_count_display = keyValuePair_create(keyQuery_desktop_icon_count_display, (void *)strdup(updateNotificationSettings_DESKTOPICONCOUNTDISPLAY_ToString(
+        keyPairQuery_desktop_icon_count_display = keyValuePair_create(keyQuery_desktop_icon_count_display, (void *)strdup(updateSettings_DESKTOPICONCOUNTDISPLAY_ToString(
 		valueQuery_desktop_icon_count_display)));
         list_addElement(localVarQueryParameters,keyPairQuery_desktop_icon_count_display);
     }
@@ -2374,6 +2230,19 @@ UsersAPI_updateNotificationSettings(apiClient_t *apiClient, int enable_stream_de
         keyPairQuery_presence_enabled = keyValuePair_create(keyQuery_presence_enabled, valueQuery_presence_enabled);
         list_addElement(localVarQueryParameters,keyPairQuery_presence_enabled);
     }
+
+    // query parameters
+    char *keyQuery_enter_sends = NULL;
+    char * valueQuery_enter_sends = NULL;
+    keyValuePair_t *keyPairQuery_enter_sends = 0;
+    if (enter_sends)
+    {
+        keyQuery_enter_sends = strdup("enter_sends");
+        valueQuery_enter_sends = calloc(1,MAX_NUMBER_LENGTH);
+        snprintf(valueQuery_enter_sends, MAX_NUMBER_LENGTH, "%d", enter_sends);
+        keyPairQuery_enter_sends = keyValuePair_create(keyQuery_enter_sends, valueQuery_enter_sends);
+        list_addElement(localVarQueryParameters,keyPairQuery_enter_sends);
+    }
     list_addElement(localVarHeaderType,"application/json"); //produces
     apiClient_invoke(apiClient,
                     localVarPath,
@@ -2386,7 +2255,7 @@ UsersAPI_updateNotificationSettings(apiClient_t *apiClient, int enable_stream_de
                     "PATCH");
 
     if (apiClient->response_code == 200) {
-        printf("%s\n","Success.");
+        printf("%s\n","Success");
     }
     //nonprimitive not container
     cJSON *UsersAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
@@ -2408,6 +2277,222 @@ UsersAPI_updateNotificationSettings(apiClient_t *apiClient, int enable_stream_de
     list_free(localVarHeaderType);
     
     free(localVarPath);
+    if(keyQuery_full_name){
+        free(keyQuery_full_name);
+        keyQuery_full_name = NULL;
+    }
+    if(valueQuery_full_name){
+        free(valueQuery_full_name);
+        valueQuery_full_name = NULL;
+    }
+    if(keyPairQuery_full_name){
+        keyValuePair_free(keyPairQuery_full_name);
+        keyPairQuery_full_name = NULL;
+    }
+    if(keyQuery_email){
+        free(keyQuery_email);
+        keyQuery_email = NULL;
+    }
+    if(valueQuery_email){
+        free(valueQuery_email);
+        valueQuery_email = NULL;
+    }
+    if(keyPairQuery_email){
+        keyValuePair_free(keyPairQuery_email);
+        keyPairQuery_email = NULL;
+    }
+    if(keyQuery_old_password){
+        free(keyQuery_old_password);
+        keyQuery_old_password = NULL;
+    }
+    if(valueQuery_old_password){
+        free(valueQuery_old_password);
+        valueQuery_old_password = NULL;
+    }
+    if(keyPairQuery_old_password){
+        keyValuePair_free(keyPairQuery_old_password);
+        keyPairQuery_old_password = NULL;
+    }
+    if(keyQuery_new_password){
+        free(keyQuery_new_password);
+        keyQuery_new_password = NULL;
+    }
+    if(valueQuery_new_password){
+        free(valueQuery_new_password);
+        valueQuery_new_password = NULL;
+    }
+    if(keyPairQuery_new_password){
+        keyValuePair_free(keyPairQuery_new_password);
+        keyPairQuery_new_password = NULL;
+    }
+    if(keyQuery_twenty_four_hour_time){
+        free(keyQuery_twenty_four_hour_time);
+        keyQuery_twenty_four_hour_time = NULL;
+    }
+    if(valueQuery_twenty_four_hour_time){
+        free(valueQuery_twenty_four_hour_time);
+        valueQuery_twenty_four_hour_time = NULL;
+    }
+    if(keyPairQuery_twenty_four_hour_time){
+        keyValuePair_free(keyPairQuery_twenty_four_hour_time);
+        keyPairQuery_twenty_four_hour_time = NULL;
+    }
+    if(keyQuery_dense_mode){
+        free(keyQuery_dense_mode);
+        keyQuery_dense_mode = NULL;
+    }
+    if(valueQuery_dense_mode){
+        free(valueQuery_dense_mode);
+        valueQuery_dense_mode = NULL;
+    }
+    if(keyPairQuery_dense_mode){
+        keyValuePair_free(keyPairQuery_dense_mode);
+        keyPairQuery_dense_mode = NULL;
+    }
+    if(keyQuery_starred_message_counts){
+        free(keyQuery_starred_message_counts);
+        keyQuery_starred_message_counts = NULL;
+    }
+    if(valueQuery_starred_message_counts){
+        free(valueQuery_starred_message_counts);
+        valueQuery_starred_message_counts = NULL;
+    }
+    if(keyPairQuery_starred_message_counts){
+        keyValuePair_free(keyPairQuery_starred_message_counts);
+        keyPairQuery_starred_message_counts = NULL;
+    }
+    if(keyQuery_fluid_layout_width){
+        free(keyQuery_fluid_layout_width);
+        keyQuery_fluid_layout_width = NULL;
+    }
+    if(valueQuery_fluid_layout_width){
+        free(valueQuery_fluid_layout_width);
+        valueQuery_fluid_layout_width = NULL;
+    }
+    if(keyPairQuery_fluid_layout_width){
+        keyValuePair_free(keyPairQuery_fluid_layout_width);
+        keyPairQuery_fluid_layout_width = NULL;
+    }
+    if(keyQuery_high_contrast_mode){
+        free(keyQuery_high_contrast_mode);
+        keyQuery_high_contrast_mode = NULL;
+    }
+    if(valueQuery_high_contrast_mode){
+        free(valueQuery_high_contrast_mode);
+        valueQuery_high_contrast_mode = NULL;
+    }
+    if(keyPairQuery_high_contrast_mode){
+        keyValuePair_free(keyPairQuery_high_contrast_mode);
+        keyPairQuery_high_contrast_mode = NULL;
+    }
+    if(keyQuery_color_scheme){
+        free(keyQuery_color_scheme);
+        keyQuery_color_scheme = NULL;
+    }
+    if(valueQuery_color_scheme){
+        free(valueQuery_color_scheme);
+        valueQuery_color_scheme = NULL;
+    }
+    if(keyPairQuery_color_scheme){
+        keyValuePair_free(keyPairQuery_color_scheme);
+        keyPairQuery_color_scheme = NULL;
+    }
+    if(keyQuery_enable_drafts_synchronization){
+        free(keyQuery_enable_drafts_synchronization);
+        keyQuery_enable_drafts_synchronization = NULL;
+    }
+    if(valueQuery_enable_drafts_synchronization){
+        free(valueQuery_enable_drafts_synchronization);
+        valueQuery_enable_drafts_synchronization = NULL;
+    }
+    if(keyPairQuery_enable_drafts_synchronization){
+        keyValuePair_free(keyPairQuery_enable_drafts_synchronization);
+        keyPairQuery_enable_drafts_synchronization = NULL;
+    }
+    if(keyQuery_translate_emoticons){
+        free(keyQuery_translate_emoticons);
+        keyQuery_translate_emoticons = NULL;
+    }
+    if(valueQuery_translate_emoticons){
+        free(valueQuery_translate_emoticons);
+        valueQuery_translate_emoticons = NULL;
+    }
+    if(keyPairQuery_translate_emoticons){
+        keyValuePair_free(keyPairQuery_translate_emoticons);
+        keyPairQuery_translate_emoticons = NULL;
+    }
+    if(keyQuery_default_language){
+        free(keyQuery_default_language);
+        keyQuery_default_language = NULL;
+    }
+    if(valueQuery_default_language){
+        free(valueQuery_default_language);
+        valueQuery_default_language = NULL;
+    }
+    if(keyPairQuery_default_language){
+        keyValuePair_free(keyPairQuery_default_language);
+        keyPairQuery_default_language = NULL;
+    }
+    if(keyQuery_default_view){
+        free(keyQuery_default_view);
+        keyQuery_default_view = NULL;
+    }
+    if(valueQuery_default_view){
+        free(valueQuery_default_view);
+        valueQuery_default_view = NULL;
+    }
+    if(keyPairQuery_default_view){
+        keyValuePair_free(keyPairQuery_default_view);
+        keyPairQuery_default_view = NULL;
+    }
+    if(keyQuery_left_side_userlist){
+        free(keyQuery_left_side_userlist);
+        keyQuery_left_side_userlist = NULL;
+    }
+    if(valueQuery_left_side_userlist){
+        free(valueQuery_left_side_userlist);
+        valueQuery_left_side_userlist = NULL;
+    }
+    if(keyPairQuery_left_side_userlist){
+        keyValuePair_free(keyPairQuery_left_side_userlist);
+        keyPairQuery_left_side_userlist = NULL;
+    }
+    if(keyQuery_emojiset){
+        free(keyQuery_emojiset);
+        keyQuery_emojiset = NULL;
+    }
+    if(valueQuery_emojiset){
+        free(valueQuery_emojiset);
+        valueQuery_emojiset = NULL;
+    }
+    if(keyPairQuery_emojiset){
+        keyValuePair_free(keyPairQuery_emojiset);
+        keyPairQuery_emojiset = NULL;
+    }
+    if(keyQuery_demote_inactive_streams){
+        free(keyQuery_demote_inactive_streams);
+        keyQuery_demote_inactive_streams = NULL;
+    }
+    if(valueQuery_demote_inactive_streams){
+        free(valueQuery_demote_inactive_streams);
+        valueQuery_demote_inactive_streams = NULL;
+    }
+    if(keyPairQuery_demote_inactive_streams){
+        keyValuePair_free(keyPairQuery_demote_inactive_streams);
+        keyPairQuery_demote_inactive_streams = NULL;
+    }
+    if(keyQuery_timezone){
+        free(keyQuery_timezone);
+        keyQuery_timezone = NULL;
+    }
+    if(valueQuery_timezone){
+        free(valueQuery_timezone);
+        valueQuery_timezone = NULL;
+    }
+    if(keyPairQuery_timezone){
+        keyValuePair_free(keyPairQuery_timezone);
+        keyPairQuery_timezone = NULL;
+    }
     if(keyQuery_enable_stream_desktop_notifications){
         free(keyQuery_enable_stream_desktop_notifications);
         keyQuery_enable_stream_desktop_notifications = NULL;
@@ -2491,6 +2576,18 @@ UsersAPI_updateNotificationSettings(apiClient_t *apiClient, int enable_stream_de
     if(keyPairQuery_enable_sounds){
         keyValuePair_free(keyPairQuery_enable_sounds);
         keyPairQuery_enable_sounds = NULL;
+    }
+    if(keyQuery_email_notifications_batching_period_seconds){
+        free(keyQuery_email_notifications_batching_period_seconds);
+        keyQuery_email_notifications_batching_period_seconds = NULL;
+    }
+    if(valueQuery_email_notifications_batching_period_seconds){
+        free(valueQuery_email_notifications_batching_period_seconds);
+        valueQuery_email_notifications_batching_period_seconds = NULL;
+    }
+    if(keyPairQuery_email_notifications_batching_period_seconds){
+        keyValuePair_free(keyPairQuery_email_notifications_batching_period_seconds);
+        keyPairQuery_email_notifications_batching_period_seconds = NULL;
     }
     if(keyQuery_enable_offline_email_notifications){
         free(keyQuery_enable_offline_email_notifications);
@@ -2635,6 +2732,204 @@ UsersAPI_updateNotificationSettings(apiClient_t *apiClient, int enable_stream_de
     if(keyPairQuery_presence_enabled){
         keyValuePair_free(keyPairQuery_presence_enabled);
         keyPairQuery_presence_enabled = NULL;
+    }
+    if(keyQuery_enter_sends){
+        free(keyQuery_enter_sends);
+        keyQuery_enter_sends = NULL;
+    }
+    if(valueQuery_enter_sends){
+        free(valueQuery_enter_sends);
+        valueQuery_enter_sends = NULL;
+    }
+    if(keyPairQuery_enter_sends){
+        keyValuePair_free(keyPairQuery_enter_sends);
+        keyPairQuery_enter_sends = NULL;
+    }
+    return elementToReturn;
+end:
+    free(localVarPath);
+    return NULL;
+
+}
+
+// Update your status
+//
+// Change your [status](/help/status-and-availability).  `POST {{ api_url }}/v1/users/me/status`  A request to this endpoint will only change the parameters passed. For example, passing just `status_text` requests a change in the status text, but will leave the status emoji unchanged.  Clients that wish to set the user's status to a specific value should pass all supported parameters. 
+//
+json_success_t*
+UsersAPI_updateStatus(apiClient_t *apiClient, char * status_text , int away , char * emoji_name , char * emoji_code , char * reaction_type )
+{
+    list_t    *localVarQueryParameters = list_create();
+    list_t    *localVarHeaderParameters = NULL;
+    list_t    *localVarFormParameters = NULL;
+    list_t *localVarHeaderType = list_create();
+    list_t *localVarContentType = NULL;
+    char      *localVarBodyParameters = NULL;
+
+    // create the path
+    long sizeOfPath = strlen("/users/me/status")+1;
+    char *localVarPath = malloc(sizeOfPath);
+    snprintf(localVarPath, sizeOfPath, "/users/me/status");
+
+
+
+
+    // query parameters
+    char *keyQuery_status_text = NULL;
+    char * valueQuery_status_text = NULL;
+    keyValuePair_t *keyPairQuery_status_text = 0;
+    if (status_text)
+    {
+        keyQuery_status_text = strdup("status_text");
+        valueQuery_status_text = strdup((status_text));
+        keyPairQuery_status_text = keyValuePair_create(keyQuery_status_text, valueQuery_status_text);
+        list_addElement(localVarQueryParameters,keyPairQuery_status_text);
+    }
+
+    // query parameters
+    char *keyQuery_away = NULL;
+    char * valueQuery_away = NULL;
+    keyValuePair_t *keyPairQuery_away = 0;
+    if (away)
+    {
+        keyQuery_away = strdup("away");
+        valueQuery_away = calloc(1,MAX_NUMBER_LENGTH);
+        snprintf(valueQuery_away, MAX_NUMBER_LENGTH, "%d", away);
+        keyPairQuery_away = keyValuePair_create(keyQuery_away, valueQuery_away);
+        list_addElement(localVarQueryParameters,keyPairQuery_away);
+    }
+
+    // query parameters
+    char *keyQuery_emoji_name = NULL;
+    char * valueQuery_emoji_name = NULL;
+    keyValuePair_t *keyPairQuery_emoji_name = 0;
+    if (emoji_name)
+    {
+        keyQuery_emoji_name = strdup("emoji_name");
+        valueQuery_emoji_name = strdup((emoji_name));
+        keyPairQuery_emoji_name = keyValuePair_create(keyQuery_emoji_name, valueQuery_emoji_name);
+        list_addElement(localVarQueryParameters,keyPairQuery_emoji_name);
+    }
+
+    // query parameters
+    char *keyQuery_emoji_code = NULL;
+    char * valueQuery_emoji_code = NULL;
+    keyValuePair_t *keyPairQuery_emoji_code = 0;
+    if (emoji_code)
+    {
+        keyQuery_emoji_code = strdup("emoji_code");
+        valueQuery_emoji_code = strdup((emoji_code));
+        keyPairQuery_emoji_code = keyValuePair_create(keyQuery_emoji_code, valueQuery_emoji_code);
+        list_addElement(localVarQueryParameters,keyPairQuery_emoji_code);
+    }
+
+    // query parameters
+    char *keyQuery_reaction_type = NULL;
+    char * valueQuery_reaction_type = NULL;
+    keyValuePair_t *keyPairQuery_reaction_type = 0;
+    if (reaction_type)
+    {
+        keyQuery_reaction_type = strdup("reaction_type");
+        valueQuery_reaction_type = strdup((reaction_type));
+        keyPairQuery_reaction_type = keyValuePair_create(keyQuery_reaction_type, valueQuery_reaction_type);
+        list_addElement(localVarQueryParameters,keyPairQuery_reaction_type);
+    }
+    list_addElement(localVarHeaderType,"application/json"); //produces
+    apiClient_invoke(apiClient,
+                    localVarPath,
+                    localVarQueryParameters,
+                    localVarHeaderParameters,
+                    localVarFormParameters,
+                    localVarHeaderType,
+                    localVarContentType,
+                    localVarBodyParameters,
+                    "POST");
+
+    if (apiClient->response_code == 200) {
+        printf("%s\n","Success.");
+    }
+    if (apiClient->response_code == 400) {
+        printf("%s\n","Success.");
+    }
+    //nonprimitive not container
+    cJSON *UsersAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
+    json_success_t *elementToReturn = json_success_parseFromJSON(UsersAPIlocalVarJSON);
+    cJSON_Delete(UsersAPIlocalVarJSON);
+    if(elementToReturn == NULL) {
+        // return 0;
+    }
+
+    //return type
+    if (apiClient->dataReceived) {
+        free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
+        apiClient->dataReceivedLen = 0;
+    }
+    list_free(localVarQueryParameters);
+    
+    
+    list_free(localVarHeaderType);
+    
+    free(localVarPath);
+    if(keyQuery_status_text){
+        free(keyQuery_status_text);
+        keyQuery_status_text = NULL;
+    }
+    if(valueQuery_status_text){
+        free(valueQuery_status_text);
+        valueQuery_status_text = NULL;
+    }
+    if(keyPairQuery_status_text){
+        keyValuePair_free(keyPairQuery_status_text);
+        keyPairQuery_status_text = NULL;
+    }
+    if(keyQuery_away){
+        free(keyQuery_away);
+        keyQuery_away = NULL;
+    }
+    if(valueQuery_away){
+        free(valueQuery_away);
+        valueQuery_away = NULL;
+    }
+    if(keyPairQuery_away){
+        keyValuePair_free(keyPairQuery_away);
+        keyPairQuery_away = NULL;
+    }
+    if(keyQuery_emoji_name){
+        free(keyQuery_emoji_name);
+        keyQuery_emoji_name = NULL;
+    }
+    if(valueQuery_emoji_name){
+        free(valueQuery_emoji_name);
+        valueQuery_emoji_name = NULL;
+    }
+    if(keyPairQuery_emoji_name){
+        keyValuePair_free(keyPairQuery_emoji_name);
+        keyPairQuery_emoji_name = NULL;
+    }
+    if(keyQuery_emoji_code){
+        free(keyQuery_emoji_code);
+        keyQuery_emoji_code = NULL;
+    }
+    if(valueQuery_emoji_code){
+        free(valueQuery_emoji_code);
+        valueQuery_emoji_code = NULL;
+    }
+    if(keyPairQuery_emoji_code){
+        keyValuePair_free(keyPairQuery_emoji_code);
+        keyPairQuery_emoji_code = NULL;
+    }
+    if(keyQuery_reaction_type){
+        free(keyQuery_reaction_type);
+        keyQuery_reaction_type = NULL;
+    }
+    if(valueQuery_reaction_type){
+        free(valueQuery_reaction_type);
+        valueQuery_reaction_type = NULL;
+    }
+    if(keyPairQuery_reaction_type){
+        keyValuePair_free(keyPairQuery_reaction_type);
+        keyPairQuery_reaction_type = NULL;
     }
     return elementToReturn;
 end:

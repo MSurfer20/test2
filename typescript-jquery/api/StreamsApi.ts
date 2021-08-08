@@ -165,6 +165,77 @@ export class StreamsApi {
     }
 
     /**
+     * Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+     * @summary Delete a topic
+     * @param streamId The ID of the stream to access. 
+     * @param topicName The name of the topic to delete. 
+     */
+    public deleteTopic(streamId: number, topicName: string, extraJQueryAjaxSettings?: JQueryAjaxSettings): JQuery.Promise<
+    { response: JQueryXHR; body: models.models.JsonSuccess;  },
+    { response: JQueryXHR; errorThrown: string }
+    > {
+        let localVarPath = this.basePath + '/streams/{stream_id}/delete_topic'.replace('{' + 'stream_id' + '}', encodeURIComponent(String(streamId)));
+
+        let queryParameters: any = {};
+        let headerParams: any = {};
+        // verify required parameter 'streamId' is not null or undefined
+        if (streamId === null || streamId === undefined) {
+            throw new Error('Required parameter streamId was null or undefined when calling deleteTopic.');
+        }
+
+        // verify required parameter 'topicName' is not null or undefined
+        if (topicName === null || topicName === undefined) {
+            throw new Error('Required parameter topicName was null or undefined when calling deleteTopic.');
+        }
+
+        if (topicName !== null && topicName !== undefined) {
+            queryParameters['topic_name'] = <string><any>topicName;
+        }
+
+        localVarPath = localVarPath + "?" + $.param(queryParameters);
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+
+        let requestOptions: JQueryAjaxSettings = {
+            url: localVarPath,
+            type: 'POST',
+            headers: headerParams,
+            processData: false
+        };
+
+        if (headerParams['Content-Type']) {
+            requestOptions.contentType = headerParams['Content-Type'];
+        }
+
+        if (extraJQueryAjaxSettings) {
+            requestOptions = (<any>Object).assign(requestOptions, extraJQueryAjaxSettings);
+        }
+
+        if (this.defaultExtraJQueryAjaxSettings) {
+            requestOptions = (<any>Object).assign(requestOptions, this.defaultExtraJQueryAjaxSettings);
+        }
+
+        let dfd = $.Deferred<
+            { response: JQueryXHR; body: models.models.JsonSuccess;  },
+            { response: JQueryXHR; errorThrown: string }
+        >();
+        $.ajax(requestOptions).then(
+            (data: models.models.JsonSuccess, textStatus: string, jqXHR: JQueryXHR) =>
+                dfd.resolve({response: jqXHR, body: data}),
+            (xhr: JQueryXHR, textStatus: string, errorThrown: string) =>
+                dfd.reject({response: xhr, errorThrown: errorThrown})
+        );
+        return dfd.promise();
+    }
+
+    /**
      * Get the unique ID of a given stream.  `GET {{ api_url }}/v1/get_stream_id` 
      * @summary Get stream ID
      * @param stream The name of the stream to access. 
@@ -327,6 +398,68 @@ export class StreamsApi {
         if (includeOwnerSubscribed !== null && includeOwnerSubscribed !== undefined) {
             queryParameters['include_owner_subscribed'] = <string><any>includeOwnerSubscribed;
         }
+
+        localVarPath = localVarPath + "?" + $.param(queryParameters);
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+
+        let requestOptions: JQueryAjaxSettings = {
+            url: localVarPath,
+            type: 'GET',
+            headers: headerParams,
+            processData: false
+        };
+
+        if (headerParams['Content-Type']) {
+            requestOptions.contentType = headerParams['Content-Type'];
+        }
+
+        if (extraJQueryAjaxSettings) {
+            requestOptions = (<any>Object).assign(requestOptions, extraJQueryAjaxSettings);
+        }
+
+        if (this.defaultExtraJQueryAjaxSettings) {
+            requestOptions = (<any>Object).assign(requestOptions, this.defaultExtraJQueryAjaxSettings);
+        }
+
+        let dfd = $.Deferred<
+            { response: JQueryXHR; body: models.models.JsonSuccessBase & object;  },
+            { response: JQueryXHR; errorThrown: string }
+        >();
+        $.ajax(requestOptions).then(
+            (data: models.models.JsonSuccessBase & object, textStatus: string, jqXHR: JQueryXHR) =>
+                dfd.resolve({response: jqXHR, body: data}),
+            (xhr: JQueryXHR, textStatus: string, errorThrown: string) =>
+                dfd.reject({response: xhr, errorThrown: errorThrown})
+        );
+        return dfd.promise();
+    }
+
+    /**
+     * Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` 
+     * @summary Get the subscribers of a stream
+     * @param streamId The ID of the stream to access. 
+     */
+    public getSubscribers(streamId: number, extraJQueryAjaxSettings?: JQueryAjaxSettings): JQuery.Promise<
+    { response: JQueryXHR; body: models.models.JsonSuccessBase & object;  },
+    { response: JQueryXHR; errorThrown: string }
+    > {
+        let localVarPath = this.basePath + '/streams/{stream_id}/members'.replace('{' + 'stream_id' + '}', encodeURIComponent(String(streamId)));
+
+        let queryParameters: any = {};
+        let headerParams: any = {};
+        // verify required parameter 'streamId' is not null or undefined
+        if (streamId === null || streamId === undefined) {
+            throw new Error('Required parameter streamId was null or undefined when calling getSubscribers.');
+        }
+
 
         localVarPath = localVarPath + "?" + $.param(queryParameters);
         // to determine the Content-Type header

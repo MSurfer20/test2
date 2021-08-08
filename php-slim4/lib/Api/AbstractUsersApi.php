@@ -388,9 +388,9 @@ abstract class AbstractUsersApi
     }
 
     /**
-     * PATCH updateDisplaySettings
-     * Summary: Update display settings
-     * Notes: This endpoint is used to edit the current user&#39;s user interface settings.  &#x60;PATCH {{ api_url }}/v1/settings/display&#x60;
+     * PATCH updateSettings
+     * Summary: Update settings
+     * Notes: This endpoint is used to edit the current user&#39;s settings.  &#x60;PATCH {{ api_url }}/v1/settings&#x60;  **Changes**: Prior to Zulip 5.0 (feature level 80), this endpoint only supported the &#x60;full_name&#x60;, &#x60;email&#x60;, &#x60;old_password&#x60;, and &#x60;new_password&#x60; parameters. Notification settings were managed by &#x60;PATCH /settings/notifications&#x60;, and all other settings by &#x60;PATCH /settings/display&#x60;. The feature level 80 migration to merge these endpoints did not change how request parameters are encoded. Note, however, that it did change the handling of any invalid parameters present in a request to change notification or display settings, since the merged endpoint uses the new response format that was introduced for &#x60;/settings&#x60; in Zulip 5.0 (feature level 78).  The &#x60;/settings/display&#x60; and &#x60;/settings/notifications&#x60; endpoints are now deprecated aliases for this endpoint for backwards-compatibility, and will be removed once clients have migrated to use this endpoint.
      * Output-Formats: [application/json]
      *
      * @param ServerRequestInterface $request  Request
@@ -400,15 +400,20 @@ abstract class AbstractUsersApi
      * @return ResponseInterface
      * @throws HttpNotImplementedException to force implementation class to override this method
      */
-    public function updateDisplaySettings(ServerRequestInterface $request, ResponseInterface $response, array $args)
+    public function updateSettings(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         $queryParams = $request->getQueryParams();
+        $fullName = (key_exists('full_name', $queryParams)) ? $queryParams['full_name'] : null;
+        $email = (key_exists('email', $queryParams)) ? $queryParams['email'] : null;
+        $oldPassword = (key_exists('old_password', $queryParams)) ? $queryParams['old_password'] : null;
+        $newPassword = (key_exists('new_password', $queryParams)) ? $queryParams['new_password'] : null;
         $twentyFourHourTime = (key_exists('twenty_four_hour_time', $queryParams)) ? $queryParams['twenty_four_hour_time'] : null;
         $denseMode = (key_exists('dense_mode', $queryParams)) ? $queryParams['dense_mode'] : null;
         $starredMessageCounts = (key_exists('starred_message_counts', $queryParams)) ? $queryParams['starred_message_counts'] : null;
         $fluidLayoutWidth = (key_exists('fluid_layout_width', $queryParams)) ? $queryParams['fluid_layout_width'] : null;
         $highContrastMode = (key_exists('high_contrast_mode', $queryParams)) ? $queryParams['high_contrast_mode'] : null;
         $colorScheme = (key_exists('color_scheme', $queryParams)) ? $queryParams['color_scheme'] : null;
+        $enableDraftsSynchronization = (key_exists('enable_drafts_synchronization', $queryParams)) ? $queryParams['enable_drafts_synchronization'] : null;
         $translateEmoticons = (key_exists('translate_emoticons', $queryParams)) ? $queryParams['translate_emoticons'] : null;
         $defaultLanguage = (key_exists('default_language', $queryParams)) ? $queryParams['default_language'] : null;
         $defaultView = (key_exists('default_view', $queryParams)) ? $queryParams['default_view'] : null;
@@ -416,26 +421,6 @@ abstract class AbstractUsersApi
         $emojiset = (key_exists('emojiset', $queryParams)) ? $queryParams['emojiset'] : null;
         $demoteInactiveStreams = (key_exists('demote_inactive_streams', $queryParams)) ? $queryParams['demote_inactive_streams'] : null;
         $timezone = (key_exists('timezone', $queryParams)) ? $queryParams['timezone'] : null;
-        $message = "How about implementing updateDisplaySettings as a PATCH method in OpenAPIServer\Api\UsersApi class?";
-        throw new HttpNotImplementedException($request, $message);
-    }
-
-    /**
-     * PATCH updateNotificationSettings
-     * Summary: Update notification settings
-     * Notes: This endpoint is used to edit the user&#39;s global notification settings. See [this endpoint](/api/update-subscription-settings) for per-stream notification settings.  &#x60;PATCH {{ api_url }}/v1/settings/notifications&#x60;
-     * Output-Formats: [application/json]
-     *
-     * @param ServerRequestInterface $request  Request
-     * @param ResponseInterface      $response Response
-     * @param array|null             $args     Path arguments
-     *
-     * @return ResponseInterface
-     * @throws HttpNotImplementedException to force implementation class to override this method
-     */
-    public function updateNotificationSettings(ServerRequestInterface $request, ResponseInterface $response, array $args)
-    {
-        $queryParams = $request->getQueryParams();
         $enableStreamDesktopNotifications = (key_exists('enable_stream_desktop_notifications', $queryParams)) ? $queryParams['enable_stream_desktop_notifications'] : null;
         $enableStreamEmailNotifications = (key_exists('enable_stream_email_notifications', $queryParams)) ? $queryParams['enable_stream_email_notifications'] : null;
         $enableStreamPushNotifications = (key_exists('enable_stream_push_notifications', $queryParams)) ? $queryParams['enable_stream_push_notifications'] : null;
@@ -443,6 +428,7 @@ abstract class AbstractUsersApi
         $notificationSound = (key_exists('notification_sound', $queryParams)) ? $queryParams['notification_sound'] : null;
         $enableDesktopNotifications = (key_exists('enable_desktop_notifications', $queryParams)) ? $queryParams['enable_desktop_notifications'] : null;
         $enableSounds = (key_exists('enable_sounds', $queryParams)) ? $queryParams['enable_sounds'] : null;
+        $emailNotificationsBatchingPeriodSeconds = (key_exists('email_notifications_batching_period_seconds', $queryParams)) ? $queryParams['email_notifications_batching_period_seconds'] : null;
         $enableOfflineEmailNotifications = (key_exists('enable_offline_email_notifications', $queryParams)) ? $queryParams['enable_offline_email_notifications'] : null;
         $enableOfflinePushNotifications = (key_exists('enable_offline_push_notifications', $queryParams)) ? $queryParams['enable_offline_push_notifications'] : null;
         $enableOnlinePushNotifications = (key_exists('enable_online_push_notifications', $queryParams)) ? $queryParams['enable_online_push_notifications'] : null;
@@ -455,7 +441,33 @@ abstract class AbstractUsersApi
         $desktopIconCountDisplay = (key_exists('desktop_icon_count_display', $queryParams)) ? $queryParams['desktop_icon_count_display'] : null;
         $realmNameInNotifications = (key_exists('realm_name_in_notifications', $queryParams)) ? $queryParams['realm_name_in_notifications'] : null;
         $presenceEnabled = (key_exists('presence_enabled', $queryParams)) ? $queryParams['presence_enabled'] : null;
-        $message = "How about implementing updateNotificationSettings as a PATCH method in OpenAPIServer\Api\UsersApi class?";
+        $enterSends = (key_exists('enter_sends', $queryParams)) ? $queryParams['enter_sends'] : null;
+        $message = "How about implementing updateSettings as a PATCH method in OpenAPIServer\Api\UsersApi class?";
+        throw new HttpNotImplementedException($request, $message);
+    }
+
+    /**
+     * POST updateStatus
+     * Summary: Update your status
+     * Notes: Change your [status](/help/status-and-availability).  &#x60;POST {{ api_url }}/v1/users/me/status&#x60;  A request to this endpoint will only change the parameters passed. For example, passing just &#x60;status_text&#x60; requests a change in the status text, but will leave the status emoji unchanged.  Clients that wish to set the user&#39;s status to a specific value should pass all supported parameters.
+     * Output-Formats: [application/json]
+     *
+     * @param ServerRequestInterface $request  Request
+     * @param ResponseInterface      $response Response
+     * @param array|null             $args     Path arguments
+     *
+     * @return ResponseInterface
+     * @throws HttpNotImplementedException to force implementation class to override this method
+     */
+    public function updateStatus(ServerRequestInterface $request, ResponseInterface $response, array $args)
+    {
+        $queryParams = $request->getQueryParams();
+        $statusText = (key_exists('status_text', $queryParams)) ? $queryParams['status_text'] : null;
+        $away = (key_exists('away', $queryParams)) ? $queryParams['away'] : null;
+        $emojiName = (key_exists('emoji_name', $queryParams)) ? $queryParams['emoji_name'] : null;
+        $emojiCode = (key_exists('emoji_code', $queryParams)) ? $queryParams['emoji_code'] : null;
+        $reactionType = (key_exists('reaction_type', $queryParams)) ? $queryParams['reaction_type'] : null;
+        $message = "How about implementing updateStatus as a POST method in OpenAPIServer\Api\UsersApi class?";
         throw new HttpNotImplementedException($request, $message);
     }
 

@@ -94,6 +94,27 @@ data CreateBigBlueButtonVideoCall
 instance Produces CreateBigBlueButtonVideoCall MimeJSON
 
 
+-- *** deleteTopic
+
+-- | @POST \/streams\/{stream_id}\/delete_topic@
+-- 
+-- Delete a topic
+-- 
+-- Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+-- 
+deleteTopic 
+  :: StreamId -- ^ "streamId" -  The ID of the stream to access. 
+  -> TopicName -- ^ "topicName" -  The name of the topic to delete. 
+  -> ZulipRESTRequest DeleteTopic MimeNoContent JsonSuccess MimeJSON
+deleteTopic (StreamId streamId) (TopicName topicName) =
+  _mkRequest "POST" ["/streams/",toPath streamId,"/delete_topic"]
+    `addQuery` toQuery ("topic_name", Just topicName)
+
+data DeleteTopic  
+-- | @application/json@
+instance Produces DeleteTopic MimeJSON
+
+
 -- *** getStreamId
 
 -- | @GET \/get_stream_id@
@@ -179,6 +200,25 @@ instance HasOptionalParam GetStreams IncludeOwnerSubscribed where
     req `addQuery` toQuery ("include_owner_subscribed", Just xs)
 -- | @application/json@
 instance Produces GetStreams MimeJSON
+
+
+-- *** getSubscribers
+
+-- | @GET \/streams\/{stream_id}\/members@
+-- 
+-- Get the subscribers of a stream
+-- 
+-- Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` 
+-- 
+getSubscribers 
+  :: StreamId -- ^ "streamId" -  The ID of the stream to access. 
+  -> ZulipRESTRequest GetSubscribers MimeNoContent JsonSuccessBase MimeJSON
+getSubscribers (StreamId streamId) =
+  _mkRequest "GET" ["/streams/",toPath streamId,"/members"]
+
+data GetSubscribers  
+-- | @application/json@
+instance Produces GetSubscribers MimeJSON
 
 
 -- *** getSubscriptionStatus

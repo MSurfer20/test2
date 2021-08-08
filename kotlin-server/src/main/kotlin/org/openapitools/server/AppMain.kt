@@ -17,6 +17,7 @@ import io.ktor.client.engine.apache.Apache
 import io.ktor.config.HoconApplicationConfig
 import org.openapitools.server.infrastructure.*
 import org.openapitools.server.apis.AuthenticationApi
+import org.openapitools.server.apis.DraftsApi
 import org.openapitools.server.apis.MessagesApi
 import org.openapitools.server.apis.RealTimeEventsApi
 import org.openapitools.server.apis.ServerAndOrganizationsApi
@@ -64,6 +65,7 @@ fun Application.main() {
     }
     install(Routing) {
         AuthenticationApi()
+        DraftsApi()
         MessagesApi()
         RealTimeEventsApi()
         ServerAndOrganizationsApi()

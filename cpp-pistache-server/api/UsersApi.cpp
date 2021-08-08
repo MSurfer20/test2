@@ -49,8 +49,8 @@ void UsersApi::setupRoutes() {
     Routes::Delete(*router, base + "/user_groups/:user_group_id", Routes::bind(&UsersApi::remove_user_group_handler, this));
     Routes::Post(*router, base + "/typing", Routes::bind(&UsersApi::set_typing_status_handler, this));
     Routes::Delete(*router, base + "/users/me/muted_users/:muted_user_id", Routes::bind(&UsersApi::unmute_user_handler, this));
-    Routes::Patch(*router, base + "/settings/display", Routes::bind(&UsersApi::update_display_settings_handler, this));
-    Routes::Patch(*router, base + "/settings/notifications", Routes::bind(&UsersApi::update_notification_settings_handler, this));
+    Routes::Patch(*router, base + "/settings", Routes::bind(&UsersApi::update_settings_handler, this));
+    Routes::Post(*router, base + "/users/me/status", Routes::bind(&UsersApi::update_status_handler, this));
     Routes::Patch(*router, base + "/users/:user_id", Routes::bind(&UsersApi::update_user_handler, this));
     Routes::Patch(*router, base + "/user_groups/:user_group_id", Routes::bind(&UsersApi::update_user_group_handler, this));
     Routes::Post(*router, base + "/user_groups/:user_group_id/members", Routes::bind(&UsersApi::update_user_group_members_handler, this));
@@ -553,11 +553,43 @@ void UsersApi::unmute_user_handler(const Pistache::Rest::Request &request, Pista
     }
 
 }
-void UsersApi::update_display_settings_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
+void UsersApi::update_settings_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
     try {
 
 
     // Getting the query params
+    auto fullNameQuery = request.query().get("full_name");
+    Pistache::Optional<std::string> fullName;
+    if(!fullNameQuery.isEmpty()){
+        std::string valueQuery_instance;
+        if(fromStringValue(fullNameQuery.get(), valueQuery_instance)){
+            fullName = Pistache::Some(valueQuery_instance);
+        }
+    }
+    auto emailQuery = request.query().get("email");
+    Pistache::Optional<std::string> email;
+    if(!emailQuery.isEmpty()){
+        std::string valueQuery_instance;
+        if(fromStringValue(emailQuery.get(), valueQuery_instance)){
+            email = Pistache::Some(valueQuery_instance);
+        }
+    }
+    auto oldPasswordQuery = request.query().get("old_password");
+    Pistache::Optional<std::string> oldPassword;
+    if(!oldPasswordQuery.isEmpty()){
+        std::string valueQuery_instance;
+        if(fromStringValue(oldPasswordQuery.get(), valueQuery_instance)){
+            oldPassword = Pistache::Some(valueQuery_instance);
+        }
+    }
+    auto newPasswordQuery = request.query().get("new_password");
+    Pistache::Optional<std::string> newPassword;
+    if(!newPasswordQuery.isEmpty()){
+        std::string valueQuery_instance;
+        if(fromStringValue(newPasswordQuery.get(), valueQuery_instance)){
+            newPassword = Pistache::Some(valueQuery_instance);
+        }
+    }
     auto twentyFourHourTimeQuery = request.query().get("twenty_four_hour_time");
     Pistache::Optional<bool> twentyFourHourTime;
     if(!twentyFourHourTimeQuery.isEmpty()){
@@ -604,6 +636,14 @@ void UsersApi::update_display_settings_handler(const Pistache::Rest::Request &re
         int32_t valueQuery_instance;
         if(fromStringValue(colorSchemeQuery.get(), valueQuery_instance)){
             colorScheme = Pistache::Some(valueQuery_instance);
+        }
+    }
+    auto enableDraftsSynchronizationQuery = request.query().get("enable_drafts_synchronization");
+    Pistache::Optional<bool> enableDraftsSynchronization;
+    if(!enableDraftsSynchronizationQuery.isEmpty()){
+        bool valueQuery_instance;
+        if(fromStringValue(enableDraftsSynchronizationQuery.get(), valueQuery_instance)){
+            enableDraftsSynchronization = Pistache::Some(valueQuery_instance);
         }
     }
     auto translateEmoticonsQuery = request.query().get("translate_emoticons");
@@ -662,28 +702,6 @@ void UsersApi::update_display_settings_handler(const Pistache::Rest::Request &re
             timezone = Pistache::Some(valueQuery_instance);
         }
     }
-    
-    try {
-        this->update_display_settings(twentyFourHourTime, denseMode, starredMessageCounts, fluidLayoutWidth, highContrastMode, colorScheme, translateEmoticons, defaultLanguage, defaultView, leftSideUserlist, emojiset, demoteInactiveStreams, timezone, response);
-    } catch (Pistache::Http::HttpError &e) {
-        response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
-        return;
-    } catch (std::exception &e) {
-        const std::pair<Pistache::Http::Code, std::string> errorInfo = this->handleOperationException(e);
-        response.send(errorInfo.first, errorInfo.second);
-        return;
-    }
-
-    } catch (std::exception &e) {
-        response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
-    }
-
-}
-void UsersApi::update_notification_settings_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
-    try {
-
-
-    // Getting the query params
     auto enableStreamDesktopNotificationsQuery = request.query().get("enable_stream_desktop_notifications");
     Pistache::Optional<bool> enableStreamDesktopNotifications;
     if(!enableStreamDesktopNotificationsQuery.isEmpty()){
@@ -738,6 +756,14 @@ void UsersApi::update_notification_settings_handler(const Pistache::Rest::Reques
         bool valueQuery_instance;
         if(fromStringValue(enableSoundsQuery.get(), valueQuery_instance)){
             enableSounds = Pistache::Some(valueQuery_instance);
+        }
+    }
+    auto emailNotificationsBatchingPeriodSecondsQuery = request.query().get("email_notifications_batching_period_seconds");
+    Pistache::Optional<int32_t> emailNotificationsBatchingPeriodSeconds;
+    if(!emailNotificationsBatchingPeriodSecondsQuery.isEmpty()){
+        int32_t valueQuery_instance;
+        if(fromStringValue(emailNotificationsBatchingPeriodSecondsQuery.get(), valueQuery_instance)){
+            emailNotificationsBatchingPeriodSeconds = Pistache::Some(valueQuery_instance);
         }
     }
     auto enableOfflineEmailNotificationsQuery = request.query().get("enable_offline_email_notifications");
@@ -836,9 +862,79 @@ void UsersApi::update_notification_settings_handler(const Pistache::Rest::Reques
             presenceEnabled = Pistache::Some(valueQuery_instance);
         }
     }
+    auto enterSendsQuery = request.query().get("enter_sends");
+    Pistache::Optional<bool> enterSends;
+    if(!enterSendsQuery.isEmpty()){
+        bool valueQuery_instance;
+        if(fromStringValue(enterSendsQuery.get(), valueQuery_instance)){
+            enterSends = Pistache::Some(valueQuery_instance);
+        }
+    }
     
     try {
-        this->update_notification_settings(enableStreamDesktopNotifications, enableStreamEmailNotifications, enableStreamPushNotifications, enableStreamAudibleNotifications, notificationSound, enableDesktopNotifications, enableSounds, enableOfflineEmailNotifications, enableOfflinePushNotifications, enableOnlinePushNotifications, enableDigestEmails, enableMarketingEmails, enableLoginEmails, messageContentInEmailNotifications, pmContentInDesktopNotifications, wildcardMentionsNotify, desktopIconCountDisplay, realmNameInNotifications, presenceEnabled, response);
+        this->update_settings(fullName, email, oldPassword, newPassword, twentyFourHourTime, denseMode, starredMessageCounts, fluidLayoutWidth, highContrastMode, colorScheme, enableDraftsSynchronization, translateEmoticons, defaultLanguage, defaultView, leftSideUserlist, emojiset, demoteInactiveStreams, timezone, enableStreamDesktopNotifications, enableStreamEmailNotifications, enableStreamPushNotifications, enableStreamAudibleNotifications, notificationSound, enableDesktopNotifications, enableSounds, emailNotificationsBatchingPeriodSeconds, enableOfflineEmailNotifications, enableOfflinePushNotifications, enableOnlinePushNotifications, enableDigestEmails, enableMarketingEmails, enableLoginEmails, messageContentInEmailNotifications, pmContentInDesktopNotifications, wildcardMentionsNotify, desktopIconCountDisplay, realmNameInNotifications, presenceEnabled, enterSends, response);
+    } catch (Pistache::Http::HttpError &e) {
+        response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
+        return;
+    } catch (std::exception &e) {
+        const std::pair<Pistache::Http::Code, std::string> errorInfo = this->handleOperationException(e);
+        response.send(errorInfo.first, errorInfo.second);
+        return;
+    }
+
+    } catch (std::exception &e) {
+        response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
+    }
+
+}
+void UsersApi::update_status_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
+    try {
+
+
+    // Getting the query params
+    auto statusTextQuery = request.query().get("status_text");
+    Pistache::Optional<std::string> statusText;
+    if(!statusTextQuery.isEmpty()){
+        std::string valueQuery_instance;
+        if(fromStringValue(statusTextQuery.get(), valueQuery_instance)){
+            statusText = Pistache::Some(valueQuery_instance);
+        }
+    }
+    auto awayQuery = request.query().get("away");
+    Pistache::Optional<bool> away;
+    if(!awayQuery.isEmpty()){
+        bool valueQuery_instance;
+        if(fromStringValue(awayQuery.get(), valueQuery_instance)){
+            away = Pistache::Some(valueQuery_instance);
+        }
+    }
+    auto emojiNameQuery = request.query().get("emoji_name");
+    Pistache::Optional<std::string> emojiName;
+    if(!emojiNameQuery.isEmpty()){
+        std::string valueQuery_instance;
+        if(fromStringValue(emojiNameQuery.get(), valueQuery_instance)){
+            emojiName = Pistache::Some(valueQuery_instance);
+        }
+    }
+    auto emojiCodeQuery = request.query().get("emoji_code");
+    Pistache::Optional<std::string> emojiCode;
+    if(!emojiCodeQuery.isEmpty()){
+        std::string valueQuery_instance;
+        if(fromStringValue(emojiCodeQuery.get(), valueQuery_instance)){
+            emojiCode = Pistache::Some(valueQuery_instance);
+        }
+    }
+    auto reactionTypeQuery = request.query().get("reaction_type");
+    Pistache::Optional<std::string> reactionType;
+    if(!reactionTypeQuery.isEmpty()){
+        std::string valueQuery_instance;
+        if(fromStringValue(reactionTypeQuery.get(), valueQuery_instance)){
+            reactionType = Pistache::Some(valueQuery_instance);
+        }
+    }
+    
+    try {
+        this->update_status(statusText, away, emojiName, emojiCode, reactionType, response);
     } catch (Pistache::Http::HttpError &e) {
         response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
         return;

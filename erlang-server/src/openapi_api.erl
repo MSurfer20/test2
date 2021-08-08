@@ -27,6 +27,27 @@ request_params('FetchApiKey') ->
     ];
 
 
+request_params('CreateDrafts') ->
+    [
+        'drafts'
+    ];
+
+request_params('DeleteDraft') ->
+    [
+        'draft_id'
+    ];
+
+request_params('EditDraft') ->
+    [
+        'draft_id',
+        'draft'
+    ];
+
+request_params('GetDrafts') ->
+    [
+    ];
+
+
 request_params('AddReaction') ->
     [
         'message_id',
@@ -247,6 +268,12 @@ request_params('CreateBigBlueButtonVideoCall') ->
     [
     ];
 
+request_params('DeleteTopic') ->
+    [
+        'stream_id',
+        'topic_name'
+    ];
+
 request_params('GetStreamId') ->
     [
         'stream'
@@ -265,6 +292,11 @@ request_params('GetStreams') ->
         'include_all_active',
         'include_default',
         'include_owner_subscribed'
+    ];
+
+request_params('GetSubscribers') ->
+    [
+        'stream_id'
     ];
 
 request_params('GetSubscriptionStatus') ->
@@ -416,25 +448,26 @@ request_params('UnmuteUser') ->
         'muted_user_id'
     ];
 
-request_params('UpdateDisplaySettings') ->
+request_params('UpdateSettings') ->
     [
+        'full_name',
+        'email',
+        'old_password',
+        'new_password',
         'twenty_four_hour_time',
         'dense_mode',
         'starred_message_counts',
         'fluid_layout_width',
         'high_contrast_mode',
         'color_scheme',
+        'enable_drafts_synchronization',
         'translate_emoticons',
         'default_language',
         'default_view',
         'left_side_userlist',
         'emojiset',
         'demote_inactive_streams',
-        'timezone'
-    ];
-
-request_params('UpdateNotificationSettings') ->
-    [
+        'timezone',
         'enable_stream_desktop_notifications',
         'enable_stream_email_notifications',
         'enable_stream_push_notifications',
@@ -442,6 +475,7 @@ request_params('UpdateNotificationSettings') ->
         'notification_sound',
         'enable_desktop_notifications',
         'enable_sounds',
+        'email_notifications_batching_period_seconds',
         'enable_offline_email_notifications',
         'enable_offline_push_notifications',
         'enable_online_push_notifications',
@@ -453,7 +487,17 @@ request_params('UpdateNotificationSettings') ->
         'wildcard_mentions_notify',
         'desktop_icon_count_display',
         'realm_name_in_notifications',
-        'presence_enabled'
+        'presence_enabled',
+        'enter_sends'
+    ];
+
+request_params('UpdateStatus') ->
+    [
+        'status_text',
+        'away',
+        'emoji_name',
+        'emoji_code',
+        'reaction_type'
     ];
 
 request_params('UpdateUser') ->
@@ -536,6 +580,41 @@ request_param_info('FetchApiKey', 'password') ->
         source => qs_val  ,
         rules => [
             {type, 'binary'},
+            required
+        ]
+    };
+
+
+request_param_info('CreateDrafts', 'drafts') ->
+    #{
+        source => qs_val  ,
+        rules => [
+            not_required
+        ]
+    };
+
+request_param_info('DeleteDraft', 'draft_id') ->
+    #{
+        source =>  binding ,
+        rules => [
+            {type, 'integer'},
+            required
+        ]
+    };
+
+request_param_info('EditDraft', 'draft_id') ->
+    #{
+        source =>  binding ,
+        rules => [
+            {type, 'integer'},
+            required
+        ]
+    };
+
+request_param_info('EditDraft', 'draft') ->
+    #{
+        source => qs_val  ,
+        rules => [
             required
         ]
     };
@@ -1228,6 +1307,24 @@ request_param_info('ArchiveStream', 'stream_id') ->
         ]
     };
 
+request_param_info('DeleteTopic', 'stream_id') ->
+    #{
+        source =>  binding ,
+        rules => [
+            {type, 'integer'},
+            required
+        ]
+    };
+
+request_param_info('DeleteTopic', 'topic_name') ->
+    #{
+        source => qs_val  ,
+        rules => [
+            {type, 'binary'},
+            required
+        ]
+    };
+
 request_param_info('GetStreamId', 'stream') ->
     #{
         source => qs_val  ,
@@ -1297,6 +1394,15 @@ request_param_info('GetStreams', 'include_owner_subscribed') ->
         rules => [
             {type, 'boolean'},
             not_required
+        ]
+    };
+
+request_param_info('GetSubscribers', 'stream_id') ->
+    #{
+        source =>  binding ,
+        rules => [
+            {type, 'integer'},
+            required
         ]
     };
 
@@ -1761,7 +1867,43 @@ request_param_info('UnmuteUser', 'muted_user_id') ->
         ]
     };
 
-request_param_info('UpdateDisplaySettings', 'twenty_four_hour_time') ->
+request_param_info('UpdateSettings', 'full_name') ->
+    #{
+        source => qs_val  ,
+        rules => [
+            {type, 'binary'},
+            not_required
+        ]
+    };
+
+request_param_info('UpdateSettings', 'email') ->
+    #{
+        source => qs_val  ,
+        rules => [
+            {type, 'binary'},
+            not_required
+        ]
+    };
+
+request_param_info('UpdateSettings', 'old_password') ->
+    #{
+        source => qs_val  ,
+        rules => [
+            {type, 'binary'},
+            not_required
+        ]
+    };
+
+request_param_info('UpdateSettings', 'new_password') ->
+    #{
+        source => qs_val  ,
+        rules => [
+            {type, 'binary'},
+            not_required
+        ]
+    };
+
+request_param_info('UpdateSettings', 'twenty_four_hour_time') ->
     #{
         source => qs_val  ,
         rules => [
@@ -1770,7 +1912,7 @@ request_param_info('UpdateDisplaySettings', 'twenty_four_hour_time') ->
         ]
     };
 
-request_param_info('UpdateDisplaySettings', 'dense_mode') ->
+request_param_info('UpdateSettings', 'dense_mode') ->
     #{
         source => qs_val  ,
         rules => [
@@ -1779,7 +1921,7 @@ request_param_info('UpdateDisplaySettings', 'dense_mode') ->
         ]
     };
 
-request_param_info('UpdateDisplaySettings', 'starred_message_counts') ->
+request_param_info('UpdateSettings', 'starred_message_counts') ->
     #{
         source => qs_val  ,
         rules => [
@@ -1788,7 +1930,7 @@ request_param_info('UpdateDisplaySettings', 'starred_message_counts') ->
         ]
     };
 
-request_param_info('UpdateDisplaySettings', 'fluid_layout_width') ->
+request_param_info('UpdateSettings', 'fluid_layout_width') ->
     #{
         source => qs_val  ,
         rules => [
@@ -1797,7 +1939,7 @@ request_param_info('UpdateDisplaySettings', 'fluid_layout_width') ->
         ]
     };
 
-request_param_info('UpdateDisplaySettings', 'high_contrast_mode') ->
+request_param_info('UpdateSettings', 'high_contrast_mode') ->
     #{
         source => qs_val  ,
         rules => [
@@ -1806,7 +1948,7 @@ request_param_info('UpdateDisplaySettings', 'high_contrast_mode') ->
         ]
     };
 
-request_param_info('UpdateDisplaySettings', 'color_scheme') ->
+request_param_info('UpdateSettings', 'color_scheme') ->
     #{
         source => qs_val  ,
         rules => [
@@ -1816,7 +1958,7 @@ request_param_info('UpdateDisplaySettings', 'color_scheme') ->
         ]
     };
 
-request_param_info('UpdateDisplaySettings', 'translate_emoticons') ->
+request_param_info('UpdateSettings', 'enable_drafts_synchronization') ->
     #{
         source => qs_val  ,
         rules => [
@@ -1825,25 +1967,7 @@ request_param_info('UpdateDisplaySettings', 'translate_emoticons') ->
         ]
     };
 
-request_param_info('UpdateDisplaySettings', 'default_language') ->
-    #{
-        source => qs_val  ,
-        rules => [
-            {type, 'binary'},
-            not_required
-        ]
-    };
-
-request_param_info('UpdateDisplaySettings', 'default_view') ->
-    #{
-        source => qs_val  ,
-        rules => [
-            {type, 'binary'},
-            not_required
-        ]
-    };
-
-request_param_info('UpdateDisplaySettings', 'left_side_userlist') ->
+request_param_info('UpdateSettings', 'translate_emoticons') ->
     #{
         source => qs_val  ,
         rules => [
@@ -1852,7 +1976,7 @@ request_param_info('UpdateDisplaySettings', 'left_side_userlist') ->
         ]
     };
 
-request_param_info('UpdateDisplaySettings', 'emojiset') ->
+request_param_info('UpdateSettings', 'default_language') ->
     #{
         source => qs_val  ,
         rules => [
@@ -1861,7 +1985,34 @@ request_param_info('UpdateDisplaySettings', 'emojiset') ->
         ]
     };
 
-request_param_info('UpdateDisplaySettings', 'demote_inactive_streams') ->
+request_param_info('UpdateSettings', 'default_view') ->
+    #{
+        source => qs_val  ,
+        rules => [
+            {type, 'binary'},
+            not_required
+        ]
+    };
+
+request_param_info('UpdateSettings', 'left_side_userlist') ->
+    #{
+        source => qs_val  ,
+        rules => [
+            {type, 'boolean'},
+            not_required
+        ]
+    };
+
+request_param_info('UpdateSettings', 'emojiset') ->
+    #{
+        source => qs_val  ,
+        rules => [
+            {type, 'binary'},
+            not_required
+        ]
+    };
+
+request_param_info('UpdateSettings', 'demote_inactive_streams') ->
     #{
         source => qs_val  ,
         rules => [
@@ -1871,7 +2022,7 @@ request_param_info('UpdateDisplaySettings', 'demote_inactive_streams') ->
         ]
     };
 
-request_param_info('UpdateDisplaySettings', 'timezone') ->
+request_param_info('UpdateSettings', 'timezone') ->
     #{
         source => qs_val  ,
         rules => [
@@ -1880,7 +2031,7 @@ request_param_info('UpdateDisplaySettings', 'timezone') ->
         ]
     };
 
-request_param_info('UpdateNotificationSettings', 'enable_stream_desktop_notifications') ->
+request_param_info('UpdateSettings', 'enable_stream_desktop_notifications') ->
     #{
         source => qs_val  ,
         rules => [
@@ -1889,7 +2040,7 @@ request_param_info('UpdateNotificationSettings', 'enable_stream_desktop_notifica
         ]
     };
 
-request_param_info('UpdateNotificationSettings', 'enable_stream_email_notifications') ->
+request_param_info('UpdateSettings', 'enable_stream_email_notifications') ->
     #{
         source => qs_val  ,
         rules => [
@@ -1898,7 +2049,7 @@ request_param_info('UpdateNotificationSettings', 'enable_stream_email_notificati
         ]
     };
 
-request_param_info('UpdateNotificationSettings', 'enable_stream_push_notifications') ->
+request_param_info('UpdateSettings', 'enable_stream_push_notifications') ->
     #{
         source => qs_val  ,
         rules => [
@@ -1907,7 +2058,7 @@ request_param_info('UpdateNotificationSettings', 'enable_stream_push_notificatio
         ]
     };
 
-request_param_info('UpdateNotificationSettings', 'enable_stream_audible_notifications') ->
+request_param_info('UpdateSettings', 'enable_stream_audible_notifications') ->
     #{
         source => qs_val  ,
         rules => [
@@ -1916,7 +2067,7 @@ request_param_info('UpdateNotificationSettings', 'enable_stream_audible_notifica
         ]
     };
 
-request_param_info('UpdateNotificationSettings', 'notification_sound') ->
+request_param_info('UpdateSettings', 'notification_sound') ->
     #{
         source => qs_val  ,
         rules => [
@@ -1925,7 +2076,7 @@ request_param_info('UpdateNotificationSettings', 'notification_sound') ->
         ]
     };
 
-request_param_info('UpdateNotificationSettings', 'enable_desktop_notifications') ->
+request_param_info('UpdateSettings', 'enable_desktop_notifications') ->
     #{
         source => qs_val  ,
         rules => [
@@ -1934,7 +2085,7 @@ request_param_info('UpdateNotificationSettings', 'enable_desktop_notifications')
         ]
     };
 
-request_param_info('UpdateNotificationSettings', 'enable_sounds') ->
+request_param_info('UpdateSettings', 'enable_sounds') ->
     #{
         source => qs_val  ,
         rules => [
@@ -1943,7 +2094,16 @@ request_param_info('UpdateNotificationSettings', 'enable_sounds') ->
         ]
     };
 
-request_param_info('UpdateNotificationSettings', 'enable_offline_email_notifications') ->
+request_param_info('UpdateSettings', 'email_notifications_batching_period_seconds') ->
+    #{
+        source => qs_val  ,
+        rules => [
+            {type, 'integer'},
+            not_required
+        ]
+    };
+
+request_param_info('UpdateSettings', 'enable_offline_email_notifications') ->
     #{
         source => qs_val  ,
         rules => [
@@ -1952,7 +2112,7 @@ request_param_info('UpdateNotificationSettings', 'enable_offline_email_notificat
         ]
     };
 
-request_param_info('UpdateNotificationSettings', 'enable_offline_push_notifications') ->
+request_param_info('UpdateSettings', 'enable_offline_push_notifications') ->
     #{
         source => qs_val  ,
         rules => [
@@ -1961,7 +2121,7 @@ request_param_info('UpdateNotificationSettings', 'enable_offline_push_notificati
         ]
     };
 
-request_param_info('UpdateNotificationSettings', 'enable_online_push_notifications') ->
+request_param_info('UpdateSettings', 'enable_online_push_notifications') ->
     #{
         source => qs_val  ,
         rules => [
@@ -1970,7 +2130,7 @@ request_param_info('UpdateNotificationSettings', 'enable_online_push_notificatio
         ]
     };
 
-request_param_info('UpdateNotificationSettings', 'enable_digest_emails') ->
+request_param_info('UpdateSettings', 'enable_digest_emails') ->
     #{
         source => qs_val  ,
         rules => [
@@ -1979,7 +2139,7 @@ request_param_info('UpdateNotificationSettings', 'enable_digest_emails') ->
         ]
     };
 
-request_param_info('UpdateNotificationSettings', 'enable_marketing_emails') ->
+request_param_info('UpdateSettings', 'enable_marketing_emails') ->
     #{
         source => qs_val  ,
         rules => [
@@ -1988,7 +2148,7 @@ request_param_info('UpdateNotificationSettings', 'enable_marketing_emails') ->
         ]
     };
 
-request_param_info('UpdateNotificationSettings', 'enable_login_emails') ->
+request_param_info('UpdateSettings', 'enable_login_emails') ->
     #{
         source => qs_val  ,
         rules => [
@@ -1997,7 +2157,7 @@ request_param_info('UpdateNotificationSettings', 'enable_login_emails') ->
         ]
     };
 
-request_param_info('UpdateNotificationSettings', 'message_content_in_email_notifications') ->
+request_param_info('UpdateSettings', 'message_content_in_email_notifications') ->
     #{
         source => qs_val  ,
         rules => [
@@ -2006,7 +2166,7 @@ request_param_info('UpdateNotificationSettings', 'message_content_in_email_notif
         ]
     };
 
-request_param_info('UpdateNotificationSettings', 'pm_content_in_desktop_notifications') ->
+request_param_info('UpdateSettings', 'pm_content_in_desktop_notifications') ->
     #{
         source => qs_val  ,
         rules => [
@@ -2015,7 +2175,7 @@ request_param_info('UpdateNotificationSettings', 'pm_content_in_desktop_notifica
         ]
     };
 
-request_param_info('UpdateNotificationSettings', 'wildcard_mentions_notify') ->
+request_param_info('UpdateSettings', 'wildcard_mentions_notify') ->
     #{
         source => qs_val  ,
         rules => [
@@ -2024,7 +2184,7 @@ request_param_info('UpdateNotificationSettings', 'wildcard_mentions_notify') ->
         ]
     };
 
-request_param_info('UpdateNotificationSettings', 'desktop_icon_count_display') ->
+request_param_info('UpdateSettings', 'desktop_icon_count_display') ->
     #{
         source => qs_val  ,
         rules => [
@@ -2034,7 +2194,7 @@ request_param_info('UpdateNotificationSettings', 'desktop_icon_count_display') -
         ]
     };
 
-request_param_info('UpdateNotificationSettings', 'realm_name_in_notifications') ->
+request_param_info('UpdateSettings', 'realm_name_in_notifications') ->
     #{
         source => qs_val  ,
         rules => [
@@ -2043,11 +2203,65 @@ request_param_info('UpdateNotificationSettings', 'realm_name_in_notifications') 
         ]
     };
 
-request_param_info('UpdateNotificationSettings', 'presence_enabled') ->
+request_param_info('UpdateSettings', 'presence_enabled') ->
     #{
         source => qs_val  ,
         rules => [
             {type, 'boolean'},
+            not_required
+        ]
+    };
+
+request_param_info('UpdateSettings', 'enter_sends') ->
+    #{
+        source => qs_val  ,
+        rules => [
+            {type, 'boolean'},
+            not_required
+        ]
+    };
+
+request_param_info('UpdateStatus', 'status_text') ->
+    #{
+        source => qs_val  ,
+        rules => [
+            {type, 'binary'},
+            not_required
+        ]
+    };
+
+request_param_info('UpdateStatus', 'away') ->
+    #{
+        source => qs_val  ,
+        rules => [
+            {type, 'boolean'},
+            not_required
+        ]
+    };
+
+request_param_info('UpdateStatus', 'emoji_name') ->
+    #{
+        source => qs_val  ,
+        rules => [
+            {type, 'binary'},
+            not_required
+        ]
+    };
+
+request_param_info('UpdateStatus', 'emoji_code') ->
+    #{
+        source => qs_val  ,
+        rules => [
+            {type, 'binary'},
+            not_required
+        ]
+    };
+
+request_param_info('UpdateStatus', 'reaction_type') ->
+    #{
+        source => qs_val  ,
+        rules => [
+            {type, 'binary'},
             not_required
         ]
     };
@@ -2194,6 +2408,25 @@ validate_response('FetchApiKey', 200, Body, ValidatorState) ->
     validate_response_body('ApiKeyResponse', 'ApiKeyResponse', Body, ValidatorState);
 
 
+validate_response('CreateDrafts', 200, Body, ValidatorState) ->
+    validate_response_body('JsonSuccess', 'JsonSuccess', Body, ValidatorState);
+validate_response('CreateDrafts', 400, Body, ValidatorState) ->
+    validate_response_body('CodedError', 'CodedError', Body, ValidatorState);
+
+validate_response('DeleteDraft', 200, Body, ValidatorState) ->
+    validate_response_body('JsonSuccess', 'JsonSuccess', Body, ValidatorState);
+validate_response('DeleteDraft', 404, Body, ValidatorState) ->
+    validate_response_body('JsonError', 'JsonError', Body, ValidatorState);
+
+validate_response('EditDraft', 200, Body, ValidatorState) ->
+    validate_response_body('JsonSuccess', 'JsonSuccess', Body, ValidatorState);
+validate_response('EditDraft', 404, Body, ValidatorState) ->
+    validate_response_body('JsonError', 'JsonError', Body, ValidatorState);
+
+validate_response('GetDrafts', 200, Body, ValidatorState) ->
+    validate_response_body('JsonSuccess', 'JsonSuccess', Body, ValidatorState);
+
+
 validate_response('AddReaction', 200, Body, ValidatorState) ->
     validate_response_body('JsonSuccess', 'JsonSuccess', Body, ValidatorState);
 validate_response('AddReaction', 400, Body, ValidatorState) ->
@@ -2326,6 +2559,11 @@ validate_response('ArchiveStream', 400, Body, ValidatorState) ->
 validate_response('CreateBigBlueButtonVideoCall', 200, Body, ValidatorState) ->
     validate_response_body('JsonSuccessBase', 'JsonSuccessBase', Body, ValidatorState);
 
+validate_response('DeleteTopic', 200, Body, ValidatorState) ->
+    validate_response_body('JsonSuccess', 'JsonSuccess', Body, ValidatorState);
+validate_response('DeleteTopic', 400, Body, ValidatorState) ->
+    validate_response_body('JsonError', 'JsonError', Body, ValidatorState);
+
 validate_response('GetStreamId', 200, Body, ValidatorState) ->
     validate_response_body('JsonSuccessBase', 'JsonSuccessBase', Body, ValidatorState);
 validate_response('GetStreamId', 400, Body, ValidatorState) ->
@@ -2340,6 +2578,11 @@ validate_response('GetStreams', 200, Body, ValidatorState) ->
     validate_response_body('JsonSuccessBase', 'JsonSuccessBase', Body, ValidatorState);
 validate_response('GetStreams', 400, Body, ValidatorState) ->
     validate_response_body('CodedError', 'CodedError', Body, ValidatorState);
+
+validate_response('GetSubscribers', 200, Body, ValidatorState) ->
+    validate_response_body('JsonSuccessBase', 'JsonSuccessBase', Body, ValidatorState);
+validate_response('GetSubscribers', 400, Body, ValidatorState) ->
+    validate_response_body('JsonError', 'JsonError', Body, ValidatorState);
 
 validate_response('GetSubscriptionStatus', 200, Body, ValidatorState) ->
     validate_response_body('JsonSuccessBase', 'JsonSuccessBase', Body, ValidatorState);
@@ -2438,11 +2681,13 @@ validate_response('UnmuteUser', 200, Body, ValidatorState) ->
 validate_response('UnmuteUser', 400, Body, ValidatorState) ->
     validate_response_body('oneOf&lt;object,object&gt;', 'oneOf&lt;object,object&gt;', Body, ValidatorState);
 
-validate_response('UpdateDisplaySettings', 200, Body, ValidatorState) ->
+validate_response('UpdateSettings', 200, Body, ValidatorState) ->
     validate_response_body('JsonSuccessBase', 'JsonSuccessBase', Body, ValidatorState);
 
-validate_response('UpdateNotificationSettings', 200, Body, ValidatorState) ->
-    validate_response_body('JsonSuccessBase', 'JsonSuccessBase', Body, ValidatorState);
+validate_response('UpdateStatus', 200, Body, ValidatorState) ->
+    validate_response_body('JsonSuccess', 'JsonSuccess', Body, ValidatorState);
+validate_response('UpdateStatus', 400, Body, ValidatorState) ->
+    validate_response_body('oneOf&lt;object,object,object,object,object,object&gt;', 'oneOf&lt;object,object,object,object,object,object&gt;', Body, ValidatorState);
 
 validate_response('UpdateUser', 200, Body, ValidatorState) ->
     validate_response_body('JsonSuccess', 'JsonSuccess', Body, ValidatorState);

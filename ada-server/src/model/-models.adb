@@ -68,17 +68,19 @@ package body .Models is
 
    procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
                         Name  : in String;
-                        Value : in AttachmentsMessages_Type) is
+                        Value : in EmojiReactionBaseAllOfUser_Type) is
    begin
       Into.Start_Entity (Name);
-      Into.Write_Entity ("date_sent", Value.Date_Sent);
       Into.Write_Entity ("id", Value.Id);
+      Into.Write_Entity ("email", Value.Email);
+      Into.Write_Entity ("full_name", Value.Full_Name);
+      Into.Write_Entity ("is_mirror_dummy", Value.Is_Mirror_Dummy);
       Into.End_Entity (Name);
    end Serialize;
 
    procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
                         Name  : in String;
-                        Value : in AttachmentsMessages_Type_Vectors.Vector) is
+                        Value : in EmojiReactionBaseAllOfUser_Type_Vectors.Vector) is
    begin
       Into.Start_Array (Name);
       for Item of Value loop
@@ -89,19 +91,21 @@ package body .Models is
 
    procedure Deserialize (From  : in Swagger.Value_Type;
                           Name  : in String;
-                          Value : out AttachmentsMessages_Type) is
+                          Value : out EmojiReactionBaseAllOfUser_Type) is
       Object : Swagger.Value_Type;
    begin
       Swagger.Streams.Deserialize (From, Name, Object);
-      Swagger.Streams.Deserialize (Object, "date_sent", Value.Date_Sent);
       Swagger.Streams.Deserialize (Object, "id", Value.Id);
+      Swagger.Streams.Deserialize (Object, "email", Value.Email);
+      Swagger.Streams.Deserialize (Object, "full_name", Value.Full_Name);
+      Swagger.Streams.Deserialize (Object, "is_mirror_dummy", Value.Is_Mirror_Dummy);
    end Deserialize;
 
    procedure Deserialize (From  : in Swagger.Value_Type;
                           Name  : in String;
-                          Value : out AttachmentsMessages_Type_Vectors.Vector) is
+                          Value : out EmojiReactionBaseAllOfUser_Type_Vectors.Vector) is
       List : Swagger.Value_Array_Type;
-      Item : AttachmentsMessages_Type;
+      Item : EmojiReactionBaseAllOfUser_Type;
    begin
       Value.Clear;
       Swagger.Streams.Deserialize (From, Name, List);
@@ -116,21 +120,20 @@ package body .Models is
 
    procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
                         Name  : in String;
-                        Value : in Attachments_Type) is
+                        Value : in EmojiReactionBase_Type) is
    begin
       Into.Start_Entity (Name);
-      Into.Write_Entity ("id", Value.Id);
-      Into.Write_Entity ("name", Value.Name);
-      Into.Write_Entity ("path_id", Value.Path_Id);
-      Into.Write_Entity ("size", Value.Size);
-      Into.Write_Entity ("create_time", Value.Create_Time);
-      Serialize (Into, "messages", Value.Messages);
+      Into.Write_Entity ("emoji_code", Value.Emoji_Code);
+      Into.Write_Entity ("emoji_name", Value.Emoji_Name);
+      Into.Write_Entity ("reaction_type", Value.Reaction_Type);
+      Into.Write_Entity ("user_id", Value.User_Id);
+      Serialize (Into, "user", Value.User);
       Into.End_Entity (Name);
    end Serialize;
 
    procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
                         Name  : in String;
-                        Value : in Attachments_Type_Vectors.Vector) is
+                        Value : in EmojiReactionBase_Type_Vectors.Vector) is
    begin
       Into.Start_Array (Name);
       for Item of Value loop
@@ -141,23 +144,500 @@ package body .Models is
 
    procedure Deserialize (From  : in Swagger.Value_Type;
                           Name  : in String;
-                          Value : out Attachments_Type) is
+                          Value : out EmojiReactionBase_Type) is
+      Object : Swagger.Value_Type;
+   begin
+      Swagger.Streams.Deserialize (From, Name, Object);
+      Swagger.Streams.Deserialize (Object, "emoji_code", Value.Emoji_Code);
+      Swagger.Streams.Deserialize (Object, "emoji_name", Value.Emoji_Name);
+      Swagger.Streams.Deserialize (Object, "reaction_type", Value.Reaction_Type);
+      Swagger.Streams.Deserialize (Object, "user_id", Value.User_Id);
+      Deserialize (Object, "user", Value.User);
+   end Deserialize;
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out EmojiReactionBase_Type_Vectors.Vector) is
+      List : Swagger.Value_Array_Type;
+      Item : EmojiReactionBase_Type;
+   begin
+      Value.Clear;
+      Swagger.Streams.Deserialize (From, Name, List);
+      for Data of List loop
+         Deserialize (Data, "", Item);
+         Value.Append (Item);
+      end loop;
+   end Deserialize;
+
+
+
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in EmojiReactionBaseAllOf_Type) is
+   begin
+      Into.Start_Entity (Name);
+      Into.Write_Entity ("user_id", Value.User_Id);
+      Serialize (Into, "user", Value.User);
+      Into.End_Entity (Name);
+   end Serialize;
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in EmojiReactionBaseAllOf_Type_Vectors.Vector) is
+   begin
+      Into.Start_Array (Name);
+      for Item of Value loop
+         Serialize (Into, "", Item);
+      end loop;
+      Into.End_Array (Name);
+   end Serialize;
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out EmojiReactionBaseAllOf_Type) is
+      Object : Swagger.Value_Type;
+   begin
+      Swagger.Streams.Deserialize (From, Name, Object);
+      Swagger.Streams.Deserialize (Object, "user_id", Value.User_Id);
+      Deserialize (Object, "user", Value.User);
+   end Deserialize;
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out EmojiReactionBaseAllOf_Type_Vectors.Vector) is
+      List : Swagger.Value_Array_Type;
+      Item : EmojiReactionBaseAllOf_Type;
+   begin
+      Value.Clear;
+      Swagger.Streams.Deserialize (From, Name, List);
+      for Data of List loop
+         Deserialize (Data, "", Item);
+         Value.Append (Item);
+      end loop;
+   end Deserialize;
+
+
+
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in JsonErrorBase_Type) is
+   begin
+      Into.Start_Entity (Name);
+      Into.Write_Entity ("result", Value.Result);
+      Into.Write_Entity ("msg", Value.Msg);
+      Into.End_Entity (Name);
+   end Serialize;
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in JsonErrorBase_Type_Vectors.Vector) is
+   begin
+      Into.Start_Array (Name);
+      for Item of Value loop
+         Serialize (Into, "", Item);
+      end loop;
+      Into.End_Array (Name);
+   end Serialize;
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out JsonErrorBase_Type) is
+      Object : Swagger.Value_Type;
+   begin
+      Swagger.Streams.Deserialize (From, Name, Object);
+      Swagger.Streams.Deserialize (Object, "result", Value.Result);
+      Swagger.Streams.Deserialize (Object, "msg", Value.Msg);
+   end Deserialize;
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out JsonErrorBase_Type_Vectors.Vector) is
+      List : Swagger.Value_Array_Type;
+      Item : JsonErrorBase_Type;
+   begin
+      Value.Clear;
+      Swagger.Streams.Deserialize (From, Name, List);
+      for Data of List loop
+         Deserialize (Data, "", Item);
+         Value.Append (Item);
+      end loop;
+   end Deserialize;
+
+
+
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in JsonSuccessBase_Type) is
+   begin
+      Into.Start_Entity (Name);
+      Into.Write_Entity ("result", Value.Result);
+      Into.Write_Entity ("msg", Value.Msg);
+      Into.End_Entity (Name);
+   end Serialize;
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in JsonSuccessBase_Type_Vectors.Vector) is
+   begin
+      Into.Start_Array (Name);
+      for Item of Value loop
+         Serialize (Into, "", Item);
+      end loop;
+      Into.End_Array (Name);
+   end Serialize;
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out JsonSuccessBase_Type) is
+      Object : Swagger.Value_Type;
+   begin
+      Swagger.Streams.Deserialize (From, Name, Object);
+      Swagger.Streams.Deserialize (Object, "result", Value.Result);
+      Swagger.Streams.Deserialize (Object, "msg", Value.Msg);
+   end Deserialize;
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out JsonSuccessBase_Type_Vectors.Vector) is
+      List : Swagger.Value_Array_Type;
+      Item : JsonSuccessBase_Type;
+   begin
+      Value.Clear;
+      Swagger.Streams.Deserialize (From, Name, List);
+      for Data of List loop
+         Deserialize (Data, "", Item);
+         Value.Append (Item);
+      end loop;
+   end Deserialize;
+
+
+
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in SuccessDescription_Type) is
+   begin
+      Into.Start_Entity (Name);
+      Into.End_Entity (Name);
+   end Serialize;
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in SuccessDescription_Type_Vectors.Vector) is
+   begin
+      Into.Start_Array (Name);
+      for Item of Value loop
+         Serialize (Into, "", Item);
+      end loop;
+      Into.End_Array (Name);
+   end Serialize;
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out SuccessDescription_Type) is
+      Object : Swagger.Value_Type;
+   begin
+      Swagger.Streams.Deserialize (From, Name, Object);
+   end Deserialize;
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out SuccessDescription_Type_Vectors.Vector) is
+      List : Swagger.Value_Array_Type;
+      Item : SuccessDescription_Type;
+   begin
+      Value.Clear;
+      Swagger.Streams.Deserialize (From, Name, List);
+      for Data of List loop
+         Deserialize (Data, "", Item);
+         Value.Append (Item);
+      end loop;
+   end Deserialize;
+
+
+
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in UserBase_Type) is
+   begin
+      Into.Start_Entity (Name);
+      Into.Write_Entity ("email", Value.Email);
+      Into.Write_Entity ("is_bot", Value.Is_Bot);
+      Into.Write_Entity ("avatar_url", Value.Avatar_Url);
+      Into.Write_Entity ("avatar_version", Value.Avatar_Version);
+      Into.Write_Entity ("full_name", Value.Full_Name);
+      Into.Write_Entity ("is_admin", Value.Is_Admin);
+      Into.Write_Entity ("is_owner", Value.Is_Owner);
+      Into.Write_Entity ("is_billing_admin", Value.Is_Billing_Admin);
+      Into.Write_Entity ("role", Value.Role);
+      Into.Write_Entity ("bot_type", Value.Bot_Type);
+      Into.Write_Entity ("user_id", Value.User_Id);
+      Into.Write_Entity ("bot_owner_id", Value.Bot_Owner_Id);
+      Into.Write_Entity ("is_active", Value.Is_Active);
+      Into.Write_Entity ("is_guest", Value.Is_Guest);
+      Into.Write_Entity ("timezone", Value.Timezone);
+      Into.Write_Entity ("date_joined", Value.Date_Joined);
+      Into.Write_Entity ("delivery_email", Value.Delivery_Email);
+      Serialize (Into, "profile_data", Value.Profile_Data);
+      Into.End_Entity (Name);
+   end Serialize;
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in UserBase_Type_Vectors.Vector) is
+   begin
+      Into.Start_Array (Name);
+      for Item of Value loop
+         Serialize (Into, "", Item);
+      end loop;
+      Into.End_Array (Name);
+   end Serialize;
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out UserBase_Type) is
+      Object : Swagger.Value_Type;
+   begin
+      Swagger.Streams.Deserialize (From, Name, Object);
+      Swagger.Streams.Deserialize (Object, "email", Value.Email);
+      Swagger.Streams.Deserialize (Object, "is_bot", Value.Is_Bot);
+      Swagger.Streams.Deserialize (Object, "avatar_url", Value.Avatar_Url);
+      Swagger.Streams.Deserialize (Object, "avatar_version", Value.Avatar_Version);
+      Swagger.Streams.Deserialize (Object, "full_name", Value.Full_Name);
+      Swagger.Streams.Deserialize (Object, "is_admin", Value.Is_Admin);
+      Swagger.Streams.Deserialize (Object, "is_owner", Value.Is_Owner);
+      Swagger.Streams.Deserialize (Object, "is_billing_admin", Value.Is_Billing_Admin);
+      Swagger.Streams.Deserialize (Object, "role", Value.Role);
+      Swagger.Streams.Deserialize (Object, "bot_type", Value.Bot_Type);
+      Swagger.Streams.Deserialize (Object, "user_id", Value.User_Id);
+      Swagger.Streams.Deserialize (Object, "bot_owner_id", Value.Bot_Owner_Id);
+      Swagger.Streams.Deserialize (Object, "is_active", Value.Is_Active);
+      Swagger.Streams.Deserialize (Object, "is_guest", Value.Is_Guest);
+      Swagger.Streams.Deserialize (Object, "timezone", Value.Timezone);
+      Swagger.Streams.Deserialize (Object, "date_joined", Value.Date_Joined);
+      Swagger.Streams.Deserialize (Object, "delivery_email", Value.Delivery_Email);
+      Swagger.Streams.Deserialize (Object, "profile_data", Value.Profile_Data);
+   end Deserialize;
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out UserBase_Type_Vectors.Vector) is
+      List : Swagger.Value_Array_Type;
+      Item : UserBase_Type;
+   begin
+      Value.Clear;
+      Swagger.Streams.Deserialize (From, Name, List);
+      for Data of List loop
+         Deserialize (Data, "", Item);
+         Value.Append (Item);
+      end loop;
+   end Deserialize;
+
+
+
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in Draft_Type) is
+   begin
+      Into.Start_Entity (Name);
+      Into.Write_Entity ("id", Value.Id);
+      Into.Write_Entity ("type", Value.P_Type);
+      Serialize (Into, "to", Value.To);
+      Into.Write_Entity ("topic", Value.Topic);
+      Into.Write_Entity ("content", Value.Content);
+      Serialize (Into, "timestamp", Value.Timestamp);
+      Into.End_Entity (Name);
+   end Serialize;
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in Draft_Type_Vectors.Vector) is
+   begin
+      Into.Start_Array (Name);
+      for Item of Value loop
+         Serialize (Into, "", Item);
+      end loop;
+      Into.End_Array (Name);
+   end Serialize;
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out Draft_Type) is
+      Object : Swagger.Value_Type;
+   begin
+      Swagger.Streams.Deserialize (From, Name, Object);
+      Swagger.Streams.Deserialize (Object, "id", Value.Id);
+      Swagger.Streams.Deserialize (Object, "type", Value.P_Type);
+      Swagger.Streams.Deserialize (Object, "to", Value.To);
+      Swagger.Streams.Deserialize (Object, "topic", Value.Topic);
+      Swagger.Streams.Deserialize (Object, "content", Value.Content);
+      Swagger.Streams.Deserialize (Object, "timestamp", Value.Timestamp);
+   end Deserialize;
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out Draft_Type_Vectors.Vector) is
+      List : Swagger.Value_Array_Type;
+      Item : Draft_Type;
+   begin
+      Value.Clear;
+      Swagger.Streams.Deserialize (From, Name, List);
+      for Data of List loop
+         Deserialize (Data, "", Item);
+         Value.Append (Item);
+      end loop;
+   end Deserialize;
+
+
+
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in EmojiBase_Type) is
+   begin
+      Into.Start_Entity (Name);
+      Into.Write_Entity ("emoji_code", Value.Emoji_Code);
+      Into.Write_Entity ("emoji_name", Value.Emoji_Name);
+      Into.Write_Entity ("reaction_type", Value.Reaction_Type);
+      Into.End_Entity (Name);
+   end Serialize;
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in EmojiBase_Type_Vectors.Vector) is
+   begin
+      Into.Start_Array (Name);
+      for Item of Value loop
+         Serialize (Into, "", Item);
+      end loop;
+      Into.End_Array (Name);
+   end Serialize;
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out EmojiBase_Type) is
+      Object : Swagger.Value_Type;
+   begin
+      Swagger.Streams.Deserialize (From, Name, Object);
+      Swagger.Streams.Deserialize (Object, "emoji_code", Value.Emoji_Code);
+      Swagger.Streams.Deserialize (Object, "emoji_name", Value.Emoji_Name);
+      Swagger.Streams.Deserialize (Object, "reaction_type", Value.Reaction_Type);
+   end Deserialize;
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out EmojiBase_Type_Vectors.Vector) is
+      List : Swagger.Value_Array_Type;
+      Item : EmojiBase_Type;
+   begin
+      Value.Clear;
+      Swagger.Streams.Deserialize (From, Name, List);
+      for Data of List loop
+         Deserialize (Data, "", Item);
+         Value.Append (Item);
+      end loop;
+   end Deserialize;
+
+
+
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in UserGroup_Type) is
+   begin
+      Into.Start_Entity (Name);
+      Into.Write_Entity ("name", Value.Name);
+      Into.Write_Entity ("description", Value.Description);
+      Serialize (Into, "members", Value.Members);
+      Into.Write_Entity ("id", Value.Id);
+      Into.End_Entity (Name);
+   end Serialize;
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in UserGroup_Type_Vectors.Vector) is
+   begin
+      Into.Start_Array (Name);
+      for Item of Value loop
+         Serialize (Into, "", Item);
+      end loop;
+      Into.End_Array (Name);
+   end Serialize;
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out UserGroup_Type) is
+      Object : Swagger.Value_Type;
+   begin
+      Swagger.Streams.Deserialize (From, Name, Object);
+      Swagger.Streams.Deserialize (Object, "name", Value.Name);
+      Swagger.Streams.Deserialize (Object, "description", Value.Description);
+      Swagger.Streams.Deserialize (Object, "members", Value.Members);
+      Swagger.Streams.Deserialize (Object, "id", Value.Id);
+   end Deserialize;
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out UserGroup_Type_Vectors.Vector) is
+      List : Swagger.Value_Array_Type;
+      Item : UserGroup_Type;
+   begin
+      Value.Clear;
+      Swagger.Streams.Deserialize (From, Name, List);
+      for Data of List loop
+         Deserialize (Data, "", Item);
+         Value.Append (Item);
+      end loop;
+   end Deserialize;
+
+
+
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in RealmPlayground_Type) is
+   begin
+      Into.Start_Entity (Name);
+      Into.Write_Entity ("id", Value.Id);
+      Into.Write_Entity ("name", Value.Name);
+      Into.Write_Entity ("pygments_language", Value.Pygments_Language);
+      Into.Write_Entity ("url_prefix", Value.Url_Prefix);
+      Into.End_Entity (Name);
+   end Serialize;
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in RealmPlayground_Type_Vectors.Vector) is
+   begin
+      Into.Start_Array (Name);
+      for Item of Value loop
+         Serialize (Into, "", Item);
+      end loop;
+      Into.End_Array (Name);
+   end Serialize;
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out RealmPlayground_Type) is
       Object : Swagger.Value_Type;
    begin
       Swagger.Streams.Deserialize (From, Name, Object);
       Swagger.Streams.Deserialize (Object, "id", Value.Id);
       Swagger.Streams.Deserialize (Object, "name", Value.Name);
-      Swagger.Streams.Deserialize (Object, "path_id", Value.Path_Id);
-      Swagger.Streams.Deserialize (Object, "size", Value.Size);
-      Swagger.Streams.Deserialize (Object, "create_time", Value.Create_Time);
-      Deserialize (Object, "messages", Value.Messages);
+      Swagger.Streams.Deserialize (Object, "pygments_language", Value.Pygments_Language);
+      Swagger.Streams.Deserialize (Object, "url_prefix", Value.Url_Prefix);
    end Deserialize;
 
    procedure Deserialize (From  : in Swagger.Value_Type;
                           Name  : in String;
-                          Value : out Attachments_Type_Vectors.Vector) is
+                          Value : out RealmPlayground_Type_Vectors.Vector) is
       List : Swagger.Value_Array_Type;
-      Item : Attachments_Type;
+      Item : RealmPlayground_Type;
    begin
       Value.Clear;
       Swagger.Streams.Deserialize (From, Name, List);
@@ -172,16 +652,20 @@ package body .Models is
 
    procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
                         Name  : in String;
-                        Value : in JsonResponseBase_Type) is
+                        Value : in RealmEmoji_Type) is
    begin
       Into.Start_Entity (Name);
-      Into.Write_Entity ("result", Value.Result);
+      Into.Write_Entity ("id", Value.Id);
+      Into.Write_Entity ("name", Value.Name);
+      Into.Write_Entity ("source_url", Value.Source_Url);
+      Into.Write_Entity ("deactivated", Value.Deactivated);
+      Into.Write_Entity ("author_id", Value.Author_Id);
       Into.End_Entity (Name);
    end Serialize;
 
    procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
                         Name  : in String;
-                        Value : in JsonResponseBase_Type_Vectors.Vector) is
+                        Value : in RealmEmoji_Type_Vectors.Vector) is
    begin
       Into.Start_Array (Name);
       for Item of Value loop
@@ -192,18 +676,392 @@ package body .Models is
 
    procedure Deserialize (From  : in Swagger.Value_Type;
                           Name  : in String;
-                          Value : out JsonResponseBase_Type) is
+                          Value : out RealmEmoji_Type) is
       Object : Swagger.Value_Type;
    begin
       Swagger.Streams.Deserialize (From, Name, Object);
-      Swagger.Streams.Deserialize (Object, "result", Value.Result);
+      Swagger.Streams.Deserialize (Object, "id", Value.Id);
+      Swagger.Streams.Deserialize (Object, "name", Value.Name);
+      Swagger.Streams.Deserialize (Object, "source_url", Value.Source_Url);
+      Swagger.Streams.Deserialize (Object, "deactivated", Value.Deactivated);
+      Swagger.Streams.Deserialize (Object, "author_id", Value.Author_Id);
    end Deserialize;
 
    procedure Deserialize (From  : in Swagger.Value_Type;
                           Name  : in String;
-                          Value : out JsonResponseBase_Type_Vectors.Vector) is
+                          Value : out RealmEmoji_Type_Vectors.Vector) is
       List : Swagger.Value_Array_Type;
-      Item : JsonResponseBase_Type;
+      Item : RealmEmoji_Type;
+   begin
+      Value.Clear;
+      Swagger.Streams.Deserialize (From, Name, List);
+      for Data of List loop
+         Deserialize (Data, "", Item);
+         Value.Append (Item);
+      end loop;
+   end Deserialize;
+
+
+
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in CustomProfileField_Type) is
+   begin
+      Into.Start_Entity (Name);
+      Into.Write_Entity ("id", Value.Id);
+      Into.Write_Entity ("type", Value.P_Type);
+      Into.Write_Entity ("order", Value.Order);
+      Into.Write_Entity ("name", Value.Name);
+      Into.Write_Entity ("hint", Value.Hint);
+      Into.Write_Entity ("field_data", Value.Field_Data);
+      Into.End_Entity (Name);
+   end Serialize;
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in CustomProfileField_Type_Vectors.Vector) is
+   begin
+      Into.Start_Array (Name);
+      for Item of Value loop
+         Serialize (Into, "", Item);
+      end loop;
+      Into.End_Array (Name);
+   end Serialize;
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out CustomProfileField_Type) is
+      Object : Swagger.Value_Type;
+   begin
+      Swagger.Streams.Deserialize (From, Name, Object);
+      Swagger.Streams.Deserialize (Object, "id", Value.Id);
+      Swagger.Streams.Deserialize (Object, "type", Value.P_Type);
+      Swagger.Streams.Deserialize (Object, "order", Value.Order);
+      Swagger.Streams.Deserialize (Object, "name", Value.Name);
+      Swagger.Streams.Deserialize (Object, "hint", Value.Hint);
+      Swagger.Streams.Deserialize (Object, "field_data", Value.Field_Data);
+   end Deserialize;
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out CustomProfileField_Type_Vectors.Vector) is
+      List : Swagger.Value_Array_Type;
+      Item : CustomProfileField_Type;
+   begin
+      Value.Clear;
+      Swagger.Streams.Deserialize (From, Name, List);
+      for Data of List loop
+         Deserialize (Data, "", Item);
+         Value.Append (Item);
+      end loop;
+   end Deserialize;
+
+
+
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in BasicStreamBase_Type) is
+   begin
+      Into.Start_Entity (Name);
+      Into.Write_Entity ("stream_id", Value.Stream_Id);
+      Into.Write_Entity ("name", Value.Name);
+      Into.Write_Entity ("description", Value.Description);
+      Into.Write_Entity ("date_created", Value.Date_Created);
+      Into.Write_Entity ("invite_only", Value.Invite_Only);
+      Into.Write_Entity ("rendered_description", Value.Rendered_Description);
+      Into.Write_Entity ("is_web_public", Value.Is_Web_Public);
+      Into.Write_Entity ("stream_post_policy", Value.Stream_Post_Policy);
+      Into.Write_Entity ("message_retention_days", Value.Message_Retention_Days);
+      Into.Write_Entity ("history_public_to_subscribers", Value.History_Public_To_Subscribers);
+      Into.Write_Entity ("first_message_id", Value.First_Message_Id);
+      Into.Write_Entity ("is_announcement_only", Value.Is_Announcement_Only);
+      Into.End_Entity (Name);
+   end Serialize;
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in BasicStreamBase_Type_Vectors.Vector) is
+   begin
+      Into.Start_Array (Name);
+      for Item of Value loop
+         Serialize (Into, "", Item);
+      end loop;
+      Into.End_Array (Name);
+   end Serialize;
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out BasicStreamBase_Type) is
+      Object : Swagger.Value_Type;
+   begin
+      Swagger.Streams.Deserialize (From, Name, Object);
+      Swagger.Streams.Deserialize (Object, "stream_id", Value.Stream_Id);
+      Swagger.Streams.Deserialize (Object, "name", Value.Name);
+      Swagger.Streams.Deserialize (Object, "description", Value.Description);
+      Swagger.Streams.Deserialize (Object, "date_created", Value.Date_Created);
+      Swagger.Streams.Deserialize (Object, "invite_only", Value.Invite_Only);
+      Swagger.Streams.Deserialize (Object, "rendered_description", Value.Rendered_Description);
+      Swagger.Streams.Deserialize (Object, "is_web_public", Value.Is_Web_Public);
+      Swagger.Streams.Deserialize (Object, "stream_post_policy", Value.Stream_Post_Policy);
+      Swagger.Streams.Deserialize (Object, "message_retention_days", Value.Message_Retention_Days);
+      Swagger.Streams.Deserialize (Object, "history_public_to_subscribers", Value.History_Public_To_Subscribers);
+      Swagger.Streams.Deserialize (Object, "first_message_id", Value.First_Message_Id);
+      Swagger.Streams.Deserialize (Object, "is_announcement_only", Value.Is_Announcement_Only);
+   end Deserialize;
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out BasicStreamBase_Type_Vectors.Vector) is
+      List : Swagger.Value_Array_Type;
+      Item : BasicStreamBase_Type;
+   begin
+      Value.Clear;
+      Swagger.Streams.Deserialize (From, Name, List);
+      for Data of List loop
+         Deserialize (Data, "", Item);
+         Value.Append (Item);
+      end loop;
+   end Deserialize;
+
+
+
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in EventIdSchema_Type) is
+   begin
+      Into.Start_Entity (Name);
+      Into.End_Entity (Name);
+   end Serialize;
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in EventIdSchema_Type_Vectors.Vector) is
+   begin
+      Into.Start_Array (Name);
+      for Item of Value loop
+         Serialize (Into, "", Item);
+      end loop;
+      Into.End_Array (Name);
+   end Serialize;
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out EventIdSchema_Type) is
+      Object : Swagger.Value_Type;
+   begin
+      Swagger.Streams.Deserialize (From, Name, Object);
+   end Deserialize;
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out EventIdSchema_Type_Vectors.Vector) is
+      List : Swagger.Value_Array_Type;
+      Item : EventIdSchema_Type;
+   begin
+      Value.Clear;
+      Swagger.Streams.Deserialize (From, Name, List);
+      for Data of List loop
+         Deserialize (Data, "", Item);
+         Value.Append (Item);
+      end loop;
+   end Deserialize;
+
+
+
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in EventTypeSchema_Type) is
+   begin
+      Into.Start_Entity (Name);
+      Into.End_Entity (Name);
+   end Serialize;
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in EventTypeSchema_Type_Vectors.Vector) is
+   begin
+      Into.Start_Array (Name);
+      for Item of Value loop
+         Serialize (Into, "", Item);
+      end loop;
+      Into.End_Array (Name);
+   end Serialize;
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out EventTypeSchema_Type) is
+      Object : Swagger.Value_Type;
+   begin
+      Swagger.Streams.Deserialize (From, Name, Object);
+   end Deserialize;
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out EventTypeSchema_Type_Vectors.Vector) is
+      List : Swagger.Value_Array_Type;
+      Item : EventTypeSchema_Type;
+   begin
+      Value.Clear;
+      Swagger.Streams.Deserialize (From, Name, List);
+      for Data of List loop
+         Deserialize (Data, "", Item);
+         Value.Append (Item);
+      end loop;
+   end Deserialize;
+
+
+
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in Hotspot_Type) is
+   begin
+      Into.Start_Entity (Name);
+      Serialize (Into, "delay", Value.P_Delay);
+      Into.Write_Entity ("name", Value.Name);
+      Into.Write_Entity ("title", Value.Title);
+      Into.Write_Entity ("description", Value.Description);
+      Into.End_Entity (Name);
+   end Serialize;
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in Hotspot_Type_Vectors.Vector) is
+   begin
+      Into.Start_Array (Name);
+      for Item of Value loop
+         Serialize (Into, "", Item);
+      end loop;
+      Into.End_Array (Name);
+   end Serialize;
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out Hotspot_Type) is
+      Object : Swagger.Value_Type;
+   begin
+      Swagger.Streams.Deserialize (From, Name, Object);
+      Swagger.Streams.Deserialize (Object, "delay", Value.P_Delay);
+      Swagger.Streams.Deserialize (Object, "name", Value.Name);
+      Swagger.Streams.Deserialize (Object, "title", Value.Title);
+      Swagger.Streams.Deserialize (Object, "description", Value.Description);
+   end Deserialize;
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out Hotspot_Type_Vectors.Vector) is
+      List : Swagger.Value_Array_Type;
+      Item : Hotspot_Type;
+   begin
+      Value.Clear;
+      Swagger.Streams.Deserialize (From, Name, List);
+      for Data of List loop
+         Deserialize (Data, "", Item);
+         Value.Append (Item);
+      end loop;
+   end Deserialize;
+
+
+
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in RealmDomain_Type) is
+   begin
+      Into.Start_Entity (Name);
+      Into.Write_Entity ("domain", Value.Domain);
+      Into.Write_Entity ("allow_subdomains", Value.Allow_Subdomains);
+      Into.End_Entity (Name);
+   end Serialize;
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in RealmDomain_Type_Vectors.Vector) is
+   begin
+      Into.Start_Array (Name);
+      for Item of Value loop
+         Serialize (Into, "", Item);
+      end loop;
+      Into.End_Array (Name);
+   end Serialize;
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out RealmDomain_Type) is
+      Object : Swagger.Value_Type;
+   begin
+      Swagger.Streams.Deserialize (From, Name, Object);
+      Swagger.Streams.Deserialize (Object, "domain", Value.Domain);
+      Swagger.Streams.Deserialize (Object, "allow_subdomains", Value.Allow_Subdomains);
+   end Deserialize;
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out RealmDomain_Type_Vectors.Vector) is
+      List : Swagger.Value_Array_Type;
+      Item : RealmDomain_Type;
+   begin
+      Value.Clear;
+      Swagger.Streams.Deserialize (From, Name, List);
+      for Data of List loop
+         Deserialize (Data, "", Item);
+         Value.Append (Item);
+      end loop;
+   end Deserialize;
+
+
+
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in RealmExport_Type) is
+   begin
+      Into.Start_Entity (Name);
+      Into.Write_Entity ("id", Value.Id);
+      Into.Write_Entity ("acting_user_id", Value.Acting_User_Id);
+      Serialize (Into, "export_time", Value.Export_Time);
+      Serialize (Into, "deleted_timestamp", Value.Deleted_Timestamp);
+      Serialize (Into, "failed_timestamp", Value.Failed_Timestamp);
+      Into.Write_Entity ("export_url", Value.Export_Url);
+      Into.Write_Entity ("pending", Value.Pending);
+      Into.End_Entity (Name);
+   end Serialize;
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in RealmExport_Type_Vectors.Vector) is
+   begin
+      Into.Start_Array (Name);
+      for Item of Value loop
+         Serialize (Into, "", Item);
+      end loop;
+      Into.End_Array (Name);
+   end Serialize;
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out RealmExport_Type) is
+      Object : Swagger.Value_Type;
+   begin
+      Swagger.Streams.Deserialize (From, Name, Object);
+      Swagger.Streams.Deserialize (Object, "id", Value.Id);
+      Swagger.Streams.Deserialize (Object, "acting_user_id", Value.Acting_User_Id);
+      Swagger.Streams.Deserialize (Object, "export_time", Value.Export_Time);
+      Swagger.Streams.Deserialize (Object, "deleted_timestamp", Value.Deleted_Timestamp);
+      Swagger.Streams.Deserialize (Object, "failed_timestamp", Value.Failed_Timestamp);
+      Swagger.Streams.Deserialize (Object, "export_url", Value.Export_Url);
+      Swagger.Streams.Deserialize (Object, "pending", Value.Pending);
+   end Deserialize;
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out RealmExport_Type_Vectors.Vector) is
+      List : Swagger.Value_Array_Type;
+      Item : RealmExport_Type;
    begin
       Value.Clear;
       Swagger.Streams.Deserialize (From, Name, List);
@@ -312,534 +1170,6 @@ package body .Models is
 
    procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
                         Name  : in String;
-                        Value : in RealmExport_Type) is
-   begin
-      Into.Start_Entity (Name);
-      Into.Write_Entity ("id", Value.Id);
-      Into.Write_Entity ("acting_user_id", Value.Acting_User_Id);
-      Serialize (Into, "export_time", Value.Export_Time);
-      Serialize (Into, "deleted_timestamp", Value.Deleted_Timestamp);
-      Serialize (Into, "failed_timestamp", Value.Failed_Timestamp);
-      Into.Write_Entity ("export_url", Value.Export_Url);
-      Into.Write_Entity ("pending", Value.Pending);
-      Into.End_Entity (Name);
-   end Serialize;
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in RealmExport_Type_Vectors.Vector) is
-   begin
-      Into.Start_Array (Name);
-      for Item of Value loop
-         Serialize (Into, "", Item);
-      end loop;
-      Into.End_Array (Name);
-   end Serialize;
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out RealmExport_Type) is
-      Object : Swagger.Value_Type;
-   begin
-      Swagger.Streams.Deserialize (From, Name, Object);
-      Swagger.Streams.Deserialize (Object, "id", Value.Id);
-      Swagger.Streams.Deserialize (Object, "acting_user_id", Value.Acting_User_Id);
-      Swagger.Streams.Deserialize (Object, "export_time", Value.Export_Time);
-      Swagger.Streams.Deserialize (Object, "deleted_timestamp", Value.Deleted_Timestamp);
-      Swagger.Streams.Deserialize (Object, "failed_timestamp", Value.Failed_Timestamp);
-      Swagger.Streams.Deserialize (Object, "export_url", Value.Export_Url);
-      Swagger.Streams.Deserialize (Object, "pending", Value.Pending);
-   end Deserialize;
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out RealmExport_Type_Vectors.Vector) is
-      List : Swagger.Value_Array_Type;
-      Item : RealmExport_Type;
-   begin
-      Value.Clear;
-      Swagger.Streams.Deserialize (From, Name, List);
-      for Data of List loop
-         Deserialize (Data, "", Item);
-         Value.Append (Item);
-      end loop;
-   end Deserialize;
-
-
-
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in RealmDomain_Type) is
-   begin
-      Into.Start_Entity (Name);
-      Into.Write_Entity ("domain", Value.Domain);
-      Into.Write_Entity ("allow_subdomains", Value.Allow_Subdomains);
-      Into.End_Entity (Name);
-   end Serialize;
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in RealmDomain_Type_Vectors.Vector) is
-   begin
-      Into.Start_Array (Name);
-      for Item of Value loop
-         Serialize (Into, "", Item);
-      end loop;
-      Into.End_Array (Name);
-   end Serialize;
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out RealmDomain_Type) is
-      Object : Swagger.Value_Type;
-   begin
-      Swagger.Streams.Deserialize (From, Name, Object);
-      Swagger.Streams.Deserialize (Object, "domain", Value.Domain);
-      Swagger.Streams.Deserialize (Object, "allow_subdomains", Value.Allow_Subdomains);
-   end Deserialize;
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out RealmDomain_Type_Vectors.Vector) is
-      List : Swagger.Value_Array_Type;
-      Item : RealmDomain_Type;
-   begin
-      Value.Clear;
-      Swagger.Streams.Deserialize (From, Name, List);
-      for Data of List loop
-         Deserialize (Data, "", Item);
-         Value.Append (Item);
-      end loop;
-   end Deserialize;
-
-
-
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in Hotspot_Type) is
-   begin
-      Into.Start_Entity (Name);
-      Serialize (Into, "delay", Value.P_Delay);
-      Into.Write_Entity ("name", Value.Name);
-      Into.Write_Entity ("title", Value.Title);
-      Into.Write_Entity ("description", Value.Description);
-      Into.End_Entity (Name);
-   end Serialize;
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in Hotspot_Type_Vectors.Vector) is
-   begin
-      Into.Start_Array (Name);
-      for Item of Value loop
-         Serialize (Into, "", Item);
-      end loop;
-      Into.End_Array (Name);
-   end Serialize;
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out Hotspot_Type) is
-      Object : Swagger.Value_Type;
-   begin
-      Swagger.Streams.Deserialize (From, Name, Object);
-      Swagger.Streams.Deserialize (Object, "delay", Value.P_Delay);
-      Swagger.Streams.Deserialize (Object, "name", Value.Name);
-      Swagger.Streams.Deserialize (Object, "title", Value.Title);
-      Swagger.Streams.Deserialize (Object, "description", Value.Description);
-   end Deserialize;
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out Hotspot_Type_Vectors.Vector) is
-      List : Swagger.Value_Array_Type;
-      Item : Hotspot_Type;
-   begin
-      Value.Clear;
-      Swagger.Streams.Deserialize (From, Name, List);
-      for Data of List loop
-         Deserialize (Data, "", Item);
-         Value.Append (Item);
-      end loop;
-   end Deserialize;
-
-
-
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in EventTypeSchema_Type) is
-   begin
-      Into.Start_Entity (Name);
-      Into.End_Entity (Name);
-   end Serialize;
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in EventTypeSchema_Type_Vectors.Vector) is
-   begin
-      Into.Start_Array (Name);
-      for Item of Value loop
-         Serialize (Into, "", Item);
-      end loop;
-      Into.End_Array (Name);
-   end Serialize;
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out EventTypeSchema_Type) is
-      Object : Swagger.Value_Type;
-   begin
-      Swagger.Streams.Deserialize (From, Name, Object);
-   end Deserialize;
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out EventTypeSchema_Type_Vectors.Vector) is
-      List : Swagger.Value_Array_Type;
-      Item : EventTypeSchema_Type;
-   begin
-      Value.Clear;
-      Swagger.Streams.Deserialize (From, Name, List);
-      for Data of List loop
-         Deserialize (Data, "", Item);
-         Value.Append (Item);
-      end loop;
-   end Deserialize;
-
-
-
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in EventIdSchema_Type) is
-   begin
-      Into.Start_Entity (Name);
-      Into.End_Entity (Name);
-   end Serialize;
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in EventIdSchema_Type_Vectors.Vector) is
-   begin
-      Into.Start_Array (Name);
-      for Item of Value loop
-         Serialize (Into, "", Item);
-      end loop;
-      Into.End_Array (Name);
-   end Serialize;
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out EventIdSchema_Type) is
-      Object : Swagger.Value_Type;
-   begin
-      Swagger.Streams.Deserialize (From, Name, Object);
-   end Deserialize;
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out EventIdSchema_Type_Vectors.Vector) is
-      List : Swagger.Value_Array_Type;
-      Item : EventIdSchema_Type;
-   begin
-      Value.Clear;
-      Swagger.Streams.Deserialize (From, Name, List);
-      for Data of List loop
-         Deserialize (Data, "", Item);
-         Value.Append (Item);
-      end loop;
-   end Deserialize;
-
-
-
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in BasicStreamBase_Type) is
-   begin
-      Into.Start_Entity (Name);
-      Into.Write_Entity ("stream_id", Value.Stream_Id);
-      Into.Write_Entity ("name", Value.Name);
-      Into.Write_Entity ("description", Value.Description);
-      Into.Write_Entity ("date_created", Value.Date_Created);
-      Into.Write_Entity ("invite_only", Value.Invite_Only);
-      Into.Write_Entity ("rendered_description", Value.Rendered_Description);
-      Into.Write_Entity ("is_web_public", Value.Is_Web_Public);
-      Into.Write_Entity ("stream_post_policy", Value.Stream_Post_Policy);
-      Into.Write_Entity ("message_retention_days", Value.Message_Retention_Days);
-      Into.Write_Entity ("history_public_to_subscribers", Value.History_Public_To_Subscribers);
-      Into.Write_Entity ("first_message_id", Value.First_Message_Id);
-      Into.Write_Entity ("is_announcement_only", Value.Is_Announcement_Only);
-      Into.End_Entity (Name);
-   end Serialize;
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in BasicStreamBase_Type_Vectors.Vector) is
-   begin
-      Into.Start_Array (Name);
-      for Item of Value loop
-         Serialize (Into, "", Item);
-      end loop;
-      Into.End_Array (Name);
-   end Serialize;
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out BasicStreamBase_Type) is
-      Object : Swagger.Value_Type;
-   begin
-      Swagger.Streams.Deserialize (From, Name, Object);
-      Swagger.Streams.Deserialize (Object, "stream_id", Value.Stream_Id);
-      Swagger.Streams.Deserialize (Object, "name", Value.Name);
-      Swagger.Streams.Deserialize (Object, "description", Value.Description);
-      Swagger.Streams.Deserialize (Object, "date_created", Value.Date_Created);
-      Swagger.Streams.Deserialize (Object, "invite_only", Value.Invite_Only);
-      Swagger.Streams.Deserialize (Object, "rendered_description", Value.Rendered_Description);
-      Swagger.Streams.Deserialize (Object, "is_web_public", Value.Is_Web_Public);
-      Swagger.Streams.Deserialize (Object, "stream_post_policy", Value.Stream_Post_Policy);
-      Swagger.Streams.Deserialize (Object, "message_retention_days", Value.Message_Retention_Days);
-      Swagger.Streams.Deserialize (Object, "history_public_to_subscribers", Value.History_Public_To_Subscribers);
-      Swagger.Streams.Deserialize (Object, "first_message_id", Value.First_Message_Id);
-      Swagger.Streams.Deserialize (Object, "is_announcement_only", Value.Is_Announcement_Only);
-   end Deserialize;
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out BasicStreamBase_Type_Vectors.Vector) is
-      List : Swagger.Value_Array_Type;
-      Item : BasicStreamBase_Type;
-   begin
-      Value.Clear;
-      Swagger.Streams.Deserialize (From, Name, List);
-      for Data of List loop
-         Deserialize (Data, "", Item);
-         Value.Append (Item);
-      end loop;
-   end Deserialize;
-
-
-
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in CustomProfileField_Type) is
-   begin
-      Into.Start_Entity (Name);
-      Into.Write_Entity ("id", Value.Id);
-      Into.Write_Entity ("type", Value.P_Type);
-      Into.Write_Entity ("order", Value.Order);
-      Into.Write_Entity ("name", Value.Name);
-      Into.Write_Entity ("hint", Value.Hint);
-      Into.Write_Entity ("field_data", Value.Field_Data);
-      Into.End_Entity (Name);
-   end Serialize;
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in CustomProfileField_Type_Vectors.Vector) is
-   begin
-      Into.Start_Array (Name);
-      for Item of Value loop
-         Serialize (Into, "", Item);
-      end loop;
-      Into.End_Array (Name);
-   end Serialize;
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out CustomProfileField_Type) is
-      Object : Swagger.Value_Type;
-   begin
-      Swagger.Streams.Deserialize (From, Name, Object);
-      Swagger.Streams.Deserialize (Object, "id", Value.Id);
-      Swagger.Streams.Deserialize (Object, "type", Value.P_Type);
-      Swagger.Streams.Deserialize (Object, "order", Value.Order);
-      Swagger.Streams.Deserialize (Object, "name", Value.Name);
-      Swagger.Streams.Deserialize (Object, "hint", Value.Hint);
-      Swagger.Streams.Deserialize (Object, "field_data", Value.Field_Data);
-   end Deserialize;
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out CustomProfileField_Type_Vectors.Vector) is
-      List : Swagger.Value_Array_Type;
-      Item : CustomProfileField_Type;
-   begin
-      Value.Clear;
-      Swagger.Streams.Deserialize (From, Name, List);
-      for Data of List loop
-         Deserialize (Data, "", Item);
-         Value.Append (Item);
-      end loop;
-   end Deserialize;
-
-
-
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in RealmEmoji_Type) is
-   begin
-      Into.Start_Entity (Name);
-      Into.Write_Entity ("id", Value.Id);
-      Into.Write_Entity ("name", Value.Name);
-      Into.Write_Entity ("source_url", Value.Source_Url);
-      Into.Write_Entity ("deactivated", Value.Deactivated);
-      Into.Write_Entity ("author_id", Value.Author_Id);
-      Into.End_Entity (Name);
-   end Serialize;
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in RealmEmoji_Type_Vectors.Vector) is
-   begin
-      Into.Start_Array (Name);
-      for Item of Value loop
-         Serialize (Into, "", Item);
-      end loop;
-      Into.End_Array (Name);
-   end Serialize;
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out RealmEmoji_Type) is
-      Object : Swagger.Value_Type;
-   begin
-      Swagger.Streams.Deserialize (From, Name, Object);
-      Swagger.Streams.Deserialize (Object, "id", Value.Id);
-      Swagger.Streams.Deserialize (Object, "name", Value.Name);
-      Swagger.Streams.Deserialize (Object, "source_url", Value.Source_Url);
-      Swagger.Streams.Deserialize (Object, "deactivated", Value.Deactivated);
-      Swagger.Streams.Deserialize (Object, "author_id", Value.Author_Id);
-   end Deserialize;
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out RealmEmoji_Type_Vectors.Vector) is
-      List : Swagger.Value_Array_Type;
-      Item : RealmEmoji_Type;
-   begin
-      Value.Clear;
-      Swagger.Streams.Deserialize (From, Name, List);
-      for Data of List loop
-         Deserialize (Data, "", Item);
-         Value.Append (Item);
-      end loop;
-   end Deserialize;
-
-
-
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in RealmPlayground_Type) is
-   begin
-      Into.Start_Entity (Name);
-      Into.Write_Entity ("id", Value.Id);
-      Into.Write_Entity ("name", Value.Name);
-      Into.Write_Entity ("pygments_language", Value.Pygments_Language);
-      Into.Write_Entity ("url_prefix", Value.Url_Prefix);
-      Into.End_Entity (Name);
-   end Serialize;
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in RealmPlayground_Type_Vectors.Vector) is
-   begin
-      Into.Start_Array (Name);
-      for Item of Value loop
-         Serialize (Into, "", Item);
-      end loop;
-      Into.End_Array (Name);
-   end Serialize;
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out RealmPlayground_Type) is
-      Object : Swagger.Value_Type;
-   begin
-      Swagger.Streams.Deserialize (From, Name, Object);
-      Swagger.Streams.Deserialize (Object, "id", Value.Id);
-      Swagger.Streams.Deserialize (Object, "name", Value.Name);
-      Swagger.Streams.Deserialize (Object, "pygments_language", Value.Pygments_Language);
-      Swagger.Streams.Deserialize (Object, "url_prefix", Value.Url_Prefix);
-   end Deserialize;
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out RealmPlayground_Type_Vectors.Vector) is
-      List : Swagger.Value_Array_Type;
-      Item : RealmPlayground_Type;
-   begin
-      Value.Clear;
-      Swagger.Streams.Deserialize (From, Name, List);
-      for Data of List loop
-         Deserialize (Data, "", Item);
-         Value.Append (Item);
-      end loop;
-   end Deserialize;
-
-
-
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in UserGroup_Type) is
-   begin
-      Into.Start_Entity (Name);
-      Into.Write_Entity ("name", Value.Name);
-      Into.Write_Entity ("description", Value.Description);
-      Serialize (Into, "members", Value.Members);
-      Into.Write_Entity ("id", Value.Id);
-      Into.End_Entity (Name);
-   end Serialize;
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in UserGroup_Type_Vectors.Vector) is
-   begin
-      Into.Start_Array (Name);
-      for Item of Value loop
-         Serialize (Into, "", Item);
-      end loop;
-      Into.End_Array (Name);
-   end Serialize;
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out UserGroup_Type) is
-      Object : Swagger.Value_Type;
-   begin
-      Swagger.Streams.Deserialize (From, Name, Object);
-      Swagger.Streams.Deserialize (Object, "name", Value.Name);
-      Swagger.Streams.Deserialize (Object, "description", Value.Description);
-      Swagger.Streams.Deserialize (Object, "members", Value.Members);
-      Swagger.Streams.Deserialize (Object, "id", Value.Id);
-   end Deserialize;
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out UserGroup_Type_Vectors.Vector) is
-      List : Swagger.Value_Array_Type;
-      Item : UserGroup_Type;
-   begin
-      Value.Clear;
-      Swagger.Streams.Deserialize (From, Name, List);
-      for Data of List loop
-         Deserialize (Data, "", Item);
-         Value.Append (Item);
-      end loop;
-   end Deserialize;
-
-
-
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
                         Value : in Presence_Type) is
    begin
       Into.Start_Entity (Name);
@@ -892,141 +1222,16 @@ package body .Models is
 
    procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
                         Name  : in String;
-                        Value : in UserBase_Type) is
-   begin
-      Into.Start_Entity (Name);
-      Into.Write_Entity ("email", Value.Email);
-      Into.Write_Entity ("is_bot", Value.Is_Bot);
-      Into.Write_Entity ("avatar_url", Value.Avatar_Url);
-      Into.Write_Entity ("avatar_version", Value.Avatar_Version);
-      Into.Write_Entity ("full_name", Value.Full_Name);
-      Into.Write_Entity ("is_admin", Value.Is_Admin);
-      Into.Write_Entity ("is_owner", Value.Is_Owner);
-      Into.Write_Entity ("is_billing_admin", Value.Is_Billing_Admin);
-      Into.Write_Entity ("role", Value.Role);
-      Into.Write_Entity ("bot_type", Value.Bot_Type);
-      Into.Write_Entity ("user_id", Value.User_Id);
-      Into.Write_Entity ("bot_owner_id", Value.Bot_Owner_Id);
-      Into.Write_Entity ("is_active", Value.Is_Active);
-      Into.Write_Entity ("is_guest", Value.Is_Guest);
-      Into.Write_Entity ("timezone", Value.Timezone);
-      Into.Write_Entity ("date_joined", Value.Date_Joined);
-      Into.Write_Entity ("delivery_email", Value.Delivery_Email);
-      Serialize (Into, "profile_data", Value.Profile_Data);
-      Into.End_Entity (Name);
-   end Serialize;
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in UserBase_Type_Vectors.Vector) is
-   begin
-      Into.Start_Array (Name);
-      for Item of Value loop
-         Serialize (Into, "", Item);
-      end loop;
-      Into.End_Array (Name);
-   end Serialize;
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out UserBase_Type) is
-      Object : Swagger.Value_Type;
-   begin
-      Swagger.Streams.Deserialize (From, Name, Object);
-      Swagger.Streams.Deserialize (Object, "email", Value.Email);
-      Swagger.Streams.Deserialize (Object, "is_bot", Value.Is_Bot);
-      Swagger.Streams.Deserialize (Object, "avatar_url", Value.Avatar_Url);
-      Swagger.Streams.Deserialize (Object, "avatar_version", Value.Avatar_Version);
-      Swagger.Streams.Deserialize (Object, "full_name", Value.Full_Name);
-      Swagger.Streams.Deserialize (Object, "is_admin", Value.Is_Admin);
-      Swagger.Streams.Deserialize (Object, "is_owner", Value.Is_Owner);
-      Swagger.Streams.Deserialize (Object, "is_billing_admin", Value.Is_Billing_Admin);
-      Swagger.Streams.Deserialize (Object, "role", Value.Role);
-      Swagger.Streams.Deserialize (Object, "bot_type", Value.Bot_Type);
-      Swagger.Streams.Deserialize (Object, "user_id", Value.User_Id);
-      Swagger.Streams.Deserialize (Object, "bot_owner_id", Value.Bot_Owner_Id);
-      Swagger.Streams.Deserialize (Object, "is_active", Value.Is_Active);
-      Swagger.Streams.Deserialize (Object, "is_guest", Value.Is_Guest);
-      Swagger.Streams.Deserialize (Object, "timezone", Value.Timezone);
-      Swagger.Streams.Deserialize (Object, "date_joined", Value.Date_Joined);
-      Swagger.Streams.Deserialize (Object, "delivery_email", Value.Delivery_Email);
-      Swagger.Streams.Deserialize (Object, "profile_data", Value.Profile_Data);
-   end Deserialize;
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out UserBase_Type_Vectors.Vector) is
-      List : Swagger.Value_Array_Type;
-      Item : UserBase_Type;
-   begin
-      Value.Clear;
-      Swagger.Streams.Deserialize (From, Name, List);
-      for Data of List loop
-         Deserialize (Data, "", Item);
-         Value.Append (Item);
-      end loop;
-   end Deserialize;
-
-
-
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in SuccessDescription_Type) is
-   begin
-      Into.Start_Entity (Name);
-      Into.End_Entity (Name);
-   end Serialize;
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in SuccessDescription_Type_Vectors.Vector) is
-   begin
-      Into.Start_Array (Name);
-      for Item of Value loop
-         Serialize (Into, "", Item);
-      end loop;
-      Into.End_Array (Name);
-   end Serialize;
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out SuccessDescription_Type) is
-      Object : Swagger.Value_Type;
-   begin
-      Swagger.Streams.Deserialize (From, Name, Object);
-   end Deserialize;
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out SuccessDescription_Type_Vectors.Vector) is
-      List : Swagger.Value_Array_Type;
-      Item : SuccessDescription_Type;
-   begin
-      Value.Clear;
-      Swagger.Streams.Deserialize (From, Name, List);
-      for Data of List loop
-         Deserialize (Data, "", Item);
-         Value.Append (Item);
-      end loop;
-   end Deserialize;
-
-
-
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in JsonSuccessBase_Type) is
+                        Value : in JsonResponseBase_Type) is
    begin
       Into.Start_Entity (Name);
       Into.Write_Entity ("result", Value.Result);
-      Into.Write_Entity ("msg", Value.Msg);
       Into.End_Entity (Name);
    end Serialize;
 
    procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
                         Name  : in String;
-                        Value : in JsonSuccessBase_Type_Vectors.Vector) is
+                        Value : in JsonResponseBase_Type_Vectors.Vector) is
    begin
       Into.Start_Array (Name);
       for Item of Value loop
@@ -1037,19 +1242,18 @@ package body .Models is
 
    procedure Deserialize (From  : in Swagger.Value_Type;
                           Name  : in String;
-                          Value : out JsonSuccessBase_Type) is
+                          Value : out JsonResponseBase_Type) is
       Object : Swagger.Value_Type;
    begin
       Swagger.Streams.Deserialize (From, Name, Object);
       Swagger.Streams.Deserialize (Object, "result", Value.Result);
-      Swagger.Streams.Deserialize (Object, "msg", Value.Msg);
    end Deserialize;
 
    procedure Deserialize (From  : in Swagger.Value_Type;
                           Name  : in String;
-                          Value : out JsonSuccessBase_Type_Vectors.Vector) is
+                          Value : out JsonResponseBase_Type_Vectors.Vector) is
       List : Swagger.Value_Array_Type;
-      Item : JsonSuccessBase_Type;
+      Item : JsonResponseBase_Type;
    begin
       Value.Clear;
       Swagger.Streams.Deserialize (From, Name, List);
@@ -1064,17 +1268,17 @@ package body .Models is
 
    procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
                         Name  : in String;
-                        Value : in JsonErrorBase_Type) is
+                        Value : in AttachmentsMessages_Type) is
    begin
       Into.Start_Entity (Name);
-      Into.Write_Entity ("result", Value.Result);
-      Into.Write_Entity ("msg", Value.Msg);
+      Into.Write_Entity ("date_sent", Value.Date_Sent);
+      Into.Write_Entity ("id", Value.Id);
       Into.End_Entity (Name);
    end Serialize;
 
    procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
                         Name  : in String;
-                        Value : in JsonErrorBase_Type_Vectors.Vector) is
+                        Value : in AttachmentsMessages_Type_Vectors.Vector) is
    begin
       Into.Start_Array (Name);
       for Item of Value loop
@@ -1085,19 +1289,19 @@ package body .Models is
 
    procedure Deserialize (From  : in Swagger.Value_Type;
                           Name  : in String;
-                          Value : out JsonErrorBase_Type) is
+                          Value : out AttachmentsMessages_Type) is
       Object : Swagger.Value_Type;
    begin
       Swagger.Streams.Deserialize (From, Name, Object);
-      Swagger.Streams.Deserialize (Object, "result", Value.Result);
-      Swagger.Streams.Deserialize (Object, "msg", Value.Msg);
+      Swagger.Streams.Deserialize (Object, "date_sent", Value.Date_Sent);
+      Swagger.Streams.Deserialize (Object, "id", Value.Id);
    end Deserialize;
 
    procedure Deserialize (From  : in Swagger.Value_Type;
                           Name  : in String;
-                          Value : out JsonErrorBase_Type_Vectors.Vector) is
+                          Value : out AttachmentsMessages_Type_Vectors.Vector) is
       List : Swagger.Value_Array_Type;
-      Item : JsonErrorBase_Type;
+      Item : AttachmentsMessages_Type;
    begin
       Value.Clear;
       Swagger.Streams.Deserialize (From, Name, List);
@@ -1112,19 +1316,21 @@ package body .Models is
 
    procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
                         Name  : in String;
-                        Value : in EmojiReactionBaseUser_Type) is
+                        Value : in Attachments_Type) is
    begin
       Into.Start_Entity (Name);
       Into.Write_Entity ("id", Value.Id);
-      Into.Write_Entity ("email", Value.Email);
-      Into.Write_Entity ("full_name", Value.Full_Name);
-      Into.Write_Entity ("is_mirror_dummy", Value.Is_Mirror_Dummy);
+      Into.Write_Entity ("name", Value.Name);
+      Into.Write_Entity ("path_id", Value.Path_Id);
+      Into.Write_Entity ("size", Value.Size);
+      Into.Write_Entity ("create_time", Value.Create_Time);
+      Serialize (Into, "messages", Value.Messages);
       Into.End_Entity (Name);
    end Serialize;
 
    procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
                         Name  : in String;
-                        Value : in EmojiReactionBaseUser_Type_Vectors.Vector) is
+                        Value : in Attachments_Type_Vectors.Vector) is
    begin
       Into.Start_Array (Name);
       for Item of Value loop
@@ -1135,75 +1341,23 @@ package body .Models is
 
    procedure Deserialize (From  : in Swagger.Value_Type;
                           Name  : in String;
-                          Value : out EmojiReactionBaseUser_Type) is
+                          Value : out Attachments_Type) is
       Object : Swagger.Value_Type;
    begin
       Swagger.Streams.Deserialize (From, Name, Object);
       Swagger.Streams.Deserialize (Object, "id", Value.Id);
-      Swagger.Streams.Deserialize (Object, "email", Value.Email);
-      Swagger.Streams.Deserialize (Object, "full_name", Value.Full_Name);
-      Swagger.Streams.Deserialize (Object, "is_mirror_dummy", Value.Is_Mirror_Dummy);
+      Swagger.Streams.Deserialize (Object, "name", Value.Name);
+      Swagger.Streams.Deserialize (Object, "path_id", Value.Path_Id);
+      Swagger.Streams.Deserialize (Object, "size", Value.Size);
+      Swagger.Streams.Deserialize (Object, "create_time", Value.Create_Time);
+      Deserialize (Object, "messages", Value.Messages);
    end Deserialize;
 
    procedure Deserialize (From  : in Swagger.Value_Type;
                           Name  : in String;
-                          Value : out EmojiReactionBaseUser_Type_Vectors.Vector) is
+                          Value : out Attachments_Type_Vectors.Vector) is
       List : Swagger.Value_Array_Type;
-      Item : EmojiReactionBaseUser_Type;
-   begin
-      Value.Clear;
-      Swagger.Streams.Deserialize (From, Name, List);
-      for Data of List loop
-         Deserialize (Data, "", Item);
-         Value.Append (Item);
-      end loop;
-   end Deserialize;
-
-
-
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in EmojiReactionBase_Type) is
-   begin
-      Into.Start_Entity (Name);
-      Into.Write_Entity ("emoji_code", Value.Emoji_Code);
-      Into.Write_Entity ("emoji_name", Value.Emoji_Name);
-      Into.Write_Entity ("reaction_type", Value.Reaction_Type);
-      Into.Write_Entity ("user_id", Value.User_Id);
-      Serialize (Into, "user", Value.User);
-      Into.End_Entity (Name);
-   end Serialize;
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in EmojiReactionBase_Type_Vectors.Vector) is
-   begin
-      Into.Start_Array (Name);
-      for Item of Value loop
-         Serialize (Into, "", Item);
-      end loop;
-      Into.End_Array (Name);
-   end Serialize;
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out EmojiReactionBase_Type) is
-      Object : Swagger.Value_Type;
-   begin
-      Swagger.Streams.Deserialize (From, Name, Object);
-      Swagger.Streams.Deserialize (Object, "emoji_code", Value.Emoji_Code);
-      Swagger.Streams.Deserialize (Object, "emoji_name", Value.Emoji_Name);
-      Swagger.Streams.Deserialize (Object, "reaction_type", Value.Reaction_Type);
-      Swagger.Streams.Deserialize (Object, "user_id", Value.User_Id);
-      Deserialize (Object, "user", Value.User);
-   end Deserialize;
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out EmojiReactionBase_Type_Vectors.Vector) is
-      List : Swagger.Value_Array_Type;
-      Item : EmojiReactionBase_Type;
+      Item : Attachments_Type;
    begin
       Value.Clear;
       Swagger.Streams.Deserialize (From, Name, List);

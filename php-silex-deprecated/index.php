@@ -21,6 +21,28 @@ $app->POST('/api/v1/fetch_api_key', function(Application $app, Request $request)
             });
 
 
+$app->POST('/api/v1/drafts', function(Application $app, Request $request) {
+            $drafts = $request->get('drafts');
+            return new Response('How about implementing createDrafts as a POST method ?');
+            });
+
+
+$app->DELETE('/api/v1/drafts/{draftId}', function(Application $app, Request $request, $draft_id) {
+            return new Response('How about implementing deleteDraft as a DELETE method ?');
+            });
+
+
+$app->PATCH('/api/v1/drafts/{draftId}', function(Application $app, Request $request, $draft_id) {
+            $draft = $request->get('draft');
+            return new Response('How about implementing editDraft as a PATCH method ?');
+            });
+
+
+$app->GET('/api/v1/drafts', function(Application $app, Request $request) {
+            return new Response('How about implementing getDrafts as a GET method ?');
+            });
+
+
 $app->POST('/api/v1/messages/{messageId}/reactions', function(Application $app, Request $request, $message_id) {
             $emoji_name = $request->get('emoji_name');
             $emoji_code = $request->get('emoji_code');
@@ -260,6 +282,12 @@ $app->GET('/api/v1/calls/bigbluebutton/create', function(Application $app, Reque
             });
 
 
+$app->POST('/api/v1/streams/{streamId}/delete_topic', function(Application $app, Request $request, $stream_id) {
+            $topic_name = $request->get('topic_name');
+            return new Response('How about implementing deleteTopic as a POST method ?');
+            });
+
+
 $app->GET('/api/v1/get_stream_id', function(Application $app, Request $request) {
             $stream = $request->get('stream');
             return new Response('How about implementing getStreamId as a GET method ?');
@@ -279,6 +307,11 @@ $app->GET('/api/v1/streams', function(Application $app, Request $request) {
             $include_default = $request->get('include_default');
             $include_owner_subscribed = $request->get('include_owner_subscribed');
             return new Response('How about implementing getStreams as a GET method ?');
+            });
+
+
+$app->GET('/api/v1/streams/{streamId}/members', function(Application $app, Request $request, $stream_id) {
+            return new Response('How about implementing getSubscribers as a GET method ?');
             });
 
 
@@ -443,13 +476,18 @@ $app->DELETE('/api/v1/users/me/muted_users/{mutedUserId}', function(Application 
             });
 
 
-$app->PATCH('/api/v1/settings/display', function(Application $app, Request $request) {
+$app->PATCH('/api/v1/settings', function(Application $app, Request $request) {
+            $full_name = $request->get('full_name');
+            $email = $request->get('email');
+            $old_password = $request->get('old_password');
+            $new_password = $request->get('new_password');
             $twenty_four_hour_time = $request->get('twenty_four_hour_time');
             $dense_mode = $request->get('dense_mode');
             $starred_message_counts = $request->get('starred_message_counts');
             $fluid_layout_width = $request->get('fluid_layout_width');
             $high_contrast_mode = $request->get('high_contrast_mode');
             $color_scheme = $request->get('color_scheme');
+            $enable_drafts_synchronization = $request->get('enable_drafts_synchronization');
             $translate_emoticons = $request->get('translate_emoticons');
             $default_language = $request->get('default_language');
             $default_view = $request->get('default_view');
@@ -457,11 +495,6 @@ $app->PATCH('/api/v1/settings/display', function(Application $app, Request $requ
             $emojiset = $request->get('emojiset');
             $demote_inactive_streams = $request->get('demote_inactive_streams');
             $timezone = $request->get('timezone');
-            return new Response('How about implementing updateDisplaySettings as a PATCH method ?');
-            });
-
-
-$app->PATCH('/api/v1/settings/notifications', function(Application $app, Request $request) {
             $enable_stream_desktop_notifications = $request->get('enable_stream_desktop_notifications');
             $enable_stream_email_notifications = $request->get('enable_stream_email_notifications');
             $enable_stream_push_notifications = $request->get('enable_stream_push_notifications');
@@ -469,6 +502,7 @@ $app->PATCH('/api/v1/settings/notifications', function(Application $app, Request
             $notification_sound = $request->get('notification_sound');
             $enable_desktop_notifications = $request->get('enable_desktop_notifications');
             $enable_sounds = $request->get('enable_sounds');
+            $email_notifications_batching_period_seconds = $request->get('email_notifications_batching_period_seconds');
             $enable_offline_email_notifications = $request->get('enable_offline_email_notifications');
             $enable_offline_push_notifications = $request->get('enable_offline_push_notifications');
             $enable_online_push_notifications = $request->get('enable_online_push_notifications');
@@ -481,7 +515,18 @@ $app->PATCH('/api/v1/settings/notifications', function(Application $app, Request
             $desktop_icon_count_display = $request->get('desktop_icon_count_display');
             $realm_name_in_notifications = $request->get('realm_name_in_notifications');
             $presence_enabled = $request->get('presence_enabled');
-            return new Response('How about implementing updateNotificationSettings as a PATCH method ?');
+            $enter_sends = $request->get('enter_sends');
+            return new Response('How about implementing updateSettings as a PATCH method ?');
+            });
+
+
+$app->POST('/api/v1/users/me/status', function(Application $app, Request $request) {
+            $status_text = $request->get('status_text');
+            $away = $request->get('away');
+            $emoji_name = $request->get('emoji_name');
+            $emoji_code = $request->get('emoji_code');
+            $reaction_type = $request->get('reaction_type');
+            return new Response('How about implementing updateStatus as a POST method ?');
             });
 
 

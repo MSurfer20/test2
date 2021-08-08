@@ -255,18 +255,23 @@ namespace Org.OpenAPITools.Test.Api
         }
 
         /// <summary>
-        /// Test UpdateDisplaySettings
+        /// Test UpdateSettings
         /// </summary>
         [Fact]
-        public void UpdateDisplaySettingsTest()
+        public void UpdateSettingsTest()
         {
             // TODO uncomment below to test the method and replace null with proper value
+            //string fullName = null;
+            //string email = null;
+            //string oldPassword = null;
+            //string newPassword = null;
             //bool? twentyFourHourTime = null;
             //bool? denseMode = null;
             //bool? starredMessageCounts = null;
             //bool? fluidLayoutWidth = null;
             //bool? highContrastMode = null;
             //int? colorScheme = null;
+            //bool? enableDraftsSynchronization = null;
             //bool? translateEmoticons = null;
             //string defaultLanguage = null;
             //string defaultView = null;
@@ -274,17 +279,6 @@ namespace Org.OpenAPITools.Test.Api
             //string emojiset = null;
             //int? demoteInactiveStreams = null;
             //string timezone = null;
-            //var response = instance.UpdateDisplaySettings(twentyFourHourTime, denseMode, starredMessageCounts, fluidLayoutWidth, highContrastMode, colorScheme, translateEmoticons, defaultLanguage, defaultView, leftSideUserlist, emojiset, demoteInactiveStreams, timezone);
-            //Assert.IsType<JsonSuccessBase>(response);
-        }
-
-        /// <summary>
-        /// Test UpdateNotificationSettings
-        /// </summary>
-        [Fact]
-        public void UpdateNotificationSettingsTest()
-        {
-            // TODO uncomment below to test the method and replace null with proper value
             //bool? enableStreamDesktopNotifications = null;
             //bool? enableStreamEmailNotifications = null;
             //bool? enableStreamPushNotifications = null;
@@ -292,6 +286,7 @@ namespace Org.OpenAPITools.Test.Api
             //string notificationSound = null;
             //bool? enableDesktopNotifications = null;
             //bool? enableSounds = null;
+            //int? emailNotificationsBatchingPeriodSeconds = null;
             //bool? enableOfflineEmailNotifications = null;
             //bool? enableOfflinePushNotifications = null;
             //bool? enableOnlinePushNotifications = null;
@@ -304,8 +299,25 @@ namespace Org.OpenAPITools.Test.Api
             //int? desktopIconCountDisplay = null;
             //bool? realmNameInNotifications = null;
             //bool? presenceEnabled = null;
-            //var response = instance.UpdateNotificationSettings(enableStreamDesktopNotifications, enableStreamEmailNotifications, enableStreamPushNotifications, enableStreamAudibleNotifications, notificationSound, enableDesktopNotifications, enableSounds, enableOfflineEmailNotifications, enableOfflinePushNotifications, enableOnlinePushNotifications, enableDigestEmails, enableMarketingEmails, enableLoginEmails, messageContentInEmailNotifications, pmContentInDesktopNotifications, wildcardMentionsNotify, desktopIconCountDisplay, realmNameInNotifications, presenceEnabled);
+            //bool? enterSends = null;
+            //var response = instance.UpdateSettings(fullName, email, oldPassword, newPassword, twentyFourHourTime, denseMode, starredMessageCounts, fluidLayoutWidth, highContrastMode, colorScheme, enableDraftsSynchronization, translateEmoticons, defaultLanguage, defaultView, leftSideUserlist, emojiset, demoteInactiveStreams, timezone, enableStreamDesktopNotifications, enableStreamEmailNotifications, enableStreamPushNotifications, enableStreamAudibleNotifications, notificationSound, enableDesktopNotifications, enableSounds, emailNotificationsBatchingPeriodSeconds, enableOfflineEmailNotifications, enableOfflinePushNotifications, enableOnlinePushNotifications, enableDigestEmails, enableMarketingEmails, enableLoginEmails, messageContentInEmailNotifications, pmContentInDesktopNotifications, wildcardMentionsNotify, desktopIconCountDisplay, realmNameInNotifications, presenceEnabled, enterSends);
             //Assert.IsType<JsonSuccessBase>(response);
+        }
+
+        /// <summary>
+        /// Test UpdateStatus
+        /// </summary>
+        [Fact]
+        public void UpdateStatusTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string statusText = null;
+            //bool? away = null;
+            //string emojiName = null;
+            //string emojiCode = null;
+            //string reactionType = null;
+            //var response = instance.UpdateStatus(statusText, away, emojiName, emojiCode, reactionType);
+            //Assert.IsType<JsonSuccess>(response);
         }
 
         /// <summary>

@@ -10,7 +10,7 @@ const Service = require('./Service');
 * fullUnderscorename String The full name of the new user. 
 * returns JsonSuccessBase
 * */
-const create_user = ({ email, password, fullUnderscorename }) => new Promise(
+const createUser = ({ email, password, fullUnderscorename }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -35,7 +35,7 @@ const create_user = ({ email, password, fullUnderscorename }) => new Promise(
 * members List An array containing the user IDs of the initial members for the new user group. 
 * returns JsonSuccess
 * */
-const create_user_group = ({ name, description, members }) => new Promise(
+const createUserGroup = ({ name, description, members }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -57,7 +57,7 @@ const create_user_group = ({ name, description, members }) => new Promise(
 *
 * returns JsonSuccess
 * */
-const deactivate_own_user = () => new Promise(
+const deactivateOwnUser = () => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -77,7 +77,7 @@ const deactivate_own_user = () => new Promise(
 * userUnderscoreid Integer The target user's ID. 
 * returns JsonSuccess
 * */
-const deactivate_user = ({ userUnderscoreid }) => new Promise(
+const deactivateUser = ({ userUnderscoreid }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -97,7 +97,7 @@ const deactivate_user = ({ userUnderscoreid }) => new Promise(
 *
 * returns JsonSuccessBase
 * */
-const get_attachments = () => new Promise(
+const getAttachments = () => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -116,7 +116,7 @@ const get_attachments = () => new Promise(
 *
 * returns JsonSuccessBase
 * */
-const get_own_user = () => new Promise(
+const getOwnUser = () => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -138,7 +138,7 @@ const get_own_user = () => new Promise(
 * includeUnderscorecustomUnderscoreprofileUnderscorefields Boolean Whether the client wants [custom profile field](/help/add-custom-profile-fields) data to be included in the response.  **Changes**: New in Zulip 2.1.0.  Previous versions do no offer these data via the API.  (optional)
 * returns JsonSuccessBase
 * */
-const get_user = ({ userUnderscoreid, clientUnderscoregravatar, includeUnderscorecustomUnderscoreprofileUnderscorefields }) => new Promise(
+const getUser = ({ userUnderscoreid, clientUnderscoregravatar, includeUnderscorecustomUnderscoreprofileUnderscorefields }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -163,7 +163,7 @@ const get_user = ({ userUnderscoreid, clientUnderscoregravatar, includeUnderscor
 * includeUnderscorecustomUnderscoreprofileUnderscorefields Boolean Whether the client wants [custom profile field](/help/add-custom-profile-fields) data to be included in the response.  **Changes**: New in Zulip 2.1.0.  Previous versions do no offer these data via the API.  (optional)
 * returns JsonSuccessBase
 * */
-const get_user_by_email = ({ email, clientUnderscoregravatar, includeUnderscorecustomUnderscoreprofileUnderscorefields }) => new Promise(
+const getUserByEmail = ({ email, clientUnderscoregravatar, includeUnderscorecustomUnderscoreprofileUnderscorefields }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -185,7 +185,7 @@ const get_user_by_email = ({ email, clientUnderscoregravatar, includeUnderscorec
 *
 * returns JsonSuccessBase
 * */
-const get_user_groups = () => new Promise(
+const getUserGroups = () => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -205,7 +205,7 @@ const get_user_groups = () => new Promise(
 * userUnderscoreidUnderscoreorUnderscoreemail String The user_id or Zulip display email address of the user whose presence you want to fetch.  **Changes**: New in Zulip 4.0 (feature level 43). Previous versions only supported identifying the user by Zulip display email. 
 * returns JsonSuccessBase
 * */
-const get_user_presence = ({ userUnderscoreidUnderscoreorUnderscoreemail }) => new Promise(
+const getUserPresence = ({ userUnderscoreidUnderscoreorUnderscoreemail }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -227,7 +227,7 @@ const get_user_presence = ({ userUnderscoreidUnderscoreorUnderscoreemail }) => n
 * includeUnderscorecustomUnderscoreprofileUnderscorefields Boolean Whether the client wants [custom profile field](/help/add-custom-profile-fields) data to be included in the response.  **Changes**: New in Zulip 2.1.0.  Previous versions do no offer these data via the API.  (optional)
 * returns JsonSuccessBase
 * */
-const get_users = ({ clientUnderscoregravatar, includeUnderscorecustomUnderscoreprofileUnderscorefields }) => new Promise(
+const getUsers = ({ clientUnderscoregravatar, includeUnderscorecustomUnderscoreprofileUnderscorefields }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -249,7 +249,7 @@ const get_users = ({ clientUnderscoregravatar, includeUnderscorecustomUnderscore
 * mutedUnderscoreuserUnderscoreid Integer The ID of the user to mute/un-mute. 
 * returns JsonSuccess
 * */
-const mute_user = ({ mutedUnderscoreuserUnderscoreid }) => new Promise(
+const muteUser = ({ mutedUnderscoreuserUnderscoreid }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -270,7 +270,7 @@ const mute_user = ({ mutedUnderscoreuserUnderscoreid }) => new Promise(
 * userUnderscoreid Integer The target user's ID. 
 * returns oas_any_type_not_mapped
 * */
-const reactivate_user = ({ userUnderscoreid }) => new Promise(
+const reactivateUser = ({ userUnderscoreid }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -291,7 +291,7 @@ const reactivate_user = ({ userUnderscoreid }) => new Promise(
 * userUnderscoregroupUnderscoreid Integer The ID of the target user group. 
 * returns JsonSuccess
 * */
-const remove_user_group = ({ userUnderscoregroupUnderscoreid }) => new Promise(
+const removeUserGroup = ({ userUnderscoregroupUnderscoreid }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -315,7 +315,7 @@ const remove_user_group = ({ userUnderscoregroupUnderscoreid }) => new Promise(
 * topic String Topic to which message is being typed. Required for the 'stream' type. Ignored in case of 'private' type.  (optional)
 * returns JsonSuccess
 * */
-const set_typing_status = ({ op, to, type, topic }) => new Promise(
+const setTypingStatus = ({ op, to, type, topic }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -339,7 +339,7 @@ const set_typing_status = ({ op, to, type, topic }) => new Promise(
 * mutedUnderscoreuserUnderscoreid Integer The ID of the user to mute/un-mute. 
 * returns JsonSuccess
 * */
-const unmute_user = ({ mutedUnderscoreuserUnderscoreid }) => new Promise(
+const unmuteUser = ({ mutedUnderscoreuserUnderscoreid }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -354,34 +354,65 @@ const unmute_user = ({ mutedUnderscoreuserUnderscoreid }) => new Promise(
   },
 );
 /**
-* Update display settings
-* This endpoint is used to edit the current user's user interface settings.  `PATCH {{ api_url }}/v1/settings/display` 
+* Update settings
+* This endpoint is used to edit the current user's settings.  `PATCH {{ api_url }}/v1/settings`  **Changes**: Prior to Zulip 5.0 (feature level 80), this endpoint only supported the `full_name`, `email`, `old_password`, and `new_password` parameters. Notification settings were managed by `PATCH /settings/notifications`, and all other settings by `PATCH /settings/display`. The feature level 80 migration to merge these endpoints did not change how request parameters are encoded. Note, however, that it did change the handling of any invalid parameters present in a request to change notification or display settings, since the merged endpoint uses the new response format that was introduced for `/settings` in Zulip 5.0 (feature level 78).  The `/settings/display` and `/settings/notifications` endpoints are now deprecated aliases for this endpoint for backwards-compatibility, and will be removed once clients have migrated to use this endpoint. 
 *
-* twentyUnderscorefourUnderscorehourUnderscoretime Boolean Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).  (optional)
-* denseUnderscoremode Boolean This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip.  (optional)
-* starredUnderscoremessageUnderscorecounts Boolean Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages).  (optional)
-* fluidUnderscorelayoutUnderscorewidth Boolean Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app's center panel (message feed, recent topics) on wide screens.  (optional)
-* highUnderscorecontrastUnderscoremode Boolean This setting is reserved for use to control variations in Zulip's design to help visually impaired users.  (optional)
-* colorUnderscorescheme Integer Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard `prefers-color-scheme` media query.  (optional)
-* translateUnderscoreemoticons Boolean Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends.  (optional)
-* defaultUnderscorelanguage String What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, `\"en\"` for English or `\"de\"` for German.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63).  (optional)
-* defaultUnderscoreview String The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the `Esc` keyboard shortcut repeatedly.  * \"recent_topics\" - Recent topics view * \"all_messages\" - All messages view  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64).  (optional)
-* leftUnderscoresideUnderscoreuserlist Boolean Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.  (optional)
-* emojiset String The user's configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \"google\" - Google modern * \"google-blob\" - Google classic * \"twitter\" - Twitter * \"text\" - Plain text  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64).  (optional)
-* demoteUnderscoreinactiveUnderscorestreams Integer Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never  (optional)
-* timezone String The user's [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64).  (optional)
+* fullUnderscorename String A new display name for the user.  (optional)
+* email String Asks the server to initiate a confirmation sequence to change the user's email address to the indicated value. The user will need to demonstrate control of the new email address by clicking a confirmation link sent to that address.  (optional)
+* oldUnderscorepassword String The user's old Zulip password (or LDAP password, if LDAP authentication is in use).  Required only when sending the `new_password` parameter.  (optional)
+* newUnderscorepassword String The user's new Zulip password (or LDAP password, if LDAP authentication is in use).  The `old_password` parameter must be included in the request.  (optional)
+* twentyUnderscorefourUnderscorehourUnderscoretime Boolean Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  (optional)
+* denseUnderscoremode Boolean This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  (optional)
+* starredUnderscoremessageUnderscorecounts Boolean Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  (optional)
+* fluidUnderscorelayoutUnderscorewidth Boolean Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app's center panel (message feed, recent topics) on wide screens.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  (optional)
+* highUnderscorecontrastUnderscoremode Boolean This setting is reserved for use to control variations in Zulip's design to help visually impaired users.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  (optional)
+* colorUnderscorescheme Integer Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard `prefers-color-scheme` media query.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  (optional)
+* enableUnderscoredraftsUnderscoresynchronization Boolean A boolean parameter to control whether synchronizing drafts is enabled for the user. When synchronization is disabled, all drafts stored in the server will be automatically deleted from the server.  This does not do anything (like sending events) to delete local copies of drafts stored in clients.  **Changes**: New in Zulip 5.0 (feature level 87).  (optional)
+* translateUnderscoreemoticons Boolean Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  (optional)
+* defaultUnderscorelanguage String What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, `\"en\"` for English or `\"de\"` for German.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63).  (optional)
+* defaultUnderscoreview String The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the `Esc` keyboard shortcut repeatedly.  * \"recent_topics\" - Recent topics view * \"all_messages\" - All messages view  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).  (optional)
+* leftUnderscoresideUnderscoreuserlist Boolean Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  (optional)
+* emojiset String The user's configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \"google\" - Google modern * \"google-blob\" - Google classic * \"twitter\" - Twitter * \"text\" - Plain text  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).  (optional)
+* demoteUnderscoreinactiveUnderscorestreams Integer Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  (optional)
+* timezone String The user's [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).  (optional)
+* enableUnderscorestreamUnderscoredesktopUnderscorenotifications Boolean Enable visual desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  (optional)
+* enableUnderscorestreamUnderscoreemailUnderscorenotifications Boolean Enable email notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  (optional)
+* enableUnderscorestreamUnderscorepushUnderscorenotifications Boolean Enable mobile notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  (optional)
+* enableUnderscorestreamUnderscoreaudibleUnderscorenotifications Boolean Enable audible desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  (optional)
+* notificationUnderscoresound String Notification sound name.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63).  (optional)
+* enableUnderscoredesktopUnderscorenotifications Boolean Enable visual desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  (optional)
+* enableUnderscoresounds Boolean Enable audible desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  (optional)
+* emailUnderscorenotificationsUnderscorebatchingUnderscoreperiodUnderscoreseconds Integer The duration (in seconds) for which the server should wait to batch email notifications before sending them.  **Changes**: New in Zulip 5.0 (feature level 82)  (optional)
+* enableUnderscoreofflineUnderscoreemailUnderscorenotifications Boolean Enable email notifications for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  (optional)
+* enableUnderscoreofflineUnderscorepushUnderscorenotifications Boolean Enable mobile notification for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  (optional)
+* enableUnderscoreonlineUnderscorepushUnderscorenotifications Boolean Enable mobile notification for private messages and @-mentions received when the user is online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  (optional)
+* enableUnderscoredigestUnderscoreemails Boolean Enable digest emails when the user is away.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  (optional)
+* enableUnderscoremarketingUnderscoreemails Boolean Enable marketing emails. Has no function outside Zulip Cloud.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  (optional)
+* enableUnderscoreloginUnderscoreemails Boolean Enable email notifications for new logins to account.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  (optional)
+* messageUnderscorecontentUnderscoreinUnderscoreemailUnderscorenotifications Boolean Include the message's content in email notifications for new messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  (optional)
+* pmUnderscorecontentUnderscoreinUnderscoredesktopUnderscorenotifications Boolean Include content of private messages in desktop notifications.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  (optional)
+* wildcardUnderscorementionsUnderscorenotify Boolean Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  (optional)
+* desktopUnderscoreiconUnderscorecountUnderscoredisplay Integer Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  (optional)
+* realmUnderscorenameUnderscoreinUnderscorenotifications Boolean Include organization name in subject of message notification emails.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  (optional)
+* presenceUnderscoreenabled Boolean Display the presence status to other users when online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  (optional)
+* enterUnderscoresends Boolean Whether pressing Enter in the compose box sends a message (or saves a message edit).  **Changes**: Before Zulip 5.0 (feature level 81), this setting was managed by the `POST /users/me/enter-sends` endpoint, with the same parameter format.  (optional)
 * returns JsonSuccessBase
 * */
-const update_display_settings = ({ twentyUnderscorefourUnderscorehourUnderscoretime, denseUnderscoremode, starredUnderscoremessageUnderscorecounts, fluidUnderscorelayoutUnderscorewidth, highUnderscorecontrastUnderscoremode, colorUnderscorescheme, translateUnderscoreemoticons, defaultUnderscorelanguage, defaultUnderscoreview, leftUnderscoresideUnderscoreuserlist, emojiset, demoteUnderscoreinactiveUnderscorestreams, timezone }) => new Promise(
+const updateSettings = ({ fullUnderscorename, email, oldUnderscorepassword, newUnderscorepassword, twentyUnderscorefourUnderscorehourUnderscoretime, denseUnderscoremode, starredUnderscoremessageUnderscorecounts, fluidUnderscorelayoutUnderscorewidth, highUnderscorecontrastUnderscoremode, colorUnderscorescheme, enableUnderscoredraftsUnderscoresynchronization, translateUnderscoreemoticons, defaultUnderscorelanguage, defaultUnderscoreview, leftUnderscoresideUnderscoreuserlist, emojiset, demoteUnderscoreinactiveUnderscorestreams, timezone, enableUnderscorestreamUnderscoredesktopUnderscorenotifications, enableUnderscorestreamUnderscoreemailUnderscorenotifications, enableUnderscorestreamUnderscorepushUnderscorenotifications, enableUnderscorestreamUnderscoreaudibleUnderscorenotifications, notificationUnderscoresound, enableUnderscoredesktopUnderscorenotifications, enableUnderscoresounds, emailUnderscorenotificationsUnderscorebatchingUnderscoreperiodUnderscoreseconds, enableUnderscoreofflineUnderscoreemailUnderscorenotifications, enableUnderscoreofflineUnderscorepushUnderscorenotifications, enableUnderscoreonlineUnderscorepushUnderscorenotifications, enableUnderscoredigestUnderscoreemails, enableUnderscoremarketingUnderscoreemails, enableUnderscoreloginUnderscoreemails, messageUnderscorecontentUnderscoreinUnderscoreemailUnderscorenotifications, pmUnderscorecontentUnderscoreinUnderscoredesktopUnderscorenotifications, wildcardUnderscorementionsUnderscorenotify, desktopUnderscoreiconUnderscorecountUnderscoredisplay, realmUnderscorenameUnderscoreinUnderscorenotifications, presenceUnderscoreenabled, enterUnderscoresends }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
+        fullUnderscorename,
+        email,
+        oldUnderscorepassword,
+        newUnderscorepassword,
         twentyUnderscorefourUnderscorehourUnderscoretime,
         denseUnderscoremode,
         starredUnderscoremessageUnderscorecounts,
         fluidUnderscorelayoutUnderscorewidth,
         highUnderscorecontrastUnderscoremode,
         colorUnderscorescheme,
+        enableUnderscoredraftsUnderscoresynchronization,
         translateUnderscoreemoticons,
         defaultUnderscorelanguage,
         defaultUnderscoreview,
@@ -389,44 +420,6 @@ const update_display_settings = ({ twentyUnderscorefourUnderscorehourUnderscoret
         emojiset,
         demoteUnderscoreinactiveUnderscorestreams,
         timezone,
-      }));
-    } catch (e) {
-      reject(Service.rejectResponse(
-        e.message || 'Invalid input',
-        e.status || 405,
-      ));
-    }
-  },
-);
-/**
-* Update notification settings
-* This endpoint is used to edit the user's global notification settings. See [this endpoint](/api/update-subscription-settings) for per-stream notification settings.  `PATCH {{ api_url }}/v1/settings/notifications` 
-*
-* enableUnderscorestreamUnderscoredesktopUnderscorenotifications Boolean Enable visual desktop notifications for stream messages.  (optional)
-* enableUnderscorestreamUnderscoreemailUnderscorenotifications Boolean Enable email notifications for stream messages.  (optional)
-* enableUnderscorestreamUnderscorepushUnderscorenotifications Boolean Enable mobile notifications for stream messages.  (optional)
-* enableUnderscorestreamUnderscoreaudibleUnderscorenotifications Boolean Enable audible desktop notifications for stream messages.  (optional)
-* notificationUnderscoresound String Notification sound name.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63).  (optional)
-* enableUnderscoredesktopUnderscorenotifications Boolean Enable visual desktop notifications for private messages and @-mentions.  (optional)
-* enableUnderscoresounds Boolean Enable audible desktop notifications for private messages and @-mentions.  (optional)
-* enableUnderscoreofflineUnderscoreemailUnderscorenotifications Boolean Enable email notifications for private messages and @-mentions received when the user is offline.  (optional)
-* enableUnderscoreofflineUnderscorepushUnderscorenotifications Boolean Enable mobile notification for private messages and @-mentions received when the user is offline.  (optional)
-* enableUnderscoreonlineUnderscorepushUnderscorenotifications Boolean Enable mobile notification for private messages and @-mentions received when the user is online.  (optional)
-* enableUnderscoredigestUnderscoreemails Boolean Enable digest emails when the user is away.  (optional)
-* enableUnderscoremarketingUnderscoreemails Boolean Enable marketing emails. Has no function outside Zulip Cloud.  (optional)
-* enableUnderscoreloginUnderscoreemails Boolean Enable email notifications for new logins to account.  (optional)
-* messageUnderscorecontentUnderscoreinUnderscoreemailUnderscorenotifications Boolean Include the message's content in email notifications for new messages.  (optional)
-* pmUnderscorecontentUnderscoreinUnderscoredesktopUnderscorenotifications Boolean Include content of private messages in desktop notifications.  (optional)
-* wildcardUnderscorementionsUnderscorenotify Boolean Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention.  (optional)
-* desktopUnderscoreiconUnderscorecountUnderscoredisplay Integer Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None  (optional)
-* realmUnderscorenameUnderscoreinUnderscorenotifications Boolean Include organization name in subject of message notification emails.  (optional)
-* presenceUnderscoreenabled Boolean Display the presence status to other users when online.  (optional)
-* returns JsonSuccessBase
-* */
-const update_notification_settings = ({ enableUnderscorestreamUnderscoredesktopUnderscorenotifications, enableUnderscorestreamUnderscoreemailUnderscorenotifications, enableUnderscorestreamUnderscorepushUnderscorenotifications, enableUnderscorestreamUnderscoreaudibleUnderscorenotifications, notificationUnderscoresound, enableUnderscoredesktopUnderscorenotifications, enableUnderscoresounds, enableUnderscoreofflineUnderscoreemailUnderscorenotifications, enableUnderscoreofflineUnderscorepushUnderscorenotifications, enableUnderscoreonlineUnderscorepushUnderscorenotifications, enableUnderscoredigestUnderscoreemails, enableUnderscoremarketingUnderscoreemails, enableUnderscoreloginUnderscoreemails, messageUnderscorecontentUnderscoreinUnderscoreemailUnderscorenotifications, pmUnderscorecontentUnderscoreinUnderscoredesktopUnderscorenotifications, wildcardUnderscorementionsUnderscorenotify, desktopUnderscoreiconUnderscorecountUnderscoredisplay, realmUnderscorenameUnderscoreinUnderscorenotifications, presenceUnderscoreenabled }) => new Promise(
-  async (resolve, reject) => {
-    try {
-      resolve(Service.successResponse({
         enableUnderscorestreamUnderscoredesktopUnderscorenotifications,
         enableUnderscorestreamUnderscoreemailUnderscorenotifications,
         enableUnderscorestreamUnderscorepushUnderscorenotifications,
@@ -434,6 +427,7 @@ const update_notification_settings = ({ enableUnderscorestreamUnderscoredesktopU
         notificationUnderscoresound,
         enableUnderscoredesktopUnderscorenotifications,
         enableUnderscoresounds,
+        emailUnderscorenotificationsUnderscorebatchingUnderscoreperiodUnderscoreseconds,
         enableUnderscoreofflineUnderscoreemailUnderscorenotifications,
         enableUnderscoreofflineUnderscorepushUnderscorenotifications,
         enableUnderscoreonlineUnderscorepushUnderscorenotifications,
@@ -446,6 +440,36 @@ const update_notification_settings = ({ enableUnderscorestreamUnderscoredesktopU
         desktopUnderscoreiconUnderscorecountUnderscoredisplay,
         realmUnderscorenameUnderscoreinUnderscorenotifications,
         presenceUnderscoreenabled,
+        enterUnderscoresends,
+      }));
+    } catch (e) {
+      reject(Service.rejectResponse(
+        e.message || 'Invalid input',
+        e.status || 405,
+      ));
+    }
+  },
+);
+/**
+* Update your status
+* Change your [status](/help/status-and-availability).  `POST {{ api_url }}/v1/users/me/status`  A request to this endpoint will only change the parameters passed. For example, passing just `status_text` requests a change in the status text, but will leave the status emoji unchanged.  Clients that wish to set the user's status to a specific value should pass all supported parameters. 
+*
+* statusUnderscoretext String The text content of the status message. Sending the empty string will clear the user's status.  **Note**: The limit on the size of the message is 60 characters.  (optional)
+* away Boolean Whether the user should be marked as \"away\".  (optional)
+* emojiUnderscorename String The name for the emoji to associate with this status.  (optional)
+* emojiUnderscorecode String A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji.  (optional)
+* reactionUnderscoretype String One of the following values:  * `unicode_emoji`: Unicode emoji (`emoji_code` will be its Unicode   codepoint). * `realm_emoji`: [Custom emoji](/help/add-custom-emoji).   (`emoji_code` will be its ID). * `zulip_extra_emoji`: Special emoji included with Zulip.  Exists to   namespace the `zulip` emoji.  (optional)
+* returns JsonSuccess
+* */
+const updateStatus = ({ statusUnderscoretext, away, emojiUnderscorename, emojiUnderscorecode, reactionUnderscoretype }) => new Promise(
+  async (resolve, reject) => {
+    try {
+      resolve(Service.successResponse({
+        statusUnderscoretext,
+        away,
+        emojiUnderscorename,
+        emojiUnderscorecode,
+        reactionUnderscoretype,
       }));
     } catch (e) {
       reject(Service.rejectResponse(
@@ -465,7 +489,7 @@ const update_notification_settings = ({ enableUnderscorestreamUnderscoredesktopU
 * profileUnderscoredata List A dictionary containing the to be updated custom profile field data for the user.  (optional)
 * returns JsonSuccess
 * */
-const update_user = ({ userUnderscoreid, fullUnderscorename, role, profileUnderscoredata }) => new Promise(
+const updateUser = ({ userUnderscoreid, fullUnderscorename, role, profileUnderscoredata }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -491,7 +515,7 @@ const update_user = ({ userUnderscoreid, fullUnderscorename, role, profileUnders
 * description String The new description of the group. 
 * returns JsonSuccess
 * */
-const update_user_group = ({ userUnderscoregroupUnderscoreid, name, description }) => new Promise(
+const updateUserGroup = ({ userUnderscoregroupUnderscoreid, name, description }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -516,7 +540,7 @@ const update_user_group = ({ userUnderscoregroupUnderscoreid, name, description 
 * add List The list of user ids to be added to the user group.  (optional)
 * returns JsonSuccess
 * */
-const update_user_group_members = ({ userUnderscoregroupUnderscoreid, _delete, add }) => new Promise(
+const updateUserGroupMembers = ({ userUnderscoregroupUnderscoreid, _delete, add }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -534,25 +558,25 @@ const update_user_group_members = ({ userUnderscoregroupUnderscoreid, _delete, a
 );
 
 module.exports = {
-  create_user,
-  create_user_group,
-  deactivate_own_user,
-  deactivate_user,
-  get_attachments,
-  get_own_user,
-  get_user,
-  get_user_by_email,
-  get_user_groups,
-  get_user_presence,
-  get_users,
-  mute_user,
-  reactivate_user,
-  remove_user_group,
-  set_typing_status,
-  unmute_user,
-  update_display_settings,
-  update_notification_settings,
-  update_user,
-  update_user_group,
-  update_user_group_members,
+  createUser,
+  createUserGroup,
+  deactivateOwnUser,
+  deactivateUser,
+  getAttachments,
+  getOwnUser,
+  getUser,
+  getUserByEmail,
+  getUserGroups,
+  getUserPresence,
+  getUsers,
+  muteUser,
+  reactivateUser,
+  removeUserGroup,
+  setTypingStatus,
+  unmuteUser,
+  updateSettings,
+  updateStatus,
+  updateUser,
+  updateUserGroup,
+  updateUserGroupMembers,
 };

@@ -90,6 +90,17 @@ class StreamsApiTest extends TestCase
     }
 
     /**
+     * Test case for deleteTopic
+     *
+     * Delete a topic.
+     *
+     * @covers ::deleteTopic
+     */
+    public function testDeleteTopic()
+    {
+    }
+
+    /**
      * Test case for getStreamId
      *
      * Get stream ID.
@@ -119,6 +130,17 @@ class StreamsApiTest extends TestCase
      * @covers ::getStreams
      */
     public function testGetStreams()
+    {
+    }
+
+    /**
+     * Test case for getSubscribers
+     *
+     * Get the subscribers of a stream.
+     *
+     * @covers ::getSubscribers
+     */
+    public function testGetSubscribers()
     {
     }
 

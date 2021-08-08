@@ -12,11 +12,13 @@ syntax = "proto3";
 
 package ;
 
-import public "models/emoji_reaction_base_user.proto";
+import public "models/emoji_base.proto";
+import public "models/emoji_reaction_base_all_of.proto";
+import public "models/emoji_reaction_base_all_of_user.proto";
 
 message EmojiReactionBase {
 
-  // A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint. 
+  // A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji. 
   string emojiUnderscorecode = 208527990;
 
   // Name of the emoji. 
@@ -28,6 +30,6 @@ message EmojiReactionBase {
   // The ID of the user who added the reaction.  **Changes**: New in Zulip 3.0 (feature level 2). The `user` object is deprecated and will be removed in the future. 
   int32 userUnderscoreid = 252104512;
 
-  EmojiReactionBaseUser user = 3599307;
+  EmojiReactionBaseAllOfUser user = 3599307;
 
 }

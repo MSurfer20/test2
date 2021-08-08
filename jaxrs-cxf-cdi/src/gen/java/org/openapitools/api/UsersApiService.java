@@ -13,6 +13,7 @@ import org.openapitools.model.JsonSuccessBase;
 import org.openapitools.model.NonExistingStreamError;
 import org.openapitools.model.OneOfobjectobject;
 import org.openapitools.model.OneOfobjectobjectobject;
+import org.openapitools.model.OneOfobjectobjectobjectobjectobjectobject;
 import org.openapitools.model.OneOfstringinteger;
 
 import java.util.List;
@@ -22,7 +23,7 @@ import java.io.InputStream;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen", date = "2021-08-08T20:42:18.771666Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen", date = "2021-08-08T21:12:08.985690Z[Etc/UTC]")
 public interface UsersApiService {
       public Response createUser(String email, String password, String fullName, SecurityContext securityContext);
       public Response deactivateOwnUser(SecurityContext securityContext);
@@ -41,6 +42,7 @@ public interface UsersApiService {
       public Response subscribe(List<Object> subscriptions, List<OneOfstringinteger> principals, Boolean authorizationErrorsFatal, Boolean announce, Boolean inviteOnly, Boolean historyPublicToSubscribers, Integer streamPostPolicy, OneOfstringinteger messageRetentionDays, SecurityContext securityContext);
       public Response unmuteUser(Integer mutedUserId, SecurityContext securityContext);
       public Response unsubscribe(List<String> subscriptions, List<OneOfstringinteger> principals, SecurityContext securityContext);
+      public Response updateStatus(String statusText, Boolean away, String emojiName, String emojiCode, String reactionType, SecurityContext securityContext);
       public Response updateSubscriptionSettings(List<Object> subscriptionData, SecurityContext securityContext);
       public Response updateSubscriptions(List<String> delete, List<Object> add, SecurityContext securityContext);
       public Response updateUser(Integer userId, String fullName, Integer role, List<Object> profileData, SecurityContext securityContext);

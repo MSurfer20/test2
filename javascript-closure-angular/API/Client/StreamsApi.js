@@ -118,6 +118,52 @@ API.Client.StreamsApi.prototype.createBigBlueButtonVideoCall = function(opt_extr
 }
 
 /**
+ * Delete a topic
+ * Delete all messages in a topic.  &#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+ * @param {!number} streamId The ID of the stream to access. 
+ * @param {!string} topicName The name of the topic to delete. 
+ * @param {!angular.$http.Config=} opt_extraHttpRequestParams Extra HTTP parameters to send.
+ * @return {!angular.$q.Promise<!API.Client.JsonSuccess>}
+ */
+API.Client.StreamsApi.prototype.deleteTopic = function(streamId, topicName, opt_extraHttpRequestParams) {
+  /** @const {string} */
+  var path = this.basePath_ + '/streams/{stream_id}/delete_topic'
+      .replace('{' + 'stream_id' + '}', String(streamId));
+
+  /** @type {!Object} */
+  var queryParameters = {};
+
+  /** @type {!Object} */
+  var headerParams = angular.extend({}, this.defaultHeaders_);
+  // verify required parameter 'streamId' is set
+  if (!streamId) {
+    throw new Error('Missing required parameter streamId when calling deleteTopic');
+  }
+  // verify required parameter 'topicName' is set
+  if (!topicName) {
+    throw new Error('Missing required parameter topicName when calling deleteTopic');
+  }
+  if (topicName !== undefined) {
+    queryParameters['topic_name'] = topicName;
+  }
+
+  /** @type {!Object} */
+  var httpRequestParams = {
+    method: 'POST',
+    url: path,
+    json: true,
+            params: queryParameters,
+    headers: headerParams
+  };
+
+  if (opt_extraHttpRequestParams) {
+    httpRequestParams = angular.extend(httpRequestParams, opt_extraHttpRequestParams);
+  }
+
+  return (/** @type {?} */ (this.http_))(httpRequestParams);
+}
+
+/**
  * Get stream ID
  * Get the unique ID of a given stream.  &#x60;GET {{ api_url }}/v1/get_stream_id&#x60; 
  * @param {!string} stream The name of the stream to access. 
@@ -239,6 +285,43 @@ API.Client.StreamsApi.prototype.getStreams = function(opt_includePublic, opt_inc
     queryParameters['include_owner_subscribed'] = opt_includeOwnerSubscribed;
   }
 
+  /** @type {!Object} */
+  var httpRequestParams = {
+    method: 'GET',
+    url: path,
+    json: true,
+            params: queryParameters,
+    headers: headerParams
+  };
+
+  if (opt_extraHttpRequestParams) {
+    httpRequestParams = angular.extend(httpRequestParams, opt_extraHttpRequestParams);
+  }
+
+  return (/** @type {?} */ (this.http_))(httpRequestParams);
+}
+
+/**
+ * Get the subscribers of a stream
+ * Get all users subscribed to a stream.  &#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60; 
+ * @param {!number} streamId The ID of the stream to access. 
+ * @param {!angular.$http.Config=} opt_extraHttpRequestParams Extra HTTP parameters to send.
+ * @return {!angular.$q.Promise<!API.Client.JsonSuccessBase>}
+ */
+API.Client.StreamsApi.prototype.getSubscribers = function(streamId, opt_extraHttpRequestParams) {
+  /** @const {string} */
+  var path = this.basePath_ + '/streams/{stream_id}/members'
+      .replace('{' + 'stream_id' + '}', String(streamId));
+
+  /** @type {!Object} */
+  var queryParameters = {};
+
+  /** @type {!Object} */
+  var headerParams = angular.extend({}, this.defaultHeaders_);
+  // verify required parameter 'streamId' is set
+  if (!streamId) {
+    throw new Error('Missing required parameter streamId when calling getSubscribers');
+  }
   /** @type {!Object} */
   var httpRequestParams = {
     method: 'GET',

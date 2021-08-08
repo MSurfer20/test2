@@ -16,7 +16,7 @@ import java.util.LinkedHashSet;
 import java.io.FileInputStream;
 import play.libs.Files.TemporaryFile;
 import javax.validation.constraints.*;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", date = "2021-08-08T20:41:53.018098Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", date = "2021-08-08T21:11:44.583112Z[Etc/UTC]")
 public class StreamsApiControllerImp extends StreamsApiControllerImpInterface {
     @Override
     public JsonSuccess archiveStream(Http.Request request, Integer streamId) throws Exception {
@@ -28,6 +28,12 @@ public class StreamsApiControllerImp extends StreamsApiControllerImpInterface {
     public JsonSuccessBase createBigBlueButtonVideoCall(Http.Request request) throws Exception {
         //Do your magic!!!
         return new JsonSuccessBase();
+    }
+
+    @Override
+    public JsonSuccess deleteTopic(Http.Request request, Integer streamId, @NotNull String topicName) throws Exception {
+        //Do your magic!!!
+        return new JsonSuccess();
     }
 
     @Override
@@ -44,6 +50,12 @@ public class StreamsApiControllerImp extends StreamsApiControllerImpInterface {
 
     @Override
     public JsonSuccessBase getStreams(Http.Request request, Boolean includePublic, Boolean includeWebPublic, Boolean includeSubscribed, Boolean includeAllActive, Boolean includeDefault, Boolean includeOwnerSubscribed) throws Exception {
+        //Do your magic!!!
+        return new JsonSuccessBase();
+    }
+
+    @Override
+    public JsonSuccessBase getSubscribers(Http.Request request, Integer streamId) throws Exception {
         //Do your magic!!!
         return new JsonSuccessBase();
     }

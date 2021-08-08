@@ -89,23 +89,25 @@ export interface UnmuteUserRequest {
     mutedUserId: number;
 }
 
-export interface UpdateDisplaySettingsRequest {
+export interface UpdateSettingsRequest {
+    fullName?: string;
+    email?: string;
+    oldPassword?: string;
+    newPassword?: string;
     twentyFourHourTime?: boolean;
     denseMode?: boolean;
     starredMessageCounts?: boolean;
     fluidLayoutWidth?: boolean;
     highContrastMode?: boolean;
-    colorScheme?: UpdateDisplaySettingsColorSchemeEnum;
+    colorScheme?: UpdateSettingsColorSchemeEnum;
+    enableDraftsSynchronization?: boolean;
     translateEmoticons?: boolean;
     defaultLanguage?: string;
     defaultView?: string;
     leftSideUserlist?: boolean;
     emojiset?: string;
-    demoteInactiveStreams?: UpdateDisplaySettingsDemoteInactiveStreamsEnum;
+    demoteInactiveStreams?: UpdateSettingsDemoteInactiveStreamsEnum;
     timezone?: string;
-}
-
-export interface UpdateNotificationSettingsRequest {
     enableStreamDesktopNotifications?: boolean;
     enableStreamEmailNotifications?: boolean;
     enableStreamPushNotifications?: boolean;
@@ -113,6 +115,7 @@ export interface UpdateNotificationSettingsRequest {
     notificationSound?: string;
     enableDesktopNotifications?: boolean;
     enableSounds?: boolean;
+    emailNotificationsBatchingPeriodSeconds?: number;
     enableOfflineEmailNotifications?: boolean;
     enableOfflinePushNotifications?: boolean;
     enableOnlinePushNotifications?: boolean;
@@ -122,9 +125,18 @@ export interface UpdateNotificationSettingsRequest {
     messageContentInEmailNotifications?: boolean;
     pmContentInDesktopNotifications?: boolean;
     wildcardMentionsNotify?: boolean;
-    desktopIconCountDisplay?: UpdateNotificationSettingsDesktopIconCountDisplayEnum;
+    desktopIconCountDisplay?: UpdateSettingsDesktopIconCountDisplayEnum;
     realmNameInNotifications?: boolean;
     presenceEnabled?: boolean;
+    enterSends?: boolean;
+}
+
+export interface UpdateStatusRequest {
+    statusText?: string;
+    away?: boolean;
+    emojiName?: string;
+    emojiCode?: string;
+    reactionType?: string;
 }
 
 export interface UpdateUserRequest {
@@ -728,11 +740,27 @@ export class UsersApi extends runtime.BaseAPI {
     }
 
     /**
-     * This endpoint is used to edit the current user\'s user interface settings.  `PATCH {{ api_url }}/v1/settings/display` 
-     * Update display settings
+     * This endpoint is used to edit the current user\'s settings.  `PATCH {{ api_url }}/v1/settings`  **Changes**: Prior to Zulip 5.0 (feature level 80), this endpoint only supported the `full_name`, `email`, `old_password`, and `new_password` parameters. Notification settings were managed by `PATCH /settings/notifications`, and all other settings by `PATCH /settings/display`. The feature level 80 migration to merge these endpoints did not change how request parameters are encoded. Note, however, that it did change the handling of any invalid parameters present in a request to change notification or display settings, since the merged endpoint uses the new response format that was introduced for `/settings` in Zulip 5.0 (feature level 78).  The `/settings/display` and `/settings/notifications` endpoints are now deprecated aliases for this endpoint for backwards-compatibility, and will be removed once clients have migrated to use this endpoint. 
+     * Update settings
      */
-    async updateDisplaySettingsRaw(requestParameters: UpdateDisplaySettingsRequest): Promise<runtime.ApiResponse<JsonSuccessBase & object>> {
+    async updateSettingsRaw(requestParameters: UpdateSettingsRequest): Promise<runtime.ApiResponse<JsonSuccessBase & object>> {
         const queryParameters: any = {};
+
+        if (requestParameters.fullName !== undefined) {
+            queryParameters['full_name'] = requestParameters.fullName;
+        }
+
+        if (requestParameters.email !== undefined) {
+            queryParameters['email'] = requestParameters.email;
+        }
+
+        if (requestParameters.oldPassword !== undefined) {
+            queryParameters['old_password'] = requestParameters.oldPassword;
+        }
+
+        if (requestParameters.newPassword !== undefined) {
+            queryParameters['new_password'] = requestParameters.newPassword;
+        }
 
         if (requestParameters.twentyFourHourTime !== undefined) {
             queryParameters['twenty_four_hour_time'] = requestParameters.twentyFourHourTime;
@@ -756,6 +784,10 @@ export class UsersApi extends runtime.BaseAPI {
 
         if (requestParameters.colorScheme !== undefined) {
             queryParameters['color_scheme'] = requestParameters.colorScheme;
+        }
+
+        if (requestParameters.enableDraftsSynchronization !== undefined) {
+            queryParameters['enable_drafts_synchronization'] = requestParameters.enableDraftsSynchronization;
         }
 
         if (requestParameters.translateEmoticons !== undefined) {
@@ -786,34 +818,6 @@ export class UsersApi extends runtime.BaseAPI {
             queryParameters['timezone'] = requestParameters.timezone;
         }
 
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/settings/display`,
-            method: 'PATCH',
-            headers: headerParameters,
-            query: queryParameters,
-        });
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => JsonSuccessBase &amp; objectFromJSON(jsonValue));
-    }
-
-    /**
-     * This endpoint is used to edit the current user\'s user interface settings.  `PATCH {{ api_url }}/v1/settings/display` 
-     * Update display settings
-     */
-    async updateDisplaySettings(requestParameters: UpdateDisplaySettingsRequest): Promise<JsonSuccessBase & object> {
-        const response = await this.updateDisplaySettingsRaw(requestParameters);
-        return await response.value();
-    }
-
-    /**
-     * This endpoint is used to edit the user\'s global notification settings. See [this endpoint](/api/update-subscription-settings) for per-stream notification settings.  `PATCH {{ api_url }}/v1/settings/notifications` 
-     * Update notification settings
-     */
-    async updateNotificationSettingsRaw(requestParameters: UpdateNotificationSettingsRequest): Promise<runtime.ApiResponse<JsonSuccessBase & object>> {
-        const queryParameters: any = {};
-
         if (requestParameters.enableStreamDesktopNotifications !== undefined) {
             queryParameters['enable_stream_desktop_notifications'] = requestParameters.enableStreamDesktopNotifications;
         }
@@ -840,6 +844,10 @@ export class UsersApi extends runtime.BaseAPI {
 
         if (requestParameters.enableSounds !== undefined) {
             queryParameters['enable_sounds'] = requestParameters.enableSounds;
+        }
+
+        if (requestParameters.emailNotificationsBatchingPeriodSeconds !== undefined) {
+            queryParameters['email_notifications_batching_period_seconds'] = requestParameters.emailNotificationsBatchingPeriodSeconds;
         }
 
         if (requestParameters.enableOfflineEmailNotifications !== undefined) {
@@ -890,10 +898,14 @@ export class UsersApi extends runtime.BaseAPI {
             queryParameters['presence_enabled'] = requestParameters.presenceEnabled;
         }
 
+        if (requestParameters.enterSends !== undefined) {
+            queryParameters['enter_sends'] = requestParameters.enterSends;
+        }
+
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/settings/notifications`,
+            path: `/settings`,
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
@@ -903,11 +915,59 @@ export class UsersApi extends runtime.BaseAPI {
     }
 
     /**
-     * This endpoint is used to edit the user\'s global notification settings. See [this endpoint](/api/update-subscription-settings) for per-stream notification settings.  `PATCH {{ api_url }}/v1/settings/notifications` 
-     * Update notification settings
+     * This endpoint is used to edit the current user\'s settings.  `PATCH {{ api_url }}/v1/settings`  **Changes**: Prior to Zulip 5.0 (feature level 80), this endpoint only supported the `full_name`, `email`, `old_password`, and `new_password` parameters. Notification settings were managed by `PATCH /settings/notifications`, and all other settings by `PATCH /settings/display`. The feature level 80 migration to merge these endpoints did not change how request parameters are encoded. Note, however, that it did change the handling of any invalid parameters present in a request to change notification or display settings, since the merged endpoint uses the new response format that was introduced for `/settings` in Zulip 5.0 (feature level 78).  The `/settings/display` and `/settings/notifications` endpoints are now deprecated aliases for this endpoint for backwards-compatibility, and will be removed once clients have migrated to use this endpoint. 
+     * Update settings
      */
-    async updateNotificationSettings(requestParameters: UpdateNotificationSettingsRequest): Promise<JsonSuccessBase & object> {
-        const response = await this.updateNotificationSettingsRaw(requestParameters);
+    async updateSettings(requestParameters: UpdateSettingsRequest): Promise<JsonSuccessBase & object> {
+        const response = await this.updateSettingsRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * Change your [status](/help/status-and-availability).  `POST {{ api_url }}/v1/users/me/status`  A request to this endpoint will only change the parameters passed. For example, passing just `status_text` requests a change in the status text, but will leave the status emoji unchanged.  Clients that wish to set the user\'s status to a specific value should pass all supported parameters. 
+     * Update your status
+     */
+    async updateStatusRaw(requestParameters: UpdateStatusRequest): Promise<runtime.ApiResponse<JsonSuccess>> {
+        const queryParameters: any = {};
+
+        if (requestParameters.statusText !== undefined) {
+            queryParameters['status_text'] = requestParameters.statusText;
+        }
+
+        if (requestParameters.away !== undefined) {
+            queryParameters['away'] = requestParameters.away;
+        }
+
+        if (requestParameters.emojiName !== undefined) {
+            queryParameters['emoji_name'] = requestParameters.emojiName;
+        }
+
+        if (requestParameters.emojiCode !== undefined) {
+            queryParameters['emoji_code'] = requestParameters.emojiCode;
+        }
+
+        if (requestParameters.reactionType !== undefined) {
+            queryParameters['reaction_type'] = requestParameters.reactionType;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/users/me/status`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => JsonSuccessFromJSON(jsonValue));
+    }
+
+    /**
+     * Change your [status](/help/status-and-availability).  `POST {{ api_url }}/v1/users/me/status`  A request to this endpoint will only change the parameters passed. For example, passing just `status_text` requests a change in the status text, but will leave the status emoji unchanged.  Clients that wish to set the user\'s status to a specific value should pass all supported parameters. 
+     * Update your status
+     */
+    async updateStatus(requestParameters: UpdateStatusRequest): Promise<JsonSuccess> {
+        const response = await this.updateStatusRaw(requestParameters);
         return await response.value();
     }
 
@@ -1065,7 +1125,7 @@ export enum SetTypingStatusTypeEnum {
     * @export
     * @enum {string}
     */
-export enum UpdateDisplaySettingsColorSchemeEnum {
+export enum UpdateSettingsColorSchemeEnum {
     NUMBER_1 = 1,
     NUMBER_2 = 2,
     NUMBER_3 = 3
@@ -1074,7 +1134,7 @@ export enum UpdateDisplaySettingsColorSchemeEnum {
     * @export
     * @enum {string}
     */
-export enum UpdateDisplaySettingsDemoteInactiveStreamsEnum {
+export enum UpdateSettingsDemoteInactiveStreamsEnum {
     NUMBER_1 = 1,
     NUMBER_2 = 2,
     NUMBER_3 = 3
@@ -1083,7 +1143,7 @@ export enum UpdateDisplaySettingsDemoteInactiveStreamsEnum {
     * @export
     * @enum {string}
     */
-export enum UpdateNotificationSettingsDesktopIconCountDisplayEnum {
+export enum UpdateSettingsDesktopIconCountDisplayEnum {
     NUMBER_1 = 1,
     NUMBER_2 = 2,
     NUMBER_3 = 3

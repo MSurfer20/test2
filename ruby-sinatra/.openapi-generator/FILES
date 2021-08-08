@@ -3,6 +3,7 @@ Dockerfile
 Gemfile
 README.md
 api/authentication_api.rb
+api/drafts_api.rb
 api/messages_api.rb
 api/real_time_events_api.rb
 api/server_and_organizations_api.rb

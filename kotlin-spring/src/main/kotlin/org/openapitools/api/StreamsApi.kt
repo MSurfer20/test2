@@ -42,6 +42,17 @@ class StreamsApiController() {
     }
 
 
+    @PostMapping(
+        value = ["/streams/{stream_id}/delete_topic"],
+        produces = ["application/json"]
+    )
+    fun deleteTopic( @PathVariable("stream_id") streamId: kotlin.Int
+,@NotNull  @RequestParam(value = "topic_name", required = true) topicName: kotlin.String
+): ResponseEntity<JsonSuccess> {
+        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
+    }
+
+
     @GetMapping(
         value = ["/streams"],
         produces = ["application/json"]
@@ -52,6 +63,16 @@ class StreamsApiController() {
 , @RequestParam(value = "include_all_active", required = false, defaultValue="false") includeAllActive: kotlin.Boolean
 , @RequestParam(value = "include_default", required = false, defaultValue="false") includeDefault: kotlin.Boolean
 , @RequestParam(value = "include_owner_subscribed", required = false, defaultValue="false") includeOwnerSubscribed: kotlin.Boolean
+): ResponseEntity<JsonSuccessBase> {
+        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
+    }
+
+
+    @GetMapping(
+        value = ["/streams/{stream_id}/members"],
+        produces = ["application/json"]
+    )
+    fun getSubscribers( @PathVariable("stream_id") streamId: kotlin.Int
 ): ResponseEntity<JsonSuccessBase> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }

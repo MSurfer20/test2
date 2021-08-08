@@ -1035,6 +1035,85 @@ export interface DefaultStreamGroup {
     streams?: Array<BasicStream>;
 }
 /**
+ * A dictionary for representing a message draft. 
+ * @export
+ * @interface Draft
+ */
+export interface Draft {
+    /**
+     * The unique ID of the draft. It will only used whenever the drafts are fetched. This field should not be specified when the draft is being created or edited. 
+     * @type {number}
+     * @memberof Draft
+     */
+    id?: number;
+    /**
+     * The type of the draft. Either unaddressed (empty string), \"stream\", or \"private\" (for PMs and private group messages). 
+     * @type {string}
+     * @memberof Draft
+     */
+    type: DraftTypeEnum;
+    /**
+     * An array of the tentative target audience IDs. For \"stream\" messages, this should contain exactly 1 ID, the ID of the target stream. For private messages, this should be an array of target user IDs. For unaddressed drafts, this is ignored, and clients should send an empty array. 
+     * @type {Array<number>}
+     * @memberof Draft
+     */
+    to: Array<number>;
+    /**
+     * For stream message drafts, the tentative topic name. For private or unaddressed messages, this will be ignored and should ideally be the empty string. Should not contain null bytes. 
+     * @type {string}
+     * @memberof Draft
+     */
+    topic: string;
+    /**
+     * The body of the draft. Should not contain null bytes. 
+     * @type {string}
+     * @memberof Draft
+     */
+    content: string;
+    /**
+     * A Unix timestamp (seconds only) representing when the draft was last edited. When creating a draft, this key need not be present and it will be filled in automatically by the server. 
+     * @type {number}
+     * @memberof Draft
+     */
+    timestamp?: number;
+}
+
+/**
+    * @export
+    * @enum {string}
+    */
+export enum DraftTypeEnum {
+    Empty = '',
+    Stream = 'stream',
+    Private = 'private'
+}
+
+/**
+ * 
+ * @export
+ * @interface EmojiBase
+ */
+export interface EmojiBase {
+    /**
+     * A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it\'ll be the ID of the realm emoji. 
+     * @type {string}
+     * @memberof EmojiBase
+     */
+    emoji_code?: string;
+    /**
+     * Name of the emoji. 
+     * @type {string}
+     * @memberof EmojiBase
+     */
+    emoji_name?: string;
+    /**
+     * One of the following values:  * `unicode_emoji`: Unicode emoji (`emoji_code` will be its Unicode   codepoint). * `realm_emoji`: [Custom emoji](/help/add-custom-emoji).   (`emoji_code` will be its ID). * `zulip_extra_emoji`: Special emoji included with Zulip.  Exists to   namespace the `zulip` emoji. 
+     * @type {string}
+     * @memberof EmojiBase
+     */
+    reaction_type?: string;
+}
+/**
  * 
  * @export
  * @interface EmojiReaction
@@ -1115,7 +1194,7 @@ export interface EmojiReactionAllOf {
  */
 export interface EmojiReactionBase {
     /**
-     * A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint. 
+     * A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it\'ll be the ID of the realm emoji. 
      * @type {string}
      * @memberof EmojiReactionBase
      */
@@ -1140,40 +1219,60 @@ export interface EmojiReactionBase {
     user_id?: number;
     /**
      * 
-     * @type {EmojiReactionBaseUser}
+     * @type {EmojiReactionBaseAllOfUser}
      * @memberof EmojiReactionBase
      * @deprecated
      */
-    user?: EmojiReactionBaseUser;
+    user?: EmojiReactionBaseAllOfUser;
 }
 /**
- * Dictionary with data on the user who added the reaction, including the user ID as the `id` field.  **Note**: In the [events API](/api/get-events), this `user` dictionary confusing had the user ID in a field called `user_id` instead.  We recommend ignoring fields other than the user ID.  **Deprecated** and to be removed in a future release once core clients have migrated to use the `user_id` field. 
+ * 
  * @export
- * @interface EmojiReactionBaseUser
+ * @interface EmojiReactionBaseAllOf
  */
-export interface EmojiReactionBaseUser {
+export interface EmojiReactionBaseAllOf {
+    /**
+     * The ID of the user who added the reaction.  **Changes**: New in Zulip 3.0 (feature level 2). The `user` object is deprecated and will be removed in the future. 
+     * @type {number}
+     * @memberof EmojiReactionBaseAllOf
+     */
+    user_id?: number;
+    /**
+     * 
+     * @type {EmojiReactionBaseAllOfUser}
+     * @memberof EmojiReactionBaseAllOf
+     * @deprecated
+     */
+    user?: EmojiReactionBaseAllOfUser;
+}
+/**
+ * Whether the user is a mirror dummy. Dictionary with data on the user who added the reaction, including the user ID as the `id` field.  **Note**: In the [events API](/api/get-events), this `user` dictionary confusing had the user ID in a field called `user_id` instead.  We recommend ignoring fields other than the user ID.  **Deprecated** and to be removed in a future release once core clients have migrated to use the `user_id` field. 
+ * @export
+ * @interface EmojiReactionBaseAllOfUser
+ */
+export interface EmojiReactionBaseAllOfUser {
     /**
      * ID of the user. 
      * @type {number}
-     * @memberof EmojiReactionBaseUser
+     * @memberof EmojiReactionBaseAllOfUser
      */
     id?: number;
     /**
      * Email of the user. 
      * @type {string}
-     * @memberof EmojiReactionBaseUser
+     * @memberof EmojiReactionBaseAllOfUser
      */
     email?: string;
     /**
      * Full name of the user. 
      * @type {string}
-     * @memberof EmojiReactionBaseUser
+     * @memberof EmojiReactionBaseAllOfUser
      */
     full_name?: string;
     /**
      * Whether the user is a mirror dummy. 
      * @type {boolean}
-     * @memberof EmojiReactionBaseUser
+     * @memberof EmojiReactionBaseAllOfUser
      */
     is_mirror_dummy?: boolean;
 }
@@ -3323,6 +3422,316 @@ export class AuthenticationApi extends BaseAPI {
 
 
 /**
+ * DraftsApi - axios parameter creator
+ * @export
+ */
+export const DraftsApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * Create one or more drafts on the server. These drafts will be automatically synchronized to other clients via `drafts` events.  `POST {{ api_url }}/v1/drafts` 
+         * @summary Create drafts
+         * @param {Array<Draft>} [drafts] A JSON-encoded list of containing new draft objects. 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createDrafts: async (drafts?: Array<Draft>, options: any = {}): Promise<RequestArgs> => {
+            const localVarPath = `/drafts`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (drafts) {
+                localVarQueryParameter['drafts'] = drafts;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Delete a single draft from the server. The deletion will be automatically synchronized to other clients via a `drafts` event.  `DELETE {{ api_url }}/v1/drafts/{draft_id}` 
+         * @summary Delete a draft
+         * @param {number} draftId The ID of the draft you want to delete. 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteDraft: async (draftId: number, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'draftId' is not null or undefined
+            assertParamExists('deleteDraft', 'draftId', draftId)
+            const localVarPath = `/drafts/{draft_id}`
+                .replace(`{${"draft_id"}}`, encodeURIComponent(String(draftId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Edit a draft on the server. The edit will be automatically synchronized to other clients via `drafts` events.  `PATCH {{ api_url }}/v1/drafts/{draft_id}` 
+         * @summary Edit a draft
+         * @param {number} draftId The ID of the draft to be edited. 
+         * @param {Draft} draft A JSON-encoded object containing a replacement draft object for this ID. 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        editDraft: async (draftId: number, draft: Draft, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'draftId' is not null or undefined
+            assertParamExists('editDraft', 'draftId', draftId)
+            // verify required parameter 'draft' is not null or undefined
+            assertParamExists('editDraft', 'draft', draft)
+            const localVarPath = `/drafts/{draft_id}`
+                .replace(`{${"draft_id"}}`, encodeURIComponent(String(draftId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (draft !== undefined) {
+                localVarQueryParameter['draft'] = draft;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Fetch all drafts for the current user.  `GET {{ api_url }}/v1/drafts` 
+         * @summary Get drafts
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getDrafts: async (options: any = {}): Promise<RequestArgs> => {
+            const localVarPath = `/drafts`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * DraftsApi - functional programming interface
+ * @export
+ */
+export const DraftsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = DraftsApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * Create one or more drafts on the server. These drafts will be automatically synchronized to other clients via `drafts` events.  `POST {{ api_url }}/v1/drafts` 
+         * @summary Create drafts
+         * @param {Array<Draft>} [drafts] A JSON-encoded list of containing new draft objects. 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createDrafts(drafts?: Array<Draft>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<JsonSuccess & object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createDrafts(drafts, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Delete a single draft from the server. The deletion will be automatically synchronized to other clients via a `drafts` event.  `DELETE {{ api_url }}/v1/drafts/{draft_id}` 
+         * @summary Delete a draft
+         * @param {number} draftId The ID of the draft you want to delete. 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteDraft(draftId: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<JsonSuccess>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteDraft(draftId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Edit a draft on the server. The edit will be automatically synchronized to other clients via `drafts` events.  `PATCH {{ api_url }}/v1/drafts/{draft_id}` 
+         * @summary Edit a draft
+         * @param {number} draftId The ID of the draft to be edited. 
+         * @param {Draft} draft A JSON-encoded object containing a replacement draft object for this ID. 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async editDraft(draftId: number, draft: Draft, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<JsonSuccess>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.editDraft(draftId, draft, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Fetch all drafts for the current user.  `GET {{ api_url }}/v1/drafts` 
+         * @summary Get drafts
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getDrafts(options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<JsonSuccess & object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getDrafts(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * DraftsApi - factory interface
+ * @export
+ */
+export const DraftsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = DraftsApiFp(configuration)
+    return {
+        /**
+         * Create one or more drafts on the server. These drafts will be automatically synchronized to other clients via `drafts` events.  `POST {{ api_url }}/v1/drafts` 
+         * @summary Create drafts
+         * @param {Array<Draft>} [drafts] A JSON-encoded list of containing new draft objects. 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createDrafts(drafts?: Array<Draft>, options?: any): AxiosPromise<JsonSuccess & object> {
+            return localVarFp.createDrafts(drafts, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Delete a single draft from the server. The deletion will be automatically synchronized to other clients via a `drafts` event.  `DELETE {{ api_url }}/v1/drafts/{draft_id}` 
+         * @summary Delete a draft
+         * @param {number} draftId The ID of the draft you want to delete. 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteDraft(draftId: number, options?: any): AxiosPromise<JsonSuccess> {
+            return localVarFp.deleteDraft(draftId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Edit a draft on the server. The edit will be automatically synchronized to other clients via `drafts` events.  `PATCH {{ api_url }}/v1/drafts/{draft_id}` 
+         * @summary Edit a draft
+         * @param {number} draftId The ID of the draft to be edited. 
+         * @param {Draft} draft A JSON-encoded object containing a replacement draft object for this ID. 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        editDraft(draftId: number, draft: Draft, options?: any): AxiosPromise<JsonSuccess> {
+            return localVarFp.editDraft(draftId, draft, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Fetch all drafts for the current user.  `GET {{ api_url }}/v1/drafts` 
+         * @summary Get drafts
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getDrafts(options?: any): AxiosPromise<JsonSuccess & object> {
+            return localVarFp.getDrafts(options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * DraftsApi - object-oriented interface
+ * @export
+ * @class DraftsApi
+ * @extends {BaseAPI}
+ */
+export class DraftsApi extends BaseAPI {
+    /**
+     * Create one or more drafts on the server. These drafts will be automatically synchronized to other clients via `drafts` events.  `POST {{ api_url }}/v1/drafts` 
+     * @summary Create drafts
+     * @param {Array<Draft>} [drafts] A JSON-encoded list of containing new draft objects. 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DraftsApi
+     */
+    public createDrafts(drafts?: Array<Draft>, options?: any) {
+        return DraftsApiFp(this.configuration).createDrafts(drafts, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Delete a single draft from the server. The deletion will be automatically synchronized to other clients via a `drafts` event.  `DELETE {{ api_url }}/v1/drafts/{draft_id}` 
+     * @summary Delete a draft
+     * @param {number} draftId The ID of the draft you want to delete. 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DraftsApi
+     */
+    public deleteDraft(draftId: number, options?: any) {
+        return DraftsApiFp(this.configuration).deleteDraft(draftId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Edit a draft on the server. The edit will be automatically synchronized to other clients via `drafts` events.  `PATCH {{ api_url }}/v1/drafts/{draft_id}` 
+     * @summary Edit a draft
+     * @param {number} draftId The ID of the draft to be edited. 
+     * @param {Draft} draft A JSON-encoded object containing a replacement draft object for this ID. 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DraftsApi
+     */
+    public editDraft(draftId: number, draft: Draft, options?: any) {
+        return DraftsApiFp(this.configuration).editDraft(draftId, draft, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Fetch all drafts for the current user.  `GET {{ api_url }}/v1/drafts` 
+     * @summary Get drafts
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DraftsApi
+     */
+    public getDrafts(options?: any) {
+        return DraftsApiFp(this.configuration).getDrafts(options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
  * MessagesApi - axios parameter creator
  * @export
  */
@@ -4833,7 +5242,7 @@ export const RealTimeEventsApiAxiosParamCreator = function (configuration?: Conf
          * @param {Array<string>} [eventTypes] A JSON-encoded array indicating which types of events you\&#39;re interested in. Values that you might find useful include:    * **message** (messages)   * **subscription** (changes in your subscriptions)   * **realm_user** (changes to users in the organization and     their properties, such as their name).  If you do not specify this parameter, you will receive all events, and have to filter out the events not relevant to your client in your client code.  For most applications, one is only interested in messages, so one specifies: &#x60;event_types&#x3D;[\&#39;message\&#39;]&#x60;  Event types not supported by the server are ignored, in order to simplify the implementation of client apps that support multiple server versions. 
          * @param {boolean} [allPublicStreams] Whether you would like to request message events from all public streams.  Useful for workflow bots that you\&#39;d like to see all new messages sent to public streams.  (You can also subscribe the user to private streams). 
          * @param {boolean} [includeSubscribers] Whether each returned stream object should include a &#x60;subscribers&#x60; field containing a list of the user IDs of its subscribers.  (This may be significantly slower in organizations with thousands of users subscribed to many streams.)  **Changes**: New in Zulip 2.1.0. 
-         * @param {object} [clientCapabilities] Dictionary containing details on features the client supports that are relevant to the format of responses sent by the server.  * &#x60;notification_settings_null&#x60;: Boolean for whether the   client can handle the current API with null values for   stream-level notification settings (which means the stream   is not customized and should inherit the user\&#39;s global   notification settings for stream messages).  New in Zulip   2.1.0; in earlier Zulip releases, stream-level   notification settings were simple booleans.  * &#x60;bulk_message_deletion&#x60;: Boolean for whether the client\&#39;s    handler for the &#x60;delete_message&#x60; event type has been    updated to process the new bulk format (with a    &#x60;message_ids&#x60;, rather than a singleton &#x60;message_id&#x60;).    Otherwise, the server will send &#x60;delete_message&#x60; events    in a loop.  New in Zulip 3.0 (feature level 13).  This    capability is for backwards-compatibility; it will be    required in a future server release.  * &#x60;user_avatar_url_field_optional&#x60;: Boolean for whether the    client required avatar URLs for all users, or supports    using &#x60;GET /avatar/{user_id}&#x60; to access user avatars.  If the    client has this capability, the server may skip sending a    &#x60;avatar_url&#x60; field in the &#x60;realm_user&#x60; at its sole discretion    to optimize network performance.  This is an important optimization    in organizations with 10,000s of users.    New in Zulip 3.0 (feature level 18).  * &#x60;stream_typing_notifications&#x60;: Boolean for whether the client   supports stream typing notifications.    New in Zulip 4.0 (feature level 58).  This capability is   for backwards-compatibility; it will be required in a   future server release. 
+         * @param {object} [clientCapabilities] Dictionary containing details on features the client supports that are relevant to the format of responses sent by the server.  * &#x60;notification_settings_null&#x60;: Boolean for whether the   client can handle the current API with null values for   stream-level notification settings (which means the stream   is not customized and should inherit the user\&#39;s global   notification settings for stream messages).   &lt;br /&gt;   New in Zulip 2.1.0; in earlier Zulip releases, stream-level   notification settings were simple booleans.  * &#x60;bulk_message_deletion&#x60;: Boolean for whether the client\&#39;s    handler for the &#x60;delete_message&#x60; event type has been    updated to process the new bulk format (with a    &#x60;message_ids&#x60;, rather than a singleton &#x60;message_id&#x60;).    Otherwise, the server will send &#x60;delete_message&#x60; events    in a loop.    &lt;br /&gt;    New in Zulip 3.0 (feature level 13).  This    capability is for backwards-compatibility; it will be    required in a future server release.  * &#x60;user_avatar_url_field_optional&#x60;: Boolean for whether the    client required avatar URLs for all users, or supports    using &#x60;GET /avatar/{user_id}&#x60; to access user avatars.  If the    client has this capability, the server may skip sending a    &#x60;avatar_url&#x60; field in the &#x60;realm_user&#x60; at its sole discretion    to optimize network performance.  This is an important optimization    in organizations with 10,000s of users.    &lt;br /&gt;    New in Zulip 3.0 (feature level 18).  * &#x60;stream_typing_notifications&#x60;: Boolean for whether the client   supports stream typing notifications.   &lt;br /&gt;   New in Zulip 4.0 (feature level 58).  This capability is   for backwards-compatibility; it will be required in a   future server release.  * &#x60;user_settings_object&#x60;: Boolean for whether the client supports the modern   &#x60;user_settings&#x60; event type. If False, the server will additionally send the   legacy &#x60;update_display_settings&#x60; and &#x60;update_global_notifications&#x60; event   types for backwards-compatibility with clients that predate this API migration.   &lt;br /&gt;   &lt;br /&gt;   Because the feature level 89 API changes were merged together, clients can   safely make a request with this client capability and requesting all of the   &#x60;user_settings&#x60;, &#x60;update_display_settings&#x60;, and   &#x60;update_global_notifications&#x60; event types, and get exactly one copy of   settings data on any server version. (And then use the &#x60;zulip_feature_level&#x60;   in the &#x60;/register&#x60; response or the presence/absence of a &#x60;user_settings&#x60; key   to determine where to look).   &lt;br /&gt;   New in Zulip 5.0 (feature level 89).  This capability is for   backwards-compatibility; it will be removed in a future server release. 
          * @param {Array<string>} [fetchEventTypes] Same as the &#x60;event_types&#x60; parameter except that the values in &#x60;fetch_event_types&#x60; are used to fetch initial data. If &#x60;fetch_event_types&#x60; is not provided, &#x60;event_types&#x60; is used and if &#x60;event_types&#x60; is not provided, this parameter defaults to &#x60;None&#x60;.  Event types not supported by the server are ignored, in order to simplify the implementation of client apps that support multiple server versions. 
          * @param {Array<Array<string>>} [narrow] A JSON-encoded array of arrays of length 2 indicating the narrow for which you\&#39;d like to receive events for. For instance, to receive events for the stream &#x60;Denmark&#x60;, you would specify &#x60;narrow&#x3D;[[\&#39;stream\&#39;, \&#39;Denmark\&#39;]]&#x60;.  Another example is &#x60;narrow&#x3D;[[\&#39;is\&#39;, \&#39;private\&#39;]]&#x60; for private messages. Default is &#x60;[]&#x60;. 
          * @param {*} [options] Override http request option.
@@ -4984,7 +5393,7 @@ export const RealTimeEventsApiFp = function(configuration?: Configuration) {
          * @param {Array<string>} [eventTypes] A JSON-encoded array indicating which types of events you\&#39;re interested in. Values that you might find useful include:    * **message** (messages)   * **subscription** (changes in your subscriptions)   * **realm_user** (changes to users in the organization and     their properties, such as their name).  If you do not specify this parameter, you will receive all events, and have to filter out the events not relevant to your client in your client code.  For most applications, one is only interested in messages, so one specifies: &#x60;event_types&#x3D;[\&#39;message\&#39;]&#x60;  Event types not supported by the server are ignored, in order to simplify the implementation of client apps that support multiple server versions. 
          * @param {boolean} [allPublicStreams] Whether you would like to request message events from all public streams.  Useful for workflow bots that you\&#39;d like to see all new messages sent to public streams.  (You can also subscribe the user to private streams). 
          * @param {boolean} [includeSubscribers] Whether each returned stream object should include a &#x60;subscribers&#x60; field containing a list of the user IDs of its subscribers.  (This may be significantly slower in organizations with thousands of users subscribed to many streams.)  **Changes**: New in Zulip 2.1.0. 
-         * @param {object} [clientCapabilities] Dictionary containing details on features the client supports that are relevant to the format of responses sent by the server.  * &#x60;notification_settings_null&#x60;: Boolean for whether the   client can handle the current API with null values for   stream-level notification settings (which means the stream   is not customized and should inherit the user\&#39;s global   notification settings for stream messages).  New in Zulip   2.1.0; in earlier Zulip releases, stream-level   notification settings were simple booleans.  * &#x60;bulk_message_deletion&#x60;: Boolean for whether the client\&#39;s    handler for the &#x60;delete_message&#x60; event type has been    updated to process the new bulk format (with a    &#x60;message_ids&#x60;, rather than a singleton &#x60;message_id&#x60;).    Otherwise, the server will send &#x60;delete_message&#x60; events    in a loop.  New in Zulip 3.0 (feature level 13).  This    capability is for backwards-compatibility; it will be    required in a future server release.  * &#x60;user_avatar_url_field_optional&#x60;: Boolean for whether the    client required avatar URLs for all users, or supports    using &#x60;GET /avatar/{user_id}&#x60; to access user avatars.  If the    client has this capability, the server may skip sending a    &#x60;avatar_url&#x60; field in the &#x60;realm_user&#x60; at its sole discretion    to optimize network performance.  This is an important optimization    in organizations with 10,000s of users.    New in Zulip 3.0 (feature level 18).  * &#x60;stream_typing_notifications&#x60;: Boolean for whether the client   supports stream typing notifications.    New in Zulip 4.0 (feature level 58).  This capability is   for backwards-compatibility; it will be required in a   future server release. 
+         * @param {object} [clientCapabilities] Dictionary containing details on features the client supports that are relevant to the format of responses sent by the server.  * &#x60;notification_settings_null&#x60;: Boolean for whether the   client can handle the current API with null values for   stream-level notification settings (which means the stream   is not customized and should inherit the user\&#39;s global   notification settings for stream messages).   &lt;br /&gt;   New in Zulip 2.1.0; in earlier Zulip releases, stream-level   notification settings were simple booleans.  * &#x60;bulk_message_deletion&#x60;: Boolean for whether the client\&#39;s    handler for the &#x60;delete_message&#x60; event type has been    updated to process the new bulk format (with a    &#x60;message_ids&#x60;, rather than a singleton &#x60;message_id&#x60;).    Otherwise, the server will send &#x60;delete_message&#x60; events    in a loop.    &lt;br /&gt;    New in Zulip 3.0 (feature level 13).  This    capability is for backwards-compatibility; it will be    required in a future server release.  * &#x60;user_avatar_url_field_optional&#x60;: Boolean for whether the    client required avatar URLs for all users, or supports    using &#x60;GET /avatar/{user_id}&#x60; to access user avatars.  If the    client has this capability, the server may skip sending a    &#x60;avatar_url&#x60; field in the &#x60;realm_user&#x60; at its sole discretion    to optimize network performance.  This is an important optimization    in organizations with 10,000s of users.    &lt;br /&gt;    New in Zulip 3.0 (feature level 18).  * &#x60;stream_typing_notifications&#x60;: Boolean for whether the client   supports stream typing notifications.   &lt;br /&gt;   New in Zulip 4.0 (feature level 58).  This capability is   for backwards-compatibility; it will be required in a   future server release.  * &#x60;user_settings_object&#x60;: Boolean for whether the client supports the modern   &#x60;user_settings&#x60; event type. If False, the server will additionally send the   legacy &#x60;update_display_settings&#x60; and &#x60;update_global_notifications&#x60; event   types for backwards-compatibility with clients that predate this API migration.   &lt;br /&gt;   &lt;br /&gt;   Because the feature level 89 API changes were merged together, clients can   safely make a request with this client capability and requesting all of the   &#x60;user_settings&#x60;, &#x60;update_display_settings&#x60;, and   &#x60;update_global_notifications&#x60; event types, and get exactly one copy of   settings data on any server version. (And then use the &#x60;zulip_feature_level&#x60;   in the &#x60;/register&#x60; response or the presence/absence of a &#x60;user_settings&#x60; key   to determine where to look).   &lt;br /&gt;   New in Zulip 5.0 (feature level 89).  This capability is for   backwards-compatibility; it will be removed in a future server release. 
          * @param {Array<string>} [fetchEventTypes] Same as the &#x60;event_types&#x60; parameter except that the values in &#x60;fetch_event_types&#x60; are used to fetch initial data. If &#x60;fetch_event_types&#x60; is not provided, &#x60;event_types&#x60; is used and if &#x60;event_types&#x60; is not provided, this parameter defaults to &#x60;None&#x60;.  Event types not supported by the server are ignored, in order to simplify the implementation of client apps that support multiple server versions. 
          * @param {Array<Array<string>>} [narrow] A JSON-encoded array of arrays of length 2 indicating the narrow for which you\&#39;d like to receive events for. For instance, to receive events for the stream &#x60;Denmark&#x60;, you would specify &#x60;narrow&#x3D;[[\&#39;stream\&#39;, \&#39;Denmark\&#39;]]&#x60;.  Another example is &#x60;narrow&#x3D;[[\&#39;is\&#39;, \&#39;private\&#39;]]&#x60; for private messages. Default is &#x60;[]&#x60;. 
          * @param {*} [options] Override http request option.
@@ -5056,7 +5465,7 @@ export const RealTimeEventsApiFactory = function (configuration?: Configuration,
          * @param {Array<string>} [eventTypes] A JSON-encoded array indicating which types of events you\&#39;re interested in. Values that you might find useful include:    * **message** (messages)   * **subscription** (changes in your subscriptions)   * **realm_user** (changes to users in the organization and     their properties, such as their name).  If you do not specify this parameter, you will receive all events, and have to filter out the events not relevant to your client in your client code.  For most applications, one is only interested in messages, so one specifies: &#x60;event_types&#x3D;[\&#39;message\&#39;]&#x60;  Event types not supported by the server are ignored, in order to simplify the implementation of client apps that support multiple server versions. 
          * @param {boolean} [allPublicStreams] Whether you would like to request message events from all public streams.  Useful for workflow bots that you\&#39;d like to see all new messages sent to public streams.  (You can also subscribe the user to private streams). 
          * @param {boolean} [includeSubscribers] Whether each returned stream object should include a &#x60;subscribers&#x60; field containing a list of the user IDs of its subscribers.  (This may be significantly slower in organizations with thousands of users subscribed to many streams.)  **Changes**: New in Zulip 2.1.0. 
-         * @param {object} [clientCapabilities] Dictionary containing details on features the client supports that are relevant to the format of responses sent by the server.  * &#x60;notification_settings_null&#x60;: Boolean for whether the   client can handle the current API with null values for   stream-level notification settings (which means the stream   is not customized and should inherit the user\&#39;s global   notification settings for stream messages).  New in Zulip   2.1.0; in earlier Zulip releases, stream-level   notification settings were simple booleans.  * &#x60;bulk_message_deletion&#x60;: Boolean for whether the client\&#39;s    handler for the &#x60;delete_message&#x60; event type has been    updated to process the new bulk format (with a    &#x60;message_ids&#x60;, rather than a singleton &#x60;message_id&#x60;).    Otherwise, the server will send &#x60;delete_message&#x60; events    in a loop.  New in Zulip 3.0 (feature level 13).  This    capability is for backwards-compatibility; it will be    required in a future server release.  * &#x60;user_avatar_url_field_optional&#x60;: Boolean for whether the    client required avatar URLs for all users, or supports    using &#x60;GET /avatar/{user_id}&#x60; to access user avatars.  If the    client has this capability, the server may skip sending a    &#x60;avatar_url&#x60; field in the &#x60;realm_user&#x60; at its sole discretion    to optimize network performance.  This is an important optimization    in organizations with 10,000s of users.    New in Zulip 3.0 (feature level 18).  * &#x60;stream_typing_notifications&#x60;: Boolean for whether the client   supports stream typing notifications.    New in Zulip 4.0 (feature level 58).  This capability is   for backwards-compatibility; it will be required in a   future server release. 
+         * @param {object} [clientCapabilities] Dictionary containing details on features the client supports that are relevant to the format of responses sent by the server.  * &#x60;notification_settings_null&#x60;: Boolean for whether the   client can handle the current API with null values for   stream-level notification settings (which means the stream   is not customized and should inherit the user\&#39;s global   notification settings for stream messages).   &lt;br /&gt;   New in Zulip 2.1.0; in earlier Zulip releases, stream-level   notification settings were simple booleans.  * &#x60;bulk_message_deletion&#x60;: Boolean for whether the client\&#39;s    handler for the &#x60;delete_message&#x60; event type has been    updated to process the new bulk format (with a    &#x60;message_ids&#x60;, rather than a singleton &#x60;message_id&#x60;).    Otherwise, the server will send &#x60;delete_message&#x60; events    in a loop.    &lt;br /&gt;    New in Zulip 3.0 (feature level 13).  This    capability is for backwards-compatibility; it will be    required in a future server release.  * &#x60;user_avatar_url_field_optional&#x60;: Boolean for whether the    client required avatar URLs for all users, or supports    using &#x60;GET /avatar/{user_id}&#x60; to access user avatars.  If the    client has this capability, the server may skip sending a    &#x60;avatar_url&#x60; field in the &#x60;realm_user&#x60; at its sole discretion    to optimize network performance.  This is an important optimization    in organizations with 10,000s of users.    &lt;br /&gt;    New in Zulip 3.0 (feature level 18).  * &#x60;stream_typing_notifications&#x60;: Boolean for whether the client   supports stream typing notifications.   &lt;br /&gt;   New in Zulip 4.0 (feature level 58).  This capability is   for backwards-compatibility; it will be required in a   future server release.  * &#x60;user_settings_object&#x60;: Boolean for whether the client supports the modern   &#x60;user_settings&#x60; event type. If False, the server will additionally send the   legacy &#x60;update_display_settings&#x60; and &#x60;update_global_notifications&#x60; event   types for backwards-compatibility with clients that predate this API migration.   &lt;br /&gt;   &lt;br /&gt;   Because the feature level 89 API changes were merged together, clients can   safely make a request with this client capability and requesting all of the   &#x60;user_settings&#x60;, &#x60;update_display_settings&#x60;, and   &#x60;update_global_notifications&#x60; event types, and get exactly one copy of   settings data on any server version. (And then use the &#x60;zulip_feature_level&#x60;   in the &#x60;/register&#x60; response or the presence/absence of a &#x60;user_settings&#x60; key   to determine where to look).   &lt;br /&gt;   New in Zulip 5.0 (feature level 89).  This capability is for   backwards-compatibility; it will be removed in a future server release. 
          * @param {Array<string>} [fetchEventTypes] Same as the &#x60;event_types&#x60; parameter except that the values in &#x60;fetch_event_types&#x60; are used to fetch initial data. If &#x60;fetch_event_types&#x60; is not provided, &#x60;event_types&#x60; is used and if &#x60;event_types&#x60; is not provided, this parameter defaults to &#x60;None&#x60;.  Event types not supported by the server are ignored, in order to simplify the implementation of client apps that support multiple server versions. 
          * @param {Array<Array<string>>} [narrow] A JSON-encoded array of arrays of length 2 indicating the narrow for which you\&#39;d like to receive events for. For instance, to receive events for the stream &#x60;Denmark&#x60;, you would specify &#x60;narrow&#x3D;[[\&#39;stream\&#39;, \&#39;Denmark\&#39;]]&#x60;.  Another example is &#x60;narrow&#x3D;[[\&#39;is\&#39;, \&#39;private\&#39;]]&#x60; for private messages. Default is &#x60;[]&#x60;. 
          * @param {*} [options] Override http request option.
@@ -5132,7 +5541,7 @@ export class RealTimeEventsApi extends BaseAPI {
      * @param {Array<string>} [eventTypes] A JSON-encoded array indicating which types of events you\&#39;re interested in. Values that you might find useful include:    * **message** (messages)   * **subscription** (changes in your subscriptions)   * **realm_user** (changes to users in the organization and     their properties, such as their name).  If you do not specify this parameter, you will receive all events, and have to filter out the events not relevant to your client in your client code.  For most applications, one is only interested in messages, so one specifies: &#x60;event_types&#x3D;[\&#39;message\&#39;]&#x60;  Event types not supported by the server are ignored, in order to simplify the implementation of client apps that support multiple server versions. 
      * @param {boolean} [allPublicStreams] Whether you would like to request message events from all public streams.  Useful for workflow bots that you\&#39;d like to see all new messages sent to public streams.  (You can also subscribe the user to private streams). 
      * @param {boolean} [includeSubscribers] Whether each returned stream object should include a &#x60;subscribers&#x60; field containing a list of the user IDs of its subscribers.  (This may be significantly slower in organizations with thousands of users subscribed to many streams.)  **Changes**: New in Zulip 2.1.0. 
-     * @param {object} [clientCapabilities] Dictionary containing details on features the client supports that are relevant to the format of responses sent by the server.  * &#x60;notification_settings_null&#x60;: Boolean for whether the   client can handle the current API with null values for   stream-level notification settings (which means the stream   is not customized and should inherit the user\&#39;s global   notification settings for stream messages).  New in Zulip   2.1.0; in earlier Zulip releases, stream-level   notification settings were simple booleans.  * &#x60;bulk_message_deletion&#x60;: Boolean for whether the client\&#39;s    handler for the &#x60;delete_message&#x60; event type has been    updated to process the new bulk format (with a    &#x60;message_ids&#x60;, rather than a singleton &#x60;message_id&#x60;).    Otherwise, the server will send &#x60;delete_message&#x60; events    in a loop.  New in Zulip 3.0 (feature level 13).  This    capability is for backwards-compatibility; it will be    required in a future server release.  * &#x60;user_avatar_url_field_optional&#x60;: Boolean for whether the    client required avatar URLs for all users, or supports    using &#x60;GET /avatar/{user_id}&#x60; to access user avatars.  If the    client has this capability, the server may skip sending a    &#x60;avatar_url&#x60; field in the &#x60;realm_user&#x60; at its sole discretion    to optimize network performance.  This is an important optimization    in organizations with 10,000s of users.    New in Zulip 3.0 (feature level 18).  * &#x60;stream_typing_notifications&#x60;: Boolean for whether the client   supports stream typing notifications.    New in Zulip 4.0 (feature level 58).  This capability is   for backwards-compatibility; it will be required in a   future server release. 
+     * @param {object} [clientCapabilities] Dictionary containing details on features the client supports that are relevant to the format of responses sent by the server.  * &#x60;notification_settings_null&#x60;: Boolean for whether the   client can handle the current API with null values for   stream-level notification settings (which means the stream   is not customized and should inherit the user\&#39;s global   notification settings for stream messages).   &lt;br /&gt;   New in Zulip 2.1.0; in earlier Zulip releases, stream-level   notification settings were simple booleans.  * &#x60;bulk_message_deletion&#x60;: Boolean for whether the client\&#39;s    handler for the &#x60;delete_message&#x60; event type has been    updated to process the new bulk format (with a    &#x60;message_ids&#x60;, rather than a singleton &#x60;message_id&#x60;).    Otherwise, the server will send &#x60;delete_message&#x60; events    in a loop.    &lt;br /&gt;    New in Zulip 3.0 (feature level 13).  This    capability is for backwards-compatibility; it will be    required in a future server release.  * &#x60;user_avatar_url_field_optional&#x60;: Boolean for whether the    client required avatar URLs for all users, or supports    using &#x60;GET /avatar/{user_id}&#x60; to access user avatars.  If the    client has this capability, the server may skip sending a    &#x60;avatar_url&#x60; field in the &#x60;realm_user&#x60; at its sole discretion    to optimize network performance.  This is an important optimization    in organizations with 10,000s of users.    &lt;br /&gt;    New in Zulip 3.0 (feature level 18).  * &#x60;stream_typing_notifications&#x60;: Boolean for whether the client   supports stream typing notifications.   &lt;br /&gt;   New in Zulip 4.0 (feature level 58).  This capability is   for backwards-compatibility; it will be required in a   future server release.  * &#x60;user_settings_object&#x60;: Boolean for whether the client supports the modern   &#x60;user_settings&#x60; event type. If False, the server will additionally send the   legacy &#x60;update_display_settings&#x60; and &#x60;update_global_notifications&#x60; event   types for backwards-compatibility with clients that predate this API migration.   &lt;br /&gt;   &lt;br /&gt;   Because the feature level 89 API changes were merged together, clients can   safely make a request with this client capability and requesting all of the   &#x60;user_settings&#x60;, &#x60;update_display_settings&#x60;, and   &#x60;update_global_notifications&#x60; event types, and get exactly one copy of   settings data on any server version. (And then use the &#x60;zulip_feature_level&#x60;   in the &#x60;/register&#x60; response or the presence/absence of a &#x60;user_settings&#x60; key   to determine where to look).   &lt;br /&gt;   New in Zulip 5.0 (feature level 89).  This capability is for   backwards-compatibility; it will be removed in a future server release. 
      * @param {Array<string>} [fetchEventTypes] Same as the &#x60;event_types&#x60; parameter except that the values in &#x60;fetch_event_types&#x60; are used to fetch initial data. If &#x60;fetch_event_types&#x60; is not provided, &#x60;event_types&#x60; is used and if &#x60;event_types&#x60; is not provided, this parameter defaults to &#x60;None&#x60;.  Event types not supported by the server are ignored, in order to simplify the implementation of client apps that support multiple server versions. 
      * @param {Array<Array<string>>} [narrow] A JSON-encoded array of arrays of length 2 indicating the narrow for which you\&#39;d like to receive events for. For instance, to receive events for the stream &#x60;Denmark&#x60;, you would specify &#x60;narrow&#x3D;[[\&#39;stream\&#39;, \&#39;Denmark\&#39;]]&#x60;.  Another example is &#x60;narrow&#x3D;[[\&#39;is\&#39;, \&#39;private\&#39;]]&#x60; for private messages. Default is &#x60;[]&#x60;. 
      * @param {*} [options] Override http request option.
@@ -6139,6 +6548,47 @@ export const StreamsApiAxiosParamCreator = function (configuration?: Configurati
             };
         },
         /**
+         * Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+         * @summary Delete a topic
+         * @param {number} streamId The ID of the stream to access. 
+         * @param {string} topicName The name of the topic to delete. 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteTopic: async (streamId: number, topicName: string, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'streamId' is not null or undefined
+            assertParamExists('deleteTopic', 'streamId', streamId)
+            // verify required parameter 'topicName' is not null or undefined
+            assertParamExists('deleteTopic', 'topicName', topicName)
+            const localVarPath = `/streams/{stream_id}/delete_topic`
+                .replace(`{${"stream_id"}}`, encodeURIComponent(String(streamId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (topicName !== undefined) {
+                localVarQueryParameter['topic_name'] = topicName;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Get the unique ID of a given stream.  `GET {{ api_url }}/v1/get_stream_id` 
          * @summary Get stream ID
          * @param {string} stream The name of the stream to access. 
@@ -6257,6 +6707,40 @@ export const StreamsApiAxiosParamCreator = function (configuration?: Configurati
             if (includeOwnerSubscribed !== undefined) {
                 localVarQueryParameter['include_owner_subscribed'] = includeOwnerSubscribed;
             }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` 
+         * @summary Get the subscribers of a stream
+         * @param {number} streamId The ID of the stream to access. 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getSubscribers: async (streamId: number, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'streamId' is not null or undefined
+            assertParamExists('getSubscribers', 'streamId', streamId)
+            const localVarPath = `/streams/{stream_id}/members`
+                .replace(`{${"stream_id"}}`, encodeURIComponent(String(streamId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
 
     
@@ -6688,6 +7172,18 @@ export const StreamsApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
+         * Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+         * @summary Delete a topic
+         * @param {number} streamId The ID of the stream to access. 
+         * @param {string} topicName The name of the topic to delete. 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteTopic(streamId: number, topicName: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<JsonSuccess>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteTopic(streamId, topicName, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
          * Get the unique ID of a given stream.  `GET {{ api_url }}/v1/get_stream_id` 
          * @summary Get stream ID
          * @param {string} stream The name of the stream to access. 
@@ -6723,6 +7219,17 @@ export const StreamsApiFp = function(configuration?: Configuration) {
          */
         async getStreams(includePublic?: boolean, includeWebPublic?: boolean, includeSubscribed?: boolean, includeAllActive?: boolean, includeDefault?: boolean, includeOwnerSubscribed?: boolean, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<JsonSuccessBase & object>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getStreams(includePublic, includeWebPublic, includeSubscribed, includeAllActive, includeDefault, includeOwnerSubscribed, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` 
+         * @summary Get the subscribers of a stream
+         * @param {number} streamId The ID of the stream to access. 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getSubscribers(streamId: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<JsonSuccessBase & object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getSubscribers(streamId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -6863,6 +7370,17 @@ export const StreamsApiFactory = function (configuration?: Configuration, basePa
             return localVarFp.createBigBlueButtonVideoCall(options).then((request) => request(axios, basePath));
         },
         /**
+         * Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+         * @summary Delete a topic
+         * @param {number} streamId The ID of the stream to access. 
+         * @param {string} topicName The name of the topic to delete. 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteTopic(streamId: number, topicName: string, options?: any): AxiosPromise<JsonSuccess> {
+            return localVarFp.deleteTopic(streamId, topicName, options).then((request) => request(axios, basePath));
+        },
+        /**
          * Get the unique ID of a given stream.  `GET {{ api_url }}/v1/get_stream_id` 
          * @summary Get stream ID
          * @param {string} stream The name of the stream to access. 
@@ -6896,6 +7414,16 @@ export const StreamsApiFactory = function (configuration?: Configuration, basePa
          */
         getStreams(includePublic?: boolean, includeWebPublic?: boolean, includeSubscribed?: boolean, includeAllActive?: boolean, includeDefault?: boolean, includeOwnerSubscribed?: boolean, options?: any): AxiosPromise<JsonSuccessBase & object> {
             return localVarFp.getStreams(includePublic, includeWebPublic, includeSubscribed, includeAllActive, includeDefault, includeOwnerSubscribed, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` 
+         * @summary Get the subscribers of a stream
+         * @param {number} streamId The ID of the stream to access. 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getSubscribers(streamId: number, options?: any): AxiosPromise<JsonSuccessBase & object> {
+            return localVarFp.getSubscribers(streamId, options).then((request) => request(axios, basePath));
         },
         /**
          * Check whether a user is subscribed to a stream.  `GET {{ api_url }}/v1/users/{user_id}/subscriptions/{stream_id}`  **Changes**: New in Zulip 3.0 (feature level 11). 
@@ -7031,6 +7559,19 @@ export class StreamsApi extends BaseAPI {
     }
 
     /**
+     * Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+     * @summary Delete a topic
+     * @param {number} streamId The ID of the stream to access. 
+     * @param {string} topicName The name of the topic to delete. 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof StreamsApi
+     */
+    public deleteTopic(streamId: number, topicName: string, options?: any) {
+        return StreamsApiFp(this.configuration).deleteTopic(streamId, topicName, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
      * Get the unique ID of a given stream.  `GET {{ api_url }}/v1/get_stream_id` 
      * @summary Get stream ID
      * @param {string} stream The name of the stream to access. 
@@ -7069,6 +7610,18 @@ export class StreamsApi extends BaseAPI {
      */
     public getStreams(includePublic?: boolean, includeWebPublic?: boolean, includeSubscribed?: boolean, includeAllActive?: boolean, includeDefault?: boolean, includeOwnerSubscribed?: boolean, options?: any) {
         return StreamsApiFp(this.configuration).getStreams(includePublic, includeWebPublic, includeSubscribed, includeAllActive, includeDefault, includeOwnerSubscribed, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` 
+     * @summary Get the subscribers of a stream
+     * @param {number} streamId The ID of the stream to access. 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof StreamsApi
+     */
+    public getSubscribers(streamId: number, options?: any) {
+        return StreamsApiFp(this.configuration).getSubscribers(streamId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -7804,26 +8357,52 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
             };
         },
         /**
-         * This endpoint is used to edit the current user\'s user interface settings.  `PATCH {{ api_url }}/v1/settings/display` 
-         * @summary Update display settings
-         * @param {boolean} [twentyFourHourTime] Whether time should be [displayed in 24-hour notation](/help/change-the-time-format). 
-         * @param {boolean} [denseMode] This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip. 
-         * @param {boolean} [starredMessageCounts] Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages). 
-         * @param {boolean} [fluidLayoutWidth] Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app\&#39;s center panel (message feed, recent topics) on wide screens. 
-         * @param {boolean} [highContrastMode] This setting is reserved for use to control variations in Zulip\&#39;s design to help visually impaired users. 
-         * @param {1 | 2 | 3} [colorScheme] Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard &#x60;prefers-color-scheme&#x60; media query. 
-         * @param {boolean} [translateEmoticons] Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends. 
-         * @param {string} [defaultLanguage] What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, &#x60;\&quot;en\&quot;&#x60; for English or &#x60;\&quot;de\&quot;&#x60; for German.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63). 
-         * @param {string} [defaultView] The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the &#x60;Esc&#x60; keyboard shortcut repeatedly.  * \&quot;recent_topics\&quot; - Recent topics view * \&quot;all_messages\&quot; - All messages view  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). 
-         * @param {boolean} [leftSideUserlist] Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked. 
-         * @param {string} [emojiset] The user\&#39;s configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \&quot;google\&quot; - Google modern * \&quot;google-blob\&quot; - Google classic * \&quot;twitter\&quot; - Twitter * \&quot;text\&quot; - Plain text  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). 
-         * @param {1 | 2 | 3} [demoteInactiveStreams] Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never 
-         * @param {string} [timezone] The user\&#39;s [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). 
+         * This endpoint is used to edit the current user\'s settings.  `PATCH {{ api_url }}/v1/settings`  **Changes**: Prior to Zulip 5.0 (feature level 80), this endpoint only supported the `full_name`, `email`, `old_password`, and `new_password` parameters. Notification settings were managed by `PATCH /settings/notifications`, and all other settings by `PATCH /settings/display`. The feature level 80 migration to merge these endpoints did not change how request parameters are encoded. Note, however, that it did change the handling of any invalid parameters present in a request to change notification or display settings, since the merged endpoint uses the new response format that was introduced for `/settings` in Zulip 5.0 (feature level 78).  The `/settings/display` and `/settings/notifications` endpoints are now deprecated aliases for this endpoint for backwards-compatibility, and will be removed once clients have migrated to use this endpoint. 
+         * @summary Update settings
+         * @param {string} [fullName] A new display name for the user. 
+         * @param {string} [email] Asks the server to initiate a confirmation sequence to change the user\&#39;s email address to the indicated value. The user will need to demonstrate control of the new email address by clicking a confirmation link sent to that address. 
+         * @param {string} [oldPassword] The user\&#39;s old Zulip password (or LDAP password, if LDAP authentication is in use).  Required only when sending the &#x60;new_password&#x60; parameter. 
+         * @param {string} [newPassword] The user\&#39;s new Zulip password (or LDAP password, if LDAP authentication is in use).  The &#x60;old_password&#x60; parameter must be included in the request. 
+         * @param {boolean} [twentyFourHourTime] Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. 
+         * @param {boolean} [denseMode] This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. 
+         * @param {boolean} [starredMessageCounts] Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. 
+         * @param {boolean} [fluidLayoutWidth] Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app\&#39;s center panel (message feed, recent topics) on wide screens.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. 
+         * @param {boolean} [highContrastMode] This setting is reserved for use to control variations in Zulip\&#39;s design to help visually impaired users.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. 
+         * @param {1 | 2 | 3} [colorScheme] Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard &#x60;prefers-color-scheme&#x60; media query.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. 
+         * @param {boolean} [enableDraftsSynchronization] A boolean parameter to control whether synchronizing drafts is enabled for the user. When synchronization is disabled, all drafts stored in the server will be automatically deleted from the server.  This does not do anything (like sending events) to delete local copies of drafts stored in clients.  **Changes**: New in Zulip 5.0 (feature level 87). 
+         * @param {boolean} [translateEmoticons] Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. 
+         * @param {string} [defaultLanguage] What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, &#x60;\&quot;en\&quot;&#x60; for English or &#x60;\&quot;de\&quot;&#x60; for German.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63). 
+         * @param {string} [defaultView] The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the &#x60;Esc&#x60; keyboard shortcut repeatedly.  * \&quot;recent_topics\&quot; - Recent topics view * \&quot;all_messages\&quot; - All messages view  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). 
+         * @param {boolean} [leftSideUserlist] Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. 
+         * @param {string} [emojiset] The user\&#39;s configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \&quot;google\&quot; - Google modern * \&quot;google-blob\&quot; - Google classic * \&quot;twitter\&quot; - Twitter * \&quot;text\&quot; - Plain text  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). 
+         * @param {1 | 2 | 3} [demoteInactiveStreams] Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. 
+         * @param {string} [timezone] The user\&#39;s [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). 
+         * @param {boolean} [enableStreamDesktopNotifications] Enable visual desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {boolean} [enableStreamEmailNotifications] Enable email notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {boolean} [enableStreamPushNotifications] Enable mobile notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {boolean} [enableStreamAudibleNotifications] Enable audible desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {string} [notificationSound] Notification sound name.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63). 
+         * @param {boolean} [enableDesktopNotifications] Enable visual desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {boolean} [enableSounds] Enable audible desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {number} [emailNotificationsBatchingPeriodSeconds] The duration (in seconds) for which the server should wait to batch email notifications before sending them.  **Changes**: New in Zulip 5.0 (feature level 82) 
+         * @param {boolean} [enableOfflineEmailNotifications] Enable email notifications for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {boolean} [enableOfflinePushNotifications] Enable mobile notification for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {boolean} [enableOnlinePushNotifications] Enable mobile notification for private messages and @-mentions received when the user is online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {boolean} [enableDigestEmails] Enable digest emails when the user is away.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {boolean} [enableMarketingEmails] Enable marketing emails. Has no function outside Zulip Cloud.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {boolean} [enableLoginEmails] Enable email notifications for new logins to account.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {boolean} [messageContentInEmailNotifications] Include the message\&#39;s content in email notifications for new messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {boolean} [pmContentInDesktopNotifications] Include content of private messages in desktop notifications.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {boolean} [wildcardMentionsNotify] Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {1 | 2 | 3} [desktopIconCountDisplay] Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {boolean} [realmNameInNotifications] Include organization name in subject of message notification emails.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {boolean} [presenceEnabled] Display the presence status to other users when online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {boolean} [enterSends] Whether pressing Enter in the compose box sends a message (or saves a message edit).  **Changes**: Before Zulip 5.0 (feature level 81), this setting was managed by the &#x60;POST /users/me/enter-sends&#x60; endpoint, with the same parameter format. 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateDisplaySettings: async (twentyFourHourTime?: boolean, denseMode?: boolean, starredMessageCounts?: boolean, fluidLayoutWidth?: boolean, highContrastMode?: boolean, colorScheme?: 1 | 2 | 3, translateEmoticons?: boolean, defaultLanguage?: string, defaultView?: string, leftSideUserlist?: boolean, emojiset?: string, demoteInactiveStreams?: 1 | 2 | 3, timezone?: string, options: any = {}): Promise<RequestArgs> => {
-            const localVarPath = `/settings/display`;
+        updateSettings: async (fullName?: string, email?: string, oldPassword?: string, newPassword?: string, twentyFourHourTime?: boolean, denseMode?: boolean, starredMessageCounts?: boolean, fluidLayoutWidth?: boolean, highContrastMode?: boolean, colorScheme?: 1 | 2 | 3, enableDraftsSynchronization?: boolean, translateEmoticons?: boolean, defaultLanguage?: string, defaultView?: string, leftSideUserlist?: boolean, emojiset?: string, demoteInactiveStreams?: 1 | 2 | 3, timezone?: string, enableStreamDesktopNotifications?: boolean, enableStreamEmailNotifications?: boolean, enableStreamPushNotifications?: boolean, enableStreamAudibleNotifications?: boolean, notificationSound?: string, enableDesktopNotifications?: boolean, enableSounds?: boolean, emailNotificationsBatchingPeriodSeconds?: number, enableOfflineEmailNotifications?: boolean, enableOfflinePushNotifications?: boolean, enableOnlinePushNotifications?: boolean, enableDigestEmails?: boolean, enableMarketingEmails?: boolean, enableLoginEmails?: boolean, messageContentInEmailNotifications?: boolean, pmContentInDesktopNotifications?: boolean, wildcardMentionsNotify?: boolean, desktopIconCountDisplay?: 1 | 2 | 3, realmNameInNotifications?: boolean, presenceEnabled?: boolean, enterSends?: boolean, options: any = {}): Promise<RequestArgs> => {
+            const localVarPath = `/settings`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -7834,6 +8413,22 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
             const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            if (fullName !== undefined) {
+                localVarQueryParameter['full_name'] = fullName;
+            }
+
+            if (email !== undefined) {
+                localVarQueryParameter['email'] = email;
+            }
+
+            if (oldPassword !== undefined) {
+                localVarQueryParameter['old_password'] = oldPassword;
+            }
+
+            if (newPassword !== undefined) {
+                localVarQueryParameter['new_password'] = newPassword;
+            }
 
             if (twentyFourHourTime !== undefined) {
                 localVarQueryParameter['twenty_four_hour_time'] = twentyFourHourTime;
@@ -7857,6 +8452,10 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
 
             if (colorScheme !== undefined) {
                 localVarQueryParameter['color_scheme'] = colorScheme;
+            }
+
+            if (enableDraftsSynchronization !== undefined) {
+                localVarQueryParameter['enable_drafts_synchronization'] = enableDraftsSynchronization;
             }
 
             if (translateEmoticons !== undefined) {
@@ -7887,55 +8486,6 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
                 localVarQueryParameter['timezone'] = timezone;
             }
 
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * This endpoint is used to edit the user\'s global notification settings. See [this endpoint](/api/update-subscription-settings) for per-stream notification settings.  `PATCH {{ api_url }}/v1/settings/notifications` 
-         * @summary Update notification settings
-         * @param {boolean} [enableStreamDesktopNotifications] Enable visual desktop notifications for stream messages. 
-         * @param {boolean} [enableStreamEmailNotifications] Enable email notifications for stream messages. 
-         * @param {boolean} [enableStreamPushNotifications] Enable mobile notifications for stream messages. 
-         * @param {boolean} [enableStreamAudibleNotifications] Enable audible desktop notifications for stream messages. 
-         * @param {string} [notificationSound] Notification sound name.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63). 
-         * @param {boolean} [enableDesktopNotifications] Enable visual desktop notifications for private messages and @-mentions. 
-         * @param {boolean} [enableSounds] Enable audible desktop notifications for private messages and @-mentions. 
-         * @param {boolean} [enableOfflineEmailNotifications] Enable email notifications for private messages and @-mentions received when the user is offline. 
-         * @param {boolean} [enableOfflinePushNotifications] Enable mobile notification for private messages and @-mentions received when the user is offline. 
-         * @param {boolean} [enableOnlinePushNotifications] Enable mobile notification for private messages and @-mentions received when the user is online. 
-         * @param {boolean} [enableDigestEmails] Enable digest emails when the user is away. 
-         * @param {boolean} [enableMarketingEmails] Enable marketing emails. Has no function outside Zulip Cloud. 
-         * @param {boolean} [enableLoginEmails] Enable email notifications for new logins to account. 
-         * @param {boolean} [messageContentInEmailNotifications] Include the message\&#39;s content in email notifications for new messages. 
-         * @param {boolean} [pmContentInDesktopNotifications] Include content of private messages in desktop notifications. 
-         * @param {boolean} [wildcardMentionsNotify] Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention. 
-         * @param {1 | 2 | 3} [desktopIconCountDisplay] Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None 
-         * @param {boolean} [realmNameInNotifications] Include organization name in subject of message notification emails. 
-         * @param {boolean} [presenceEnabled] Display the presence status to other users when online. 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        updateNotificationSettings: async (enableStreamDesktopNotifications?: boolean, enableStreamEmailNotifications?: boolean, enableStreamPushNotifications?: boolean, enableStreamAudibleNotifications?: boolean, notificationSound?: string, enableDesktopNotifications?: boolean, enableSounds?: boolean, enableOfflineEmailNotifications?: boolean, enableOfflinePushNotifications?: boolean, enableOnlinePushNotifications?: boolean, enableDigestEmails?: boolean, enableMarketingEmails?: boolean, enableLoginEmails?: boolean, messageContentInEmailNotifications?: boolean, pmContentInDesktopNotifications?: boolean, wildcardMentionsNotify?: boolean, desktopIconCountDisplay?: 1 | 2 | 3, realmNameInNotifications?: boolean, presenceEnabled?: boolean, options: any = {}): Promise<RequestArgs> => {
-            const localVarPath = `/settings/notifications`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
             if (enableStreamDesktopNotifications !== undefined) {
                 localVarQueryParameter['enable_stream_desktop_notifications'] = enableStreamDesktopNotifications;
             }
@@ -7962,6 +8512,10 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
 
             if (enableSounds !== undefined) {
                 localVarQueryParameter['enable_sounds'] = enableSounds;
+            }
+
+            if (emailNotificationsBatchingPeriodSeconds !== undefined) {
+                localVarQueryParameter['email_notifications_batching_period_seconds'] = emailNotificationsBatchingPeriodSeconds;
             }
 
             if (enableOfflineEmailNotifications !== undefined) {
@@ -8010,6 +8564,65 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
 
             if (presenceEnabled !== undefined) {
                 localVarQueryParameter['presence_enabled'] = presenceEnabled;
+            }
+
+            if (enterSends !== undefined) {
+                localVarQueryParameter['enter_sends'] = enterSends;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Change your [status](/help/status-and-availability).  `POST {{ api_url }}/v1/users/me/status`  A request to this endpoint will only change the parameters passed. For example, passing just `status_text` requests a change in the status text, but will leave the status emoji unchanged.  Clients that wish to set the user\'s status to a specific value should pass all supported parameters. 
+         * @summary Update your status
+         * @param {string} [statusText] The text content of the status message. Sending the empty string will clear the user\&#39;s status.  **Note**: The limit on the size of the message is 60 characters. 
+         * @param {boolean} [away] Whether the user should be marked as \&quot;away\&quot;. 
+         * @param {string} [emojiName] The name for the emoji to associate with this status. 
+         * @param {string} [emojiCode] A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint; for &#x60;realm_emoji&#x60;, it\&#39;ll be the ID of the realm emoji. 
+         * @param {string} [reactionType] One of the following values:  * &#x60;unicode_emoji&#x60;: Unicode emoji (&#x60;emoji_code&#x60; will be its Unicode   codepoint). * &#x60;realm_emoji&#x60;: [Custom emoji](/help/add-custom-emoji).   (&#x60;emoji_code&#x60; will be its ID). * &#x60;zulip_extra_emoji&#x60;: Special emoji included with Zulip.  Exists to   namespace the &#x60;zulip&#x60; emoji. 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateStatus: async (statusText?: string, away?: boolean, emojiName?: string, emojiCode?: string, reactionType?: string, options: any = {}): Promise<RequestArgs> => {
+            const localVarPath = `/users/me/status`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (statusText !== undefined) {
+                localVarQueryParameter['status_text'] = statusText;
+            }
+
+            if (away !== undefined) {
+                localVarQueryParameter['away'] = away;
+            }
+
+            if (emojiName !== undefined) {
+                localVarQueryParameter['emoji_name'] = emojiName;
+            }
+
+            if (emojiCode !== undefined) {
+                localVarQueryParameter['emoji_code'] = emojiCode;
+            }
+
+            if (reactionType !== undefined) {
+                localVarQueryParameter['reaction_type'] = reactionType;
             }
 
 
@@ -8359,55 +8972,67 @@ export const UsersApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * This endpoint is used to edit the current user\'s user interface settings.  `PATCH {{ api_url }}/v1/settings/display` 
-         * @summary Update display settings
-         * @param {boolean} [twentyFourHourTime] Whether time should be [displayed in 24-hour notation](/help/change-the-time-format). 
-         * @param {boolean} [denseMode] This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip. 
-         * @param {boolean} [starredMessageCounts] Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages). 
-         * @param {boolean} [fluidLayoutWidth] Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app\&#39;s center panel (message feed, recent topics) on wide screens. 
-         * @param {boolean} [highContrastMode] This setting is reserved for use to control variations in Zulip\&#39;s design to help visually impaired users. 
-         * @param {1 | 2 | 3} [colorScheme] Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard &#x60;prefers-color-scheme&#x60; media query. 
-         * @param {boolean} [translateEmoticons] Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends. 
-         * @param {string} [defaultLanguage] What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, &#x60;\&quot;en\&quot;&#x60; for English or &#x60;\&quot;de\&quot;&#x60; for German.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63). 
-         * @param {string} [defaultView] The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the &#x60;Esc&#x60; keyboard shortcut repeatedly.  * \&quot;recent_topics\&quot; - Recent topics view * \&quot;all_messages\&quot; - All messages view  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). 
-         * @param {boolean} [leftSideUserlist] Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked. 
-         * @param {string} [emojiset] The user\&#39;s configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \&quot;google\&quot; - Google modern * \&quot;google-blob\&quot; - Google classic * \&quot;twitter\&quot; - Twitter * \&quot;text\&quot; - Plain text  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). 
-         * @param {1 | 2 | 3} [demoteInactiveStreams] Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never 
-         * @param {string} [timezone] The user\&#39;s [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). 
+         * This endpoint is used to edit the current user\'s settings.  `PATCH {{ api_url }}/v1/settings`  **Changes**: Prior to Zulip 5.0 (feature level 80), this endpoint only supported the `full_name`, `email`, `old_password`, and `new_password` parameters. Notification settings were managed by `PATCH /settings/notifications`, and all other settings by `PATCH /settings/display`. The feature level 80 migration to merge these endpoints did not change how request parameters are encoded. Note, however, that it did change the handling of any invalid parameters present in a request to change notification or display settings, since the merged endpoint uses the new response format that was introduced for `/settings` in Zulip 5.0 (feature level 78).  The `/settings/display` and `/settings/notifications` endpoints are now deprecated aliases for this endpoint for backwards-compatibility, and will be removed once clients have migrated to use this endpoint. 
+         * @summary Update settings
+         * @param {string} [fullName] A new display name for the user. 
+         * @param {string} [email] Asks the server to initiate a confirmation sequence to change the user\&#39;s email address to the indicated value. The user will need to demonstrate control of the new email address by clicking a confirmation link sent to that address. 
+         * @param {string} [oldPassword] The user\&#39;s old Zulip password (or LDAP password, if LDAP authentication is in use).  Required only when sending the &#x60;new_password&#x60; parameter. 
+         * @param {string} [newPassword] The user\&#39;s new Zulip password (or LDAP password, if LDAP authentication is in use).  The &#x60;old_password&#x60; parameter must be included in the request. 
+         * @param {boolean} [twentyFourHourTime] Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. 
+         * @param {boolean} [denseMode] This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. 
+         * @param {boolean} [starredMessageCounts] Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. 
+         * @param {boolean} [fluidLayoutWidth] Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app\&#39;s center panel (message feed, recent topics) on wide screens.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. 
+         * @param {boolean} [highContrastMode] This setting is reserved for use to control variations in Zulip\&#39;s design to help visually impaired users.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. 
+         * @param {1 | 2 | 3} [colorScheme] Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard &#x60;prefers-color-scheme&#x60; media query.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. 
+         * @param {boolean} [enableDraftsSynchronization] A boolean parameter to control whether synchronizing drafts is enabled for the user. When synchronization is disabled, all drafts stored in the server will be automatically deleted from the server.  This does not do anything (like sending events) to delete local copies of drafts stored in clients.  **Changes**: New in Zulip 5.0 (feature level 87). 
+         * @param {boolean} [translateEmoticons] Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. 
+         * @param {string} [defaultLanguage] What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, &#x60;\&quot;en\&quot;&#x60; for English or &#x60;\&quot;de\&quot;&#x60; for German.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63). 
+         * @param {string} [defaultView] The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the &#x60;Esc&#x60; keyboard shortcut repeatedly.  * \&quot;recent_topics\&quot; - Recent topics view * \&quot;all_messages\&quot; - All messages view  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). 
+         * @param {boolean} [leftSideUserlist] Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. 
+         * @param {string} [emojiset] The user\&#39;s configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \&quot;google\&quot; - Google modern * \&quot;google-blob\&quot; - Google classic * \&quot;twitter\&quot; - Twitter * \&quot;text\&quot; - Plain text  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). 
+         * @param {1 | 2 | 3} [demoteInactiveStreams] Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. 
+         * @param {string} [timezone] The user\&#39;s [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). 
+         * @param {boolean} [enableStreamDesktopNotifications] Enable visual desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {boolean} [enableStreamEmailNotifications] Enable email notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {boolean} [enableStreamPushNotifications] Enable mobile notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {boolean} [enableStreamAudibleNotifications] Enable audible desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {string} [notificationSound] Notification sound name.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63). 
+         * @param {boolean} [enableDesktopNotifications] Enable visual desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {boolean} [enableSounds] Enable audible desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {number} [emailNotificationsBatchingPeriodSeconds] The duration (in seconds) for which the server should wait to batch email notifications before sending them.  **Changes**: New in Zulip 5.0 (feature level 82) 
+         * @param {boolean} [enableOfflineEmailNotifications] Enable email notifications for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {boolean} [enableOfflinePushNotifications] Enable mobile notification for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {boolean} [enableOnlinePushNotifications] Enable mobile notification for private messages and @-mentions received when the user is online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {boolean} [enableDigestEmails] Enable digest emails when the user is away.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {boolean} [enableMarketingEmails] Enable marketing emails. Has no function outside Zulip Cloud.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {boolean} [enableLoginEmails] Enable email notifications for new logins to account.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {boolean} [messageContentInEmailNotifications] Include the message\&#39;s content in email notifications for new messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {boolean} [pmContentInDesktopNotifications] Include content of private messages in desktop notifications.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {boolean} [wildcardMentionsNotify] Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {1 | 2 | 3} [desktopIconCountDisplay] Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {boolean} [realmNameInNotifications] Include organization name in subject of message notification emails.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {boolean} [presenceEnabled] Display the presence status to other users when online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {boolean} [enterSends] Whether pressing Enter in the compose box sends a message (or saves a message edit).  **Changes**: Before Zulip 5.0 (feature level 81), this setting was managed by the &#x60;POST /users/me/enter-sends&#x60; endpoint, with the same parameter format. 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateDisplaySettings(twentyFourHourTime?: boolean, denseMode?: boolean, starredMessageCounts?: boolean, fluidLayoutWidth?: boolean, highContrastMode?: boolean, colorScheme?: 1 | 2 | 3, translateEmoticons?: boolean, defaultLanguage?: string, defaultView?: string, leftSideUserlist?: boolean, emojiset?: string, demoteInactiveStreams?: 1 | 2 | 3, timezone?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<JsonSuccessBase & object>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateDisplaySettings(twentyFourHourTime, denseMode, starredMessageCounts, fluidLayoutWidth, highContrastMode, colorScheme, translateEmoticons, defaultLanguage, defaultView, leftSideUserlist, emojiset, demoteInactiveStreams, timezone, options);
+        async updateSettings(fullName?: string, email?: string, oldPassword?: string, newPassword?: string, twentyFourHourTime?: boolean, denseMode?: boolean, starredMessageCounts?: boolean, fluidLayoutWidth?: boolean, highContrastMode?: boolean, colorScheme?: 1 | 2 | 3, enableDraftsSynchronization?: boolean, translateEmoticons?: boolean, defaultLanguage?: string, defaultView?: string, leftSideUserlist?: boolean, emojiset?: string, demoteInactiveStreams?: 1 | 2 | 3, timezone?: string, enableStreamDesktopNotifications?: boolean, enableStreamEmailNotifications?: boolean, enableStreamPushNotifications?: boolean, enableStreamAudibleNotifications?: boolean, notificationSound?: string, enableDesktopNotifications?: boolean, enableSounds?: boolean, emailNotificationsBatchingPeriodSeconds?: number, enableOfflineEmailNotifications?: boolean, enableOfflinePushNotifications?: boolean, enableOnlinePushNotifications?: boolean, enableDigestEmails?: boolean, enableMarketingEmails?: boolean, enableLoginEmails?: boolean, messageContentInEmailNotifications?: boolean, pmContentInDesktopNotifications?: boolean, wildcardMentionsNotify?: boolean, desktopIconCountDisplay?: 1 | 2 | 3, realmNameInNotifications?: boolean, presenceEnabled?: boolean, enterSends?: boolean, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<JsonSuccessBase & object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateSettings(fullName, email, oldPassword, newPassword, twentyFourHourTime, denseMode, starredMessageCounts, fluidLayoutWidth, highContrastMode, colorScheme, enableDraftsSynchronization, translateEmoticons, defaultLanguage, defaultView, leftSideUserlist, emojiset, demoteInactiveStreams, timezone, enableStreamDesktopNotifications, enableStreamEmailNotifications, enableStreamPushNotifications, enableStreamAudibleNotifications, notificationSound, enableDesktopNotifications, enableSounds, emailNotificationsBatchingPeriodSeconds, enableOfflineEmailNotifications, enableOfflinePushNotifications, enableOnlinePushNotifications, enableDigestEmails, enableMarketingEmails, enableLoginEmails, messageContentInEmailNotifications, pmContentInDesktopNotifications, wildcardMentionsNotify, desktopIconCountDisplay, realmNameInNotifications, presenceEnabled, enterSends, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * This endpoint is used to edit the user\'s global notification settings. See [this endpoint](/api/update-subscription-settings) for per-stream notification settings.  `PATCH {{ api_url }}/v1/settings/notifications` 
-         * @summary Update notification settings
-         * @param {boolean} [enableStreamDesktopNotifications] Enable visual desktop notifications for stream messages. 
-         * @param {boolean} [enableStreamEmailNotifications] Enable email notifications for stream messages. 
-         * @param {boolean} [enableStreamPushNotifications] Enable mobile notifications for stream messages. 
-         * @param {boolean} [enableStreamAudibleNotifications] Enable audible desktop notifications for stream messages. 
-         * @param {string} [notificationSound] Notification sound name.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63). 
-         * @param {boolean} [enableDesktopNotifications] Enable visual desktop notifications for private messages and @-mentions. 
-         * @param {boolean} [enableSounds] Enable audible desktop notifications for private messages and @-mentions. 
-         * @param {boolean} [enableOfflineEmailNotifications] Enable email notifications for private messages and @-mentions received when the user is offline. 
-         * @param {boolean} [enableOfflinePushNotifications] Enable mobile notification for private messages and @-mentions received when the user is offline. 
-         * @param {boolean} [enableOnlinePushNotifications] Enable mobile notification for private messages and @-mentions received when the user is online. 
-         * @param {boolean} [enableDigestEmails] Enable digest emails when the user is away. 
-         * @param {boolean} [enableMarketingEmails] Enable marketing emails. Has no function outside Zulip Cloud. 
-         * @param {boolean} [enableLoginEmails] Enable email notifications for new logins to account. 
-         * @param {boolean} [messageContentInEmailNotifications] Include the message\&#39;s content in email notifications for new messages. 
-         * @param {boolean} [pmContentInDesktopNotifications] Include content of private messages in desktop notifications. 
-         * @param {boolean} [wildcardMentionsNotify] Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention. 
-         * @param {1 | 2 | 3} [desktopIconCountDisplay] Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None 
-         * @param {boolean} [realmNameInNotifications] Include organization name in subject of message notification emails. 
-         * @param {boolean} [presenceEnabled] Display the presence status to other users when online. 
+         * Change your [status](/help/status-and-availability).  `POST {{ api_url }}/v1/users/me/status`  A request to this endpoint will only change the parameters passed. For example, passing just `status_text` requests a change in the status text, but will leave the status emoji unchanged.  Clients that wish to set the user\'s status to a specific value should pass all supported parameters. 
+         * @summary Update your status
+         * @param {string} [statusText] The text content of the status message. Sending the empty string will clear the user\&#39;s status.  **Note**: The limit on the size of the message is 60 characters. 
+         * @param {boolean} [away] Whether the user should be marked as \&quot;away\&quot;. 
+         * @param {string} [emojiName] The name for the emoji to associate with this status. 
+         * @param {string} [emojiCode] A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint; for &#x60;realm_emoji&#x60;, it\&#39;ll be the ID of the realm emoji. 
+         * @param {string} [reactionType] One of the following values:  * &#x60;unicode_emoji&#x60;: Unicode emoji (&#x60;emoji_code&#x60; will be its Unicode   codepoint). * &#x60;realm_emoji&#x60;: [Custom emoji](/help/add-custom-emoji).   (&#x60;emoji_code&#x60; will be its ID). * &#x60;zulip_extra_emoji&#x60;: Special emoji included with Zulip.  Exists to   namespace the &#x60;zulip&#x60; emoji. 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateNotificationSettings(enableStreamDesktopNotifications?: boolean, enableStreamEmailNotifications?: boolean, enableStreamPushNotifications?: boolean, enableStreamAudibleNotifications?: boolean, notificationSound?: string, enableDesktopNotifications?: boolean, enableSounds?: boolean, enableOfflineEmailNotifications?: boolean, enableOfflinePushNotifications?: boolean, enableOnlinePushNotifications?: boolean, enableDigestEmails?: boolean, enableMarketingEmails?: boolean, enableLoginEmails?: boolean, messageContentInEmailNotifications?: boolean, pmContentInDesktopNotifications?: boolean, wildcardMentionsNotify?: boolean, desktopIconCountDisplay?: 1 | 2 | 3, realmNameInNotifications?: boolean, presenceEnabled?: boolean, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<JsonSuccessBase & object>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateNotificationSettings(enableStreamDesktopNotifications, enableStreamEmailNotifications, enableStreamPushNotifications, enableStreamAudibleNotifications, notificationSound, enableDesktopNotifications, enableSounds, enableOfflineEmailNotifications, enableOfflinePushNotifications, enableOnlinePushNotifications, enableDigestEmails, enableMarketingEmails, enableLoginEmails, messageContentInEmailNotifications, pmContentInDesktopNotifications, wildcardMentionsNotify, desktopIconCountDisplay, realmNameInNotifications, presenceEnabled, options);
+        async updateStatus(statusText?: string, away?: boolean, emojiName?: string, emojiCode?: string, reactionType?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<JsonSuccess>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateStatus(statusText, away, emojiName, emojiCode, reactionType, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -8629,54 +9254,66 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
             return localVarFp.unmuteUser(mutedUserId, options).then((request) => request(axios, basePath));
         },
         /**
-         * This endpoint is used to edit the current user\'s user interface settings.  `PATCH {{ api_url }}/v1/settings/display` 
-         * @summary Update display settings
-         * @param {boolean} [twentyFourHourTime] Whether time should be [displayed in 24-hour notation](/help/change-the-time-format). 
-         * @param {boolean} [denseMode] This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip. 
-         * @param {boolean} [starredMessageCounts] Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages). 
-         * @param {boolean} [fluidLayoutWidth] Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app\&#39;s center panel (message feed, recent topics) on wide screens. 
-         * @param {boolean} [highContrastMode] This setting is reserved for use to control variations in Zulip\&#39;s design to help visually impaired users. 
-         * @param {1 | 2 | 3} [colorScheme] Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard &#x60;prefers-color-scheme&#x60; media query. 
-         * @param {boolean} [translateEmoticons] Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends. 
-         * @param {string} [defaultLanguage] What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, &#x60;\&quot;en\&quot;&#x60; for English or &#x60;\&quot;de\&quot;&#x60; for German.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63). 
-         * @param {string} [defaultView] The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the &#x60;Esc&#x60; keyboard shortcut repeatedly.  * \&quot;recent_topics\&quot; - Recent topics view * \&quot;all_messages\&quot; - All messages view  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). 
-         * @param {boolean} [leftSideUserlist] Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked. 
-         * @param {string} [emojiset] The user\&#39;s configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \&quot;google\&quot; - Google modern * \&quot;google-blob\&quot; - Google classic * \&quot;twitter\&quot; - Twitter * \&quot;text\&quot; - Plain text  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). 
-         * @param {1 | 2 | 3} [demoteInactiveStreams] Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never 
-         * @param {string} [timezone] The user\&#39;s [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). 
+         * This endpoint is used to edit the current user\'s settings.  `PATCH {{ api_url }}/v1/settings`  **Changes**: Prior to Zulip 5.0 (feature level 80), this endpoint only supported the `full_name`, `email`, `old_password`, and `new_password` parameters. Notification settings were managed by `PATCH /settings/notifications`, and all other settings by `PATCH /settings/display`. The feature level 80 migration to merge these endpoints did not change how request parameters are encoded. Note, however, that it did change the handling of any invalid parameters present in a request to change notification or display settings, since the merged endpoint uses the new response format that was introduced for `/settings` in Zulip 5.0 (feature level 78).  The `/settings/display` and `/settings/notifications` endpoints are now deprecated aliases for this endpoint for backwards-compatibility, and will be removed once clients have migrated to use this endpoint. 
+         * @summary Update settings
+         * @param {string} [fullName] A new display name for the user. 
+         * @param {string} [email] Asks the server to initiate a confirmation sequence to change the user\&#39;s email address to the indicated value. The user will need to demonstrate control of the new email address by clicking a confirmation link sent to that address. 
+         * @param {string} [oldPassword] The user\&#39;s old Zulip password (or LDAP password, if LDAP authentication is in use).  Required only when sending the &#x60;new_password&#x60; parameter. 
+         * @param {string} [newPassword] The user\&#39;s new Zulip password (or LDAP password, if LDAP authentication is in use).  The &#x60;old_password&#x60; parameter must be included in the request. 
+         * @param {boolean} [twentyFourHourTime] Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. 
+         * @param {boolean} [denseMode] This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. 
+         * @param {boolean} [starredMessageCounts] Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. 
+         * @param {boolean} [fluidLayoutWidth] Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app\&#39;s center panel (message feed, recent topics) on wide screens.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. 
+         * @param {boolean} [highContrastMode] This setting is reserved for use to control variations in Zulip\&#39;s design to help visually impaired users.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. 
+         * @param {1 | 2 | 3} [colorScheme] Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard &#x60;prefers-color-scheme&#x60; media query.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. 
+         * @param {boolean} [enableDraftsSynchronization] A boolean parameter to control whether synchronizing drafts is enabled for the user. When synchronization is disabled, all drafts stored in the server will be automatically deleted from the server.  This does not do anything (like sending events) to delete local copies of drafts stored in clients.  **Changes**: New in Zulip 5.0 (feature level 87). 
+         * @param {boolean} [translateEmoticons] Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. 
+         * @param {string} [defaultLanguage] What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, &#x60;\&quot;en\&quot;&#x60; for English or &#x60;\&quot;de\&quot;&#x60; for German.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63). 
+         * @param {string} [defaultView] The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the &#x60;Esc&#x60; keyboard shortcut repeatedly.  * \&quot;recent_topics\&quot; - Recent topics view * \&quot;all_messages\&quot; - All messages view  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). 
+         * @param {boolean} [leftSideUserlist] Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. 
+         * @param {string} [emojiset] The user\&#39;s configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \&quot;google\&quot; - Google modern * \&quot;google-blob\&quot; - Google classic * \&quot;twitter\&quot; - Twitter * \&quot;text\&quot; - Plain text  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). 
+         * @param {1 | 2 | 3} [demoteInactiveStreams] Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. 
+         * @param {string} [timezone] The user\&#39;s [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). 
+         * @param {boolean} [enableStreamDesktopNotifications] Enable visual desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {boolean} [enableStreamEmailNotifications] Enable email notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {boolean} [enableStreamPushNotifications] Enable mobile notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {boolean} [enableStreamAudibleNotifications] Enable audible desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {string} [notificationSound] Notification sound name.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63). 
+         * @param {boolean} [enableDesktopNotifications] Enable visual desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {boolean} [enableSounds] Enable audible desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {number} [emailNotificationsBatchingPeriodSeconds] The duration (in seconds) for which the server should wait to batch email notifications before sending them.  **Changes**: New in Zulip 5.0 (feature level 82) 
+         * @param {boolean} [enableOfflineEmailNotifications] Enable email notifications for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {boolean} [enableOfflinePushNotifications] Enable mobile notification for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {boolean} [enableOnlinePushNotifications] Enable mobile notification for private messages and @-mentions received when the user is online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {boolean} [enableDigestEmails] Enable digest emails when the user is away.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {boolean} [enableMarketingEmails] Enable marketing emails. Has no function outside Zulip Cloud.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {boolean} [enableLoginEmails] Enable email notifications for new logins to account.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {boolean} [messageContentInEmailNotifications] Include the message\&#39;s content in email notifications for new messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {boolean} [pmContentInDesktopNotifications] Include content of private messages in desktop notifications.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {boolean} [wildcardMentionsNotify] Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {1 | 2 | 3} [desktopIconCountDisplay] Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {boolean} [realmNameInNotifications] Include organization name in subject of message notification emails.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {boolean} [presenceEnabled] Display the presence status to other users when online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+         * @param {boolean} [enterSends] Whether pressing Enter in the compose box sends a message (or saves a message edit).  **Changes**: Before Zulip 5.0 (feature level 81), this setting was managed by the &#x60;POST /users/me/enter-sends&#x60; endpoint, with the same parameter format. 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateDisplaySettings(twentyFourHourTime?: boolean, denseMode?: boolean, starredMessageCounts?: boolean, fluidLayoutWidth?: boolean, highContrastMode?: boolean, colorScheme?: 1 | 2 | 3, translateEmoticons?: boolean, defaultLanguage?: string, defaultView?: string, leftSideUserlist?: boolean, emojiset?: string, demoteInactiveStreams?: 1 | 2 | 3, timezone?: string, options?: any): AxiosPromise<JsonSuccessBase & object> {
-            return localVarFp.updateDisplaySettings(twentyFourHourTime, denseMode, starredMessageCounts, fluidLayoutWidth, highContrastMode, colorScheme, translateEmoticons, defaultLanguage, defaultView, leftSideUserlist, emojiset, demoteInactiveStreams, timezone, options).then((request) => request(axios, basePath));
+        updateSettings(fullName?: string, email?: string, oldPassword?: string, newPassword?: string, twentyFourHourTime?: boolean, denseMode?: boolean, starredMessageCounts?: boolean, fluidLayoutWidth?: boolean, highContrastMode?: boolean, colorScheme?: 1 | 2 | 3, enableDraftsSynchronization?: boolean, translateEmoticons?: boolean, defaultLanguage?: string, defaultView?: string, leftSideUserlist?: boolean, emojiset?: string, demoteInactiveStreams?: 1 | 2 | 3, timezone?: string, enableStreamDesktopNotifications?: boolean, enableStreamEmailNotifications?: boolean, enableStreamPushNotifications?: boolean, enableStreamAudibleNotifications?: boolean, notificationSound?: string, enableDesktopNotifications?: boolean, enableSounds?: boolean, emailNotificationsBatchingPeriodSeconds?: number, enableOfflineEmailNotifications?: boolean, enableOfflinePushNotifications?: boolean, enableOnlinePushNotifications?: boolean, enableDigestEmails?: boolean, enableMarketingEmails?: boolean, enableLoginEmails?: boolean, messageContentInEmailNotifications?: boolean, pmContentInDesktopNotifications?: boolean, wildcardMentionsNotify?: boolean, desktopIconCountDisplay?: 1 | 2 | 3, realmNameInNotifications?: boolean, presenceEnabled?: boolean, enterSends?: boolean, options?: any): AxiosPromise<JsonSuccessBase & object> {
+            return localVarFp.updateSettings(fullName, email, oldPassword, newPassword, twentyFourHourTime, denseMode, starredMessageCounts, fluidLayoutWidth, highContrastMode, colorScheme, enableDraftsSynchronization, translateEmoticons, defaultLanguage, defaultView, leftSideUserlist, emojiset, demoteInactiveStreams, timezone, enableStreamDesktopNotifications, enableStreamEmailNotifications, enableStreamPushNotifications, enableStreamAudibleNotifications, notificationSound, enableDesktopNotifications, enableSounds, emailNotificationsBatchingPeriodSeconds, enableOfflineEmailNotifications, enableOfflinePushNotifications, enableOnlinePushNotifications, enableDigestEmails, enableMarketingEmails, enableLoginEmails, messageContentInEmailNotifications, pmContentInDesktopNotifications, wildcardMentionsNotify, desktopIconCountDisplay, realmNameInNotifications, presenceEnabled, enterSends, options).then((request) => request(axios, basePath));
         },
         /**
-         * This endpoint is used to edit the user\'s global notification settings. See [this endpoint](/api/update-subscription-settings) for per-stream notification settings.  `PATCH {{ api_url }}/v1/settings/notifications` 
-         * @summary Update notification settings
-         * @param {boolean} [enableStreamDesktopNotifications] Enable visual desktop notifications for stream messages. 
-         * @param {boolean} [enableStreamEmailNotifications] Enable email notifications for stream messages. 
-         * @param {boolean} [enableStreamPushNotifications] Enable mobile notifications for stream messages. 
-         * @param {boolean} [enableStreamAudibleNotifications] Enable audible desktop notifications for stream messages. 
-         * @param {string} [notificationSound] Notification sound name.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63). 
-         * @param {boolean} [enableDesktopNotifications] Enable visual desktop notifications for private messages and @-mentions. 
-         * @param {boolean} [enableSounds] Enable audible desktop notifications for private messages and @-mentions. 
-         * @param {boolean} [enableOfflineEmailNotifications] Enable email notifications for private messages and @-mentions received when the user is offline. 
-         * @param {boolean} [enableOfflinePushNotifications] Enable mobile notification for private messages and @-mentions received when the user is offline. 
-         * @param {boolean} [enableOnlinePushNotifications] Enable mobile notification for private messages and @-mentions received when the user is online. 
-         * @param {boolean} [enableDigestEmails] Enable digest emails when the user is away. 
-         * @param {boolean} [enableMarketingEmails] Enable marketing emails. Has no function outside Zulip Cloud. 
-         * @param {boolean} [enableLoginEmails] Enable email notifications for new logins to account. 
-         * @param {boolean} [messageContentInEmailNotifications] Include the message\&#39;s content in email notifications for new messages. 
-         * @param {boolean} [pmContentInDesktopNotifications] Include content of private messages in desktop notifications. 
-         * @param {boolean} [wildcardMentionsNotify] Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention. 
-         * @param {1 | 2 | 3} [desktopIconCountDisplay] Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None 
-         * @param {boolean} [realmNameInNotifications] Include organization name in subject of message notification emails. 
-         * @param {boolean} [presenceEnabled] Display the presence status to other users when online. 
+         * Change your [status](/help/status-and-availability).  `POST {{ api_url }}/v1/users/me/status`  A request to this endpoint will only change the parameters passed. For example, passing just `status_text` requests a change in the status text, but will leave the status emoji unchanged.  Clients that wish to set the user\'s status to a specific value should pass all supported parameters. 
+         * @summary Update your status
+         * @param {string} [statusText] The text content of the status message. Sending the empty string will clear the user\&#39;s status.  **Note**: The limit on the size of the message is 60 characters. 
+         * @param {boolean} [away] Whether the user should be marked as \&quot;away\&quot;. 
+         * @param {string} [emojiName] The name for the emoji to associate with this status. 
+         * @param {string} [emojiCode] A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint; for &#x60;realm_emoji&#x60;, it\&#39;ll be the ID of the realm emoji. 
+         * @param {string} [reactionType] One of the following values:  * &#x60;unicode_emoji&#x60;: Unicode emoji (&#x60;emoji_code&#x60; will be its Unicode   codepoint). * &#x60;realm_emoji&#x60;: [Custom emoji](/help/add-custom-emoji).   (&#x60;emoji_code&#x60; will be its ID). * &#x60;zulip_extra_emoji&#x60;: Special emoji included with Zulip.  Exists to   namespace the &#x60;zulip&#x60; emoji. 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateNotificationSettings(enableStreamDesktopNotifications?: boolean, enableStreamEmailNotifications?: boolean, enableStreamPushNotifications?: boolean, enableStreamAudibleNotifications?: boolean, notificationSound?: string, enableDesktopNotifications?: boolean, enableSounds?: boolean, enableOfflineEmailNotifications?: boolean, enableOfflinePushNotifications?: boolean, enableOnlinePushNotifications?: boolean, enableDigestEmails?: boolean, enableMarketingEmails?: boolean, enableLoginEmails?: boolean, messageContentInEmailNotifications?: boolean, pmContentInDesktopNotifications?: boolean, wildcardMentionsNotify?: boolean, desktopIconCountDisplay?: 1 | 2 | 3, realmNameInNotifications?: boolean, presenceEnabled?: boolean, options?: any): AxiosPromise<JsonSuccessBase & object> {
-            return localVarFp.updateNotificationSettings(enableStreamDesktopNotifications, enableStreamEmailNotifications, enableStreamPushNotifications, enableStreamAudibleNotifications, notificationSound, enableDesktopNotifications, enableSounds, enableOfflineEmailNotifications, enableOfflinePushNotifications, enableOnlinePushNotifications, enableDigestEmails, enableMarketingEmails, enableLoginEmails, messageContentInEmailNotifications, pmContentInDesktopNotifications, wildcardMentionsNotify, desktopIconCountDisplay, realmNameInNotifications, presenceEnabled, options).then((request) => request(axios, basePath));
+        updateStatus(statusText?: string, away?: boolean, emojiName?: string, emojiCode?: string, reactionType?: string, options?: any): AxiosPromise<JsonSuccess> {
+            return localVarFp.updateStatus(statusText, away, emojiName, emojiCode, reactionType, options).then((request) => request(axios, basePath));
         },
         /**
          * Administrative endpoint to update the details of another user in the organization.  `PATCH {{ api_url }}/v1/users/{user_id}`  Supports everything an administrator can do to edit details of another user\'s account, including editing full name, [role](/help/roles-and-permissions), and [custom profile fields](/help/add-custom-profile-fields). 
@@ -8926,57 +9563,69 @@ export class UsersApi extends BaseAPI {
     }
 
     /**
-     * This endpoint is used to edit the current user\'s user interface settings.  `PATCH {{ api_url }}/v1/settings/display` 
-     * @summary Update display settings
-     * @param {boolean} [twentyFourHourTime] Whether time should be [displayed in 24-hour notation](/help/change-the-time-format). 
-     * @param {boolean} [denseMode] This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip. 
-     * @param {boolean} [starredMessageCounts] Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages). 
-     * @param {boolean} [fluidLayoutWidth] Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app\&#39;s center panel (message feed, recent topics) on wide screens. 
-     * @param {boolean} [highContrastMode] This setting is reserved for use to control variations in Zulip\&#39;s design to help visually impaired users. 
-     * @param {1 | 2 | 3} [colorScheme] Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard &#x60;prefers-color-scheme&#x60; media query. 
-     * @param {boolean} [translateEmoticons] Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends. 
-     * @param {string} [defaultLanguage] What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, &#x60;\&quot;en\&quot;&#x60; for English or &#x60;\&quot;de\&quot;&#x60; for German.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63). 
-     * @param {string} [defaultView] The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the &#x60;Esc&#x60; keyboard shortcut repeatedly.  * \&quot;recent_topics\&quot; - Recent topics view * \&quot;all_messages\&quot; - All messages view  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). 
-     * @param {boolean} [leftSideUserlist] Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked. 
-     * @param {string} [emojiset] The user\&#39;s configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \&quot;google\&quot; - Google modern * \&quot;google-blob\&quot; - Google classic * \&quot;twitter\&quot; - Twitter * \&quot;text\&quot; - Plain text  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). 
-     * @param {1 | 2 | 3} [demoteInactiveStreams] Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never 
-     * @param {string} [timezone] The user\&#39;s [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). 
+     * This endpoint is used to edit the current user\'s settings.  `PATCH {{ api_url }}/v1/settings`  **Changes**: Prior to Zulip 5.0 (feature level 80), this endpoint only supported the `full_name`, `email`, `old_password`, and `new_password` parameters. Notification settings were managed by `PATCH /settings/notifications`, and all other settings by `PATCH /settings/display`. The feature level 80 migration to merge these endpoints did not change how request parameters are encoded. Note, however, that it did change the handling of any invalid parameters present in a request to change notification or display settings, since the merged endpoint uses the new response format that was introduced for `/settings` in Zulip 5.0 (feature level 78).  The `/settings/display` and `/settings/notifications` endpoints are now deprecated aliases for this endpoint for backwards-compatibility, and will be removed once clients have migrated to use this endpoint. 
+     * @summary Update settings
+     * @param {string} [fullName] A new display name for the user. 
+     * @param {string} [email] Asks the server to initiate a confirmation sequence to change the user\&#39;s email address to the indicated value. The user will need to demonstrate control of the new email address by clicking a confirmation link sent to that address. 
+     * @param {string} [oldPassword] The user\&#39;s old Zulip password (or LDAP password, if LDAP authentication is in use).  Required only when sending the &#x60;new_password&#x60; parameter. 
+     * @param {string} [newPassword] The user\&#39;s new Zulip password (or LDAP password, if LDAP authentication is in use).  The &#x60;old_password&#x60; parameter must be included in the request. 
+     * @param {boolean} [twentyFourHourTime] Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. 
+     * @param {boolean} [denseMode] This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. 
+     * @param {boolean} [starredMessageCounts] Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. 
+     * @param {boolean} [fluidLayoutWidth] Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app\&#39;s center panel (message feed, recent topics) on wide screens.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. 
+     * @param {boolean} [highContrastMode] This setting is reserved for use to control variations in Zulip\&#39;s design to help visually impaired users.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. 
+     * @param {1 | 2 | 3} [colorScheme] Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard &#x60;prefers-color-scheme&#x60; media query.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. 
+     * @param {boolean} [enableDraftsSynchronization] A boolean parameter to control whether synchronizing drafts is enabled for the user. When synchronization is disabled, all drafts stored in the server will be automatically deleted from the server.  This does not do anything (like sending events) to delete local copies of drafts stored in clients.  **Changes**: New in Zulip 5.0 (feature level 87). 
+     * @param {boolean} [translateEmoticons] Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. 
+     * @param {string} [defaultLanguage] What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, &#x60;\&quot;en\&quot;&#x60; for English or &#x60;\&quot;de\&quot;&#x60; for German.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63). 
+     * @param {string} [defaultView] The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the &#x60;Esc&#x60; keyboard shortcut repeatedly.  * \&quot;recent_topics\&quot; - Recent topics view * \&quot;all_messages\&quot; - All messages view  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). 
+     * @param {boolean} [leftSideUserlist] Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. 
+     * @param {string} [emojiset] The user\&#39;s configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \&quot;google\&quot; - Google modern * \&quot;google-blob\&quot; - Google classic * \&quot;twitter\&quot; - Twitter * \&quot;text\&quot; - Plain text  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). 
+     * @param {1 | 2 | 3} [demoteInactiveStreams] Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. 
+     * @param {string} [timezone] The user\&#39;s [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). 
+     * @param {boolean} [enableStreamDesktopNotifications] Enable visual desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+     * @param {boolean} [enableStreamEmailNotifications] Enable email notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+     * @param {boolean} [enableStreamPushNotifications] Enable mobile notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+     * @param {boolean} [enableStreamAudibleNotifications] Enable audible desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+     * @param {string} [notificationSound] Notification sound name.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63). 
+     * @param {boolean} [enableDesktopNotifications] Enable visual desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+     * @param {boolean} [enableSounds] Enable audible desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+     * @param {number} [emailNotificationsBatchingPeriodSeconds] The duration (in seconds) for which the server should wait to batch email notifications before sending them.  **Changes**: New in Zulip 5.0 (feature level 82) 
+     * @param {boolean} [enableOfflineEmailNotifications] Enable email notifications for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+     * @param {boolean} [enableOfflinePushNotifications] Enable mobile notification for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+     * @param {boolean} [enableOnlinePushNotifications] Enable mobile notification for private messages and @-mentions received when the user is online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+     * @param {boolean} [enableDigestEmails] Enable digest emails when the user is away.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+     * @param {boolean} [enableMarketingEmails] Enable marketing emails. Has no function outside Zulip Cloud.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+     * @param {boolean} [enableLoginEmails] Enable email notifications for new logins to account.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+     * @param {boolean} [messageContentInEmailNotifications] Include the message\&#39;s content in email notifications for new messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+     * @param {boolean} [pmContentInDesktopNotifications] Include content of private messages in desktop notifications.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+     * @param {boolean} [wildcardMentionsNotify] Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+     * @param {1 | 2 | 3} [desktopIconCountDisplay] Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+     * @param {boolean} [realmNameInNotifications] Include organization name in subject of message notification emails.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+     * @param {boolean} [presenceEnabled] Display the presence status to other users when online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+     * @param {boolean} [enterSends] Whether pressing Enter in the compose box sends a message (or saves a message edit).  **Changes**: Before Zulip 5.0 (feature level 81), this setting was managed by the &#x60;POST /users/me/enter-sends&#x60; endpoint, with the same parameter format. 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UsersApi
      */
-    public updateDisplaySettings(twentyFourHourTime?: boolean, denseMode?: boolean, starredMessageCounts?: boolean, fluidLayoutWidth?: boolean, highContrastMode?: boolean, colorScheme?: 1 | 2 | 3, translateEmoticons?: boolean, defaultLanguage?: string, defaultView?: string, leftSideUserlist?: boolean, emojiset?: string, demoteInactiveStreams?: 1 | 2 | 3, timezone?: string, options?: any) {
-        return UsersApiFp(this.configuration).updateDisplaySettings(twentyFourHourTime, denseMode, starredMessageCounts, fluidLayoutWidth, highContrastMode, colorScheme, translateEmoticons, defaultLanguage, defaultView, leftSideUserlist, emojiset, demoteInactiveStreams, timezone, options).then((request) => request(this.axios, this.basePath));
+    public updateSettings(fullName?: string, email?: string, oldPassword?: string, newPassword?: string, twentyFourHourTime?: boolean, denseMode?: boolean, starredMessageCounts?: boolean, fluidLayoutWidth?: boolean, highContrastMode?: boolean, colorScheme?: 1 | 2 | 3, enableDraftsSynchronization?: boolean, translateEmoticons?: boolean, defaultLanguage?: string, defaultView?: string, leftSideUserlist?: boolean, emojiset?: string, demoteInactiveStreams?: 1 | 2 | 3, timezone?: string, enableStreamDesktopNotifications?: boolean, enableStreamEmailNotifications?: boolean, enableStreamPushNotifications?: boolean, enableStreamAudibleNotifications?: boolean, notificationSound?: string, enableDesktopNotifications?: boolean, enableSounds?: boolean, emailNotificationsBatchingPeriodSeconds?: number, enableOfflineEmailNotifications?: boolean, enableOfflinePushNotifications?: boolean, enableOnlinePushNotifications?: boolean, enableDigestEmails?: boolean, enableMarketingEmails?: boolean, enableLoginEmails?: boolean, messageContentInEmailNotifications?: boolean, pmContentInDesktopNotifications?: boolean, wildcardMentionsNotify?: boolean, desktopIconCountDisplay?: 1 | 2 | 3, realmNameInNotifications?: boolean, presenceEnabled?: boolean, enterSends?: boolean, options?: any) {
+        return UsersApiFp(this.configuration).updateSettings(fullName, email, oldPassword, newPassword, twentyFourHourTime, denseMode, starredMessageCounts, fluidLayoutWidth, highContrastMode, colorScheme, enableDraftsSynchronization, translateEmoticons, defaultLanguage, defaultView, leftSideUserlist, emojiset, demoteInactiveStreams, timezone, enableStreamDesktopNotifications, enableStreamEmailNotifications, enableStreamPushNotifications, enableStreamAudibleNotifications, notificationSound, enableDesktopNotifications, enableSounds, emailNotificationsBatchingPeriodSeconds, enableOfflineEmailNotifications, enableOfflinePushNotifications, enableOnlinePushNotifications, enableDigestEmails, enableMarketingEmails, enableLoginEmails, messageContentInEmailNotifications, pmContentInDesktopNotifications, wildcardMentionsNotify, desktopIconCountDisplay, realmNameInNotifications, presenceEnabled, enterSends, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
-     * This endpoint is used to edit the user\'s global notification settings. See [this endpoint](/api/update-subscription-settings) for per-stream notification settings.  `PATCH {{ api_url }}/v1/settings/notifications` 
-     * @summary Update notification settings
-     * @param {boolean} [enableStreamDesktopNotifications] Enable visual desktop notifications for stream messages. 
-     * @param {boolean} [enableStreamEmailNotifications] Enable email notifications for stream messages. 
-     * @param {boolean} [enableStreamPushNotifications] Enable mobile notifications for stream messages. 
-     * @param {boolean} [enableStreamAudibleNotifications] Enable audible desktop notifications for stream messages. 
-     * @param {string} [notificationSound] Notification sound name.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63). 
-     * @param {boolean} [enableDesktopNotifications] Enable visual desktop notifications for private messages and @-mentions. 
-     * @param {boolean} [enableSounds] Enable audible desktop notifications for private messages and @-mentions. 
-     * @param {boolean} [enableOfflineEmailNotifications] Enable email notifications for private messages and @-mentions received when the user is offline. 
-     * @param {boolean} [enableOfflinePushNotifications] Enable mobile notification for private messages and @-mentions received when the user is offline. 
-     * @param {boolean} [enableOnlinePushNotifications] Enable mobile notification for private messages and @-mentions received when the user is online. 
-     * @param {boolean} [enableDigestEmails] Enable digest emails when the user is away. 
-     * @param {boolean} [enableMarketingEmails] Enable marketing emails. Has no function outside Zulip Cloud. 
-     * @param {boolean} [enableLoginEmails] Enable email notifications for new logins to account. 
-     * @param {boolean} [messageContentInEmailNotifications] Include the message\&#39;s content in email notifications for new messages. 
-     * @param {boolean} [pmContentInDesktopNotifications] Include content of private messages in desktop notifications. 
-     * @param {boolean} [wildcardMentionsNotify] Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention. 
-     * @param {1 | 2 | 3} [desktopIconCountDisplay] Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None 
-     * @param {boolean} [realmNameInNotifications] Include organization name in subject of message notification emails. 
-     * @param {boolean} [presenceEnabled] Display the presence status to other users when online. 
+     * Change your [status](/help/status-and-availability).  `POST {{ api_url }}/v1/users/me/status`  A request to this endpoint will only change the parameters passed. For example, passing just `status_text` requests a change in the status text, but will leave the status emoji unchanged.  Clients that wish to set the user\'s status to a specific value should pass all supported parameters. 
+     * @summary Update your status
+     * @param {string} [statusText] The text content of the status message. Sending the empty string will clear the user\&#39;s status.  **Note**: The limit on the size of the message is 60 characters. 
+     * @param {boolean} [away] Whether the user should be marked as \&quot;away\&quot;. 
+     * @param {string} [emojiName] The name for the emoji to associate with this status. 
+     * @param {string} [emojiCode] A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint; for &#x60;realm_emoji&#x60;, it\&#39;ll be the ID of the realm emoji. 
+     * @param {string} [reactionType] One of the following values:  * &#x60;unicode_emoji&#x60;: Unicode emoji (&#x60;emoji_code&#x60; will be its Unicode   codepoint). * &#x60;realm_emoji&#x60;: [Custom emoji](/help/add-custom-emoji).   (&#x60;emoji_code&#x60; will be its ID). * &#x60;zulip_extra_emoji&#x60;: Special emoji included with Zulip.  Exists to   namespace the &#x60;zulip&#x60; emoji. 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UsersApi
      */
-    public updateNotificationSettings(enableStreamDesktopNotifications?: boolean, enableStreamEmailNotifications?: boolean, enableStreamPushNotifications?: boolean, enableStreamAudibleNotifications?: boolean, notificationSound?: string, enableDesktopNotifications?: boolean, enableSounds?: boolean, enableOfflineEmailNotifications?: boolean, enableOfflinePushNotifications?: boolean, enableOnlinePushNotifications?: boolean, enableDigestEmails?: boolean, enableMarketingEmails?: boolean, enableLoginEmails?: boolean, messageContentInEmailNotifications?: boolean, pmContentInDesktopNotifications?: boolean, wildcardMentionsNotify?: boolean, desktopIconCountDisplay?: 1 | 2 | 3, realmNameInNotifications?: boolean, presenceEnabled?: boolean, options?: any) {
-        return UsersApiFp(this.configuration).updateNotificationSettings(enableStreamDesktopNotifications, enableStreamEmailNotifications, enableStreamPushNotifications, enableStreamAudibleNotifications, notificationSound, enableDesktopNotifications, enableSounds, enableOfflineEmailNotifications, enableOfflinePushNotifications, enableOnlinePushNotifications, enableDigestEmails, enableMarketingEmails, enableLoginEmails, messageContentInEmailNotifications, pmContentInDesktopNotifications, wildcardMentionsNotify, desktopIconCountDisplay, realmNameInNotifications, presenceEnabled, options).then((request) => request(this.axios, this.basePath));
+    public updateStatus(statusText?: string, away?: boolean, emojiName?: string, emojiCode?: string, reactionType?: string, options?: any) {
+        return UsersApiFp(this.configuration).updateStatus(statusText, away, emojiName, emojiCode, reactionType, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

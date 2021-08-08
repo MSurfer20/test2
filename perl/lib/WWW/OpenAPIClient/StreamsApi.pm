@@ -165,6 +165,89 @@ sub create_big_blue_button_video_call {
 }
 
 #
+# delete_topic
+#
+# Delete a topic
+# 
+# @param int $stream_id The ID of the stream to access.  (required)
+# @param string $topic_name The name of the topic to delete.  (required)
+{
+    my $params = {
+    'stream_id' => {
+        data_type => 'int',
+        description => 'The ID of the stream to access. ',
+        required => '1',
+    },
+    'topic_name' => {
+        data_type => 'string',
+        description => 'The name of the topic to delete. ',
+        required => '1',
+    },
+    };
+    __PACKAGE__->method_documentation->{ 'delete_topic' } = { 
+        summary => 'Delete a topic',
+        params => $params,
+        returns => 'JsonSuccess',
+        };
+}
+# @return JsonSuccess
+#
+sub delete_topic {
+    my ($self, %args) = @_;
+
+    # verify the required parameter 'stream_id' is set
+    unless (exists $args{'stream_id'}) {
+      croak("Missing the required parameter 'stream_id' when calling delete_topic");
+    }
+
+    # verify the required parameter 'topic_name' is set
+    unless (exists $args{'topic_name'}) {
+      croak("Missing the required parameter 'topic_name' when calling delete_topic");
+    }
+
+    # parse inputs
+    my $_resource_path = '/streams/{stream_id}/delete_topic';
+
+    my $_method = 'POST';
+    my $query_params = {};
+    my $header_params = {};
+    my $form_params = {};
+
+    # 'Accept' and 'Content-Type' header
+    my $_header_accept = $self->{api_client}->select_header_accept('application/json');
+    if ($_header_accept) {
+        $header_params->{'Accept'} = $_header_accept;
+    }
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+
+    # query params
+    if ( exists $args{'topic_name'}) {
+        $query_params->{'topic_name'} = $self->{api_client}->to_query_value($args{'topic_name'});
+    }
+
+    # path params
+    if ( exists $args{'stream_id'}) {
+        my $_base_variable = "{" . "stream_id" . "}";
+        my $_base_value = $self->{api_client}->to_path_value($args{'stream_id'});
+        $_resource_path =~ s/$_base_variable/$_base_value/g;
+    }
+
+    my $_body_data;
+    # authentication setting, if any
+    my $auth_settings = [qw()];
+
+    # make the API Call
+    my $response = $self->{api_client}->call_api($_resource_path, $_method,
+                                           $query_params, $form_params,
+                                           $header_params, $_body_data, $auth_settings);
+    if (!$response) {
+        return;
+    }
+    my $_response_object = $self->{api_client}->deserialize('JsonSuccess', $response);
+    return $_response_object;
+}
+
+#
 # get_stream_id
 #
 # Get stream ID
@@ -394,6 +477,73 @@ sub get_streams {
     # query params
     if ( exists $args{'include_owner_subscribed'}) {
         $query_params->{'include_owner_subscribed'} = $self->{api_client}->to_query_value($args{'include_owner_subscribed'});
+    }
+
+    my $_body_data;
+    # authentication setting, if any
+    my $auth_settings = [qw()];
+
+    # make the API Call
+    my $response = $self->{api_client}->call_api($_resource_path, $_method,
+                                           $query_params, $form_params,
+                                           $header_params, $_body_data, $auth_settings);
+    if (!$response) {
+        return;
+    }
+    my $_response_object = $self->{api_client}->deserialize('JsonSuccessBase', $response);
+    return $_response_object;
+}
+
+#
+# get_subscribers
+#
+# Get the subscribers of a stream
+# 
+# @param int $stream_id The ID of the stream to access.  (required)
+{
+    my $params = {
+    'stream_id' => {
+        data_type => 'int',
+        description => 'The ID of the stream to access. ',
+        required => '1',
+    },
+    };
+    __PACKAGE__->method_documentation->{ 'get_subscribers' } = { 
+        summary => 'Get the subscribers of a stream',
+        params => $params,
+        returns => 'JsonSuccessBase',
+        };
+}
+# @return JsonSuccessBase
+#
+sub get_subscribers {
+    my ($self, %args) = @_;
+
+    # verify the required parameter 'stream_id' is set
+    unless (exists $args{'stream_id'}) {
+      croak("Missing the required parameter 'stream_id' when calling get_subscribers");
+    }
+
+    # parse inputs
+    my $_resource_path = '/streams/{stream_id}/members';
+
+    my $_method = 'GET';
+    my $query_params = {};
+    my $header_params = {};
+    my $form_params = {};
+
+    # 'Accept' and 'Content-Type' header
+    my $_header_accept = $self->{api_client}->select_header_accept('application/json');
+    if ($_header_accept) {
+        $header_params->{'Accept'} = $_header_accept;
+    }
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+
+    # path params
+    if ( exists $args{'stream_id'}) {
+        my $_base_variable = "{" . "stream_id" . "}";
+        my $_base_value = $self->{api_client}->to_path_value($args{'stream_id'});
+        $_resource_path =~ s/$_base_variable/$_base_value/g;
     }
 
     my $_body_data;

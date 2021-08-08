@@ -401,6 +401,29 @@ genDefaultStreamGroup n =
     <*> arbitraryReducedMaybe n -- defaultStreamGroupId :: Maybe Int
     <*> arbitraryReducedMaybe n -- defaultStreamGroupStreams :: Maybe [BasicStream]
   
+instance Arbitrary Draft where
+  arbitrary = sized genDraft
+
+genDraft :: Int -> Gen Draft
+genDraft n =
+  Draft
+    <$> arbitraryReducedMaybe n -- draftId :: Maybe Int
+    <*> arbitrary -- draftType :: E'Type
+    <*> arbitrary -- draftTo :: [Int]
+    <*> arbitrary -- draftTopic :: Text
+    <*> arbitrary -- draftContent :: Text
+    <*> arbitraryReducedMaybe n -- draftTimestamp :: Maybe Double
+  
+instance Arbitrary EmojiBase where
+  arbitrary = sized genEmojiBase
+
+genEmojiBase :: Int -> Gen EmojiBase
+genEmojiBase n =
+  EmojiBase
+    <$> arbitraryReducedMaybe n -- emojiBaseEmojiCode :: Maybe Text
+    <*> arbitraryReducedMaybe n -- emojiBaseEmojiName :: Maybe Text
+    <*> arbitraryReducedMaybe n -- emojiBaseReactionType :: Maybe Text
+  
 instance Arbitrary EmojiReaction where
   arbitrary = sized genEmojiReaction
 
@@ -435,18 +458,27 @@ genEmojiReactionBase n =
     <*> arbitraryReducedMaybe n -- emojiReactionBaseEmojiName :: Maybe Text
     <*> arbitraryReducedMaybe n -- emojiReactionBaseReactionType :: Maybe Text
     <*> arbitraryReducedMaybe n -- emojiReactionBaseUserId :: Maybe Int
-    <*> arbitraryReducedMaybe n -- emojiReactionBaseUser :: Maybe EmojiReactionBaseUser
+    <*> arbitraryReducedMaybe n -- emojiReactionBaseUser :: Maybe EmojiReactionBaseAllOfUser
   
-instance Arbitrary EmojiReactionBaseUser where
-  arbitrary = sized genEmojiReactionBaseUser
+instance Arbitrary EmojiReactionBaseAllOf where
+  arbitrary = sized genEmojiReactionBaseAllOf
 
-genEmojiReactionBaseUser :: Int -> Gen EmojiReactionBaseUser
-genEmojiReactionBaseUser n =
-  EmojiReactionBaseUser
-    <$> arbitraryReducedMaybe n -- emojiReactionBaseUserId :: Maybe Int
-    <*> arbitraryReducedMaybe n -- emojiReactionBaseUserEmail :: Maybe Text
-    <*> arbitraryReducedMaybe n -- emojiReactionBaseUserFullName :: Maybe Text
-    <*> arbitraryReducedMaybe n -- emojiReactionBaseUserIsMirrorDummy :: Maybe Bool
+genEmojiReactionBaseAllOf :: Int -> Gen EmojiReactionBaseAllOf
+genEmojiReactionBaseAllOf n =
+  EmojiReactionBaseAllOf
+    <$> arbitraryReducedMaybe n -- emojiReactionBaseAllOfUserId :: Maybe Int
+    <*> arbitraryReducedMaybe n -- emojiReactionBaseAllOfUser :: Maybe EmojiReactionBaseAllOfUser
+  
+instance Arbitrary EmojiReactionBaseAllOfUser where
+  arbitrary = sized genEmojiReactionBaseAllOfUser
+
+genEmojiReactionBaseAllOfUser :: Int -> Gen EmojiReactionBaseAllOfUser
+genEmojiReactionBaseAllOfUser n =
+  EmojiReactionBaseAllOfUser
+    <$> arbitraryReducedMaybe n -- emojiReactionBaseAllOfUserId :: Maybe Int
+    <*> arbitraryReducedMaybe n -- emojiReactionBaseAllOfUserEmail :: Maybe Text
+    <*> arbitraryReducedMaybe n -- emojiReactionBaseAllOfUserFullName :: Maybe Text
+    <*> arbitraryReducedMaybe n -- emojiReactionBaseAllOfUserIsMirrorDummy :: Maybe Bool
   
 instance Arbitrary GetMessages where
   arbitrary = sized genGetMessages
@@ -981,7 +1013,7 @@ genUserNotAuthorizedError n =
 
 
 
-instance Arbitrary E'DesktopIconCountDisplay where
+instance Arbitrary E'ColorScheme where
   arbitrary = arbitraryBoundedEnum
 
 instance Arbitrary E'Op where
@@ -1009,5 +1041,8 @@ instance Arbitrary E'Status where
   arbitrary = arbitraryBoundedEnum
 
 instance Arbitrary E'Type where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary E'Type2 where
   arbitrary = arbitraryBoundedEnum
 

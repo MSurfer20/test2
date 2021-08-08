@@ -44,6 +44,17 @@ namespace Org.OpenAPITools._api_v1.Modules
                 return service.CreateBigBlueButtonVideoCall(Context);
             };
 
+            Post["/streams/{stream_id}/delete_topic"] = parameters =>
+            {
+                var streamId = Parameters.ValueOf<int?>(parameters, Context.Request, "streamId", ParameterType.Path);
+                var topicName = Parameters.ValueOf<string>(parameters, Context.Request, "topicName", ParameterType.Query);
+                Preconditions.IsNotNull(streamId, "Required parameter: 'streamId' is missing at 'DeleteTopic'");
+                
+                Preconditions.IsNotNull(topicName, "Required parameter: 'topicName' is missing at 'DeleteTopic'");
+                
+                return service.DeleteTopic(Context, streamId, topicName);
+            };
+
             Get["/get_stream_id"] = parameters =>
             {
                 var stream = Parameters.ValueOf<string>(parameters, Context.Request, "stream", ParameterType.Query);
@@ -69,6 +80,14 @@ namespace Org.OpenAPITools._api_v1.Modules
                 var includeDefault = Parameters.ValueOf<bool?>(parameters, Context.Request, "includeDefault", ParameterType.Query);
                 var includeOwnerSubscribed = Parameters.ValueOf<bool?>(parameters, Context.Request, "includeOwnerSubscribed", ParameterType.Query);
                 return service.GetStreams(Context, includePublic, includeWebPublic, includeSubscribed, includeAllActive, includeDefault, includeOwnerSubscribed);
+            };
+
+            Get["/streams/{stream_id}/members"] = parameters =>
+            {
+                var streamId = Parameters.ValueOf<int?>(parameters, Context.Request, "streamId", ParameterType.Path);
+                Preconditions.IsNotNull(streamId, "Required parameter: 'streamId' is missing at 'GetSubscribers'");
+                
+                return service.GetSubscribers(Context, streamId);
             };
 
             Get["/users/{user_id}/subscriptions/{stream_id}"] = parameters =>
@@ -178,6 +197,15 @@ namespace Org.OpenAPITools._api_v1.Modules
         JsonSuccessBase CreateBigBlueButtonVideoCall(NancyContext context);
 
         /// <summary>
+        /// Delete all messages in a topic.  &#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+        /// </summary>
+        /// <param name="context">Context of request</param>
+        /// <param name="streamId">The ID of the stream to access. </param>
+        /// <param name="topicName">The name of the topic to delete. </param>
+        /// <returns>JsonSuccess</returns>
+        JsonSuccess DeleteTopic(NancyContext context, int? streamId, string topicName);
+
+        /// <summary>
         /// Get the unique ID of a given stream.  &#x60;GET {{ api_url }}/v1/get_stream_id&#x60; 
         /// </summary>
         /// <param name="context">Context of request</param>
@@ -205,6 +233,14 @@ namespace Org.OpenAPITools._api_v1.Modules
         /// <param name="includeOwnerSubscribed">If the user is a bot, include all streams that the bot&#39;s owner is subscribed to.  (optional, default to false)</param>
         /// <returns>JsonSuccessBase</returns>
         JsonSuccessBase GetStreams(NancyContext context, bool? includePublic, bool? includeWebPublic, bool? includeSubscribed, bool? includeAllActive, bool? includeDefault, bool? includeOwnerSubscribed);
+
+        /// <summary>
+        /// Get all users subscribed to a stream.  &#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60; 
+        /// </summary>
+        /// <param name="context">Context of request</param>
+        /// <param name="streamId">The ID of the stream to access. </param>
+        /// <returns>JsonSuccessBase</returns>
+        JsonSuccessBase GetSubscribers(NancyContext context, int? streamId);
 
         /// <summary>
         /// Check whether a user is subscribed to a stream.  &#x60;GET {{ api_url }}/v1/users/{user_id}/subscriptions/{stream_id}&#x60;  **Changes**: New in Zulip 3.0 (feature level 11). 
@@ -306,6 +342,11 @@ namespace Org.OpenAPITools._api_v1.Modules
             return CreateBigBlueButtonVideoCall();
         }
 
+        public virtual JsonSuccess DeleteTopic(NancyContext context, int? streamId, string topicName)
+        {
+            return DeleteTopic(streamId, topicName);
+        }
+
         public virtual JsonSuccessBase GetStreamId(NancyContext context, string stream)
         {
             return GetStreamId(stream);
@@ -319,6 +360,11 @@ namespace Org.OpenAPITools._api_v1.Modules
         public virtual JsonSuccessBase GetStreams(NancyContext context, bool? includePublic, bool? includeWebPublic, bool? includeSubscribed, bool? includeAllActive, bool? includeDefault, bool? includeOwnerSubscribed)
         {
             return GetStreams(includePublic, includeWebPublic, includeSubscribed, includeAllActive, includeDefault, includeOwnerSubscribed);
+        }
+
+        public virtual JsonSuccessBase GetSubscribers(NancyContext context, int? streamId)
+        {
+            return GetSubscribers(streamId);
         }
 
         public virtual JsonSuccessBase GetSubscriptionStatus(NancyContext context, int? userId, int? streamId)
@@ -365,11 +411,15 @@ namespace Org.OpenAPITools._api_v1.Modules
 
         protected abstract JsonSuccessBase CreateBigBlueButtonVideoCall();
 
+        protected abstract JsonSuccess DeleteTopic(int? streamId, string topicName);
+
         protected abstract JsonSuccessBase GetStreamId(string stream);
 
         protected abstract JsonSuccessBase GetStreamTopics(int? streamId);
 
         protected abstract JsonSuccessBase GetStreams(bool? includePublic, bool? includeWebPublic, bool? includeSubscribed, bool? includeAllActive, bool? includeDefault, bool? includeOwnerSubscribed);
+
+        protected abstract JsonSuccessBase GetSubscribers(int? streamId);
 
         protected abstract JsonSuccessBase GetSubscriptionStatus(int? userId, int? streamId);
 

@@ -21,8 +21,10 @@
 
 #include "../ModelBase.h"
 
+#include "EmojiReactionBase_allOf.h"
+#include "EmojiBase.h"
+#include "EmojiReactionBase_allOf_user.h"
 #include <cpprest/details/basic_types.h>
-#include "EmojiReactionBase_user.h"
 
 namespace org {
 namespace openapitools {
@@ -55,7 +57,7 @@ public:
     /// EmojiReactionBase members
 
     /// <summary>
-    /// A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint. 
+    /// A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint; for &#x60;realm_emoji&#x60;, it&#39;ll be the ID of the realm emoji. 
     /// </summary>
     utility::string_t getEmojiCode() const;
     bool emojiCodeIsSet() const;
@@ -93,11 +95,11 @@ public:
     /// <summary>
     /// 
     /// </summary>
-    std::shared_ptr<EmojiReactionBase_user> getUser() const;
+    std::shared_ptr<EmojiReactionBase_allOf_user> getUser() const;
     bool userIsSet() const;
     void unsetUser();
 
-    void setUser(const std::shared_ptr<EmojiReactionBase_user>& value);
+    void setUser(const std::shared_ptr<EmojiReactionBase_allOf_user>& value);
 
 
 protected:
@@ -109,7 +111,7 @@ protected:
     bool m_Reaction_typeIsSet;
     int32_t m_User_id;
     bool m_User_idIsSet;
-    std::shared_ptr<EmojiReactionBase_user> m_User;
+    std::shared_ptr<EmojiReactionBase_allOf_user> m_User;
     bool m_UserIsSet;
 };
 

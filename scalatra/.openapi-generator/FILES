@@ -10,6 +10,7 @@ src/main/scala/JettyMain.scala
 src/main/scala/ScalatraBootstrap.scala
 src/main/scala/ServletApp.scala
 src/main/scala/org/openapitools/server/api/AuthenticationApi.scala
+src/main/scala/org/openapitools/server/api/DraftsApi.scala
 src/main/scala/org/openapitools/server/api/MessagesApi.scala
 src/main/scala/org/openapitools/server/api/RealTimeEventsApi.scala
 src/main/scala/org/openapitools/server/api/ServerAndOrganizationsApi.scala
@@ -38,10 +39,13 @@ src/main/scala/org/openapitools/server/model/CodedErrorBase.scala
 src/main/scala/org/openapitools/server/model/CodedErrorBaseAllOf.scala
 src/main/scala/org/openapitools/server/model/CustomProfileField.scala
 src/main/scala/org/openapitools/server/model/DefaultStreamGroup.scala
+src/main/scala/org/openapitools/server/model/Draft.scala
+src/main/scala/org/openapitools/server/model/EmojiBase.scala
 src/main/scala/org/openapitools/server/model/EmojiReaction.scala
 src/main/scala/org/openapitools/server/model/EmojiReactionAllOf.scala
 src/main/scala/org/openapitools/server/model/EmojiReactionBase.scala
-src/main/scala/org/openapitools/server/model/EmojiReactionBaseUser.scala
+src/main/scala/org/openapitools/server/model/EmojiReactionBaseAllOf.scala
+src/main/scala/org/openapitools/server/model/EmojiReactionBaseAllOfUser.scala
 src/main/scala/org/openapitools/server/model/GetMessages.scala
 src/main/scala/org/openapitools/server/model/GetMessagesAllOf.scala
 src/main/scala/org/openapitools/server/model/Hotspot.scala

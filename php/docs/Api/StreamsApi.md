@@ -6,9 +6,11 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**archiveStream()**](StreamsApi.md#archiveStream) | **DELETE** /streams/{stream_id} | Archive a stream
 [**createBigBlueButtonVideoCall()**](StreamsApi.md#createBigBlueButtonVideoCall) | **GET** /calls/bigbluebutton/create | Create BigBlueButton video call
+[**deleteTopic()**](StreamsApi.md#deleteTopic) | **POST** /streams/{stream_id}/delete_topic | Delete a topic
 [**getStreamId()**](StreamsApi.md#getStreamId) | **GET** /get_stream_id | Get stream ID
 [**getStreamTopics()**](StreamsApi.md#getStreamTopics) | **GET** /users/me/{stream_id}/topics | Get topics in a stream
 [**getStreams()**](StreamsApi.md#getStreams) | **GET** /streams | Get all streams
+[**getSubscribers()**](StreamsApi.md#getSubscribers) | **GET** /streams/{stream_id}/members | Get the subscribers of a stream
 [**getSubscriptionStatus()**](StreamsApi.md#getSubscriptionStatus) | **GET** /users/{user_id}/subscriptions/{stream_id} | Get subscription status
 [**getSubscriptions()**](StreamsApi.md#getSubscriptions) | **GET** /users/me/subscriptions | Get subscribed streams
 [**muteTopic()**](StreamsApi.md#muteTopic) | **PATCH** /users/me/subscriptions/muted_topics | Topic muting
@@ -114,6 +116,64 @@ This endpoint does not need any parameter.
 ### Return type
 
 [**JsonSuccessBase**](../Model/JsonSuccessBase.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `deleteTopic()`
+
+```php
+deleteTopic($stream_id, $topic_name): JsonSuccess
+```
+
+Delete a topic
+
+Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+
+$apiInstance = new OpenAPI\Client\Api\StreamsApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client()
+);
+$stream_id = 1; // int | The ID of the stream to access.
+$topic_name = new coffee machine; // string | The name of the topic to delete.
+
+try {
+    $result = $apiInstance->deleteTopic($stream_id, $topic_name);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling StreamsApi->deleteTopic: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **stream_id** | **int**| The ID of the stream to access. |
+ **topic_name** | **string**| The name of the topic to delete. |
+
+### Return type
+
+[**JsonSuccess**](../Model/JsonSuccess.md)
 
 ### Authorization
 
@@ -288,6 +348,62 @@ Name | Type | Description  | Notes
  **include_all_active** | **bool**| Include all active streams. The user must have administrative privileges to use this parameter. | [optional] [default to false]
  **include_default** | **bool**| Include all default streams for the user&#39;s realm. | [optional] [default to false]
  **include_owner_subscribed** | **bool**| If the user is a bot, include all streams that the bot&#39;s owner is subscribed to. | [optional] [default to false]
+
+### Return type
+
+[**JsonSuccessBase**](../Model/JsonSuccessBase.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `getSubscribers()`
+
+```php
+getSubscribers($stream_id): JsonSuccessBase
+```
+
+Get the subscribers of a stream
+
+Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members`
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+
+$apiInstance = new OpenAPI\Client\Api\StreamsApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client()
+);
+$stream_id = 1; // int | The ID of the stream to access.
+
+try {
+    $result = $apiInstance->getSubscribers($stream_id);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling StreamsApi->getSubscribers: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **stream_id** | **int**| The ID of the stream to access. |
 
 ### Return type
 

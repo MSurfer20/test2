@@ -20,7 +20,9 @@
 
 #include <QJsonObject>
 
-#include "OAIEmojiReactionBase_user.h"
+#include "OAIEmojiBase.h"
+#include "OAIEmojiReactionBase_allOf.h"
+#include "OAIEmojiReactionBase_allOf_user.h"
 #include <QString>
 
 #include "OAIEnum.h"
@@ -59,8 +61,8 @@ public:
     bool is_user_id_Set() const;
     bool is_user_id_Valid() const;
 
-    OAIEmojiReactionBase_user getUser() const;
-    void setUser(const OAIEmojiReactionBase_user &user);
+    OAIEmojiReactionBase_allOf_user getUser() const;
+    void setUser(const OAIEmojiReactionBase_allOf_user &user);
     bool is_user_Set() const;
     bool is_user_Valid() const;
 
@@ -86,7 +88,7 @@ private:
     bool m_user_id_isSet;
     bool m_user_id_isValid;
 
-    OAIEmojiReactionBase_user user;
+    OAIEmojiReactionBase_allOf_user user;
     bool m_user_isSet;
     bool m_user_isValid;
 };

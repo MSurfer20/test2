@@ -12,8 +12,12 @@ import sys
 import unittest
 
 import openapi_client
-from openapi_client.model.emoji_reaction_base_user import EmojiReactionBaseUser
-globals()['EmojiReactionBaseUser'] = EmojiReactionBaseUser
+from openapi_client.model.emoji_base import EmojiBase
+from openapi_client.model.emoji_reaction_base_all_of import EmojiReactionBaseAllOf
+from openapi_client.model.emoji_reaction_base_all_of_user import EmojiReactionBaseAllOfUser
+globals()['EmojiBase'] = EmojiBase
+globals()['EmojiReactionBaseAllOf'] = EmojiReactionBaseAllOf
+globals()['EmojiReactionBaseAllOfUser'] = EmojiReactionBaseAllOfUser
 from openapi_client.model.emoji_reaction_base import EmojiReactionBase
 
 

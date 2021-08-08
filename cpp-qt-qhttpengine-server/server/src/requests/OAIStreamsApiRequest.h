@@ -42,9 +42,11 @@ public:
 
     void archiveStreamRequest(const QString& stream_id);
     void createBigBlueButtonVideoCallRequest();
+    void deleteTopicRequest(const QString& stream_id);
     void getStreamIdRequest();
     void getStreamTopicsRequest(const QString& stream_id);
     void getStreamsRequest();
+    void getSubscribersRequest(const QString& stream_id);
     void getSubscriptionStatusRequest(const QString& user_id, const QString& stream_id);
     void getSubscriptionsRequest();
     void muteTopicRequest();
@@ -57,9 +59,11 @@ public:
 
     void archiveStreamResponse(const OAIJsonSuccess& res);
     void createBigBlueButtonVideoCallResponse(const OAIJsonSuccessBase& res);
+    void deleteTopicResponse(const OAIJsonSuccess& res);
     void getStreamIdResponse(const OAIJsonSuccessBase& res);
     void getStreamTopicsResponse(const OAIJsonSuccessBase& res);
     void getStreamsResponse(const OAIJsonSuccessBase& res);
+    void getSubscribersResponse(const OAIJsonSuccessBase& res);
     void getSubscriptionStatusResponse(const OAIJsonSuccessBase& res);
     void getSubscriptionsResponse(const OAIJsonSuccessBase& res);
     void muteTopicResponse(const OAIJsonSuccess& res);
@@ -72,9 +76,11 @@ public:
 
     void archiveStreamError(const OAIJsonSuccess& res, QNetworkReply::NetworkError error_type, QString& error_str);
     void createBigBlueButtonVideoCallError(const OAIJsonSuccessBase& res, QNetworkReply::NetworkError error_type, QString& error_str);
+    void deleteTopicError(const OAIJsonSuccess& res, QNetworkReply::NetworkError error_type, QString& error_str);
     void getStreamIdError(const OAIJsonSuccessBase& res, QNetworkReply::NetworkError error_type, QString& error_str);
     void getStreamTopicsError(const OAIJsonSuccessBase& res, QNetworkReply::NetworkError error_type, QString& error_str);
     void getStreamsError(const OAIJsonSuccessBase& res, QNetworkReply::NetworkError error_type, QString& error_str);
+    void getSubscribersError(const OAIJsonSuccessBase& res, QNetworkReply::NetworkError error_type, QString& error_str);
     void getSubscriptionStatusError(const OAIJsonSuccessBase& res, QNetworkReply::NetworkError error_type, QString& error_str);
     void getSubscriptionsError(const OAIJsonSuccessBase& res, QNetworkReply::NetworkError error_type, QString& error_str);
     void muteTopicError(const OAIJsonSuccess& res, QNetworkReply::NetworkError error_type, QString& error_str);
@@ -98,9 +104,11 @@ public:
 signals:
     void archiveStream(qint32 stream_id);
     void createBigBlueButtonVideoCall();
+    void deleteTopic(qint32 stream_id, QString topic_name);
     void getStreamId(QString stream);
     void getStreamTopics(qint32 stream_id);
     void getStreams(bool include_public, bool include_web_public, bool include_subscribed, bool include_all_active, bool include_default, bool include_owner_subscribed);
+    void getSubscribers(qint32 stream_id);
     void getSubscriptionStatus(qint32 user_id, qint32 stream_id);
     void getSubscriptions(bool include_subscribers);
     void muteTopic(QString topic, QString op, QString stream, qint32 stream_id);

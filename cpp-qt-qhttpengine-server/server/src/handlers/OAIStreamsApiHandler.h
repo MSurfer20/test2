@@ -38,9 +38,11 @@ public:
 public slots:
     virtual void archiveStream(qint32 stream_id);
     virtual void createBigBlueButtonVideoCall();
+    virtual void deleteTopic(qint32 stream_id, QString topic_name);
     virtual void getStreamId(QString stream);
     virtual void getStreamTopics(qint32 stream_id);
     virtual void getStreams(bool include_public, bool include_web_public, bool include_subscribed, bool include_all_active, bool include_default, bool include_owner_subscribed);
+    virtual void getSubscribers(qint32 stream_id);
     virtual void getSubscriptionStatus(qint32 user_id, qint32 stream_id);
     virtual void getSubscriptions(bool include_subscribers);
     virtual void muteTopic(QString topic, QString op, QString stream, qint32 stream_id);

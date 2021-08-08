@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface WebhooksApi  {
-    //zulip_outgoing_webhooks
+    //zulip-outgoing-webhooks
     void zulipOutgoingWebhooks(Handler<AsyncResult<InlineResponse200>> handler);
     
 }

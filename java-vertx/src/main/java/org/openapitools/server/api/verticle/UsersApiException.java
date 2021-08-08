@@ -7,6 +7,7 @@ import org.openapitools.server.api.model.JsonSuccessBase;
 import org.openapitools.server.api.MainApiException;
 import org.openapitools.server.api.model.OneOfobjectobject;
 import org.openapitools.server.api.model.OneOfobjectobjectobject;
+import org.openapitools.server.api.model.OneOfobjectobjectobjectobjectobjectobject;
 
 public final class UsersApiException extends MainApiException {
     public UsersApiException(int statusCode, String statusMessage) {
@@ -37,8 +38,9 @@ public final class UsersApiException extends MainApiException {
     public static final UsersApiException Users_setTypingStatus_400_Exception = new UsersApiException(400, "Bad request.");
     public static final UsersApiException Users_unmuteUser_200_Exception = new UsersApiException(200, "Success.");
     public static final UsersApiException Users_unmuteUser_400_Exception = new UsersApiException(400, "Bad request.");
-    public static final UsersApiException Users_updateDisplaySettings_200_Exception = new UsersApiException(200, "Success");
-    public static final UsersApiException Users_updateNotificationSettings_200_Exception = new UsersApiException(200, "Success.");
+    public static final UsersApiException Users_updateSettings_200_Exception = new UsersApiException(200, "Success");
+    public static final UsersApiException Users_updateStatus_200_Exception = new UsersApiException(200, "Success.");
+    public static final UsersApiException Users_updateStatus_400_Exception = new UsersApiException(400, "Success.");
     public static final UsersApiException Users_updateUser_200_Exception = new UsersApiException(200, "Success.");
     public static final UsersApiException Users_updateUser_400_Exception = new UsersApiException(400, "Bad request.");
     public static final UsersApiException Users_updateUserGroup_200_Exception = new UsersApiException(200, "Success.");

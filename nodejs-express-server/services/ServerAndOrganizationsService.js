@@ -10,7 +10,7 @@ const Service = require('./Service');
 * urlUnderscoreprefix String The url prefix for the playground. 
 * returns JsonSuccessBase
 * */
-const add_code_playground = ({ name, pygmentsUnderscorelanguage, urlUnderscoreprefix }) => new Promise(
+const addCodePlayground = ({ name, pygmentsUnderscorelanguage, urlUnderscoreprefix }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -34,7 +34,7 @@ const add_code_playground = ({ name, pygmentsUnderscorelanguage, urlUnderscorepr
 * urlUnderscoreformatUnderscorestring String The URL used for the link. If you used named groups for the `pattern`, you can insert their content here with `%(name_of_the_capturing_group)s`. 
 * returns JsonSuccessBase
 * */
-const add_linkifier = ({ pattern, urlUnderscoreformatUnderscorestring }) => new Promise(
+const addLinkifier = ({ pattern, urlUnderscoreformatUnderscorestring }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -59,7 +59,7 @@ const add_linkifier = ({ pattern, urlUnderscoreformatUnderscorestring }) => new 
 * fieldUnderscoredata Object Field types 3 (List of options) and 7 (External account) support storing additional configuration for the field type in the `field_data` attribute.  For field type 3 (List of options), this attribute is a JSON dictionary defining the choices and the order they will be displayed in the dropdown UI for individual users to select an option.  The interface for field type 7 is not yet stabilized.  (optional)
 * returns JsonSuccessBase
 * */
-const create_custom_profile_field = ({ fieldUnderscoretype, name, hint, fieldUnderscoredata }) => new Promise(
+const createCustomProfileField = ({ fieldUnderscoretype, name, hint, fieldUnderscoredata }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -82,7 +82,7 @@ const create_custom_profile_field = ({ fieldUnderscoretype, name, hint, fieldUnd
 *
 * returns JsonSuccessBase
 * */
-const get_custom_emoji = () => new Promise(
+const getCustomEmoji = () => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -101,7 +101,7 @@ const get_custom_emoji = () => new Promise(
 *
 * returns JsonSuccessBase
 * */
-const get_custom_profile_fields = () => new Promise(
+const getCustomProfileFields = () => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -120,7 +120,7 @@ const get_custom_profile_fields = () => new Promise(
 *
 * returns JsonSuccessBase
 * */
-const get_linkifiers = () => new Promise(
+const getLinkifiers = () => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -139,7 +139,7 @@ const get_linkifiers = () => new Promise(
 *
 * returns JsonSuccessBase
 * */
-const get_server_settings = () => new Promise(
+const getServerSettings = () => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -159,7 +159,7 @@ const get_server_settings = () => new Promise(
 * playgroundUnderscoreid Integer The ID of the playground that you want to remove. 
 * returns JsonSuccess
 * */
-const remove_code_playground = ({ playgroundUnderscoreid }) => new Promise(
+const removeCodePlayground = ({ playgroundUnderscoreid }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -180,7 +180,7 @@ const remove_code_playground = ({ playgroundUnderscoreid }) => new Promise(
 * filterUnderscoreid Integer The ID of the linkifier that you want to remove. 
 * returns JsonSuccess
 * */
-const remove_linkifier = ({ filterUnderscoreid }) => new Promise(
+const removeLinkifier = ({ filterUnderscoreid }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -201,7 +201,7 @@ const remove_linkifier = ({ filterUnderscoreid }) => new Promise(
 * order List A list of the IDs of all the custom profile fields defined in this organization, in the desired new order. 
 * returns JsonSuccess
 * */
-const reorder_custom_profile_fields = ({ order }) => new Promise(
+const reorderCustomProfileFields = ({ order }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -224,7 +224,7 @@ const reorder_custom_profile_fields = ({ order }) => new Promise(
 * urlUnderscoreformatUnderscorestring String The URL used for the link. If you used named groups for the `pattern`, you can insert their content here with `%(name_of_the_capturing_group)s`. 
 * returns JsonSuccess
 * */
-const update_linkifier = ({ filterUnderscoreid, pattern, urlUnderscoreformatUnderscorestring }) => new Promise(
+const updateLinkifier = ({ filterUnderscoreid, pattern, urlUnderscoreformatUnderscorestring }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -248,7 +248,7 @@ const update_linkifier = ({ filterUnderscoreid, pattern, urlUnderscoreformatUnde
 * filename File  (optional)
 * returns JsonSuccess
 * */
-const upload_custom_emoji = ({ emojiUnderscorename, filename }) => new Promise(
+const uploadCustomEmoji = ({ emojiUnderscorename, filename }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -265,16 +265,16 @@ const upload_custom_emoji = ({ emojiUnderscorename, filename }) => new Promise(
 );
 
 module.exports = {
-  add_code_playground,
-  add_linkifier,
-  create_custom_profile_field,
-  get_custom_emoji,
-  get_custom_profile_fields,
-  get_linkifiers,
-  get_server_settings,
-  remove_code_playground,
-  remove_linkifier,
-  reorder_custom_profile_fields,
-  update_linkifier,
-  upload_custom_emoji,
+  addCodePlayground,
+  addLinkifier,
+  createCustomProfileField,
+  getCustomEmoji,
+  getCustomProfileFields,
+  getLinkifiers,
+  getServerSettings,
+  removeCodePlayground,
+  removeLinkifier,
+  reorderCustomProfileFields,
+  updateLinkifier,
+  uploadCustomEmoji,
 };

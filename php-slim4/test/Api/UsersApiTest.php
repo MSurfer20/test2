@@ -290,30 +290,30 @@ class UsersApiTest extends TestCase
     }
 
     /**
-     * Test case for updateDisplaySettings
+     * Test case for updateSettings
      *
-     * Update display settings.
+     * Update settings.
      *
-     * @covers ::updateDisplaySettings
+     * @covers ::updateSettings
      */
-    public function testUpdateDisplaySettings()
+    public function testUpdateSettings()
     {
         $this->markTestIncomplete(
-            'Test of "updateDisplaySettings" method has not been implemented yet.'
+            'Test of "updateSettings" method has not been implemented yet.'
         );
     }
 
     /**
-     * Test case for updateNotificationSettings
+     * Test case for updateStatus
      *
-     * Update notification settings.
+     * Update your status.
      *
-     * @covers ::updateNotificationSettings
+     * @covers ::updateStatus
      */
-    public function testUpdateNotificationSettings()
+    public function testUpdateStatus()
     {
         $this->markTestIncomplete(
-            'Test of "updateNotificationSettings" method has not been implemented yet.'
+            'Test of "updateStatus" method has not been implemented yet.'
         );
     }
 

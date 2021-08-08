@@ -434,6 +434,58 @@ export interface DefaultStreamGroup {
 }
 
 
+/**
+ * A dictionary for representing a message draft. 
+ */
+export interface Draft {
+  /**
+   * The unique ID of the draft. It will only used whenever the drafts are fetched. This field should not be specified when the draft is being created or edited. 
+   */
+  id?: number;
+  /**
+   * The type of the draft. Either unaddressed (empty string), \"stream\", or \"private\" (for PMs and private group messages). 
+   */
+  type: DraftTypeEnum;
+  /**
+   * An array of the tentative target audience IDs. For \"stream\" messages, this should contain exactly 1 ID, the ID of the target stream. For private messages, this should be an array of target user IDs. For unaddressed drafts, this is ignored, and clients should send an empty array. 
+   */
+  to: Array<number>;
+  /**
+   * For stream message drafts, the tentative topic name. For private or unaddressed messages, this will be ignored and should ideally be the empty string. Should not contain null bytes. 
+   */
+  topic: string;
+  /**
+   * The body of the draft. Should not contain null bytes. 
+   */
+  content: string;
+  /**
+   * A Unix timestamp (seconds only) representing when the draft was last edited. When creating a draft, this key need not be present and it will be filled in automatically by the server. 
+   */
+  timestamp?: number;
+}
+
+/**
+ * Enum for the type property.
+ */
+export type DraftTypeEnum = '' | 'stream' | 'private';
+
+
+export interface EmojiBase {
+  /**
+   * A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it\'ll be the ID of the realm emoji. 
+   */
+  emoji_code?: string;
+  /**
+   * Name of the emoji. 
+   */
+  emoji_name?: string;
+  /**
+   * One of the following values:  * `unicode_emoji`: Unicode emoji (`emoji_code` will be its Unicode   codepoint). * `realm_emoji`: [Custom emoji](/help/add-custom-emoji).   (`emoji_code` will be its ID). * `zulip_extra_emoji`: Special emoji included with Zulip.  Exists to   namespace the `zulip` emoji. 
+   */
+  reaction_type?: string;
+}
+
+
 export interface EmojiReaction {
   emoji_code?: any;
   emoji_name?: any;
@@ -454,7 +506,7 @@ export interface EmojiReactionAllOf {
 
 export interface EmojiReactionBase {
   /**
-   * A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint. 
+   * A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it\'ll be the ID of the realm emoji. 
    */
   emoji_code?: string;
   /**
@@ -469,14 +521,23 @@ export interface EmojiReactionBase {
    * The ID of the user who added the reaction.  **Changes**: New in Zulip 3.0 (feature level 2). The `user` object is deprecated and will be removed in the future. 
    */
   user_id?: number;
-  user?: EmojiReactionBaseUser;
+  user?: EmojiReactionBaseAllOfUser;
+}
+
+
+export interface EmojiReactionBaseAllOf {
+  /**
+   * The ID of the user who added the reaction.  **Changes**: New in Zulip 3.0 (feature level 2). The `user` object is deprecated and will be removed in the future. 
+   */
+  user_id?: number;
+  user?: EmojiReactionBaseAllOfUser;
 }
 
 
 /**
- * Dictionary with data on the user who added the reaction, including the user ID as the `id` field.  **Note**: In the [events API](/api/get-events), this `user` dictionary confusing had the user ID in a field called `user_id` instead.  We recommend ignoring fields other than the user ID.  **Deprecated** and to be removed in a future release once core clients have migrated to use the `user_id` field. 
+ * Whether the user is a mirror dummy. Dictionary with data on the user who added the reaction, including the user ID as the `id` field.  **Note**: In the [events API](/api/get-events), this `user` dictionary confusing had the user ID in a field called `user_id` instead.  We recommend ignoring fields other than the user ID.  **Deprecated** and to be removed in a future release once core clients have migrated to use the `user_id` field. 
  */
-export interface EmojiReactionBaseUser {
+export interface EmojiReactionBaseAllOfUser {
   /**
    * ID of the user. 
    */

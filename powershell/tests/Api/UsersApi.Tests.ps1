@@ -134,17 +134,17 @@ Describe -tag 'PSOpenAPITools' -name 'UsersApi' {
         }
     }
 
-    Context 'Update-DisplaySettings' {
-        It 'Test Update-DisplaySettings' {
-            #$TestResult = Update-DisplaySettings -TwentyFourHourTime "TEST_VALUE" -DenseMode "TEST_VALUE" -StarredMessageCounts "TEST_VALUE" -FluidLayoutWidth "TEST_VALUE" -HighContrastMode "TEST_VALUE" -ColorScheme "TEST_VALUE" -TranslateEmoticons "TEST_VALUE" -DefaultLanguage "TEST_VALUE" -DefaultView "TEST_VALUE" -LeftSideUserlist "TEST_VALUE" -Emojiset "TEST_VALUE" -DemoteInactiveStreams "TEST_VALUE" -Timezone "TEST_VALUE"
+    Context 'Update-Settings' {
+        It 'Test Update-Settings' {
+            #$TestResult = Update-Settings -FullName "TEST_VALUE" -Email "TEST_VALUE" -OldPassword "TEST_VALUE" -NewPassword "TEST_VALUE" -TwentyFourHourTime "TEST_VALUE" -DenseMode "TEST_VALUE" -StarredMessageCounts "TEST_VALUE" -FluidLayoutWidth "TEST_VALUE" -HighContrastMode "TEST_VALUE" -ColorScheme "TEST_VALUE" -EnableDraftsSynchronization "TEST_VALUE" -TranslateEmoticons "TEST_VALUE" -DefaultLanguage "TEST_VALUE" -DefaultView "TEST_VALUE" -LeftSideUserlist "TEST_VALUE" -Emojiset "TEST_VALUE" -DemoteInactiveStreams "TEST_VALUE" -Timezone "TEST_VALUE" -EnableStreamDesktopNotifications "TEST_VALUE" -EnableStreamEmailNotifications "TEST_VALUE" -EnableStreamPushNotifications "TEST_VALUE" -EnableStreamAudibleNotifications "TEST_VALUE" -NotificationSound "TEST_VALUE" -EnableDesktopNotifications "TEST_VALUE" -EnableSounds "TEST_VALUE" -EmailNotificationsBatchingPeriodSeconds "TEST_VALUE" -EnableOfflineEmailNotifications "TEST_VALUE" -EnableOfflinePushNotifications "TEST_VALUE" -EnableOnlinePushNotifications "TEST_VALUE" -EnableDigestEmails "TEST_VALUE" -EnableMarketingEmails "TEST_VALUE" -EnableLoginEmails "TEST_VALUE" -MessageContentInEmailNotifications "TEST_VALUE" -PmContentInDesktopNotifications "TEST_VALUE" -WildcardMentionsNotify "TEST_VALUE" -DesktopIconCountDisplay "TEST_VALUE" -RealmNameInNotifications "TEST_VALUE" -PresenceEnabled "TEST_VALUE" -EnterSends "TEST_VALUE"
             #$TestResult | Should -BeOfType TODO
             #$TestResult.property | Should -Be 0
         }
     }
 
-    Context 'Update-NotificationSettings' {
-        It 'Test Update-NotificationSettings' {
-            #$TestResult = Update-NotificationSettings -EnableStreamDesktopNotifications "TEST_VALUE" -EnableStreamEmailNotifications "TEST_VALUE" -EnableStreamPushNotifications "TEST_VALUE" -EnableStreamAudibleNotifications "TEST_VALUE" -NotificationSound "TEST_VALUE" -EnableDesktopNotifications "TEST_VALUE" -EnableSounds "TEST_VALUE" -EnableOfflineEmailNotifications "TEST_VALUE" -EnableOfflinePushNotifications "TEST_VALUE" -EnableOnlinePushNotifications "TEST_VALUE" -EnableDigestEmails "TEST_VALUE" -EnableMarketingEmails "TEST_VALUE" -EnableLoginEmails "TEST_VALUE" -MessageContentInEmailNotifications "TEST_VALUE" -PmContentInDesktopNotifications "TEST_VALUE" -WildcardMentionsNotify "TEST_VALUE" -DesktopIconCountDisplay "TEST_VALUE" -RealmNameInNotifications "TEST_VALUE" -PresenceEnabled "TEST_VALUE"
+    Context 'Update-Status' {
+        It 'Test Update-Status' {
+            #$TestResult = Update-Status -StatusText "TEST_VALUE" -Away "TEST_VALUE" -EmojiName "TEST_VALUE" -EmojiCode "TEST_VALUE" -ReactionType "TEST_VALUE"
             #$TestResult | Should -BeOfType TODO
             #$TestResult.property | Should -Be 0
         }

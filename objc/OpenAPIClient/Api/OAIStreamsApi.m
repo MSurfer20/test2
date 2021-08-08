@@ -176,6 +176,91 @@ NSInteger kOAIStreamsApiMissingParamErrorCode = 234513;
 }
 
 ///
+/// Delete a topic
+/// Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+///  @param streamId The ID of the stream to access.  
+///
+///  @param topicName The name of the topic to delete.  
+///
+///  @returns OAIJsonSuccess*
+///
+-(NSURLSessionTask*) deleteTopicWithStreamId: (NSNumber*) streamId
+    topicName: (NSString*) topicName
+    completionHandler: (void (^)(OAIJsonSuccess* output, NSError* error)) handler {
+    // verify the required parameter 'streamId' is set
+    if (streamId == nil) {
+        NSParameterAssert(streamId);
+        if(handler) {
+            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"streamId"] };
+            NSError* error = [NSError errorWithDomain:kOAIStreamsApiErrorDomain code:kOAIStreamsApiMissingParamErrorCode userInfo:userInfo];
+            handler(nil, error);
+        }
+        return nil;
+    }
+
+    // verify the required parameter 'topicName' is set
+    if (topicName == nil) {
+        NSParameterAssert(topicName);
+        if(handler) {
+            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"topicName"] };
+            NSError* error = [NSError errorWithDomain:kOAIStreamsApiErrorDomain code:kOAIStreamsApiMissingParamErrorCode userInfo:userInfo];
+            handler(nil, error);
+        }
+        return nil;
+    }
+
+    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/streams/{stream_id}/delete_topic"];
+
+    NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
+    if (streamId != nil) {
+        pathParams[@"stream_id"] = streamId;
+    }
+
+    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
+    if (topicName != nil) {
+        queryParams[@"topic_name"] = topicName;
+    }
+    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
+    [headerParams addEntriesFromDictionary:self.defaultHeaders];
+    // HTTP header `Accept`
+    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json"]];
+    if(acceptHeader.length > 0) {
+        headerParams[@"Accept"] = acceptHeader;
+    }
+
+    // response content type
+    NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
+
+    // request content type
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[]];
+
+    // Authentication setting
+    NSArray *authSettings = @[];
+
+    id bodyParam = nil;
+    NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
+
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"POST"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: localVarFiles
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"OAIJsonSuccess*"
+                           completionBlock: ^(id data, NSError *error) {
+                                if(handler) {
+                                    handler((OAIJsonSuccess*)data, error);
+                                }
+                            }];
+}
+
+///
 /// Get stream ID
 /// Get the unique ID of a given stream.  `GET {{ api_url }}/v1/get_stream_id` 
 ///  @param stream The name of the stream to access.  
@@ -358,6 +443,74 @@ NSInteger kOAIStreamsApiMissingParamErrorCode = 234513;
     if (includeOwnerSubscribed != nil) {
         queryParams[@"include_owner_subscribed"] = [includeOwnerSubscribed isEqual:@(YES)] ? @"true" : @"false";
     }
+    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
+    [headerParams addEntriesFromDictionary:self.defaultHeaders];
+    // HTTP header `Accept`
+    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json"]];
+    if(acceptHeader.length > 0) {
+        headerParams[@"Accept"] = acceptHeader;
+    }
+
+    // response content type
+    NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
+
+    // request content type
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[]];
+
+    // Authentication setting
+    NSArray *authSettings = @[];
+
+    id bodyParam = nil;
+    NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
+
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"GET"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: localVarFiles
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"OAIJsonSuccessBase*"
+                           completionBlock: ^(id data, NSError *error) {
+                                if(handler) {
+                                    handler((OAIJsonSuccessBase*)data, error);
+                                }
+                            }];
+}
+
+///
+/// Get the subscribers of a stream
+/// Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` 
+///  @param streamId The ID of the stream to access.  
+///
+///  @returns OAIJsonSuccessBase*
+///
+-(NSURLSessionTask*) getSubscribersWithStreamId: (NSNumber*) streamId
+    completionHandler: (void (^)(OAIJsonSuccessBase* output, NSError* error)) handler {
+    // verify the required parameter 'streamId' is set
+    if (streamId == nil) {
+        NSParameterAssert(streamId);
+        if(handler) {
+            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"streamId"] };
+            NSError* error = [NSError errorWithDomain:kOAIStreamsApiErrorDomain code:kOAIStreamsApiMissingParamErrorCode userInfo:userInfo];
+            handler(nil, error);
+        }
+        return nil;
+    }
+
+    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/streams/{stream_id}/members"];
+
+    NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
+    if (streamId != nil) {
+        pathParams[@"stream_id"] = streamId;
+    }
+
+    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
     NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
     [headerParams addEntriesFromDictionary:self.defaultHeaders];
     // HTTP header `Accept`

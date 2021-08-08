@@ -16,9 +16,11 @@
 module Api.Request.Streams exposing
     ( archiveStream
     , createBigBlueButtonVideoCall
+    , deleteTopic
     , getStreamId
     , getStreamTopics
     , getStreams
+    , getSubscribers
     , getSubscriptionStatus
     , getSubscriptions
     , muteTopic, Op(..), opVariants
@@ -92,6 +94,21 @@ createBigBlueButtonVideoCall =
 
 
 
+{-| Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+-}
+deleteTopic : Int -> String -> Api.Request Api.Data.JsonSuccess
+deleteTopic streamId_path topicName_query =
+    Api.request
+        "POST"
+        "/streams/{stream_id}/delete_topic"
+        [ ( "streamId", String.fromInt streamId_path ) ]
+        [ ( "topic_name", Just <| identity topicName_query ) ]
+        []
+        Nothing
+        Api.Data.jsonSuccessDecoder
+
+
+
 {-| Get the unique ID of a given stream.  `GET {{ api_url }}/v1/get_stream_id` 
 -}
 getStreamId : String -> Api.Request Api.Data.JsonSuccessBase
@@ -131,6 +148,21 @@ getStreams includePublic_query includeWebPublic_query includeSubscribed_query in
         "/streams"
         []
         [ ( "include_public", Maybe.map (\val -> if val then "true" else "false") includePublic_query ), ( "include_web_public", Maybe.map (\val -> if val then "true" else "false") includeWebPublic_query ), ( "include_subscribed", Maybe.map (\val -> if val then "true" else "false") includeSubscribed_query ), ( "include_all_active", Maybe.map (\val -> if val then "true" else "false") includeAllActive_query ), ( "include_default", Maybe.map (\val -> if val then "true" else "false") includeDefault_query ), ( "include_owner_subscribed", Maybe.map (\val -> if val then "true" else "false") includeOwnerSubscribed_query ) ]
+        []
+        Nothing
+        Api.Data.jsonSuccessBaseDecoder
+
+
+
+{-| Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` 
+-}
+getSubscribers : Int -> Api.Request Api.Data.JsonSuccessBase
+getSubscribers streamId_path =
+    Api.request
+        "GET"
+        "/streams/{stream_id}/members"
+        [ ( "streamId", String.fromInt streamId_path ) ]
+        []
         []
         Nothing
         Api.Data.jsonSuccessBaseDecoder

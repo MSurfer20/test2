@@ -23,22 +23,22 @@ import java.util.Map;
 public class MessagesApiVerticle extends AbstractVerticle {
     static final Logger LOGGER = LoggerFactory.getLogger(MessagesApiVerticle.class);
     
-    static final String ADD_REACTION_SERVICE_ID = "add_reaction";
-    static final String CHECK_MESSAGES_MATCH_NARROW_SERVICE_ID = "check_messages_match_narrow";
-    static final String DELETE_MESSAGE_SERVICE_ID = "delete_message";
-    static final String GET_FILE_TEMPORARY_URL_SERVICE_ID = "get_file_temporary_url";
-    static final String GET_MESSAGE_HISTORY_SERVICE_ID = "get_message_history";
-    static final String GET_MESSAGES_SERVICE_ID = "get_messages";
-    static final String GET_RAW_MESSAGE_SERVICE_ID = "get_raw_message";
-    static final String MARK_ALL_AS_READ_SERVICE_ID = "mark_all_as_read";
-    static final String MARK_STREAM_AS_READ_SERVICE_ID = "mark_stream_as_read";
-    static final String MARK_TOPIC_AS_READ_SERVICE_ID = "mark_topic_as_read";
-    static final String REMOVE_REACTION_SERVICE_ID = "remove_reaction";
-    static final String RENDER_MESSAGE_SERVICE_ID = "render_message";
-    static final String SEND_MESSAGE_SERVICE_ID = "send_message";
-    static final String UPDATE_MESSAGE_SERVICE_ID = "update_message";
-    static final String UPDATE_MESSAGE_FLAGS_SERVICE_ID = "update_message_flags";
-    static final String UPLOAD_FILE_SERVICE_ID = "upload_file";
+    static final String ADD-REACTION_SERVICE_ID = "add-reaction";
+    static final String CHECK-MESSAGES-MATCH-NARROW_SERVICE_ID = "check-messages-match-narrow";
+    static final String DELETE-MESSAGE_SERVICE_ID = "delete-message";
+    static final String GET-FILE-TEMPORARY-URL_SERVICE_ID = "get-file-temporary-url";
+    static final String GET-MESSAGE-HISTORY_SERVICE_ID = "get-message-history";
+    static final String GET-MESSAGES_SERVICE_ID = "get-messages";
+    static final String GET-RAW-MESSAGE_SERVICE_ID = "get-raw-message";
+    static final String MARK-ALL-AS-READ_SERVICE_ID = "mark-all-as-read";
+    static final String MARK-STREAM-AS-READ_SERVICE_ID = "mark-stream-as-read";
+    static final String MARK-TOPIC-AS-READ_SERVICE_ID = "mark-topic-as-read";
+    static final String REMOVE-REACTION_SERVICE_ID = "remove-reaction";
+    static final String RENDER-MESSAGE_SERVICE_ID = "render-message";
+    static final String SEND-MESSAGE_SERVICE_ID = "send-message";
+    static final String UPDATE-MESSAGE_SERVICE_ID = "update-message";
+    static final String UPDATE-MESSAGE-FLAGS_SERVICE_ID = "update-message-flags";
+    static final String UPLOAD-FILE_SERVICE_ID = "upload-file";
     
     final MessagesApi service;
 
@@ -55,11 +55,11 @@ public class MessagesApiVerticle extends AbstractVerticle {
     @Override
     public void start() throws Exception {
         
-        //Consumer for add_reaction
-        vertx.eventBus().<JsonObject> consumer(ADD_REACTION_SERVICE_ID).handler(message -> {
+        //Consumer for add-reaction
+        vertx.eventBus().<JsonObject> consumer(ADD-REACTION_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "add_reaction";
+                String serviceId = "add-reaction";
                 String messageIdParam = message.body().getString("message_id");
                 if(messageIdParam == null) {
                     manageError(message, new MainApiException(400, "message_id is required"), serviceId);
@@ -81,20 +81,20 @@ public class MessagesApiVerticle extends AbstractVerticle {
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "add_reaction");
+                        manageError(message, cause, "add-reaction");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("add_reaction", e);
+                logUnexpectedError("add-reaction", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for check_messages_match_narrow
-        vertx.eventBus().<JsonObject> consumer(CHECK_MESSAGES_MATCH_NARROW_SERVICE_ID).handler(message -> {
+        //Consumer for check-messages-match-narrow
+        vertx.eventBus().<JsonObject> consumer(CHECK-MESSAGES-MATCH-NARROW_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "check_messages_match_narrow";
+                String serviceId = "check-messages-match-narrow";
                 JsonArray msgIdsParam = message.body().getJsonArray("msg_ids");
                 if(msgIdsParam == null) {
                     manageError(message, new MainApiException(400, "msg_ids is required"), serviceId);
@@ -114,20 +114,20 @@ public class MessagesApiVerticle extends AbstractVerticle {
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "check_messages_match_narrow");
+                        manageError(message, cause, "check-messages-match-narrow");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("check_messages_match_narrow", e);
+                logUnexpectedError("check-messages-match-narrow", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for delete_message
-        vertx.eventBus().<JsonObject> consumer(DELETE_MESSAGE_SERVICE_ID).handler(message -> {
+        //Consumer for delete-message
+        vertx.eventBus().<JsonObject> consumer(DELETE-MESSAGE_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "delete_message";
+                String serviceId = "delete-message";
                 String messageIdParam = message.body().getString("message_id");
                 if(messageIdParam == null) {
                     manageError(message, new MainApiException(400, "message_id is required"), serviceId);
@@ -139,20 +139,20 @@ public class MessagesApiVerticle extends AbstractVerticle {
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "delete_message");
+                        manageError(message, cause, "delete-message");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("delete_message", e);
+                logUnexpectedError("delete-message", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for get_file_temporary_url
-        vertx.eventBus().<JsonObject> consumer(GET_FILE_TEMPORARY_URL_SERVICE_ID).handler(message -> {
+        //Consumer for get-file-temporary-url
+        vertx.eventBus().<JsonObject> consumer(GET-FILE-TEMPORARY-URL_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "get_file_temporary_url";
+                String serviceId = "get-file-temporary-url";
                 String realmIdStrParam = message.body().getString("realm_id_str");
                 if(realmIdStrParam == null) {
                     manageError(message, new MainApiException(400, "realm_id_str is required"), serviceId);
@@ -170,20 +170,20 @@ public class MessagesApiVerticle extends AbstractVerticle {
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "get_file_temporary_url");
+                        manageError(message, cause, "get-file-temporary-url");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("get_file_temporary_url", e);
+                logUnexpectedError("get-file-temporary-url", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for get_message_history
-        vertx.eventBus().<JsonObject> consumer(GET_MESSAGE_HISTORY_SERVICE_ID).handler(message -> {
+        //Consumer for get-message-history
+        vertx.eventBus().<JsonObject> consumer(GET-MESSAGE-HISTORY_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "get_message_history";
+                String serviceId = "get-message-history";
                 String messageIdParam = message.body().getString("message_id");
                 if(messageIdParam == null) {
                     manageError(message, new MainApiException(400, "message_id is required"), serviceId);
@@ -195,20 +195,20 @@ public class MessagesApiVerticle extends AbstractVerticle {
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "get_message_history");
+                        manageError(message, cause, "get-message-history");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("get_message_history", e);
+                logUnexpectedError("get-message-history", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for get_messages
-        vertx.eventBus().<JsonObject> consumer(GET_MESSAGES_SERVICE_ID).handler(message -> {
+        //Consumer for get-messages
+        vertx.eventBus().<JsonObject> consumer(GET-MESSAGES_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "get_messages";
+                String serviceId = "get-messages";
                 String numBeforeParam = message.body().getString("num_before");
                 if(numBeforeParam == null) {
                     manageError(message, new MainApiException(400, "num_before is required"), serviceId);
@@ -241,20 +241,20 @@ public class MessagesApiVerticle extends AbstractVerticle {
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "get_messages");
+                        manageError(message, cause, "get-messages");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("get_messages", e);
+                logUnexpectedError("get-messages", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for get_raw_message
-        vertx.eventBus().<JsonObject> consumer(GET_RAW_MESSAGE_SERVICE_ID).handler(message -> {
+        //Consumer for get-raw-message
+        vertx.eventBus().<JsonObject> consumer(GET-RAW-MESSAGE_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "get_raw_message";
+                String serviceId = "get-raw-message";
                 String messageIdParam = message.body().getString("message_id");
                 if(messageIdParam == null) {
                     manageError(message, new MainApiException(400, "message_id is required"), serviceId);
@@ -266,39 +266,39 @@ public class MessagesApiVerticle extends AbstractVerticle {
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "get_raw_message");
+                        manageError(message, cause, "get-raw-message");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("get_raw_message", e);
+                logUnexpectedError("get-raw-message", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for mark_all_as_read
-        vertx.eventBus().<JsonObject> consumer(MARK_ALL_AS_READ_SERVICE_ID).handler(message -> {
+        //Consumer for mark-all-as-read
+        vertx.eventBus().<JsonObject> consumer(MARK-ALL-AS-READ_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "mark_all_as_read";
+                String serviceId = "mark-all-as-read";
                 service.markAllAsRead(result -> {
                     if (result.succeeded())
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "mark_all_as_read");
+                        manageError(message, cause, "mark-all-as-read");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("mark_all_as_read", e);
+                logUnexpectedError("mark-all-as-read", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for mark_stream_as_read
-        vertx.eventBus().<JsonObject> consumer(MARK_STREAM_AS_READ_SERVICE_ID).handler(message -> {
+        //Consumer for mark-stream-as-read
+        vertx.eventBus().<JsonObject> consumer(MARK-STREAM-AS-READ_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "mark_stream_as_read";
+                String serviceId = "mark-stream-as-read";
                 String streamIdParam = message.body().getString("stream_id");
                 if(streamIdParam == null) {
                     manageError(message, new MainApiException(400, "stream_id is required"), serviceId);
@@ -310,20 +310,20 @@ public class MessagesApiVerticle extends AbstractVerticle {
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "mark_stream_as_read");
+                        manageError(message, cause, "mark-stream-as-read");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("mark_stream_as_read", e);
+                logUnexpectedError("mark-stream-as-read", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for mark_topic_as_read
-        vertx.eventBus().<JsonObject> consumer(MARK_TOPIC_AS_READ_SERVICE_ID).handler(message -> {
+        //Consumer for mark-topic-as-read
+        vertx.eventBus().<JsonObject> consumer(MARK-TOPIC-AS-READ_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "mark_topic_as_read";
+                String serviceId = "mark-topic-as-read";
                 String streamIdParam = message.body().getString("stream_id");
                 if(streamIdParam == null) {
                     manageError(message, new MainApiException(400, "stream_id is required"), serviceId);
@@ -341,20 +341,20 @@ public class MessagesApiVerticle extends AbstractVerticle {
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "mark_topic_as_read");
+                        manageError(message, cause, "mark-topic-as-read");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("mark_topic_as_read", e);
+                logUnexpectedError("mark-topic-as-read", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for remove_reaction
-        vertx.eventBus().<JsonObject> consumer(REMOVE_REACTION_SERVICE_ID).handler(message -> {
+        //Consumer for remove-reaction
+        vertx.eventBus().<JsonObject> consumer(REMOVE-REACTION_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "remove_reaction";
+                String serviceId = "remove-reaction";
                 String messageIdParam = message.body().getString("message_id");
                 if(messageIdParam == null) {
                     manageError(message, new MainApiException(400, "message_id is required"), serviceId);
@@ -372,20 +372,20 @@ public class MessagesApiVerticle extends AbstractVerticle {
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "remove_reaction");
+                        manageError(message, cause, "remove-reaction");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("remove_reaction", e);
+                logUnexpectedError("remove-reaction", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for render_message
-        vertx.eventBus().<JsonObject> consumer(RENDER_MESSAGE_SERVICE_ID).handler(message -> {
+        //Consumer for render-message
+        vertx.eventBus().<JsonObject> consumer(RENDER-MESSAGE_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "render_message";
+                String serviceId = "render-message";
                 String contentParam = message.body().getString("content");
                 if(contentParam == null) {
                     manageError(message, new MainApiException(400, "content is required"), serviceId);
@@ -397,20 +397,20 @@ public class MessagesApiVerticle extends AbstractVerticle {
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "render_message");
+                        manageError(message, cause, "render-message");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("render_message", e);
+                logUnexpectedError("render-message", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for send_message
-        vertx.eventBus().<JsonObject> consumer(SEND_MESSAGE_SERVICE_ID).handler(message -> {
+        //Consumer for send-message
+        vertx.eventBus().<JsonObject> consumer(SEND-MESSAGE_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "send_message";
+                String serviceId = "send-message";
                 String typeParam = message.body().getString("type");
                 if(typeParam == null) {
                     manageError(message, new MainApiException(400, "type is required"), serviceId);
@@ -441,20 +441,20 @@ public class MessagesApiVerticle extends AbstractVerticle {
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "send_message");
+                        manageError(message, cause, "send-message");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("send_message", e);
+                logUnexpectedError("send-message", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for update_message
-        vertx.eventBus().<JsonObject> consumer(UPDATE_MESSAGE_SERVICE_ID).handler(message -> {
+        //Consumer for update-message
+        vertx.eventBus().<JsonObject> consumer(UPDATE-MESSAGE_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "update_message";
+                String serviceId = "update-message";
                 String messageIdParam = message.body().getString("message_id");
                 if(messageIdParam == null) {
                     manageError(message, new MainApiException(400, "message_id is required"), serviceId);
@@ -478,20 +478,20 @@ public class MessagesApiVerticle extends AbstractVerticle {
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "update_message");
+                        manageError(message, cause, "update-message");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("update_message", e);
+                logUnexpectedError("update-message", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for update_message_flags
-        vertx.eventBus().<JsonObject> consumer(UPDATE_MESSAGE_FLAGS_SERVICE_ID).handler(message -> {
+        //Consumer for update-message-flags
+        vertx.eventBus().<JsonObject> consumer(UPDATE-MESSAGE-FLAGS_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "update_message_flags";
+                String serviceId = "update-message-flags";
                 JsonArray messagesParam = message.body().getJsonArray("messages");
                 if(messagesParam == null) {
                     manageError(message, new MainApiException(400, "messages is required"), serviceId);
@@ -516,20 +516,20 @@ public class MessagesApiVerticle extends AbstractVerticle {
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "update_message_flags");
+                        manageError(message, cause, "update-message-flags");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("update_message_flags", e);
+                logUnexpectedError("update-message-flags", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for upload_file
-        vertx.eventBus().<JsonObject> consumer(UPLOAD_FILE_SERVICE_ID).handler(message -> {
+        //Consumer for upload-file
+        vertx.eventBus().<JsonObject> consumer(UPLOAD-FILE_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "upload_file";
+                String serviceId = "upload-file";
                 String filenameParam = message.body().getString("filename");
                 File filename = (filenameParam == null) ? null : Json.mapper.readValue(filenameParam, File.class);
                 service.uploadFile(filename, result -> {
@@ -537,11 +537,11 @@ public class MessagesApiVerticle extends AbstractVerticle {
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "upload_file");
+                        manageError(message, cause, "upload-file");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("upload_file", e);
+                logUnexpectedError("upload-file", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });

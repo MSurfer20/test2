@@ -52,9 +52,11 @@ private:
 
     void archive_stream_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
     void create_big_blue_button_video_call_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
+    void delete_topic_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
     void get_stream_id_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
     void get_stream_topics_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
     void get_streams_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
+    void get_subscribers_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
     void get_subscription_status_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
     void get_subscriptions_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
     void mute_topic_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
@@ -97,6 +99,15 @@ private:
     /// </remarks>
     virtual void create_big_blue_button_video_call(Pistache::Http::ResponseWriter &response) = 0;
     /// <summary>
+    /// Delete a topic
+    /// </summary>
+    /// <remarks>
+    /// Delete all messages in a topic.  &#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+    /// </remarks>
+    /// <param name="streamId">The ID of the stream to access. </param>
+    /// <param name="topicName">The name of the topic to delete. </param>
+    virtual void delete_topic(const int32_t &streamId, const Pistache::Optional<std::string> &topicName, Pistache::Http::ResponseWriter &response) = 0;
+    /// <summary>
     /// Get stream ID
     /// </summary>
     /// <remarks>
@@ -125,6 +136,14 @@ private:
     /// <param name="includeDefault">Include all default streams for the user&#39;s realm.  (optional, default to false)</param>
     /// <param name="includeOwnerSubscribed">If the user is a bot, include all streams that the bot&#39;s owner is subscribed to.  (optional, default to false)</param>
     virtual void get_streams(const Pistache::Optional<bool> &includePublic, const Pistache::Optional<bool> &includeWebPublic, const Pistache::Optional<bool> &includeSubscribed, const Pistache::Optional<bool> &includeAllActive, const Pistache::Optional<bool> &includeDefault, const Pistache::Optional<bool> &includeOwnerSubscribed, Pistache::Http::ResponseWriter &response) = 0;
+    /// <summary>
+    /// Get the subscribers of a stream
+    /// </summary>
+    /// <remarks>
+    /// Get all users subscribed to a stream.  &#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60; 
+    /// </remarks>
+    /// <param name="streamId">The ID of the stream to access. </param>
+    virtual void get_subscribers(const int32_t &streamId, Pistache::Http::ResponseWriter &response) = 0;
     /// <summary>
     /// Get subscription status
     /// </summary>

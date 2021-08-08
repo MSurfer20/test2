@@ -42,6 +42,37 @@ module StreamsApiHandlerParams =
     }
     type CreateBigBlueButtonVideoCallResult = CreateBigBlueButtonVideoCallStatusCode200 of CreateBigBlueButtonVideoCallStatusCode200Response
 
+    //#region Path parameters
+    [<CLIMutable>]
+    type DeleteTopicPathParams = {
+      streamId : int ;
+    }
+    //#endregion
+
+    //#region Query parameters
+    [<CLIMutable>]
+    type DeleteTopicQueryParams = {
+      topicName : string ;
+      
+    }
+    //#endregion
+
+    
+    type DeleteTopicStatusCode200Response = {
+      content:JsonSuccess;
+      
+    }
+    
+    type DeleteTopicStatusCode400Response = {
+      content:JsonError;
+      
+    }
+    type DeleteTopicResult = DeleteTopicStatusCode200 of DeleteTopicStatusCode200Response|DeleteTopicStatusCode400 of DeleteTopicStatusCode400Response
+
+    type DeleteTopicArgs = {
+      pathParams:DeleteTopicPathParams;
+      queryParams:Result<DeleteTopicQueryParams,string>;
+    }
 
     //#region Query parameters
     [<CLIMutable>]
@@ -126,6 +157,28 @@ module StreamsApiHandlerParams =
 
     type GetStreamsArgs = {
       queryParams:Result<GetStreamsQueryParams,string>;
+    }
+    //#region Path parameters
+    [<CLIMutable>]
+    type GetSubscribersPathParams = {
+      streamId : int ;
+    }
+    //#endregion
+
+    
+    type GetSubscribersStatusCode200Response = {
+      content:JsonSuccessBase;
+      
+    }
+    
+    type GetSubscribersStatusCode400Response = {
+      content:JsonError;
+      
+    }
+    type GetSubscribersResult = GetSubscribersStatusCode200 of GetSubscribersStatusCode200Response|GetSubscribersStatusCode400 of GetSubscribersStatusCode400Response
+
+    type GetSubscribersArgs = {
+      pathParams:GetSubscribersPathParams;
     }
     //#region Path parameters
     [<CLIMutable>]

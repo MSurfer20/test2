@@ -7,6 +7,10 @@ use futures::{future, Stream, stream};
 use openapi_client::{Api, ApiNoContext, Client, ContextWrapperExt, models,
                       DevFetchApiKeyResponse,
                       FetchApiKeyResponse,
+                      CreateDraftsResponse,
+                      DeleteDraftResponse,
+                      EditDraftResponse,
+                      GetDraftsResponse,
                       AddReactionResponse,
                       CheckMessagesMatchNarrowResponse,
                       DeleteMessageResponse,
@@ -42,9 +46,11 @@ use openapi_client::{Api, ApiNoContext, Client, ContextWrapperExt, models,
                       UploadCustomEmojiResponse,
                       ArchiveStreamResponse,
                       CreateBigBlueButtonVideoCallResponse,
+                      DeleteTopicResponse,
                       GetStreamIdResponse,
                       GetStreamTopicsResponse,
                       GetStreamsResponse,
+                      GetSubscribersResponse,
                       GetSubscriptionStatusResponse,
                       GetSubscriptionsResponse,
                       MuteTopicResponse,
@@ -69,8 +75,8 @@ use openapi_client::{Api, ApiNoContext, Client, ContextWrapperExt, models,
                       RemoveUserGroupResponse,
                       SetTypingStatusResponse,
                       UnmuteUserResponse,
-                      UpdateDisplaySettingsResponse,
-                      UpdateNotificationSettingsResponse,
+                      UpdateSettingsResponse,
+                      UpdateStatusResponse,
                       UpdateUserResponse,
                       UpdateUserGroupResponse,
                       UpdateUserGroupMembersResponse,
@@ -98,6 +104,9 @@ fn main() {
             .possible_values(&[
                 "DevFetchApiKey",
                 "FetchApiKey",
+                "CreateDrafts",
+                "DeleteDraft",
+                "GetDrafts",
                 "AddReaction",
                 "CheckMessagesMatchNarrow",
                 "DeleteMessage",
@@ -133,9 +142,11 @@ fn main() {
                 "UploadCustomEmoji",
                 "ArchiveStream",
                 "CreateBigBlueButtonVideoCall",
+                "DeleteTopic",
                 "GetStreamId",
                 "GetStreamTopics",
                 "GetStreams",
+                "GetSubscribers",
                 "GetSubscriptionStatus",
                 "GetSubscriptions",
                 "MuteTopic",
@@ -160,8 +171,8 @@ fn main() {
                 "RemoveUserGroup",
                 "SetTypingStatus",
                 "UnmuteUser",
-                "UpdateDisplaySettings",
-                "UpdateNotificationSettings",
+                "UpdateSettings",
+                "UpdateStatus",
                 "UpdateUser",
                 "UpdateUserGroup",
                 "UpdateUserGroupMembers",
@@ -219,6 +230,32 @@ fn main() {
             let result = rt.block_on(client.fetch_api_key(
                   "iago@zulip.com".to_string(),
                   "abcd1234".to_string()
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
+        Some("CreateDrafts") => {
+            let result = rt.block_on(client.create_drafts(
+                  Some(&Vec::new())
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
+        Some("DeleteDraft") => {
+            let result = rt.block_on(client.delete_draft(
+                  1
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
+        /* Disabled because there's no example.
+        Some("EditDraft") => {
+            let result = rt.block_on(client.edit_draft(
+                  2,
+                  ???
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
+        */
+        Some("GetDrafts") => {
+            let result = rt.block_on(client.get_drafts(
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
@@ -474,6 +511,13 @@ fn main() {
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
+        Some("DeleteTopic") => {
+            let result = rt.block_on(client.delete_topic(
+                  1,
+                  "new coffee machine".to_string()
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
         Some("GetStreamId") => {
             let result = rt.block_on(client.get_stream_id(
                   "Denmark".to_string()
@@ -494,6 +538,12 @@ fn main() {
                   Some(true),
                   Some(true),
                   Some(true)
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
+        Some("GetSubscribers") => {
+            let result = rt.block_on(client.get_subscribers(
+                  1
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
@@ -669,26 +719,26 @@ fn main() {
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
-        Some("UpdateDisplaySettings") => {
-            let result = rt.block_on(client.update_display_settings(
+        Some("UpdateSettings") => {
+            let result = rt.block_on(client.update_settings(
+                  Some("NewName".to_string()),
+                  Some("newname@example.com".to_string()),
+                  Some("old12345".to_string()),
+                  Some("new12345".to_string()),
                   Some(true),
                   Some(true),
                   Some(true),
                   Some(true),
                   Some(true),
                   Some(56),
+                  Some(true),
                   Some(true),
                   Some("en".to_string()),
                   Some("all_messages".to_string()),
                   Some(true),
                   Some("google".to_string()),
                   Some(56),
-                  Some("Asia/Kolkata".to_string())
-            ));
-            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
-        },
-        Some("UpdateNotificationSettings") => {
-            let result = rt.block_on(client.update_notification_settings(
+                  Some("Asia/Kolkata".to_string()),
                   Some(true),
                   Some(true),
                   Some(true),
@@ -696,6 +746,7 @@ fn main() {
                   Some("ding".to_string()),
                   Some(true),
                   Some(true),
+                  Some(120),
                   Some(true),
                   Some(true),
                   Some(true),
@@ -707,7 +758,18 @@ fn main() {
                   Some(true),
                   Some(56),
                   Some(true),
+                  Some(true),
                   Some(true)
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
+        Some("UpdateStatus") => {
+            let result = rt.block_on(client.update_status(
+                  Some("on vacation".to_string()),
+                  Some(true),
+                  Some("car".to_string()),
+                  Some("1f697".to_string()),
+                  Some("unicode_emoji".to_string())
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },

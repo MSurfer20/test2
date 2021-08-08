@@ -100,6 +100,57 @@ open class StreamsAPI {
     }
 
     /**
+     Delete a topic
+     
+     - parameter streamId: (path) The ID of the stream to access.  
+     - parameter topicName: (query) The name of the topic to delete.  
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func deleteTopic(streamId: Int, topicName: String, apiResponseQueue: DispatchQueue = OpenAPIClient.apiResponseQueue, completion: @escaping ((_ data: JsonSuccess?, _ error: Error?) -> Void)) {
+        deleteTopicWithRequestBuilder(streamId: streamId, topicName: topicName).execute(apiResponseQueue) { result -> Void in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Delete a topic
+     - POST /streams/{stream_id}/delete_topic
+     - Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+     - parameter streamId: (path) The ID of the stream to access.  
+     - parameter topicName: (query) The name of the topic to delete.  
+     - returns: RequestBuilder<JsonSuccess> 
+     */
+    open class func deleteTopicWithRequestBuilder(streamId: Int, topicName: String) -> RequestBuilder<JsonSuccess> {
+        var localVariablePath = "/streams/{stream_id}/delete_topic"
+        let streamIdPreEscape = "\(APIHelper.mapValueToPathItem(streamId))"
+        let streamIdPostEscape = streamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{stream_id}", with: streamIdPostEscape, options: .literal, range: nil)
+        let localVariableURLString = OpenAPIClient.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "topic_name": topicName.encodeToJSON(),
+        ])
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<JsonSuccess>.Type = OpenAPIClient.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+    }
+
+    /**
      Get stream ID
      
      - parameter stream: (query) The name of the stream to access.  
@@ -240,6 +291,52 @@ open class StreamsAPI {
             "include_default": includeDefault?.encodeToJSON(),
             "include_owner_subscribed": includeOwnerSubscribed?.encodeToJSON(),
         ])
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<JsonSuccessBase>.Type = OpenAPIClient.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+    }
+
+    /**
+     Get the subscribers of a stream
+     
+     - parameter streamId: (path) The ID of the stream to access.  
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func getSubscribers(streamId: Int, apiResponseQueue: DispatchQueue = OpenAPIClient.apiResponseQueue, completion: @escaping ((_ data: JsonSuccessBase?, _ error: Error?) -> Void)) {
+        getSubscribersWithRequestBuilder(streamId: streamId).execute(apiResponseQueue) { result -> Void in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Get the subscribers of a stream
+     - GET /streams/{stream_id}/members
+     - Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` 
+     - parameter streamId: (path) The ID of the stream to access.  
+     - returns: RequestBuilder<JsonSuccessBase> 
+     */
+    open class func getSubscribersWithRequestBuilder(streamId: Int) -> RequestBuilder<JsonSuccessBase> {
+        var localVariablePath = "/streams/{stream_id}/members"
+        let streamIdPreEscape = "\(APIHelper.mapValueToPathItem(streamId))"
+        let streamIdPostEscape = streamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{stream_id}", with: streamIdPostEscape, options: .literal, range: nil)
+        let localVariableURLString = OpenAPIClient.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: Any?] = [
             :

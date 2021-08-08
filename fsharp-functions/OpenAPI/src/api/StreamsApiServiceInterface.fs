@@ -10,9 +10,11 @@ module StreamsApiServiceInterface =
     type IStreamsApiService = 
       abstract member ArchiveStream : unit -> ArchiveStreamResult
       abstract member CreateBigBlueButtonVideoCall : unit -> CreateBigBlueButtonVideoCallResult
+      abstract member DeleteTopic : unit -> DeleteTopicResult
       abstract member GetStreamId : unit -> GetStreamIdResult
       abstract member GetStreamTopics : unit -> GetStreamTopicsResult
       abstract member GetStreams : unit -> GetStreamsResult
+      abstract member GetSubscribers : unit -> GetSubscribersResult
       abstract member GetSubscriptionStatus : unit -> GetSubscriptionStatusResult
       abstract member GetSubscriptions : unit -> GetSubscriptionsResult
       abstract member MuteTopic : unit -> MuteTopicResult

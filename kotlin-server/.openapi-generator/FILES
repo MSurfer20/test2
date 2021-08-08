@@ -8,6 +8,7 @@ src/main/kotlin/org/openapitools/server/AppMain.kt
 src/main/kotlin/org/openapitools/server/Configuration.kt
 src/main/kotlin/org/openapitools/server/Paths.kt
 src/main/kotlin/org/openapitools/server/apis/AuthenticationApi.kt
+src/main/kotlin/org/openapitools/server/apis/DraftsApi.kt
 src/main/kotlin/org/openapitools/server/apis/MessagesApi.kt
 src/main/kotlin/org/openapitools/server/apis/RealTimeEventsApi.kt
 src/main/kotlin/org/openapitools/server/apis/ServerAndOrganizationsApi.kt
@@ -37,10 +38,13 @@ src/main/kotlin/org/openapitools/server/models/CodedErrorBase.kt
 src/main/kotlin/org/openapitools/server/models/CodedErrorBaseAllOf.kt
 src/main/kotlin/org/openapitools/server/models/CustomProfileField.kt
 src/main/kotlin/org/openapitools/server/models/DefaultStreamGroup.kt
+src/main/kotlin/org/openapitools/server/models/Draft.kt
+src/main/kotlin/org/openapitools/server/models/EmojiBase.kt
 src/main/kotlin/org/openapitools/server/models/EmojiReaction.kt
 src/main/kotlin/org/openapitools/server/models/EmojiReactionAllOf.kt
 src/main/kotlin/org/openapitools/server/models/EmojiReactionBase.kt
-src/main/kotlin/org/openapitools/server/models/EmojiReactionBaseUser.kt
+src/main/kotlin/org/openapitools/server/models/EmojiReactionBaseAllOf.kt
+src/main/kotlin/org/openapitools/server/models/EmojiReactionBaseAllOfUser.kt
 src/main/kotlin/org/openapitools/server/models/GetMessages.kt
 src/main/kotlin/org/openapitools/server/models/GetMessagesAllOf.kt
 src/main/kotlin/org/openapitools/server/models/Hotspot.kt

@@ -66,6 +66,29 @@ namespace Org.OpenAPITools.Api
         /// <returns>ApiResponse of JsonSuccessBase</returns>
         ApiResponse<JsonSuccessBase> CreateBigBlueButtonVideoCallWithHttpInfo ();
         /// <summary>
+        /// Delete a topic
+        /// </summary>
+        /// <remarks>
+        /// Delete all messages in a topic.  &#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="streamId">The ID of the stream to access. </param>
+        /// <param name="topicName">The name of the topic to delete. </param>
+        /// <returns>JsonSuccess</returns>
+        JsonSuccess DeleteTopic (int streamId, string topicName);
+
+        /// <summary>
+        /// Delete a topic
+        /// </summary>
+        /// <remarks>
+        /// Delete all messages in a topic.  &#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="streamId">The ID of the stream to access. </param>
+        /// <param name="topicName">The name of the topic to delete. </param>
+        /// <returns>ApiResponse of JsonSuccess</returns>
+        ApiResponse<JsonSuccess> DeleteTopicWithHttpInfo (int streamId, string topicName);
+        /// <summary>
         /// Get stream ID
         /// </summary>
         /// <remarks>
@@ -138,6 +161,27 @@ namespace Org.OpenAPITools.Api
         /// <param name="includeOwnerSubscribed">If the user is a bot, include all streams that the bot&#39;s owner is subscribed to.  (optional, default to false)</param>
         /// <returns>ApiResponse of JsonSuccessBase</returns>
         ApiResponse<JsonSuccessBase> GetStreamsWithHttpInfo (bool? includePublic = default(bool?), bool? includeWebPublic = default(bool?), bool? includeSubscribed = default(bool?), bool? includeAllActive = default(bool?), bool? includeDefault = default(bool?), bool? includeOwnerSubscribed = default(bool?));
+        /// <summary>
+        /// Get the subscribers of a stream
+        /// </summary>
+        /// <remarks>
+        /// Get all users subscribed to a stream.  &#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60; 
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="streamId">The ID of the stream to access. </param>
+        /// <returns>JsonSuccessBase</returns>
+        JsonSuccessBase GetSubscribers (int streamId);
+
+        /// <summary>
+        /// Get the subscribers of a stream
+        /// </summary>
+        /// <remarks>
+        /// Get all users subscribed to a stream.  &#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60; 
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="streamId">The ID of the stream to access. </param>
+        /// <returns>ApiResponse of JsonSuccessBase</returns>
+        ApiResponse<JsonSuccessBase> GetSubscribersWithHttpInfo (int streamId);
         /// <summary>
         /// Get subscription status
         /// </summary>
@@ -393,6 +437,31 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse (JsonSuccessBase)</returns>
         System.Threading.Tasks.Task<ApiResponse<JsonSuccessBase>> CreateBigBlueButtonVideoCallWithHttpInfoAsync (CancellationToken cancellationToken = default(CancellationToken));
         /// <summary>
+        /// Delete a topic
+        /// </summary>
+        /// <remarks>
+        /// Delete all messages in a topic.  &#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="streamId">The ID of the stream to access. </param>
+        /// <param name="topicName">The name of the topic to delete. </param>
+        /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
+        /// <returns>Task of JsonSuccess</returns>
+        System.Threading.Tasks.Task<JsonSuccess> DeleteTopicAsync (int streamId, string topicName, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Delete a topic
+        /// </summary>
+        /// <remarks>
+        /// Delete all messages in a topic.  &#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="streamId">The ID of the stream to access. </param>
+        /// <param name="topicName">The name of the topic to delete. </param>
+        /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
+        /// <returns>Task of ApiResponse (JsonSuccess)</returns>
+        System.Threading.Tasks.Task<ApiResponse<JsonSuccess>> DeleteTopicWithHttpInfoAsync (int streamId, string topicName, CancellationToken cancellationToken = default(CancellationToken));
+        /// <summary>
         /// Get stream ID
         /// </summary>
         /// <remarks>
@@ -471,6 +540,29 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
         /// <returns>Task of ApiResponse (JsonSuccessBase)</returns>
         System.Threading.Tasks.Task<ApiResponse<JsonSuccessBase>> GetStreamsWithHttpInfoAsync (bool? includePublic = default(bool?), bool? includeWebPublic = default(bool?), bool? includeSubscribed = default(bool?), bool? includeAllActive = default(bool?), bool? includeDefault = default(bool?), bool? includeOwnerSubscribed = default(bool?), CancellationToken cancellationToken = default(CancellationToken));
+        /// <summary>
+        /// Get the subscribers of a stream
+        /// </summary>
+        /// <remarks>
+        /// Get all users subscribed to a stream.  &#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60; 
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="streamId">The ID of the stream to access. </param>
+        /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
+        /// <returns>Task of JsonSuccessBase</returns>
+        System.Threading.Tasks.Task<JsonSuccessBase> GetSubscribersAsync (int streamId, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Get the subscribers of a stream
+        /// </summary>
+        /// <remarks>
+        /// Get all users subscribed to a stream.  &#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60; 
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="streamId">The ID of the stream to access. </param>
+        /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
+        /// <returns>Task of ApiResponse (JsonSuccessBase)</returns>
+        System.Threading.Tasks.Task<ApiResponse<JsonSuccessBase>> GetSubscribersWithHttpInfoAsync (int streamId, CancellationToken cancellationToken = default(CancellationToken));
         /// <summary>
         /// Get subscription status
         /// </summary>
@@ -1065,6 +1157,153 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// Delete a topic Delete all messages in a topic.  &#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="streamId">The ID of the stream to access. </param>
+        /// <param name="topicName">The name of the topic to delete. </param>
+        /// <returns>JsonSuccess</returns>
+        public JsonSuccess DeleteTopic (int streamId, string topicName)
+        {
+             ApiResponse<JsonSuccess> localVarResponse = DeleteTopicWithHttpInfo(streamId, topicName);
+             return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Delete a topic Delete all messages in a topic.  &#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="streamId">The ID of the stream to access. </param>
+        /// <param name="topicName">The name of the topic to delete. </param>
+        /// <returns>ApiResponse of JsonSuccess</returns>
+        public ApiResponse<JsonSuccess> DeleteTopicWithHttpInfo (int streamId, string topicName)
+        {
+            // verify the required parameter 'streamId' is set
+            if (streamId == null)
+                throw new ApiException(400, "Missing required parameter 'streamId' when calling StreamsApi->DeleteTopic");
+            // verify the required parameter 'topicName' is set
+            if (topicName == null)
+                throw new ApiException(400, "Missing required parameter 'topicName' when calling StreamsApi->DeleteTopic");
+
+            var localVarPath = "/streams/{stream_id}/delete_topic";
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
+            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+            };
+            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+                "application/json"
+            };
+            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            if (streamId != null) localVarPathParams.Add("stream_id", this.Configuration.ApiClient.ParameterToString(streamId)); // path parameter
+            if (topicName != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "topic_name", topicName)); // query parameter
+
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
+                Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("DeleteTopic", localVarResponse);
+                if (exception != null) throw exception;
+            }
+
+            return new ApiResponse<JsonSuccess>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
+                (JsonSuccess) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(JsonSuccess)));
+        }
+
+        /// <summary>
+        /// Delete a topic Delete all messages in a topic.  &#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="streamId">The ID of the stream to access. </param>
+        /// <param name="topicName">The name of the topic to delete. </param>
+        /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
+        /// <returns>Task of JsonSuccess</returns>
+        public async System.Threading.Tasks.Task<JsonSuccess> DeleteTopicAsync (int streamId, string topicName, CancellationToken cancellationToken = default(CancellationToken))
+        {
+             ApiResponse<JsonSuccess> localVarResponse = await DeleteTopicWithHttpInfoAsync(streamId, topicName, cancellationToken);
+             return localVarResponse.Data;
+
+        }
+
+        /// <summary>
+        /// Delete a topic Delete all messages in a topic.  &#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="streamId">The ID of the stream to access. </param>
+        /// <param name="topicName">The name of the topic to delete. </param>
+        /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
+        /// <returns>Task of ApiResponse (JsonSuccess)</returns>
+        public async System.Threading.Tasks.Task<ApiResponse<JsonSuccess>> DeleteTopicWithHttpInfoAsync (int streamId, string topicName, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            // verify the required parameter 'streamId' is set
+            if (streamId == null)
+                throw new ApiException(400, "Missing required parameter 'streamId' when calling StreamsApi->DeleteTopic");
+            // verify the required parameter 'topicName' is set
+            if (topicName == null)
+                throw new ApiException(400, "Missing required parameter 'topicName' when calling StreamsApi->DeleteTopic");
+
+            var localVarPath = "/streams/{stream_id}/delete_topic";
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
+            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+            };
+            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+                "application/json"
+            };
+            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            if (streamId != null) localVarPathParams.Add("stream_id", this.Configuration.ApiClient.ParameterToString(streamId)); // path parameter
+            if (topicName != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "topic_name", topicName)); // query parameter
+
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
+                Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType, cancellationToken);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("DeleteTopic", localVarResponse);
+                if (exception != null) throw exception;
+            }
+
+            return new ApiResponse<JsonSuccess>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
+                (JsonSuccess) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(JsonSuccess)));
+        }
+
+        /// <summary>
         /// Get stream ID Get the unique ID of a given stream.  &#x60;GET {{ api_url }}/v1/get_stream_id&#x60; 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
@@ -1485,6 +1724,141 @@ namespace Org.OpenAPITools.Api
             if (ExceptionFactory != null)
             {
                 Exception exception = ExceptionFactory("GetStreams", localVarResponse);
+                if (exception != null) throw exception;
+            }
+
+            return new ApiResponse<JsonSuccessBase>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
+                (JsonSuccessBase) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(JsonSuccessBase)));
+        }
+
+        /// <summary>
+        /// Get the subscribers of a stream Get all users subscribed to a stream.  &#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60; 
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="streamId">The ID of the stream to access. </param>
+        /// <returns>JsonSuccessBase</returns>
+        public JsonSuccessBase GetSubscribers (int streamId)
+        {
+             ApiResponse<JsonSuccessBase> localVarResponse = GetSubscribersWithHttpInfo(streamId);
+             return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Get the subscribers of a stream Get all users subscribed to a stream.  &#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60; 
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="streamId">The ID of the stream to access. </param>
+        /// <returns>ApiResponse of JsonSuccessBase</returns>
+        public ApiResponse<JsonSuccessBase> GetSubscribersWithHttpInfo (int streamId)
+        {
+            // verify the required parameter 'streamId' is set
+            if (streamId == null)
+                throw new ApiException(400, "Missing required parameter 'streamId' when calling StreamsApi->GetSubscribers");
+
+            var localVarPath = "/streams/{stream_id}/members";
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
+            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+            };
+            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+                "application/json"
+            };
+            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            if (streamId != null) localVarPathParams.Add("stream_id", this.Configuration.ApiClient.ParameterToString(streamId)); // path parameter
+
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
+                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("GetSubscribers", localVarResponse);
+                if (exception != null) throw exception;
+            }
+
+            return new ApiResponse<JsonSuccessBase>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
+                (JsonSuccessBase) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(JsonSuccessBase)));
+        }
+
+        /// <summary>
+        /// Get the subscribers of a stream Get all users subscribed to a stream.  &#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60; 
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="streamId">The ID of the stream to access. </param>
+        /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
+        /// <returns>Task of JsonSuccessBase</returns>
+        public async System.Threading.Tasks.Task<JsonSuccessBase> GetSubscribersAsync (int streamId, CancellationToken cancellationToken = default(CancellationToken))
+        {
+             ApiResponse<JsonSuccessBase> localVarResponse = await GetSubscribersWithHttpInfoAsync(streamId, cancellationToken);
+             return localVarResponse.Data;
+
+        }
+
+        /// <summary>
+        /// Get the subscribers of a stream Get all users subscribed to a stream.  &#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60; 
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="streamId">The ID of the stream to access. </param>
+        /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
+        /// <returns>Task of ApiResponse (JsonSuccessBase)</returns>
+        public async System.Threading.Tasks.Task<ApiResponse<JsonSuccessBase>> GetSubscribersWithHttpInfoAsync (int streamId, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            // verify the required parameter 'streamId' is set
+            if (streamId == null)
+                throw new ApiException(400, "Missing required parameter 'streamId' when calling StreamsApi->GetSubscribers");
+
+            var localVarPath = "/streams/{stream_id}/members";
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
+            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+            };
+            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+                "application/json"
+            };
+            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            if (streamId != null) localVarPathParams.Add("stream_id", this.Configuration.ApiClient.ParameterToString(streamId)); // path parameter
+
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
+                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType, cancellationToken);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("GetSubscribers", localVarResponse);
                 if (exception != null) throw exception;
             }
 

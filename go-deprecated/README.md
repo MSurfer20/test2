@@ -36,6 +36,10 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AuthenticationApi* | [**DevFetchApiKey**](docs/AuthenticationApi.md#devfetchapikey) | **Post** /dev_fetch_api_key | Fetch an API key (development only)
 *AuthenticationApi* | [**FetchApiKey**](docs/AuthenticationApi.md#fetchapikey) | **Post** /fetch_api_key | Fetch an API key (production)
+*DraftsApi* | [**CreateDrafts**](docs/DraftsApi.md#createdrafts) | **Post** /drafts | Create drafts
+*DraftsApi* | [**DeleteDraft**](docs/DraftsApi.md#deletedraft) | **Delete** /drafts/{draft_id} | Delete a draft
+*DraftsApi* | [**EditDraft**](docs/DraftsApi.md#editdraft) | **Patch** /drafts/{draft_id} | Edit a draft
+*DraftsApi* | [**GetDrafts**](docs/DraftsApi.md#getdrafts) | **Get** /drafts | Get drafts
 *MessagesApi* | [**AddReaction**](docs/MessagesApi.md#addreaction) | **Post** /messages/{message_id}/reactions | Add an emoji reaction
 *MessagesApi* | [**CheckMessagesMatchNarrow**](docs/MessagesApi.md#checkmessagesmatchnarrow) | **Get** /messages/matches_narrow | Check if messages match a narrow
 *MessagesApi* | [**DeleteMessage**](docs/MessagesApi.md#deletemessage) | **Delete** /messages/{message_id} | Delete a message
@@ -71,9 +75,11 @@ Class | Method | HTTP request | Description
 *ServerAndOrganizationsApi* | [**UploadCustomEmoji**](docs/ServerAndOrganizationsApi.md#uploadcustomemoji) | **Post** /realm/emoji/{emoji_name} | Upload custom emoji
 *StreamsApi* | [**ArchiveStream**](docs/StreamsApi.md#archivestream) | **Delete** /streams/{stream_id} | Archive a stream
 *StreamsApi* | [**CreateBigBlueButtonVideoCall**](docs/StreamsApi.md#createbigbluebuttonvideocall) | **Get** /calls/bigbluebutton/create | Create BigBlueButton video call
+*StreamsApi* | [**DeleteTopic**](docs/StreamsApi.md#deletetopic) | **Post** /streams/{stream_id}/delete_topic | Delete a topic
 *StreamsApi* | [**GetStreamId**](docs/StreamsApi.md#getstreamid) | **Get** /get_stream_id | Get stream ID
 *StreamsApi* | [**GetStreamTopics**](docs/StreamsApi.md#getstreamtopics) | **Get** /users/me/{stream_id}/topics | Get topics in a stream
 *StreamsApi* | [**GetStreams**](docs/StreamsApi.md#getstreams) | **Get** /streams | Get all streams
+*StreamsApi* | [**GetSubscribers**](docs/StreamsApi.md#getsubscribers) | **Get** /streams/{stream_id}/members | Get the subscribers of a stream
 *StreamsApi* | [**GetSubscriptionStatus**](docs/StreamsApi.md#getsubscriptionstatus) | **Get** /users/{user_id}/subscriptions/{stream_id} | Get subscription status
 *StreamsApi* | [**GetSubscriptions**](docs/StreamsApi.md#getsubscriptions) | **Get** /users/me/subscriptions | Get subscribed streams
 *StreamsApi* | [**MuteTopic**](docs/StreamsApi.md#mutetopic) | **Patch** /users/me/subscriptions/muted_topics | Topic muting
@@ -98,8 +104,8 @@ Class | Method | HTTP request | Description
 *UsersApi* | [**RemoveUserGroup**](docs/UsersApi.md#removeusergroup) | **Delete** /user_groups/{user_group_id} | Delete a user group
 *UsersApi* | [**SetTypingStatus**](docs/UsersApi.md#settypingstatus) | **Post** /typing | Set \&quot;typing\&quot; status
 *UsersApi* | [**UnmuteUser**](docs/UsersApi.md#unmuteuser) | **Delete** /users/me/muted_users/{muted_user_id} | Unmute a user
-*UsersApi* | [**UpdateDisplaySettings**](docs/UsersApi.md#updatedisplaysettings) | **Patch** /settings/display | Update display settings
-*UsersApi* | [**UpdateNotificationSettings**](docs/UsersApi.md#updatenotificationsettings) | **Patch** /settings/notifications | Update notification settings
+*UsersApi* | [**UpdateSettings**](docs/UsersApi.md#updatesettings) | **Patch** /settings | Update settings
+*UsersApi* | [**UpdateStatus**](docs/UsersApi.md#updatestatus) | **Post** /users/me/status | Update your status
 *UsersApi* | [**UpdateUser**](docs/UsersApi.md#updateuser) | **Patch** /users/{user_id} | Update a user
 *UsersApi* | [**UpdateUserGroup**](docs/UsersApi.md#updateusergroup) | **Patch** /user_groups/{user_group_id} | Update a user group
 *UsersApi* | [**UpdateUserGroupMembers**](docs/UsersApi.md#updateusergroupmembers) | **Post** /user_groups/{user_group_id}/members | Update user group members
@@ -130,10 +136,13 @@ Class | Method | HTTP request | Description
  - [CodedErrorBaseAllOf](docs/CodedErrorBaseAllOf.md)
  - [CustomProfileField](docs/CustomProfileField.md)
  - [DefaultStreamGroup](docs/DefaultStreamGroup.md)
+ - [Draft](docs/Draft.md)
+ - [EmojiBase](docs/EmojiBase.md)
  - [EmojiReaction](docs/EmojiReaction.md)
  - [EmojiReactionAllOf](docs/EmojiReactionAllOf.md)
  - [EmojiReactionBase](docs/EmojiReactionBase.md)
- - [EmojiReactionBaseUser](docs/EmojiReactionBaseUser.md)
+ - [EmojiReactionBaseAllOf](docs/EmojiReactionBaseAllOf.md)
+ - [EmojiReactionBaseAllOfUser](docs/EmojiReactionBaseAllOfUser.md)
  - [GetMessages](docs/GetMessages.md)
  - [GetMessagesAllOf](docs/GetMessagesAllOf.md)
  - [Hotspot](docs/Hotspot.md)

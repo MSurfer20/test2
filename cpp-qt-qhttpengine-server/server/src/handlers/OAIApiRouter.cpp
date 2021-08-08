@@ -17,6 +17,7 @@
 
 #include "OAIApiRouter.h"
 #include "OAIAuthenticationApiRequest.h"
+#include "OAIDraftsApiRequest.h"
 #include "OAIMessagesApiRequest.h"
 #include "OAIRealTimeEventsApiRequest.h"
 #include "OAIServerAndOrganizationsApiRequest.h"
@@ -37,6 +38,7 @@ OAIApiRouter::~OAIApiRouter(){
 
 void OAIApiRouter::createApiHandlers() { 
     mOAIAuthenticationApiHandler = QSharedPointer<OAIAuthenticationApiHandler>::create();
+    mOAIDraftsApiHandler = QSharedPointer<OAIDraftsApiHandler>::create();
     mOAIMessagesApiHandler = QSharedPointer<OAIMessagesApiHandler>::create();
     mOAIRealTimeEventsApiHandler = QSharedPointer<OAIRealTimeEventsApiHandler>::create();
     mOAIServerAndOrganizationsApiHandler = QSharedPointer<OAIServerAndOrganizationsApiHandler>::create();
@@ -48,6 +50,9 @@ void OAIApiRouter::createApiHandlers() {
 
 void OAIApiRouter::setOAIAuthenticationApiHandler(QSharedPointer<OAIAuthenticationApiHandler> handler){
     mOAIAuthenticationApiHandler = handler;
+}
+void OAIApiRouter::setOAIDraftsApiHandler(QSharedPointer<OAIDraftsApiHandler> handler){
+    mOAIDraftsApiHandler = handler;
 }
 void OAIApiRouter::setOAIMessagesApiHandler(QSharedPointer<OAIMessagesApiHandler> handler){
     mOAIMessagesApiHandler = handler;
@@ -77,6 +82,14 @@ void OAIApiRouter::setUpRoutes() {
     Routes.insert(QString("%1 %2").arg("POST").arg("/api/v1/fetch_api_key").toLower(), [this](QHttpEngine::Socket *socket) {
             auto reqObj = new OAIAuthenticationApiRequest(socket, mOAIAuthenticationApiHandler);
             reqObj->fetchApiKeyRequest();
+    });
+    Routes.insert(QString("%1 %2").arg("POST").arg("/api/v1/drafts").toLower(), [this](QHttpEngine::Socket *socket) {
+            auto reqObj = new OAIDraftsApiRequest(socket, mOAIDraftsApiHandler);
+            reqObj->createDraftsRequest();
+    });
+    Routes.insert(QString("%1 %2").arg("GET").arg("/api/v1/drafts").toLower(), [this](QHttpEngine::Socket *socket) {
+            auto reqObj = new OAIDraftsApiRequest(socket, mOAIDraftsApiHandler);
+            reqObj->getDraftsRequest();
     });
     Routes.insert(QString("%1 %2").arg("GET").arg("/api/v1/messages/matches_narrow").toLower(), [this](QHttpEngine::Socket *socket) {
             auto reqObj = new OAIMessagesApiRequest(socket, mOAIMessagesApiHandler);
@@ -234,13 +247,13 @@ void OAIApiRouter::setUpRoutes() {
             auto reqObj = new OAIUsersApiRequest(socket, mOAIUsersApiHandler);
             reqObj->setTypingStatusRequest();
     });
-    Routes.insert(QString("%1 %2").arg("PATCH").arg("/api/v1/settings/display").toLower(), [this](QHttpEngine::Socket *socket) {
+    Routes.insert(QString("%1 %2").arg("PATCH").arg("/api/v1/settings").toLower(), [this](QHttpEngine::Socket *socket) {
             auto reqObj = new OAIUsersApiRequest(socket, mOAIUsersApiHandler);
-            reqObj->updateDisplaySettingsRequest();
+            reqObj->updateSettingsRequest();
     });
-    Routes.insert(QString("%1 %2").arg("PATCH").arg("/api/v1/settings/notifications").toLower(), [this](QHttpEngine::Socket *socket) {
+    Routes.insert(QString("%1 %2").arg("POST").arg("/api/v1/users/me/status").toLower(), [this](QHttpEngine::Socket *socket) {
             auto reqObj = new OAIUsersApiRequest(socket, mOAIUsersApiHandler);
-            reqObj->updateNotificationSettingsRequest();
+            reqObj->updateStatusRequest();
     });
     Routes.insert(QString("%1 %2").arg("POST").arg("/api/v1/zulip-outgoing-webhook").toLower(), [this](QHttpEngine::Socket *socket) {
             auto reqObj = new OAIWebhooksApiRequest(socket, mOAIWebhooksApiHandler);
@@ -273,6 +286,30 @@ bool OAIApiRouter::handleRequest(QHttpEngine::Socket *socket){
 
 bool OAIApiRouter::handleRequestAndExtractPathParam(QHttpEngine::Socket *socket){
     auto reqPath = QString("%1 %2").arg(fromQHttpEngineMethod(socket->method())).arg(socket->path()).toLower();
+    {
+        auto completePath = QString("%1 %2").arg("DELETE").arg("/api/v1/drafts/{draft_id}").toLower();
+        if ( reqPath.startsWith(completePath.leftRef( completePath.indexOf(QString("/{")))) ) {
+            QRegularExpressionMatch match = getRequestMatch( completePath, reqPath );
+            if ( match.hasMatch() ){
+                QString draft_id = match.captured(QString("draft_id").toLower());
+                auto reqObj = new OAIDraftsApiRequest(socket, mOAIDraftsApiHandler);
+                reqObj->deleteDraftRequest(draft_id);
+                return true;
+            }
+        }
+    }
+    {
+        auto completePath = QString("%1 %2").arg("PATCH").arg("/api/v1/drafts/{draft_id}").toLower();
+        if ( reqPath.startsWith(completePath.leftRef( completePath.indexOf(QString("/{")))) ) {
+            QRegularExpressionMatch match = getRequestMatch( completePath, reqPath );
+            if ( match.hasMatch() ){
+                QString draft_id = match.captured(QString("draft_id").toLower());
+                auto reqObj = new OAIDraftsApiRequest(socket, mOAIDraftsApiHandler);
+                reqObj->editDraftRequest(draft_id);
+                return true;
+            }
+        }
+    }
     {
         auto completePath = QString("%1 %2").arg("POST").arg("/api/v1/messages/{message_id}/reactions").toLower();
         if ( reqPath.startsWith(completePath.leftRef( completePath.indexOf(QString("/{")))) ) {
@@ -419,6 +456,18 @@ bool OAIApiRouter::handleRequestAndExtractPathParam(QHttpEngine::Socket *socket)
         }
     }
     {
+        auto completePath = QString("%1 %2").arg("POST").arg("/api/v1/streams/{stream_id}/delete_topic").toLower();
+        if ( reqPath.startsWith(completePath.leftRef( completePath.indexOf(QString("/{")))) ) {
+            QRegularExpressionMatch match = getRequestMatch( completePath, reqPath );
+            if ( match.hasMatch() ){
+                QString stream_id = match.captured(QString("stream_id").toLower());
+                auto reqObj = new OAIStreamsApiRequest(socket, mOAIStreamsApiHandler);
+                reqObj->deleteTopicRequest(stream_id);
+                return true;
+            }
+        }
+    }
+    {
         auto completePath = QString("%1 %2").arg("GET").arg("/api/v1/users/me/{stream_id}/topics").toLower();
         if ( reqPath.startsWith(completePath.leftRef( completePath.indexOf(QString("/{")))) ) {
             QRegularExpressionMatch match = getRequestMatch( completePath, reqPath );
@@ -426,6 +475,18 @@ bool OAIApiRouter::handleRequestAndExtractPathParam(QHttpEngine::Socket *socket)
                 QString stream_id = match.captured(QString("stream_id").toLower());
                 auto reqObj = new OAIStreamsApiRequest(socket, mOAIStreamsApiHandler);
                 reqObj->getStreamTopicsRequest(stream_id);
+                return true;
+            }
+        }
+    }
+    {
+        auto completePath = QString("%1 %2").arg("GET").arg("/api/v1/streams/{stream_id}/members").toLower();
+        if ( reqPath.startsWith(completePath.leftRef( completePath.indexOf(QString("/{")))) ) {
+            QRegularExpressionMatch match = getRequestMatch( completePath, reqPath );
+            if ( match.hasMatch() ){
+                QString stream_id = match.captured(QString("stream_id").toLower());
+                auto reqObj = new OAIStreamsApiRequest(socket, mOAIStreamsApiHandler);
+                reqObj->getSubscribersRequest(stream_id);
                 return true;
             }
         }

@@ -15,6 +15,35 @@ open_api_server_authentication_fetchapikey:
     defaults:
         _controller: open_api_server.controller.authentication:fetchApiKeyAction
 
+# drafts
+open_api_server_drafts_createdrafts:
+    path:     /drafts
+    methods:  [POST]
+    defaults:
+        _controller: open_api_server.controller.drafts:createDraftsAction
+
+open_api_server_drafts_deletedraft:
+    path:     /drafts/{draft_id}
+    methods:  [DELETE]
+    defaults:
+        _controller: open_api_server.controller.drafts:deleteDraftAction
+    requirements:
+        draftId: '\d+'
+
+open_api_server_drafts_editdraft:
+    path:     /drafts/{draft_id}
+    methods:  [PATCH]
+    defaults:
+        _controller: open_api_server.controller.drafts:editDraftAction
+    requirements:
+        draftId: '\d+'
+
+open_api_server_drafts_getdrafts:
+    path:     /drafts
+    methods:  [GET]
+    defaults:
+        _controller: open_api_server.controller.drafts:getDraftsAction
+
 # messages
 open_api_server_messages_addreaction:
     path:     /messages/{message_id}/reactions
@@ -254,6 +283,14 @@ open_api_server_streams_createbigbluebuttonvideocall:
     defaults:
         _controller: open_api_server.controller.streams:createBigBlueButtonVideoCallAction
 
+open_api_server_streams_deletetopic:
+    path:     /streams/{stream_id}/delete_topic
+    methods:  [POST]
+    defaults:
+        _controller: open_api_server.controller.streams:deleteTopicAction
+    requirements:
+        streamId: '\d+'
+
 open_api_server_streams_getstreamid:
     path:     /get_stream_id
     methods:  [GET]
@@ -273,6 +310,14 @@ open_api_server_streams_getstreams:
     methods:  [GET]
     defaults:
         _controller: open_api_server.controller.streams:getStreamsAction
+
+open_api_server_streams_getsubscribers:
+    path:     /streams/{stream_id}/members
+    methods:  [GET]
+    defaults:
+        _controller: open_api_server.controller.streams:getSubscribersAction
+    requirements:
+        streamId: '\d+'
 
 open_api_server_streams_getsubscriptionstatus:
     path:     /users/{user_id}/subscriptions/{stream_id}
@@ -440,17 +485,17 @@ open_api_server_users_unmuteuser:
     requirements:
         mutedUserId: '\d+'
 
-open_api_server_users_updatedisplaysettings:
-    path:     /settings/display
+open_api_server_users_updatesettings:
+    path:     /settings
     methods:  [PATCH]
     defaults:
-        _controller: open_api_server.controller.users:updateDisplaySettingsAction
+        _controller: open_api_server.controller.users:updateSettingsAction
 
-open_api_server_users_updatenotificationsettings:
-    path:     /settings/notifications
-    methods:  [PATCH]
+open_api_server_users_updatestatus:
+    path:     /users/me/status
+    methods:  [POST]
     defaults:
-        _controller: open_api_server.controller.users:updateNotificationSettingsAction
+        _controller: open_api_server.controller.users:updateStatusAction
 
 open_api_server_users_updateuser:
     path:     /users/{user_id}

@@ -39,6 +39,7 @@ object endpoint {
   */
   def makeService(da: DataAccessor): Service[Request, Response] = (
           AuthenticationApi.endpoints(da)  :+:
+          DraftsApi.endpoints(da)  :+:
           MessagesApi.endpoints(da)  :+:
           RealTimeEventsApi.endpoints(da)  :+:
           ServerAndOrganizationsApi.endpoints(da)  :+:

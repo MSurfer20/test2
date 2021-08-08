@@ -39,6 +39,7 @@ import org.openapitools.server.models.CodedError
 import org.openapitools.server.models.JsonError
 import org.openapitools.server.models.JsonSuccess
 import org.openapitools.server.models.JsonSuccessBase
+import org.openapitools.server.models.OneOfLessThanObjectCommaObjectCommaObjectCommaObjectCommaObjectCommaObjectGreaterThan
 import org.openapitools.server.models.OneOfLessThanObjectCommaObjectCommaObjectGreaterThan
 import org.openapitools.server.models.OneOfLessThanObjectCommaObjectGreaterThan
 
@@ -137,15 +138,15 @@ fun Route.UsersApi() {
     }
 
 
-    route("/settings/display") {
+    route("/settings") {
         patch {
             call.respond(HttpStatusCode.NotImplemented)
         }
     }
 
 
-    route("/settings/notifications") {
-        patch {
+    route("/users/me/status") {
+        post {
             call.respond(HttpStatusCode.NotImplemented)
         }
     }

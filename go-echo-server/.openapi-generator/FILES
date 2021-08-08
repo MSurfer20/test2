@@ -4,6 +4,7 @@ Dockerfile
 README.md
 go.mod
 handlers/api_authentication.go
+handlers/api_drafts.go
 handlers/api_messages.go
 handlers/api_real_time_events.go
 handlers/api_server_and_organizations.go
@@ -35,10 +36,13 @@ models/model_coded_error_base.go
 models/model_coded_error_base_all_of.go
 models/model_custom_profile_field.go
 models/model_default_stream_group.go
+models/model_draft.go
+models/model_emoji_base.go
 models/model_emoji_reaction.go
 models/model_emoji_reaction_all_of.go
 models/model_emoji_reaction_base.go
-models/model_emoji_reaction_base_user.go
+models/model_emoji_reaction_base_all_of.go
+models/model_emoji_reaction_base_all_of_user.go
 models/model_get_messages.go
 models/model_get_messages_all_of.go
 models/model_hotspot.go

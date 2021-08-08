@@ -7,6 +7,7 @@ public class Module extends AbstractModule {
     @Override
     protected void configure() {
         bind(AuthenticationApiControllerImpInterface.class).to(AuthenticationApiControllerImp.class);
+        bind(DraftsApiControllerImpInterface.class).to(DraftsApiControllerImp.class);
         bind(MessagesApiControllerImpInterface.class).to(MessagesApiControllerImp.class);
         bind(RealTimeEventsApiControllerImpInterface.class).to(RealTimeEventsApiControllerImp.class);
         bind(ServerAndOrganizationsApiControllerImpInterface.class).to(ServerAndOrganizationsApiControllerImp.class);

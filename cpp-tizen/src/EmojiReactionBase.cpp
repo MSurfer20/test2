@@ -27,7 +27,7 @@ EmojiReactionBase::__init()
 	//emoji_name = std::string();
 	//reaction_type = std::string();
 	//user_id = int(0);
-	//user = new EmojiReactionBase_user();
+	//user = new EmojiReactionBase_allOf_user();
 }
 
 void
@@ -115,11 +115,11 @@ EmojiReactionBase::fromJson(char* jsonStr)
 	if (node !=NULL) {
 	
 
-		if (isprimitive("EmojiReactionBase_user")) {
-			jsonToValue(&user, node, "EmojiReactionBase_user", "EmojiReactionBase_user");
+		if (isprimitive("EmojiReactionBase_allOf_user")) {
+			jsonToValue(&user, node, "EmojiReactionBase_allOf_user", "EmojiReactionBase_allOf_user");
 		} else {
 			
-			EmojiReactionBase_user* obj = static_cast<EmojiReactionBase_user*> (&user);
+			EmojiReactionBase_allOf_user* obj = static_cast<EmojiReactionBase_allOf_user*> (&user);
 			obj->fromJson(json_to_string(node, false));
 			
 		}
@@ -172,13 +172,13 @@ EmojiReactionBase::toJson()
 	}
 	const gchar *user_idKey = "user_id";
 	json_object_set_member(pJsonObject, user_idKey, node);
-	if (isprimitive("EmojiReactionBase_user")) {
-		EmojiReactionBase_user obj = getUser();
-		node = converttoJson(&obj, "EmojiReactionBase_user", "");
+	if (isprimitive("EmojiReactionBase_allOf_user")) {
+		EmojiReactionBase_allOf_user obj = getUser();
+		node = converttoJson(&obj, "EmojiReactionBase_allOf_user", "");
 	}
 	else {
 		
-		EmojiReactionBase_user obj = static_cast<EmojiReactionBase_user> (getUser());
+		EmojiReactionBase_allOf_user obj = static_cast<EmojiReactionBase_allOf_user> (getUser());
 		GError *mygerror;
 		mygerror = NULL;
 		node = json_from_string(obj.toJson(), &mygerror);
@@ -242,14 +242,14 @@ EmojiReactionBase::setUserId(int  user_id)
 	this->user_id = user_id;
 }
 
-EmojiReactionBase_user
+EmojiReactionBase_allOf_user
 EmojiReactionBase::getUser()
 {
 	return user;
 }
 
 void
-EmojiReactionBase::setUser(EmojiReactionBase_user  user)
+EmojiReactionBase::setUser(EmojiReactionBase_allOf_user  user)
 {
 	this->user = user;
 }

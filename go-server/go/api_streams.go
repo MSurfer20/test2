@@ -43,6 +43,12 @@ func (c *StreamsApiController) Routes() Routes {
 			c.CreateBigBlueButtonVideoCall,
 		},
 		{
+			"DeleteTopic",
+			strings.ToUpper("Post"),
+			"/api/v1/streams/{stream_id}/delete_topic",
+			c.DeleteTopic,
+		},
+		{
 			"GetStreamId",
 			strings.ToUpper("Get"),
 			"/api/v1/get_stream_id",
@@ -59,6 +65,12 @@ func (c *StreamsApiController) Routes() Routes {
 			strings.ToUpper("Get"),
 			"/api/v1/streams",
 			c.GetStreams,
+		},
+		{
+			"GetSubscribers",
+			strings.ToUpper("Get"),
+			"/api/v1/streams/{stream_id}/members",
+			c.GetSubscribers,
 		},
 		{
 			"GetSubscriptionStatus",
@@ -144,6 +156,28 @@ func (c *StreamsApiController) CreateBigBlueButtonVideoCall(w http.ResponseWrite
 
 }
 
+// DeleteTopic - Delete a topic
+func (c *StreamsApiController) DeleteTopic(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	query := r.URL.Query()
+	streamId, err := parseInt32Parameter(params["stream_id"], true)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	topicName := query.Get("topic_name")
+	result, err := c.service.DeleteTopic(r.Context(), streamId, topicName)
+	// If an error occurred, encode the error with the status code
+	if err != nil {
+		EncodeJSONResponse(err.Error(), &result.Code, w)
+		return
+	}
+	// If no error, encode the body and the result code
+	EncodeJSONResponse(result.Body, &result.Code, w)
+
+}
+
 // GetStreamId - Get stream ID
 func (c *StreamsApiController) GetStreamId(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
@@ -213,6 +247,26 @@ func (c *StreamsApiController) GetStreams(w http.ResponseWriter, r *http.Request
 		return
 	}
 	result, err := c.service.GetStreams(r.Context(), includePublic, includeWebPublic, includeSubscribed, includeAllActive, includeDefault, includeOwnerSubscribed)
+	// If an error occurred, encode the error with the status code
+	if err != nil {
+		EncodeJSONResponse(err.Error(), &result.Code, w)
+		return
+	}
+	// If no error, encode the body and the result code
+	EncodeJSONResponse(result.Body, &result.Code, w)
+
+}
+
+// GetSubscribers - Get the subscribers of a stream
+func (c *StreamsApiController) GetSubscribers(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	streamId, err := parseInt32Parameter(params["stream_id"], true)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	result, err := c.service.GetSubscribers(r.Context(), streamId)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		EncodeJSONResponse(err.Error(), &result.Code, w)

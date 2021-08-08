@@ -6,6 +6,7 @@ import org.openapitools.vertxweb.server.model.JsonSuccess;
 import org.openapitools.vertxweb.server.model.JsonSuccessBase;
 import org.openapitools.vertxweb.server.model.OneOfobjectobject;
 import org.openapitools.vertxweb.server.model.OneOfobjectobjectobject;
+import org.openapitools.vertxweb.server.model.OneOfobjectobjectobjectobjectobjectobject;
 
 import org.openapitools.vertxweb.server.ApiResponse;
 
@@ -32,8 +33,8 @@ public interface UsersApi  {
     Future<ApiResponse<JsonSuccess>> removeUserGroup(Integer userGroupId);
     Future<ApiResponse<JsonSuccess>> setTypingStatus(String op, List<Integer> to, String type, String topic);
     Future<ApiResponse<JsonSuccess>> unmuteUser(Integer mutedUserId);
-    Future<ApiResponse<JsonSuccessBase>> updateDisplaySettings(Boolean twentyFourHourTime, Boolean denseMode, Boolean starredMessageCounts, Boolean fluidLayoutWidth, Boolean highContrastMode, Integer colorScheme, Boolean translateEmoticons, String defaultLanguage, String defaultView, Boolean leftSideUserlist, String emojiset, Integer demoteInactiveStreams, String timezone);
-    Future<ApiResponse<JsonSuccessBase>> updateNotificationSettings(Boolean enableStreamDesktopNotifications, Boolean enableStreamEmailNotifications, Boolean enableStreamPushNotifications, Boolean enableStreamAudibleNotifications, String notificationSound, Boolean enableDesktopNotifications, Boolean enableSounds, Boolean enableOfflineEmailNotifications, Boolean enableOfflinePushNotifications, Boolean enableOnlinePushNotifications, Boolean enableDigestEmails, Boolean enableMarketingEmails, Boolean enableLoginEmails, Boolean messageContentInEmailNotifications, Boolean pmContentInDesktopNotifications, Boolean wildcardMentionsNotify, Integer desktopIconCountDisplay, Boolean realmNameInNotifications, Boolean presenceEnabled);
+    Future<ApiResponse<JsonSuccessBase>> updateSettings(String fullName, String email, String oldPassword, String newPassword, Boolean twentyFourHourTime, Boolean denseMode, Boolean starredMessageCounts, Boolean fluidLayoutWidth, Boolean highContrastMode, Integer colorScheme, Boolean enableDraftsSynchronization, Boolean translateEmoticons, String defaultLanguage, String defaultView, Boolean leftSideUserlist, String emojiset, Integer demoteInactiveStreams, String timezone, Boolean enableStreamDesktopNotifications, Boolean enableStreamEmailNotifications, Boolean enableStreamPushNotifications, Boolean enableStreamAudibleNotifications, String notificationSound, Boolean enableDesktopNotifications, Boolean enableSounds, Integer emailNotificationsBatchingPeriodSeconds, Boolean enableOfflineEmailNotifications, Boolean enableOfflinePushNotifications, Boolean enableOnlinePushNotifications, Boolean enableDigestEmails, Boolean enableMarketingEmails, Boolean enableLoginEmails, Boolean messageContentInEmailNotifications, Boolean pmContentInDesktopNotifications, Boolean wildcardMentionsNotify, Integer desktopIconCountDisplay, Boolean realmNameInNotifications, Boolean presenceEnabled, Boolean enterSends);
+    Future<ApiResponse<JsonSuccess>> updateStatus(String statusText, Boolean away, String emojiName, String emojiCode, String reactionType);
     Future<ApiResponse<JsonSuccess>> updateUser(Integer userId, String fullName, Integer role, List<Object> profileData);
     Future<ApiResponse<JsonSuccess>> updateUserGroup(Integer userGroupId, String name, String description);
     Future<ApiResponse<JsonSuccess>> updateUserGroupMembers(Integer userGroupId, List<Integer> delete, List<Integer> add);

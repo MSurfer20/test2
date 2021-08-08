@@ -2051,12 +2051,12 @@ pplx::task<std::shared_ptr<JsonSuccess>> UsersApi::unmuteUser(int32_t mutedUserI
         return localVarResult;
     });
 }
-pplx::task<std::shared_ptr<JsonSuccessBase>> UsersApi::updateDisplaySettings(boost::optional<bool> twentyFourHourTime, boost::optional<bool> denseMode, boost::optional<bool> starredMessageCounts, boost::optional<bool> fluidLayoutWidth, boost::optional<bool> highContrastMode, boost::optional<int32_t> colorScheme, boost::optional<bool> translateEmoticons, boost::optional<utility::string_t> defaultLanguage, boost::optional<utility::string_t> defaultView, boost::optional<bool> leftSideUserlist, boost::optional<utility::string_t> emojiset, boost::optional<int32_t> demoteInactiveStreams, boost::optional<utility::string_t> timezone) const
+pplx::task<std::shared_ptr<JsonSuccessBase>> UsersApi::updateSettings(boost::optional<utility::string_t> fullName, boost::optional<utility::string_t> email, boost::optional<utility::string_t> oldPassword, boost::optional<utility::string_t> newPassword, boost::optional<bool> twentyFourHourTime, boost::optional<bool> denseMode, boost::optional<bool> starredMessageCounts, boost::optional<bool> fluidLayoutWidth, boost::optional<bool> highContrastMode, boost::optional<int32_t> colorScheme, boost::optional<bool> enableDraftsSynchronization, boost::optional<bool> translateEmoticons, boost::optional<utility::string_t> defaultLanguage, boost::optional<utility::string_t> defaultView, boost::optional<bool> leftSideUserlist, boost::optional<utility::string_t> emojiset, boost::optional<int32_t> demoteInactiveStreams, boost::optional<utility::string_t> timezone, boost::optional<bool> enableStreamDesktopNotifications, boost::optional<bool> enableStreamEmailNotifications, boost::optional<bool> enableStreamPushNotifications, boost::optional<bool> enableStreamAudibleNotifications, boost::optional<utility::string_t> notificationSound, boost::optional<bool> enableDesktopNotifications, boost::optional<bool> enableSounds, boost::optional<int32_t> emailNotificationsBatchingPeriodSeconds, boost::optional<bool> enableOfflineEmailNotifications, boost::optional<bool> enableOfflinePushNotifications, boost::optional<bool> enableOnlinePushNotifications, boost::optional<bool> enableDigestEmails, boost::optional<bool> enableMarketingEmails, boost::optional<bool> enableLoginEmails, boost::optional<bool> messageContentInEmailNotifications, boost::optional<bool> pmContentInDesktopNotifications, boost::optional<bool> wildcardMentionsNotify, boost::optional<int32_t> desktopIconCountDisplay, boost::optional<bool> realmNameInNotifications, boost::optional<bool> presenceEnabled, boost::optional<bool> enterSends) const
 {
 
 
     std::shared_ptr<const ApiConfiguration> localVarApiConfiguration( m_ApiClient->getConfiguration() );
-    utility::string_t localVarPath = utility::conversions::to_string_t("/settings/display");
+    utility::string_t localVarPath = utility::conversions::to_string_t("/settings");
     
     std::map<utility::string_t, utility::string_t> localVarQueryParams;
     std::map<utility::string_t, utility::string_t> localVarHeaderParams( localVarApiConfiguration->getDefaultHeaders() );
@@ -2085,13 +2085,29 @@ pplx::task<std::shared_ptr<JsonSuccessBase>> UsersApi::updateDisplaySettings(boo
     }
     else
     {
-        throw ApiException(400, utility::conversions::to_string_t("UsersApi->updateDisplaySettings does not produce any supported media type"));
+        throw ApiException(400, utility::conversions::to_string_t("UsersApi->updateSettings does not produce any supported media type"));
     }
 
     localVarHeaderParams[utility::conversions::to_string_t("Accept")] = localVarResponseHttpContentType;
 
     std::unordered_set<utility::string_t> localVarConsumeHttpContentTypes;
 
+    if (fullName)
+    {
+        localVarQueryParams[utility::conversions::to_string_t("full_name")] = ApiClient::parameterToString(*fullName);
+    }
+    if (email)
+    {
+        localVarQueryParams[utility::conversions::to_string_t("email")] = ApiClient::parameterToString(*email);
+    }
+    if (oldPassword)
+    {
+        localVarQueryParams[utility::conversions::to_string_t("old_password")] = ApiClient::parameterToString(*oldPassword);
+    }
+    if (newPassword)
+    {
+        localVarQueryParams[utility::conversions::to_string_t("new_password")] = ApiClient::parameterToString(*newPassword);
+    }
     if (twentyFourHourTime)
     {
         localVarQueryParams[utility::conversions::to_string_t("twenty_four_hour_time")] = ApiClient::parameterToString(*twentyFourHourTime);
@@ -2115,6 +2131,10 @@ pplx::task<std::shared_ptr<JsonSuccessBase>> UsersApi::updateDisplaySettings(boo
     if (colorScheme)
     {
         localVarQueryParams[utility::conversions::to_string_t("color_scheme")] = ApiClient::parameterToString(*colorScheme);
+    }
+    if (enableDraftsSynchronization)
+    {
+        localVarQueryParams[utility::conversions::to_string_t("enable_drafts_synchronization")] = ApiClient::parameterToString(*enableDraftsSynchronization);
     }
     if (translateEmoticons)
     {
@@ -2144,128 +2164,6 @@ pplx::task<std::shared_ptr<JsonSuccessBase>> UsersApi::updateDisplaySettings(boo
     {
         localVarQueryParams[utility::conversions::to_string_t("timezone")] = ApiClient::parameterToString(*timezone);
     }
-
-    std::shared_ptr<IHttpBody> localVarHttpBody;
-    utility::string_t localVarRequestHttpContentType;
-
-    // use JSON if possible
-    if ( localVarConsumeHttpContentTypes.size() == 0 || localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/json")) != localVarConsumeHttpContentTypes.end() )
-    {
-        localVarRequestHttpContentType = utility::conversions::to_string_t("application/json");
-    }
-    // multipart formdata
-    else if( localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarConsumeHttpContentTypes.end() )
-    {
-        localVarRequestHttpContentType = utility::conversions::to_string_t("multipart/form-data");
-    }
-    else if (localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/x-www-form-urlencoded")) != localVarConsumeHttpContentTypes.end())
-    {
-        localVarRequestHttpContentType = utility::conversions::to_string_t("application/x-www-form-urlencoded");
-    }
-    else
-    {
-        throw ApiException(415, utility::conversions::to_string_t("UsersApi->updateDisplaySettings does not consume any supported media type"));
-    }
-
-
-    return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("PATCH"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
-    .then([=](web::http::http_response localVarResponse)
-    {
-        if (m_ApiClient->getResponseHandler())
-        {
-            m_ApiClient->getResponseHandler()(localVarResponse.status_code(), localVarResponse.headers());
-        }
-
-        // 1xx - informational : OK
-        // 2xx - successful       : OK
-        // 3xx - redirection   : OK
-        // 4xx - client error  : not OK
-        // 5xx - client error  : not OK
-        if (localVarResponse.status_code() >= 400)
-        {
-            throw ApiException(localVarResponse.status_code()
-                , utility::conversions::to_string_t("error calling updateDisplaySettings: ") + localVarResponse.reason_phrase()
-                , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
-        }
-
-        // check response content type
-        if(localVarResponse.headers().has(utility::conversions::to_string_t("Content-Type")))
-        {
-            utility::string_t localVarContentType = localVarResponse.headers()[utility::conversions::to_string_t("Content-Type")];
-            if( localVarContentType.find(localVarResponseHttpContentType) == std::string::npos )
-            {
-                throw ApiException(500
-                    , utility::conversions::to_string_t("error calling updateDisplaySettings: unexpected response type: ") + localVarContentType
-                    , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
-            }
-        }
-
-        return localVarResponse.extract_string();
-    })
-    .then([=](utility::string_t localVarResponse)
-    {
-        std::shared_ptr<JsonSuccessBase> localVarResult(nullptr);
-
-        if(localVarResponseHttpContentType == utility::conversions::to_string_t("application/json"))
-        {
-            web::json::value localVarJson = web::json::value::parse(localVarResponse);
-
-            ModelBase::fromJson(localVarJson, localVarResult);
-        }
-        // else if(localVarResponseHttpContentType == utility::conversions::to_string_t("multipart/form-data"))
-        // {
-        // TODO multipart response parsing
-        // }
-        else
-        {
-            throw ApiException(500
-                , utility::conversions::to_string_t("error calling updateDisplaySettings: unsupported response type"));
-        }
-
-        return localVarResult;
-    });
-}
-pplx::task<std::shared_ptr<JsonSuccessBase>> UsersApi::updateNotificationSettings(boost::optional<bool> enableStreamDesktopNotifications, boost::optional<bool> enableStreamEmailNotifications, boost::optional<bool> enableStreamPushNotifications, boost::optional<bool> enableStreamAudibleNotifications, boost::optional<utility::string_t> notificationSound, boost::optional<bool> enableDesktopNotifications, boost::optional<bool> enableSounds, boost::optional<bool> enableOfflineEmailNotifications, boost::optional<bool> enableOfflinePushNotifications, boost::optional<bool> enableOnlinePushNotifications, boost::optional<bool> enableDigestEmails, boost::optional<bool> enableMarketingEmails, boost::optional<bool> enableLoginEmails, boost::optional<bool> messageContentInEmailNotifications, boost::optional<bool> pmContentInDesktopNotifications, boost::optional<bool> wildcardMentionsNotify, boost::optional<int32_t> desktopIconCountDisplay, boost::optional<bool> realmNameInNotifications, boost::optional<bool> presenceEnabled) const
-{
-
-
-    std::shared_ptr<const ApiConfiguration> localVarApiConfiguration( m_ApiClient->getConfiguration() );
-    utility::string_t localVarPath = utility::conversions::to_string_t("/settings/notifications");
-    
-    std::map<utility::string_t, utility::string_t> localVarQueryParams;
-    std::map<utility::string_t, utility::string_t> localVarHeaderParams( localVarApiConfiguration->getDefaultHeaders() );
-    std::map<utility::string_t, utility::string_t> localVarFormParams;
-    std::map<utility::string_t, std::shared_ptr<HttpContent>> localVarFileParams;
-
-    std::unordered_set<utility::string_t> localVarResponseHttpContentTypes;
-    localVarResponseHttpContentTypes.insert( utility::conversions::to_string_t("application/json") );
-
-    utility::string_t localVarResponseHttpContentType;
-
-    // use JSON if possible
-    if ( localVarResponseHttpContentTypes.size() == 0 )
-    {
-        localVarResponseHttpContentType = utility::conversions::to_string_t("application/json");
-    }
-    // JSON
-    else if ( localVarResponseHttpContentTypes.find(utility::conversions::to_string_t("application/json")) != localVarResponseHttpContentTypes.end() )
-    {
-        localVarResponseHttpContentType = utility::conversions::to_string_t("application/json");
-    }
-    // multipart formdata
-    else if( localVarResponseHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarResponseHttpContentTypes.end() )
-    {
-        localVarResponseHttpContentType = utility::conversions::to_string_t("multipart/form-data");
-    }
-    else
-    {
-        throw ApiException(400, utility::conversions::to_string_t("UsersApi->updateNotificationSettings does not produce any supported media type"));
-    }
-
-    localVarHeaderParams[utility::conversions::to_string_t("Accept")] = localVarResponseHttpContentType;
-
-    std::unordered_set<utility::string_t> localVarConsumeHttpContentTypes;
-
     if (enableStreamDesktopNotifications)
     {
         localVarQueryParams[utility::conversions::to_string_t("enable_stream_desktop_notifications")] = ApiClient::parameterToString(*enableStreamDesktopNotifications);
@@ -2293,6 +2191,10 @@ pplx::task<std::shared_ptr<JsonSuccessBase>> UsersApi::updateNotificationSetting
     if (enableSounds)
     {
         localVarQueryParams[utility::conversions::to_string_t("enable_sounds")] = ApiClient::parameterToString(*enableSounds);
+    }
+    if (emailNotificationsBatchingPeriodSeconds)
+    {
+        localVarQueryParams[utility::conversions::to_string_t("email_notifications_batching_period_seconds")] = ApiClient::parameterToString(*emailNotificationsBatchingPeriodSeconds);
     }
     if (enableOfflineEmailNotifications)
     {
@@ -2342,6 +2244,10 @@ pplx::task<std::shared_ptr<JsonSuccessBase>> UsersApi::updateNotificationSetting
     {
         localVarQueryParams[utility::conversions::to_string_t("presence_enabled")] = ApiClient::parameterToString(*presenceEnabled);
     }
+    if (enterSends)
+    {
+        localVarQueryParams[utility::conversions::to_string_t("enter_sends")] = ApiClient::parameterToString(*enterSends);
+    }
 
     std::shared_ptr<IHttpBody> localVarHttpBody;
     utility::string_t localVarRequestHttpContentType;
@@ -2362,7 +2268,7 @@ pplx::task<std::shared_ptr<JsonSuccessBase>> UsersApi::updateNotificationSetting
     }
     else
     {
-        throw ApiException(415, utility::conversions::to_string_t("UsersApi->updateNotificationSettings does not consume any supported media type"));
+        throw ApiException(415, utility::conversions::to_string_t("UsersApi->updateSettings does not consume any supported media type"));
     }
 
 
@@ -2382,7 +2288,7 @@ pplx::task<std::shared_ptr<JsonSuccessBase>> UsersApi::updateNotificationSetting
         if (localVarResponse.status_code() >= 400)
         {
             throw ApiException(localVarResponse.status_code()
-                , utility::conversions::to_string_t("error calling updateNotificationSettings: ") + localVarResponse.reason_phrase()
+                , utility::conversions::to_string_t("error calling updateSettings: ") + localVarResponse.reason_phrase()
                 , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
         }
 
@@ -2393,7 +2299,7 @@ pplx::task<std::shared_ptr<JsonSuccessBase>> UsersApi::updateNotificationSetting
             if( localVarContentType.find(localVarResponseHttpContentType) == std::string::npos )
             {
                 throw ApiException(500
-                    , utility::conversions::to_string_t("error calling updateNotificationSettings: unexpected response type: ") + localVarContentType
+                    , utility::conversions::to_string_t("error calling updateSettings: unexpected response type: ") + localVarContentType
                     , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
             }
         }
@@ -2417,7 +2323,149 @@ pplx::task<std::shared_ptr<JsonSuccessBase>> UsersApi::updateNotificationSetting
         else
         {
             throw ApiException(500
-                , utility::conversions::to_string_t("error calling updateNotificationSettings: unsupported response type"));
+                , utility::conversions::to_string_t("error calling updateSettings: unsupported response type"));
+        }
+
+        return localVarResult;
+    });
+}
+pplx::task<std::shared_ptr<JsonSuccess>> UsersApi::updateStatus(boost::optional<utility::string_t> statusText, boost::optional<bool> away, boost::optional<utility::string_t> emojiName, boost::optional<utility::string_t> emojiCode, boost::optional<utility::string_t> reactionType) const
+{
+
+
+    std::shared_ptr<const ApiConfiguration> localVarApiConfiguration( m_ApiClient->getConfiguration() );
+    utility::string_t localVarPath = utility::conversions::to_string_t("/users/me/status");
+    
+    std::map<utility::string_t, utility::string_t> localVarQueryParams;
+    std::map<utility::string_t, utility::string_t> localVarHeaderParams( localVarApiConfiguration->getDefaultHeaders() );
+    std::map<utility::string_t, utility::string_t> localVarFormParams;
+    std::map<utility::string_t, std::shared_ptr<HttpContent>> localVarFileParams;
+
+    std::unordered_set<utility::string_t> localVarResponseHttpContentTypes;
+    localVarResponseHttpContentTypes.insert( utility::conversions::to_string_t("application/json") );
+
+    utility::string_t localVarResponseHttpContentType;
+
+    // use JSON if possible
+    if ( localVarResponseHttpContentTypes.size() == 0 )
+    {
+        localVarResponseHttpContentType = utility::conversions::to_string_t("application/json");
+    }
+    // JSON
+    else if ( localVarResponseHttpContentTypes.find(utility::conversions::to_string_t("application/json")) != localVarResponseHttpContentTypes.end() )
+    {
+        localVarResponseHttpContentType = utility::conversions::to_string_t("application/json");
+    }
+    // multipart formdata
+    else if( localVarResponseHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarResponseHttpContentTypes.end() )
+    {
+        localVarResponseHttpContentType = utility::conversions::to_string_t("multipart/form-data");
+    }
+    else
+    {
+        throw ApiException(400, utility::conversions::to_string_t("UsersApi->updateStatus does not produce any supported media type"));
+    }
+
+    localVarHeaderParams[utility::conversions::to_string_t("Accept")] = localVarResponseHttpContentType;
+
+    std::unordered_set<utility::string_t> localVarConsumeHttpContentTypes;
+
+    if (statusText)
+    {
+        localVarQueryParams[utility::conversions::to_string_t("status_text")] = ApiClient::parameterToString(*statusText);
+    }
+    if (away)
+    {
+        localVarQueryParams[utility::conversions::to_string_t("away")] = ApiClient::parameterToString(*away);
+    }
+    if (emojiName)
+    {
+        localVarQueryParams[utility::conversions::to_string_t("emoji_name")] = ApiClient::parameterToString(*emojiName);
+    }
+    if (emojiCode)
+    {
+        localVarQueryParams[utility::conversions::to_string_t("emoji_code")] = ApiClient::parameterToString(*emojiCode);
+    }
+    if (reactionType)
+    {
+        localVarQueryParams[utility::conversions::to_string_t("reaction_type")] = ApiClient::parameterToString(*reactionType);
+    }
+
+    std::shared_ptr<IHttpBody> localVarHttpBody;
+    utility::string_t localVarRequestHttpContentType;
+
+    // use JSON if possible
+    if ( localVarConsumeHttpContentTypes.size() == 0 || localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/json")) != localVarConsumeHttpContentTypes.end() )
+    {
+        localVarRequestHttpContentType = utility::conversions::to_string_t("application/json");
+    }
+    // multipart formdata
+    else if( localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarConsumeHttpContentTypes.end() )
+    {
+        localVarRequestHttpContentType = utility::conversions::to_string_t("multipart/form-data");
+    }
+    else if (localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/x-www-form-urlencoded")) != localVarConsumeHttpContentTypes.end())
+    {
+        localVarRequestHttpContentType = utility::conversions::to_string_t("application/x-www-form-urlencoded");
+    }
+    else
+    {
+        throw ApiException(415, utility::conversions::to_string_t("UsersApi->updateStatus does not consume any supported media type"));
+    }
+
+
+    return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("POST"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
+    .then([=](web::http::http_response localVarResponse)
+    {
+        if (m_ApiClient->getResponseHandler())
+        {
+            m_ApiClient->getResponseHandler()(localVarResponse.status_code(), localVarResponse.headers());
+        }
+
+        // 1xx - informational : OK
+        // 2xx - successful       : OK
+        // 3xx - redirection   : OK
+        // 4xx - client error  : not OK
+        // 5xx - client error  : not OK
+        if (localVarResponse.status_code() >= 400)
+        {
+            throw ApiException(localVarResponse.status_code()
+                , utility::conversions::to_string_t("error calling updateStatus: ") + localVarResponse.reason_phrase()
+                , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
+        }
+
+        // check response content type
+        if(localVarResponse.headers().has(utility::conversions::to_string_t("Content-Type")))
+        {
+            utility::string_t localVarContentType = localVarResponse.headers()[utility::conversions::to_string_t("Content-Type")];
+            if( localVarContentType.find(localVarResponseHttpContentType) == std::string::npos )
+            {
+                throw ApiException(500
+                    , utility::conversions::to_string_t("error calling updateStatus: unexpected response type: ") + localVarContentType
+                    , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
+            }
+        }
+
+        return localVarResponse.extract_string();
+    })
+    .then([=](utility::string_t localVarResponse)
+    {
+        std::shared_ptr<JsonSuccess> localVarResult(nullptr);
+
+        if(localVarResponseHttpContentType == utility::conversions::to_string_t("application/json"))
+        {
+            web::json::value localVarJson = web::json::value::parse(localVarResponse);
+
+            ModelBase::fromJson(localVarJson, localVarResult);
+        }
+        // else if(localVarResponseHttpContentType == utility::conversions::to_string_t("multipart/form-data"))
+        // {
+        // TODO multipart response parsing
+        // }
+        else
+        {
+            throw ApiException(500
+                , utility::conversions::to_string_t("error calling updateStatus: unsupported response type"));
         }
 
         return localVarResult;

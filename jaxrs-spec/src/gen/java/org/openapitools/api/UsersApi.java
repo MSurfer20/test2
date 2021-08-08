@@ -7,6 +7,7 @@ import org.openapitools.model.JsonSuccessBase;
 import org.openapitools.model.NonExistingStreamError;
 import org.openapitools.model.OneOfobjectobject;
 import org.openapitools.model.OneOfobjectobjectobject;
+import org.openapitools.model.OneOfobjectobjectobjectobjectobjectobject;
 import org.openapitools.model.OneOfstringinteger;
 
 import javax.ws.rs.*;
@@ -22,7 +23,7 @@ import javax.validation.Valid;
 
 @Path("/users")
 @Api(description = "the users API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-08T20:42:36.410808Z[Etc/UTC]")public class UsersApi {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-08T21:12:25.585041Z[Etc/UTC]")public class UsersApi {
 
     @POST
     @Produces({ "application/json" })
@@ -215,6 +216,18 @@ import javax.validation.Valid;
         @ApiResponse(code = 400, message = "Bad request.", response = NonExistingStreamError.class)
     })
     public Response unsubscribe(@QueryParam("subscriptions") @NotNull   @ApiParam("A list of stream names to unsubscribe from. This parameter is called &#x60;streams&#x60; in our Python API. ")  List<String> subscriptions,@QueryParam("principals")   @ApiParam("A list of user ids (preferred) or Zulip display email addresses of the users to be subscribed to or unsubscribed from the streams specified in the &#x60;subscriptions&#x60; parameter. If not provided, then the requesting user/bot is subscribed.  **Changes**: The integer format is new in Zulip 3.0 (feature level 9). ")  List<OneOfstringinteger> principals) {
+        return Response.ok().entity("magic!").build();
+    }
+
+    @POST
+    @Path("/me/status")
+    @Produces({ "application/json" })
+    @ApiOperation(value = "Update your status", notes = "Change your [status](/help/status-and-availability).  `POST {{ api_url }}/v1/users/me/status`  A request to this endpoint will only change the parameters passed. For example, passing just `status_text` requests a change in the status text, but will leave the status emoji unchanged.  Clients that wish to set the user's status to a specific value should pass all supported parameters. ", response = JsonSuccess.class, tags={ "users" })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Success.", response = JsonSuccess.class),
+        @ApiResponse(code = 400, message = "Success.", response = OneOfobjectobjectobjectobjectobjectobject.class)
+    })
+    public Response updateStatus(@QueryParam("status_text")   @ApiParam("The text content of the status message. Sending the empty string will clear the user&#39;s status.  **Note**: The limit on the size of the message is 60 characters. ")  String statusText,@QueryParam("away")   @ApiParam("Whether the user should be marked as \&quot;away\&quot;. ")  Boolean away,@QueryParam("emoji_name")   @ApiParam("The name for the emoji to associate with this status. ")  String emojiName,@QueryParam("emoji_code")   @ApiParam("A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint; for &#x60;realm_emoji&#x60;, it&#39;ll be the ID of the realm emoji. ")  String emojiCode,@QueryParam("reaction_type")   @ApiParam("One of the following values:  * &#x60;unicode_emoji&#x60;: Unicode emoji (&#x60;emoji_code&#x60; will be its Unicode   codepoint). * &#x60;realm_emoji&#x60;: [Custom emoji](/help/add-custom-emoji).   (&#x60;emoji_code&#x60; will be its ID). * &#x60;zulip_extra_emoji&#x60;: Special emoji included with Zulip.  Exists to   namespace the &#x60;zulip&#x60; emoji. ")  String reactionType) {
         return Response.ok().entity("magic!").build();
     }
 

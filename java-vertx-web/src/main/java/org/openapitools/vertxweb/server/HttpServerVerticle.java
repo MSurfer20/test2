@@ -12,6 +12,8 @@ import org.slf4j.LoggerFactory;
 
 import org.openapitools.vertxweb.server.api.AuthenticationApiHandler;
 import org.openapitools.vertxweb.server.api.AuthenticationApiImpl;
+import org.openapitools.vertxweb.server.api.DraftsApiHandler;
+import org.openapitools.vertxweb.server.api.DraftsApiImpl;
 import org.openapitools.vertxweb.server.api.MessagesApiHandler;
 import org.openapitools.vertxweb.server.api.MessagesApiImpl;
 import org.openapitools.vertxweb.server.api.RealTimeEventsApiHandler;
@@ -32,6 +34,7 @@ public class HttpServerVerticle extends AbstractVerticle {
 
     
     private final AuthenticationApiHandler authenticationHandler = new AuthenticationApiHandler(new AuthenticationApiImpl());
+    private final DraftsApiHandler draftsHandler = new DraftsApiHandler(new DraftsApiImpl());
     private final MessagesApiHandler messagesHandler = new MessagesApiHandler(new MessagesApiImpl());
     private final RealTimeEventsApiHandler realTimeEventsHandler = new RealTimeEventsApiHandler(new RealTimeEventsApiImpl());
     private final ServerAndOrganizationsApiHandler serverAndOrganizationsHandler = new ServerAndOrganizationsApiHandler(new ServerAndOrganizationsApiImpl());
@@ -49,6 +52,7 @@ public class HttpServerVerticle extends AbstractVerticle {
               );
               
               authenticationHandler.mount(builder);
+              draftsHandler.mount(builder);
               messagesHandler.mount(builder);
               realTimeEventsHandler.mount(builder);
               serverAndOrganizationsHandler.mount(builder);

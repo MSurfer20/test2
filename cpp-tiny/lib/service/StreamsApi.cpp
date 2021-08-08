@@ -90,6 +90,57 @@ using namespace Tiny;
         }
 
         Response<
+            JsonSuccess
+        >
+        StreamsApi::
+        deleteTopic(
+            
+            int streamId
+            , 
+            
+            std::string topicName
+            
+        )
+        {
+            std::string url = basepath + "/streams/{stream_id}/delete_topic"; //streamId 
+            // Query    | topicName 
+            // Headers  | 
+            // Form     | 
+            // Body     | 
+
+                std::string s_streamId("{");
+                s_streamId.append("stream_id");
+                s_streamId.append("}");
+
+                int pos = url.find(s_streamId);
+
+                url.erase(pos, s_streamId.length());
+                url.insert(pos, stringify(streamId));
+
+            begin(url);
+
+            std::string payload = "";
+            // Send Request
+            // METHOD | POST
+            int httpCode = http.sendRequest("POST", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
+
+            // Handle Request
+            String output = http.getString();
+            std::string output_string = output.c_str();
+
+            http.end();
+
+
+
+
+            JsonSuccess obj(output_string);
+
+
+            Response<JsonSuccess> response(obj, httpCode);
+            return response;
+        }
+
+        Response<
             JsonSuccessBase
         >
         StreamsApi::
@@ -208,6 +259,54 @@ using namespace Tiny;
             // Form     | 
             // Body     | 
 
+
+            begin(url);
+
+            std::string payload = "";
+            // Send Request
+            // METHOD | GET
+            int httpCode = http.sendRequest("GET", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
+
+            // Handle Request
+            String output = http.getString();
+            std::string output_string = output.c_str();
+
+            http.end();
+
+
+
+
+            JsonSuccessBase obj(output_string);
+
+
+            Response<JsonSuccessBase> response(obj, httpCode);
+            return response;
+        }
+
+        Response<
+            JsonSuccessBase
+        >
+        StreamsApi::
+        getSubscribers(
+            
+            int streamId
+            
+        )
+        {
+            std::string url = basepath + "/streams/{stream_id}/members"; //streamId 
+            // Query    | 
+            // Headers  | 
+            // Form     | 
+            // Body     | 
+
+                std::string s_streamId("{");
+                s_streamId.append("stream_id");
+                s_streamId.append("}");
+
+                int pos = url.find(s_streamId);
+
+                url.erase(pos, s_streamId.length());
+                url.insert(pos, stringify(streamId));
 
             begin(url);
 

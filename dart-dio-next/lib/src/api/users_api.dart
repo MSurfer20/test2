@@ -16,6 +16,7 @@ import 'package:openapi/src/model/json_success.dart';
 import 'package:openapi/src/model/json_success_base.dart';
 import 'package:openapi/src/model/one_ofobjectobject.dart';
 import 'package:openapi/src/model/one_ofobjectobjectobject.dart';
+import 'package:openapi/src/model/one_ofobjectobjectobjectobjectobjectobject.dart';
 
 class UsersApi {
 
@@ -1265,23 +1266,49 @@ class UsersApi {
     );
   }
 
-  /// Update display settings
-  /// This endpoint is used to edit the current user&#39;s user interface settings.  &#x60;PATCH {{ api_url }}/v1/settings/display&#x60; 
+  /// Update settings
+  /// This endpoint is used to edit the current user&#39;s settings.  &#x60;PATCH {{ api_url }}/v1/settings&#x60;  **Changes**: Prior to Zulip 5.0 (feature level 80), this endpoint only supported the &#x60;full_name&#x60;, &#x60;email&#x60;, &#x60;old_password&#x60;, and &#x60;new_password&#x60; parameters. Notification settings were managed by &#x60;PATCH /settings/notifications&#x60;, and all other settings by &#x60;PATCH /settings/display&#x60;. The feature level 80 migration to merge these endpoints did not change how request parameters are encoded. Note, however, that it did change the handling of any invalid parameters present in a request to change notification or display settings, since the merged endpoint uses the new response format that was introduced for &#x60;/settings&#x60; in Zulip 5.0 (feature level 78).  The &#x60;/settings/display&#x60; and &#x60;/settings/notifications&#x60; endpoints are now deprecated aliases for this endpoint for backwards-compatibility, and will be removed once clients have migrated to use this endpoint. 
   ///
   /// Parameters:
-  /// * [twentyFourHourTime] - Whether time should be [displayed in 24-hour notation](/help/change-the-time-format). 
-  /// * [denseMode] - This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip. 
-  /// * [starredMessageCounts] - Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages). 
-  /// * [fluidLayoutWidth] - Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app's center panel (message feed, recent topics) on wide screens. 
-  /// * [highContrastMode] - This setting is reserved for use to control variations in Zulip's design to help visually impaired users. 
-  /// * [colorScheme] - Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard `prefers-color-scheme` media query. 
-  /// * [translateEmoticons] - Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends. 
-  /// * [defaultLanguage] - What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, `\"en\"` for English or `\"de\"` for German.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63). 
-  /// * [defaultView] - The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the `Esc` keyboard shortcut repeatedly.  * \"recent_topics\" - Recent topics view * \"all_messages\" - All messages view  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). 
-  /// * [leftSideUserlist] - Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked. 
-  /// * [emojiset] - The user's configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \"google\" - Google modern * \"google-blob\" - Google classic * \"twitter\" - Twitter * \"text\" - Plain text  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). 
-  /// * [demoteInactiveStreams] - Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never 
-  /// * [timezone] - The user's [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). 
+  /// * [fullName] - A new display name for the user. 
+  /// * [email] - Asks the server to initiate a confirmation sequence to change the user's email address to the indicated value. The user will need to demonstrate control of the new email address by clicking a confirmation link sent to that address. 
+  /// * [oldPassword] - The user's old Zulip password (or LDAP password, if LDAP authentication is in use).  Required only when sending the `new_password` parameter. 
+  /// * [newPassword] - The user's new Zulip password (or LDAP password, if LDAP authentication is in use).  The `old_password` parameter must be included in the request. 
+  /// * [twentyFourHourTime] - Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+  /// * [denseMode] - This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+  /// * [starredMessageCounts] - Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+  /// * [fluidLayoutWidth] - Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app's center panel (message feed, recent topics) on wide screens.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+  /// * [highContrastMode] - This setting is reserved for use to control variations in Zulip's design to help visually impaired users.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+  /// * [colorScheme] - Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard `prefers-color-scheme` media query.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+  /// * [enableDraftsSynchronization] - A boolean parameter to control whether synchronizing drafts is enabled for the user. When synchronization is disabled, all drafts stored in the server will be automatically deleted from the server.  This does not do anything (like sending events) to delete local copies of drafts stored in clients.  **Changes**: New in Zulip 5.0 (feature level 87). 
+  /// * [translateEmoticons] - Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+  /// * [defaultLanguage] - What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, `\"en\"` for English or `\"de\"` for German.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63). 
+  /// * [defaultView] - The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the `Esc` keyboard shortcut repeatedly.  * \"recent_topics\" - Recent topics view * \"all_messages\" - All messages view  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). 
+  /// * [leftSideUserlist] - Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+  /// * [emojiset] - The user's configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \"google\" - Google modern * \"google-blob\" - Google classic * \"twitter\" - Twitter * \"text\" - Plain text  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). 
+  /// * [demoteInactiveStreams] - Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+  /// * [timezone] - The user's [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). 
+  /// * [enableStreamDesktopNotifications] - Enable visual desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+  /// * [enableStreamEmailNotifications] - Enable email notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+  /// * [enableStreamPushNotifications] - Enable mobile notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+  /// * [enableStreamAudibleNotifications] - Enable audible desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+  /// * [notificationSound] - Notification sound name.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63). 
+  /// * [enableDesktopNotifications] - Enable visual desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+  /// * [enableSounds] - Enable audible desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+  /// * [emailNotificationsBatchingPeriodSeconds] - The duration (in seconds) for which the server should wait to batch email notifications before sending them.  **Changes**: New in Zulip 5.0 (feature level 82) 
+  /// * [enableOfflineEmailNotifications] - Enable email notifications for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+  /// * [enableOfflinePushNotifications] - Enable mobile notification for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+  /// * [enableOnlinePushNotifications] - Enable mobile notification for private messages and @-mentions received when the user is online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+  /// * [enableDigestEmails] - Enable digest emails when the user is away.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+  /// * [enableMarketingEmails] - Enable marketing emails. Has no function outside Zulip Cloud.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+  /// * [enableLoginEmails] - Enable email notifications for new logins to account.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+  /// * [messageContentInEmailNotifications] - Include the message's content in email notifications for new messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+  /// * [pmContentInDesktopNotifications] - Include content of private messages in desktop notifications.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+  /// * [wildcardMentionsNotify] - Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+  /// * [desktopIconCountDisplay] - Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+  /// * [realmNameInNotifications] - Include organization name in subject of message notification emails.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+  /// * [presenceEnabled] - Display the presence status to other users when online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+  /// * [enterSends] - Whether pressing Enter in the compose box sends a message (or saves a message edit).  **Changes**: Before Zulip 5.0 (feature level 81), this setting was managed by the `POST /users/me/enter-sends` endpoint, with the same parameter format. 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -1291,13 +1318,18 @@ class UsersApi {
   ///
   /// Returns a [Future] containing a [Response] with a [JsonSuccessBase] as data
   /// Throws [DioError] if API call or serialization fails
-  Future<Response<JsonSuccessBase>> updateDisplaySettings({ 
+  Future<Response<JsonSuccessBase>> updateSettings({ 
+    String? fullName,
+    String? email,
+    String? oldPassword,
+    String? newPassword,
     bool? twentyFourHourTime,
     bool? denseMode,
     bool? starredMessageCounts,
     bool? fluidLayoutWidth,
     bool? highContrastMode,
     int? colorScheme,
+    bool? enableDraftsSynchronization,
     bool? translateEmoticons,
     String? defaultLanguage,
     String? defaultView,
@@ -1305,6 +1337,27 @@ class UsersApi {
     String? emojiset,
     int? demoteInactiveStreams,
     String? timezone,
+    bool? enableStreamDesktopNotifications,
+    bool? enableStreamEmailNotifications,
+    bool? enableStreamPushNotifications,
+    bool? enableStreamAudibleNotifications,
+    String? notificationSound,
+    bool? enableDesktopNotifications,
+    bool? enableSounds,
+    int? emailNotificationsBatchingPeriodSeconds,
+    bool? enableOfflineEmailNotifications,
+    bool? enableOfflinePushNotifications,
+    bool? enableOnlinePushNotifications,
+    bool? enableDigestEmails,
+    bool? enableMarketingEmails,
+    bool? enableLoginEmails,
+    bool? messageContentInEmailNotifications,
+    bool? pmContentInDesktopNotifications,
+    bool? wildcardMentionsNotify,
+    int? desktopIconCountDisplay,
+    bool? realmNameInNotifications,
+    bool? presenceEnabled,
+    bool? enterSends,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -1312,7 +1365,7 @@ class UsersApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/settings/display';
+    final _path = r'/settings';
     final _options = Options(
       method: r'PATCH',
       headers: <String, dynamic>{
@@ -1326,12 +1379,17 @@ class UsersApi {
     );
 
     final _queryParameters = <String, dynamic>{
+      if (fullName != null) r'full_name': encodeQueryParameter(_serializers, fullName, const FullType(String)),
+      if (email != null) r'email': encodeQueryParameter(_serializers, email, const FullType(String)),
+      if (oldPassword != null) r'old_password': encodeQueryParameter(_serializers, oldPassword, const FullType(String)),
+      if (newPassword != null) r'new_password': encodeQueryParameter(_serializers, newPassword, const FullType(String)),
       if (twentyFourHourTime != null) r'twenty_four_hour_time': encodeQueryParameter(_serializers, twentyFourHourTime, const FullType(bool)),
       if (denseMode != null) r'dense_mode': encodeQueryParameter(_serializers, denseMode, const FullType(bool)),
       if (starredMessageCounts != null) r'starred_message_counts': encodeQueryParameter(_serializers, starredMessageCounts, const FullType(bool)),
       if (fluidLayoutWidth != null) r'fluid_layout_width': encodeQueryParameter(_serializers, fluidLayoutWidth, const FullType(bool)),
       if (highContrastMode != null) r'high_contrast_mode': encodeQueryParameter(_serializers, highContrastMode, const FullType(bool)),
       if (colorScheme != null) r'color_scheme': encodeQueryParameter(_serializers, colorScheme, const FullType(int)),
+      if (enableDraftsSynchronization != null) r'enable_drafts_synchronization': encodeQueryParameter(_serializers, enableDraftsSynchronization, const FullType(bool)),
       if (translateEmoticons != null) r'translate_emoticons': encodeQueryParameter(_serializers, translateEmoticons, const FullType(bool)),
       if (defaultLanguage != null) r'default_language': encodeQueryParameter(_serializers, defaultLanguage, const FullType(String)),
       if (defaultView != null) r'default_view': encodeQueryParameter(_serializers, defaultView, const FullType(String)),
@@ -1339,6 +1397,27 @@ class UsersApi {
       if (emojiset != null) r'emojiset': encodeQueryParameter(_serializers, emojiset, const FullType(String)),
       if (demoteInactiveStreams != null) r'demote_inactive_streams': encodeQueryParameter(_serializers, demoteInactiveStreams, const FullType(int)),
       if (timezone != null) r'timezone': encodeQueryParameter(_serializers, timezone, const FullType(String)),
+      if (enableStreamDesktopNotifications != null) r'enable_stream_desktop_notifications': encodeQueryParameter(_serializers, enableStreamDesktopNotifications, const FullType(bool)),
+      if (enableStreamEmailNotifications != null) r'enable_stream_email_notifications': encodeQueryParameter(_serializers, enableStreamEmailNotifications, const FullType(bool)),
+      if (enableStreamPushNotifications != null) r'enable_stream_push_notifications': encodeQueryParameter(_serializers, enableStreamPushNotifications, const FullType(bool)),
+      if (enableStreamAudibleNotifications != null) r'enable_stream_audible_notifications': encodeQueryParameter(_serializers, enableStreamAudibleNotifications, const FullType(bool)),
+      if (notificationSound != null) r'notification_sound': encodeQueryParameter(_serializers, notificationSound, const FullType(String)),
+      if (enableDesktopNotifications != null) r'enable_desktop_notifications': encodeQueryParameter(_serializers, enableDesktopNotifications, const FullType(bool)),
+      if (enableSounds != null) r'enable_sounds': encodeQueryParameter(_serializers, enableSounds, const FullType(bool)),
+      if (emailNotificationsBatchingPeriodSeconds != null) r'email_notifications_batching_period_seconds': encodeQueryParameter(_serializers, emailNotificationsBatchingPeriodSeconds, const FullType(int)),
+      if (enableOfflineEmailNotifications != null) r'enable_offline_email_notifications': encodeQueryParameter(_serializers, enableOfflineEmailNotifications, const FullType(bool)),
+      if (enableOfflinePushNotifications != null) r'enable_offline_push_notifications': encodeQueryParameter(_serializers, enableOfflinePushNotifications, const FullType(bool)),
+      if (enableOnlinePushNotifications != null) r'enable_online_push_notifications': encodeQueryParameter(_serializers, enableOnlinePushNotifications, const FullType(bool)),
+      if (enableDigestEmails != null) r'enable_digest_emails': encodeQueryParameter(_serializers, enableDigestEmails, const FullType(bool)),
+      if (enableMarketingEmails != null) r'enable_marketing_emails': encodeQueryParameter(_serializers, enableMarketingEmails, const FullType(bool)),
+      if (enableLoginEmails != null) r'enable_login_emails': encodeQueryParameter(_serializers, enableLoginEmails, const FullType(bool)),
+      if (messageContentInEmailNotifications != null) r'message_content_in_email_notifications': encodeQueryParameter(_serializers, messageContentInEmailNotifications, const FullType(bool)),
+      if (pmContentInDesktopNotifications != null) r'pm_content_in_desktop_notifications': encodeQueryParameter(_serializers, pmContentInDesktopNotifications, const FullType(bool)),
+      if (wildcardMentionsNotify != null) r'wildcard_mentions_notify': encodeQueryParameter(_serializers, wildcardMentionsNotify, const FullType(bool)),
+      if (desktopIconCountDisplay != null) r'desktop_icon_count_display': encodeQueryParameter(_serializers, desktopIconCountDisplay, const FullType(int)),
+      if (realmNameInNotifications != null) r'realm_name_in_notifications': encodeQueryParameter(_serializers, realmNameInNotifications, const FullType(bool)),
+      if (presenceEnabled != null) r'presence_enabled': encodeQueryParameter(_serializers, presenceEnabled, const FullType(bool)),
+      if (enterSends != null) r'enter_sends': encodeQueryParameter(_serializers, enterSends, const FullType(bool)),
     };
 
     final _response = await _dio.request<Object>(
@@ -1380,29 +1459,15 @@ class UsersApi {
     );
   }
 
-  /// Update notification settings
-  /// This endpoint is used to edit the user&#39;s global notification settings. See [this endpoint](/api/update-subscription-settings) for per-stream notification settings.  &#x60;PATCH {{ api_url }}/v1/settings/notifications&#x60; 
+  /// Update your status
+  /// Change your [status](/help/status-and-availability).  &#x60;POST {{ api_url }}/v1/users/me/status&#x60;  A request to this endpoint will only change the parameters passed. For example, passing just &#x60;status_text&#x60; requests a change in the status text, but will leave the status emoji unchanged.  Clients that wish to set the user&#39;s status to a specific value should pass all supported parameters. 
   ///
   /// Parameters:
-  /// * [enableStreamDesktopNotifications] - Enable visual desktop notifications for stream messages. 
-  /// * [enableStreamEmailNotifications] - Enable email notifications for stream messages. 
-  /// * [enableStreamPushNotifications] - Enable mobile notifications for stream messages. 
-  /// * [enableStreamAudibleNotifications] - Enable audible desktop notifications for stream messages. 
-  /// * [notificationSound] - Notification sound name.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63). 
-  /// * [enableDesktopNotifications] - Enable visual desktop notifications for private messages and @-mentions. 
-  /// * [enableSounds] - Enable audible desktop notifications for private messages and @-mentions. 
-  /// * [enableOfflineEmailNotifications] - Enable email notifications for private messages and @-mentions received when the user is offline. 
-  /// * [enableOfflinePushNotifications] - Enable mobile notification for private messages and @-mentions received when the user is offline. 
-  /// * [enableOnlinePushNotifications] - Enable mobile notification for private messages and @-mentions received when the user is online. 
-  /// * [enableDigestEmails] - Enable digest emails when the user is away. 
-  /// * [enableMarketingEmails] - Enable marketing emails. Has no function outside Zulip Cloud. 
-  /// * [enableLoginEmails] - Enable email notifications for new logins to account. 
-  /// * [messageContentInEmailNotifications] - Include the message's content in email notifications for new messages. 
-  /// * [pmContentInDesktopNotifications] - Include content of private messages in desktop notifications. 
-  /// * [wildcardMentionsNotify] - Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention. 
-  /// * [desktopIconCountDisplay] - Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None 
-  /// * [realmNameInNotifications] - Include organization name in subject of message notification emails. 
-  /// * [presenceEnabled] - Display the presence status to other users when online. 
+  /// * [statusText] - The text content of the status message. Sending the empty string will clear the user's status.  **Note**: The limit on the size of the message is 60 characters. 
+  /// * [away] - Whether the user should be marked as \"away\". 
+  /// * [emojiName] - The name for the emoji to associate with this status. 
+  /// * [emojiCode] - A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji. 
+  /// * [reactionType] - One of the following values:  * `unicode_emoji`: Unicode emoji (`emoji_code` will be its Unicode   codepoint). * `realm_emoji`: [Custom emoji](/help/add-custom-emoji).   (`emoji_code` will be its ID). * `zulip_extra_emoji`: Special emoji included with Zulip.  Exists to   namespace the `zulip` emoji. 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -1410,28 +1475,14 @@ class UsersApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [JsonSuccessBase] as data
+  /// Returns a [Future] containing a [Response] with a [JsonSuccess] as data
   /// Throws [DioError] if API call or serialization fails
-  Future<Response<JsonSuccessBase>> updateNotificationSettings({ 
-    bool? enableStreamDesktopNotifications,
-    bool? enableStreamEmailNotifications,
-    bool? enableStreamPushNotifications,
-    bool? enableStreamAudibleNotifications,
-    String? notificationSound,
-    bool? enableDesktopNotifications,
-    bool? enableSounds,
-    bool? enableOfflineEmailNotifications,
-    bool? enableOfflinePushNotifications,
-    bool? enableOnlinePushNotifications,
-    bool? enableDigestEmails,
-    bool? enableMarketingEmails,
-    bool? enableLoginEmails,
-    bool? messageContentInEmailNotifications,
-    bool? pmContentInDesktopNotifications,
-    bool? wildcardMentionsNotify,
-    int? desktopIconCountDisplay,
-    bool? realmNameInNotifications,
-    bool? presenceEnabled,
+  Future<Response<JsonSuccess>> updateStatus({ 
+    String? statusText,
+    bool? away,
+    String? emojiName,
+    String? emojiCode,
+    String? reactionType,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -1439,9 +1490,9 @@ class UsersApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/settings/notifications';
+    final _path = r'/users/me/status';
     final _options = Options(
-      method: r'PATCH',
+      method: r'POST',
       headers: <String, dynamic>{
         ...?headers,
       },
@@ -1453,25 +1504,11 @@ class UsersApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      if (enableStreamDesktopNotifications != null) r'enable_stream_desktop_notifications': encodeQueryParameter(_serializers, enableStreamDesktopNotifications, const FullType(bool)),
-      if (enableStreamEmailNotifications != null) r'enable_stream_email_notifications': encodeQueryParameter(_serializers, enableStreamEmailNotifications, const FullType(bool)),
-      if (enableStreamPushNotifications != null) r'enable_stream_push_notifications': encodeQueryParameter(_serializers, enableStreamPushNotifications, const FullType(bool)),
-      if (enableStreamAudibleNotifications != null) r'enable_stream_audible_notifications': encodeQueryParameter(_serializers, enableStreamAudibleNotifications, const FullType(bool)),
-      if (notificationSound != null) r'notification_sound': encodeQueryParameter(_serializers, notificationSound, const FullType(String)),
-      if (enableDesktopNotifications != null) r'enable_desktop_notifications': encodeQueryParameter(_serializers, enableDesktopNotifications, const FullType(bool)),
-      if (enableSounds != null) r'enable_sounds': encodeQueryParameter(_serializers, enableSounds, const FullType(bool)),
-      if (enableOfflineEmailNotifications != null) r'enable_offline_email_notifications': encodeQueryParameter(_serializers, enableOfflineEmailNotifications, const FullType(bool)),
-      if (enableOfflinePushNotifications != null) r'enable_offline_push_notifications': encodeQueryParameter(_serializers, enableOfflinePushNotifications, const FullType(bool)),
-      if (enableOnlinePushNotifications != null) r'enable_online_push_notifications': encodeQueryParameter(_serializers, enableOnlinePushNotifications, const FullType(bool)),
-      if (enableDigestEmails != null) r'enable_digest_emails': encodeQueryParameter(_serializers, enableDigestEmails, const FullType(bool)),
-      if (enableMarketingEmails != null) r'enable_marketing_emails': encodeQueryParameter(_serializers, enableMarketingEmails, const FullType(bool)),
-      if (enableLoginEmails != null) r'enable_login_emails': encodeQueryParameter(_serializers, enableLoginEmails, const FullType(bool)),
-      if (messageContentInEmailNotifications != null) r'message_content_in_email_notifications': encodeQueryParameter(_serializers, messageContentInEmailNotifications, const FullType(bool)),
-      if (pmContentInDesktopNotifications != null) r'pm_content_in_desktop_notifications': encodeQueryParameter(_serializers, pmContentInDesktopNotifications, const FullType(bool)),
-      if (wildcardMentionsNotify != null) r'wildcard_mentions_notify': encodeQueryParameter(_serializers, wildcardMentionsNotify, const FullType(bool)),
-      if (desktopIconCountDisplay != null) r'desktop_icon_count_display': encodeQueryParameter(_serializers, desktopIconCountDisplay, const FullType(int)),
-      if (realmNameInNotifications != null) r'realm_name_in_notifications': encodeQueryParameter(_serializers, realmNameInNotifications, const FullType(bool)),
-      if (presenceEnabled != null) r'presence_enabled': encodeQueryParameter(_serializers, presenceEnabled, const FullType(bool)),
+      if (statusText != null) r'status_text': encodeQueryParameter(_serializers, statusText, const FullType(String)),
+      if (away != null) r'away': encodeQueryParameter(_serializers, away, const FullType(bool)),
+      if (emojiName != null) r'emoji_name': encodeQueryParameter(_serializers, emojiName, const FullType(String)),
+      if (emojiCode != null) r'emoji_code': encodeQueryParameter(_serializers, emojiCode, const FullType(String)),
+      if (reactionType != null) r'reaction_type': encodeQueryParameter(_serializers, reactionType, const FullType(String)),
     };
 
     final _response = await _dio.request<Object>(
@@ -1483,14 +1520,14 @@ class UsersApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    JsonSuccessBase _responseData;
+    JsonSuccess _responseData;
 
     try {
-      const _responseType = FullType(JsonSuccessBase);
+      const _responseType = FullType(JsonSuccess);
       _responseData = _serializers.deserialize(
         _response.data!,
         specifiedType: _responseType,
-      ) as JsonSuccessBase;
+      ) as JsonSuccess;
 
     } catch (error, stackTrace) {
       throw DioError(
@@ -1501,7 +1538,7 @@ class UsersApi {
       )..stackTrace = stackTrace;
     }
 
-    return Response<JsonSuccessBase>(
+    return Response<JsonSuccess>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,

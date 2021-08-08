@@ -58,6 +58,37 @@ class StreamsApi {
 
     }
 
+    def deleteTopic ( Integer streamId, String topicName, Closure onSuccess, Closure onFailure)  {
+        String resourcePath = "/streams/${stream_id}/delete_topic"
+
+        // params
+        def queryParams = [:]
+        def headerParams = [:]
+        def bodyParams
+        def contentType
+
+        // verify required params are set
+        if (streamId == null) {
+            throw new RuntimeException("missing required params streamId")
+        }
+        // verify required params are set
+        if (topicName == null) {
+            throw new RuntimeException("missing required params topicName")
+        }
+
+        if (topicName != null) {
+            queryParams.put("topic_name", topicName)
+        }
+
+
+
+
+        apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
+                    "POST", "",
+                    JsonSuccess.class )
+
+    }
+
     def getStreamId ( String stream, Closure onSuccess, Closure onFailure)  {
         String resourcePath = "/get_stream_id"
 
@@ -137,6 +168,30 @@ class StreamsApi {
         if (includeOwnerSubscribed != null) {
             queryParams.put("include_owner_subscribed", includeOwnerSubscribed)
         }
+
+
+
+
+        apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
+                    "GET", "",
+                    JsonSuccessBase.class )
+
+    }
+
+    def getSubscribers ( Integer streamId, Closure onSuccess, Closure onFailure)  {
+        String resourcePath = "/streams/${stream_id}/members"
+
+        // params
+        def queryParams = [:]
+        def headerParams = [:]
+        def bodyParams
+        def contentType
+
+        // verify required params are set
+        if (streamId == null) {
+            throw new RuntimeException("missing required params streamId")
+        }
+
 
 
 

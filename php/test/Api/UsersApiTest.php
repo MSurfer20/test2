@@ -264,24 +264,24 @@ class UsersApiTest extends TestCase
     }
 
     /**
-     * Test case for updateDisplaySettings
+     * Test case for updateSettings
      *
-     * Update display settings.
+     * Update settings.
      *
      */
-    public function testUpdateDisplaySettings()
+    public function testUpdateSettings()
     {
         // TODO: implement
         $this->markTestIncomplete('Not implemented');
     }
 
     /**
-     * Test case for updateNotificationSettings
+     * Test case for updateStatus
      *
-     * Update notification settings.
+     * Update your status.
      *
      */
-    public function testUpdateNotificationSettings()
+    public function testUpdateStatus()
     {
         // TODO: implement
         $this->markTestIncomplete('Not implemented');

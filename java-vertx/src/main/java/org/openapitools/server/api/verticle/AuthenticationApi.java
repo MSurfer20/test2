@@ -10,10 +10,10 @@ import java.util.List;
 import java.util.Map;
 
 public interface AuthenticationApi  {
-    //dev_fetch_api_key
+    //dev-fetch-api-key
     void devFetchApiKey(String username, Handler<AsyncResult<ApiKeyResponse>> handler);
     
-    //fetch_api_key
+    //fetch-api-key
     void fetchApiKey(String username, String password, Handler<AsyncResult<ApiKeyResponse>> handler);
     
 }

@@ -2,7 +2,9 @@
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
 
-import 'package:openapi/src/model/emoji_reaction_base_user.dart';
+import 'package:openapi/src/model/emoji_reaction_base_all_of.dart';
+import 'package:openapi/src/model/emoji_base.dart';
+import 'package:openapi/src/model/emoji_reaction_base_all_of_user.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -11,13 +13,13 @@ part 'emoji_reaction_base.g.dart';
 /// EmojiReactionBase
 ///
 /// Properties:
-/// * [emojiCode] - A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint. 
+/// * [emojiCode] - A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji. 
 /// * [emojiName] - Name of the emoji. 
 /// * [reactionType] - One of the following values:  * `unicode_emoji`: Unicode emoji (`emoji_code` will be its Unicode   codepoint). * `realm_emoji`: [Custom emoji](/help/add-custom-emoji).   (`emoji_code` will be its ID). * `zulip_extra_emoji`: Special emoji included with Zulip.  Exists to   namespace the `zulip` emoji. 
 /// * [userId] - The ID of the user who added the reaction.  **Changes**: New in Zulip 3.0 (feature level 2). The `user` object is deprecated and will be removed in the future. 
 /// * [user] 
 abstract class EmojiReactionBase implements Built<EmojiReactionBase, EmojiReactionBaseBuilder> {
-    /// A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint. 
+    /// A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji. 
     @BuiltValueField(wireName: r'emoji_code')
     String? get emojiCode;
 
@@ -34,7 +36,7 @@ abstract class EmojiReactionBase implements Built<EmojiReactionBase, EmojiReacti
     int? get userId;
 
     @BuiltValueField(wireName: r'user')
-    EmojiReactionBaseUser? get user;
+    EmojiReactionBaseAllOfUser? get user;
 
     EmojiReactionBase._();
 
@@ -85,7 +87,7 @@ class _$EmojiReactionBaseSerializer implements StructuredSerializer<EmojiReactio
             result
                 ..add(r'user')
                 ..add(serializers.serialize(object.user,
-                    specifiedType: const FullType(EmojiReactionBaseUser)));
+                    specifiedType: const FullType(EmojiReactionBaseAllOfUser)));
         }
         return result;
     }
@@ -119,7 +121,7 @@ class _$EmojiReactionBaseSerializer implements StructuredSerializer<EmojiReactio
                     break;
                 case r'user':
                     result.user.replace(serializers.deserialize(value,
-                        specifiedType: const FullType(EmojiReactionBaseUser)) as EmojiReactionBaseUser);
+                        specifiedType: const FullType(EmojiReactionBaseAllOfUser)) as EmojiReactionBaseAllOfUser);
                     break;
             }
         }

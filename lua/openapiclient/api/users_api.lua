@@ -22,6 +22,7 @@ local openapiclient_json_error = require "openapiclient.model.json_error"
 local openapiclient_json_success = require "openapiclient.model.json_success"
 local openapiclient_json_success_base = require "openapiclient.model.json_success_base"
 local openapiclient_todo_object_mapping = require "openapiclient.model.todo_object_mapping"
+local openapiclient_one_ofobjectobjectobjectobjectobjectobject = require "openapiclient.model.one_ofobjectobjectobjectobjectobjectobject"
 local openapiclient_one_ofobjectobjectobject = require "openapiclient.model.one_ofobjectobjectobject"
 local openapiclient_one_ofobjectobject = require "openapiclient.model.one_ofobjectobject"
 
@@ -787,13 +788,13 @@ function users_api:unmute_user(muted_user_id)
 	end
 end
 
-function users_api:update_display_settings(twenty_four_hour_time, dense_mode, starred_message_counts, fluid_layout_width, high_contrast_mode, color_scheme, translate_emoticons, default_language, default_view, left_side_userlist, emojiset, demote_inactive_streams, timezone)
+function users_api:update_settings(full_name, email, old_password, new_password, twenty_four_hour_time, dense_mode, starred_message_counts, fluid_layout_width, high_contrast_mode, color_scheme, enable_drafts_synchronization, translate_emoticons, default_language, default_view, left_side_userlist, emojiset, demote_inactive_streams, timezone, enable_stream_desktop_notifications, enable_stream_email_notifications, enable_stream_push_notifications, enable_stream_audible_notifications, notification_sound, enable_desktop_notifications, enable_sounds, email_notifications_batching_period_seconds, enable_offline_email_notifications, enable_offline_push_notifications, enable_online_push_notifications, enable_digest_emails, enable_marketing_emails, enable_login_emails, message_content_in_email_notifications, pm_content_in_desktop_notifications, wildcard_mentions_notify, desktop_icon_count_display, realm_name_in_notifications, presence_enabled, enter_sends)
 	local req = http_request.new_from_uri({
 		scheme = self.default_scheme;
 		host = self.host;
 		port = self.port;
-		path = string.format("%s/settings/display?twenty_four_hour_time=%s&dense_mode=%s&starred_message_counts=%s&fluid_layout_width=%s&high_contrast_mode=%s&color_scheme=%s&translate_emoticons=%s&default_language=%s&default_view=%s&left_side_userlist=%s&emojiset=%s&demote_inactive_streams=%s&timezone=%s",
-			self.basePath, http_util.encodeURIComponent(twenty_four_hour_time), http_util.encodeURIComponent(dense_mode), http_util.encodeURIComponent(starred_message_counts), http_util.encodeURIComponent(fluid_layout_width), http_util.encodeURIComponent(high_contrast_mode), http_util.encodeURIComponent(color_scheme), http_util.encodeURIComponent(translate_emoticons), http_util.encodeURIComponent(default_language), http_util.encodeURIComponent(default_view), http_util.encodeURIComponent(left_side_userlist), http_util.encodeURIComponent(emojiset), http_util.encodeURIComponent(demote_inactive_streams), http_util.encodeURIComponent(timezone));
+		path = string.format("%s/settings?full_name=%s&email=%s&old_password=%s&new_password=%s&twenty_four_hour_time=%s&dense_mode=%s&starred_message_counts=%s&fluid_layout_width=%s&high_contrast_mode=%s&color_scheme=%s&enable_drafts_synchronization=%s&translate_emoticons=%s&default_language=%s&default_view=%s&left_side_userlist=%s&emojiset=%s&demote_inactive_streams=%s&timezone=%s&enable_stream_desktop_notifications=%s&enable_stream_email_notifications=%s&enable_stream_push_notifications=%s&enable_stream_audible_notifications=%s&notification_sound=%s&enable_desktop_notifications=%s&enable_sounds=%s&email_notifications_batching_period_seconds=%s&enable_offline_email_notifications=%s&enable_offline_push_notifications=%s&enable_online_push_notifications=%s&enable_digest_emails=%s&enable_marketing_emails=%s&enable_login_emails=%s&message_content_in_email_notifications=%s&pm_content_in_desktop_notifications=%s&wildcard_mentions_notify=%s&desktop_icon_count_display=%s&realm_name_in_notifications=%s&presence_enabled=%s&enter_sends=%s",
+			self.basePath, http_util.encodeURIComponent(full_name), http_util.encodeURIComponent(email), http_util.encodeURIComponent(old_password), http_util.encodeURIComponent(new_password), http_util.encodeURIComponent(twenty_four_hour_time), http_util.encodeURIComponent(dense_mode), http_util.encodeURIComponent(starred_message_counts), http_util.encodeURIComponent(fluid_layout_width), http_util.encodeURIComponent(high_contrast_mode), http_util.encodeURIComponent(color_scheme), http_util.encodeURIComponent(enable_drafts_synchronization), http_util.encodeURIComponent(translate_emoticons), http_util.encodeURIComponent(default_language), http_util.encodeURIComponent(default_view), http_util.encodeURIComponent(left_side_userlist), http_util.encodeURIComponent(emojiset), http_util.encodeURIComponent(demote_inactive_streams), http_util.encodeURIComponent(timezone), http_util.encodeURIComponent(enable_stream_desktop_notifications), http_util.encodeURIComponent(enable_stream_email_notifications), http_util.encodeURIComponent(enable_stream_push_notifications), http_util.encodeURIComponent(enable_stream_audible_notifications), http_util.encodeURIComponent(notification_sound), http_util.encodeURIComponent(enable_desktop_notifications), http_util.encodeURIComponent(enable_sounds), http_util.encodeURIComponent(email_notifications_batching_period_seconds), http_util.encodeURIComponent(enable_offline_email_notifications), http_util.encodeURIComponent(enable_offline_push_notifications), http_util.encodeURIComponent(enable_online_push_notifications), http_util.encodeURIComponent(enable_digest_emails), http_util.encodeURIComponent(enable_marketing_emails), http_util.encodeURIComponent(enable_login_emails), http_util.encodeURIComponent(message_content_in_email_notifications), http_util.encodeURIComponent(pm_content_in_desktop_notifications), http_util.encodeURIComponent(wildcard_mentions_notify), http_util.encodeURIComponent(desktop_icon_count_display), http_util.encodeURIComponent(realm_name_in_notifications), http_util.encodeURIComponent(presence_enabled), http_util.encodeURIComponent(enter_sends));
 	})
 
 	-- set HTTP verb
@@ -833,17 +834,17 @@ function users_api:update_display_settings(twenty_four_hour_time, dense_mode, st
 	end
 end
 
-function users_api:update_notification_settings(enable_stream_desktop_notifications, enable_stream_email_notifications, enable_stream_push_notifications, enable_stream_audible_notifications, notification_sound, enable_desktop_notifications, enable_sounds, enable_offline_email_notifications, enable_offline_push_notifications, enable_online_push_notifications, enable_digest_emails, enable_marketing_emails, enable_login_emails, message_content_in_email_notifications, pm_content_in_desktop_notifications, wildcard_mentions_notify, desktop_icon_count_display, realm_name_in_notifications, presence_enabled)
+function users_api:update_status(status_text, away, emoji_name, emoji_code, reaction_type)
 	local req = http_request.new_from_uri({
 		scheme = self.default_scheme;
 		host = self.host;
 		port = self.port;
-		path = string.format("%s/settings/notifications?enable_stream_desktop_notifications=%s&enable_stream_email_notifications=%s&enable_stream_push_notifications=%s&enable_stream_audible_notifications=%s&notification_sound=%s&enable_desktop_notifications=%s&enable_sounds=%s&enable_offline_email_notifications=%s&enable_offline_push_notifications=%s&enable_online_push_notifications=%s&enable_digest_emails=%s&enable_marketing_emails=%s&enable_login_emails=%s&message_content_in_email_notifications=%s&pm_content_in_desktop_notifications=%s&wildcard_mentions_notify=%s&desktop_icon_count_display=%s&realm_name_in_notifications=%s&presence_enabled=%s",
-			self.basePath, http_util.encodeURIComponent(enable_stream_desktop_notifications), http_util.encodeURIComponent(enable_stream_email_notifications), http_util.encodeURIComponent(enable_stream_push_notifications), http_util.encodeURIComponent(enable_stream_audible_notifications), http_util.encodeURIComponent(notification_sound), http_util.encodeURIComponent(enable_desktop_notifications), http_util.encodeURIComponent(enable_sounds), http_util.encodeURIComponent(enable_offline_email_notifications), http_util.encodeURIComponent(enable_offline_push_notifications), http_util.encodeURIComponent(enable_online_push_notifications), http_util.encodeURIComponent(enable_digest_emails), http_util.encodeURIComponent(enable_marketing_emails), http_util.encodeURIComponent(enable_login_emails), http_util.encodeURIComponent(message_content_in_email_notifications), http_util.encodeURIComponent(pm_content_in_desktop_notifications), http_util.encodeURIComponent(wildcard_mentions_notify), http_util.encodeURIComponent(desktop_icon_count_display), http_util.encodeURIComponent(realm_name_in_notifications), http_util.encodeURIComponent(presence_enabled));
+		path = string.format("%s/users/me/status?status_text=%s&away=%s&emoji_name=%s&emoji_code=%s&reaction_type=%s",
+			self.basePath, http_util.encodeURIComponent(status_text), http_util.encodeURIComponent(away), http_util.encodeURIComponent(emoji_name), http_util.encodeURIComponent(emoji_code), http_util.encodeURIComponent(reaction_type));
 	})
 
 	-- set HTTP verb
-	req.headers:upsert(":method", "PATCH")
+	req.headers:upsert(":method", "POST")
 	-- TODO: create a function to select proper content-type
 	--local var_accept = { "application/json" }
 	req.headers:upsert("content-type", "application/json")
@@ -867,7 +868,7 @@ function users_api:update_notification_settings(enable_stream_desktop_notificati
 		if result == nil then
 			return nil, err3
 		end
-		return openapiclient_json_success_base.cast(result), headers
+		return openapiclient_json_success.cast(result), headers
 	else
 		local body, err, errno2 = stream:get_body_as_string()
 		if not body then

@@ -150,48 +150,60 @@ isa_ok($api, 'WWW::OpenAPIClient::UsersApi');
 #my $unmute_user_result = $api->unmute_user(muted_user_id => $unmute_user_muted_user_id);
 
 #
-# update_display_settings test
+# update_settings test
 #
 # uncomment below and update the test
-#my $update_display_settings_twenty_four_hour_time = undef; # replace NULL with a proper value
-#my $update_display_settings_dense_mode = undef; # replace NULL with a proper value
-#my $update_display_settings_starred_message_counts = undef; # replace NULL with a proper value
-#my $update_display_settings_fluid_layout_width = undef; # replace NULL with a proper value
-#my $update_display_settings_high_contrast_mode = undef; # replace NULL with a proper value
-#my $update_display_settings_color_scheme = undef; # replace NULL with a proper value
-#my $update_display_settings_translate_emoticons = undef; # replace NULL with a proper value
-#my $update_display_settings_default_language = undef; # replace NULL with a proper value
-#my $update_display_settings_default_view = undef; # replace NULL with a proper value
-#my $update_display_settings_left_side_userlist = undef; # replace NULL with a proper value
-#my $update_display_settings_emojiset = undef; # replace NULL with a proper value
-#my $update_display_settings_demote_inactive_streams = undef; # replace NULL with a proper value
-#my $update_display_settings_timezone = undef; # replace NULL with a proper value
-#my $update_display_settings_result = $api->update_display_settings(twenty_four_hour_time => $update_display_settings_twenty_four_hour_time, dense_mode => $update_display_settings_dense_mode, starred_message_counts => $update_display_settings_starred_message_counts, fluid_layout_width => $update_display_settings_fluid_layout_width, high_contrast_mode => $update_display_settings_high_contrast_mode, color_scheme => $update_display_settings_color_scheme, translate_emoticons => $update_display_settings_translate_emoticons, default_language => $update_display_settings_default_language, default_view => $update_display_settings_default_view, left_side_userlist => $update_display_settings_left_side_userlist, emojiset => $update_display_settings_emojiset, demote_inactive_streams => $update_display_settings_demote_inactive_streams, timezone => $update_display_settings_timezone);
+#my $update_settings_full_name = undef; # replace NULL with a proper value
+#my $update_settings_email = undef; # replace NULL with a proper value
+#my $update_settings_old_password = undef; # replace NULL with a proper value
+#my $update_settings_new_password = undef; # replace NULL with a proper value
+#my $update_settings_twenty_four_hour_time = undef; # replace NULL with a proper value
+#my $update_settings_dense_mode = undef; # replace NULL with a proper value
+#my $update_settings_starred_message_counts = undef; # replace NULL with a proper value
+#my $update_settings_fluid_layout_width = undef; # replace NULL with a proper value
+#my $update_settings_high_contrast_mode = undef; # replace NULL with a proper value
+#my $update_settings_color_scheme = undef; # replace NULL with a proper value
+#my $update_settings_enable_drafts_synchronization = undef; # replace NULL with a proper value
+#my $update_settings_translate_emoticons = undef; # replace NULL with a proper value
+#my $update_settings_default_language = undef; # replace NULL with a proper value
+#my $update_settings_default_view = undef; # replace NULL with a proper value
+#my $update_settings_left_side_userlist = undef; # replace NULL with a proper value
+#my $update_settings_emojiset = undef; # replace NULL with a proper value
+#my $update_settings_demote_inactive_streams = undef; # replace NULL with a proper value
+#my $update_settings_timezone = undef; # replace NULL with a proper value
+#my $update_settings_enable_stream_desktop_notifications = undef; # replace NULL with a proper value
+#my $update_settings_enable_stream_email_notifications = undef; # replace NULL with a proper value
+#my $update_settings_enable_stream_push_notifications = undef; # replace NULL with a proper value
+#my $update_settings_enable_stream_audible_notifications = undef; # replace NULL with a proper value
+#my $update_settings_notification_sound = undef; # replace NULL with a proper value
+#my $update_settings_enable_desktop_notifications = undef; # replace NULL with a proper value
+#my $update_settings_enable_sounds = undef; # replace NULL with a proper value
+#my $update_settings_email_notifications_batching_period_seconds = undef; # replace NULL with a proper value
+#my $update_settings_enable_offline_email_notifications = undef; # replace NULL with a proper value
+#my $update_settings_enable_offline_push_notifications = undef; # replace NULL with a proper value
+#my $update_settings_enable_online_push_notifications = undef; # replace NULL with a proper value
+#my $update_settings_enable_digest_emails = undef; # replace NULL with a proper value
+#my $update_settings_enable_marketing_emails = undef; # replace NULL with a proper value
+#my $update_settings_enable_login_emails = undef; # replace NULL with a proper value
+#my $update_settings_message_content_in_email_notifications = undef; # replace NULL with a proper value
+#my $update_settings_pm_content_in_desktop_notifications = undef; # replace NULL with a proper value
+#my $update_settings_wildcard_mentions_notify = undef; # replace NULL with a proper value
+#my $update_settings_desktop_icon_count_display = undef; # replace NULL with a proper value
+#my $update_settings_realm_name_in_notifications = undef; # replace NULL with a proper value
+#my $update_settings_presence_enabled = undef; # replace NULL with a proper value
+#my $update_settings_enter_sends = undef; # replace NULL with a proper value
+#my $update_settings_result = $api->update_settings(full_name => $update_settings_full_name, email => $update_settings_email, old_password => $update_settings_old_password, new_password => $update_settings_new_password, twenty_four_hour_time => $update_settings_twenty_four_hour_time, dense_mode => $update_settings_dense_mode, starred_message_counts => $update_settings_starred_message_counts, fluid_layout_width => $update_settings_fluid_layout_width, high_contrast_mode => $update_settings_high_contrast_mode, color_scheme => $update_settings_color_scheme, enable_drafts_synchronization => $update_settings_enable_drafts_synchronization, translate_emoticons => $update_settings_translate_emoticons, default_language => $update_settings_default_language, default_view => $update_settings_default_view, left_side_userlist => $update_settings_left_side_userlist, emojiset => $update_settings_emojiset, demote_inactive_streams => $update_settings_demote_inactive_streams, timezone => $update_settings_timezone, enable_stream_desktop_notifications => $update_settings_enable_stream_desktop_notifications, enable_stream_email_notifications => $update_settings_enable_stream_email_notifications, enable_stream_push_notifications => $update_settings_enable_stream_push_notifications, enable_stream_audible_notifications => $update_settings_enable_stream_audible_notifications, notification_sound => $update_settings_notification_sound, enable_desktop_notifications => $update_settings_enable_desktop_notifications, enable_sounds => $update_settings_enable_sounds, email_notifications_batching_period_seconds => $update_settings_email_notifications_batching_period_seconds, enable_offline_email_notifications => $update_settings_enable_offline_email_notifications, enable_offline_push_notifications => $update_settings_enable_offline_push_notifications, enable_online_push_notifications => $update_settings_enable_online_push_notifications, enable_digest_emails => $update_settings_enable_digest_emails, enable_marketing_emails => $update_settings_enable_marketing_emails, enable_login_emails => $update_settings_enable_login_emails, message_content_in_email_notifications => $update_settings_message_content_in_email_notifications, pm_content_in_desktop_notifications => $update_settings_pm_content_in_desktop_notifications, wildcard_mentions_notify => $update_settings_wildcard_mentions_notify, desktop_icon_count_display => $update_settings_desktop_icon_count_display, realm_name_in_notifications => $update_settings_realm_name_in_notifications, presence_enabled => $update_settings_presence_enabled, enter_sends => $update_settings_enter_sends);
 
 #
-# update_notification_settings test
+# update_status test
 #
 # uncomment below and update the test
-#my $update_notification_settings_enable_stream_desktop_notifications = undef; # replace NULL with a proper value
-#my $update_notification_settings_enable_stream_email_notifications = undef; # replace NULL with a proper value
-#my $update_notification_settings_enable_stream_push_notifications = undef; # replace NULL with a proper value
-#my $update_notification_settings_enable_stream_audible_notifications = undef; # replace NULL with a proper value
-#my $update_notification_settings_notification_sound = undef; # replace NULL with a proper value
-#my $update_notification_settings_enable_desktop_notifications = undef; # replace NULL with a proper value
-#my $update_notification_settings_enable_sounds = undef; # replace NULL with a proper value
-#my $update_notification_settings_enable_offline_email_notifications = undef; # replace NULL with a proper value
-#my $update_notification_settings_enable_offline_push_notifications = undef; # replace NULL with a proper value
-#my $update_notification_settings_enable_online_push_notifications = undef; # replace NULL with a proper value
-#my $update_notification_settings_enable_digest_emails = undef; # replace NULL with a proper value
-#my $update_notification_settings_enable_marketing_emails = undef; # replace NULL with a proper value
-#my $update_notification_settings_enable_login_emails = undef; # replace NULL with a proper value
-#my $update_notification_settings_message_content_in_email_notifications = undef; # replace NULL with a proper value
-#my $update_notification_settings_pm_content_in_desktop_notifications = undef; # replace NULL with a proper value
-#my $update_notification_settings_wildcard_mentions_notify = undef; # replace NULL with a proper value
-#my $update_notification_settings_desktop_icon_count_display = undef; # replace NULL with a proper value
-#my $update_notification_settings_realm_name_in_notifications = undef; # replace NULL with a proper value
-#my $update_notification_settings_presence_enabled = undef; # replace NULL with a proper value
-#my $update_notification_settings_result = $api->update_notification_settings(enable_stream_desktop_notifications => $update_notification_settings_enable_stream_desktop_notifications, enable_stream_email_notifications => $update_notification_settings_enable_stream_email_notifications, enable_stream_push_notifications => $update_notification_settings_enable_stream_push_notifications, enable_stream_audible_notifications => $update_notification_settings_enable_stream_audible_notifications, notification_sound => $update_notification_settings_notification_sound, enable_desktop_notifications => $update_notification_settings_enable_desktop_notifications, enable_sounds => $update_notification_settings_enable_sounds, enable_offline_email_notifications => $update_notification_settings_enable_offline_email_notifications, enable_offline_push_notifications => $update_notification_settings_enable_offline_push_notifications, enable_online_push_notifications => $update_notification_settings_enable_online_push_notifications, enable_digest_emails => $update_notification_settings_enable_digest_emails, enable_marketing_emails => $update_notification_settings_enable_marketing_emails, enable_login_emails => $update_notification_settings_enable_login_emails, message_content_in_email_notifications => $update_notification_settings_message_content_in_email_notifications, pm_content_in_desktop_notifications => $update_notification_settings_pm_content_in_desktop_notifications, wildcard_mentions_notify => $update_notification_settings_wildcard_mentions_notify, desktop_icon_count_display => $update_notification_settings_desktop_icon_count_display, realm_name_in_notifications => $update_notification_settings_realm_name_in_notifications, presence_enabled => $update_notification_settings_presence_enabled);
+#my $update_status_status_text = undef; # replace NULL with a proper value
+#my $update_status_away = undef; # replace NULL with a proper value
+#my $update_status_emoji_name = undef; # replace NULL with a proper value
+#my $update_status_emoji_code = undef; # replace NULL with a proper value
+#my $update_status_reaction_type = undef; # replace NULL with a proper value
+#my $update_status_result = $api->update_status(status_text => $update_status_status_text, away => $update_status_away, emoji_name => $update_status_emoji_name, emoji_code => $update_status_emoji_code, reaction_type => $update_status_reaction_type);
 
 #
 # update_user test

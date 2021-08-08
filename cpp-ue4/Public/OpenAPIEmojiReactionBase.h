@@ -13,7 +13,9 @@
 #pragma once
 
 #include "OpenAPIBaseModel.h"
-#include "OpenAPIEmojiReactionBaseUser.h"
+#include "OpenAPIEmojiBase.h"
+#include "OpenAPIEmojiReactionBaseAllOf.h"
+#include "OpenAPIEmojiReactionBaseAllOfUser.h"
 
 namespace OpenAPI 
 {
@@ -30,7 +32,7 @@ public:
 	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
 	void WriteJson(JsonWriter& Writer) const final;
 
-	/* A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint.  */
+	/* A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji.  */
 	TOptional<FString> EmojiCode;
 	/* Name of the emoji.  */
 	TOptional<FString> EmojiName;
@@ -38,7 +40,7 @@ public:
 	TOptional<FString> ReactionType;
 	/* The ID of the user who added the reaction.  **Changes**: New in Zulip 3.0 (feature level 2). The `user` object is deprecated and will be removed in the future.  */
 	TOptional<int32> UserId;
-	TOptional<OpenAPIEmojiReactionBaseUser> User;
+	TOptional<OpenAPIEmojiReactionBaseAllOfUser> User;
 };
 
 }

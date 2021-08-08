@@ -3,6 +3,7 @@ import * as angular from 'angular';
 
 const apiModule = angular.module('api', [])
 .service('AuthenticationApi', api.AuthenticationApi)
+.service('DraftsApi', api.DraftsApi)
 .service('MessagesApi', api.MessagesApi)
 .service('RealTimeEventsApi', api.RealTimeEventsApi)
 .service('ServerAndOrganizationsApi', api.ServerAndOrganizationsApi)

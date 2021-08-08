@@ -202,6 +202,13 @@ font-style: italic;
   <li><a href="#devFetchApiKey"><code><span class="http-method">post</span> /dev_fetch_api_key</code></a></li>
   <li><a href="#fetchApiKey"><code><span class="http-method">post</span> /fetch_api_key</code></a></li>
   </ul>
+  <h4><a href="#Drafts">Drafts</a></h4>
+  <ul>
+  <li><a href="#createDrafts"><code><span class="http-method">post</span> /drafts</code></a></li>
+  <li><a href="#deleteDraft"><code><span class="http-method">delete</span> /drafts/{draft_id}</code></a></li>
+  <li><a href="#editDraft"><code><span class="http-method">patch</span> /drafts/{draft_id}</code></a></li>
+  <li><a href="#getDrafts"><code><span class="http-method">get</span> /drafts</code></a></li>
+  </ul>
   <h4><a href="#Messages">Messages</a></h4>
   <ul>
   <li><a href="#addReaction"><code><span class="http-method">post</span> /messages/{message_id}/reactions</code></a></li>
@@ -248,9 +255,11 @@ font-style: italic;
   <ul>
   <li><a href="#archiveStream"><code><span class="http-method">delete</span> /streams/{stream_id}</code></a></li>
   <li><a href="#createBigBlueButtonVideoCall"><code><span class="http-method">get</span> /calls/bigbluebutton/create</code></a></li>
+  <li><a href="#deleteTopic"><code><span class="http-method">post</span> /streams/{stream_id}/delete_topic</code></a></li>
   <li><a href="#getStreamId"><code><span class="http-method">get</span> /get_stream_id</code></a></li>
   <li><a href="#getStreamTopics"><code><span class="http-method">get</span> /users/me/{stream_id}/topics</code></a></li>
   <li><a href="#getStreams"><code><span class="http-method">get</span> /streams</code></a></li>
+  <li><a href="#getSubscribers"><code><span class="http-method">get</span> /streams/{stream_id}/members</code></a></li>
   <li><a href="#getSubscriptionStatus"><code><span class="http-method">get</span> /users/{user_id}/subscriptions/{stream_id}</code></a></li>
   <li><a href="#getSubscriptions"><code><span class="http-method">get</span> /users/me/subscriptions</code></a></li>
   <li><a href="#muteTopic"><code><span class="http-method">patch</span> /users/me/subscriptions/muted_topics</code></a></li>
@@ -278,8 +287,8 @@ font-style: italic;
   <li><a href="#removeUserGroup"><code><span class="http-method">delete</span> /user_groups/{user_group_id}</code></a></li>
   <li><a href="#setTypingStatus"><code><span class="http-method">post</span> /typing</code></a></li>
   <li><a href="#unmuteUser"><code><span class="http-method">delete</span> /users/me/muted_users/{muted_user_id}</code></a></li>
-  <li><a href="#updateDisplaySettings"><code><span class="http-method">patch</span> /settings/display</code></a></li>
-  <li><a href="#updateNotificationSettings"><code><span class="http-method">patch</span> /settings/notifications</code></a></li>
+  <li><a href="#updateSettings"><code><span class="http-method">patch</span> /settings</code></a></li>
+  <li><a href="#updateStatus"><code><span class="http-method">post</span> /users/me/status</code></a></li>
   <li><a href="#updateUser"><code><span class="http-method">patch</span> /users/{user_id}</code></a></li>
   <li><a href="#updateUserGroup"><code><span class="http-method">patch</span> /user_groups/{user_group_id}</code></a></li>
   <li><a href="#updateUserGroupMembers"><code><span class="http-method">post</span> /user_groups/{user_group_id}/members</code></a></li>
@@ -404,6 +413,191 @@ address, but depending on configuration, it could be an LDAP username).</p>
     <h4 class="field-label">200</h4>
     Valid credentials the client can use to access the Zulip API.
         <a href="#ApiKeyResponse">ApiKeyResponse</a>
+  </div> <!-- method -->
+  <hr/>
+  <h1><a name="Drafts">Drafts</a></h1>
+  <div class="method"><a name="createDrafts"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /drafts</code></pre></div>
+    <div class="method-summary">Create drafts (<span class="nickname">createDrafts</span>)</div>
+    <div class="method-notes"><p>Create one or more drafts on the server. These drafts will be automatically
+synchronized to other clients via <code>drafts</code> events.</p>
+<p><code>POST {{ api_url }}/v1/drafts</code></p>
+</div>
+
+
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">drafts (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; A JSON-encoded list of containing new draft objects. default: null </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#JsonSuccess">JsonSuccess</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success.
+        <a href="#JsonSuccess">JsonSuccess</a>
+    <h4 class="field-label">400</h4>
+    Bad request.
+        <a href="#CodedError">CodedError</a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="deleteDraft"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /drafts/{draft_id}</code></pre></div>
+    <div class="method-summary">Delete a draft (<span class="nickname">deleteDraft</span>)</div>
+    <div class="method-notes"><p>Delete a single draft from the server. The deletion will be automatically
+synchronized to other clients via a <code>drafts</code> event.</p>
+<p><code>DELETE {{ api_url }}/v1/drafts/{draft_id}</code></p>
+</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">draft_id (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; The ID of the draft you want to delete. default: null </div>
+    </div>  <!-- field-items -->
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#JsonSuccess">JsonSuccess</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success.
+        <a href="#JsonSuccess">JsonSuccess</a>
+    <h4 class="field-label">404</h4>
+    Not Found.
+        <a href="#JsonError">JsonError</a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="editDraft"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="patch"><code class="huge"><span class="http-method">patch</span> /drafts/{draft_id}</code></pre></div>
+    <div class="method-summary">Edit a draft (<span class="nickname">editDraft</span>)</div>
+    <div class="method-notes"><p>Edit a draft on the server. The edit will be automatically
+synchronized to other clients via <code>drafts</code> events.</p>
+<p><code>PATCH {{ api_url }}/v1/drafts/{draft_id}</code></p>
+</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">draft_id (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; The ID of the draft to be edited. default: null </div>
+    </div>  <!-- field-items -->
+
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">draft (required)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; A JSON-encoded object containing a replacement draft object for this ID. default: null </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#JsonSuccess">JsonSuccess</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success.
+        <a href="#JsonSuccess">JsonSuccess</a>
+    <h4 class="field-label">404</h4>
+    Not Found.
+        <a href="#JsonError">JsonError</a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="getDrafts"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /drafts</code></pre></div>
+    <div class="method-summary">Get drafts (<span class="nickname">getDrafts</span>)</div>
+    <div class="method-notes"><p>Fetch all drafts for the current user.</p>
+<p><code>GET {{ api_url }}/v1/drafts</code></p>
+</div>
+
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#JsonSuccess">JsonSuccess</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success.
+        <a href="#JsonSuccess">JsonSuccess</a>
   </div> <!-- method -->
   <hr/>
   <h1><a name="Messages">Messages</a></h1>
@@ -1647,8 +1841,9 @@ relevant to the format of responses sent by the server.</p>
 client can handle the current API with null values for
 stream-level notification settings (which means the stream
 is not customized and should inherit the user's global
-notification settings for stream messages).  New in Zulip
-2.1.0; in earlier Zulip releases, stream-level
+notification settings for stream messages).
+<br />
+New in Zulip 2.1.0; in earlier Zulip releases, stream-level
 notification settings were simple booleans.</p>
 </li>
 <li>
@@ -1657,7 +1852,9 @@ handler for the <code>delete_message</code> event type has been
 updated to process the new bulk format (with a
 <code>message_ids</code>, rather than a singleton <code>message_id</code>).
 Otherwise, the server will send <code>delete_message</code> events
-in a loop.  New in Zulip 3.0 (feature level 13).  This
+in a loop.
+<br />
+New in Zulip 3.0 (feature level 13).  This
 capability is for backwards-compatibility; it will be
 required in a future server release.</p>
 </li>
@@ -1669,14 +1866,34 @@ client has this capability, the server may skip sending a
 <code>avatar_url</code> field in the <code>realm_user</code> at its sole discretion
 to optimize network performance.  This is an important optimization
 in organizations with 10,000s of users.
+<br />
 New in Zulip 3.0 (feature level 18).</p>
 </li>
 <li>
 <p><code>stream_typing_notifications</code>: Boolean for whether the client
-supports stream typing notifications.</p>
-<p>New in Zulip 4.0 (feature level 58).  This capability is
+supports stream typing notifications.
+<br />
+New in Zulip 4.0 (feature level 58).  This capability is
 for backwards-compatibility; it will be required in a
 future server release.</p>
+</li>
+<li>
+<p><code>user_settings_object</code>: Boolean for whether the client supports the modern
+<code>user_settings</code> event type. If False, the server will additionally send the
+legacy <code>update_display_settings</code> and <code>update_global_notifications</code> event
+types for backwards-compatibility with clients that predate this API migration.
+<br />
+<br />
+Because the feature level 89 API changes were merged together, clients can
+safely make a request with this client capability and requesting all of the
+<code>user_settings</code>, <code>update_display_settings</code>, and
+<code>update_global_notifications</code> event types, and get exactly one copy of
+settings data on any server version. (And then use the <code>zulip_feature_level</code>
+in the <code>/register</code> response or the presence/absence of a <code>user_settings</code> key
+to determine where to look).
+<br />
+New in Zulip 5.0 (feature level 89).  This capability is for
+backwards-compatibility; it will be removed in a future server release.</p>
 </li>
 </ul>
  default: null </div><div class="param">fetch_event_types (optional)</div>
@@ -2432,6 +2649,61 @@ Requires BigBlueButton to be configured on the Zulip server.</div>
         <a href="#JsonSuccessBase">JsonSuccessBase</a>
   </div> <!-- method -->
   <hr/>
+  <div class="method"><a name="deleteTopic"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /streams/{stream_id}/delete_topic</code></pre></div>
+    <div class="method-summary">Delete a topic (<span class="nickname">deleteTopic</span>)</div>
+    <div class="method-notes"><p>Delete all messages in a topic.</p>
+<p><code>POST {{ api_url }}/v1/streams/{stream_id}/delete_topic</code></p>
+<p>Topics are a field on messages (not an independent
+data structure), so deleting all the messages in the topic
+deletes the topic from Zulip.</p>
+</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">stream_id (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; The ID of the stream to access. default: null </div>
+    </div>  <!-- field-items -->
+
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">topic_name (required)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; The name of the topic to delete. default: null </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#JsonSuccess">JsonSuccess</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success.
+        <a href="#JsonSuccess">JsonSuccess</a>
+    <h4 class="field-label">400</h4>
+    Error.
+        <a href="#JsonError">JsonError</a>
+  </div> <!-- method -->
+  <hr/>
   <div class="method"><a name="getStreamId"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
@@ -2580,6 +2852,52 @@ subscribed to. default: false </div>
     <h4 class="field-label">400</h4>
     Bad request.
         <a href="#CodedError">CodedError</a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="getSubscribers"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /streams/{stream_id}/members</code></pre></div>
+    <div class="method-summary">Get the subscribers of a stream (<span class="nickname">getSubscribers</span>)</div>
+    <div class="method-notes"><p>Get all users subscribed to a stream.</p>
+<p><code>Get {{ api_url }}/v1/streams/{stream_id}/members</code></p>
+</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">stream_id (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; The ID of the stream to access. default: null </div>
+    </div>  <!-- field-items -->
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#JsonSuccessBase">JsonSuccessBase</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success.
+        <a href="#JsonSuccessBase">JsonSuccessBase</a>
+    <h4 class="field-label">400</h4>
+    Bad request.
+        <a href="#JsonError">JsonError</a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="getSubscriptionStatus"/>
@@ -3959,13 +4277,28 @@ Ignored in case of 'private' type. default: null </div>
         <a href="#oneOf<object,object>">oneOf<object,object></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="updateDisplaySettings"/>
+  <div class="method"><a name="updateSettings"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="patch"><code class="huge"><span class="http-method">patch</span> /settings/display</code></pre></div>
-    <div class="method-summary">Update display settings (<span class="nickname">updateDisplaySettings</span>)</div>
-    <div class="method-notes"><p>This endpoint is used to edit the current user's user interface settings.</p>
-<p><code>PATCH {{ api_url }}/v1/settings/display</code></p>
+    <pre class="patch"><code class="huge"><span class="http-method">patch</span> /settings</code></pre></div>
+    <div class="method-summary">Update settings (<span class="nickname">updateSettings</span>)</div>
+    <div class="method-notes"><p>This endpoint is used to edit the current user's settings.</p>
+<p><code>PATCH {{ api_url }}/v1/settings</code></p>
+<p><strong>Changes</strong>: Prior to Zulip 5.0 (feature level 80), this
+endpoint only supported the <code>full_name</code>, <code>email</code>,
+<code>old_password</code>, and <code>new_password</code> parameters. Notification
+settings were managed by <code>PATCH /settings/notifications</code>, and
+all other settings by <code>PATCH /settings/display</code>. The feature level
+80 migration to merge these endpoints did not change how request
+parameters are encoded. Note, however, that it did change the
+handling of any invalid parameters present in a request to change
+notification or display settings, since the merged endpoint uses
+the new response format that was introduced for <code>/settings</code> in
+Zulip 5.0 (feature level 78).</p>
+<p>The <code>/settings/display</code> and <code>/settings/notifications</code>
+endpoints are now deprecated aliases for this endpoint for
+backwards-compatibility, and will be removed once clients have
+migrated to use this endpoint.</p>
 </div>
 
 
@@ -3974,21 +4307,50 @@ Ignored in case of 'private' type. default: null </div>
 
     <h3 class="field-label">Query parameters</h3>
     <div class="field-items">
-      <div class="param">twenty_four_hour_time (optional)</div>
+      <div class="param">full_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Whether time should be <a href="/help/change-the-time-format">displayed in 24-hour notation</a>. default: null </div><div class="param">dense_mode (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; A new display name for the user. default: null </div><div class="param">email (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; This setting has no effect at present.  It is reserved for use in controlling
-the default font size in Zulip. default: null </div><div class="param">starred_message_counts (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Asks the server to initiate a confirmation sequence to change the user's email
+address to the indicated value. The user will need to demonstrate control of the
+new email address by clicking a confirmation link sent to that address. default: null </div><div class="param">old_password (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Whether clients should display the <a href="/help/star-a-message#display-the-number-of-starred-messages">number of starred
-messages</a>. default: null </div><div class="param">fluid_layout_width (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; <p>The user's old Zulip password (or LDAP password, if LDAP authentication is in use).</p>
+<p>Required only when sending the <code>new_password</code> parameter.</p>
+ default: null </div><div class="param">new_password (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Whether to use the <a href="/help/enable-full-width-display">maximum available screen width</a>
-for the web app's center panel (message feed, recent topics) on wide screens. default: null </div><div class="param">high_contrast_mode (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; <p>The user's new Zulip password (or LDAP password, if LDAP authentication is in use).</p>
+<p>The <code>old_password</code> parameter must be included in the request.</p>
+ default: null </div><div class="param">twenty_four_hour_time (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; This setting is reserved for use to control variations in Zulip's design
-to help visually impaired users. default: null </div><div class="param">color_scheme (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; <p>Whether time should be <a href="/help/change-the-time-format">displayed in 24-hour notation</a>.</p>
+<p><strong>Changes</strong>: Before Zulip 5.0 (feature level 80), this setting was managed by
+the <code>PATCH /settings/display</code> endpoint.</p>
+ default: null </div><div class="param">dense_mode (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; <p>This setting has no effect at present.  It is reserved for use in controlling
+the default font size in Zulip.</p>
+<p><strong>Changes</strong>: Before Zulip 5.0 (feature level 80), this setting was managed by
+the <code>PATCH /settings/display</code> endpoint.</p>
+ default: null </div><div class="param">starred_message_counts (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; <p>Whether clients should display the <a href="/help/star-a-message#display-the-number-of-starred-messages">number of starred
+messages</a>.</p>
+<p><strong>Changes</strong>: Before Zulip 5.0 (feature level 80), this setting was managed by
+the <code>PATCH /settings/display</code> endpoint.</p>
+ default: null </div><div class="param">fluid_layout_width (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; <p>Whether to use the <a href="/help/enable-full-width-display">maximum available screen width</a>
+for the web app's center panel (message feed, recent topics) on wide screens.</p>
+<p><strong>Changes</strong>: Before Zulip 5.0 (feature level 80), this setting was managed by
+the <code>PATCH /settings/display</code> endpoint.</p>
+ default: null </div><div class="param">high_contrast_mode (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; <p>This setting is reserved for use to control variations in Zulip's design
+to help visually impaired users.</p>
+<p><strong>Changes</strong>: Before Zulip 5.0 (feature level 80), this setting was managed by
+the <code>PATCH /settings/display</code> endpoint.</p>
+ default: null </div><div class="param">color_scheme (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; <p>Controls which <a href="/help/night-mode">color theme</a> to use.</p>
 <ul>
@@ -3998,16 +4360,31 @@ to help visually impaired users. default: null </div><div class="param">color_sc
 </ul>
 <p>Automatic detection is implementing using the standard <code>prefers-color-scheme</code>
 media query.</p>
+<p><strong>Changes</strong>: Before Zulip 5.0 (feature level 80), this setting was managed by
+the <code>PATCH /settings/display</code> endpoint.</p>
+ default: null </div><div class="param">enable_drafts_synchronization (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; <p>A boolean parameter to control whether synchronizing drafts is enabled for
+the user. When synchronization is disabled, all drafts stored in the server
+will be automatically deleted from the server.</p>
+<p>This does not do anything (like sending events) to delete local copies of
+drafts stored in clients.</p>
+<p><strong>Changes</strong>: New in Zulip 5.0 (feature level 87).</p>
  default: null </div><div class="param">translate_emoticons (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Whether to <a href="/help/enable-emoticon-translations">translate emoticons to emoji</a>
-in messages the user sends. default: null </div><div class="param">default_language (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; <p>Whether to <a href="/help/enable-emoticon-translations">translate emoticons to emoji</a>
+in messages the user sends.</p>
+<p><strong>Changes</strong>: Before Zulip 5.0 (feature level 80), this setting was managed by
+the <code>PATCH /settings/display</code> endpoint.</p>
+ default: null </div><div class="param">default_language (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; <p>What <a href="/help/change-your-language">default language</a> to use for the account.</p>
 <p>This controls both the Zulip UI as well as email notifications sent to the user.</p>
 <p>The value needs to be a standard language code that the Zulip server has
 translation data for; for example, <code>&quot;en&quot;</code> for English or <code>&quot;de&quot;</code> for German.</p>
-<p><strong>Changes</strong>: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63).</p>
+<p><strong>Changes</strong>: Before Zulip 5.0 (feature level 80), this setting was managed by
+the <code>PATCH /settings/display</code> endpoint.</p>
+<p>Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63).</p>
  default: null </div><div class="param">default_view (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; <p>The <a href="/help/change-default-view">default view</a> used when opening a new
@@ -4016,11 +4393,15 @@ Zulip web app window or hitting the <code>Esc</code> keyboard shortcut repeatedl
 <li>&quot;recent_topics&quot; - Recent topics view</li>
 <li>&quot;all_messages&quot; - All messages view</li>
 </ul>
-<p><strong>Changes</strong>: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64).</p>
+<p><strong>Changes</strong>: Before Zulip 5.0 (feature level 80), this setting was managed by
+the <code>PATCH /settings/display</code> endpoint.</p>
+<p>Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).</p>
  default: null </div><div class="param">left_side_userlist (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; <p>Whether the users list on left sidebar in narrow windows.</p>
 <p>This feature is not heavily used and is likely to be reworked.</p>
+<p><strong>Changes</strong>: Before Zulip 5.0 (feature level 80), this setting was managed by
+the <code>PATCH /settings/display</code> endpoint.</p>
  default: null </div><div class="param">emojiset (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; <p>The user's configured <a href="/help/emoji-and-emoticons#use-emoticons">emoji set</a>,
@@ -4031,7 +4412,9 @@ used to display emoji to the user everything they appear in the UI.</p>
 <li>&quot;twitter&quot; - Twitter</li>
 <li>&quot;text&quot; - Plain text</li>
 </ul>
-<p><strong>Changes</strong>: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64).</p>
+<p><strong>Changes</strong>: Before Zulip 5.0 (feature level 80), this setting was managed by
+the <code>PATCH /settings/display</code> endpoint.</p>
+<p>Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).</p>
  default: null </div><div class="param">demote_inactive_streams (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; <p>Whether to <a href="/help/manage-inactive-streams">demote inactive streams</a> in the left sidebar.</p>
@@ -4040,12 +4423,133 @@ used to display emoji to the user everything they appear in the UI.</p>
 <li>2 - Always</li>
 <li>3 - Never</li>
 </ul>
+<p><strong>Changes</strong>: Before Zulip 5.0 (feature level 80), this setting was managed by
+the <code>PATCH /settings/display</code> endpoint.</p>
  default: null </div><div class="param">timezone (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; <p>The user's <a href="/help/change-your-timezone">configured timezone</a>.</p>
 <p>Timezone values supported by the server are served at
 <a href="/static/generated/timezones.json">/static/generated/timezones.json</a>.</p>
-<p><strong>Changes</strong>: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64).</p>
+<p><strong>Changes</strong>: Before Zulip 5.0 (feature level 80), this setting was managed by
+the <code>PATCH /settings/display</code> endpoint.</p>
+<p>Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).</p>
+ default: null </div><div class="param">enable_stream_desktop_notifications (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; <p>Enable visual desktop notifications for stream messages.</p>
+<p><strong>Changes</strong>: Before Zulip 5.0 (feature level 80), this setting was managed by
+the <code>PATCH /settings/notifications</code> endpoint.</p>
+ default: null </div><div class="param">enable_stream_email_notifications (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; <p>Enable email notifications for stream messages.</p>
+<p><strong>Changes</strong>: Before Zulip 5.0 (feature level 80), this setting was managed by
+the <code>PATCH /settings/notifications</code> endpoint.</p>
+ default: null </div><div class="param">enable_stream_push_notifications (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; <p>Enable mobile notifications for stream messages.</p>
+<p><strong>Changes</strong>: Before Zulip 5.0 (feature level 80), this setting was managed by
+the <code>PATCH /settings/notifications</code> endpoint.</p>
+ default: null </div><div class="param">enable_stream_audible_notifications (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; <p>Enable audible desktop notifications for stream messages.</p>
+<p><strong>Changes</strong>: Before Zulip 5.0 (feature level 80), this setting was managed by
+the <code>PATCH /settings/notifications</code> endpoint.</p>
+ default: null </div><div class="param">notification_sound (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; <p>Notification sound name.</p>
+<p><strong>Changes</strong>: Before Zulip 5.0 (feature level 80), this setting was managed by
+the <code>PATCH /settings/notifications</code> endpoint.</p>
+<p>Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63).</p>
+ default: null </div><div class="param">enable_desktop_notifications (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; <p>Enable visual desktop notifications for private messages and @-mentions.</p>
+<p><strong>Changes</strong>: Before Zulip 5.0 (feature level 80), this setting was managed by
+the <code>PATCH /settings/notifications</code> endpoint.</p>
+ default: null </div><div class="param">enable_sounds (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; <p>Enable audible desktop notifications for private messages and
+@-mentions.</p>
+<p><strong>Changes</strong>: Before Zulip 5.0 (feature level 80), this setting was managed by
+the <code>PATCH /settings/notifications</code> endpoint.</p>
+ default: null </div><div class="param">email_notifications_batching_period_seconds (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; <p>The duration (in seconds) for which the server should wait to batch
+email notifications before sending them.</p>
+<p><strong>Changes</strong>: New in Zulip 5.0 (feature level 82)</p>
+ default: null </div><div class="param">enable_offline_email_notifications (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; <p>Enable email notifications for private messages and @-mentions received
+when the user is offline.</p>
+<p><strong>Changes</strong>: Before Zulip 5.0 (feature level 80), this setting was managed by
+the <code>PATCH /settings/notifications</code> endpoint.</p>
+ default: null </div><div class="param">enable_offline_push_notifications (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; <p>Enable mobile notification for private messages and @-mentions received
+when the user is offline.</p>
+<p><strong>Changes</strong>: Before Zulip 5.0 (feature level 80), this setting was managed by
+the <code>PATCH /settings/notifications</code> endpoint.</p>
+ default: null </div><div class="param">enable_online_push_notifications (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; <p>Enable mobile notification for private messages and @-mentions received
+when the user is online.</p>
+<p><strong>Changes</strong>: Before Zulip 5.0 (feature level 80), this setting was managed by
+the <code>PATCH /settings/notifications</code> endpoint.</p>
+ default: null </div><div class="param">enable_digest_emails (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; <p>Enable digest emails when the user is away.</p>
+<p><strong>Changes</strong>: Before Zulip 5.0 (feature level 80), this setting was managed by
+the <code>PATCH /settings/notifications</code> endpoint.</p>
+ default: null </div><div class="param">enable_marketing_emails (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; <p>Enable marketing emails. Has no function outside Zulip Cloud.</p>
+<p><strong>Changes</strong>: Before Zulip 5.0 (feature level 80), this setting was managed by
+the <code>PATCH /settings/notifications</code> endpoint.</p>
+ default: null </div><div class="param">enable_login_emails (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; <p>Enable email notifications for new logins to account.</p>
+<p><strong>Changes</strong>: Before Zulip 5.0 (feature level 80), this setting was managed by
+the <code>PATCH /settings/notifications</code> endpoint.</p>
+ default: null </div><div class="param">message_content_in_email_notifications (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; <p>Include the message's content in email notifications for new messages.</p>
+<p><strong>Changes</strong>: Before Zulip 5.0 (feature level 80), this setting was managed by
+the <code>PATCH /settings/notifications</code> endpoint.</p>
+ default: null </div><div class="param">pm_content_in_desktop_notifications (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; <p>Include content of private messages in desktop notifications.</p>
+<p><strong>Changes</strong>: Before Zulip 5.0 (feature level 80), this setting was managed by
+the <code>PATCH /settings/notifications</code> endpoint.</p>
+ default: null </div><div class="param">wildcard_mentions_notify (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; <p>Whether wildcard mentions (E.g. @<strong>all</strong>) should send notifications
+like a personal mention.</p>
+<p><strong>Changes</strong>: Before Zulip 5.0 (feature level 80), this setting was managed by
+the <code>PATCH /settings/notifications</code> endpoint.</p>
+ default: null </div><div class="param">desktop_icon_count_display (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; <p>Unread count summary (appears in desktop sidebar and browser tab)</p>
+<ul>
+<li>1 - All unreads</li>
+<li>2 - Private messages and mentions</li>
+<li>3 - None</li>
+</ul>
+<p><strong>Changes</strong>: Before Zulip 5.0 (feature level 80), this setting was managed by
+the <code>PATCH /settings/notifications</code> endpoint.</p>
+ default: null </div><div class="param">realm_name_in_notifications (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; <p>Include organization name in subject of message notification emails.</p>
+<p><strong>Changes</strong>: Before Zulip 5.0 (feature level 80), this setting was managed by
+the <code>PATCH /settings/notifications</code> endpoint.</p>
+ default: null </div><div class="param">presence_enabled (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; <p>Display the presence status to other users when online.</p>
+<p><strong>Changes</strong>: Before Zulip 5.0 (feature level 80), this setting was managed by
+the <code>PATCH /settings/notifications</code> endpoint.</p>
+ default: null </div><div class="param">enter_sends (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; <p>Whether pressing Enter in the compose box sends a message
+(or saves a message edit).</p>
+<p><strong>Changes</strong>: Before Zulip 5.0 (feature level 81), this setting was managed by
+the <code>POST /users/me/enter-sends</code> endpoint, with the same parameter format.</p>
  default: null </div>
     </div>  <!-- field-items -->
 
@@ -4072,15 +4576,18 @@ used to display emoji to the user everything they appear in the UI.</p>
         <a href="#JsonSuccessBase">JsonSuccessBase</a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="updateNotificationSettings"/>
+  <div class="method"><a name="updateStatus"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="patch"><code class="huge"><span class="http-method">patch</span> /settings/notifications</code></pre></div>
-    <div class="method-summary">Update notification settings (<span class="nickname">updateNotificationSettings</span>)</div>
-    <div class="method-notes"><p>This endpoint is used to edit the user's global notification settings.
-See <a href="/api/update-subscription-settings">this endpoint</a> for
-per-stream notification settings.</p>
-<p><code>PATCH {{ api_url }}/v1/settings/notifications</code></p>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /users/me/status</code></pre></div>
+    <div class="method-summary">Update your status (<span class="nickname">updateStatus</span>)</div>
+    <div class="method-notes"><p>Change your <a href="/help/status-and-availability">status</a>.</p>
+<p><code>POST {{ api_url }}/v1/users/me/status</code></p>
+<p>A request to this endpoint will only change the parameters passed.
+For example, passing just <code>status_text</code> requests a change in the status
+text, but will leave the status emoji unchanged.</p>
+<p>Clients that wish to set the user's status to a specific value should
+pass all supported parameters.</p>
 </div>
 
 
@@ -4089,64 +4596,39 @@ per-stream notification settings.</p>
 
     <h3 class="field-label">Query parameters</h3>
     <div class="field-items">
-      <div class="param">enable_stream_desktop_notifications (optional)</div>
+      <div class="param">status_text (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Enable visual desktop notifications for stream messages. default: null </div><div class="param">enable_stream_email_notifications (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; <p>The text content of the status message. Sending the empty string
+will clear the user's status.</p>
+<p><strong>Note</strong>: The limit on the size of the message is 60 characters.</p>
+ default: null </div><div class="param">away (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Enable email notifications for stream messages. default: null </div><div class="param">enable_stream_push_notifications (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Whether the user should be marked as &quot;away&quot;. default: null </div><div class="param">emoji_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Enable mobile notifications for stream messages. default: null </div><div class="param">enable_stream_audible_notifications (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; The name for the emoji to associate with this status. default: null </div><div class="param">emoji_code (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Enable audible desktop notifications for stream messages. default: null </div><div class="param">notification_sound (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; <p>A unique identifier, defining the specific emoji codepoint requested,
+within the namespace of the <code>reaction_type</code>.</p>
+<p>For example, for <code>unicode_emoji</code>, this will be an encoding of the
+Unicode codepoint; for <code>realm_emoji</code>, it'll be the ID of the realm emoji.</p>
+ default: null </div><div class="param">reaction_type (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; <p>Notification sound name.</p>
-<p><strong>Changes</strong>: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63).</p>
- default: null </div><div class="param">enable_desktop_notifications (optional)</div>
-
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Enable visual desktop notifications for private messages and @-mentions. default: null </div><div class="param">enable_sounds (optional)</div>
-
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Enable audible desktop notifications for private messages and
-@-mentions. default: null </div><div class="param">enable_offline_email_notifications (optional)</div>
-
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Enable email notifications for private messages and @-mentions received
-when the user is offline. default: null </div><div class="param">enable_offline_push_notifications (optional)</div>
-
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Enable mobile notification for private messages and @-mentions received
-when the user is offline. default: null </div><div class="param">enable_online_push_notifications (optional)</div>
-
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Enable mobile notification for private messages and @-mentions received
-when the user is online. default: null </div><div class="param">enable_digest_emails (optional)</div>
-
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Enable digest emails when the user is away. default: null </div><div class="param">enable_marketing_emails (optional)</div>
-
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Enable marketing emails. Has no function outside Zulip Cloud. default: null </div><div class="param">enable_login_emails (optional)</div>
-
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Enable email notifications for new logins to account. default: null </div><div class="param">message_content_in_email_notifications (optional)</div>
-
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Include the message's content in email notifications for new messages. default: null </div><div class="param">pm_content_in_desktop_notifications (optional)</div>
-
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Include content of private messages in desktop notifications. default: null </div><div class="param">wildcard_mentions_notify (optional)</div>
-
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Whether wildcard mentions (E.g. @<strong>all</strong>) should send notifications
-like a personal mention. default: null </div><div class="param">desktop_icon_count_display (optional)</div>
-
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; <p>Unread count summary (appears in desktop sidebar and browser tab)</p>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; <p>One of the following values:</p>
 <ul>
-<li>1 - All unreads</li>
-<li>2 - Private messages and mentions</li>
-<li>3 - None</li>
+<li><code>unicode_emoji</code>: Unicode emoji (<code>emoji_code</code> will be its Unicode
+codepoint).</li>
+<li><code>realm_emoji</code>: <a href="/help/add-custom-emoji">Custom emoji</a>.
+(<code>emoji_code</code> will be its ID).</li>
+<li><code>zulip_extra_emoji</code>: Special emoji included with Zulip.  Exists to
+namespace the <code>zulip</code> emoji.</li>
 </ul>
- default: null </div><div class="param">realm_name_in_notifications (optional)</div>
-
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Include organization name in subject of message notification emails. default: null </div><div class="param">presence_enabled (optional)</div>
-
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Display the presence status to other users when online. default: null </div>
+ default: null </div>
     </div>  <!-- field-items -->
 
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#JsonSuccessBase">JsonSuccessBase</a>
+      <a href="#JsonSuccess">JsonSuccess</a>
       
     </div>
 
@@ -4163,7 +4645,10 @@ like a personal mention. default: null </div><div class="param">desktop_icon_cou
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     Success.
-        <a href="#JsonSuccessBase">JsonSuccessBase</a>
+        <a href="#JsonSuccess">JsonSuccess</a>
+    <h4 class="field-label">400</h4>
+    Success.
+        <a href="#oneOf<object,object,object,object,object,object>">oneOf<object,object,object,object,object,object></a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="updateUser"/>
@@ -4439,9 +4924,12 @@ notified when certain types of messages are sent in Zulip.</div>
     <li><a href="#CodedError_allOf"><code>CodedError_allOf</code> - </a></li>
     <li><a href="#CustomProfileField"><code>CustomProfileField</code> - </a></li>
     <li><a href="#DefaultStreamGroup"><code>DefaultStreamGroup</code> - </a></li>
+    <li><a href="#Draft"><code>Draft</code> - </a></li>
+    <li><a href="#EmojiBase"><code>EmojiBase</code> - </a></li>
     <li><a href="#EmojiReaction"><code>EmojiReaction</code> - </a></li>
     <li><a href="#EmojiReactionBase"><code>EmojiReactionBase</code> - </a></li>
-    <li><a href="#EmojiReactionBase_user"><code>EmojiReactionBase_user</code> - </a></li>
+    <li><a href="#EmojiReactionBase_allOf"><code>EmojiReactionBase_allOf</code> - </a></li>
+    <li><a href="#EmojiReactionBase_allOf_user"><code>EmojiReactionBase_allOf_user</code> - </a></li>
     <li><a href="#EmojiReaction_allOf"><code>EmojiReaction_allOf</code> - </a></li>
     <li><a href="#GetMessages"><code>GetMessages</code> - </a></li>
     <li><a href="#GetMessages_allOf"><code>GetMessages_allOf</code> - </a></li>
@@ -4876,6 +5364,53 @@ in the default stream group. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
+    <h3><a name="Draft"><code>Draft</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>A dictionary for representing a message draft.</div>
+    <div class="field-items">
+      <div class="param">id (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The unique ID of the draft. It will only used whenever the drafts are
+fetched. This field should not be specified when the draft is being
+created or edited. </div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The type of the draft. Either unaddressed (empty string), &quot;stream&quot;,
+or &quot;private&quot; (for PMs and private group messages). </div>
+        <div class="param-enum-header">Enum:</div>
+        <div class="param-enum"></div><div class="param-enum">stream</div><div class="param-enum">private</div>
+<div class="param">to </div><div class="param-desc"><span class="param-type"><a href="#integer">array[Integer]</a></span> An array of the tentative target audience IDs. For &quot;stream&quot;
+messages, this should contain exactly 1 ID, the ID of the
+target stream. For private messages, this should be an array
+of target user IDs. For unaddressed drafts, this is ignored,
+and clients should send an empty array. </div>
+<div class="param">topic </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> For stream message drafts, the tentative topic name. For private
+or unaddressed messages, this will be ignored and should ideally
+be the empty string. Should not contain null bytes. </div>
+<div class="param">content </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The body of the draft. Should not contain null bytes. </div>
+<div class="param">timestamp (optional)</div><div class="param-desc"><span class="param-type"><a href="#number">BigDecimal</a></span> A Unix timestamp (seconds only) representing when the draft was
+last edited. When creating a draft, this key need not be present
+and it will be filled in automatically by the server. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="EmojiBase"><code>EmojiBase</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'></div>
+    <div class="field-items">
+      <div class="param">emoji_code (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> <p>A unique identifier, defining the specific emoji codepoint requested,
+within the namespace of the <code>reaction_type</code>.</p>
+<p>For example, for <code>unicode_emoji</code>, this will be an encoding of the
+Unicode codepoint; for <code>realm_emoji</code>, it'll be the ID of the realm emoji.</p>
+ </div>
+<div class="param">emoji_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the emoji. </div>
+<div class="param">reaction_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> <p>One of the following values:</p>
+<ul>
+<li><code>unicode_emoji</code>: Unicode emoji (<code>emoji_code</code> will be its Unicode
+codepoint).</li>
+<li><code>realm_emoji</code>: <a href="/help/add-custom-emoji">Custom emoji</a>.
+(<code>emoji_code</code> will be its ID).</li>
+<li><code>zulip_extra_emoji</code>: Special emoji included with Zulip.  Exists to
+namespace the <code>zulip</code> emoji.</li>
+</ul>
+ </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3><a name="EmojiReaction"><code>EmojiReaction</code> - </a> <a class="up" href="#__Models">Up</a></h3>
     <div class='model-description'></div>
     <div class="field-items">
@@ -4893,7 +5428,7 @@ in the default stream group. </div>
       <div class="param">emoji_code (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> <p>A unique identifier, defining the specific emoji codepoint requested,
 within the namespace of the <code>reaction_type</code>.</p>
 <p>For example, for <code>unicode_emoji</code>, this will be an encoding of the
-Unicode codepoint.</p>
+Unicode codepoint; for <code>realm_emoji</code>, it'll be the ID of the realm emoji.</p>
  </div>
 <div class="param">emoji_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the emoji. </div>
 <div class="param">reaction_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> <p>One of the following values:</p>
@@ -4910,12 +5445,24 @@ namespace the <code>zulip</code> emoji.</li>
 <p><strong>Changes</strong>: New in Zulip 3.0 (feature level 2). The <code>user</code>
 object is deprecated and will be removed in the future.</p>
  </div>
-<div class="param">user (optional)</div><div class="param-desc"><span class="param-type"><a href="#EmojiReactionBase_user">EmojiReactionBase_user</a></span>  </div>
+<div class="param">user (optional)</div><div class="param-desc"><span class="param-type"><a href="#EmojiReactionBase_allOf_user">EmojiReactionBase_allOf_user</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
-    <h3><a name="EmojiReactionBase_user"><code>EmojiReactionBase_user</code> - </a> <a class="up" href="#__Models">Up</a></h3>
-    <div class='model-description'>Dictionary with data on the user who added the reaction, including
+    <h3><a name="EmojiReactionBase_allOf"><code>EmojiReactionBase_allOf</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'></div>
+    <div class="field-items">
+      <div class="param">user_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> <p>The ID of the user who added the reaction.</p>
+<p><strong>Changes</strong>: New in Zulip 3.0 (feature level 2). The <code>user</code>
+object is deprecated and will be removed in the future.</p>
+ </div>
+<div class="param">user (optional)</div><div class="param-desc"><span class="param-type"><a href="#EmojiReactionBase_allOf_user">EmojiReactionBase_allOf_user</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="EmojiReactionBase_allOf_user"><code>EmojiReactionBase_allOf_user</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>Whether the user is a mirror dummy.
+Dictionary with data on the user who added the reaction, including
 the user ID as the <code>id</code> field.  <strong>Note</strong>: In the <a href="/api/get-events">events
 API</a>, this <code>user</code> dictionary
 confusing had the user ID in a field called <code>user_id</code>

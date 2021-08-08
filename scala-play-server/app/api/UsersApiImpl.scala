@@ -8,11 +8,12 @@ import model.JsonSuccessBase
 import model.OasAnyTypeNotMapped
 import model.OneOfobjectobject
 import model.OneOfobjectobjectobject
+import model.OneOfobjectobjectobjectobjectobjectobject
 
 /**
   * Provides a default implementation for [[UsersApi]].
   */
-@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2021-08-08T20:45:49.166589Z[Etc/UTC]")
+@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2021-08-08T21:15:24.853051Z[Etc/UTC]")
 class UsersApiImpl extends UsersApi {
   /**
     * @inheritdoc
@@ -161,7 +162,7 @@ class UsersApiImpl extends UsersApi {
   /**
     * @inheritdoc
     */
-  override def updateDisplaySettings(twentyFourHourTime: Option[Boolean], denseMode: Option[Boolean], starredMessageCounts: Option[Boolean], fluidLayoutWidth: Option[Boolean], highContrastMode: Option[Boolean], colorScheme: Option[Int], translateEmoticons: Option[Boolean], defaultLanguage: Option[String], defaultView: Option[String], leftSideUserlist: Option[Boolean], emojiset: Option[String], demoteInactiveStreams: Option[Int], timezone: Option[String]): JsonSuccessBase = {
+  override def updateSettings(fullName: Option[String], email: Option[String], oldPassword: Option[String], newPassword: Option[String], twentyFourHourTime: Option[Boolean], denseMode: Option[Boolean], starredMessageCounts: Option[Boolean], fluidLayoutWidth: Option[Boolean], highContrastMode: Option[Boolean], colorScheme: Option[Int], enableDraftsSynchronization: Option[Boolean], translateEmoticons: Option[Boolean], defaultLanguage: Option[String], defaultView: Option[String], leftSideUserlist: Option[Boolean], emojiset: Option[String], demoteInactiveStreams: Option[Int], timezone: Option[String], enableStreamDesktopNotifications: Option[Boolean], enableStreamEmailNotifications: Option[Boolean], enableStreamPushNotifications: Option[Boolean], enableStreamAudibleNotifications: Option[Boolean], notificationSound: Option[String], enableDesktopNotifications: Option[Boolean], enableSounds: Option[Boolean], emailNotificationsBatchingPeriodSeconds: Option[Int], enableOfflineEmailNotifications: Option[Boolean], enableOfflinePushNotifications: Option[Boolean], enableOnlinePushNotifications: Option[Boolean], enableDigestEmails: Option[Boolean], enableMarketingEmails: Option[Boolean], enableLoginEmails: Option[Boolean], messageContentInEmailNotifications: Option[Boolean], pmContentInDesktopNotifications: Option[Boolean], wildcardMentionsNotify: Option[Boolean], desktopIconCountDisplay: Option[Int], realmNameInNotifications: Option[Boolean], presenceEnabled: Option[Boolean], enterSends: Option[Boolean]): JsonSuccessBase = {
     // TODO: Implement better logic
 
     JsonSuccessBase("", "")
@@ -170,10 +171,10 @@ class UsersApiImpl extends UsersApi {
   /**
     * @inheritdoc
     */
-  override def updateNotificationSettings(enableStreamDesktopNotifications: Option[Boolean], enableStreamEmailNotifications: Option[Boolean], enableStreamPushNotifications: Option[Boolean], enableStreamAudibleNotifications: Option[Boolean], notificationSound: Option[String], enableDesktopNotifications: Option[Boolean], enableSounds: Option[Boolean], enableOfflineEmailNotifications: Option[Boolean], enableOfflinePushNotifications: Option[Boolean], enableOnlinePushNotifications: Option[Boolean], enableDigestEmails: Option[Boolean], enableMarketingEmails: Option[Boolean], enableLoginEmails: Option[Boolean], messageContentInEmailNotifications: Option[Boolean], pmContentInDesktopNotifications: Option[Boolean], wildcardMentionsNotify: Option[Boolean], desktopIconCountDisplay: Option[Int], realmNameInNotifications: Option[Boolean], presenceEnabled: Option[Boolean]): JsonSuccessBase = {
+  override def updateStatus(statusText: Option[String], away: Option[Boolean], emojiName: Option[String], emojiCode: Option[String], reactionType: Option[String]): JsonSuccess = {
     // TODO: Implement better logic
 
-    JsonSuccessBase("", "")
+    JsonSuccess(null, null)
   }
 
   /**

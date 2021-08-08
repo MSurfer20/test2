@@ -21,7 +21,7 @@ defmodule ZulipRESTAPI.Model.EmojiReactionBase do
     :"emoji_name" => String.t | nil,
     :"reaction_type" => String.t | nil,
     :"user_id" => integer() | nil,
-    :"user" => ZulipRESTAPI.Model.EmojiReactionBaseUser.t | nil
+    :"user" => ZulipRESTAPI.Model.EmojiReactionBaseAllOfUser.t | nil
   }
 end
 
@@ -29,7 +29,7 @@ defimpl Poison.Decoder, for: ZulipRESTAPI.Model.EmojiReactionBase do
   import ZulipRESTAPI.Deserializer
   def decode(value, options) do
     value
-    |> deserialize(:"user", :struct, ZulipRESTAPI.Model.EmojiReactionBaseUser, options)
+    |> deserialize(:"user", :struct, ZulipRESTAPI.Model.EmojiReactionBaseAllOfUser, options)
   end
 end
 

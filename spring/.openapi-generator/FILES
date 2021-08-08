@@ -10,6 +10,8 @@ src/main/java/org/openapitools/api/CallsApi.java
 src/main/java/org/openapitools/api/CallsApiController.java
 src/main/java/org/openapitools/api/DevFetchApiKeyApi.java
 src/main/java/org/openapitools/api/DevFetchApiKeyApiController.java
+src/main/java/org/openapitools/api/DraftsApi.java
+src/main/java/org/openapitools/api/DraftsApiController.java
 src/main/java/org/openapitools/api/EventsApi.java
 src/main/java/org/openapitools/api/EventsApiController.java
 src/main/java/org/openapitools/api/FetchApiKeyApi.java
@@ -72,10 +74,13 @@ src/main/java/org/openapitools/model/CodedErrorBase.java
 src/main/java/org/openapitools/model/CodedErrorBaseAllOf.java
 src/main/java/org/openapitools/model/CustomProfileField.java
 src/main/java/org/openapitools/model/DefaultStreamGroup.java
+src/main/java/org/openapitools/model/Draft.java
+src/main/java/org/openapitools/model/EmojiBase.java
 src/main/java/org/openapitools/model/EmojiReaction.java
 src/main/java/org/openapitools/model/EmojiReactionAllOf.java
 src/main/java/org/openapitools/model/EmojiReactionBase.java
-src/main/java/org/openapitools/model/EmojiReactionBaseUser.java
+src/main/java/org/openapitools/model/EmojiReactionBaseAllOf.java
+src/main/java/org/openapitools/model/EmojiReactionBaseAllOfUser.java
 src/main/java/org/openapitools/model/GetMessages.java
 src/main/java/org/openapitools/model/GetMessagesAllOf.java
 src/main/java/org/openapitools/model/Hotspot.java

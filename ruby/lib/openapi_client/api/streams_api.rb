@@ -139,6 +139,76 @@ module OpenapiClient
       return data, status_code, headers
     end
 
+    # Delete a topic
+    # Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+    # @param stream_id [Integer] The ID of the stream to access. 
+    # @param topic_name [String] The name of the topic to delete. 
+    # @param [Hash] opts the optional parameters
+    # @return [JsonSuccess]
+    def delete_topic(stream_id, topic_name, opts = {})
+      data, _status_code, _headers = delete_topic_with_http_info(stream_id, topic_name, opts)
+      data
+    end
+
+    # Delete a topic
+    # Delete all messages in a topic.  &#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+    # @param stream_id [Integer] The ID of the stream to access. 
+    # @param topic_name [String] The name of the topic to delete. 
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(JsonSuccess, Integer, Hash)>] JsonSuccess data, response status code and response headers
+    def delete_topic_with_http_info(stream_id, topic_name, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: StreamsApi.delete_topic ...'
+      end
+      # verify the required parameter 'stream_id' is set
+      if @api_client.config.client_side_validation && stream_id.nil?
+        fail ArgumentError, "Missing the required parameter 'stream_id' when calling StreamsApi.delete_topic"
+      end
+      # verify the required parameter 'topic_name' is set
+      if @api_client.config.client_side_validation && topic_name.nil?
+        fail ArgumentError, "Missing the required parameter 'topic_name' when calling StreamsApi.delete_topic"
+      end
+      # resource path
+      local_var_path = '/streams/{stream_id}/delete_topic'.sub('{' + 'stream_id' + '}', CGI.escape(stream_id.to_s))
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[:'topic_name'] = topic_name
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json'])
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'JsonSuccess'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || []
+
+      new_options = opts.merge(
+        :operation => :"StreamsApi.delete_topic",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: StreamsApi#delete_topic\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # Get stream ID
     # Get the unique ID of a given stream.  `GET {{ api_url }}/v1/get_stream_id` 
     # @param stream [String] The name of the stream to access. 
@@ -337,6 +407,69 @@ module OpenapiClient
       data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: StreamsApi#get_streams\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # Get the subscribers of a stream
+    # Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` 
+    # @param stream_id [Integer] The ID of the stream to access. 
+    # @param [Hash] opts the optional parameters
+    # @return [JsonSuccessBase]
+    def get_subscribers(stream_id, opts = {})
+      data, _status_code, _headers = get_subscribers_with_http_info(stream_id, opts)
+      data
+    end
+
+    # Get the subscribers of a stream
+    # Get all users subscribed to a stream.  &#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60; 
+    # @param stream_id [Integer] The ID of the stream to access. 
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(JsonSuccessBase, Integer, Hash)>] JsonSuccessBase data, response status code and response headers
+    def get_subscribers_with_http_info(stream_id, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: StreamsApi.get_subscribers ...'
+      end
+      # verify the required parameter 'stream_id' is set
+      if @api_client.config.client_side_validation && stream_id.nil?
+        fail ArgumentError, "Missing the required parameter 'stream_id' when calling StreamsApi.get_subscribers"
+      end
+      # resource path
+      local_var_path = '/streams/{stream_id}/members'.sub('{' + 'stream_id' + '}', CGI.escape(stream_id.to_s))
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json'])
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'JsonSuccessBase'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || []
+
+      new_options = opts.merge(
+        :operation => :"StreamsApi.get_subscribers",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: StreamsApi#get_subscribers\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end

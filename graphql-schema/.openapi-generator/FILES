@@ -1,5 +1,6 @@
 .openapi-generator-ignore
 openapi2graphql/api/authentication_api.graphql
+openapi2graphql/api/drafts_api.graphql
 openapi2graphql/api/messages_api.graphql
 openapi2graphql/api/real_time_events_api.graphql
 openapi2graphql/api/server_and_organizations_api.graphql
@@ -28,10 +29,13 @@ openapi2graphql/model/coded_error_base.graphql
 openapi2graphql/model/coded_error_base_all_of.graphql
 openapi2graphql/model/custom_profile_field.graphql
 openapi2graphql/model/default_stream_group.graphql
+openapi2graphql/model/draft.graphql
+openapi2graphql/model/emoji_base.graphql
 openapi2graphql/model/emoji_reaction.graphql
 openapi2graphql/model/emoji_reaction_all_of.graphql
 openapi2graphql/model/emoji_reaction_base.graphql
-openapi2graphql/model/emoji_reaction_base_user.graphql
+openapi2graphql/model/emoji_reaction_base_all_of.graphql
+openapi2graphql/model/emoji_reaction_base_all_of_user.graphql
 openapi2graphql/model/get_messages.graphql
 openapi2graphql/model/get_messages_all_of.graphql
 openapi2graphql/model/hotspot.graphql

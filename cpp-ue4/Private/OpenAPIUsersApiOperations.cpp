@@ -979,33 +979,33 @@ bool OpenAPIUsersApi::UnmuteUserResponse::FromJson(const TSharedPtr<FJsonValue>&
 	return TryGetJsonValue(JsonValue, Content);
 }
 
-inline FString ToString(const OpenAPIUsersApi::UpdateDisplaySettingsRequest::ColorSchemeEnum& Value)
+inline FString ToString(const OpenAPIUsersApi::UpdateSettingsRequest::ColorSchemeEnum& Value)
 {
 	switch (Value)
 	{
-	case OpenAPIUsersApi::UpdateDisplaySettingsRequest::ColorSchemeEnum::_1:
+	case OpenAPIUsersApi::UpdateSettingsRequest::ColorSchemeEnum::_1:
 		return TEXT("1");
-	case OpenAPIUsersApi::UpdateDisplaySettingsRequest::ColorSchemeEnum::_2:
+	case OpenAPIUsersApi::UpdateSettingsRequest::ColorSchemeEnum::_2:
 		return TEXT("2");
-	case OpenAPIUsersApi::UpdateDisplaySettingsRequest::ColorSchemeEnum::_3:
+	case OpenAPIUsersApi::UpdateSettingsRequest::ColorSchemeEnum::_3:
 		return TEXT("3");
 	}
 
-	UE_LOG(LogOpenAPI, Error, TEXT("Invalid OpenAPIUsersApi::UpdateDisplaySettingsRequest::ColorSchemeEnum Value (%d)"), (int)Value);	
+	UE_LOG(LogOpenAPI, Error, TEXT("Invalid OpenAPIUsersApi::UpdateSettingsRequest::ColorSchemeEnum Value (%d)"), (int)Value);	
 	return TEXT("");
 }
 
-FString OpenAPIUsersApi::UpdateDisplaySettingsRequest::EnumToString(const OpenAPIUsersApi::UpdateDisplaySettingsRequest::ColorSchemeEnum& EnumValue)
+FString OpenAPIUsersApi::UpdateSettingsRequest::EnumToString(const OpenAPIUsersApi::UpdateSettingsRequest::ColorSchemeEnum& EnumValue)
 {
 	return ToString(EnumValue);
 }
 
-inline bool FromString(const FString& EnumAsString, OpenAPIUsersApi::UpdateDisplaySettingsRequest::ColorSchemeEnum& Value)
+inline bool FromString(const FString& EnumAsString, OpenAPIUsersApi::UpdateSettingsRequest::ColorSchemeEnum& Value)
 {
-	static TMap<FString, OpenAPIUsersApi::UpdateDisplaySettingsRequest::ColorSchemeEnum> StringToEnum = { 
-		{ TEXT("1"), OpenAPIUsersApi::UpdateDisplaySettingsRequest::ColorSchemeEnum::_1 },
-		{ TEXT("2"), OpenAPIUsersApi::UpdateDisplaySettingsRequest::ColorSchemeEnum::_2 },
-		{ TEXT("3"), OpenAPIUsersApi::UpdateDisplaySettingsRequest::ColorSchemeEnum::_3 }, };
+	static TMap<FString, OpenAPIUsersApi::UpdateSettingsRequest::ColorSchemeEnum> StringToEnum = { 
+		{ TEXT("1"), OpenAPIUsersApi::UpdateSettingsRequest::ColorSchemeEnum::_1 },
+		{ TEXT("2"), OpenAPIUsersApi::UpdateSettingsRequest::ColorSchemeEnum::_2 },
+		{ TEXT("3"), OpenAPIUsersApi::UpdateSettingsRequest::ColorSchemeEnum::_3 }, };
 
 	const auto Found = StringToEnum.Find(EnumAsString);
 	if(Found)
@@ -1014,22 +1014,22 @@ inline bool FromString(const FString& EnumAsString, OpenAPIUsersApi::UpdateDispl
 	return Found != nullptr;	
 }
 
-bool OpenAPIUsersApi::UpdateDisplaySettingsRequest::EnumFromString(const FString& EnumAsString, OpenAPIUsersApi::UpdateDisplaySettingsRequest::ColorSchemeEnum& EnumValue)
+bool OpenAPIUsersApi::UpdateSettingsRequest::EnumFromString(const FString& EnumAsString, OpenAPIUsersApi::UpdateSettingsRequest::ColorSchemeEnum& EnumValue)
 {
 	return FromString(EnumAsString, EnumValue);
 }
 
-inline FStringFormatArg ToStringFormatArg(const OpenAPIUsersApi::UpdateDisplaySettingsRequest::ColorSchemeEnum& Value)
+inline FStringFormatArg ToStringFormatArg(const OpenAPIUsersApi::UpdateSettingsRequest::ColorSchemeEnum& Value)
 {
 	return FStringFormatArg(ToString(Value));
 }
 
-inline void WriteJsonValue(JsonWriter& Writer, const OpenAPIUsersApi::UpdateDisplaySettingsRequest::ColorSchemeEnum& Value)
+inline void WriteJsonValue(JsonWriter& Writer, const OpenAPIUsersApi::UpdateSettingsRequest::ColorSchemeEnum& Value)
 {
 	WriteJsonValue(Writer, ToString(Value));
 }
 
-inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, OpenAPIUsersApi::UpdateDisplaySettingsRequest::ColorSchemeEnum& Value)
+inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, OpenAPIUsersApi::UpdateSettingsRequest::ColorSchemeEnum& Value)
 {
 	FString TmpValue;
 	if (JsonValue->TryGetString(TmpValue))
@@ -1040,33 +1040,33 @@ inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, OpenAPIUser
 	return false;
 }
 
-inline FString ToString(const OpenAPIUsersApi::UpdateDisplaySettingsRequest::DemoteInactiveStreamsEnum& Value)
+inline FString ToString(const OpenAPIUsersApi::UpdateSettingsRequest::DemoteInactiveStreamsEnum& Value)
 {
 	switch (Value)
 	{
-	case OpenAPIUsersApi::UpdateDisplaySettingsRequest::DemoteInactiveStreamsEnum::_1:
+	case OpenAPIUsersApi::UpdateSettingsRequest::DemoteInactiveStreamsEnum::_1:
 		return TEXT("1");
-	case OpenAPIUsersApi::UpdateDisplaySettingsRequest::DemoteInactiveStreamsEnum::_2:
+	case OpenAPIUsersApi::UpdateSettingsRequest::DemoteInactiveStreamsEnum::_2:
 		return TEXT("2");
-	case OpenAPIUsersApi::UpdateDisplaySettingsRequest::DemoteInactiveStreamsEnum::_3:
+	case OpenAPIUsersApi::UpdateSettingsRequest::DemoteInactiveStreamsEnum::_3:
 		return TEXT("3");
 	}
 
-	UE_LOG(LogOpenAPI, Error, TEXT("Invalid OpenAPIUsersApi::UpdateDisplaySettingsRequest::DemoteInactiveStreamsEnum Value (%d)"), (int)Value);	
+	UE_LOG(LogOpenAPI, Error, TEXT("Invalid OpenAPIUsersApi::UpdateSettingsRequest::DemoteInactiveStreamsEnum Value (%d)"), (int)Value);	
 	return TEXT("");
 }
 
-FString OpenAPIUsersApi::UpdateDisplaySettingsRequest::EnumToString(const OpenAPIUsersApi::UpdateDisplaySettingsRequest::DemoteInactiveStreamsEnum& EnumValue)
+FString OpenAPIUsersApi::UpdateSettingsRequest::EnumToString(const OpenAPIUsersApi::UpdateSettingsRequest::DemoteInactiveStreamsEnum& EnumValue)
 {
 	return ToString(EnumValue);
 }
 
-inline bool FromString(const FString& EnumAsString, OpenAPIUsersApi::UpdateDisplaySettingsRequest::DemoteInactiveStreamsEnum& Value)
+inline bool FromString(const FString& EnumAsString, OpenAPIUsersApi::UpdateSettingsRequest::DemoteInactiveStreamsEnum& Value)
 {
-	static TMap<FString, OpenAPIUsersApi::UpdateDisplaySettingsRequest::DemoteInactiveStreamsEnum> StringToEnum = { 
-		{ TEXT("1"), OpenAPIUsersApi::UpdateDisplaySettingsRequest::DemoteInactiveStreamsEnum::_1 },
-		{ TEXT("2"), OpenAPIUsersApi::UpdateDisplaySettingsRequest::DemoteInactiveStreamsEnum::_2 },
-		{ TEXT("3"), OpenAPIUsersApi::UpdateDisplaySettingsRequest::DemoteInactiveStreamsEnum::_3 }, };
+	static TMap<FString, OpenAPIUsersApi::UpdateSettingsRequest::DemoteInactiveStreamsEnum> StringToEnum = { 
+		{ TEXT("1"), OpenAPIUsersApi::UpdateSettingsRequest::DemoteInactiveStreamsEnum::_1 },
+		{ TEXT("2"), OpenAPIUsersApi::UpdateSettingsRequest::DemoteInactiveStreamsEnum::_2 },
+		{ TEXT("3"), OpenAPIUsersApi::UpdateSettingsRequest::DemoteInactiveStreamsEnum::_3 }, };
 
 	const auto Found = StringToEnum.Find(EnumAsString);
 	if(Found)
@@ -1075,22 +1075,22 @@ inline bool FromString(const FString& EnumAsString, OpenAPIUsersApi::UpdateDispl
 	return Found != nullptr;	
 }
 
-bool OpenAPIUsersApi::UpdateDisplaySettingsRequest::EnumFromString(const FString& EnumAsString, OpenAPIUsersApi::UpdateDisplaySettingsRequest::DemoteInactiveStreamsEnum& EnumValue)
+bool OpenAPIUsersApi::UpdateSettingsRequest::EnumFromString(const FString& EnumAsString, OpenAPIUsersApi::UpdateSettingsRequest::DemoteInactiveStreamsEnum& EnumValue)
 {
 	return FromString(EnumAsString, EnumValue);
 }
 
-inline FStringFormatArg ToStringFormatArg(const OpenAPIUsersApi::UpdateDisplaySettingsRequest::DemoteInactiveStreamsEnum& Value)
+inline FStringFormatArg ToStringFormatArg(const OpenAPIUsersApi::UpdateSettingsRequest::DemoteInactiveStreamsEnum& Value)
 {
 	return FStringFormatArg(ToString(Value));
 }
 
-inline void WriteJsonValue(JsonWriter& Writer, const OpenAPIUsersApi::UpdateDisplaySettingsRequest::DemoteInactiveStreamsEnum& Value)
+inline void WriteJsonValue(JsonWriter& Writer, const OpenAPIUsersApi::UpdateSettingsRequest::DemoteInactiveStreamsEnum& Value)
 {
 	WriteJsonValue(Writer, ToString(Value));
 }
 
-inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, OpenAPIUsersApi::UpdateDisplaySettingsRequest::DemoteInactiveStreamsEnum& Value)
+inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, OpenAPIUsersApi::UpdateSettingsRequest::DemoteInactiveStreamsEnum& Value)
 {
 	FString TmpValue;
 	if (JsonValue->TryGetString(TmpValue))
@@ -1101,10 +1101,87 @@ inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, OpenAPIUser
 	return false;
 }
 
-FString OpenAPIUsersApi::UpdateDisplaySettingsRequest::ComputePath() const
+inline FString ToString(const OpenAPIUsersApi::UpdateSettingsRequest::DesktopIconCountDisplayEnum& Value)
 {
-	FString Path(TEXT("/settings/display"));
+	switch (Value)
+	{
+	case OpenAPIUsersApi::UpdateSettingsRequest::DesktopIconCountDisplayEnum::_1:
+		return TEXT("1");
+	case OpenAPIUsersApi::UpdateSettingsRequest::DesktopIconCountDisplayEnum::_2:
+		return TEXT("2");
+	case OpenAPIUsersApi::UpdateSettingsRequest::DesktopIconCountDisplayEnum::_3:
+		return TEXT("3");
+	}
+
+	UE_LOG(LogOpenAPI, Error, TEXT("Invalid OpenAPIUsersApi::UpdateSettingsRequest::DesktopIconCountDisplayEnum Value (%d)"), (int)Value);	
+	return TEXT("");
+}
+
+FString OpenAPIUsersApi::UpdateSettingsRequest::EnumToString(const OpenAPIUsersApi::UpdateSettingsRequest::DesktopIconCountDisplayEnum& EnumValue)
+{
+	return ToString(EnumValue);
+}
+
+inline bool FromString(const FString& EnumAsString, OpenAPIUsersApi::UpdateSettingsRequest::DesktopIconCountDisplayEnum& Value)
+{
+	static TMap<FString, OpenAPIUsersApi::UpdateSettingsRequest::DesktopIconCountDisplayEnum> StringToEnum = { 
+		{ TEXT("1"), OpenAPIUsersApi::UpdateSettingsRequest::DesktopIconCountDisplayEnum::_1 },
+		{ TEXT("2"), OpenAPIUsersApi::UpdateSettingsRequest::DesktopIconCountDisplayEnum::_2 },
+		{ TEXT("3"), OpenAPIUsersApi::UpdateSettingsRequest::DesktopIconCountDisplayEnum::_3 }, };
+
+	const auto Found = StringToEnum.Find(EnumAsString);
+	if(Found)
+		Value = *Found;
+
+	return Found != nullptr;	
+}
+
+bool OpenAPIUsersApi::UpdateSettingsRequest::EnumFromString(const FString& EnumAsString, OpenAPIUsersApi::UpdateSettingsRequest::DesktopIconCountDisplayEnum& EnumValue)
+{
+	return FromString(EnumAsString, EnumValue);
+}
+
+inline FStringFormatArg ToStringFormatArg(const OpenAPIUsersApi::UpdateSettingsRequest::DesktopIconCountDisplayEnum& Value)
+{
+	return FStringFormatArg(ToString(Value));
+}
+
+inline void WriteJsonValue(JsonWriter& Writer, const OpenAPIUsersApi::UpdateSettingsRequest::DesktopIconCountDisplayEnum& Value)
+{
+	WriteJsonValue(Writer, ToString(Value));
+}
+
+inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, OpenAPIUsersApi::UpdateSettingsRequest::DesktopIconCountDisplayEnum& Value)
+{
+	FString TmpValue;
+	if (JsonValue->TryGetString(TmpValue))
+	{
+		if(FromString(TmpValue, Value))
+			return true;
+	}
+	return false;
+}
+
+FString OpenAPIUsersApi::UpdateSettingsRequest::ComputePath() const
+{
+	FString Path(TEXT("/settings"));
 	TArray<FString> QueryParams;
+	if(FullName.IsSet())
+	{
+		QueryParams.Add(FString(TEXT("full_name=")) + ToUrlString(FullName.GetValue()));
+	}
+	if(Email.IsSet())
+	{
+		QueryParams.Add(FString(TEXT("email=")) + ToUrlString(Email.GetValue()));
+	}
+	if(OldPassword.IsSet())
+	{
+		QueryParams.Add(FString(TEXT("old_password=")) + ToUrlString(OldPassword.GetValue()));
+	}
+	if(NewPassword.IsSet())
+	{
+		QueryParams.Add(FString(TEXT("new_password=")) + ToUrlString(NewPassword.GetValue()));
+	}
 	if(TwentyFourHourTime.IsSet())
 	{
 		QueryParams.Add(FString(TEXT("twenty_four_hour_time=")) + ToUrlString(TwentyFourHourTime.GetValue()));
@@ -1128,6 +1205,10 @@ FString OpenAPIUsersApi::UpdateDisplaySettingsRequest::ComputePath() const
 	if(ColorScheme.IsSet())
 	{
 		QueryParams.Add(FString(TEXT("color_scheme=")) + ToUrlString(ColorScheme.GetValue()));
+	}
+	if(EnableDraftsSynchronization.IsSet())
+	{
+		QueryParams.Add(FString(TEXT("enable_drafts_synchronization=")) + ToUrlString(EnableDraftsSynchronization.GetValue()));
 	}
 	if(TranslateEmoticons.IsSet())
 	{
@@ -1157,116 +1238,6 @@ FString OpenAPIUsersApi::UpdateDisplaySettingsRequest::ComputePath() const
 	{
 		QueryParams.Add(FString(TEXT("timezone=")) + ToUrlString(Timezone.GetValue()));
 	}
-	Path += TCHAR('?');
-	Path += FString::Join(QueryParams, TEXT("&"));
-
-	return Path;
-}
-
-void OpenAPIUsersApi::UpdateDisplaySettingsRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
-{
-	static const TArray<FString> Consumes = {  };
-	//static const TArray<FString> Produces = { TEXT("application/json") };
-
-	HttpRequest->SetVerb(TEXT("PATCH"));
-
-	// Default to Json Body request
-	if (Consumes.Num() == 0 || Consumes.Contains(TEXT("application/json")))
-	{
-	}
-	else if (Consumes.Contains(TEXT("multipart/form-data")))
-	{
-	}
-	else if (Consumes.Contains(TEXT("application/x-www-form-urlencoded")))
-	{
-	}
-	else
-	{
-		UE_LOG(LogOpenAPI, Error, TEXT("Request ContentType not supported (%s)"), *FString::Join(Consumes, TEXT(",")));
-	}
-}
-
-void OpenAPIUsersApi::UpdateDisplaySettingsResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
-{
-	Response::SetHttpResponseCode(InHttpResponseCode);
-	switch ((int)InHttpResponseCode)
-	{
-	case 200:
-		SetResponseString(TEXT("Success"));
-		break;
-	}
-}
-
-bool OpenAPIUsersApi::UpdateDisplaySettingsResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
-{
-	return TryGetJsonValue(JsonValue, Content);
-}
-
-inline FString ToString(const OpenAPIUsersApi::UpdateNotificationSettingsRequest::DesktopIconCountDisplayEnum& Value)
-{
-	switch (Value)
-	{
-	case OpenAPIUsersApi::UpdateNotificationSettingsRequest::DesktopIconCountDisplayEnum::_1:
-		return TEXT("1");
-	case OpenAPIUsersApi::UpdateNotificationSettingsRequest::DesktopIconCountDisplayEnum::_2:
-		return TEXT("2");
-	case OpenAPIUsersApi::UpdateNotificationSettingsRequest::DesktopIconCountDisplayEnum::_3:
-		return TEXT("3");
-	}
-
-	UE_LOG(LogOpenAPI, Error, TEXT("Invalid OpenAPIUsersApi::UpdateNotificationSettingsRequest::DesktopIconCountDisplayEnum Value (%d)"), (int)Value);	
-	return TEXT("");
-}
-
-FString OpenAPIUsersApi::UpdateNotificationSettingsRequest::EnumToString(const OpenAPIUsersApi::UpdateNotificationSettingsRequest::DesktopIconCountDisplayEnum& EnumValue)
-{
-	return ToString(EnumValue);
-}
-
-inline bool FromString(const FString& EnumAsString, OpenAPIUsersApi::UpdateNotificationSettingsRequest::DesktopIconCountDisplayEnum& Value)
-{
-	static TMap<FString, OpenAPIUsersApi::UpdateNotificationSettingsRequest::DesktopIconCountDisplayEnum> StringToEnum = { 
-		{ TEXT("1"), OpenAPIUsersApi::UpdateNotificationSettingsRequest::DesktopIconCountDisplayEnum::_1 },
-		{ TEXT("2"), OpenAPIUsersApi::UpdateNotificationSettingsRequest::DesktopIconCountDisplayEnum::_2 },
-		{ TEXT("3"), OpenAPIUsersApi::UpdateNotificationSettingsRequest::DesktopIconCountDisplayEnum::_3 }, };
-
-	const auto Found = StringToEnum.Find(EnumAsString);
-	if(Found)
-		Value = *Found;
-
-	return Found != nullptr;	
-}
-
-bool OpenAPIUsersApi::UpdateNotificationSettingsRequest::EnumFromString(const FString& EnumAsString, OpenAPIUsersApi::UpdateNotificationSettingsRequest::DesktopIconCountDisplayEnum& EnumValue)
-{
-	return FromString(EnumAsString, EnumValue);
-}
-
-inline FStringFormatArg ToStringFormatArg(const OpenAPIUsersApi::UpdateNotificationSettingsRequest::DesktopIconCountDisplayEnum& Value)
-{
-	return FStringFormatArg(ToString(Value));
-}
-
-inline void WriteJsonValue(JsonWriter& Writer, const OpenAPIUsersApi::UpdateNotificationSettingsRequest::DesktopIconCountDisplayEnum& Value)
-{
-	WriteJsonValue(Writer, ToString(Value));
-}
-
-inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, OpenAPIUsersApi::UpdateNotificationSettingsRequest::DesktopIconCountDisplayEnum& Value)
-{
-	FString TmpValue;
-	if (JsonValue->TryGetString(TmpValue))
-	{
-		if(FromString(TmpValue, Value))
-			return true;
-	}
-	return false;
-}
-
-FString OpenAPIUsersApi::UpdateNotificationSettingsRequest::ComputePath() const
-{
-	FString Path(TEXT("/settings/notifications"));
-	TArray<FString> QueryParams;
 	if(EnableStreamDesktopNotifications.IsSet())
 	{
 		QueryParams.Add(FString(TEXT("enable_stream_desktop_notifications=")) + ToUrlString(EnableStreamDesktopNotifications.GetValue()));
@@ -1294,6 +1265,10 @@ FString OpenAPIUsersApi::UpdateNotificationSettingsRequest::ComputePath() const
 	if(EnableSounds.IsSet())
 	{
 		QueryParams.Add(FString(TEXT("enable_sounds=")) + ToUrlString(EnableSounds.GetValue()));
+	}
+	if(EmailNotificationsBatchingPeriodSeconds.IsSet())
+	{
+		QueryParams.Add(FString(TEXT("email_notifications_batching_period_seconds=")) + ToUrlString(EmailNotificationsBatchingPeriodSeconds.GetValue()));
 	}
 	if(EnableOfflineEmailNotifications.IsSet())
 	{
@@ -1343,13 +1318,17 @@ FString OpenAPIUsersApi::UpdateNotificationSettingsRequest::ComputePath() const
 	{
 		QueryParams.Add(FString(TEXT("presence_enabled=")) + ToUrlString(PresenceEnabled.GetValue()));
 	}
+	if(EnterSends.IsSet())
+	{
+		QueryParams.Add(FString(TEXT("enter_sends=")) + ToUrlString(EnterSends.GetValue()));
+	}
 	Path += TCHAR('?');
 	Path += FString::Join(QueryParams, TEXT("&"));
 
 	return Path;
 }
 
-void OpenAPIUsersApi::UpdateNotificationSettingsRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
+void OpenAPIUsersApi::UpdateSettingsRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = { TEXT("application/json") };
@@ -1372,7 +1351,76 @@ void OpenAPIUsersApi::UpdateNotificationSettingsRequest::SetupHttpRequest(const 
 	}
 }
 
-void OpenAPIUsersApi::UpdateNotificationSettingsResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
+void OpenAPIUsersApi::UpdateSettingsResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
+{
+	Response::SetHttpResponseCode(InHttpResponseCode);
+	switch ((int)InHttpResponseCode)
+	{
+	case 200:
+		SetResponseString(TEXT("Success"));
+		break;
+	}
+}
+
+bool OpenAPIUsersApi::UpdateSettingsResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
+{
+	return TryGetJsonValue(JsonValue, Content);
+}
+
+FString OpenAPIUsersApi::UpdateStatusRequest::ComputePath() const
+{
+	FString Path(TEXT("/users/me/status"));
+	TArray<FString> QueryParams;
+	if(StatusText.IsSet())
+	{
+		QueryParams.Add(FString(TEXT("status_text=")) + ToUrlString(StatusText.GetValue()));
+	}
+	if(Away.IsSet())
+	{
+		QueryParams.Add(FString(TEXT("away=")) + ToUrlString(Away.GetValue()));
+	}
+	if(EmojiName.IsSet())
+	{
+		QueryParams.Add(FString(TEXT("emoji_name=")) + ToUrlString(EmojiName.GetValue()));
+	}
+	if(EmojiCode.IsSet())
+	{
+		QueryParams.Add(FString(TEXT("emoji_code=")) + ToUrlString(EmojiCode.GetValue()));
+	}
+	if(ReactionType.IsSet())
+	{
+		QueryParams.Add(FString(TEXT("reaction_type=")) + ToUrlString(ReactionType.GetValue()));
+	}
+	Path += TCHAR('?');
+	Path += FString::Join(QueryParams, TEXT("&"));
+
+	return Path;
+}
+
+void OpenAPIUsersApi::UpdateStatusRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
+{
+	static const TArray<FString> Consumes = {  };
+	//static const TArray<FString> Produces = { TEXT("application/json") };
+
+	HttpRequest->SetVerb(TEXT("POST"));
+
+	// Default to Json Body request
+	if (Consumes.Num() == 0 || Consumes.Contains(TEXT("application/json")))
+	{
+	}
+	else if (Consumes.Contains(TEXT("multipart/form-data")))
+	{
+	}
+	else if (Consumes.Contains(TEXT("application/x-www-form-urlencoded")))
+	{
+	}
+	else
+	{
+		UE_LOG(LogOpenAPI, Error, TEXT("Request ContentType not supported (%s)"), *FString::Join(Consumes, TEXT(",")));
+	}
+}
+
+void OpenAPIUsersApi::UpdateStatusResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
 {
 	Response::SetHttpResponseCode(InHttpResponseCode);
 	switch ((int)InHttpResponseCode)
@@ -1380,10 +1428,13 @@ void OpenAPIUsersApi::UpdateNotificationSettingsResponse::SetHttpResponseCode(EH
 	case 200:
 		SetResponseString(TEXT("Success."));
 		break;
+	case 400:
+		SetResponseString(TEXT("Success."));
+		break;
 	}
 }
 
-bool OpenAPIUsersApi::UpdateNotificationSettingsResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
+bool OpenAPIUsersApi::UpdateStatusResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
 {
 	return TryGetJsonValue(JsonValue, Content);
 }

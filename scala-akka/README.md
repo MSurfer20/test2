@@ -69,6 +69,10 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AuthenticationApi* | **devFetchApiKey** | **POST** /dev_fetch_api_key | Fetch an API key (development only)
 *AuthenticationApi* | **fetchApiKey** | **POST** /fetch_api_key | Fetch an API key (production)
+*DraftsApi* | **createDrafts** | **POST** /drafts | Create drafts
+*DraftsApi* | **deleteDraft** | **DELETE** /drafts/{draft_id} | Delete a draft
+*DraftsApi* | **editDraft** | **PATCH** /drafts/{draft_id} | Edit a draft
+*DraftsApi* | **getDrafts** | **GET** /drafts | Get drafts
 *MessagesApi* | **addReaction** | **POST** /messages/{message_id}/reactions | Add an emoji reaction
 *MessagesApi* | **checkMessagesMatchNarrow** | **GET** /messages/matches_narrow | Check if messages match a narrow
 *MessagesApi* | **deleteMessage** | **DELETE** /messages/{message_id} | Delete a message
@@ -104,9 +108,11 @@ Class | Method | HTTP request | Description
 *ServerAndOrganizationsApi* | **uploadCustomEmoji** | **POST** /realm/emoji/{emoji_name} | Upload custom emoji
 *StreamsApi* | **archiveStream** | **DELETE** /streams/{stream_id} | Archive a stream
 *StreamsApi* | **createBigBlueButtonVideoCall** | **GET** /calls/bigbluebutton/create | Create BigBlueButton video call
+*StreamsApi* | **deleteTopic** | **POST** /streams/{stream_id}/delete_topic | Delete a topic
 *StreamsApi* | **getStreamId** | **GET** /get_stream_id | Get stream ID
 *StreamsApi* | **getStreamTopics** | **GET** /users/me/{stream_id}/topics | Get topics in a stream
 *StreamsApi* | **getStreams** | **GET** /streams | Get all streams
+*StreamsApi* | **getSubscribers** | **GET** /streams/{stream_id}/members | Get the subscribers of a stream
 *StreamsApi* | **getSubscriptionStatus** | **GET** /users/{user_id}/subscriptions/{stream_id} | Get subscription status
 *StreamsApi* | **getSubscriptions** | **GET** /users/me/subscriptions | Get subscribed streams
 *StreamsApi* | **muteTopic** | **PATCH** /users/me/subscriptions/muted_topics | Topic muting
@@ -131,8 +137,8 @@ Class | Method | HTTP request | Description
 *UsersApi* | **removeUserGroup** | **DELETE** /user_groups/{user_group_id} | Delete a user group
 *UsersApi* | **setTypingStatus** | **POST** /typing | Set \&quot;typing\&quot; status
 *UsersApi* | **unmuteUser** | **DELETE** /users/me/muted_users/{muted_user_id} | Unmute a user
-*UsersApi* | **updateDisplaySettings** | **PATCH** /settings/display | Update display settings
-*UsersApi* | **updateNotificationSettings** | **PATCH** /settings/notifications | Update notification settings
+*UsersApi* | **updateSettings** | **PATCH** /settings | Update settings
+*UsersApi* | **updateStatus** | **POST** /users/me/status | Update your status
 *UsersApi* | **updateUser** | **PATCH** /users/{user_id} | Update a user
 *UsersApi* | **updateUserGroup** | **PATCH** /user_groups/{user_group_id} | Update a user group
 *UsersApi* | **updateUserGroupMembers** | **POST** /user_groups/{user_group_id}/members | Update user group members
@@ -163,10 +169,13 @@ Class | Method | HTTP request | Description
  - [CodedErrorBaseAllOf](CodedErrorBaseAllOf.md)
  - [CustomProfileField](CustomProfileField.md)
  - [DefaultStreamGroup](DefaultStreamGroup.md)
+ - [Draft](Draft.md)
+ - [EmojiBase](EmojiBase.md)
  - [EmojiReaction](EmojiReaction.md)
  - [EmojiReactionAllOf](EmojiReactionAllOf.md)
  - [EmojiReactionBase](EmojiReactionBase.md)
- - [EmojiReactionBaseUser](EmojiReactionBaseUser.md)
+ - [EmojiReactionBaseAllOf](EmojiReactionBaseAllOf.md)
+ - [EmojiReactionBaseAllOfUser](EmojiReactionBaseAllOfUser.md)
  - [GetMessages](GetMessages.md)
  - [GetMessagesAllOf](GetMessagesAllOf.md)
  - [Hotspot](Hotspot.md)

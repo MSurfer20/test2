@@ -121,6 +121,10 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AbstractAuthenticationApi* | **devFetchApiKey** | **POST** /dev_fetch_api_key | Fetch an API key (development only)
 *AbstractAuthenticationApi* | **fetchApiKey** | **POST** /fetch_api_key | Fetch an API key (production)
+*AbstractDraftsApi* | **createDrafts** | **POST** /drafts | Create drafts
+*AbstractDraftsApi* | **getDrafts** | **GET** /drafts | Get drafts
+*AbstractDraftsApi* | **deleteDraft** | **DELETE** /drafts/{draft_id} | Delete a draft
+*AbstractDraftsApi* | **editDraft** | **PATCH** /drafts/{draft_id} | Edit a draft
 *AbstractMessagesApi* | **checkMessagesMatchNarrow** | **GET** /messages/matches_narrow | Check if messages match a narrow
 *AbstractMessagesApi* | **getMessages** | **GET** /messages | Get messages
 *AbstractMessagesApi* | **markAllAsRead** | **POST** /mark_all_as_read | Mark all messages as read
@@ -164,7 +168,9 @@ Class | Method | HTTP request | Description
 *AbstractStreamsApi* | **updateSubscriptionSettings** | **POST** /users/me/subscriptions/properties | Update subscription settings
 *AbstractStreamsApi* | **updateSubscriptions** | **PATCH** /users/me/subscriptions | Update subscriptions
 *AbstractStreamsApi* | **archiveStream** | **DELETE** /streams/{stream_id} | Archive a stream
+*AbstractStreamsApi* | **deleteTopic** | **POST** /streams/{stream_id}/delete_topic | Delete a topic
 *AbstractStreamsApi* | **getStreamTopics** | **GET** /users/me/{stream_id}/topics | Get topics in a stream
+*AbstractStreamsApi* | **getSubscribers** | **GET** /streams/{stream_id}/members | Get the subscribers of a stream
 *AbstractStreamsApi* | **getSubscriptionStatus** | **GET** /users/{user_id}/subscriptions/{stream_id} | Get subscription status
 *AbstractStreamsApi* | **updateStream** | **PATCH** /streams/{stream_id} | Update a stream
 *AbstractUsersApi* | **createUser** | **POST** /users | Create a user
@@ -175,8 +181,8 @@ Class | Method | HTTP request | Description
 *AbstractUsersApi* | **getUserGroups** | **GET** /user_groups | Get user groups
 *AbstractUsersApi* | **getUsers** | **GET** /users | Get all users
 *AbstractUsersApi* | **setTypingStatus** | **POST** /typing | Set \"typing\" status
-*AbstractUsersApi* | **updateDisplaySettings** | **PATCH** /settings/display | Update display settings
-*AbstractUsersApi* | **updateNotificationSettings** | **PATCH** /settings/notifications | Update notification settings
+*AbstractUsersApi* | **updateSettings** | **PATCH** /settings | Update settings
+*AbstractUsersApi* | **updateStatus** | **POST** /users/me/status | Update your status
 *AbstractUsersApi* | **deactivateUser** | **DELETE** /users/{user_id} | Deactivate a user
 *AbstractUsersApi* | **getUser** | **GET** /users/{user_id} | Get a user
 *AbstractUsersApi* | **getUserByEmail** | **GET** /users/{email} | Get a user by email
@@ -215,10 +221,13 @@ Class | Method | HTTP request | Description
 * OpenAPIServer\Model\CodedErrorBaseAllOf
 * OpenAPIServer\Model\CustomProfileField
 * OpenAPIServer\Model\DefaultStreamGroup
+* OpenAPIServer\Model\Draft
+* OpenAPIServer\Model\EmojiBase
 * OpenAPIServer\Model\EmojiReaction
 * OpenAPIServer\Model\EmojiReactionAllOf
 * OpenAPIServer\Model\EmojiReactionBase
-* OpenAPIServer\Model\EmojiReactionBaseUser
+* OpenAPIServer\Model\EmojiReactionBaseAllOf
+* OpenAPIServer\Model\EmojiReactionBaseAllOfUser
 * OpenAPIServer\Model\GetMessages
 * OpenAPIServer\Model\GetMessagesAllOf
 * OpenAPIServer\Model\Hotspot

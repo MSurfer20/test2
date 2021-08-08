@@ -16,7 +16,7 @@ import java.util.LinkedHashSet;
 import java.io.FileInputStream;
 import play.libs.Files.TemporaryFile;
 import javax.validation.constraints.*;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", date = "2021-08-08T20:41:53.018098Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", date = "2021-08-08T21:11:44.583112Z[Etc/UTC]")
 public class MessagesApiControllerImp extends MessagesApiControllerImpInterface {
     @Override
     public JsonSuccess addReaction(Http.Request request, Integer messageId, @NotNull String emojiName, String emojiCode, String reactionType) throws Exception {

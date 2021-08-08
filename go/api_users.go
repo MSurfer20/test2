@@ -2065,15 +2065,20 @@ func (a *UsersApiService) UnmuteUserExecute(r ApiUnmuteUserRequest) (JsonSuccess
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiUpdateDisplaySettingsRequest struct {
+type ApiUpdateSettingsRequest struct {
 	ctx _context.Context
 	ApiService *UsersApiService
+	fullName *string
+	email *string
+	oldPassword *string
+	newPassword *string
 	twentyFourHourTime *bool
 	denseMode *bool
 	starredMessageCounts *bool
 	fluidLayoutWidth *bool
 	highContrastMode *bool
 	colorScheme *int32
+	enableDraftsSynchronization *bool
 	translateEmoticons *bool
 	defaultLanguage *string
 	defaultView *string
@@ -2081,76 +2086,218 @@ type ApiUpdateDisplaySettingsRequest struct {
 	emojiset *string
 	demoteInactiveStreams *int32
 	timezone *string
+	enableStreamDesktopNotifications *bool
+	enableStreamEmailNotifications *bool
+	enableStreamPushNotifications *bool
+	enableStreamAudibleNotifications *bool
+	notificationSound *string
+	enableDesktopNotifications *bool
+	enableSounds *bool
+	emailNotificationsBatchingPeriodSeconds *int32
+	enableOfflineEmailNotifications *bool
+	enableOfflinePushNotifications *bool
+	enableOnlinePushNotifications *bool
+	enableDigestEmails *bool
+	enableMarketingEmails *bool
+	enableLoginEmails *bool
+	messageContentInEmailNotifications *bool
+	pmContentInDesktopNotifications *bool
+	wildcardMentionsNotify *bool
+	desktopIconCountDisplay *int32
+	realmNameInNotifications *bool
+	presenceEnabled *bool
+	enterSends *bool
 }
 
-func (r ApiUpdateDisplaySettingsRequest) TwentyFourHourTime(twentyFourHourTime bool) ApiUpdateDisplaySettingsRequest {
+func (r ApiUpdateSettingsRequest) FullName(fullName string) ApiUpdateSettingsRequest {
+	r.fullName = &fullName
+	return r
+}
+func (r ApiUpdateSettingsRequest) Email(email string) ApiUpdateSettingsRequest {
+	r.email = &email
+	return r
+}
+func (r ApiUpdateSettingsRequest) OldPassword(oldPassword string) ApiUpdateSettingsRequest {
+	r.oldPassword = &oldPassword
+	return r
+}
+func (r ApiUpdateSettingsRequest) NewPassword(newPassword string) ApiUpdateSettingsRequest {
+	r.newPassword = &newPassword
+	return r
+}
+func (r ApiUpdateSettingsRequest) TwentyFourHourTime(twentyFourHourTime bool) ApiUpdateSettingsRequest {
 	r.twentyFourHourTime = &twentyFourHourTime
 	return r
 }
-func (r ApiUpdateDisplaySettingsRequest) DenseMode(denseMode bool) ApiUpdateDisplaySettingsRequest {
+func (r ApiUpdateSettingsRequest) DenseMode(denseMode bool) ApiUpdateSettingsRequest {
 	r.denseMode = &denseMode
 	return r
 }
-func (r ApiUpdateDisplaySettingsRequest) StarredMessageCounts(starredMessageCounts bool) ApiUpdateDisplaySettingsRequest {
+func (r ApiUpdateSettingsRequest) StarredMessageCounts(starredMessageCounts bool) ApiUpdateSettingsRequest {
 	r.starredMessageCounts = &starredMessageCounts
 	return r
 }
-func (r ApiUpdateDisplaySettingsRequest) FluidLayoutWidth(fluidLayoutWidth bool) ApiUpdateDisplaySettingsRequest {
+func (r ApiUpdateSettingsRequest) FluidLayoutWidth(fluidLayoutWidth bool) ApiUpdateSettingsRequest {
 	r.fluidLayoutWidth = &fluidLayoutWidth
 	return r
 }
-func (r ApiUpdateDisplaySettingsRequest) HighContrastMode(highContrastMode bool) ApiUpdateDisplaySettingsRequest {
+func (r ApiUpdateSettingsRequest) HighContrastMode(highContrastMode bool) ApiUpdateSettingsRequest {
 	r.highContrastMode = &highContrastMode
 	return r
 }
-func (r ApiUpdateDisplaySettingsRequest) ColorScheme(colorScheme int32) ApiUpdateDisplaySettingsRequest {
+func (r ApiUpdateSettingsRequest) ColorScheme(colorScheme int32) ApiUpdateSettingsRequest {
 	r.colorScheme = &colorScheme
 	return r
 }
-func (r ApiUpdateDisplaySettingsRequest) TranslateEmoticons(translateEmoticons bool) ApiUpdateDisplaySettingsRequest {
+func (r ApiUpdateSettingsRequest) EnableDraftsSynchronization(enableDraftsSynchronization bool) ApiUpdateSettingsRequest {
+	r.enableDraftsSynchronization = &enableDraftsSynchronization
+	return r
+}
+func (r ApiUpdateSettingsRequest) TranslateEmoticons(translateEmoticons bool) ApiUpdateSettingsRequest {
 	r.translateEmoticons = &translateEmoticons
 	return r
 }
-func (r ApiUpdateDisplaySettingsRequest) DefaultLanguage(defaultLanguage string) ApiUpdateDisplaySettingsRequest {
+func (r ApiUpdateSettingsRequest) DefaultLanguage(defaultLanguage string) ApiUpdateSettingsRequest {
 	r.defaultLanguage = &defaultLanguage
 	return r
 }
-func (r ApiUpdateDisplaySettingsRequest) DefaultView(defaultView string) ApiUpdateDisplaySettingsRequest {
+func (r ApiUpdateSettingsRequest) DefaultView(defaultView string) ApiUpdateSettingsRequest {
 	r.defaultView = &defaultView
 	return r
 }
-func (r ApiUpdateDisplaySettingsRequest) LeftSideUserlist(leftSideUserlist bool) ApiUpdateDisplaySettingsRequest {
+func (r ApiUpdateSettingsRequest) LeftSideUserlist(leftSideUserlist bool) ApiUpdateSettingsRequest {
 	r.leftSideUserlist = &leftSideUserlist
 	return r
 }
-func (r ApiUpdateDisplaySettingsRequest) Emojiset(emojiset string) ApiUpdateDisplaySettingsRequest {
+func (r ApiUpdateSettingsRequest) Emojiset(emojiset string) ApiUpdateSettingsRequest {
 	r.emojiset = &emojiset
 	return r
 }
-func (r ApiUpdateDisplaySettingsRequest) DemoteInactiveStreams(demoteInactiveStreams int32) ApiUpdateDisplaySettingsRequest {
+func (r ApiUpdateSettingsRequest) DemoteInactiveStreams(demoteInactiveStreams int32) ApiUpdateSettingsRequest {
 	r.demoteInactiveStreams = &demoteInactiveStreams
 	return r
 }
-func (r ApiUpdateDisplaySettingsRequest) Timezone(timezone string) ApiUpdateDisplaySettingsRequest {
+func (r ApiUpdateSettingsRequest) Timezone(timezone string) ApiUpdateSettingsRequest {
 	r.timezone = &timezone
 	return r
 }
+func (r ApiUpdateSettingsRequest) EnableStreamDesktopNotifications(enableStreamDesktopNotifications bool) ApiUpdateSettingsRequest {
+	r.enableStreamDesktopNotifications = &enableStreamDesktopNotifications
+	return r
+}
+func (r ApiUpdateSettingsRequest) EnableStreamEmailNotifications(enableStreamEmailNotifications bool) ApiUpdateSettingsRequest {
+	r.enableStreamEmailNotifications = &enableStreamEmailNotifications
+	return r
+}
+func (r ApiUpdateSettingsRequest) EnableStreamPushNotifications(enableStreamPushNotifications bool) ApiUpdateSettingsRequest {
+	r.enableStreamPushNotifications = &enableStreamPushNotifications
+	return r
+}
+func (r ApiUpdateSettingsRequest) EnableStreamAudibleNotifications(enableStreamAudibleNotifications bool) ApiUpdateSettingsRequest {
+	r.enableStreamAudibleNotifications = &enableStreamAudibleNotifications
+	return r
+}
+func (r ApiUpdateSettingsRequest) NotificationSound(notificationSound string) ApiUpdateSettingsRequest {
+	r.notificationSound = &notificationSound
+	return r
+}
+func (r ApiUpdateSettingsRequest) EnableDesktopNotifications(enableDesktopNotifications bool) ApiUpdateSettingsRequest {
+	r.enableDesktopNotifications = &enableDesktopNotifications
+	return r
+}
+func (r ApiUpdateSettingsRequest) EnableSounds(enableSounds bool) ApiUpdateSettingsRequest {
+	r.enableSounds = &enableSounds
+	return r
+}
+func (r ApiUpdateSettingsRequest) EmailNotificationsBatchingPeriodSeconds(emailNotificationsBatchingPeriodSeconds int32) ApiUpdateSettingsRequest {
+	r.emailNotificationsBatchingPeriodSeconds = &emailNotificationsBatchingPeriodSeconds
+	return r
+}
+func (r ApiUpdateSettingsRequest) EnableOfflineEmailNotifications(enableOfflineEmailNotifications bool) ApiUpdateSettingsRequest {
+	r.enableOfflineEmailNotifications = &enableOfflineEmailNotifications
+	return r
+}
+func (r ApiUpdateSettingsRequest) EnableOfflinePushNotifications(enableOfflinePushNotifications bool) ApiUpdateSettingsRequest {
+	r.enableOfflinePushNotifications = &enableOfflinePushNotifications
+	return r
+}
+func (r ApiUpdateSettingsRequest) EnableOnlinePushNotifications(enableOnlinePushNotifications bool) ApiUpdateSettingsRequest {
+	r.enableOnlinePushNotifications = &enableOnlinePushNotifications
+	return r
+}
+func (r ApiUpdateSettingsRequest) EnableDigestEmails(enableDigestEmails bool) ApiUpdateSettingsRequest {
+	r.enableDigestEmails = &enableDigestEmails
+	return r
+}
+func (r ApiUpdateSettingsRequest) EnableMarketingEmails(enableMarketingEmails bool) ApiUpdateSettingsRequest {
+	r.enableMarketingEmails = &enableMarketingEmails
+	return r
+}
+func (r ApiUpdateSettingsRequest) EnableLoginEmails(enableLoginEmails bool) ApiUpdateSettingsRequest {
+	r.enableLoginEmails = &enableLoginEmails
+	return r
+}
+func (r ApiUpdateSettingsRequest) MessageContentInEmailNotifications(messageContentInEmailNotifications bool) ApiUpdateSettingsRequest {
+	r.messageContentInEmailNotifications = &messageContentInEmailNotifications
+	return r
+}
+func (r ApiUpdateSettingsRequest) PmContentInDesktopNotifications(pmContentInDesktopNotifications bool) ApiUpdateSettingsRequest {
+	r.pmContentInDesktopNotifications = &pmContentInDesktopNotifications
+	return r
+}
+func (r ApiUpdateSettingsRequest) WildcardMentionsNotify(wildcardMentionsNotify bool) ApiUpdateSettingsRequest {
+	r.wildcardMentionsNotify = &wildcardMentionsNotify
+	return r
+}
+func (r ApiUpdateSettingsRequest) DesktopIconCountDisplay(desktopIconCountDisplay int32) ApiUpdateSettingsRequest {
+	r.desktopIconCountDisplay = &desktopIconCountDisplay
+	return r
+}
+func (r ApiUpdateSettingsRequest) RealmNameInNotifications(realmNameInNotifications bool) ApiUpdateSettingsRequest {
+	r.realmNameInNotifications = &realmNameInNotifications
+	return r
+}
+func (r ApiUpdateSettingsRequest) PresenceEnabled(presenceEnabled bool) ApiUpdateSettingsRequest {
+	r.presenceEnabled = &presenceEnabled
+	return r
+}
+func (r ApiUpdateSettingsRequest) EnterSends(enterSends bool) ApiUpdateSettingsRequest {
+	r.enterSends = &enterSends
+	return r
+}
 
-func (r ApiUpdateDisplaySettingsRequest) Execute() (JsonSuccessBase, *_nethttp.Response, error) {
-	return r.ApiService.UpdateDisplaySettingsExecute(r)
+func (r ApiUpdateSettingsRequest) Execute() (JsonSuccessBase, *_nethttp.Response, error) {
+	return r.ApiService.UpdateSettingsExecute(r)
 }
 
 /*
- * UpdateDisplaySettings Update display settings
- * This endpoint is used to edit the current user's user interface settings.
+ * UpdateSettings Update settings
+ * This endpoint is used to edit the current user's settings.
 
-`PATCH {{ api_url }}/v1/settings/display`
+`PATCH {{ api_url }}/v1/settings`
+
+**Changes**: Prior to Zulip 5.0 (feature level 80), this
+endpoint only supported the `full_name`, `email`,
+`old_password`, and `new_password` parameters. Notification
+settings were managed by `PATCH /settings/notifications`, and
+all other settings by `PATCH /settings/display`. The feature level
+80 migration to merge these endpoints did not change how request
+parameters are encoded. Note, however, that it did change the
+handling of any invalid parameters present in a request to change
+notification or display settings, since the merged endpoint uses
+the new response format that was introduced for `/settings` in
+Zulip 5.0 (feature level 78).
+
+The `/settings/display` and `/settings/notifications`
+endpoints are now deprecated aliases for this endpoint for
+backwards-compatibility, and will be removed once clients have
+migrated to use this endpoint.
 
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @return ApiUpdateDisplaySettingsRequest
+ * @return ApiUpdateSettingsRequest
  */
-func (a *UsersApiService) UpdateDisplaySettings(ctx _context.Context) ApiUpdateDisplaySettingsRequest {
-	return ApiUpdateDisplaySettingsRequest{
+func (a *UsersApiService) UpdateSettings(ctx _context.Context) ApiUpdateSettingsRequest {
+	return ApiUpdateSettingsRequest{
 		ApiService: a,
 		ctx: ctx,
 	}
@@ -2160,7 +2307,7 @@ func (a *UsersApiService) UpdateDisplaySettings(ctx _context.Context) ApiUpdateD
  * Execute executes the request
  * @return JsonSuccessBase
  */
-func (a *UsersApiService) UpdateDisplaySettingsExecute(r ApiUpdateDisplaySettingsRequest) (JsonSuccessBase, *_nethttp.Response, error) {
+func (a *UsersApiService) UpdateSettingsExecute(r ApiUpdateSettingsRequest) (JsonSuccessBase, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPatch
 		localVarPostBody     interface{}
@@ -2170,17 +2317,29 @@ func (a *UsersApiService) UpdateDisplaySettingsExecute(r ApiUpdateDisplaySetting
 		localVarReturnValue  JsonSuccessBase
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UsersApiService.UpdateDisplaySettings")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UsersApiService.UpdateSettings")
 	if err != nil {
 		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/settings/display"
+	localVarPath := localBasePath + "/settings"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 
+	if r.fullName != nil {
+		localVarQueryParams.Add("full_name", parameterToString(*r.fullName, ""))
+	}
+	if r.email != nil {
+		localVarQueryParams.Add("email", parameterToString(*r.email, ""))
+	}
+	if r.oldPassword != nil {
+		localVarQueryParams.Add("old_password", parameterToString(*r.oldPassword, ""))
+	}
+	if r.newPassword != nil {
+		localVarQueryParams.Add("new_password", parameterToString(*r.newPassword, ""))
+	}
 	if r.twentyFourHourTime != nil {
 		localVarQueryParams.Add("twenty_four_hour_time", parameterToString(*r.twentyFourHourTime, ""))
 	}
@@ -2198,6 +2357,9 @@ func (a *UsersApiService) UpdateDisplaySettingsExecute(r ApiUpdateDisplaySetting
 	}
 	if r.colorScheme != nil {
 		localVarQueryParams.Add("color_scheme", parameterToString(*r.colorScheme, ""))
+	}
+	if r.enableDraftsSynchronization != nil {
+		localVarQueryParams.Add("enable_drafts_synchronization", parameterToString(*r.enableDraftsSynchronization, ""))
 	}
 	if r.translateEmoticons != nil {
 		localVarQueryParams.Add("translate_emoticons", parameterToString(*r.translateEmoticons, ""))
@@ -2219,6 +2381,69 @@ func (a *UsersApiService) UpdateDisplaySettingsExecute(r ApiUpdateDisplaySetting
 	}
 	if r.timezone != nil {
 		localVarQueryParams.Add("timezone", parameterToString(*r.timezone, ""))
+	}
+	if r.enableStreamDesktopNotifications != nil {
+		localVarQueryParams.Add("enable_stream_desktop_notifications", parameterToString(*r.enableStreamDesktopNotifications, ""))
+	}
+	if r.enableStreamEmailNotifications != nil {
+		localVarQueryParams.Add("enable_stream_email_notifications", parameterToString(*r.enableStreamEmailNotifications, ""))
+	}
+	if r.enableStreamPushNotifications != nil {
+		localVarQueryParams.Add("enable_stream_push_notifications", parameterToString(*r.enableStreamPushNotifications, ""))
+	}
+	if r.enableStreamAudibleNotifications != nil {
+		localVarQueryParams.Add("enable_stream_audible_notifications", parameterToString(*r.enableStreamAudibleNotifications, ""))
+	}
+	if r.notificationSound != nil {
+		localVarQueryParams.Add("notification_sound", parameterToString(*r.notificationSound, ""))
+	}
+	if r.enableDesktopNotifications != nil {
+		localVarQueryParams.Add("enable_desktop_notifications", parameterToString(*r.enableDesktopNotifications, ""))
+	}
+	if r.enableSounds != nil {
+		localVarQueryParams.Add("enable_sounds", parameterToString(*r.enableSounds, ""))
+	}
+	if r.emailNotificationsBatchingPeriodSeconds != nil {
+		localVarQueryParams.Add("email_notifications_batching_period_seconds", parameterToString(*r.emailNotificationsBatchingPeriodSeconds, ""))
+	}
+	if r.enableOfflineEmailNotifications != nil {
+		localVarQueryParams.Add("enable_offline_email_notifications", parameterToString(*r.enableOfflineEmailNotifications, ""))
+	}
+	if r.enableOfflinePushNotifications != nil {
+		localVarQueryParams.Add("enable_offline_push_notifications", parameterToString(*r.enableOfflinePushNotifications, ""))
+	}
+	if r.enableOnlinePushNotifications != nil {
+		localVarQueryParams.Add("enable_online_push_notifications", parameterToString(*r.enableOnlinePushNotifications, ""))
+	}
+	if r.enableDigestEmails != nil {
+		localVarQueryParams.Add("enable_digest_emails", parameterToString(*r.enableDigestEmails, ""))
+	}
+	if r.enableMarketingEmails != nil {
+		localVarQueryParams.Add("enable_marketing_emails", parameterToString(*r.enableMarketingEmails, ""))
+	}
+	if r.enableLoginEmails != nil {
+		localVarQueryParams.Add("enable_login_emails", parameterToString(*r.enableLoginEmails, ""))
+	}
+	if r.messageContentInEmailNotifications != nil {
+		localVarQueryParams.Add("message_content_in_email_notifications", parameterToString(*r.messageContentInEmailNotifications, ""))
+	}
+	if r.pmContentInDesktopNotifications != nil {
+		localVarQueryParams.Add("pm_content_in_desktop_notifications", parameterToString(*r.pmContentInDesktopNotifications, ""))
+	}
+	if r.wildcardMentionsNotify != nil {
+		localVarQueryParams.Add("wildcard_mentions_notify", parameterToString(*r.wildcardMentionsNotify, ""))
+	}
+	if r.desktopIconCountDisplay != nil {
+		localVarQueryParams.Add("desktop_icon_count_display", parameterToString(*r.desktopIconCountDisplay, ""))
+	}
+	if r.realmNameInNotifications != nil {
+		localVarQueryParams.Add("realm_name_in_notifications", parameterToString(*r.realmNameInNotifications, ""))
+	}
+	if r.presenceEnabled != nil {
+		localVarQueryParams.Add("presence_enabled", parameterToString(*r.presenceEnabled, ""))
+	}
+	if r.enterSends != nil {
+		localVarQueryParams.Add("enter_sends", parameterToString(*r.enterSends, ""))
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -2274,124 +2499,59 @@ func (a *UsersApiService) UpdateDisplaySettingsExecute(r ApiUpdateDisplaySetting
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiUpdateNotificationSettingsRequest struct {
+type ApiUpdateStatusRequest struct {
 	ctx _context.Context
 	ApiService *UsersApiService
-	enableStreamDesktopNotifications *bool
-	enableStreamEmailNotifications *bool
-	enableStreamPushNotifications *bool
-	enableStreamAudibleNotifications *bool
-	notificationSound *string
-	enableDesktopNotifications *bool
-	enableSounds *bool
-	enableOfflineEmailNotifications *bool
-	enableOfflinePushNotifications *bool
-	enableOnlinePushNotifications *bool
-	enableDigestEmails *bool
-	enableMarketingEmails *bool
-	enableLoginEmails *bool
-	messageContentInEmailNotifications *bool
-	pmContentInDesktopNotifications *bool
-	wildcardMentionsNotify *bool
-	desktopIconCountDisplay *int32
-	realmNameInNotifications *bool
-	presenceEnabled *bool
+	statusText *string
+	away *bool
+	emojiName *string
+	emojiCode *string
+	reactionType *string
 }
 
-func (r ApiUpdateNotificationSettingsRequest) EnableStreamDesktopNotifications(enableStreamDesktopNotifications bool) ApiUpdateNotificationSettingsRequest {
-	r.enableStreamDesktopNotifications = &enableStreamDesktopNotifications
+func (r ApiUpdateStatusRequest) StatusText(statusText string) ApiUpdateStatusRequest {
+	r.statusText = &statusText
 	return r
 }
-func (r ApiUpdateNotificationSettingsRequest) EnableStreamEmailNotifications(enableStreamEmailNotifications bool) ApiUpdateNotificationSettingsRequest {
-	r.enableStreamEmailNotifications = &enableStreamEmailNotifications
+func (r ApiUpdateStatusRequest) Away(away bool) ApiUpdateStatusRequest {
+	r.away = &away
 	return r
 }
-func (r ApiUpdateNotificationSettingsRequest) EnableStreamPushNotifications(enableStreamPushNotifications bool) ApiUpdateNotificationSettingsRequest {
-	r.enableStreamPushNotifications = &enableStreamPushNotifications
+func (r ApiUpdateStatusRequest) EmojiName(emojiName string) ApiUpdateStatusRequest {
+	r.emojiName = &emojiName
 	return r
 }
-func (r ApiUpdateNotificationSettingsRequest) EnableStreamAudibleNotifications(enableStreamAudibleNotifications bool) ApiUpdateNotificationSettingsRequest {
-	r.enableStreamAudibleNotifications = &enableStreamAudibleNotifications
+func (r ApiUpdateStatusRequest) EmojiCode(emojiCode string) ApiUpdateStatusRequest {
+	r.emojiCode = &emojiCode
 	return r
 }
-func (r ApiUpdateNotificationSettingsRequest) NotificationSound(notificationSound string) ApiUpdateNotificationSettingsRequest {
-	r.notificationSound = &notificationSound
-	return r
-}
-func (r ApiUpdateNotificationSettingsRequest) EnableDesktopNotifications(enableDesktopNotifications bool) ApiUpdateNotificationSettingsRequest {
-	r.enableDesktopNotifications = &enableDesktopNotifications
-	return r
-}
-func (r ApiUpdateNotificationSettingsRequest) EnableSounds(enableSounds bool) ApiUpdateNotificationSettingsRequest {
-	r.enableSounds = &enableSounds
-	return r
-}
-func (r ApiUpdateNotificationSettingsRequest) EnableOfflineEmailNotifications(enableOfflineEmailNotifications bool) ApiUpdateNotificationSettingsRequest {
-	r.enableOfflineEmailNotifications = &enableOfflineEmailNotifications
-	return r
-}
-func (r ApiUpdateNotificationSettingsRequest) EnableOfflinePushNotifications(enableOfflinePushNotifications bool) ApiUpdateNotificationSettingsRequest {
-	r.enableOfflinePushNotifications = &enableOfflinePushNotifications
-	return r
-}
-func (r ApiUpdateNotificationSettingsRequest) EnableOnlinePushNotifications(enableOnlinePushNotifications bool) ApiUpdateNotificationSettingsRequest {
-	r.enableOnlinePushNotifications = &enableOnlinePushNotifications
-	return r
-}
-func (r ApiUpdateNotificationSettingsRequest) EnableDigestEmails(enableDigestEmails bool) ApiUpdateNotificationSettingsRequest {
-	r.enableDigestEmails = &enableDigestEmails
-	return r
-}
-func (r ApiUpdateNotificationSettingsRequest) EnableMarketingEmails(enableMarketingEmails bool) ApiUpdateNotificationSettingsRequest {
-	r.enableMarketingEmails = &enableMarketingEmails
-	return r
-}
-func (r ApiUpdateNotificationSettingsRequest) EnableLoginEmails(enableLoginEmails bool) ApiUpdateNotificationSettingsRequest {
-	r.enableLoginEmails = &enableLoginEmails
-	return r
-}
-func (r ApiUpdateNotificationSettingsRequest) MessageContentInEmailNotifications(messageContentInEmailNotifications bool) ApiUpdateNotificationSettingsRequest {
-	r.messageContentInEmailNotifications = &messageContentInEmailNotifications
-	return r
-}
-func (r ApiUpdateNotificationSettingsRequest) PmContentInDesktopNotifications(pmContentInDesktopNotifications bool) ApiUpdateNotificationSettingsRequest {
-	r.pmContentInDesktopNotifications = &pmContentInDesktopNotifications
-	return r
-}
-func (r ApiUpdateNotificationSettingsRequest) WildcardMentionsNotify(wildcardMentionsNotify bool) ApiUpdateNotificationSettingsRequest {
-	r.wildcardMentionsNotify = &wildcardMentionsNotify
-	return r
-}
-func (r ApiUpdateNotificationSettingsRequest) DesktopIconCountDisplay(desktopIconCountDisplay int32) ApiUpdateNotificationSettingsRequest {
-	r.desktopIconCountDisplay = &desktopIconCountDisplay
-	return r
-}
-func (r ApiUpdateNotificationSettingsRequest) RealmNameInNotifications(realmNameInNotifications bool) ApiUpdateNotificationSettingsRequest {
-	r.realmNameInNotifications = &realmNameInNotifications
-	return r
-}
-func (r ApiUpdateNotificationSettingsRequest) PresenceEnabled(presenceEnabled bool) ApiUpdateNotificationSettingsRequest {
-	r.presenceEnabled = &presenceEnabled
+func (r ApiUpdateStatusRequest) ReactionType(reactionType string) ApiUpdateStatusRequest {
+	r.reactionType = &reactionType
 	return r
 }
 
-func (r ApiUpdateNotificationSettingsRequest) Execute() (JsonSuccessBase, *_nethttp.Response, error) {
-	return r.ApiService.UpdateNotificationSettingsExecute(r)
+func (r ApiUpdateStatusRequest) Execute() (JsonSuccess, *_nethttp.Response, error) {
+	return r.ApiService.UpdateStatusExecute(r)
 }
 
 /*
- * UpdateNotificationSettings Update notification settings
- * This endpoint is used to edit the user's global notification settings.
-See [this endpoint](/api/update-subscription-settings) for
-per-stream notification settings.
+ * UpdateStatus Update your status
+ * Change your [status](/help/status-and-availability).
 
-`PATCH {{ api_url }}/v1/settings/notifications`
+`POST {{ api_url }}/v1/users/me/status`
+
+A request to this endpoint will only change the parameters passed.
+For example, passing just `status_text` requests a change in the status
+text, but will leave the status emoji unchanged.
+
+Clients that wish to set the user's status to a specific value should
+pass all supported parameters.
 
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @return ApiUpdateNotificationSettingsRequest
+ * @return ApiUpdateStatusRequest
  */
-func (a *UsersApiService) UpdateNotificationSettings(ctx _context.Context) ApiUpdateNotificationSettingsRequest {
-	return ApiUpdateNotificationSettingsRequest{
+func (a *UsersApiService) UpdateStatus(ctx _context.Context) ApiUpdateStatusRequest {
+	return ApiUpdateStatusRequest{
 		ApiService: a,
 		ctx: ctx,
 	}
@@ -2399,85 +2559,43 @@ func (a *UsersApiService) UpdateNotificationSettings(ctx _context.Context) ApiUp
 
 /*
  * Execute executes the request
- * @return JsonSuccessBase
+ * @return JsonSuccess
  */
-func (a *UsersApiService) UpdateNotificationSettingsExecute(r ApiUpdateNotificationSettingsRequest) (JsonSuccessBase, *_nethttp.Response, error) {
+func (a *UsersApiService) UpdateStatusExecute(r ApiUpdateStatusRequest) (JsonSuccess, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPatch
+		localVarHTTPMethod   = _nethttp.MethodPost
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-		localVarReturnValue  JsonSuccessBase
+		localVarReturnValue  JsonSuccess
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UsersApiService.UpdateNotificationSettings")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UsersApiService.UpdateStatus")
 	if err != nil {
 		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/settings/notifications"
+	localVarPath := localBasePath + "/users/me/status"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 
-	if r.enableStreamDesktopNotifications != nil {
-		localVarQueryParams.Add("enable_stream_desktop_notifications", parameterToString(*r.enableStreamDesktopNotifications, ""))
+	if r.statusText != nil {
+		localVarQueryParams.Add("status_text", parameterToString(*r.statusText, ""))
 	}
-	if r.enableStreamEmailNotifications != nil {
-		localVarQueryParams.Add("enable_stream_email_notifications", parameterToString(*r.enableStreamEmailNotifications, ""))
+	if r.away != nil {
+		localVarQueryParams.Add("away", parameterToString(*r.away, ""))
 	}
-	if r.enableStreamPushNotifications != nil {
-		localVarQueryParams.Add("enable_stream_push_notifications", parameterToString(*r.enableStreamPushNotifications, ""))
+	if r.emojiName != nil {
+		localVarQueryParams.Add("emoji_name", parameterToString(*r.emojiName, ""))
 	}
-	if r.enableStreamAudibleNotifications != nil {
-		localVarQueryParams.Add("enable_stream_audible_notifications", parameterToString(*r.enableStreamAudibleNotifications, ""))
+	if r.emojiCode != nil {
+		localVarQueryParams.Add("emoji_code", parameterToString(*r.emojiCode, ""))
 	}
-	if r.notificationSound != nil {
-		localVarQueryParams.Add("notification_sound", parameterToString(*r.notificationSound, ""))
-	}
-	if r.enableDesktopNotifications != nil {
-		localVarQueryParams.Add("enable_desktop_notifications", parameterToString(*r.enableDesktopNotifications, ""))
-	}
-	if r.enableSounds != nil {
-		localVarQueryParams.Add("enable_sounds", parameterToString(*r.enableSounds, ""))
-	}
-	if r.enableOfflineEmailNotifications != nil {
-		localVarQueryParams.Add("enable_offline_email_notifications", parameterToString(*r.enableOfflineEmailNotifications, ""))
-	}
-	if r.enableOfflinePushNotifications != nil {
-		localVarQueryParams.Add("enable_offline_push_notifications", parameterToString(*r.enableOfflinePushNotifications, ""))
-	}
-	if r.enableOnlinePushNotifications != nil {
-		localVarQueryParams.Add("enable_online_push_notifications", parameterToString(*r.enableOnlinePushNotifications, ""))
-	}
-	if r.enableDigestEmails != nil {
-		localVarQueryParams.Add("enable_digest_emails", parameterToString(*r.enableDigestEmails, ""))
-	}
-	if r.enableMarketingEmails != nil {
-		localVarQueryParams.Add("enable_marketing_emails", parameterToString(*r.enableMarketingEmails, ""))
-	}
-	if r.enableLoginEmails != nil {
-		localVarQueryParams.Add("enable_login_emails", parameterToString(*r.enableLoginEmails, ""))
-	}
-	if r.messageContentInEmailNotifications != nil {
-		localVarQueryParams.Add("message_content_in_email_notifications", parameterToString(*r.messageContentInEmailNotifications, ""))
-	}
-	if r.pmContentInDesktopNotifications != nil {
-		localVarQueryParams.Add("pm_content_in_desktop_notifications", parameterToString(*r.pmContentInDesktopNotifications, ""))
-	}
-	if r.wildcardMentionsNotify != nil {
-		localVarQueryParams.Add("wildcard_mentions_notify", parameterToString(*r.wildcardMentionsNotify, ""))
-	}
-	if r.desktopIconCountDisplay != nil {
-		localVarQueryParams.Add("desktop_icon_count_display", parameterToString(*r.desktopIconCountDisplay, ""))
-	}
-	if r.realmNameInNotifications != nil {
-		localVarQueryParams.Add("realm_name_in_notifications", parameterToString(*r.realmNameInNotifications, ""))
-	}
-	if r.presenceEnabled != nil {
-		localVarQueryParams.Add("presence_enabled", parameterToString(*r.presenceEnabled, ""))
+	if r.reactionType != nil {
+		localVarQueryParams.Add("reaction_type", parameterToString(*r.reactionType, ""))
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -2517,6 +2635,15 @@ func (a *UsersApiService) UpdateNotificationSettingsExecute(r ApiUpdateNotificat
 		newErr := GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v OneOfobjectobjectobjectobjectobjectobject
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}

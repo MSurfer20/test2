@@ -10,7 +10,7 @@ EmojiReactionBase::EmojiReactionBase()
 	emoji_name = std::string();
 	reaction_type = std::string();
 	user_id = int(0);
-	user = EmojiReactionBase_user();
+	user = EmojiReactionBase_allOf_user();
 }
 
 EmojiReactionBase::EmojiReactionBase(std::string jsonString)
@@ -89,7 +89,7 @@ EmojiReactionBase::fromJson(std::string jsonObj)
 
         
 
-        EmojiReactionBase_user* obj = &user;
+        EmojiReactionBase_allOf_user* obj = &user;
 		obj->fromJson(value.dump());
 
     }
@@ -190,14 +190,14 @@ EmojiReactionBase::setUserId(int  user_id)
 	this->user_id = user_id;
 }
 
-EmojiReactionBase_user
+EmojiReactionBase_allOf_user
 EmojiReactionBase::getUser()
 {
 	return user;
 }
 
 void
-EmojiReactionBase::setUser(EmojiReactionBase_user  user)
+EmojiReactionBase::setUser(EmojiReactionBase_allOf_user  user)
 {
 	this->user = user;
 }

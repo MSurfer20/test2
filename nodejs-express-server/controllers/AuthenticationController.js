@@ -8,16 +8,16 @@
 
 const Controller = require('./Controller');
 const service = require('../services/AuthenticationService');
-const dev_fetch_api_key = async (request, response) => {
-  await Controller.handleRequest(request, response, service.dev_fetch_api_key);
+const devFetchApiKey = async (request, response) => {
+  await Controller.handleRequest(request, response, service.devFetchApiKey);
 };
 
-const fetch_api_key = async (request, response) => {
-  await Controller.handleRequest(request, response, service.fetch_api_key);
+const fetchApiKey = async (request, response) => {
+  await Controller.handleRequest(request, response, service.fetchApiKey);
 };
 
 
 module.exports = {
-  dev_fetch_api_key,
-  fetch_api_key,
+  devFetchApiKey,
+  fetchApiKey,
 };

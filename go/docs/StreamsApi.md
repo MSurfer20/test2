@@ -6,9 +6,11 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**ArchiveStream**](StreamsApi.md#ArchiveStream) | **Delete** /streams/{stream_id} | Archive a stream
 [**CreateBigBlueButtonVideoCall**](StreamsApi.md#CreateBigBlueButtonVideoCall) | **Get** /calls/bigbluebutton/create | Create BigBlueButton video call
+[**DeleteTopic**](StreamsApi.md#DeleteTopic) | **Post** /streams/{stream_id}/delete_topic | Delete a topic
 [**GetStreamId**](StreamsApi.md#GetStreamId) | **Get** /get_stream_id | Get stream ID
 [**GetStreamTopics**](StreamsApi.md#GetStreamTopics) | **Get** /users/me/{stream_id}/topics | Get topics in a stream
 [**GetStreams**](StreamsApi.md#GetStreams) | **Get** /streams | Get all streams
+[**GetSubscribers**](StreamsApi.md#GetSubscribers) | **Get** /streams/{stream_id}/members | Get the subscribers of a stream
 [**GetSubscriptionStatus**](StreamsApi.md#GetSubscriptionStatus) | **Get** /users/{user_id}/subscriptions/{stream_id} | Get subscription status
 [**GetSubscriptions**](StreamsApi.md#GetSubscriptions) | **Get** /users/me/subscriptions | Get subscribed streams
 [**MuteTopic**](StreamsApi.md#MuteTopic) | **Patch** /users/me/subscriptions/muted_topics | Topic muting
@@ -136,6 +138,78 @@ Other parameters are passed through a pointer to a apiCreateBigBlueButtonVideoCa
 ### Return type
 
 [**JsonSuccessBase**](JsonSuccessBase.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## DeleteTopic
+
+> JsonSuccess DeleteTopic(ctx, streamId).TopicName(topicName).Execute()
+
+Delete a topic
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    streamId := int32(1) // int32 | The ID of the stream to access. 
+    topicName := "new coffee machine" // string | The name of the topic to delete. 
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.StreamsApi.DeleteTopic(context.Background(), streamId).TopicName(topicName).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `StreamsApi.DeleteTopic``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `DeleteTopic`: JsonSuccess
+    fmt.Fprintf(os.Stdout, "Response from `StreamsApi.DeleteTopic`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**streamId** | **int32** | The ID of the stream to access.  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiDeleteTopicRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **topicName** | **string** | The name of the topic to delete.  | 
+
+### Return type
+
+[**JsonSuccess**](JsonSuccess.md)
 
 ### Authorization
 
@@ -344,6 +418,76 @@ Name | Type | Description  | Notes
  **includeAllActive** | **bool** | Include all active streams. The user must have administrative privileges to use this parameter.  | [default to false]
  **includeDefault** | **bool** | Include all default streams for the user&#39;s realm.  | [default to false]
  **includeOwnerSubscribed** | **bool** | If the user is a bot, include all streams that the bot&#39;s owner is subscribed to.  | [default to false]
+
+### Return type
+
+[**JsonSuccessBase**](JsonSuccessBase.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GetSubscribers
+
+> JsonSuccessBase GetSubscribers(ctx, streamId).Execute()
+
+Get the subscribers of a stream
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    streamId := int32(1) // int32 | The ID of the stream to access. 
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.StreamsApi.GetSubscribers(context.Background(), streamId).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `StreamsApi.GetSubscribers``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetSubscribers`: JsonSuccessBase
+    fmt.Fprintf(os.Stdout, "Response from `StreamsApi.GetSubscribers`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**streamId** | **int32** | The ID of the stream to access.  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetSubscribersRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
 
 ### Return type
 

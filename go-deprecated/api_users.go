@@ -1468,14 +1468,19 @@ func (a *UsersApiService) UnmuteUser(ctx _context.Context, mutedUserId int32) (J
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// UpdateDisplaySettingsOpts Optional parameters for the method 'UpdateDisplaySettings'
-type UpdateDisplaySettingsOpts struct {
+// UpdateSettingsOpts Optional parameters for the method 'UpdateSettings'
+type UpdateSettingsOpts struct {
+    FullName optional.String
+    Email optional.String
+    OldPassword optional.String
+    NewPassword optional.String
     TwentyFourHourTime optional.Bool
     DenseMode optional.Bool
     StarredMessageCounts optional.Bool
     FluidLayoutWidth optional.Bool
     HighContrastMode optional.Bool
     ColorScheme optional.Int32
+    EnableDraftsSynchronization optional.Bool
     TranslateEmoticons optional.Bool
     DefaultLanguage optional.String
     DefaultView optional.String
@@ -1483,31 +1488,78 @@ type UpdateDisplaySettingsOpts struct {
     Emojiset optional.String
     DemoteInactiveStreams optional.Int32
     Timezone optional.String
+    EnableStreamDesktopNotifications optional.Bool
+    EnableStreamEmailNotifications optional.Bool
+    EnableStreamPushNotifications optional.Bool
+    EnableStreamAudibleNotifications optional.Bool
+    NotificationSound optional.String
+    EnableDesktopNotifications optional.Bool
+    EnableSounds optional.Bool
+    EmailNotificationsBatchingPeriodSeconds optional.Int32
+    EnableOfflineEmailNotifications optional.Bool
+    EnableOfflinePushNotifications optional.Bool
+    EnableOnlinePushNotifications optional.Bool
+    EnableDigestEmails optional.Bool
+    EnableMarketingEmails optional.Bool
+    EnableLoginEmails optional.Bool
+    MessageContentInEmailNotifications optional.Bool
+    PmContentInDesktopNotifications optional.Bool
+    WildcardMentionsNotify optional.Bool
+    DesktopIconCountDisplay optional.Int32
+    RealmNameInNotifications optional.Bool
+    PresenceEnabled optional.Bool
+    EnterSends optional.Bool
 }
 
 /*
- * UpdateDisplaySettings Update display settings
+ * UpdateSettings Update settings
  *
- * This endpoint is used to edit the current user&#39;s user interface settings.  &#x60;PATCH {{ api_url }}/v1/settings/display&#x60; 
+ * This endpoint is used to edit the current user&#39;s settings.  &#x60;PATCH {{ api_url }}/v1/settings&#x60;  **Changes**: Prior to Zulip 5.0 (feature level 80), this endpoint only supported the &#x60;full_name&#x60;, &#x60;email&#x60;, &#x60;old_password&#x60;, and &#x60;new_password&#x60; parameters. Notification settings were managed by &#x60;PATCH /settings/notifications&#x60;, and all other settings by &#x60;PATCH /settings/display&#x60;. The feature level 80 migration to merge these endpoints did not change how request parameters are encoded. Note, however, that it did change the handling of any invalid parameters present in a request to change notification or display settings, since the merged endpoint uses the new response format that was introduced for &#x60;/settings&#x60; in Zulip 5.0 (feature level 78).  The &#x60;/settings/display&#x60; and &#x60;/settings/notifications&#x60; endpoints are now deprecated aliases for this endpoint for backwards-compatibility, and will be removed once clients have migrated to use this endpoint. 
  *
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param optional nil or *UpdateDisplaySettingsOpts - Optional Parameters:
- * @param "TwentyFourHourTime" (optional.Bool) -  Whether time should be [displayed in 24-hour notation](/help/change-the-time-format). 
- * @param "DenseMode" (optional.Bool) -  This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip. 
- * @param "StarredMessageCounts" (optional.Bool) -  Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages). 
- * @param "FluidLayoutWidth" (optional.Bool) -  Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app's center panel (message feed, recent topics) on wide screens. 
- * @param "HighContrastMode" (optional.Bool) -  This setting is reserved for use to control variations in Zulip's design to help visually impaired users. 
- * @param "ColorScheme" (optional.Int32) -  Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard `prefers-color-scheme` media query. 
- * @param "TranslateEmoticons" (optional.Bool) -  Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends. 
- * @param "DefaultLanguage" (optional.String) -  What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, `\"en\"` for English or `\"de\"` for German.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63). 
- * @param "DefaultView" (optional.String) -  The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the `Esc` keyboard shortcut repeatedly.  * \"recent_topics\" - Recent topics view * \"all_messages\" - All messages view  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). 
- * @param "LeftSideUserlist" (optional.Bool) -  Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked. 
- * @param "Emojiset" (optional.String) -  The user's configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \"google\" - Google modern * \"google-blob\" - Google classic * \"twitter\" - Twitter * \"text\" - Plain text  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). 
- * @param "DemoteInactiveStreams" (optional.Int32) -  Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never 
- * @param "Timezone" (optional.String) -  The user's [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). 
+ * @param optional nil or *UpdateSettingsOpts - Optional Parameters:
+ * @param "FullName" (optional.String) -  A new display name for the user. 
+ * @param "Email" (optional.String) -  Asks the server to initiate a confirmation sequence to change the user's email address to the indicated value. The user will need to demonstrate control of the new email address by clicking a confirmation link sent to that address. 
+ * @param "OldPassword" (optional.String) -  The user's old Zulip password (or LDAP password, if LDAP authentication is in use).  Required only when sending the `new_password` parameter. 
+ * @param "NewPassword" (optional.String) -  The user's new Zulip password (or LDAP password, if LDAP authentication is in use).  The `old_password` parameter must be included in the request. 
+ * @param "TwentyFourHourTime" (optional.Bool) -  Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+ * @param "DenseMode" (optional.Bool) -  This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+ * @param "StarredMessageCounts" (optional.Bool) -  Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+ * @param "FluidLayoutWidth" (optional.Bool) -  Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app's center panel (message feed, recent topics) on wide screens.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+ * @param "HighContrastMode" (optional.Bool) -  This setting is reserved for use to control variations in Zulip's design to help visually impaired users.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+ * @param "ColorScheme" (optional.Int32) -  Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard `prefers-color-scheme` media query.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+ * @param "EnableDraftsSynchronization" (optional.Bool) -  A boolean parameter to control whether synchronizing drafts is enabled for the user. When synchronization is disabled, all drafts stored in the server will be automatically deleted from the server.  This does not do anything (like sending events) to delete local copies of drafts stored in clients.  **Changes**: New in Zulip 5.0 (feature level 87). 
+ * @param "TranslateEmoticons" (optional.Bool) -  Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+ * @param "DefaultLanguage" (optional.String) -  What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, `\"en\"` for English or `\"de\"` for German.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63). 
+ * @param "DefaultView" (optional.String) -  The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the `Esc` keyboard shortcut repeatedly.  * \"recent_topics\" - Recent topics view * \"all_messages\" - All messages view  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). 
+ * @param "LeftSideUserlist" (optional.Bool) -  Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+ * @param "Emojiset" (optional.String) -  The user's configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \"google\" - Google modern * \"google-blob\" - Google classic * \"twitter\" - Twitter * \"text\" - Plain text  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). 
+ * @param "DemoteInactiveStreams" (optional.Int32) -  Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+ * @param "Timezone" (optional.String) -  The user's [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). 
+ * @param "EnableStreamDesktopNotifications" (optional.Bool) -  Enable visual desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+ * @param "EnableStreamEmailNotifications" (optional.Bool) -  Enable email notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+ * @param "EnableStreamPushNotifications" (optional.Bool) -  Enable mobile notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+ * @param "EnableStreamAudibleNotifications" (optional.Bool) -  Enable audible desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+ * @param "NotificationSound" (optional.String) -  Notification sound name.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63). 
+ * @param "EnableDesktopNotifications" (optional.Bool) -  Enable visual desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+ * @param "EnableSounds" (optional.Bool) -  Enable audible desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+ * @param "EmailNotificationsBatchingPeriodSeconds" (optional.Int32) -  The duration (in seconds) for which the server should wait to batch email notifications before sending them.  **Changes**: New in Zulip 5.0 (feature level 82) 
+ * @param "EnableOfflineEmailNotifications" (optional.Bool) -  Enable email notifications for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+ * @param "EnableOfflinePushNotifications" (optional.Bool) -  Enable mobile notification for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+ * @param "EnableOnlinePushNotifications" (optional.Bool) -  Enable mobile notification for private messages and @-mentions received when the user is online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+ * @param "EnableDigestEmails" (optional.Bool) -  Enable digest emails when the user is away.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+ * @param "EnableMarketingEmails" (optional.Bool) -  Enable marketing emails. Has no function outside Zulip Cloud.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+ * @param "EnableLoginEmails" (optional.Bool) -  Enable email notifications for new logins to account.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+ * @param "MessageContentInEmailNotifications" (optional.Bool) -  Include the message's content in email notifications for new messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+ * @param "PmContentInDesktopNotifications" (optional.Bool) -  Include content of private messages in desktop notifications.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+ * @param "WildcardMentionsNotify" (optional.Bool) -  Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+ * @param "DesktopIconCountDisplay" (optional.Int32) -  Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+ * @param "RealmNameInNotifications" (optional.Bool) -  Include organization name in subject of message notification emails.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+ * @param "PresenceEnabled" (optional.Bool) -  Display the presence status to other users when online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+ * @param "EnterSends" (optional.Bool) -  Whether pressing Enter in the compose box sends a message (or saves a message edit).  **Changes**: Before Zulip 5.0 (feature level 81), this setting was managed by the `POST /users/me/enter-sends` endpoint, with the same parameter format. 
  * @return JsonSuccessBase
  */
-func (a *UsersApiService) UpdateDisplaySettings(ctx _context.Context, localVarOptionals *UpdateDisplaySettingsOpts) (JsonSuccessBase, *_nethttp.Response, error) {
+func (a *UsersApiService) UpdateSettings(ctx _context.Context, localVarOptionals *UpdateSettingsOpts) (JsonSuccessBase, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPatch
 		localVarPostBody     interface{}
@@ -1518,11 +1570,23 @@ func (a *UsersApiService) UpdateDisplaySettings(ctx _context.Context, localVarOp
 	)
 
 	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/settings/display"
+	localVarPath := a.client.cfg.BasePath + "/settings"
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 
+	if localVarOptionals != nil && localVarOptionals.FullName.IsSet() {
+		localVarQueryParams.Add("full_name", parameterToString(localVarOptionals.FullName.Value(), ""))
+	}
+	if localVarOptionals != nil && localVarOptionals.Email.IsSet() {
+		localVarQueryParams.Add("email", parameterToString(localVarOptionals.Email.Value(), ""))
+	}
+	if localVarOptionals != nil && localVarOptionals.OldPassword.IsSet() {
+		localVarQueryParams.Add("old_password", parameterToString(localVarOptionals.OldPassword.Value(), ""))
+	}
+	if localVarOptionals != nil && localVarOptionals.NewPassword.IsSet() {
+		localVarQueryParams.Add("new_password", parameterToString(localVarOptionals.NewPassword.Value(), ""))
+	}
 	if localVarOptionals != nil && localVarOptionals.TwentyFourHourTime.IsSet() {
 		localVarQueryParams.Add("twenty_four_hour_time", parameterToString(localVarOptionals.TwentyFourHourTime.Value(), ""))
 	}
@@ -1540,6 +1604,9 @@ func (a *UsersApiService) UpdateDisplaySettings(ctx _context.Context, localVarOp
 	}
 	if localVarOptionals != nil && localVarOptionals.ColorScheme.IsSet() {
 		localVarQueryParams.Add("color_scheme", parameterToString(localVarOptionals.ColorScheme.Value(), ""))
+	}
+	if localVarOptionals != nil && localVarOptionals.EnableDraftsSynchronization.IsSet() {
+		localVarQueryParams.Add("enable_drafts_synchronization", parameterToString(localVarOptionals.EnableDraftsSynchronization.Value(), ""))
 	}
 	if localVarOptionals != nil && localVarOptionals.TranslateEmoticons.IsSet() {
 		localVarQueryParams.Add("translate_emoticons", parameterToString(localVarOptionals.TranslateEmoticons.Value(), ""))
@@ -1561,6 +1628,69 @@ func (a *UsersApiService) UpdateDisplaySettings(ctx _context.Context, localVarOp
 	}
 	if localVarOptionals != nil && localVarOptionals.Timezone.IsSet() {
 		localVarQueryParams.Add("timezone", parameterToString(localVarOptionals.Timezone.Value(), ""))
+	}
+	if localVarOptionals != nil && localVarOptionals.EnableStreamDesktopNotifications.IsSet() {
+		localVarQueryParams.Add("enable_stream_desktop_notifications", parameterToString(localVarOptionals.EnableStreamDesktopNotifications.Value(), ""))
+	}
+	if localVarOptionals != nil && localVarOptionals.EnableStreamEmailNotifications.IsSet() {
+		localVarQueryParams.Add("enable_stream_email_notifications", parameterToString(localVarOptionals.EnableStreamEmailNotifications.Value(), ""))
+	}
+	if localVarOptionals != nil && localVarOptionals.EnableStreamPushNotifications.IsSet() {
+		localVarQueryParams.Add("enable_stream_push_notifications", parameterToString(localVarOptionals.EnableStreamPushNotifications.Value(), ""))
+	}
+	if localVarOptionals != nil && localVarOptionals.EnableStreamAudibleNotifications.IsSet() {
+		localVarQueryParams.Add("enable_stream_audible_notifications", parameterToString(localVarOptionals.EnableStreamAudibleNotifications.Value(), ""))
+	}
+	if localVarOptionals != nil && localVarOptionals.NotificationSound.IsSet() {
+		localVarQueryParams.Add("notification_sound", parameterToString(localVarOptionals.NotificationSound.Value(), ""))
+	}
+	if localVarOptionals != nil && localVarOptionals.EnableDesktopNotifications.IsSet() {
+		localVarQueryParams.Add("enable_desktop_notifications", parameterToString(localVarOptionals.EnableDesktopNotifications.Value(), ""))
+	}
+	if localVarOptionals != nil && localVarOptionals.EnableSounds.IsSet() {
+		localVarQueryParams.Add("enable_sounds", parameterToString(localVarOptionals.EnableSounds.Value(), ""))
+	}
+	if localVarOptionals != nil && localVarOptionals.EmailNotificationsBatchingPeriodSeconds.IsSet() {
+		localVarQueryParams.Add("email_notifications_batching_period_seconds", parameterToString(localVarOptionals.EmailNotificationsBatchingPeriodSeconds.Value(), ""))
+	}
+	if localVarOptionals != nil && localVarOptionals.EnableOfflineEmailNotifications.IsSet() {
+		localVarQueryParams.Add("enable_offline_email_notifications", parameterToString(localVarOptionals.EnableOfflineEmailNotifications.Value(), ""))
+	}
+	if localVarOptionals != nil && localVarOptionals.EnableOfflinePushNotifications.IsSet() {
+		localVarQueryParams.Add("enable_offline_push_notifications", parameterToString(localVarOptionals.EnableOfflinePushNotifications.Value(), ""))
+	}
+	if localVarOptionals != nil && localVarOptionals.EnableOnlinePushNotifications.IsSet() {
+		localVarQueryParams.Add("enable_online_push_notifications", parameterToString(localVarOptionals.EnableOnlinePushNotifications.Value(), ""))
+	}
+	if localVarOptionals != nil && localVarOptionals.EnableDigestEmails.IsSet() {
+		localVarQueryParams.Add("enable_digest_emails", parameterToString(localVarOptionals.EnableDigestEmails.Value(), ""))
+	}
+	if localVarOptionals != nil && localVarOptionals.EnableMarketingEmails.IsSet() {
+		localVarQueryParams.Add("enable_marketing_emails", parameterToString(localVarOptionals.EnableMarketingEmails.Value(), ""))
+	}
+	if localVarOptionals != nil && localVarOptionals.EnableLoginEmails.IsSet() {
+		localVarQueryParams.Add("enable_login_emails", parameterToString(localVarOptionals.EnableLoginEmails.Value(), ""))
+	}
+	if localVarOptionals != nil && localVarOptionals.MessageContentInEmailNotifications.IsSet() {
+		localVarQueryParams.Add("message_content_in_email_notifications", parameterToString(localVarOptionals.MessageContentInEmailNotifications.Value(), ""))
+	}
+	if localVarOptionals != nil && localVarOptionals.PmContentInDesktopNotifications.IsSet() {
+		localVarQueryParams.Add("pm_content_in_desktop_notifications", parameterToString(localVarOptionals.PmContentInDesktopNotifications.Value(), ""))
+	}
+	if localVarOptionals != nil && localVarOptionals.WildcardMentionsNotify.IsSet() {
+		localVarQueryParams.Add("wildcard_mentions_notify", parameterToString(localVarOptionals.WildcardMentionsNotify.Value(), ""))
+	}
+	if localVarOptionals != nil && localVarOptionals.DesktopIconCountDisplay.IsSet() {
+		localVarQueryParams.Add("desktop_icon_count_display", parameterToString(localVarOptionals.DesktopIconCountDisplay.Value(), ""))
+	}
+	if localVarOptionals != nil && localVarOptionals.RealmNameInNotifications.IsSet() {
+		localVarQueryParams.Add("realm_name_in_notifications", parameterToString(localVarOptionals.RealmNameInNotifications.Value(), ""))
+	}
+	if localVarOptionals != nil && localVarOptionals.PresenceEnabled.IsSet() {
+		localVarQueryParams.Add("presence_enabled", parameterToString(localVarOptionals.PresenceEnabled.Value(), ""))
+	}
+	if localVarOptionals != nil && localVarOptionals.EnterSends.IsSet() {
+		localVarQueryParams.Add("enter_sends", parameterToString(localVarOptionals.EnterSends.Value(), ""))
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -1616,129 +1746,59 @@ func (a *UsersApiService) UpdateDisplaySettings(ctx _context.Context, localVarOp
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// UpdateNotificationSettingsOpts Optional parameters for the method 'UpdateNotificationSettings'
-type UpdateNotificationSettingsOpts struct {
-    EnableStreamDesktopNotifications optional.Bool
-    EnableStreamEmailNotifications optional.Bool
-    EnableStreamPushNotifications optional.Bool
-    EnableStreamAudibleNotifications optional.Bool
-    NotificationSound optional.String
-    EnableDesktopNotifications optional.Bool
-    EnableSounds optional.Bool
-    EnableOfflineEmailNotifications optional.Bool
-    EnableOfflinePushNotifications optional.Bool
-    EnableOnlinePushNotifications optional.Bool
-    EnableDigestEmails optional.Bool
-    EnableMarketingEmails optional.Bool
-    EnableLoginEmails optional.Bool
-    MessageContentInEmailNotifications optional.Bool
-    PmContentInDesktopNotifications optional.Bool
-    WildcardMentionsNotify optional.Bool
-    DesktopIconCountDisplay optional.Int32
-    RealmNameInNotifications optional.Bool
-    PresenceEnabled optional.Bool
+// UpdateStatusOpts Optional parameters for the method 'UpdateStatus'
+type UpdateStatusOpts struct {
+    StatusText optional.String
+    Away optional.Bool
+    EmojiName optional.String
+    EmojiCode optional.String
+    ReactionType optional.String
 }
 
 /*
- * UpdateNotificationSettings Update notification settings
+ * UpdateStatus Update your status
  *
- * This endpoint is used to edit the user&#39;s global notification settings. See [this endpoint](/api/update-subscription-settings) for per-stream notification settings.  &#x60;PATCH {{ api_url }}/v1/settings/notifications&#x60; 
+ * Change your [status](/help/status-and-availability).  &#x60;POST {{ api_url }}/v1/users/me/status&#x60;  A request to this endpoint will only change the parameters passed. For example, passing just &#x60;status_text&#x60; requests a change in the status text, but will leave the status emoji unchanged.  Clients that wish to set the user&#39;s status to a specific value should pass all supported parameters. 
  *
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param optional nil or *UpdateNotificationSettingsOpts - Optional Parameters:
- * @param "EnableStreamDesktopNotifications" (optional.Bool) -  Enable visual desktop notifications for stream messages. 
- * @param "EnableStreamEmailNotifications" (optional.Bool) -  Enable email notifications for stream messages. 
- * @param "EnableStreamPushNotifications" (optional.Bool) -  Enable mobile notifications for stream messages. 
- * @param "EnableStreamAudibleNotifications" (optional.Bool) -  Enable audible desktop notifications for stream messages. 
- * @param "NotificationSound" (optional.String) -  Notification sound name.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63). 
- * @param "EnableDesktopNotifications" (optional.Bool) -  Enable visual desktop notifications for private messages and @-mentions. 
- * @param "EnableSounds" (optional.Bool) -  Enable audible desktop notifications for private messages and @-mentions. 
- * @param "EnableOfflineEmailNotifications" (optional.Bool) -  Enable email notifications for private messages and @-mentions received when the user is offline. 
- * @param "EnableOfflinePushNotifications" (optional.Bool) -  Enable mobile notification for private messages and @-mentions received when the user is offline. 
- * @param "EnableOnlinePushNotifications" (optional.Bool) -  Enable mobile notification for private messages and @-mentions received when the user is online. 
- * @param "EnableDigestEmails" (optional.Bool) -  Enable digest emails when the user is away. 
- * @param "EnableMarketingEmails" (optional.Bool) -  Enable marketing emails. Has no function outside Zulip Cloud. 
- * @param "EnableLoginEmails" (optional.Bool) -  Enable email notifications for new logins to account. 
- * @param "MessageContentInEmailNotifications" (optional.Bool) -  Include the message's content in email notifications for new messages. 
- * @param "PmContentInDesktopNotifications" (optional.Bool) -  Include content of private messages in desktop notifications. 
- * @param "WildcardMentionsNotify" (optional.Bool) -  Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention. 
- * @param "DesktopIconCountDisplay" (optional.Int32) -  Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None 
- * @param "RealmNameInNotifications" (optional.Bool) -  Include organization name in subject of message notification emails. 
- * @param "PresenceEnabled" (optional.Bool) -  Display the presence status to other users when online. 
- * @return JsonSuccessBase
+ * @param optional nil or *UpdateStatusOpts - Optional Parameters:
+ * @param "StatusText" (optional.String) -  The text content of the status message. Sending the empty string will clear the user's status.  **Note**: The limit on the size of the message is 60 characters. 
+ * @param "Away" (optional.Bool) -  Whether the user should be marked as \"away\". 
+ * @param "EmojiName" (optional.String) -  The name for the emoji to associate with this status. 
+ * @param "EmojiCode" (optional.String) -  A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji. 
+ * @param "ReactionType" (optional.String) -  One of the following values:  * `unicode_emoji`: Unicode emoji (`emoji_code` will be its Unicode   codepoint). * `realm_emoji`: [Custom emoji](/help/add-custom-emoji).   (`emoji_code` will be its ID). * `zulip_extra_emoji`: Special emoji included with Zulip.  Exists to   namespace the `zulip` emoji. 
+ * @return JsonSuccess
  */
-func (a *UsersApiService) UpdateNotificationSettings(ctx _context.Context, localVarOptionals *UpdateNotificationSettingsOpts) (JsonSuccessBase, *_nethttp.Response, error) {
+func (a *UsersApiService) UpdateStatus(ctx _context.Context, localVarOptionals *UpdateStatusOpts) (JsonSuccess, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPatch
+		localVarHTTPMethod   = _nethttp.MethodPost
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-		localVarReturnValue  JsonSuccessBase
+		localVarReturnValue  JsonSuccess
 	)
 
 	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/settings/notifications"
+	localVarPath := a.client.cfg.BasePath + "/users/me/status"
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 
-	if localVarOptionals != nil && localVarOptionals.EnableStreamDesktopNotifications.IsSet() {
-		localVarQueryParams.Add("enable_stream_desktop_notifications", parameterToString(localVarOptionals.EnableStreamDesktopNotifications.Value(), ""))
+	if localVarOptionals != nil && localVarOptionals.StatusText.IsSet() {
+		localVarQueryParams.Add("status_text", parameterToString(localVarOptionals.StatusText.Value(), ""))
 	}
-	if localVarOptionals != nil && localVarOptionals.EnableStreamEmailNotifications.IsSet() {
-		localVarQueryParams.Add("enable_stream_email_notifications", parameterToString(localVarOptionals.EnableStreamEmailNotifications.Value(), ""))
+	if localVarOptionals != nil && localVarOptionals.Away.IsSet() {
+		localVarQueryParams.Add("away", parameterToString(localVarOptionals.Away.Value(), ""))
 	}
-	if localVarOptionals != nil && localVarOptionals.EnableStreamPushNotifications.IsSet() {
-		localVarQueryParams.Add("enable_stream_push_notifications", parameterToString(localVarOptionals.EnableStreamPushNotifications.Value(), ""))
+	if localVarOptionals != nil && localVarOptionals.EmojiName.IsSet() {
+		localVarQueryParams.Add("emoji_name", parameterToString(localVarOptionals.EmojiName.Value(), ""))
 	}
-	if localVarOptionals != nil && localVarOptionals.EnableStreamAudibleNotifications.IsSet() {
-		localVarQueryParams.Add("enable_stream_audible_notifications", parameterToString(localVarOptionals.EnableStreamAudibleNotifications.Value(), ""))
+	if localVarOptionals != nil && localVarOptionals.EmojiCode.IsSet() {
+		localVarQueryParams.Add("emoji_code", parameterToString(localVarOptionals.EmojiCode.Value(), ""))
 	}
-	if localVarOptionals != nil && localVarOptionals.NotificationSound.IsSet() {
-		localVarQueryParams.Add("notification_sound", parameterToString(localVarOptionals.NotificationSound.Value(), ""))
-	}
-	if localVarOptionals != nil && localVarOptionals.EnableDesktopNotifications.IsSet() {
-		localVarQueryParams.Add("enable_desktop_notifications", parameterToString(localVarOptionals.EnableDesktopNotifications.Value(), ""))
-	}
-	if localVarOptionals != nil && localVarOptionals.EnableSounds.IsSet() {
-		localVarQueryParams.Add("enable_sounds", parameterToString(localVarOptionals.EnableSounds.Value(), ""))
-	}
-	if localVarOptionals != nil && localVarOptionals.EnableOfflineEmailNotifications.IsSet() {
-		localVarQueryParams.Add("enable_offline_email_notifications", parameterToString(localVarOptionals.EnableOfflineEmailNotifications.Value(), ""))
-	}
-	if localVarOptionals != nil && localVarOptionals.EnableOfflinePushNotifications.IsSet() {
-		localVarQueryParams.Add("enable_offline_push_notifications", parameterToString(localVarOptionals.EnableOfflinePushNotifications.Value(), ""))
-	}
-	if localVarOptionals != nil && localVarOptionals.EnableOnlinePushNotifications.IsSet() {
-		localVarQueryParams.Add("enable_online_push_notifications", parameterToString(localVarOptionals.EnableOnlinePushNotifications.Value(), ""))
-	}
-	if localVarOptionals != nil && localVarOptionals.EnableDigestEmails.IsSet() {
-		localVarQueryParams.Add("enable_digest_emails", parameterToString(localVarOptionals.EnableDigestEmails.Value(), ""))
-	}
-	if localVarOptionals != nil && localVarOptionals.EnableMarketingEmails.IsSet() {
-		localVarQueryParams.Add("enable_marketing_emails", parameterToString(localVarOptionals.EnableMarketingEmails.Value(), ""))
-	}
-	if localVarOptionals != nil && localVarOptionals.EnableLoginEmails.IsSet() {
-		localVarQueryParams.Add("enable_login_emails", parameterToString(localVarOptionals.EnableLoginEmails.Value(), ""))
-	}
-	if localVarOptionals != nil && localVarOptionals.MessageContentInEmailNotifications.IsSet() {
-		localVarQueryParams.Add("message_content_in_email_notifications", parameterToString(localVarOptionals.MessageContentInEmailNotifications.Value(), ""))
-	}
-	if localVarOptionals != nil && localVarOptionals.PmContentInDesktopNotifications.IsSet() {
-		localVarQueryParams.Add("pm_content_in_desktop_notifications", parameterToString(localVarOptionals.PmContentInDesktopNotifications.Value(), ""))
-	}
-	if localVarOptionals != nil && localVarOptionals.WildcardMentionsNotify.IsSet() {
-		localVarQueryParams.Add("wildcard_mentions_notify", parameterToString(localVarOptionals.WildcardMentionsNotify.Value(), ""))
-	}
-	if localVarOptionals != nil && localVarOptionals.DesktopIconCountDisplay.IsSet() {
-		localVarQueryParams.Add("desktop_icon_count_display", parameterToString(localVarOptionals.DesktopIconCountDisplay.Value(), ""))
-	}
-	if localVarOptionals != nil && localVarOptionals.RealmNameInNotifications.IsSet() {
-		localVarQueryParams.Add("realm_name_in_notifications", parameterToString(localVarOptionals.RealmNameInNotifications.Value(), ""))
-	}
-	if localVarOptionals != nil && localVarOptionals.PresenceEnabled.IsSet() {
-		localVarQueryParams.Add("presence_enabled", parameterToString(localVarOptionals.PresenceEnabled.Value(), ""))
+	if localVarOptionals != nil && localVarOptionals.ReactionType.IsSet() {
+		localVarQueryParams.Add("reaction_type", parameterToString(localVarOptionals.ReactionType.Value(), ""))
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -1778,6 +1838,15 @@ func (a *UsersApiService) UpdateNotificationSettings(ctx _context.Context, local
 		newErr := GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v OneOfobjectobjectobjectobjectobjectobject
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}

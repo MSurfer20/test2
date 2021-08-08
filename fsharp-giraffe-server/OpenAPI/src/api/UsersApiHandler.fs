@@ -14,6 +14,7 @@ open OpenAPI.Model.JsonSuccess
 open OpenAPI.Model.JsonSuccessBase
 open OpenAPI.Model.OneOfobjectobject
 open OpenAPI.Model.OneOfobjectobjectobject
+open OpenAPI.Model.OneOfobjectobjectobjectobjectobjectobject
 
 module UsersApiHandler = 
 
@@ -311,38 +312,40 @@ module UsersApiHandler =
         }
     //#endregion
 
-    //#region UpdateDisplaySettings
+    //#region UpdateSettings
     /// <summary>
-    /// Update display settings
+    /// Update settings
     /// </summary>
 
-    let UpdateDisplaySettings  : HttpHandler = 
+    let UpdateSettings  : HttpHandler = 
       fun (next : HttpFunc) (ctx : HttpContext) ->
         task {
-          let queryParams = ctx.TryBindQueryString<UpdateDisplaySettingsQueryParams>()
-          let serviceArgs = {  queryParams=queryParams;    } : UpdateDisplaySettingsArgs
-          let result = UsersApiService.UpdateDisplaySettings ctx serviceArgs
+          let queryParams = ctx.TryBindQueryString<UpdateSettingsQueryParams>()
+          let serviceArgs = {  queryParams=queryParams;    } : UpdateSettingsArgs
+          let result = UsersApiService.UpdateSettings ctx serviceArgs
           return! (match result with 
-                      | UpdateDisplaySettingsStatusCode200 resolved ->
+                      | UpdateSettingsStatusCode200 resolved ->
                             setStatusCode 200 >=> json resolved.content
           ) next ctx
         }
     //#endregion
 
-    //#region UpdateNotificationSettings
+    //#region UpdateStatus
     /// <summary>
-    /// Update notification settings
+    /// Update your status
     /// </summary>
 
-    let UpdateNotificationSettings  : HttpHandler = 
+    let UpdateStatus  : HttpHandler = 
       fun (next : HttpFunc) (ctx : HttpContext) ->
         task {
-          let queryParams = ctx.TryBindQueryString<UpdateNotificationSettingsQueryParams>()
-          let serviceArgs = {  queryParams=queryParams;    } : UpdateNotificationSettingsArgs
-          let result = UsersApiService.UpdateNotificationSettings ctx serviceArgs
+          let queryParams = ctx.TryBindQueryString<UpdateStatusQueryParams>()
+          let serviceArgs = {  queryParams=queryParams;    } : UpdateStatusArgs
+          let result = UsersApiService.UpdateStatus ctx serviceArgs
           return! (match result with 
-                      | UpdateNotificationSettingsStatusCode200 resolved ->
+                      | UpdateStatusStatusCode200 resolved ->
                             setStatusCode 200 >=> json resolved.content
+                      | UpdateStatusStatusCode400 resolved ->
+                            setStatusCode 400 >=> json resolved.content
           ) next ctx
         }
     //#endregion

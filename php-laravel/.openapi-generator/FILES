@@ -9,6 +9,7 @@ lib/app/Console/Kernel.php
 lib/app/Exceptions/Handler.php
 lib/app/Http/Controllers/AuthenticationController.php
 lib/app/Http/Controllers/Controller.php
+lib/app/Http/Controllers/DraftsController.php
 lib/app/Http/Controllers/MessagesController.php
 lib/app/Http/Controllers/RealTimeEventsController.php
 lib/app/Http/Controllers/ServerAndOrganizationsController.php
@@ -45,10 +46,13 @@ lib/app/Models/CodedErrorBase.php
 lib/app/Models/CodedErrorBaseAllOf.php
 lib/app/Models/CustomProfileField.php
 lib/app/Models/DefaultStreamGroup.php
+lib/app/Models/Draft.php
+lib/app/Models/EmojiBase.php
 lib/app/Models/EmojiReaction.php
 lib/app/Models/EmojiReactionAllOf.php
 lib/app/Models/EmojiReactionBase.php
-lib/app/Models/EmojiReactionBaseUser.php
+lib/app/Models/EmojiReactionBaseAllOf.php
+lib/app/Models/EmojiReactionBaseAllOfUser.php
 lib/app/Models/GetMessages.php
 lib/app/Models/GetMessagesAllOf.php
 lib/app/Models/Hotspot.php

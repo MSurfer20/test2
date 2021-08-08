@@ -105,13 +105,13 @@ class UsersController < ApplicationController
     render json: {"message" => "yes, it worked"}
   end
 
-  def update_display_settings
+  def update_settings
     # Your code here
 
     render json: {"message" => "yes, it worked"}
   end
 
-  def update_notification_settings
+  def update_status
     # Your code here
 
     render json: {"message" => "yes, it worked"}

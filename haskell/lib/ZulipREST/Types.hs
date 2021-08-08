@@ -26,10 +26,13 @@ module ZulipREST.Types (
   CodedErrorBaseAllOf (..),
   CustomProfileField (..),
   DefaultStreamGroup (..),
+  Draft (..),
+  EmojiBase (..),
   EmojiReaction (..),
   EmojiReactionAllOf (..),
   EmojiReactionBase (..),
-  EmojiReactionBaseUser (..),
+  EmojiReactionBaseAllOf (..),
+  EmojiReactionBaseAllOfUser (..),
   GetMessages (..),
   GetMessagesAllOf (..),
   Hotspot (..),
@@ -450,6 +453,35 @@ instance ToJSON DefaultStreamGroup where
   toJSON = genericToJSON (removeFieldLabelPrefix False "defaultStreamGroup")
 
 
+-- | A dictionary for representing a message draft. 
+data Draft = Draft
+  { draftId :: Maybe Int -- ^ The unique ID of the draft. It will only used whenever the drafts are fetched. This field should not be specified when the draft is being created or edited. 
+  , draftType :: Text -- ^ The type of the draft. Either unaddressed (empty string), \"stream\", or \"private\" (for PMs and private group messages). 
+  , draftTo :: [Int] -- ^ An array of the tentative target audience IDs. For \"stream\" messages, this should contain exactly 1 ID, the ID of the target stream. For private messages, this should be an array of target user IDs. For unaddressed drafts, this is ignored, and clients should send an empty array. 
+  , draftTopic :: Text -- ^ For stream message drafts, the tentative topic name. For private or unaddressed messages, this will be ignored and should ideally be the empty string. Should not contain null bytes. 
+  , draftContent :: Text -- ^ The body of the draft. Should not contain null bytes. 
+  , draftTimestamp :: Maybe Double -- ^ A Unix timestamp (seconds only) representing when the draft was last edited. When creating a draft, this key need not be present and it will be filled in automatically by the server. 
+  } deriving (Show, Eq, Generic, Data)
+
+instance FromJSON Draft where
+  parseJSON = genericParseJSON (removeFieldLabelPrefix True "draft")
+instance ToJSON Draft where
+  toJSON = genericToJSON (removeFieldLabelPrefix False "draft")
+
+
+-- | 
+data EmojiBase = EmojiBase
+  { emojiBaseEmojiUnderscorecode :: Maybe Text -- ^ A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji. 
+  , emojiBaseEmojiUnderscorename :: Maybe Text -- ^ Name of the emoji. 
+  , emojiBaseReactionUnderscoretype :: Maybe Text -- ^ One of the following values:  * `unicode_emoji`: Unicode emoji (`emoji_code` will be its Unicode   codepoint). * `realm_emoji`: [Custom emoji](/help/add-custom-emoji).   (`emoji_code` will be its ID). * `zulip_extra_emoji`: Special emoji included with Zulip.  Exists to   namespace the `zulip` emoji. 
+  } deriving (Show, Eq, Generic, Data)
+
+instance FromJSON EmojiBase where
+  parseJSON = genericParseJSON (removeFieldLabelPrefix True "emojiBase")
+instance ToJSON EmojiBase where
+  toJSON = genericToJSON (removeFieldLabelPrefix False "emojiBase")
+
+
 -- | 
 data EmojiReaction = EmojiReaction
   { emojiReactionEmojiUnderscorecode :: Maybe Value -- ^ 
@@ -482,11 +514,11 @@ instance ToJSON EmojiReactionAllOf where
 
 -- | 
 data EmojiReactionBase = EmojiReactionBase
-  { emojiReactionBaseEmojiUnderscorecode :: Maybe Text -- ^ A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint. 
+  { emojiReactionBaseEmojiUnderscorecode :: Maybe Text -- ^ A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji. 
   , emojiReactionBaseEmojiUnderscorename :: Maybe Text -- ^ Name of the emoji. 
   , emojiReactionBaseReactionUnderscoretype :: Maybe Text -- ^ One of the following values:  * `unicode_emoji`: Unicode emoji (`emoji_code` will be its Unicode   codepoint). * `realm_emoji`: [Custom emoji](/help/add-custom-emoji).   (`emoji_code` will be its ID). * `zulip_extra_emoji`: Special emoji included with Zulip.  Exists to   namespace the `zulip` emoji. 
   , emojiReactionBaseUserUnderscoreid :: Maybe Int -- ^ The ID of the user who added the reaction.  **Changes**: New in Zulip 3.0 (feature level 2). The `user` object is deprecated and will be removed in the future. 
-  , emojiReactionBaseUser :: Maybe EmojiReactionBaseUser -- ^ 
+  , emojiReactionBaseUser :: Maybe EmojiReactionBaseAllOfUser -- ^ 
   } deriving (Show, Eq, Generic, Data)
 
 instance FromJSON EmojiReactionBase where
@@ -495,18 +527,30 @@ instance ToJSON EmojiReactionBase where
   toJSON = genericToJSON (removeFieldLabelPrefix False "emojiReactionBase")
 
 
--- | Dictionary with data on the user who added the reaction, including the user ID as the &#x60;id&#x60; field.  **Note**: In the [events API](/api/get-events), this &#x60;user&#x60; dictionary confusing had the user ID in a field called &#x60;user_id&#x60; instead.  We recommend ignoring fields other than the user ID.  **Deprecated** and to be removed in a future release once core clients have migrated to use the &#x60;user_id&#x60; field. 
-data EmojiReactionBaseUser = EmojiReactionBaseUser
-  { emojiReactionBaseUserId :: Maybe Int -- ^ ID of the user. 
-  , emojiReactionBaseUserEmail :: Maybe Text -- ^ Email of the user. 
-  , emojiReactionBaseUserFullUnderscorename :: Maybe Text -- ^ Full name of the user. 
-  , emojiReactionBaseUserIsUnderscoremirrorUnderscoredummy :: Maybe Bool -- ^ Whether the user is a mirror dummy. 
+-- | 
+data EmojiReactionBaseAllOf = EmojiReactionBaseAllOf
+  { emojiReactionBaseAllOfUserUnderscoreid :: Maybe Int -- ^ The ID of the user who added the reaction.  **Changes**: New in Zulip 3.0 (feature level 2). The `user` object is deprecated and will be removed in the future. 
+  , emojiReactionBaseAllOfUser :: Maybe EmojiReactionBaseAllOfUser -- ^ 
   } deriving (Show, Eq, Generic, Data)
 
-instance FromJSON EmojiReactionBaseUser where
-  parseJSON = genericParseJSON (removeFieldLabelPrefix True "emojiReactionBaseUser")
-instance ToJSON EmojiReactionBaseUser where
-  toJSON = genericToJSON (removeFieldLabelPrefix False "emojiReactionBaseUser")
+instance FromJSON EmojiReactionBaseAllOf where
+  parseJSON = genericParseJSON (removeFieldLabelPrefix True "emojiReactionBaseAllOf")
+instance ToJSON EmojiReactionBaseAllOf where
+  toJSON = genericToJSON (removeFieldLabelPrefix False "emojiReactionBaseAllOf")
+
+
+-- | Whether the user is a mirror dummy. Dictionary with data on the user who added the reaction, including the user ID as the &#x60;id&#x60; field.  **Note**: In the [events API](/api/get-events), this &#x60;user&#x60; dictionary confusing had the user ID in a field called &#x60;user_id&#x60; instead.  We recommend ignoring fields other than the user ID.  **Deprecated** and to be removed in a future release once core clients have migrated to use the &#x60;user_id&#x60; field. 
+data EmojiReactionBaseAllOfUser = EmojiReactionBaseAllOfUser
+  { emojiReactionBaseAllOfUserId :: Maybe Int -- ^ ID of the user. 
+  , emojiReactionBaseAllOfUserEmail :: Maybe Text -- ^ Email of the user. 
+  , emojiReactionBaseAllOfUserFullUnderscorename :: Maybe Text -- ^ Full name of the user. 
+  , emojiReactionBaseAllOfUserIsUnderscoremirrorUnderscoredummy :: Maybe Bool -- ^ Whether the user is a mirror dummy. 
+  } deriving (Show, Eq, Generic, Data)
+
+instance FromJSON EmojiReactionBaseAllOfUser where
+  parseJSON = genericParseJSON (removeFieldLabelPrefix True "emojiReactionBaseAllOfUser")
+instance ToJSON EmojiReactionBaseAllOfUser where
+  toJSON = genericToJSON (removeFieldLabelPrefix False "emojiReactionBaseAllOfUser")
 
 
 -- | 

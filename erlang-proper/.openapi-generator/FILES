@@ -23,10 +23,13 @@ src/model/openapi_coded_error_base.erl
 src/model/openapi_coded_error_base_all_of.erl
 src/model/openapi_custom_profile_field.erl
 src/model/openapi_default_stream_group.erl
+src/model/openapi_draft.erl
+src/model/openapi_emoji_base.erl
 src/model/openapi_emoji_reaction.erl
 src/model/openapi_emoji_reaction_all_of.erl
 src/model/openapi_emoji_reaction_base.erl
-src/model/openapi_emoji_reaction_base_user.erl
+src/model/openapi_emoji_reaction_base_all_of.erl
+src/model/openapi_emoji_reaction_base_all_of_user.erl
 src/model/openapi_get_messages.erl
 src/model/openapi_get_messages_all_of.erl
 src/model/openapi_hotspot.erl
@@ -73,7 +76,9 @@ src/openapi_api.erl
 src/openapi_api.erl
 src/openapi_api.erl
 src/openapi_api.erl
+src/openapi_api.erl
 src/openapi_gen.erl
+src/openapi_statem.erl
 src/openapi_statem.erl
 src/openapi_statem.erl
 src/openapi_statem.erl

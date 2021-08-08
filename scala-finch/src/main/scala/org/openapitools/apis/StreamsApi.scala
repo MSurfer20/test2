@@ -32,9 +32,11 @@ object StreamsApi {
     def endpoints(da: DataAccessor) =
         archiveStream(da) :+:
         createBigBlueButtonVideoCall(da) :+:
+        deleteTopic(da) :+:
         getStreamId(da) :+:
         getStreamTopics(da) :+:
         getStreams(da) :+:
+        getSubscribers(da) :+:
         getSubscriptionStatus(da) :+:
         getSubscriptions(da) :+:
         muteTopic(da) :+:
@@ -95,6 +97,20 @@ object StreamsApi {
 
         /**
         * 
+        * @return An endpoint representing a JsonSuccess
+        */
+        private def deleteTopic(da: DataAccessor): Endpoint[JsonSuccess] =
+        post("streams" :: int :: "delete_topic" :: param("topic_name")) { (streamId: Int, topicName: String) =>
+          da.Streams_deleteTopic(streamId, topicName) match {
+            case Left(error) => checkError(error)
+            case Right(data) => Ok(data)
+          }
+        } handle {
+          case e: Exception => BadRequest(e)
+        }
+
+        /**
+        * 
         * @return An endpoint representing a JsonSuccessBase
         */
         private def getStreamId(da: DataAccessor): Endpoint[JsonSuccessBase] =
@@ -128,6 +144,20 @@ object StreamsApi {
         private def getStreams(da: DataAccessor): Endpoint[JsonSuccessBase] =
         get("streams" :: paramOption("include_public").map(_.map(_.toBoolean)) :: paramOption("include_web_public").map(_.map(_.toBoolean)) :: paramOption("include_subscribed").map(_.map(_.toBoolean)) :: paramOption("include_all_active").map(_.map(_.toBoolean)) :: paramOption("include_default").map(_.map(_.toBoolean)) :: paramOption("include_owner_subscribed").map(_.map(_.toBoolean))) { (includePublic: Option[Boolean], includeWebPublic: Option[Boolean], includeSubscribed: Option[Boolean], includeAllActive: Option[Boolean], includeDefault: Option[Boolean], includeOwnerSubscribed: Option[Boolean]) =>
           da.Streams_getStreams(includePublic, includeWebPublic, includeSubscribed, includeAllActive, includeDefault, includeOwnerSubscribed) match {
+            case Left(error) => checkError(error)
+            case Right(data) => Ok(data)
+          }
+        } handle {
+          case e: Exception => BadRequest(e)
+        }
+
+        /**
+        * 
+        * @return An endpoint representing a JsonSuccessBase
+        */
+        private def getSubscribers(da: DataAccessor): Endpoint[JsonSuccessBase] =
+        get("streams" :: int :: "members") { (streamId: Int) =>
+          da.Streams_getSubscribers(streamId) match {
             case Left(error) => checkError(error)
             case Right(data) => Ok(data)
           }

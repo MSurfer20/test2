@@ -244,24 +244,24 @@ class UsersApiTest extends TestCase
     }
 
     /**
-     * Test case for updateDisplaySettings
+     * Test case for updateSettings
      *
-     * Update display settings.
+     * Update settings.
      *
-     * @covers ::updateDisplaySettings
+     * @covers ::updateSettings
      */
-    public function testUpdateDisplaySettings()
+    public function testUpdateSettings()
     {
     }
 
     /**
-     * Test case for updateNotificationSettings
+     * Test case for updateStatus
      *
-     * Update notification settings.
+     * Update your status.
      *
-     * @covers ::updateNotificationSettings
+     * @covers ::updateStatus
      */
-    public function testUpdateNotificationSettings()
+    public function testUpdateStatus()
     {
     }
 

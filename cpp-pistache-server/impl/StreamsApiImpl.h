@@ -51,9 +51,11 @@ public:
 
     void archive_stream(const int32_t &streamId, Pistache::Http::ResponseWriter &response);
     void create_big_blue_button_video_call(Pistache::Http::ResponseWriter &response);
+    void delete_topic(const int32_t &streamId, const Pistache::Optional<std::string> &topicName, Pistache::Http::ResponseWriter &response);
     void get_stream_id(const Pistache::Optional<std::string> &stream, Pistache::Http::ResponseWriter &response);
     void get_stream_topics(const int32_t &streamId, Pistache::Http::ResponseWriter &response);
     void get_streams(const Pistache::Optional<bool> &includePublic, const Pistache::Optional<bool> &includeWebPublic, const Pistache::Optional<bool> &includeSubscribed, const Pistache::Optional<bool> &includeAllActive, const Pistache::Optional<bool> &includeDefault, const Pistache::Optional<bool> &includeOwnerSubscribed, Pistache::Http::ResponseWriter &response);
+    void get_subscribers(const int32_t &streamId, Pistache::Http::ResponseWriter &response);
     void get_subscription_status(const int32_t &userId, const int32_t &streamId, Pistache::Http::ResponseWriter &response);
     void get_subscriptions(const Pistache::Optional<bool> &includeSubscribers, Pistache::Http::ResponseWriter &response);
     void mute_topic(const Pistache::Optional<std::string> &topic, const Pistache::Optional<std::string> &op, const Pistache::Optional<std::string> &stream, const Pistache::Optional<int32_t> &streamId, Pistache::Http::ResponseWriter &response);

@@ -21,6 +21,14 @@ func (c *Container) CreateBigBlueButtonVideoCall(ctx echo.Context) error {
 }
 
 
+// DeleteTopic - Delete a topic
+func (c *Container) DeleteTopic(ctx echo.Context) error {
+    return ctx.JSON(http.StatusOK, models.HelloWorld {
+        Message: "Hello World",
+    })
+}
+
+
 // GetStreamId - Get stream ID
 func (c *Container) GetStreamId(ctx echo.Context) error {
     return ctx.JSON(http.StatusOK, models.HelloWorld {
@@ -39,6 +47,14 @@ func (c *Container) GetStreamTopics(ctx echo.Context) error {
 
 // GetStreams - Get all streams
 func (c *Container) GetStreams(ctx echo.Context) error {
+    return ctx.JSON(http.StatusOK, models.HelloWorld {
+        Message: "Hello World",
+    })
+}
+
+
+// GetSubscribers - Get the subscribers of a stream
+func (c *Container) GetSubscribers(ctx echo.Context) error {
     return ctx.JSON(http.StatusOK, models.HelloWorld {
         Message: "Hello World",
     })

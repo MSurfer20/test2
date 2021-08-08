@@ -11,9 +11,11 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**archive_stream**](StreamsApi.md#archive_stream) | **DELETE** /streams/{stream_id} | Archive a stream
 [**create_big_blue_button_video_call**](StreamsApi.md#create_big_blue_button_video_call) | **GET** /calls/bigbluebutton/create | Create BigBlueButton video call
+[**delete_topic**](StreamsApi.md#delete_topic) | **POST** /streams/{stream_id}/delete_topic | Delete a topic
 [**get_stream_id**](StreamsApi.md#get_stream_id) | **GET** /get_stream_id | Get stream ID
 [**get_stream_topics**](StreamsApi.md#get_stream_topics) | **GET** /users/me/{stream_id}/topics | Get topics in a stream
 [**get_streams**](StreamsApi.md#get_streams) | **GET** /streams | Get all streams
+[**get_subscribers**](StreamsApi.md#get_subscribers) | **GET** /streams/{stream_id}/members | Get the subscribers of a stream
 [**get_subscription_status**](StreamsApi.md#get_subscription_status) | **GET** /users/{user_id}/subscriptions/{stream_id} | Get subscription status
 [**get_subscriptions**](StreamsApi.md#get_subscriptions) | **GET** /users/me/subscriptions | Get subscribed streams
 [**mute_topic**](StreamsApi.md#mute_topic) | **PATCH** /users/me/subscriptions/muted_topics | Topic muting
@@ -100,6 +102,54 @@ This endpoint does not need any parameter.
 ### Return type
 
 [**JsonSuccessBase**](JsonSuccessBase.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **delete_topic**
+> JsonSuccess delete_topic(stream_id => $stream_id, topic_name => $topic_name)
+
+Delete a topic
+
+Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+
+### Example 
+```perl
+use Data::Dumper;
+use WWW::OpenAPIClient::StreamsApi;
+my $api_instance = WWW::OpenAPIClient::StreamsApi->new(
+);
+
+my $stream_id = 1; # int | The ID of the stream to access. 
+my $topic_name = new coffee machine; # string | The name of the topic to delete. 
+
+eval { 
+    my $result = $api_instance->delete_topic(stream_id => $stream_id, topic_name => $topic_name);
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling StreamsApi->delete_topic: $@\n";
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **stream_id** | **int**| The ID of the stream to access.  | 
+ **topic_name** | **string**| The name of the topic to delete.  | 
+
+### Return type
+
+[**JsonSuccess**](JsonSuccess.md)
 
 ### Authorization
 
@@ -244,6 +294,52 @@ Name | Type | Description  | Notes
  **include_all_active** | **boolean**| Include all active streams. The user must have administrative privileges to use this parameter.  | [optional] [default to false]
  **include_default** | **boolean**| Include all default streams for the user&#39;s realm.  | [optional] [default to false]
  **include_owner_subscribed** | **boolean**| If the user is a bot, include all streams that the bot&#39;s owner is subscribed to.  | [optional] [default to false]
+
+### Return type
+
+[**JsonSuccessBase**](JsonSuccessBase.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_subscribers**
+> JsonSuccessBase get_subscribers(stream_id => $stream_id)
+
+Get the subscribers of a stream
+
+Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` 
+
+### Example 
+```perl
+use Data::Dumper;
+use WWW::OpenAPIClient::StreamsApi;
+my $api_instance = WWW::OpenAPIClient::StreamsApi->new(
+);
+
+my $stream_id = 1; # int | The ID of the stream to access. 
+
+eval { 
+    my $result = $api_instance->get_subscribers(stream_id => $stream_id);
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling StreamsApi->get_subscribers: $@\n";
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **stream_id** | **int**| The ID of the stream to access.  | 
 
 ### Return type
 

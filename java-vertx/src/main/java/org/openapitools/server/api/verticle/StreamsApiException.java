@@ -17,12 +17,16 @@ public final class StreamsApiException extends MainApiException {
     public static final StreamsApiException Streams_archiveStream_200_Exception = new StreamsApiException(200, "Success.");
     public static final StreamsApiException Streams_archiveStream_400_Exception = new StreamsApiException(400, "Bad request.");
     public static final StreamsApiException Streams_createBigBlueButtonVideoCall_200_Exception = new StreamsApiException(200, "Success.");
+    public static final StreamsApiException Streams_deleteTopic_200_Exception = new StreamsApiException(200, "Success.");
+    public static final StreamsApiException Streams_deleteTopic_400_Exception = new StreamsApiException(400, "Error.");
     public static final StreamsApiException Streams_getStreamId_200_Exception = new StreamsApiException(200, "Success.");
     public static final StreamsApiException Streams_getStreamId_400_Exception = new StreamsApiException(400, "Bad request.");
     public static final StreamsApiException Streams_getStreamTopics_200_Exception = new StreamsApiException(200, "Success.");
     public static final StreamsApiException Streams_getStreamTopics_400_Exception = new StreamsApiException(400, "Bad request.");
     public static final StreamsApiException Streams_getStreams_200_Exception = new StreamsApiException(200, "Success.");
     public static final StreamsApiException Streams_getStreams_400_Exception = new StreamsApiException(400, "Bad request.");
+    public static final StreamsApiException Streams_getSubscribers_200_Exception = new StreamsApiException(200, "Success.");
+    public static final StreamsApiException Streams_getSubscribers_400_Exception = new StreamsApiException(400, "Bad request.");
     public static final StreamsApiException Streams_getSubscriptionStatus_200_Exception = new StreamsApiException(200, "Success");
     public static final StreamsApiException Streams_getSubscriptions_200_Exception = new StreamsApiException(200, "Success.");
     public static final StreamsApiException Streams_muteTopic_200_Exception = new StreamsApiException(200, "Success.");

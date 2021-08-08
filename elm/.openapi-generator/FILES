@@ -5,6 +5,7 @@ elm.json
 src/Api.elm
 src/Api/Data.elm
 src/Api/Request/Authentication.elm
+src/Api/Request/Drafts.elm
 src/Api/Request/Messages.elm
 src/Api/Request/RealTimeEvents.elm
 src/Api/Request/ServerAndOrganizations.elm

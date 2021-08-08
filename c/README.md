@@ -67,6 +67,10 @@ Category | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AuthenticationAPI* | [**AuthenticationAPI_devFetchApiKey**](docs/AuthenticationAPI.md#AuthenticationAPI_devFetchApiKey) | **POST** /dev_fetch_api_key | Fetch an API key (development only)
 *AuthenticationAPI* | [**AuthenticationAPI_fetchApiKey**](docs/AuthenticationAPI.md#AuthenticationAPI_fetchApiKey) | **POST** /fetch_api_key | Fetch an API key (production)
+*DraftsAPI* | [**DraftsAPI_createDrafts**](docs/DraftsAPI.md#DraftsAPI_createDrafts) | **POST** /drafts | Create drafts
+*DraftsAPI* | [**DraftsAPI_deleteDraft**](docs/DraftsAPI.md#DraftsAPI_deleteDraft) | **DELETE** /drafts/{draft_id} | Delete a draft
+*DraftsAPI* | [**DraftsAPI_editDraft**](docs/DraftsAPI.md#DraftsAPI_editDraft) | **PATCH** /drafts/{draft_id} | Edit a draft
+*DraftsAPI* | [**DraftsAPI_getDrafts**](docs/DraftsAPI.md#DraftsAPI_getDrafts) | **GET** /drafts | Get drafts
 *MessagesAPI* | [**MessagesAPI_addReaction**](docs/MessagesAPI.md#MessagesAPI_addReaction) | **POST** /messages/{message_id}/reactions | Add an emoji reaction
 *MessagesAPI* | [**MessagesAPI_checkMessagesMatchNarrow**](docs/MessagesAPI.md#MessagesAPI_checkMessagesMatchNarrow) | **GET** /messages/matches_narrow | Check if messages match a narrow
 *MessagesAPI* | [**MessagesAPI_deleteMessage**](docs/MessagesAPI.md#MessagesAPI_deleteMessage) | **DELETE** /messages/{message_id} | Delete a message
@@ -102,9 +106,11 @@ Category | Method | HTTP request | Description
 *ServerAndOrganizationsAPI* | [**ServerAndOrganizationsAPI_uploadCustomEmoji**](docs/ServerAndOrganizationsAPI.md#ServerAndOrganizationsAPI_uploadCustomEmoji) | **POST** /realm/emoji/{emoji_name} | Upload custom emoji
 *StreamsAPI* | [**StreamsAPI_archiveStream**](docs/StreamsAPI.md#StreamsAPI_archiveStream) | **DELETE** /streams/{stream_id} | Archive a stream
 *StreamsAPI* | [**StreamsAPI_createBigBlueButtonVideoCall**](docs/StreamsAPI.md#StreamsAPI_createBigBlueButtonVideoCall) | **GET** /calls/bigbluebutton/create | Create BigBlueButton video call
+*StreamsAPI* | [**StreamsAPI_deleteTopic**](docs/StreamsAPI.md#StreamsAPI_deleteTopic) | **POST** /streams/{stream_id}/delete_topic | Delete a topic
 *StreamsAPI* | [**StreamsAPI_getStreamId**](docs/StreamsAPI.md#StreamsAPI_getStreamId) | **GET** /get_stream_id | Get stream ID
 *StreamsAPI* | [**StreamsAPI_getStreamTopics**](docs/StreamsAPI.md#StreamsAPI_getStreamTopics) | **GET** /users/me/{stream_id}/topics | Get topics in a stream
 *StreamsAPI* | [**StreamsAPI_getStreams**](docs/StreamsAPI.md#StreamsAPI_getStreams) | **GET** /streams | Get all streams
+*StreamsAPI* | [**StreamsAPI_getSubscribers**](docs/StreamsAPI.md#StreamsAPI_getSubscribers) | **GET** /streams/{stream_id}/members | Get the subscribers of a stream
 *StreamsAPI* | [**StreamsAPI_getSubscriptionStatus**](docs/StreamsAPI.md#StreamsAPI_getSubscriptionStatus) | **GET** /users/{user_id}/subscriptions/{stream_id} | Get subscription status
 *StreamsAPI* | [**StreamsAPI_getSubscriptions**](docs/StreamsAPI.md#StreamsAPI_getSubscriptions) | **GET** /users/me/subscriptions | Get subscribed streams
 *StreamsAPI* | [**StreamsAPI_muteTopic**](docs/StreamsAPI.md#StreamsAPI_muteTopic) | **PATCH** /users/me/subscriptions/muted_topics | Topic muting
@@ -129,8 +135,8 @@ Category | Method | HTTP request | Description
 *UsersAPI* | [**UsersAPI_removeUserGroup**](docs/UsersAPI.md#UsersAPI_removeUserGroup) | **DELETE** /user_groups/{user_group_id} | Delete a user group
 *UsersAPI* | [**UsersAPI_setTypingStatus**](docs/UsersAPI.md#UsersAPI_setTypingStatus) | **POST** /typing | Set \"typing\" status
 *UsersAPI* | [**UsersAPI_unmuteUser**](docs/UsersAPI.md#UsersAPI_unmuteUser) | **DELETE** /users/me/muted_users/{muted_user_id} | Unmute a user
-*UsersAPI* | [**UsersAPI_updateDisplaySettings**](docs/UsersAPI.md#UsersAPI_updateDisplaySettings) | **PATCH** /settings/display | Update display settings
-*UsersAPI* | [**UsersAPI_updateNotificationSettings**](docs/UsersAPI.md#UsersAPI_updateNotificationSettings) | **PATCH** /settings/notifications | Update notification settings
+*UsersAPI* | [**UsersAPI_updateSettings**](docs/UsersAPI.md#UsersAPI_updateSettings) | **PATCH** /settings | Update settings
+*UsersAPI* | [**UsersAPI_updateStatus**](docs/UsersAPI.md#UsersAPI_updateStatus) | **POST** /users/me/status | Update your status
 *UsersAPI* | [**UsersAPI_updateUser**](docs/UsersAPI.md#UsersAPI_updateUser) | **PATCH** /users/{user_id} | Update a user
 *UsersAPI* | [**UsersAPI_updateUserGroup**](docs/UsersAPI.md#UsersAPI_updateUserGroup) | **PATCH** /user_groups/{user_group_id} | Update a user group
 *UsersAPI* | [**UsersAPI_updateUserGroupMembers**](docs/UsersAPI.md#UsersAPI_updateUserGroupMembers) | **POST** /user_groups/{user_group_id}/members | Update user group members
@@ -161,10 +167,13 @@ Category | Method | HTTP request | Description
  - [coded_error_base_all_of_t](docs/coded_error_base_all_of.md)
  - [custom_profile_field_t](docs/custom_profile_field.md)
  - [default_stream_group_t](docs/default_stream_group.md)
+ - [draft_t](docs/draft.md)
+ - [emoji_base_t](docs/emoji_base.md)
  - [emoji_reaction_t](docs/emoji_reaction.md)
  - [emoji_reaction_all_of_t](docs/emoji_reaction_all_of.md)
  - [emoji_reaction_base_t](docs/emoji_reaction_base.md)
- - [emoji_reaction_base_user_t](docs/emoji_reaction_base_user.md)
+ - [emoji_reaction_base_all_of_t](docs/emoji_reaction_base_all_of.md)
+ - [emoji_reaction_base_all_of_user_t](docs/emoji_reaction_base_all_of_user.md)
  - [get_messages_t](docs/get_messages.md)
  - [get_messages_all_of_t](docs/get_messages_all_of.md)
  - [hotspot_t](docs/hotspot.md)

@@ -9,7 +9,7 @@ import model.JsonSuccess
 import model.JsonSuccessBase
 import play.api.libs.Files.TemporaryFile
 
-@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2021-08-08T20:45:49.166589Z[Etc/UTC]")
+@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2021-08-08T21:15:24.853051Z[Etc/UTC]")
 @Singleton
 class ServerAndOrganizationsApiController @Inject()(cc: ControllerComponents, api: ServerAndOrganizationsApi) extends AbstractController(cc) {
   /**

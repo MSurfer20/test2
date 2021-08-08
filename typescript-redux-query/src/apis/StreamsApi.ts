@@ -39,6 +39,11 @@ export interface ArchiveStreamRequest {
     streamId: number;
 }
 
+export interface DeleteTopicRequest {
+    streamId: number;
+    topicName: string;
+}
+
 export interface GetStreamIdRequest {
     stream: string;
 }
@@ -54,6 +59,10 @@ export interface GetStreamsRequest {
     includeAllActive?: boolean;
     includeDefault?: boolean;
     includeOwnerSubscribed?: boolean;
+}
+
+export interface GetSubscribersRequest {
+    streamId: number;
 }
 
 export interface GetSubscriptionStatusRequest {
@@ -199,6 +208,64 @@ function createBigBlueButtonVideoCallRaw<T>( requestConfig: runtime.TypedQueryCo
 */
 export function createBigBlueButtonVideoCall<T>( requestConfig?: runtime.TypedQueryConfig<T, JsonSuccessBase & object>): QueryConfig<T> {
     return createBigBlueButtonVideoCallRaw( requestConfig);
+}
+
+/**
+ * Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+ * Delete a topic
+ */
+function deleteTopicRaw<T>(requestParameters: DeleteTopicRequest, requestConfig: runtime.TypedQueryConfig<T, JsonSuccess> = {}): QueryConfig<T> {
+    if (requestParameters.streamId === null || requestParameters.streamId === undefined) {
+        throw new runtime.RequiredError('streamId','Required parameter requestParameters.streamId was null or undefined when calling deleteTopic.');
+    }
+
+    if (requestParameters.topicName === null || requestParameters.topicName === undefined) {
+        throw new runtime.RequiredError('topicName','Required parameter requestParameters.topicName was null or undefined when calling deleteTopic.');
+    }
+
+    let queryParameters = null;
+
+    queryParameters = {};
+
+
+    if (requestParameters.topicName !== undefined) {
+        queryParameters['topic_name'] = requestParameters.topicName;
+    }
+
+    const headerParameters : runtime.HttpHeaders = {};
+
+
+    const { meta = {} } = requestConfig;
+
+    const config: QueryConfig<T> = {
+        url: `${runtime.Configuration.basePath}/streams/{stream_id}/delete_topic`.replace(`{${"stream_id"}}`, encodeURIComponent(String(requestParameters.streamId))),
+        meta,
+        update: requestConfig.update,
+        queryKey: requestConfig.queryKey,
+        optimisticUpdate: requestConfig.optimisticUpdate,
+        force: requestConfig.force,
+        rollback: requestConfig.rollback,
+        options: {
+            method: 'POST',
+            headers: headerParameters,
+        },
+        body: queryParameters,
+    };
+
+    const { transform: requestTransform } = requestConfig;
+    if (requestTransform) {
+        config.transform = (body: ResponseBody, text: ResponseBody) => requestTransform(JsonSuccessFromJSON(body), text);
+    }
+
+    return config;
+}
+
+/**
+* Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+* Delete a topic
+*/
+export function deleteTopic<T>(requestParameters: DeleteTopicRequest, requestConfig?: runtime.TypedQueryConfig<T, JsonSuccess>): QueryConfig<T> {
+    return deleteTopicRaw(requestParameters, requestConfig);
 }
 
 /**
@@ -376,6 +443,54 @@ function getStreamsRaw<T>(requestParameters: GetStreamsRequest, requestConfig: r
 */
 export function getStreams<T>(requestParameters: GetStreamsRequest, requestConfig?: runtime.TypedQueryConfig<T, JsonSuccessBase & object>): QueryConfig<T> {
     return getStreamsRaw(requestParameters, requestConfig);
+}
+
+/**
+ * Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` 
+ * Get the subscribers of a stream
+ */
+function getSubscribersRaw<T>(requestParameters: GetSubscribersRequest, requestConfig: runtime.TypedQueryConfig<T, JsonSuccessBase & object> = {}): QueryConfig<T> {
+    if (requestParameters.streamId === null || requestParameters.streamId === undefined) {
+        throw new runtime.RequiredError('streamId','Required parameter requestParameters.streamId was null or undefined when calling getSubscribers.');
+    }
+
+    let queryParameters = null;
+
+
+    const headerParameters : runtime.HttpHeaders = {};
+
+
+    const { meta = {} } = requestConfig;
+
+    const config: QueryConfig<T> = {
+        url: `${runtime.Configuration.basePath}/streams/{stream_id}/members`.replace(`{${"stream_id"}}`, encodeURIComponent(String(requestParameters.streamId))),
+        meta,
+        update: requestConfig.update,
+        queryKey: requestConfig.queryKey,
+        optimisticUpdate: requestConfig.optimisticUpdate,
+        force: requestConfig.force,
+        rollback: requestConfig.rollback,
+        options: {
+            method: 'GET',
+            headers: headerParameters,
+        },
+        body: queryParameters,
+    };
+
+    const { transform: requestTransform } = requestConfig;
+    if (requestTransform) {
+        config.transform = (body: ResponseBody, text: ResponseBody) => requestTransform(JsonSuccessBase &amp; objectFromJSON(body), text);
+    }
+
+    return config;
+}
+
+/**
+* Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` 
+* Get the subscribers of a stream
+*/
+export function getSubscribers<T>(requestParameters: GetSubscribersRequest, requestConfig?: runtime.TypedQueryConfig<T, JsonSuccessBase & object>): QueryConfig<T> {
+    return getSubscribersRaw(requestParameters, requestConfig);
 }
 
 /**

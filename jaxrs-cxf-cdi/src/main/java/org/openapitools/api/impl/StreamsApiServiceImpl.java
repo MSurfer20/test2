@@ -20,7 +20,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
 @RequestScoped
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen", date = "2021-08-08T20:42:18.771666Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen", date = "2021-08-08T21:12:08.985690Z[Etc/UTC]")
 public class StreamsApiServiceImpl implements StreamsApiService {
       @Override
       public Response archiveStream(Integer streamId, SecurityContext securityContext) {
@@ -28,7 +28,17 @@ public class StreamsApiServiceImpl implements StreamsApiService {
       return Response.ok().entity("magic!").build();
   }
       @Override
+      public Response deleteTopic(Integer streamId, String topicName, SecurityContext securityContext) {
+      // do some magic!
+      return Response.ok().entity("magic!").build();
+  }
+      @Override
       public Response getStreams(Boolean includePublic, Boolean includeWebPublic, Boolean includeSubscribed, Boolean includeAllActive, Boolean includeDefault, Boolean includeOwnerSubscribed, SecurityContext securityContext) {
+      // do some magic!
+      return Response.ok().entity("magic!").build();
+  }
+      @Override
+      public Response getSubscribers(Integer streamId, SecurityContext securityContext) {
       // do some magic!
       return Response.ok().entity("magic!").build();
   }

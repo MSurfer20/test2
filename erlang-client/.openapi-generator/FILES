@@ -25,10 +25,14 @@ src/openapi_coded_error_base.erl
 src/openapi_coded_error_base_all_of.erl
 src/openapi_custom_profile_field.erl
 src/openapi_default_stream_group.erl
+src/openapi_draft.erl
+src/openapi_drafts_api.erl
+src/openapi_emoji_base.erl
 src/openapi_emoji_reaction.erl
 src/openapi_emoji_reaction_all_of.erl
 src/openapi_emoji_reaction_base.erl
-src/openapi_emoji_reaction_base_user.erl
+src/openapi_emoji_reaction_base_all_of.erl
+src/openapi_emoji_reaction_base_all_of_user.erl
 src/openapi_get_messages.erl
 src/openapi_get_messages_all_of.erl
 src/openapi_hotspot.erl

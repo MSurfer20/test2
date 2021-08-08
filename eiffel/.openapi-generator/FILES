@@ -25,10 +25,14 @@ docs/CODED_ERROR_BASE.md
 docs/CODED_ERROR_BASE_ALL_OF.md
 docs/CUSTOM_PROFILE_FIELD.md
 docs/DEFAULT_STREAM_GROUP.md
+docs/DRAFT.md
+docs/DRAFTS_API.md
+docs/EMOJI_BASE.md
 docs/EMOJI_REACTION.md
 docs/EMOJI_REACTION_ALL_OF.md
 docs/EMOJI_REACTION_BASE.md
-docs/EMOJI_REACTION_BASE_USER.md
+docs/EMOJI_REACTION_BASE_ALL_OF.md
+docs/EMOJI_REACTION_BASE_ALL_OF_USER.md
 docs/GET_MESSAGES.md
 docs/GET_MESSAGES_ALL_OF.md
 docs/HOTSPOT.md
@@ -73,6 +77,7 @@ docs/USER_GROUP.md
 docs/USER_NOT_AUTHORIZED_ERROR.md
 docs/WEBHOOKS_API.md
 src/api/authentication_api.e
+src/api/drafts_api.e
 src/api/messages_api.e
 src/api/real_time_events_api.e
 src/api/server_and_organizations_api.e
@@ -102,10 +107,13 @@ src/domain/coded_error_base.e
 src/domain/coded_error_base_all_of.e
 src/domain/custom_profile_field.e
 src/domain/default_stream_group.e
+src/domain/draft.e
+src/domain/emoji_base.e
 src/domain/emoji_reaction.e
 src/domain/emoji_reaction_all_of.e
 src/domain/emoji_reaction_base.e
-src/domain/emoji_reaction_base_user.e
+src/domain/emoji_reaction_base_all_of.e
+src/domain/emoji_reaction_base_all_of_user.e
 src/domain/get_messages.e
 src/domain/get_messages_all_of.e
 src/domain/hotspot.e
@@ -160,6 +168,7 @@ src/framework/serialization/json_basic_reflector_deserializer.e
 src/framework/serialization/json_type_utilities_ext.e
 test/api_test.ecf
 test/apis/authentication_api_test.e
+test/apis/drafts_api_test.e
 test/apis/messages_api_test.e
 test/apis/realtimeevents_api_test.e
 test/apis/serverandorganizations_api_test.e

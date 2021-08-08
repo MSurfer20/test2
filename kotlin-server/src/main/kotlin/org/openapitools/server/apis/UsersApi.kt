@@ -25,6 +25,7 @@ import org.openapitools.server.models.CodedError
 import org.openapitools.server.models.JsonError
 import org.openapitools.server.models.JsonSuccess
 import org.openapitools.server.models.JsonSuccessBase
+import org.openapitools.server.models.OneOfLessThanObjectCommaObjectCommaObjectCommaObjectCommaObjectCommaObjectGreaterThan
 import org.openapitools.server.models.OneOfLessThanObjectCommaObjectCommaObjectGreaterThan
 import org.openapitools.server.models.OneOfLessThanObjectCommaObjectGreaterThan
 
@@ -97,11 +98,11 @@ fun Route.UsersApi() {
         call.respond(HttpStatusCode.NotImplemented)
     }
 
-    patch<Paths.updateDisplaySettings> {
+    patch<Paths.updateSettings> {
         call.respond(HttpStatusCode.NotImplemented)
     }
 
-    patch<Paths.updateNotificationSettings> {
+    post<Paths.updateStatus> {
         call.respond(HttpStatusCode.NotImplemented)
     }
 

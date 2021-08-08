@@ -28,6 +28,49 @@ pub enum FetchApiKeyResponse {
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
+pub enum CreateDraftsResponse {
+    /// Success.
+    Success
+    (JsonSuccess)
+    ,
+    /// Bad request.
+    BadRequest
+    (CodedError)
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+pub enum DeleteDraftResponse {
+    /// Success.
+    Success
+    (JsonSuccess)
+    ,
+    /// Not Found.
+    NotFound
+    (JsonError)
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+pub enum EditDraftResponse {
+    /// Success.
+    Success
+    (JsonSuccess)
+    ,
+    /// Not Found.
+    NotFound
+    (JsonError)
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+pub enum GetDraftsResponse {
+    /// Success.
+    Success
+    (JsonSuccess)
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
 pub enum AddReactionResponse {
     /// Success.
     Success
@@ -331,6 +374,18 @@ pub enum CreateBigBlueButtonVideoCallResponse {
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
+pub enum DeleteTopicResponse {
+    /// Success.
+    Success
+    (JsonSuccess)
+    ,
+    /// Error.
+    Error
+    (JsonError)
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
 pub enum GetStreamIdResponse {
     /// Success.
     Success
@@ -363,6 +418,18 @@ pub enum GetStreamsResponse {
     /// Bad request.
     BadRequest
     (CodedError)
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+pub enum GetSubscribersResponse {
+    /// Success.
+    Success
+    (JsonSuccessBase)
+    ,
+    /// Bad request.
+    BadRequest
+    (JsonError)
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -594,17 +661,22 @@ pub enum UnmuteUserResponse {
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
-pub enum UpdateDisplaySettingsResponse {
+pub enum UpdateSettingsResponse {
     /// Success
     Success
     (JsonSuccessBase)
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
-pub enum UpdateNotificationSettingsResponse {
+#[must_use]
+pub enum UpdateStatusResponse {
     /// Success.
     Success
-    (JsonSuccessBase)
+    (JsonSuccess)
+    ,
+    /// Success.
+    Success_2
+    (swagger::OneOf6<CodedError,CodedError,CodedError,CodedError,CodedError,CodedError>)
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -664,6 +736,30 @@ pub trait Api<C: Send + Sync> {
         username: String,
         password: String,
         context: &C) -> Result<FetchApiKeyResponse, ApiError>;
+
+    /// Create drafts
+    async fn create_drafts(
+        &self,
+        drafts: Option<&Vec<models::Draft>>,
+        context: &C) -> Result<CreateDraftsResponse, ApiError>;
+
+    /// Delete a draft
+    async fn delete_draft(
+        &self,
+        draft_id: i32,
+        context: &C) -> Result<DeleteDraftResponse, ApiError>;
+
+    /// Edit a draft
+    async fn edit_draft(
+        &self,
+        draft_id: i32,
+        draft: models::Draft,
+        context: &C) -> Result<EditDraftResponse, ApiError>;
+
+    /// Get drafts
+    async fn get_drafts(
+        &self,
+        context: &C) -> Result<GetDraftsResponse, ApiError>;
 
     /// Add an emoji reaction
     async fn add_reaction(
@@ -916,6 +1012,13 @@ pub trait Api<C: Send + Sync> {
         &self,
         context: &C) -> Result<CreateBigBlueButtonVideoCallResponse, ApiError>;
 
+    /// Delete a topic
+    async fn delete_topic(
+        &self,
+        stream_id: i32,
+        topic_name: String,
+        context: &C) -> Result<DeleteTopicResponse, ApiError>;
+
     /// Get stream ID
     async fn get_stream_id(
         &self,
@@ -938,6 +1041,12 @@ pub trait Api<C: Send + Sync> {
         include_default: Option<bool>,
         include_owner_subscribed: Option<bool>,
         context: &C) -> Result<GetStreamsResponse, ApiError>;
+
+    /// Get the subscribers of a stream
+    async fn get_subscribers(
+        &self,
+        stream_id: i32,
+        context: &C) -> Result<GetSubscribersResponse, ApiError>;
 
     /// Get subscription status
     async fn get_subscription_status(
@@ -1111,15 +1220,20 @@ pub trait Api<C: Send + Sync> {
         muted_user_id: i32,
         context: &C) -> Result<UnmuteUserResponse, ApiError>;
 
-    /// Update display settings
-    async fn update_display_settings(
+    /// Update settings
+    async fn update_settings(
         &self,
+        full_name: Option<String>,
+        email: Option<String>,
+        old_password: Option<String>,
+        new_password: Option<String>,
         twenty_four_hour_time: Option<bool>,
         dense_mode: Option<bool>,
         starred_message_counts: Option<bool>,
         fluid_layout_width: Option<bool>,
         high_contrast_mode: Option<bool>,
         color_scheme: Option<i32>,
+        enable_drafts_synchronization: Option<bool>,
         translate_emoticons: Option<bool>,
         default_language: Option<String>,
         default_view: Option<String>,
@@ -1127,11 +1241,6 @@ pub trait Api<C: Send + Sync> {
         emojiset: Option<String>,
         demote_inactive_streams: Option<i32>,
         timezone: Option<String>,
-        context: &C) -> Result<UpdateDisplaySettingsResponse, ApiError>;
-
-    /// Update notification settings
-    async fn update_notification_settings(
-        &self,
         enable_stream_desktop_notifications: Option<bool>,
         enable_stream_email_notifications: Option<bool>,
         enable_stream_push_notifications: Option<bool>,
@@ -1139,6 +1248,7 @@ pub trait Api<C: Send + Sync> {
         notification_sound: Option<String>,
         enable_desktop_notifications: Option<bool>,
         enable_sounds: Option<bool>,
+        email_notifications_batching_period_seconds: Option<i32>,
         enable_offline_email_notifications: Option<bool>,
         enable_offline_push_notifications: Option<bool>,
         enable_online_push_notifications: Option<bool>,
@@ -1151,7 +1261,18 @@ pub trait Api<C: Send + Sync> {
         desktop_icon_count_display: Option<i32>,
         realm_name_in_notifications: Option<bool>,
         presence_enabled: Option<bool>,
-        context: &C) -> Result<UpdateNotificationSettingsResponse, ApiError>;
+        enter_sends: Option<bool>,
+        context: &C) -> Result<UpdateSettingsResponse, ApiError>;
+
+    /// Update your status
+    async fn update_status(
+        &self,
+        status_text: Option<String>,
+        away: Option<bool>,
+        emoji_name: Option<String>,
+        emoji_code: Option<String>,
+        reaction_type: Option<String>,
+        context: &C) -> Result<UpdateStatusResponse, ApiError>;
 
     /// Update a user
     async fn update_user(
@@ -1205,6 +1326,30 @@ pub trait ApiNoContext<C: Send + Sync> {
         username: String,
         password: String,
         ) -> Result<FetchApiKeyResponse, ApiError>;
+
+    /// Create drafts
+    async fn create_drafts(
+        &self,
+        drafts: Option<&Vec<models::Draft>>,
+        ) -> Result<CreateDraftsResponse, ApiError>;
+
+    /// Delete a draft
+    async fn delete_draft(
+        &self,
+        draft_id: i32,
+        ) -> Result<DeleteDraftResponse, ApiError>;
+
+    /// Edit a draft
+    async fn edit_draft(
+        &self,
+        draft_id: i32,
+        draft: models::Draft,
+        ) -> Result<EditDraftResponse, ApiError>;
+
+    /// Get drafts
+    async fn get_drafts(
+        &self,
+        ) -> Result<GetDraftsResponse, ApiError>;
 
     /// Add an emoji reaction
     async fn add_reaction(
@@ -1457,6 +1602,13 @@ pub trait ApiNoContext<C: Send + Sync> {
         &self,
         ) -> Result<CreateBigBlueButtonVideoCallResponse, ApiError>;
 
+    /// Delete a topic
+    async fn delete_topic(
+        &self,
+        stream_id: i32,
+        topic_name: String,
+        ) -> Result<DeleteTopicResponse, ApiError>;
+
     /// Get stream ID
     async fn get_stream_id(
         &self,
@@ -1479,6 +1631,12 @@ pub trait ApiNoContext<C: Send + Sync> {
         include_default: Option<bool>,
         include_owner_subscribed: Option<bool>,
         ) -> Result<GetStreamsResponse, ApiError>;
+
+    /// Get the subscribers of a stream
+    async fn get_subscribers(
+        &self,
+        stream_id: i32,
+        ) -> Result<GetSubscribersResponse, ApiError>;
 
     /// Get subscription status
     async fn get_subscription_status(
@@ -1652,15 +1810,20 @@ pub trait ApiNoContext<C: Send + Sync> {
         muted_user_id: i32,
         ) -> Result<UnmuteUserResponse, ApiError>;
 
-    /// Update display settings
-    async fn update_display_settings(
+    /// Update settings
+    async fn update_settings(
         &self,
+        full_name: Option<String>,
+        email: Option<String>,
+        old_password: Option<String>,
+        new_password: Option<String>,
         twenty_four_hour_time: Option<bool>,
         dense_mode: Option<bool>,
         starred_message_counts: Option<bool>,
         fluid_layout_width: Option<bool>,
         high_contrast_mode: Option<bool>,
         color_scheme: Option<i32>,
+        enable_drafts_synchronization: Option<bool>,
         translate_emoticons: Option<bool>,
         default_language: Option<String>,
         default_view: Option<String>,
@@ -1668,11 +1831,6 @@ pub trait ApiNoContext<C: Send + Sync> {
         emojiset: Option<String>,
         demote_inactive_streams: Option<i32>,
         timezone: Option<String>,
-        ) -> Result<UpdateDisplaySettingsResponse, ApiError>;
-
-    /// Update notification settings
-    async fn update_notification_settings(
-        &self,
         enable_stream_desktop_notifications: Option<bool>,
         enable_stream_email_notifications: Option<bool>,
         enable_stream_push_notifications: Option<bool>,
@@ -1680,6 +1838,7 @@ pub trait ApiNoContext<C: Send + Sync> {
         notification_sound: Option<String>,
         enable_desktop_notifications: Option<bool>,
         enable_sounds: Option<bool>,
+        email_notifications_batching_period_seconds: Option<i32>,
         enable_offline_email_notifications: Option<bool>,
         enable_offline_push_notifications: Option<bool>,
         enable_online_push_notifications: Option<bool>,
@@ -1692,7 +1851,18 @@ pub trait ApiNoContext<C: Send + Sync> {
         desktop_icon_count_display: Option<i32>,
         realm_name_in_notifications: Option<bool>,
         presence_enabled: Option<bool>,
-        ) -> Result<UpdateNotificationSettingsResponse, ApiError>;
+        enter_sends: Option<bool>,
+        ) -> Result<UpdateSettingsResponse, ApiError>;
+
+    /// Update your status
+    async fn update_status(
+        &self,
+        status_text: Option<String>,
+        away: Option<bool>,
+        emoji_name: Option<String>,
+        emoji_code: Option<String>,
+        reaction_type: Option<String>,
+        ) -> Result<UpdateStatusResponse, ApiError>;
 
     /// Update a user
     async fn update_user(
@@ -1768,6 +1938,46 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
     {
         let context = self.context().clone();
         self.api().fetch_api_key(username, password, &context).await
+    }
+
+    /// Create drafts
+    async fn create_drafts(
+        &self,
+        drafts: Option<&Vec<models::Draft>>,
+        ) -> Result<CreateDraftsResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().create_drafts(drafts, &context).await
+    }
+
+    /// Delete a draft
+    async fn delete_draft(
+        &self,
+        draft_id: i32,
+        ) -> Result<DeleteDraftResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().delete_draft(draft_id, &context).await
+    }
+
+    /// Edit a draft
+    async fn edit_draft(
+        &self,
+        draft_id: i32,
+        draft: models::Draft,
+        ) -> Result<EditDraftResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().edit_draft(draft_id, draft, &context).await
+    }
+
+    /// Get drafts
+    async fn get_drafts(
+        &self,
+        ) -> Result<GetDraftsResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().get_drafts(&context).await
     }
 
     /// Add an emoji reaction
@@ -2161,6 +2371,17 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
         self.api().create_big_blue_button_video_call(&context).await
     }
 
+    /// Delete a topic
+    async fn delete_topic(
+        &self,
+        stream_id: i32,
+        topic_name: String,
+        ) -> Result<DeleteTopicResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().delete_topic(stream_id, topic_name, &context).await
+    }
+
     /// Get stream ID
     async fn get_stream_id(
         &self,
@@ -2194,6 +2415,16 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
     {
         let context = self.context().clone();
         self.api().get_streams(include_public, include_web_public, include_subscribed, include_all_active, include_default, include_owner_subscribed, &context).await
+    }
+
+    /// Get the subscribers of a stream
+    async fn get_subscribers(
+        &self,
+        stream_id: i32,
+        ) -> Result<GetSubscribersResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().get_subscribers(stream_id, &context).await
     }
 
     /// Get subscription status
@@ -2464,15 +2695,20 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
         self.api().unmute_user(muted_user_id, &context).await
     }
 
-    /// Update display settings
-    async fn update_display_settings(
+    /// Update settings
+    async fn update_settings(
         &self,
+        full_name: Option<String>,
+        email: Option<String>,
+        old_password: Option<String>,
+        new_password: Option<String>,
         twenty_four_hour_time: Option<bool>,
         dense_mode: Option<bool>,
         starred_message_counts: Option<bool>,
         fluid_layout_width: Option<bool>,
         high_contrast_mode: Option<bool>,
         color_scheme: Option<i32>,
+        enable_drafts_synchronization: Option<bool>,
         translate_emoticons: Option<bool>,
         default_language: Option<String>,
         default_view: Option<String>,
@@ -2480,15 +2716,6 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
         emojiset: Option<String>,
         demote_inactive_streams: Option<i32>,
         timezone: Option<String>,
-        ) -> Result<UpdateDisplaySettingsResponse, ApiError>
-    {
-        let context = self.context().clone();
-        self.api().update_display_settings(twenty_four_hour_time, dense_mode, starred_message_counts, fluid_layout_width, high_contrast_mode, color_scheme, translate_emoticons, default_language, default_view, left_side_userlist, emojiset, demote_inactive_streams, timezone, &context).await
-    }
-
-    /// Update notification settings
-    async fn update_notification_settings(
-        &self,
         enable_stream_desktop_notifications: Option<bool>,
         enable_stream_email_notifications: Option<bool>,
         enable_stream_push_notifications: Option<bool>,
@@ -2496,6 +2723,7 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
         notification_sound: Option<String>,
         enable_desktop_notifications: Option<bool>,
         enable_sounds: Option<bool>,
+        email_notifications_batching_period_seconds: Option<i32>,
         enable_offline_email_notifications: Option<bool>,
         enable_offline_push_notifications: Option<bool>,
         enable_online_push_notifications: Option<bool>,
@@ -2508,10 +2736,25 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
         desktop_icon_count_display: Option<i32>,
         realm_name_in_notifications: Option<bool>,
         presence_enabled: Option<bool>,
-        ) -> Result<UpdateNotificationSettingsResponse, ApiError>
+        enter_sends: Option<bool>,
+        ) -> Result<UpdateSettingsResponse, ApiError>
     {
         let context = self.context().clone();
-        self.api().update_notification_settings(enable_stream_desktop_notifications, enable_stream_email_notifications, enable_stream_push_notifications, enable_stream_audible_notifications, notification_sound, enable_desktop_notifications, enable_sounds, enable_offline_email_notifications, enable_offline_push_notifications, enable_online_push_notifications, enable_digest_emails, enable_marketing_emails, enable_login_emails, message_content_in_email_notifications, pm_content_in_desktop_notifications, wildcard_mentions_notify, desktop_icon_count_display, realm_name_in_notifications, presence_enabled, &context).await
+        self.api().update_settings(full_name, email, old_password, new_password, twenty_four_hour_time, dense_mode, starred_message_counts, fluid_layout_width, high_contrast_mode, color_scheme, enable_drafts_synchronization, translate_emoticons, default_language, default_view, left_side_userlist, emojiset, demote_inactive_streams, timezone, enable_stream_desktop_notifications, enable_stream_email_notifications, enable_stream_push_notifications, enable_stream_audible_notifications, notification_sound, enable_desktop_notifications, enable_sounds, email_notifications_batching_period_seconds, enable_offline_email_notifications, enable_offline_push_notifications, enable_online_push_notifications, enable_digest_emails, enable_marketing_emails, enable_login_emails, message_content_in_email_notifications, pm_content_in_desktop_notifications, wildcard_mentions_notify, desktop_icon_count_display, realm_name_in_notifications, presence_enabled, enter_sends, &context).await
+    }
+
+    /// Update your status
+    async fn update_status(
+        &self,
+        status_text: Option<String>,
+        away: Option<bool>,
+        emoji_name: Option<String>,
+        emoji_code: Option<String>,
+        reaction_type: Option<String>,
+        ) -> Result<UpdateStatusResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().update_status(status_text, away, emoji_name, emoji_code, reaction_type, &context).await
     }
 
     /// Update a user

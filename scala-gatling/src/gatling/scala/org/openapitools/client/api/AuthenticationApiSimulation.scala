@@ -62,14 +62,14 @@ class AuthenticationApiSimulation extends Simulation {
     val scenarioBuilders: mutable.MutableList[PopulationBuilder] = new mutable.MutableList[PopulationBuilder]()
 
     // Set up CSV feeders
-    val dev_fetch_api_keyQUERYFeeder = csv(userDataDirectory + File.separator + "devFetchApiKey-queryParams.csv").random
-    val fetch_api_keyQUERYFeeder = csv(userDataDirectory + File.separator + "fetchApiKey-queryParams.csv").random
+    val dev-fetch-api-keyQUERYFeeder = csv(userDataDirectory + File.separator + "devFetchApiKey-queryParams.csv").random
+    val fetch-api-keyQUERYFeeder = csv(userDataDirectory + File.separator + "fetchApiKey-queryParams.csv").random
 
     // Setup all scenarios
 
     
     val scndevFetchApiKey = scenario("devFetchApiKeySimulation")
-        .feed(dev_fetch_api_keyQUERYFeeder)
+        .feed(dev-fetch-api-keyQUERYFeeder)
         .exec(http("devFetchApiKey")
         .httpRequest("POST","/dev_fetch_api_key")
         .queryParam("username","${username}")
@@ -84,7 +84,7 @@ class AuthenticationApiSimulation extends Simulation {
 
     
     val scnfetchApiKey = scenario("fetchApiKeySimulation")
-        .feed(fetch_api_keyQUERYFeeder)
+        .feed(fetch-api-keyQUERYFeeder)
         .exec(http("fetchApiKey")
         .httpRequest("POST","/fetch_api_key")
         .queryParam("username","${username}")

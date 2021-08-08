@@ -37,6 +37,13 @@ class TestStreamsApi(unittest.TestCase):
         """
         pass
 
+    def test_delete_topic(self):
+        """Test case for delete_topic
+
+        Delete a topic  # noqa: E501
+        """
+        pass
+
     def test_get_stream_id(self):
         """Test case for get_stream_id
 
@@ -55,6 +62,13 @@ class TestStreamsApi(unittest.TestCase):
         """Test case for get_streams
 
         Get all streams  # noqa: E501
+        """
+        pass
+
+    def test_get_subscribers(self):
+        """Test case for get_subscribers
+
+        Get the subscribers of a stream  # noqa: E501
         """
         pass
 

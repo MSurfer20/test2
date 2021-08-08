@@ -46,6 +46,23 @@ class StreamsApi extends ApiClient with _$StreamsApiClient {
         ).timeout(timeout);
     }
 
+    /// Delete a topic
+    ///
+    /// Delete all messages in a topic.  &#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+    @PostReq(path: "/streams/:stream_id/delete_topic")
+    Future<JsonSuccess> deleteTopic(
+            @PathParam("stream_id") int streamId
+        ,
+            @QueryParam("topic_name") String topicName
+        ) {
+        return super.deleteTopic(
+        streamId
+        ,
+        topicName
+
+        ).timeout(timeout);
+    }
+
     /// Get stream ID
     ///
     /// Get the unique ID of a given stream.  &#x60;GET {{ api_url }}/v1/get_stream_id&#x60; 
@@ -105,6 +122,19 @@ class StreamsApi extends ApiClient with _$StreamsApiClient {
         includeDefault, 
         
         includeOwnerSubscribed
+
+        ).timeout(timeout);
+    }
+
+    /// Get the subscribers of a stream
+    ///
+    /// Get all users subscribed to a stream.  &#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60; 
+    @GetReq(path: "/streams/:stream_id/members")
+    Future<JsonSuccessBase> getSubscribers(
+            @PathParam("stream_id") int streamId
+        ) {
+        return super.getSubscribers(
+        streamId
 
         ).timeout(timeout);
     }

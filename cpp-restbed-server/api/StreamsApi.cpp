@@ -41,6 +41,9 @@ void StreamsApi::startService(int const& port) {
 	if (!m_spStreamsApiCallsBigbluebuttonCreateResource)
 		m_spStreamsApiCallsBigbluebuttonCreateResource = std::make_shared<StreamsApiCallsBigbluebuttonCreateResource>();
 	this->publish(m_spStreamsApiCallsBigbluebuttonCreateResource);
+	if (!m_spStreamsApiStreamsStream_idDelete_topicResource)
+		m_spStreamsApiStreamsStream_idDelete_topicResource = std::make_shared<StreamsApiStreamsStream_idDelete_topicResource>();
+	this->publish(m_spStreamsApiStreamsStream_idDelete_topicResource);
 	if (!m_spStreamsApiGet_stream_idResource)
 		m_spStreamsApiGet_stream_idResource = std::make_shared<StreamsApiGet_stream_idResource>();
 	this->publish(m_spStreamsApiGet_stream_idResource);
@@ -50,6 +53,9 @@ void StreamsApi::startService(int const& port) {
 	if (!m_spStreamsApiStreamsResource)
 		m_spStreamsApiStreamsResource = std::make_shared<StreamsApiStreamsResource>();
 	this->publish(m_spStreamsApiStreamsResource);
+	if (!m_spStreamsApiStreamsStream_idMembersResource)
+		m_spStreamsApiStreamsStream_idMembersResource = std::make_shared<StreamsApiStreamsStream_idMembersResource>();
+	this->publish(m_spStreamsApiStreamsStream_idMembersResource);
 	if (!m_spStreamsApiUsersUser_idSubscriptionsStream_idResource)
 		m_spStreamsApiUsersUser_idSubscriptionsStream_idResource = std::make_shared<StreamsApiUsersUser_idSubscriptionsStream_idResource>();
 	this->publish(m_spStreamsApiUsersUser_idSubscriptionsStream_idResource);
@@ -222,6 +228,61 @@ void StreamsApiCallsBigbluebuttonCreateResource::GET_method_handler(const std::s
 
 
 
+StreamsApiStreamsStream_idDelete_topicResource::StreamsApiStreamsStream_idDelete_topicResource()
+{
+	this->set_path("/streams/{stream_id: .*}/delete_topic/");
+	this->set_method_handler("POST",
+		std::bind(&StreamsApiStreamsStream_idDelete_topicResource::POST_method_handler, this,
+			std::placeholders::_1));
+}
+
+StreamsApiStreamsStream_idDelete_topicResource::~StreamsApiStreamsStream_idDelete_topicResource()
+{
+}
+
+void StreamsApiStreamsStream_idDelete_topicResource::set_handler_POST(
+	std::function<std::pair<int, std::string>(
+		int32_t const &, std::string const &
+	)> handler) {
+	handler_POST_ = std::move(handler);
+}
+
+
+void StreamsApiStreamsStream_idDelete_topicResource::POST_method_handler(const std::shared_ptr<restbed::Session> session) {
+
+	const auto request = session->get_request();
+
+			// Getting the path params
+			const int32_t streamId = request->get_path_parameter("streamId", 0);
+
+			// Getting the query params
+			const std::string topicName = request->get_query_parameter("topicName", "");
+
+
+			// Change the value of this variable to the appropriate response before sending the response
+			int status_code = 200;
+			std::string result = "successful operation";
+
+			if (handler_POST_)
+			{
+				std::tie(status_code, result) = handler_POST_(
+					streamId, topicName
+				);
+			}
+
+			if (status_code == 200) {
+				session->close(200, result.empty() ? "Success." : std::move(result), { {"Connection", "close"} });
+				return;
+			}
+			if (status_code == 400) {
+				session->close(400, result.empty() ? "Error." : std::move(result), { {"Connection", "close"} });
+				return;
+			}
+
+}
+
+
+
 StreamsApiGet_stream_idResource::StreamsApiGet_stream_idResource()
 {
 	this->set_path("/get_stream_id/");
@@ -370,6 +431,59 @@ void StreamsApiStreamsResource::GET_method_handler(const std::shared_ptr<restbed
 			{
 				std::tie(status_code, result) = handler_GET_(
 					includePublic, includeWebPublic, includeSubscribed, includeAllActive, includeDefault, includeOwnerSubscribed
+				);
+			}
+
+			if (status_code == 200) {
+				session->close(200, result.empty() ? "Success." : std::move(result), { {"Connection", "close"} });
+				return;
+			}
+			if (status_code == 400) {
+				session->close(400, result.empty() ? "Bad request." : std::move(result), { {"Connection", "close"} });
+				return;
+			}
+
+}
+
+
+
+StreamsApiStreamsStream_idMembersResource::StreamsApiStreamsStream_idMembersResource()
+{
+	this->set_path("/streams/{stream_id: .*}/members/");
+	this->set_method_handler("GET",
+		std::bind(&StreamsApiStreamsStream_idMembersResource::GET_method_handler, this,
+			std::placeholders::_1));
+}
+
+StreamsApiStreamsStream_idMembersResource::~StreamsApiStreamsStream_idMembersResource()
+{
+}
+
+void StreamsApiStreamsStream_idMembersResource::set_handler_GET(
+	std::function<std::pair<int, std::string>(
+		int32_t const &
+	)> handler) {
+	handler_GET_ = std::move(handler);
+}
+
+
+void StreamsApiStreamsStream_idMembersResource::GET_method_handler(const std::shared_ptr<restbed::Session> session) {
+
+	const auto request = session->get_request();
+
+			// Getting the path params
+			const int32_t streamId = request->get_path_parameter("streamId", 0);
+
+
+
+			// Change the value of this variable to the appropriate response before sending the response
+			int status_code = 200;
+			std::string result = "successful operation";
+
+			if (handler_GET_)
+			{
+				std::tie(status_code, result) = handler_GET_(
+					streamId
 				);
 			}
 

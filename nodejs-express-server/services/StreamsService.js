@@ -8,7 +8,7 @@ const Service = require('./Service');
 * streamUnderscoreid Integer The ID of the stream to access. 
 * returns JsonSuccess
 * */
-const archive_stream = ({ streamUnderscoreid }) => new Promise(
+const archiveStream = ({ streamUnderscoreid }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -28,10 +28,33 @@ const archive_stream = ({ streamUnderscoreid }) => new Promise(
 *
 * returns JsonSuccessBase
 * */
-const create_big_blue_button_video_call = () => new Promise(
+const createBigBlueButtonVideoCall = () => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
+      }));
+    } catch (e) {
+      reject(Service.rejectResponse(
+        e.message || 'Invalid input',
+        e.status || 405,
+      ));
+    }
+  },
+);
+/**
+* Delete a topic
+* Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+*
+* streamUnderscoreid Integer The ID of the stream to access. 
+* topicUnderscorename String The name of the topic to delete. 
+* returns JsonSuccess
+* */
+const deleteTopic = ({ streamUnderscoreid, topicUnderscorename }) => new Promise(
+  async (resolve, reject) => {
+    try {
+      resolve(Service.successResponse({
+        streamUnderscoreid,
+        topicUnderscorename,
       }));
     } catch (e) {
       reject(Service.rejectResponse(
@@ -48,7 +71,7 @@ const create_big_blue_button_video_call = () => new Promise(
 * stream String The name of the stream to access. 
 * returns JsonSuccessBase
 * */
-const get_stream_id = ({ stream }) => new Promise(
+const getStreamId = ({ stream }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -69,7 +92,7 @@ const get_stream_id = ({ stream }) => new Promise(
 * streamUnderscoreid Integer The ID of the stream to access. 
 * returns JsonSuccessBase
 * */
-const get_stream_topics = ({ streamUnderscoreid }) => new Promise(
+const getStreamTopics = ({ streamUnderscoreid }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -95,7 +118,7 @@ const get_stream_topics = ({ streamUnderscoreid }) => new Promise(
 * includeUnderscoreownerUnderscoresubscribed Boolean If the user is a bot, include all streams that the bot's owner is subscribed to.  (optional)
 * returns JsonSuccessBase
 * */
-const get_streams = ({ includeUnderscorepublic, includeUnderscorewebUnderscorepublic, includeUnderscoresubscribed, includeUnderscoreallUnderscoreactive, includeUnderscoredefault, includeUnderscoreownerUnderscoresubscribed }) => new Promise(
+const getStreams = ({ includeUnderscorepublic, includeUnderscorewebUnderscorepublic, includeUnderscoresubscribed, includeUnderscoreallUnderscoreactive, includeUnderscoredefault, includeUnderscoreownerUnderscoresubscribed }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -115,6 +138,27 @@ const get_streams = ({ includeUnderscorepublic, includeUnderscorewebUnderscorepu
   },
 );
 /**
+* Get the subscribers of a stream
+* Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` 
+*
+* streamUnderscoreid Integer The ID of the stream to access. 
+* returns JsonSuccessBase
+* */
+const getSubscribers = ({ streamUnderscoreid }) => new Promise(
+  async (resolve, reject) => {
+    try {
+      resolve(Service.successResponse({
+        streamUnderscoreid,
+      }));
+    } catch (e) {
+      reject(Service.rejectResponse(
+        e.message || 'Invalid input',
+        e.status || 405,
+      ));
+    }
+  },
+);
+/**
 * Get subscription status
 * Check whether a user is subscribed to a stream.  `GET {{ api_url }}/v1/users/{user_id}/subscriptions/{stream_id}`  **Changes**: New in Zulip 3.0 (feature level 11). 
 *
@@ -122,7 +166,7 @@ const get_streams = ({ includeUnderscorepublic, includeUnderscorewebUnderscorepu
 * streamUnderscoreid Integer The ID of the stream to access. 
 * returns JsonSuccessBase
 * */
-const get_subscription_status = ({ userUnderscoreid, streamUnderscoreid }) => new Promise(
+const getSubscriptionStatus = ({ userUnderscoreid, streamUnderscoreid }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -144,7 +188,7 @@ const get_subscription_status = ({ userUnderscoreid, streamUnderscoreid }) => ne
 * includeUnderscoresubscribers Boolean Whether each returned stream object should include a `subscribers` field containing a list of the user IDs of its subscribers.  (This may be significantly slower in organizations with thousands of users subscribed to many streams.)  **Changes**: New in Zulip 2.1.0.  (optional)
 * returns JsonSuccessBase
 * */
-const get_subscriptions = ({ includeUnderscoresubscribers }) => new Promise(
+const getSubscriptions = ({ includeUnderscoresubscribers }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -168,7 +212,7 @@ const get_subscriptions = ({ includeUnderscoresubscribers }) => new Promise(
 * streamUnderscoreid Integer The ID of the stream to access.  (optional)
 * returns JsonSuccess
 * */
-const mute_topic = ({ topic, op, stream, streamUnderscoreid }) => new Promise(
+const muteTopic = ({ topic, op, stream, streamUnderscoreid }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -257,7 +301,7 @@ const unsubscribe = ({ subscriptions, principals }) => new Promise(
 * messageUnderscoreretentionUnderscoredays oneOf<string,integer> Number of days that messages sent to this stream will be stored before being automatically deleted by the [message retention policy](/help/message-retention-policy).  Two special string format values are supported:  * \"realm_default\" => Return to the organization-level setting. * \"forever\" => Retain messages forever.  **Changes**: New in Zulip 3.0 (feature level 17).  (optional)
 * returns JsonSuccess
 * */
-const update_stream = ({ streamUnderscoreid, description, newUnderscorename, isUnderscoreprivate, isUnderscoreannouncementUnderscoreonly, streamUnderscorepostUnderscorepolicy, historyUnderscorepublicUnderscoretoUnderscoresubscribers, messageUnderscoreretentionUnderscoredays }) => new Promise(
+const updateStream = ({ streamUnderscoreid, description, newUnderscorename, isUnderscoreprivate, isUnderscoreannouncementUnderscoreonly, streamUnderscorepostUnderscorepolicy, historyUnderscorepublicUnderscoretoUnderscoresubscribers, messageUnderscoreretentionUnderscoredays }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -285,7 +329,7 @@ const update_stream = ({ streamUnderscoreid, description, newUnderscorename, isU
 * subscriptionUnderscoredata List A list of objects that describe the changes that should be applied in each subscription. Each object represents a subscription, and must have a `stream_id` key that identifies the stream, as well as the `property` being modified and its new `value`.  The possible values for each `property` and `value` pairs are:  * `color` (string): the hex value of the user's display color for the stream. * `is_muted` (boolean): whether the stream is   [muted](/help/mute-a-stream).  Prior to Zulip 2.1, this feature was   represented by the more confusingly named `in_home_view` (with the   opposite value, `in_home_view=!is_muted`); for   backwards-compatibility, modern Zulip still accepts that value. * `pin_to_top` (boolean): whether to pin the stream at the top of the stream list. * `desktop_notifications` (boolean): whether to show desktop notifications     for all messages sent to the stream. * `audible_notifications` (boolean): whether to play a sound   notification for all messages sent to the stream. * `push_notifications` (boolean): whether to trigger a mobile push     notification for all messages sent to the stream. * `email_notifications` (boolean): whether to trigger an email     notification for all messages sent to the stream. 
 * returns JsonSuccessBase
 * */
-const update_subscription_settings = ({ subscriptionUnderscoredata }) => new Promise(
+const updateSubscriptionSettings = ({ subscriptionUnderscoredata }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -307,7 +351,7 @@ const update_subscription_settings = ({ subscriptionUnderscoredata }) => new Pro
 * add List A list of objects describing which streams to subscribe to, optionally including per-user subscription parameters (e.g. color) and if the stream is to be created, its description.  (optional)
 * returns JsonSuccessBase
 * */
-const update_subscriptions = ({ _delete, add }) => new Promise(
+const updateSubscriptions = ({ _delete, add }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -324,17 +368,19 @@ const update_subscriptions = ({ _delete, add }) => new Promise(
 );
 
 module.exports = {
-  archive_stream,
-  create_big_blue_button_video_call,
-  get_stream_id,
-  get_stream_topics,
-  get_streams,
-  get_subscription_status,
-  get_subscriptions,
-  mute_topic,
+  archiveStream,
+  createBigBlueButtonVideoCall,
+  deleteTopic,
+  getStreamId,
+  getStreamTopics,
+  getStreams,
+  getSubscribers,
+  getSubscriptionStatus,
+  getSubscriptions,
+  muteTopic,
   subscribe,
   unsubscribe,
-  update_stream,
-  update_subscription_settings,
-  update_subscriptions,
+  updateStream,
+  updateSubscriptionSettings,
+  updateSubscriptions,
 };

@@ -10,6 +10,7 @@ lib/app/Events/ExampleEvent.php
 lib/app/Exceptions/Handler.php
 lib/app/Http/Controllers/AuthenticationApi.php
 lib/app/Http/Controllers/Controller.php
+lib/app/Http/Controllers/DraftsApi.php
 lib/app/Http/Controllers/ExampleController.php
 lib/app/Http/Controllers/MessagesApi.php
 lib/app/Http/Controllers/RealTimeEventsApi.php

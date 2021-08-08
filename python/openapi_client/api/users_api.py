@@ -1959,34 +1959,60 @@ class UsersApi(object):
             callable=__unmute_user
         )
 
-        def __update_display_settings(
+        def __update_settings(
             self,
             **kwargs
         ):
-            """Update display settings  # noqa: E501
+            """Update settings  # noqa: E501
 
-            This endpoint is used to edit the current user's user interface settings.  `PATCH {{ api_url }}/v1/settings/display`   # noqa: E501
+            This endpoint is used to edit the current user's settings.  `PATCH {{ api_url }}/v1/settings`  **Changes**: Prior to Zulip 5.0 (feature level 80), this endpoint only supported the `full_name`, `email`, `old_password`, and `new_password` parameters. Notification settings were managed by `PATCH /settings/notifications`, and all other settings by `PATCH /settings/display`. The feature level 80 migration to merge these endpoints did not change how request parameters are encoded. Note, however, that it did change the handling of any invalid parameters present in a request to change notification or display settings, since the merged endpoint uses the new response format that was introduced for `/settings` in Zulip 5.0 (feature level 78).  The `/settings/display` and `/settings/notifications` endpoints are now deprecated aliases for this endpoint for backwards-compatibility, and will be removed once clients have migrated to use this endpoint.   # noqa: E501
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
 
-            >>> thread = api.update_display_settings(async_req=True)
+            >>> thread = api.update_settings(async_req=True)
             >>> result = thread.get()
 
 
             Keyword Args:
-                twenty_four_hour_time (bool): Whether time should be [displayed in 24-hour notation](/help/change-the-time-format). . [optional]
-                dense_mode (bool): This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip. . [optional]
-                starred_message_counts (bool): Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages). . [optional]
-                fluid_layout_width (bool): Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app's center panel (message feed, recent topics) on wide screens. . [optional]
-                high_contrast_mode (bool): This setting is reserved for use to control variations in Zulip's design to help visually impaired users. . [optional]
-                color_scheme (int): Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard `prefers-color-scheme` media query. . [optional]
-                translate_emoticons (bool): Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends. . [optional]
-                default_language (str): What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, `\"en\"` for English or `\"de\"` for German.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63). . [optional]
-                default_view (str): The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the `Esc` keyboard shortcut repeatedly.  * \"recent_topics\" - Recent topics view * \"all_messages\" - All messages view  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). . [optional]
-                left_side_userlist (bool): Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked. . [optional]
-                emojiset (str): The user's configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \"google\" - Google modern * \"google-blob\" - Google classic * \"twitter\" - Twitter * \"text\" - Plain text  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). . [optional]
-                demote_inactive_streams (int): Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never . [optional]
-                timezone (str): The user's [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). . [optional]
+                full_name (str): A new display name for the user. . [optional]
+                email (str): Asks the server to initiate a confirmation sequence to change the user's email address to the indicated value. The user will need to demonstrate control of the new email address by clicking a confirmation link sent to that address. . [optional]
+                old_password (str): The user's old Zulip password (or LDAP password, if LDAP authentication is in use).  Required only when sending the `new_password` parameter. . [optional]
+                new_password (str): The user's new Zulip password (or LDAP password, if LDAP authentication is in use).  The `old_password` parameter must be included in the request. . [optional]
+                twenty_four_hour_time (bool): Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. . [optional]
+                dense_mode (bool): This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. . [optional]
+                starred_message_counts (bool): Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. . [optional]
+                fluid_layout_width (bool): Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app's center panel (message feed, recent topics) on wide screens.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. . [optional]
+                high_contrast_mode (bool): This setting is reserved for use to control variations in Zulip's design to help visually impaired users.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. . [optional]
+                color_scheme (int): Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard `prefers-color-scheme` media query.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. . [optional]
+                enable_drafts_synchronization (bool): A boolean parameter to control whether synchronizing drafts is enabled for the user. When synchronization is disabled, all drafts stored in the server will be automatically deleted from the server.  This does not do anything (like sending events) to delete local copies of drafts stored in clients.  **Changes**: New in Zulip 5.0 (feature level 87). . [optional]
+                translate_emoticons (bool): Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. . [optional]
+                default_language (str): What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, `\"en\"` for English or `\"de\"` for German.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63). . [optional]
+                default_view (str): The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the `Esc` keyboard shortcut repeatedly.  * \"recent_topics\" - Recent topics view * \"all_messages\" - All messages view  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). . [optional]
+                left_side_userlist (bool): Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. . [optional]
+                emojiset (str): The user's configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \"google\" - Google modern * \"google-blob\" - Google classic * \"twitter\" - Twitter * \"text\" - Plain text  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). . [optional]
+                demote_inactive_streams (int): Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. . [optional]
+                timezone (str): The user's [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). . [optional]
+                enable_stream_desktop_notifications (bool): Enable visual desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. . [optional]
+                enable_stream_email_notifications (bool): Enable email notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. . [optional]
+                enable_stream_push_notifications (bool): Enable mobile notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. . [optional]
+                enable_stream_audible_notifications (bool): Enable audible desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. . [optional]
+                notification_sound (str): Notification sound name.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63). . [optional]
+                enable_desktop_notifications (bool): Enable visual desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. . [optional]
+                enable_sounds (bool): Enable audible desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. . [optional]
+                email_notifications_batching_period_seconds (int): The duration (in seconds) for which the server should wait to batch email notifications before sending them.  **Changes**: New in Zulip 5.0 (feature level 82) . [optional]
+                enable_offline_email_notifications (bool): Enable email notifications for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. . [optional]
+                enable_offline_push_notifications (bool): Enable mobile notification for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. . [optional]
+                enable_online_push_notifications (bool): Enable mobile notification for private messages and @-mentions received when the user is online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. . [optional]
+                enable_digest_emails (bool): Enable digest emails when the user is away.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. . [optional]
+                enable_marketing_emails (bool): Enable marketing emails. Has no function outside Zulip Cloud.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. . [optional]
+                enable_login_emails (bool): Enable email notifications for new logins to account.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. . [optional]
+                message_content_in_email_notifications (bool): Include the message's content in email notifications for new messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. . [optional]
+                pm_content_in_desktop_notifications (bool): Include content of private messages in desktop notifications.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. . [optional]
+                wildcard_mentions_notify (bool): Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. . [optional]
+                desktop_icon_count_display (int): Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. . [optional]
+                realm_name_in_notifications (bool): Include organization name in subject of message notification emails.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. . [optional]
+                presence_enabled (bool): Display the presence status to other users when online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. . [optional]
+                enter_sends (bool): Whether pressing Enter in the compose box sends a message (or saves a message edit).  **Changes**: Before Zulip 5.0 (feature level 81), this setting was managed by the `POST /users/me/enter-sends` endpoint, with the same parameter format. . [optional]
                 _return_http_data_only (bool): response data without head status
                     code and headers. Default is True.
                 _preload_content (bool): if False, the urllib3.HTTPResponse object
@@ -2033,23 +2059,28 @@ class UsersApi(object):
             kwargs['_host_index'] = kwargs.get('_host_index')
             return self.call_with_http_info(**kwargs)
 
-        self.update_display_settings = _Endpoint(
+        self.update_settings = _Endpoint(
             settings={
                 'response_type': (dict,),
                 'auth': [],
-                'endpoint_path': '/settings/display',
-                'operation_id': 'update_display_settings',
+                'endpoint_path': '/settings',
+                'operation_id': 'update_settings',
                 'http_method': 'PATCH',
                 'servers': None,
             },
             params_map={
                 'all': [
+                    'full_name',
+                    'email',
+                    'old_password',
+                    'new_password',
                     'twenty_four_hour_time',
                     'dense_mode',
                     'starred_message_counts',
                     'fluid_layout_width',
                     'high_contrast_mode',
                     'color_scheme',
+                    'enable_drafts_synchronization',
                     'translate_emoticons',
                     'default_language',
                     'default_view',
@@ -2057,6 +2088,27 @@ class UsersApi(object):
                     'emojiset',
                     'demote_inactive_streams',
                     'timezone',
+                    'enable_stream_desktop_notifications',
+                    'enable_stream_email_notifications',
+                    'enable_stream_push_notifications',
+                    'enable_stream_audible_notifications',
+                    'notification_sound',
+                    'enable_desktop_notifications',
+                    'enable_sounds',
+                    'email_notifications_batching_period_seconds',
+                    'enable_offline_email_notifications',
+                    'enable_offline_push_notifications',
+                    'enable_online_push_notifications',
+                    'enable_digest_emails',
+                    'enable_marketing_emails',
+                    'enable_login_emails',
+                    'message_content_in_email_notifications',
+                    'pm_content_in_desktop_notifications',
+                    'wildcard_mentions_notify',
+                    'desktop_icon_count_display',
+                    'realm_name_in_notifications',
+                    'presence_enabled',
+                    'enter_sends',
                 ],
                 'required': [],
                 'nullable': [
@@ -2064,6 +2116,7 @@ class UsersApi(object):
                 'enum': [
                     'color_scheme',
                     'demote_inactive_streams',
+                    'desktop_icon_count_display',
                 ],
                 'validation': [
                 ]
@@ -2084,8 +2137,22 @@ class UsersApi(object):
                         "2": 2,
                         "3": 3
                     },
+                    ('desktop_icon_count_display',): {
+
+                        "1": 1,
+                        "2": 2,
+                        "3": 3
+                    },
                 },
                 'openapi_types': {
+                    'full_name':
+                        (str,),
+                    'email':
+                        (str,),
+                    'old_password':
+                        (str,),
+                    'new_password':
+                        (str,),
                     'twenty_four_hour_time':
                         (bool,),
                     'dense_mode':
@@ -2098,6 +2165,8 @@ class UsersApi(object):
                         (bool,),
                     'color_scheme':
                         (int,),
+                    'enable_drafts_synchronization':
+                        (bool,),
                     'translate_emoticons':
                         (bool,),
                     'default_language':
@@ -2112,182 +2181,6 @@ class UsersApi(object):
                         (int,),
                     'timezone':
                         (str,),
-                },
-                'attribute_map': {
-                    'twenty_four_hour_time': 'twenty_four_hour_time',
-                    'dense_mode': 'dense_mode',
-                    'starred_message_counts': 'starred_message_counts',
-                    'fluid_layout_width': 'fluid_layout_width',
-                    'high_contrast_mode': 'high_contrast_mode',
-                    'color_scheme': 'color_scheme',
-                    'translate_emoticons': 'translate_emoticons',
-                    'default_language': 'default_language',
-                    'default_view': 'default_view',
-                    'left_side_userlist': 'left_side_userlist',
-                    'emojiset': 'emojiset',
-                    'demote_inactive_streams': 'demote_inactive_streams',
-                    'timezone': 'timezone',
-                },
-                'location_map': {
-                    'twenty_four_hour_time': 'query',
-                    'dense_mode': 'query',
-                    'starred_message_counts': 'query',
-                    'fluid_layout_width': 'query',
-                    'high_contrast_mode': 'query',
-                    'color_scheme': 'query',
-                    'translate_emoticons': 'query',
-                    'default_language': 'query',
-                    'default_view': 'query',
-                    'left_side_userlist': 'query',
-                    'emojiset': 'query',
-                    'demote_inactive_streams': 'query',
-                    'timezone': 'query',
-                },
-                'collection_format_map': {
-                }
-            },
-            headers_map={
-                'accept': [
-                    'application/json'
-                ],
-                'content_type': [],
-            },
-            api_client=api_client,
-            callable=__update_display_settings
-        )
-
-        def __update_notification_settings(
-            self,
-            **kwargs
-        ):
-            """Update notification settings  # noqa: E501
-
-            This endpoint is used to edit the user's global notification settings. See [this endpoint](/api/update-subscription-settings) for per-stream notification settings.  `PATCH {{ api_url }}/v1/settings/notifications`   # noqa: E501
-            This method makes a synchronous HTTP request by default. To make an
-            asynchronous HTTP request, please pass async_req=True
-
-            >>> thread = api.update_notification_settings(async_req=True)
-            >>> result = thread.get()
-
-
-            Keyword Args:
-                enable_stream_desktop_notifications (bool): Enable visual desktop notifications for stream messages. . [optional]
-                enable_stream_email_notifications (bool): Enable email notifications for stream messages. . [optional]
-                enable_stream_push_notifications (bool): Enable mobile notifications for stream messages. . [optional]
-                enable_stream_audible_notifications (bool): Enable audible desktop notifications for stream messages. . [optional]
-                notification_sound (str): Notification sound name.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63). . [optional]
-                enable_desktop_notifications (bool): Enable visual desktop notifications for private messages and @-mentions. . [optional]
-                enable_sounds (bool): Enable audible desktop notifications for private messages and @-mentions. . [optional]
-                enable_offline_email_notifications (bool): Enable email notifications for private messages and @-mentions received when the user is offline. . [optional]
-                enable_offline_push_notifications (bool): Enable mobile notification for private messages and @-mentions received when the user is offline. . [optional]
-                enable_online_push_notifications (bool): Enable mobile notification for private messages and @-mentions received when the user is online. . [optional]
-                enable_digest_emails (bool): Enable digest emails when the user is away. . [optional]
-                enable_marketing_emails (bool): Enable marketing emails. Has no function outside Zulip Cloud. . [optional]
-                enable_login_emails (bool): Enable email notifications for new logins to account. . [optional]
-                message_content_in_email_notifications (bool): Include the message's content in email notifications for new messages. . [optional]
-                pm_content_in_desktop_notifications (bool): Include content of private messages in desktop notifications. . [optional]
-                wildcard_mentions_notify (bool): Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention. . [optional]
-                desktop_icon_count_display (int): Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None . [optional]
-                realm_name_in_notifications (bool): Include organization name in subject of message notification emails. . [optional]
-                presence_enabled (bool): Display the presence status to other users when online. . [optional]
-                _return_http_data_only (bool): response data without head status
-                    code and headers. Default is True.
-                _preload_content (bool): if False, the urllib3.HTTPResponse object
-                    will be returned without reading/decoding response data.
-                    Default is True.
-                _request_timeout (int/float/tuple): timeout setting for this request. If
-                    one number provided, it will be total request timeout. It can also
-                    be a pair (tuple) of (connection, read) timeouts.
-                    Default is None.
-                _check_input_type (bool): specifies if type checking
-                    should be done one the data sent to the server.
-                    Default is True.
-                _check_return_type (bool): specifies if type checking
-                    should be done one the data received from the server.
-                    Default is True.
-                _host_index (int/None): specifies the index of the server
-                    that we want to use.
-                    Default is read from the configuration.
-                async_req (bool): execute request asynchronously
-
-            Returns:
-                dict
-                    If the method is called asynchronously, returns the request
-                    thread.
-            """
-            kwargs['async_req'] = kwargs.get(
-                'async_req', False
-            )
-            kwargs['_return_http_data_only'] = kwargs.get(
-                '_return_http_data_only', True
-            )
-            kwargs['_preload_content'] = kwargs.get(
-                '_preload_content', True
-            )
-            kwargs['_request_timeout'] = kwargs.get(
-                '_request_timeout', None
-            )
-            kwargs['_check_input_type'] = kwargs.get(
-                '_check_input_type', True
-            )
-            kwargs['_check_return_type'] = kwargs.get(
-                '_check_return_type', True
-            )
-            kwargs['_host_index'] = kwargs.get('_host_index')
-            return self.call_with_http_info(**kwargs)
-
-        self.update_notification_settings = _Endpoint(
-            settings={
-                'response_type': (dict,),
-                'auth': [],
-                'endpoint_path': '/settings/notifications',
-                'operation_id': 'update_notification_settings',
-                'http_method': 'PATCH',
-                'servers': None,
-            },
-            params_map={
-                'all': [
-                    'enable_stream_desktop_notifications',
-                    'enable_stream_email_notifications',
-                    'enable_stream_push_notifications',
-                    'enable_stream_audible_notifications',
-                    'notification_sound',
-                    'enable_desktop_notifications',
-                    'enable_sounds',
-                    'enable_offline_email_notifications',
-                    'enable_offline_push_notifications',
-                    'enable_online_push_notifications',
-                    'enable_digest_emails',
-                    'enable_marketing_emails',
-                    'enable_login_emails',
-                    'message_content_in_email_notifications',
-                    'pm_content_in_desktop_notifications',
-                    'wildcard_mentions_notify',
-                    'desktop_icon_count_display',
-                    'realm_name_in_notifications',
-                    'presence_enabled',
-                ],
-                'required': [],
-                'nullable': [
-                ],
-                'enum': [
-                    'desktop_icon_count_display',
-                ],
-                'validation': [
-                ]
-            },
-            root_map={
-                'validations': {
-                },
-                'allowed_values': {
-                    ('desktop_icon_count_display',): {
-
-                        "1": 1,
-                        "2": 2,
-                        "3": 3
-                    },
-                },
-                'openapi_types': {
                     'enable_stream_desktop_notifications':
                         (bool,),
                     'enable_stream_email_notifications':
@@ -2302,6 +2195,8 @@ class UsersApi(object):
                         (bool,),
                     'enable_sounds':
                         (bool,),
+                    'email_notifications_batching_period_seconds':
+                        (int,),
                     'enable_offline_email_notifications':
                         (bool,),
                     'enable_offline_push_notifications':
@@ -2326,8 +2221,28 @@ class UsersApi(object):
                         (bool,),
                     'presence_enabled':
                         (bool,),
+                    'enter_sends':
+                        (bool,),
                 },
                 'attribute_map': {
+                    'full_name': 'full_name',
+                    'email': 'email',
+                    'old_password': 'old_password',
+                    'new_password': 'new_password',
+                    'twenty_four_hour_time': 'twenty_four_hour_time',
+                    'dense_mode': 'dense_mode',
+                    'starred_message_counts': 'starred_message_counts',
+                    'fluid_layout_width': 'fluid_layout_width',
+                    'high_contrast_mode': 'high_contrast_mode',
+                    'color_scheme': 'color_scheme',
+                    'enable_drafts_synchronization': 'enable_drafts_synchronization',
+                    'translate_emoticons': 'translate_emoticons',
+                    'default_language': 'default_language',
+                    'default_view': 'default_view',
+                    'left_side_userlist': 'left_side_userlist',
+                    'emojiset': 'emojiset',
+                    'demote_inactive_streams': 'demote_inactive_streams',
+                    'timezone': 'timezone',
                     'enable_stream_desktop_notifications': 'enable_stream_desktop_notifications',
                     'enable_stream_email_notifications': 'enable_stream_email_notifications',
                     'enable_stream_push_notifications': 'enable_stream_push_notifications',
@@ -2335,6 +2250,7 @@ class UsersApi(object):
                     'notification_sound': 'notification_sound',
                     'enable_desktop_notifications': 'enable_desktop_notifications',
                     'enable_sounds': 'enable_sounds',
+                    'email_notifications_batching_period_seconds': 'email_notifications_batching_period_seconds',
                     'enable_offline_email_notifications': 'enable_offline_email_notifications',
                     'enable_offline_push_notifications': 'enable_offline_push_notifications',
                     'enable_online_push_notifications': 'enable_online_push_notifications',
@@ -2347,8 +2263,27 @@ class UsersApi(object):
                     'desktop_icon_count_display': 'desktop_icon_count_display',
                     'realm_name_in_notifications': 'realm_name_in_notifications',
                     'presence_enabled': 'presence_enabled',
+                    'enter_sends': 'enter_sends',
                 },
                 'location_map': {
+                    'full_name': 'query',
+                    'email': 'query',
+                    'old_password': 'query',
+                    'new_password': 'query',
+                    'twenty_four_hour_time': 'query',
+                    'dense_mode': 'query',
+                    'starred_message_counts': 'query',
+                    'fluid_layout_width': 'query',
+                    'high_contrast_mode': 'query',
+                    'color_scheme': 'query',
+                    'enable_drafts_synchronization': 'query',
+                    'translate_emoticons': 'query',
+                    'default_language': 'query',
+                    'default_view': 'query',
+                    'left_side_userlist': 'query',
+                    'emojiset': 'query',
+                    'demote_inactive_streams': 'query',
+                    'timezone': 'query',
                     'enable_stream_desktop_notifications': 'query',
                     'enable_stream_email_notifications': 'query',
                     'enable_stream_push_notifications': 'query',
@@ -2356,6 +2291,7 @@ class UsersApi(object):
                     'notification_sound': 'query',
                     'enable_desktop_notifications': 'query',
                     'enable_sounds': 'query',
+                    'email_notifications_batching_period_seconds': 'query',
                     'enable_offline_email_notifications': 'query',
                     'enable_offline_push_notifications': 'query',
                     'enable_online_push_notifications': 'query',
@@ -2368,6 +2304,7 @@ class UsersApi(object):
                     'desktop_icon_count_display': 'query',
                     'realm_name_in_notifications': 'query',
                     'presence_enabled': 'query',
+                    'enter_sends': 'query',
                 },
                 'collection_format_map': {
                 }
@@ -2379,7 +2316,142 @@ class UsersApi(object):
                 'content_type': [],
             },
             api_client=api_client,
-            callable=__update_notification_settings
+            callable=__update_settings
+        )
+
+        def __update_status(
+            self,
+            **kwargs
+        ):
+            """Update your status  # noqa: E501
+
+            Change your [status](/help/status-and-availability).  `POST {{ api_url }}/v1/users/me/status`  A request to this endpoint will only change the parameters passed. For example, passing just `status_text` requests a change in the status text, but will leave the status emoji unchanged.  Clients that wish to set the user's status to a specific value should pass all supported parameters.   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
+
+            >>> thread = api.update_status(async_req=True)
+            >>> result = thread.get()
+
+
+            Keyword Args:
+                status_text (str): The text content of the status message. Sending the empty string will clear the user's status.  **Note**: The limit on the size of the message is 60 characters. . [optional]
+                away (bool): Whether the user should be marked as \"away\". . [optional]
+                emoji_name (str): The name for the emoji to associate with this status. . [optional]
+                emoji_code (str): A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji. . [optional]
+                reaction_type (str): One of the following values:  * `unicode_emoji`: Unicode emoji (`emoji_code` will be its Unicode   codepoint). * `realm_emoji`: [Custom emoji](/help/add-custom-emoji).   (`emoji_code` will be its ID). * `zulip_extra_emoji`: Special emoji included with Zulip.  Exists to   namespace the `zulip` emoji. . [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (int/float/tuple): timeout setting for this request. If
+                    one number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
+
+            Returns:
+                dict
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            return self.call_with_http_info(**kwargs)
+
+        self.update_status = _Endpoint(
+            settings={
+                'response_type': (dict,),
+                'auth': [],
+                'endpoint_path': '/users/me/status',
+                'operation_id': 'update_status',
+                'http_method': 'POST',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'status_text',
+                    'away',
+                    'emoji_name',
+                    'emoji_code',
+                    'reaction_type',
+                ],
+                'required': [],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'status_text':
+                        (str,),
+                    'away':
+                        (bool,),
+                    'emoji_name':
+                        (str,),
+                    'emoji_code':
+                        (str,),
+                    'reaction_type':
+                        (str,),
+                },
+                'attribute_map': {
+                    'status_text': 'status_text',
+                    'away': 'away',
+                    'emoji_name': 'emoji_name',
+                    'emoji_code': 'emoji_code',
+                    'reaction_type': 'reaction_type',
+                },
+                'location_map': {
+                    'status_text': 'query',
+                    'away': 'query',
+                    'emoji_name': 'query',
+                    'emoji_code': 'query',
+                    'reaction_type': 'query',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__update_status
         )
 
         def __update_user(

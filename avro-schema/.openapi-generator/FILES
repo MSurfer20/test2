@@ -21,10 +21,13 @@ CodedErrorBase.avsc
 CodedErrorBaseAllOf.avsc
 CustomProfileField.avsc
 DefaultStreamGroup.avsc
+Draft.avsc
+EmojiBase.avsc
 EmojiReaction.avsc
 EmojiReactionAllOf.avsc
 EmojiReactionBase.avsc
-EmojiReactionBaseUser.avsc
+EmojiReactionBaseAllOf.avsc
+EmojiReactionBaseAllOfUser.avsc
 GetMessages.avsc
 GetMessagesAllOf.avsc
 Hotspot.avsc

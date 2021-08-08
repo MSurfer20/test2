@@ -79,6 +79,10 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *OpenapiClient::AuthenticationApi* | [**dev_fetch_api_key**](docs/AuthenticationApi.md#dev_fetch_api_key) | **POST** /dev_fetch_api_key | Fetch an API key (development only)
 *OpenapiClient::AuthenticationApi* | [**fetch_api_key**](docs/AuthenticationApi.md#fetch_api_key) | **POST** /fetch_api_key | Fetch an API key (production)
+*OpenapiClient::DraftsApi* | [**create_drafts**](docs/DraftsApi.md#create_drafts) | **POST** /drafts | Create drafts
+*OpenapiClient::DraftsApi* | [**delete_draft**](docs/DraftsApi.md#delete_draft) | **DELETE** /drafts/{draft_id} | Delete a draft
+*OpenapiClient::DraftsApi* | [**edit_draft**](docs/DraftsApi.md#edit_draft) | **PATCH** /drafts/{draft_id} | Edit a draft
+*OpenapiClient::DraftsApi* | [**get_drafts**](docs/DraftsApi.md#get_drafts) | **GET** /drafts | Get drafts
 *OpenapiClient::MessagesApi* | [**add_reaction**](docs/MessagesApi.md#add_reaction) | **POST** /messages/{message_id}/reactions | Add an emoji reaction
 *OpenapiClient::MessagesApi* | [**check_messages_match_narrow**](docs/MessagesApi.md#check_messages_match_narrow) | **GET** /messages/matches_narrow | Check if messages match a narrow
 *OpenapiClient::MessagesApi* | [**delete_message**](docs/MessagesApi.md#delete_message) | **DELETE** /messages/{message_id} | Delete a message
@@ -114,9 +118,11 @@ Class | Method | HTTP request | Description
 *OpenapiClient::ServerAndOrganizationsApi* | [**upload_custom_emoji**](docs/ServerAndOrganizationsApi.md#upload_custom_emoji) | **POST** /realm/emoji/{emoji_name} | Upload custom emoji
 *OpenapiClient::StreamsApi* | [**archive_stream**](docs/StreamsApi.md#archive_stream) | **DELETE** /streams/{stream_id} | Archive a stream
 *OpenapiClient::StreamsApi* | [**create_big_blue_button_video_call**](docs/StreamsApi.md#create_big_blue_button_video_call) | **GET** /calls/bigbluebutton/create | Create BigBlueButton video call
+*OpenapiClient::StreamsApi* | [**delete_topic**](docs/StreamsApi.md#delete_topic) | **POST** /streams/{stream_id}/delete_topic | Delete a topic
 *OpenapiClient::StreamsApi* | [**get_stream_id**](docs/StreamsApi.md#get_stream_id) | **GET** /get_stream_id | Get stream ID
 *OpenapiClient::StreamsApi* | [**get_stream_topics**](docs/StreamsApi.md#get_stream_topics) | **GET** /users/me/{stream_id}/topics | Get topics in a stream
 *OpenapiClient::StreamsApi* | [**get_streams**](docs/StreamsApi.md#get_streams) | **GET** /streams | Get all streams
+*OpenapiClient::StreamsApi* | [**get_subscribers**](docs/StreamsApi.md#get_subscribers) | **GET** /streams/{stream_id}/members | Get the subscribers of a stream
 *OpenapiClient::StreamsApi* | [**get_subscription_status**](docs/StreamsApi.md#get_subscription_status) | **GET** /users/{user_id}/subscriptions/{stream_id} | Get subscription status
 *OpenapiClient::StreamsApi* | [**get_subscriptions**](docs/StreamsApi.md#get_subscriptions) | **GET** /users/me/subscriptions | Get subscribed streams
 *OpenapiClient::StreamsApi* | [**mute_topic**](docs/StreamsApi.md#mute_topic) | **PATCH** /users/me/subscriptions/muted_topics | Topic muting
@@ -141,8 +147,8 @@ Class | Method | HTTP request | Description
 *OpenapiClient::UsersApi* | [**remove_user_group**](docs/UsersApi.md#remove_user_group) | **DELETE** /user_groups/{user_group_id} | Delete a user group
 *OpenapiClient::UsersApi* | [**set_typing_status**](docs/UsersApi.md#set_typing_status) | **POST** /typing | Set \"typing\" status
 *OpenapiClient::UsersApi* | [**unmute_user**](docs/UsersApi.md#unmute_user) | **DELETE** /users/me/muted_users/{muted_user_id} | Unmute a user
-*OpenapiClient::UsersApi* | [**update_display_settings**](docs/UsersApi.md#update_display_settings) | **PATCH** /settings/display | Update display settings
-*OpenapiClient::UsersApi* | [**update_notification_settings**](docs/UsersApi.md#update_notification_settings) | **PATCH** /settings/notifications | Update notification settings
+*OpenapiClient::UsersApi* | [**update_settings**](docs/UsersApi.md#update_settings) | **PATCH** /settings | Update settings
+*OpenapiClient::UsersApi* | [**update_status**](docs/UsersApi.md#update_status) | **POST** /users/me/status | Update your status
 *OpenapiClient::UsersApi* | [**update_user**](docs/UsersApi.md#update_user) | **PATCH** /users/{user_id} | Update a user
 *OpenapiClient::UsersApi* | [**update_user_group**](docs/UsersApi.md#update_user_group) | **PATCH** /user_groups/{user_group_id} | Update a user group
 *OpenapiClient::UsersApi* | [**update_user_group_members**](docs/UsersApi.md#update_user_group_members) | **POST** /user_groups/{user_group_id}/members | Update user group members
@@ -173,10 +179,13 @@ Class | Method | HTTP request | Description
  - [OpenapiClient::CodedErrorBaseAllOf](docs/CodedErrorBaseAllOf.md)
  - [OpenapiClient::CustomProfileField](docs/CustomProfileField.md)
  - [OpenapiClient::DefaultStreamGroup](docs/DefaultStreamGroup.md)
+ - [OpenapiClient::Draft](docs/Draft.md)
+ - [OpenapiClient::EmojiBase](docs/EmojiBase.md)
  - [OpenapiClient::EmojiReaction](docs/EmojiReaction.md)
  - [OpenapiClient::EmojiReactionAllOf](docs/EmojiReactionAllOf.md)
  - [OpenapiClient::EmojiReactionBase](docs/EmojiReactionBase.md)
- - [OpenapiClient::EmojiReactionBaseUser](docs/EmojiReactionBaseUser.md)
+ - [OpenapiClient::EmojiReactionBaseAllOf](docs/EmojiReactionBaseAllOf.md)
+ - [OpenapiClient::EmojiReactionBaseAllOfUser](docs/EmojiReactionBaseAllOfUser.md)
  - [OpenapiClient::GetMessages](docs/GetMessages.md)
  - [OpenapiClient::GetMessagesAllOf](docs/GetMessagesAllOf.md)
  - [OpenapiClient::Hotspot](docs/Hotspot.md)

@@ -20,14 +20,14 @@ class EMOJI_REACTION_BASE
 feature --Access
 
     emoji_code: detachable STRING_32 
-      -- A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint. 
+      -- A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji. 
     emoji_name: detachable STRING_32 
       -- Name of the emoji. 
     reaction_type: detachable STRING_32 
       -- One of the following values:  * `unicode_emoji`: Unicode emoji (`emoji_code` will be its Unicode   codepoint). * `realm_emoji`: [Custom emoji](/help/add-custom-emoji).   (`emoji_code` will be its ID). * `zulip_extra_emoji`: Special emoji included with Zulip.  Exists to   namespace the `zulip` emoji. 
  	user_id: INTEGER_32 
     	 -- The ID of the user who added the reaction.  **Changes**: New in Zulip 3.0 (feature level 2). The `user` object is deprecated and will be removed in the future. 
-    user: detachable EMOJI_REACTION_BASE_USER 
+    user: detachable EMOJI_REACTION_BASE_ALL_OF_USER 
       
 
 feature -- Change Element  

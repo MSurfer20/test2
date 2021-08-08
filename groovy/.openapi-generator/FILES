@@ -3,6 +3,7 @@ README.md
 build.gradle
 src/main/groovy/org/openapitools/api/ApiUtils.groovy
 src/main/groovy/org/openapitools/api/AuthenticationApi.groovy
+src/main/groovy/org/openapitools/api/DraftsApi.groovy
 src/main/groovy/org/openapitools/api/MessagesApi.groovy
 src/main/groovy/org/openapitools/api/RealTimeEventsApi.groovy
 src/main/groovy/org/openapitools/api/ServerAndOrganizationsApi.groovy
@@ -31,10 +32,13 @@ src/main/groovy/org/openapitools/model/CodedErrorBase.groovy
 src/main/groovy/org/openapitools/model/CodedErrorBaseAllOf.groovy
 src/main/groovy/org/openapitools/model/CustomProfileField.groovy
 src/main/groovy/org/openapitools/model/DefaultStreamGroup.groovy
+src/main/groovy/org/openapitools/model/Draft.groovy
+src/main/groovy/org/openapitools/model/EmojiBase.groovy
 src/main/groovy/org/openapitools/model/EmojiReaction.groovy
 src/main/groovy/org/openapitools/model/EmojiReactionAllOf.groovy
 src/main/groovy/org/openapitools/model/EmojiReactionBase.groovy
-src/main/groovy/org/openapitools/model/EmojiReactionBaseUser.groovy
+src/main/groovy/org/openapitools/model/EmojiReactionBaseAllOf.groovy
+src/main/groovy/org/openapitools/model/EmojiReactionBaseAllOfUser.groovy
 src/main/groovy/org/openapitools/model/GetMessages.groovy
 src/main/groovy/org/openapitools/model/GetMessagesAllOf.groovy
 src/main/groovy/org/openapitools/model/Hotspot.groovy

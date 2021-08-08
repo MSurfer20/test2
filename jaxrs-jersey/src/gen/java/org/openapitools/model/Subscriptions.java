@@ -55,7 +55,7 @@ import javax.validation.Valid;
   Subscriptions.JSON_PROPERTY_FIRST_MESSAGE_ID,
   Subscriptions.JSON_PROPERTY_STREAM_WEEKLY_TRAFFIC
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2021-08-08T20:42:23.370561Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2021-08-08T21:12:13.281187Z[Etc/UTC]")
 public class Subscriptions   {
   public static final String JSON_PROPERTY_STREAM_ID = "stream_id";
   @JsonProperty(JSON_PROPERTY_STREAM_ID)

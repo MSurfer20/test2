@@ -14,7 +14,7 @@ import * as models from './models';
 
 export interface EmojiReactionBase {
     /**
-     * A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint. 
+     * A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it\'ll be the ID of the realm emoji. 
      */
     "emoji_code"?: string;
     /**
@@ -29,6 +29,6 @@ export interface EmojiReactionBase {
      * The ID of the user who added the reaction.  **Changes**: New in Zulip 3.0 (feature level 2). The `user` object is deprecated and will be removed in the future. 
      */
     "user_id"?: number;
-    "user"?: models.EmojiReactionBaseUser;
+    "user"?: models.EmojiReactionBaseAllOfUser;
 }
 

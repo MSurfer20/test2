@@ -110,6 +110,53 @@ export class StreamsService {
         );
     }
     /**
+     * Delete a topic
+     * Delete all messages in a topic.  &#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+     * @param streamId The ID of the stream to access. 
+     * @param topicName The name of the topic to delete. 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public deleteTopic(streamId: number, topicName: string, ): Observable<AxiosResponse<JsonSuccess>>;
+    public deleteTopic(streamId: number, topicName: string, ): Observable<any> {
+
+        if (streamId === null || streamId === undefined) {
+            throw new Error('Required parameter streamId was null or undefined when calling deleteTopic.');
+        }
+
+        if (topicName === null || topicName === undefined) {
+            throw new Error('Required parameter topicName was null or undefined when calling deleteTopic.');
+        }
+
+        let queryParameters = {};   
+        if (topicName !== undefined && topicName !== null) {
+            queryParameters['topic_name'] = <any>topicName;
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers['Accept'] = httpHeaderAcceptSelected;
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+        return this.httpClient.post<JsonSuccess>(`${this.basePath}/streams/${encodeURIComponent(String(stream_id))}/delete_topic`,
+            null,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers
+            }
+        );
+    }
+    /**
      * Get stream ID
      * Get the unique ID of a given stream.  &#x60;GET {{ api_url }}/v1/get_stream_id&#x60; 
      * @param stream The name of the stream to access. 
@@ -243,6 +290,41 @@ export class StreamsService {
         return this.httpClient.get<JsonSuccessBase & object>(`${this.basePath}/streams`,
             {
                 params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers
+            }
+        );
+    }
+    /**
+     * Get the subscribers of a stream
+     * Get all users subscribed to a stream.  &#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60; 
+     * @param streamId The ID of the stream to access. 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getSubscribers(streamId: number, ): Observable<AxiosResponse<JsonSuccessBase & object>>;
+    public getSubscribers(streamId: number, ): Observable<any> {
+
+        if (streamId === null || streamId === undefined) {
+            throw new Error('Required parameter streamId was null or undefined when calling getSubscribers.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers['Accept'] = httpHeaderAcceptSelected;
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+        return this.httpClient.get<JsonSuccessBase & object>(`${this.basePath}/streams/${encodeURIComponent(String(stream_id))}/members`,
+            {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers
             }

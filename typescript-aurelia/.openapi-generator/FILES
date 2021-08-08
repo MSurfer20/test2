@@ -3,6 +3,7 @@
 Api.ts
 AuthStorage.ts
 AuthenticationApi.ts
+DraftsApi.ts
 MessagesApi.ts
 README.md
 RealTimeEventsApi.ts

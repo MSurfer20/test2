@@ -112,6 +112,10 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AuthenticationApiInterface* | [**devFetchApiKey**](Resources/docs/Api/AuthenticationApiInterface.md#devfetchapikey) | **POST** /dev_fetch_api_key | Fetch an API key (development only)
 *AuthenticationApiInterface* | [**fetchApiKey**](Resources/docs/Api/AuthenticationApiInterface.md#fetchapikey) | **POST** /fetch_api_key | Fetch an API key (production)
+*DraftsApiInterface* | [**createDrafts**](Resources/docs/Api/DraftsApiInterface.md#createdrafts) | **POST** /drafts | Create drafts
+*DraftsApiInterface* | [**deleteDraft**](Resources/docs/Api/DraftsApiInterface.md#deletedraft) | **DELETE** /drafts/{draft_id} | Delete a draft
+*DraftsApiInterface* | [**editDraft**](Resources/docs/Api/DraftsApiInterface.md#editdraft) | **PATCH** /drafts/{draft_id} | Edit a draft
+*DraftsApiInterface* | [**getDrafts**](Resources/docs/Api/DraftsApiInterface.md#getdrafts) | **GET** /drafts | Get drafts
 *MessagesApiInterface* | [**addReaction**](Resources/docs/Api/MessagesApiInterface.md#addreaction) | **POST** /messages/{message_id}/reactions | Add an emoji reaction
 *MessagesApiInterface* | [**checkMessagesMatchNarrow**](Resources/docs/Api/MessagesApiInterface.md#checkmessagesmatchnarrow) | **GET** /messages/matches_narrow | Check if messages match a narrow
 *MessagesApiInterface* | [**deleteMessage**](Resources/docs/Api/MessagesApiInterface.md#deletemessage) | **DELETE** /messages/{message_id} | Delete a message
@@ -147,9 +151,11 @@ Class | Method | HTTP request | Description
 *ServerAndOrganizationsApiInterface* | [**uploadCustomEmoji**](Resources/docs/Api/ServerAndOrganizationsApiInterface.md#uploadcustomemoji) | **POST** /realm/emoji/{emoji_name} | Upload custom emoji
 *StreamsApiInterface* | [**archiveStream**](Resources/docs/Api/StreamsApiInterface.md#archivestream) | **DELETE** /streams/{stream_id} | Archive a stream
 *StreamsApiInterface* | [**createBigBlueButtonVideoCall**](Resources/docs/Api/StreamsApiInterface.md#createbigbluebuttonvideocall) | **GET** /calls/bigbluebutton/create | Create BigBlueButton video call
+*StreamsApiInterface* | [**deleteTopic**](Resources/docs/Api/StreamsApiInterface.md#deletetopic) | **POST** /streams/{stream_id}/delete_topic | Delete a topic
 *StreamsApiInterface* | [**getStreamId**](Resources/docs/Api/StreamsApiInterface.md#getstreamid) | **GET** /get_stream_id | Get stream ID
 *StreamsApiInterface* | [**getStreamTopics**](Resources/docs/Api/StreamsApiInterface.md#getstreamtopics) | **GET** /users/me/{stream_id}/topics | Get topics in a stream
 *StreamsApiInterface* | [**getStreams**](Resources/docs/Api/StreamsApiInterface.md#getstreams) | **GET** /streams | Get all streams
+*StreamsApiInterface* | [**getSubscribers**](Resources/docs/Api/StreamsApiInterface.md#getsubscribers) | **GET** /streams/{stream_id}/members | Get the subscribers of a stream
 *StreamsApiInterface* | [**getSubscriptionStatus**](Resources/docs/Api/StreamsApiInterface.md#getsubscriptionstatus) | **GET** /users/{user_id}/subscriptions/{stream_id} | Get subscription status
 *StreamsApiInterface* | [**getSubscriptions**](Resources/docs/Api/StreamsApiInterface.md#getsubscriptions) | **GET** /users/me/subscriptions | Get subscribed streams
 *StreamsApiInterface* | [**muteTopic**](Resources/docs/Api/StreamsApiInterface.md#mutetopic) | **PATCH** /users/me/subscriptions/muted_topics | Topic muting
@@ -174,8 +180,8 @@ Class | Method | HTTP request | Description
 *UsersApiInterface* | [**removeUserGroup**](Resources/docs/Api/UsersApiInterface.md#removeusergroup) | **DELETE** /user_groups/{user_group_id} | Delete a user group
 *UsersApiInterface* | [**setTypingStatus**](Resources/docs/Api/UsersApiInterface.md#settypingstatus) | **POST** /typing | Set \&quot;typing\&quot; status
 *UsersApiInterface* | [**unmuteUser**](Resources/docs/Api/UsersApiInterface.md#unmuteuser) | **DELETE** /users/me/muted_users/{muted_user_id} | Unmute a user
-*UsersApiInterface* | [**updateDisplaySettings**](Resources/docs/Api/UsersApiInterface.md#updatedisplaysettings) | **PATCH** /settings/display | Update display settings
-*UsersApiInterface* | [**updateNotificationSettings**](Resources/docs/Api/UsersApiInterface.md#updatenotificationsettings) | **PATCH** /settings/notifications | Update notification settings
+*UsersApiInterface* | [**updateSettings**](Resources/docs/Api/UsersApiInterface.md#updatesettings) | **PATCH** /settings | Update settings
+*UsersApiInterface* | [**updateStatus**](Resources/docs/Api/UsersApiInterface.md#updatestatus) | **POST** /users/me/status | Update your status
 *UsersApiInterface* | [**updateUser**](Resources/docs/Api/UsersApiInterface.md#updateuser) | **PATCH** /users/{user_id} | Update a user
 *UsersApiInterface* | [**updateUserGroup**](Resources/docs/Api/UsersApiInterface.md#updateusergroup) | **PATCH** /user_groups/{user_group_id} | Update a user group
 *UsersApiInterface* | [**updateUserGroupMembers**](Resources/docs/Api/UsersApiInterface.md#updateusergroupmembers) | **POST** /user_groups/{user_group_id}/members | Update user group members
@@ -206,10 +212,13 @@ Class | Method | HTTP request | Description
  - [CodedErrorBaseAllOf](Resources/docs/Model/CodedErrorBaseAllOf.md)
  - [CustomProfileField](Resources/docs/Model/CustomProfileField.md)
  - [DefaultStreamGroup](Resources/docs/Model/DefaultStreamGroup.md)
+ - [Draft](Resources/docs/Model/Draft.md)
+ - [EmojiBase](Resources/docs/Model/EmojiBase.md)
  - [EmojiReaction](Resources/docs/Model/EmojiReaction.md)
  - [EmojiReactionAllOf](Resources/docs/Model/EmojiReactionAllOf.md)
  - [EmojiReactionBase](Resources/docs/Model/EmojiReactionBase.md)
- - [EmojiReactionBaseUser](Resources/docs/Model/EmojiReactionBaseUser.md)
+ - [EmojiReactionBaseAllOf](Resources/docs/Model/EmojiReactionBaseAllOf.md)
+ - [EmojiReactionBaseAllOfUser](Resources/docs/Model/EmojiReactionBaseAllOfUser.md)
  - [GetMessages](Resources/docs/Model/GetMessages.md)
  - [GetMessagesAllOf](Resources/docs/Model/GetMessagesAllOf.md)
  - [Hotspot](Resources/docs/Model/Hotspot.md)

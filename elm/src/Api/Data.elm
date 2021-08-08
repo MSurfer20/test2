@@ -28,9 +28,11 @@ module Api.Data exposing
     , CodedErrorBase
     , CustomProfileField
     , DefaultStreamGroup
+    , Draft, DraftType(..), draftTypeVariants
+    , EmojiBase
     , EmojiReaction
     , EmojiReactionBase
-    , EmojiReactionBaseUser
+    , EmojiReactionBaseAllOfUser
     , EventIdSchema
     , EventTypeSchema
     , GetMessages
@@ -76,9 +78,11 @@ module Api.Data exposing
     , encodeCodedErrorBase
     , encodeCustomProfileField
     , encodeDefaultStreamGroup
+    , encodeDraft
+    , encodeEmojiBase
     , encodeEmojiReaction
     , encodeEmojiReactionBase
-    , encodeEmojiReactionBaseUser
+    , encodeEmojiReactionBaseAllOfUser
     , encodeEventIdSchema
     , encodeEventTypeSchema
     , encodeGetMessages
@@ -124,9 +128,11 @@ module Api.Data exposing
     , codedErrorBaseDecoder
     , customProfileFieldDecoder
     , defaultStreamGroupDecoder
+    , draftDecoder
+    , emojiBaseDecoder
     , emojiReactionDecoder
     , emojiReactionBaseDecoder
-    , emojiReactionBaseUserDecoder
+    , emojiReactionBaseAllOfUserDecoder
     , eventIdSchemaDecoder
     , eventTypeSchemaDecoder
     , getMessagesDecoder
@@ -324,6 +330,39 @@ type alias DefaultStreamGroup =
     }
 
 
+{-| A dictionary for representing a message draft. 
+-}
+type alias Draft =
+    { id : Maybe Int
+    , type_ : DraftType
+    , to : List (Int)
+    , topic : String
+    , content : String
+    , timestamp : Maybe Float
+    }
+
+
+type DraftType
+    = DraftTypeUnknownEnumVariableName
+    | DraftTypeStream
+    | DraftTypePrivate
+
+
+draftTypeVariants : List DraftType
+draftTypeVariants =
+    [ DraftTypeUnknownEnumVariableName
+    , DraftTypeStream
+    , DraftTypePrivate
+    ]
+
+
+type alias EmojiBase =
+    { emojiCode : Maybe String
+    , emojiName : Maybe String
+    , reactionType : Maybe String
+    }
+
+
 type alias EmojiReaction =
     { emojiCode : Maybe AnyType
     , emojiName : Maybe AnyType
@@ -338,13 +377,13 @@ type alias EmojiReactionBase =
     , emojiName : Maybe String
     , reactionType : Maybe String
     , userId : Maybe Int
-    , user : Maybe EmojiReactionBaseUser
+    , user : Maybe EmojiReactionBaseAllOfUser
     }
 
 
-{-| Dictionary with data on the user who added the reaction, including the user ID as the `id` field.  **Note**: In the [events API](/api/get-events), this `user` dictionary confusing had the user ID in a field called `user_id` instead.  We recommend ignoring fields other than the user ID.  **Deprecated** and to be removed in a future release once core clients have migrated to use the `user_id` field. 
+{-| Whether the user is a mirror dummy. Dictionary with data on the user who added the reaction, including the user ID as the `id` field.  **Note**: In the [events API](/api/get-events), this `user` dictionary confusing had the user ID in a field called `user_id` instead.  We recommend ignoring fields other than the user ID.  **Deprecated** and to be removed in a future release once core clients have migrated to use the `user_id` field. 
 -}
-type alias EmojiReactionBaseUser =
+type alias EmojiReactionBaseAllOfUser =
     { id : Maybe Int
     , email : Maybe String
     , fullName : Maybe String
@@ -1118,6 +1157,71 @@ encodeDefaultStreamGroupPairs model =
     pairs
 
 
+encodeDraft : Draft -> Json.Encode.Value
+encodeDraft =
+    encodeObject << encodeDraftPairs
+
+
+encodeDraftWithTag : ( String, String ) -> Draft -> Json.Encode.Value
+encodeDraftWithTag (tagField, tag) model =
+    encodeObject (encodeDraftPairs model ++ [ encode tagField Json.Encode.string tag ])
+
+
+encodeDraftPairs : Draft -> List EncodedField
+encodeDraftPairs model =
+    let
+        pairs =
+            [ maybeEncode "id" Json.Encode.int model.id
+            , encode "type"  model.type_
+            , encode "to" (Json.Encode.list Json.Encode.int) model.to
+            , encode "topic" Json.Encode.string model.topic
+            , encode "content" Json.Encode.string model.content
+            , maybeEncode "timestamp" Json.Encode.float model.timestamp
+            ]
+    in
+    pairs
+
+stringFromDraftType : DraftType -> String
+stringFromDraftType model =
+    case model of
+        DraftTypeUnknownEnumVariableName ->
+            ""
+
+        DraftTypeStream ->
+            "stream"
+
+        DraftTypePrivate ->
+            "private"
+
+
+encodeDraftType : DraftType -> Json.Encode.Value
+encodeDraftType =
+    Json.Encode.string << stringFromDraftType
+
+
+
+encodeEmojiBase : EmojiBase -> Json.Encode.Value
+encodeEmojiBase =
+    encodeObject << encodeEmojiBasePairs
+
+
+encodeEmojiBaseWithTag : ( String, String ) -> EmojiBase -> Json.Encode.Value
+encodeEmojiBaseWithTag (tagField, tag) model =
+    encodeObject (encodeEmojiBasePairs model ++ [ encode tagField Json.Encode.string tag ])
+
+
+encodeEmojiBasePairs : EmojiBase -> List EncodedField
+encodeEmojiBasePairs model =
+    let
+        pairs =
+            [ maybeEncode "emoji_code" Json.Encode.string model.emojiCode
+            , maybeEncode "emoji_name" Json.Encode.string model.emojiName
+            , maybeEncode "reaction_type" Json.Encode.string model.reactionType
+            ]
+    in
+    pairs
+
+
 encodeEmojiReaction : EmojiReaction -> Json.Encode.Value
 encodeEmojiReaction =
     encodeObject << encodeEmojiReactionPairs
@@ -1160,24 +1264,24 @@ encodeEmojiReactionBasePairs model =
             , maybeEncode "emoji_name" Json.Encode.string model.emojiName
             , maybeEncode "reaction_type" Json.Encode.string model.reactionType
             , maybeEncode "user_id" Json.Encode.int model.userId
-            , maybeEncode "user" encodeEmojiReactionBaseUser model.user
+            , maybeEncode "user" encodeEmojiReactionBaseAllOfUser model.user
             ]
     in
     pairs
 
 
-encodeEmojiReactionBaseUser : EmojiReactionBaseUser -> Json.Encode.Value
-encodeEmojiReactionBaseUser =
-    encodeObject << encodeEmojiReactionBaseUserPairs
+encodeEmojiReactionBaseAllOfUser : EmojiReactionBaseAllOfUser -> Json.Encode.Value
+encodeEmojiReactionBaseAllOfUser =
+    encodeObject << encodeEmojiReactionBaseAllOfUserPairs
 
 
-encodeEmojiReactionBaseUserWithTag : ( String, String ) -> EmojiReactionBaseUser -> Json.Encode.Value
-encodeEmojiReactionBaseUserWithTag (tagField, tag) model =
-    encodeObject (encodeEmojiReactionBaseUserPairs model ++ [ encode tagField Json.Encode.string tag ])
+encodeEmojiReactionBaseAllOfUserWithTag : ( String, String ) -> EmojiReactionBaseAllOfUser -> Json.Encode.Value
+encodeEmojiReactionBaseAllOfUserWithTag (tagField, tag) model =
+    encodeObject (encodeEmojiReactionBaseAllOfUserPairs model ++ [ encode tagField Json.Encode.string tag ])
 
 
-encodeEmojiReactionBaseUserPairs : EmojiReactionBaseUser -> List EncodedField
-encodeEmojiReactionBaseUserPairs model =
+encodeEmojiReactionBaseAllOfUserPairs : EmojiReactionBaseAllOfUser -> List EncodedField
+encodeEmojiReactionBaseAllOfUserPairs model =
     let
         pairs =
             [ maybeEncode "id" Json.Encode.int model.id
@@ -2224,6 +2328,46 @@ defaultStreamGroupDecoder =
         |> maybeDecode "streams" (Json.Decode.list basicStreamDecoder) Nothing
 
 
+draftDecoder : Json.Decode.Decoder Draft
+draftDecoder =
+    Json.Decode.succeed Draft
+        |> maybeDecode "id" Json.Decode.int Nothing
+        |> decode "type"  
+        |> decode "to" (Json.Decode.list Json.Decode.int) 
+        |> decode "topic" Json.Decode.string 
+        |> decode "content" Json.Decode.string 
+        |> maybeDecode "timestamp" Json.Decode.float Nothing
+
+
+draftTypeDecoder : Json.Decode.Decoder DraftType
+draftTypeDecoder =
+    Json.Decode.string
+        |> Json.Decode.andThen
+            (\value ->
+                case value of
+                    "" ->
+                        Json.Decode.succeed DraftTypeUnknownEnumVariableName
+
+                    "stream" ->
+                        Json.Decode.succeed DraftTypeStream
+
+                    "private" ->
+                        Json.Decode.succeed DraftTypePrivate
+
+                    other ->
+                        Json.Decode.fail <| "Unknown type: " ++ other
+            )
+
+
+
+emojiBaseDecoder : Json.Decode.Decoder EmojiBase
+emojiBaseDecoder =
+    Json.Decode.succeed EmojiBase
+        |> maybeDecode "emoji_code" Json.Decode.string Nothing
+        |> maybeDecode "emoji_name" Json.Decode.string Nothing
+        |> maybeDecode "reaction_type" Json.Decode.string Nothing
+
+
 emojiReactionDecoder : Json.Decode.Decoder EmojiReaction
 emojiReactionDecoder =
     Json.Decode.succeed EmojiReaction
@@ -2241,12 +2385,12 @@ emojiReactionBaseDecoder =
         |> maybeDecode "emoji_name" Json.Decode.string Nothing
         |> maybeDecode "reaction_type" Json.Decode.string Nothing
         |> maybeDecode "user_id" Json.Decode.int Nothing
-        |> maybeDecode "user" emojiReactionBaseUserDecoder Nothing
+        |> maybeDecode "user" emojiReactionBaseAllOfUserDecoder Nothing
 
 
-emojiReactionBaseUserDecoder : Json.Decode.Decoder EmojiReactionBaseUser
-emojiReactionBaseUserDecoder =
-    Json.Decode.succeed EmojiReactionBaseUser
+emojiReactionBaseAllOfUserDecoder : Json.Decode.Decoder EmojiReactionBaseAllOfUser
+emojiReactionBaseAllOfUserDecoder =
+    Json.Decode.succeed EmojiReactionBaseAllOfUser
         |> maybeDecode "id" Json.Decode.int Nothing
         |> maybeDecode "email" Json.Decode.string Nothing
         |> maybeDecode "full_name" Json.Decode.string Nothing

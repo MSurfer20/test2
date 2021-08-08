@@ -9,6 +9,13 @@
     <enableWrapperStyle>true</enableWrapperStyle>
     <enableAsyncMapping>false</enableAsyncMapping>
     
+    <jaxws:bindings node="xsd:simpleType[@name='Type']">
+    	<jaxb:typesafeEnumClass>
+	        <jaxb:typesafeEnumMember value="" name="EMPTY" />
+	        <jaxb:typesafeEnumMember value="stream" name="STREAM" />
+	        <jaxb:typesafeEnumMember value="private" name="PRIVATE" />
+	    </jaxb:typesafeEnumClass>
+    </jaxws:bindings>
     <jaxws:bindings node="xsd:simpleType[@name='Result']">
     	<jaxb:typesafeEnumClass>
 	        <jaxb:typesafeEnumMember value="error" name="ERROR" />

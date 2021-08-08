@@ -23,6 +23,8 @@
     <Compile Include="TestHelper.fs"/>
     <Compile Include="AuthenticationApiTestsHelper.fs" />
     <Compile Include="AuthenticationApiTests.fs" />
+    <Compile Include="DraftsApiTestsHelper.fs" />
+    <Compile Include="DraftsApiTests.fs" />
     <Compile Include="MessagesApiTestsHelper.fs" />
     <Compile Include="MessagesApiTests.fs" />
     <Compile Include="RealTimeEventsApiTestsHelper.fs" />

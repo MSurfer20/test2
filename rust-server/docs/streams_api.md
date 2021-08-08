@@ -4,23 +4,25 @@ All URIs are relative to *https://example.zulipchat.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-**archive_stream**](streams_api.md#archive_stream) | **DELETE** /streams/{stream_id} | Archive a stream
-**create_big_blue_button_video_call**](streams_api.md#create_big_blue_button_video_call) | **GET** /calls/bigbluebutton/create | Create BigBlueButton video call
-**get_stream_id**](streams_api.md#get_stream_id) | **GET** /get_stream_id | Get stream ID
-**get_stream_topics**](streams_api.md#get_stream_topics) | **GET** /users/me/{stream_id}/topics | Get topics in a stream
-**get_streams**](streams_api.md#get_streams) | **GET** /streams | Get all streams
-**get_subscription_status**](streams_api.md#get_subscription_status) | **GET** /users/{user_id}/subscriptions/{stream_id} | Get subscription status
-**get_subscriptions**](streams_api.md#get_subscriptions) | **GET** /users/me/subscriptions | Get subscribed streams
-**mute_topic**](streams_api.md#mute_topic) | **PATCH** /users/me/subscriptions/muted_topics | Topic muting
+**archive-stream**](streams_api.md#archive-stream) | **DELETE** /streams/{stream_id} | Archive a stream
+**create-big-blue-button-video-call**](streams_api.md#create-big-blue-button-video-call) | **GET** /calls/bigbluebutton/create | Create BigBlueButton video call
+**delete-topic**](streams_api.md#delete-topic) | **POST** /streams/{stream_id}/delete_topic | Delete a topic
+**get-stream-id**](streams_api.md#get-stream-id) | **GET** /get_stream_id | Get stream ID
+**get-stream-topics**](streams_api.md#get-stream-topics) | **GET** /users/me/{stream_id}/topics | Get topics in a stream
+**get-streams**](streams_api.md#get-streams) | **GET** /streams | Get all streams
+**get-subscribers**](streams_api.md#get-subscribers) | **GET** /streams/{stream_id}/members | Get the subscribers of a stream
+**get-subscription-status**](streams_api.md#get-subscription-status) | **GET** /users/{user_id}/subscriptions/{stream_id} | Get subscription status
+**get-subscriptions**](streams_api.md#get-subscriptions) | **GET** /users/me/subscriptions | Get subscribed streams
+**mute-topic**](streams_api.md#mute-topic) | **PATCH** /users/me/subscriptions/muted_topics | Topic muting
 **subscribe**](streams_api.md#subscribe) | **POST** /users/me/subscriptions | Subscribe to a stream
 **unsubscribe**](streams_api.md#unsubscribe) | **DELETE** /users/me/subscriptions | Unsubscribe from a stream
-**update_stream**](streams_api.md#update_stream) | **PATCH** /streams/{stream_id} | Update a stream
-**update_subscription_settings**](streams_api.md#update_subscription_settings) | **POST** /users/me/subscriptions/properties | Update subscription settings
-**update_subscriptions**](streams_api.md#update_subscriptions) | **PATCH** /users/me/subscriptions | Update subscriptions
+**update-stream**](streams_api.md#update-stream) | **PATCH** /streams/{stream_id} | Update a stream
+**update-subscription-settings**](streams_api.md#update-subscription-settings) | **POST** /users/me/subscriptions/properties | Update subscription settings
+**update-subscriptions**](streams_api.md#update-subscriptions) | **PATCH** /users/me/subscriptions | Update subscriptions
 
 
-# **archive_stream**
-> JsonSuccess archive_stream(stream_id)
+# **archive-stream**
+> JsonSuccess archive-stream(stream_id)
 Archive a stream
 
 [Archive the stream](/help/archive-a-stream) with the ID `stream_id`.  `DELETE {{ api_url }}/v1/streams/{stream_id}` 
@@ -46,8 +48,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **create_big_blue_button_video_call**
-> JsonSuccessBase create_big_blue_button_video_call()
+# **create-big-blue-button-video-call**
+> JsonSuccessBase create-big-blue-button-video-call()
 Create BigBlueButton video call
 
 Create a video call URL for a BigBlueButton video call. Requires BigBlueButton to be configured on the Zulip server. 
@@ -70,8 +72,36 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **get_stream_id**
-> JsonSuccessBase get_stream_id(stream)
+# **delete-topic**
+> JsonSuccess delete-topic(stream_id, topic_name)
+Delete a topic
+
+Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+
+### Required Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+  **stream_id** | **i32**| The ID of the stream to access.  | 
+  **topic_name** | **String**| The name of the topic to delete.  | 
+
+### Return type
+
+[**JsonSuccess**](JsonSuccess.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get-stream-id**
+> JsonSuccessBase get-stream-id(stream)
 Get stream ID
 
 Get the unique ID of a given stream.  `GET {{ api_url }}/v1/get_stream_id` 
@@ -97,8 +127,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **get_stream_topics**
-> JsonSuccessBase get_stream_topics(stream_id)
+# **get-stream-topics**
+> JsonSuccessBase get-stream-topics(stream_id)
 Get topics in a stream
 
 Get all the topics in a specific stream  `GET {{ api_url }}/v1/users/me/{stream_id}/topics` 
@@ -124,8 +154,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **get_streams**
-> JsonSuccessBase get_streams(optional)
+# **get-streams**
+> JsonSuccessBase get-streams(optional)
 Get all streams
 
 Get all streams that the user has access to.  `GET {{ api_url }}/v1/streams` 
@@ -163,8 +193,35 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **get_subscription_status**
-> JsonSuccessBase get_subscription_status(user_id, stream_id)
+# **get-subscribers**
+> JsonSuccessBase get-subscribers(stream_id)
+Get the subscribers of a stream
+
+Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` 
+
+### Required Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+  **stream_id** | **i32**| The ID of the stream to access.  | 
+
+### Return type
+
+[**JsonSuccessBase**](JsonSuccessBase.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get-subscription-status**
+> JsonSuccessBase get-subscription-status(user_id, stream_id)
 Get subscription status
 
 Check whether a user is subscribed to a stream.  `GET {{ api_url }}/v1/users/{user_id}/subscriptions/{stream_id}`  **Changes**: New in Zulip 3.0 (feature level 11). 
@@ -191,8 +248,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **get_subscriptions**
-> JsonSuccessBase get_subscriptions(optional)
+# **get-subscriptions**
+> JsonSuccessBase get-subscriptions(optional)
 Get subscribed streams
 
 Get all streams that the user is subscribed to.  `GET {{ api_url }}/v1/users/me/subscriptions` 
@@ -225,8 +282,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **mute_topic**
-> JsonSuccess mute_topic(topic, op, optional)
+# **mute-topic**
+> JsonSuccess mute-topic(topic, op, optional)
 Topic muting
 
 This endpoint mutes/unmutes a topic within a stream that the current user is subscribed to.  Muted topics are displayed faded in the Zulip UI, and are not included in the user's unread count totals.  `PATCH {{ api_url }}/v1/users/me/subscriptions/muted_topics` 
@@ -342,8 +399,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **update_stream**
-> JsonSuccess update_stream(stream_id, optional)
+# **update-stream**
+> JsonSuccess update-stream(stream_id, optional)
 Update a stream
 
 Configure the stream with the ID `stream_id`.  This endpoint supports an organization administrator editing any property of a stream, including:  * Stream [name](/help/rename-a-stream) and [description](/help/change-the-stream-description) * Stream [permissions](/help/stream-permissions), including [privacy](/help/change-the-privacy-of-a-stream) and [who can send](/help/stream-sending-policy).  `PATCH {{ api_url }}/v1/streams/{stream_id}` 
@@ -384,8 +441,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **update_subscription_settings**
-> JsonSuccessBase update_subscription_settings(subscription_data)
+# **update-subscription-settings**
+> JsonSuccessBase update-subscription-settings(subscription_data)
 Update subscription settings
 
 This endpoint is used to update the user's personal settings for the streams they are subscribed to, including muting, color, pinning, and per-stream notification settings.  `POST {{ api_url }}/v1/users/me/subscriptions/properties` 
@@ -411,8 +468,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **update_subscriptions**
-> JsonSuccessBase update_subscriptions(optional)
+# **update-subscriptions**
+> JsonSuccessBase update-subscriptions(optional)
 Update subscriptions
 
 Update which streams you are are subscribed to. 

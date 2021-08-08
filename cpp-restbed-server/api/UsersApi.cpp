@@ -71,12 +71,12 @@ void UsersApi::startService(int const& port) {
 	if (!m_spUsersApiTypingResource)
 		m_spUsersApiTypingResource = std::make_shared<UsersApiTypingResource>();
 	this->publish(m_spUsersApiTypingResource);
-	if (!m_spUsersApiSettingsDisplayResource)
-		m_spUsersApiSettingsDisplayResource = std::make_shared<UsersApiSettingsDisplayResource>();
-	this->publish(m_spUsersApiSettingsDisplayResource);
-	if (!m_spUsersApiSettingsNotificationsResource)
-		m_spUsersApiSettingsNotificationsResource = std::make_shared<UsersApiSettingsNotificationsResource>();
-	this->publish(m_spUsersApiSettingsNotificationsResource);
+	if (!m_spUsersApiSettingsResource)
+		m_spUsersApiSettingsResource = std::make_shared<UsersApiSettingsResource>();
+	this->publish(m_spUsersApiSettingsResource);
+	if (!m_spUsersApiUsersMeStatusResource)
+		m_spUsersApiUsersMeStatusResource = std::make_shared<UsersApiUsersMeStatusResource>();
+	this->publish(m_spUsersApiUsersMeStatusResource);
 	if (!m_spUsersApiUser_groupsUser_group_idMembersResource)
 		m_spUsersApiUser_groupsUser_group_idMembersResource = std::make_shared<UsersApiUser_groupsUser_group_idMembersResource>();
 	this->publish(m_spUsersApiUser_groupsUser_group_idMembersResource);
@@ -910,38 +910,43 @@ void UsersApiTypingResource::POST_method_handler(const std::shared_ptr<restbed::
 
 
 
-UsersApiSettingsDisplayResource::UsersApiSettingsDisplayResource()
+UsersApiSettingsResource::UsersApiSettingsResource()
 {
-	this->set_path("/settings/display/");
+	this->set_path("/settings/");
 	this->set_method_handler("PATCH",
-		std::bind(&UsersApiSettingsDisplayResource::PATCH_method_handler, this,
+		std::bind(&UsersApiSettingsResource::PATCH_method_handler, this,
 			std::placeholders::_1));
 }
 
-UsersApiSettingsDisplayResource::~UsersApiSettingsDisplayResource()
+UsersApiSettingsResource::~UsersApiSettingsResource()
 {
 }
 
-void UsersApiSettingsDisplayResource::set_handler_PATCH(
+void UsersApiSettingsResource::set_handler_PATCH(
 	std::function<std::pair<int, std::string>(
-		bool const &, bool const &, bool const &, bool const &, bool const &, int32_t const &, bool const &, std::string const &, std::string const &, bool const &, std::string const &, int32_t const &, std::string const &
+		std::string const &, std::string const &, std::string const &, std::string const &, bool const &, bool const &, bool const &, bool const &, bool const &, int32_t const &, bool const &, bool const &, std::string const &, std::string const &, bool const &, std::string const &, int32_t const &, std::string const &, bool const &, bool const &, bool const &, bool const &, std::string const &, bool const &, bool const &, int32_t const &, bool const &, bool const &, bool const &, bool const &, bool const &, bool const &, bool const &, bool const &, bool const &, int32_t const &, bool const &, bool const &, bool const &
 	)> handler) {
 	handler_PATCH_ = std::move(handler);
 }
 
 
-void UsersApiSettingsDisplayResource::PATCH_method_handler(const std::shared_ptr<restbed::Session> session) {
+void UsersApiSettingsResource::PATCH_method_handler(const std::shared_ptr<restbed::Session> session) {
 
 	const auto request = session->get_request();
 
 
 			// Getting the query params
+			const std::string fullName = request->get_query_parameter("fullName", "");
+			const std::string email = request->get_query_parameter("email", "");
+			const std::string oldPassword = request->get_query_parameter("oldPassword", "");
+			const std::string newPassword = request->get_query_parameter("newPassword", "");
 			const bool twentyFourHourTime = request->get_query_parameter("twentyFourHourTime", false);
 			const bool denseMode = request->get_query_parameter("denseMode", false);
 			const bool starredMessageCounts = request->get_query_parameter("starredMessageCounts", false);
 			const bool fluidLayoutWidth = request->get_query_parameter("fluidLayoutWidth", false);
 			const bool highContrastMode = request->get_query_parameter("highContrastMode", false);
 			const int32_t colorScheme = request->get_query_parameter("colorScheme", 0);
+			const bool enableDraftsSynchronization = request->get_query_parameter("enableDraftsSynchronization", false);
 			const bool translateEmoticons = request->get_query_parameter("translateEmoticons", false);
 			const std::string defaultLanguage = request->get_query_parameter("defaultLanguage", "");
 			const std::string defaultView = request->get_query_parameter("defaultView", "");
@@ -949,54 +954,6 @@ void UsersApiSettingsDisplayResource::PATCH_method_handler(const std::shared_ptr
 			const std::string emojiset = request->get_query_parameter("emojiset", "");
 			const int32_t demoteInactiveStreams = request->get_query_parameter("demoteInactiveStreams", 0);
 			const std::string timezone = request->get_query_parameter("timezone", "");
-
-
-			// Change the value of this variable to the appropriate response before sending the response
-			int status_code = 200;
-			std::string result = "successful operation";
-
-			if (handler_PATCH_)
-			{
-				std::tie(status_code, result) = handler_PATCH_(
-					twentyFourHourTime, denseMode, starredMessageCounts, fluidLayoutWidth, highContrastMode, colorScheme, translateEmoticons, defaultLanguage, defaultView, leftSideUserlist, emojiset, demoteInactiveStreams, timezone
-				);
-			}
-
-			if (status_code == 200) {
-				session->close(200, result.empty() ? "Success" : std::move(result), { {"Connection", "close"} });
-				return;
-			}
-
-}
-
-
-
-UsersApiSettingsNotificationsResource::UsersApiSettingsNotificationsResource()
-{
-	this->set_path("/settings/notifications/");
-	this->set_method_handler("PATCH",
-		std::bind(&UsersApiSettingsNotificationsResource::PATCH_method_handler, this,
-			std::placeholders::_1));
-}
-
-UsersApiSettingsNotificationsResource::~UsersApiSettingsNotificationsResource()
-{
-}
-
-void UsersApiSettingsNotificationsResource::set_handler_PATCH(
-	std::function<std::pair<int, std::string>(
-		bool const &, bool const &, bool const &, bool const &, std::string const &, bool const &, bool const &, bool const &, bool const &, bool const &, bool const &, bool const &, bool const &, bool const &, bool const &, bool const &, int32_t const &, bool const &, bool const &
-	)> handler) {
-	handler_PATCH_ = std::move(handler);
-}
-
-
-void UsersApiSettingsNotificationsResource::PATCH_method_handler(const std::shared_ptr<restbed::Session> session) {
-
-	const auto request = session->get_request();
-
-
-			// Getting the query params
 			const bool enableStreamDesktopNotifications = request->get_query_parameter("enableStreamDesktopNotifications", false);
 			const bool enableStreamEmailNotifications = request->get_query_parameter("enableStreamEmailNotifications", false);
 			const bool enableStreamPushNotifications = request->get_query_parameter("enableStreamPushNotifications", false);
@@ -1004,6 +961,7 @@ void UsersApiSettingsNotificationsResource::PATCH_method_handler(const std::shar
 			const std::string notificationSound = request->get_query_parameter("notificationSound", "");
 			const bool enableDesktopNotifications = request->get_query_parameter("enableDesktopNotifications", false);
 			const bool enableSounds = request->get_query_parameter("enableSounds", false);
+			const int32_t emailNotificationsBatchingPeriodSeconds = request->get_query_parameter("emailNotificationsBatchingPeriodSeconds", 0);
 			const bool enableOfflineEmailNotifications = request->get_query_parameter("enableOfflineEmailNotifications", false);
 			const bool enableOfflinePushNotifications = request->get_query_parameter("enableOfflinePushNotifications", false);
 			const bool enableOnlinePushNotifications = request->get_query_parameter("enableOnlinePushNotifications", false);
@@ -1016,6 +974,7 @@ void UsersApiSettingsNotificationsResource::PATCH_method_handler(const std::shar
 			const int32_t desktopIconCountDisplay = request->get_query_parameter("desktopIconCountDisplay", 0);
 			const bool realmNameInNotifications = request->get_query_parameter("realmNameInNotifications", false);
 			const bool presenceEnabled = request->get_query_parameter("presenceEnabled", false);
+			const bool enterSends = request->get_query_parameter("enterSends", false);
 
 
 			// Change the value of this variable to the appropriate response before sending the response
@@ -1025,12 +984,69 @@ void UsersApiSettingsNotificationsResource::PATCH_method_handler(const std::shar
 			if (handler_PATCH_)
 			{
 				std::tie(status_code, result) = handler_PATCH_(
-					enableStreamDesktopNotifications, enableStreamEmailNotifications, enableStreamPushNotifications, enableStreamAudibleNotifications, notificationSound, enableDesktopNotifications, enableSounds, enableOfflineEmailNotifications, enableOfflinePushNotifications, enableOnlinePushNotifications, enableDigestEmails, enableMarketingEmails, enableLoginEmails, messageContentInEmailNotifications, pmContentInDesktopNotifications, wildcardMentionsNotify, desktopIconCountDisplay, realmNameInNotifications, presenceEnabled
+					fullName, email, oldPassword, newPassword, twentyFourHourTime, denseMode, starredMessageCounts, fluidLayoutWidth, highContrastMode, colorScheme, enableDraftsSynchronization, translateEmoticons, defaultLanguage, defaultView, leftSideUserlist, emojiset, demoteInactiveStreams, timezone, enableStreamDesktopNotifications, enableStreamEmailNotifications, enableStreamPushNotifications, enableStreamAudibleNotifications, notificationSound, enableDesktopNotifications, enableSounds, emailNotificationsBatchingPeriodSeconds, enableOfflineEmailNotifications, enableOfflinePushNotifications, enableOnlinePushNotifications, enableDigestEmails, enableMarketingEmails, enableLoginEmails, messageContentInEmailNotifications, pmContentInDesktopNotifications, wildcardMentionsNotify, desktopIconCountDisplay, realmNameInNotifications, presenceEnabled, enterSends
+				);
+			}
+
+			if (status_code == 200) {
+				session->close(200, result.empty() ? "Success" : std::move(result), { {"Connection", "close"} });
+				return;
+			}
+
+}
+
+
+
+UsersApiUsersMeStatusResource::UsersApiUsersMeStatusResource()
+{
+	this->set_path("/users/me/status/");
+	this->set_method_handler("POST",
+		std::bind(&UsersApiUsersMeStatusResource::POST_method_handler, this,
+			std::placeholders::_1));
+}
+
+UsersApiUsersMeStatusResource::~UsersApiUsersMeStatusResource()
+{
+}
+
+void UsersApiUsersMeStatusResource::set_handler_POST(
+	std::function<std::pair<int, std::string>(
+		std::string const &, bool const &, std::string const &, std::string const &, std::string const &
+	)> handler) {
+	handler_POST_ = std::move(handler);
+}
+
+
+void UsersApiUsersMeStatusResource::POST_method_handler(const std::shared_ptr<restbed::Session> session) {
+
+	const auto request = session->get_request();
+
+
+			// Getting the query params
+			const std::string statusText = request->get_query_parameter("statusText", "");
+			const bool away = request->get_query_parameter("away", false);
+			const std::string emojiName = request->get_query_parameter("emojiName", "");
+			const std::string emojiCode = request->get_query_parameter("emojiCode", "");
+			const std::string reactionType = request->get_query_parameter("reactionType", "");
+
+
+			// Change the value of this variable to the appropriate response before sending the response
+			int status_code = 200;
+			std::string result = "successful operation";
+
+			if (handler_POST_)
+			{
+				std::tie(status_code, result) = handler_POST_(
+					statusText, away, emojiName, emojiCode, reactionType
 				);
 			}
 
 			if (status_code == 200) {
 				session->close(200, result.empty() ? "Success." : std::move(result), { {"Connection", "close"} });
+				return;
+			}
+			if (status_code == 400) {
+				session->close(400, result.empty() ? "Success." : std::move(result), { {"Connection", "close"} });
 				return;
 			}
 

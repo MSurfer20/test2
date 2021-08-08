@@ -2262,42 +2262,94 @@ class UsersApi(object):
             collection_formats=collection_formats,
             _request_auth=local_var_params.get('_request_auth'))
 
-    def update_display_settings(self, **kwargs):  # noqa: E501
-        """Update display settings  # noqa: E501
+    def update_settings(self, **kwargs):  # noqa: E501
+        """Update settings  # noqa: E501
 
-        This endpoint is used to edit the current user's user interface settings.  `PATCH {{ api_url }}/v1/settings/display`   # noqa: E501
+        This endpoint is used to edit the current user's settings.  `PATCH {{ api_url }}/v1/settings`  **Changes**: Prior to Zulip 5.0 (feature level 80), this endpoint only supported the `full_name`, `email`, `old_password`, and `new_password` parameters. Notification settings were managed by `PATCH /settings/notifications`, and all other settings by `PATCH /settings/display`. The feature level 80 migration to merge these endpoints did not change how request parameters are encoded. Note, however, that it did change the handling of any invalid parameters present in a request to change notification or display settings, since the merged endpoint uses the new response format that was introduced for `/settings` in Zulip 5.0 (feature level 78).  The `/settings/display` and `/settings/notifications` endpoints are now deprecated aliases for this endpoint for backwards-compatibility, and will be removed once clients have migrated to use this endpoint.   # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.update_display_settings(async_req=True)
+        >>> thread = api.update_settings(async_req=True)
         >>> result = thread.get()
 
-        :param twenty_four_hour_time: Whether time should be [displayed in 24-hour notation](/help/change-the-time-format). 
+        :param full_name: A new display name for the user. 
+        :type full_name: str
+        :param email: Asks the server to initiate a confirmation sequence to change the user's email address to the indicated value. The user will need to demonstrate control of the new email address by clicking a confirmation link sent to that address. 
+        :type email: str
+        :param old_password: The user's old Zulip password (or LDAP password, if LDAP authentication is in use).  Required only when sending the `new_password` parameter. 
+        :type old_password: str
+        :param new_password: The user's new Zulip password (or LDAP password, if LDAP authentication is in use).  The `old_password` parameter must be included in the request. 
+        :type new_password: str
+        :param twenty_four_hour_time: Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
         :type twenty_four_hour_time: bool
-        :param dense_mode: This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip. 
+        :param dense_mode: This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
         :type dense_mode: bool
-        :param starred_message_counts: Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages). 
+        :param starred_message_counts: Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
         :type starred_message_counts: bool
-        :param fluid_layout_width: Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app's center panel (message feed, recent topics) on wide screens. 
+        :param fluid_layout_width: Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app's center panel (message feed, recent topics) on wide screens.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
         :type fluid_layout_width: bool
-        :param high_contrast_mode: This setting is reserved for use to control variations in Zulip's design to help visually impaired users. 
+        :param high_contrast_mode: This setting is reserved for use to control variations in Zulip's design to help visually impaired users.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
         :type high_contrast_mode: bool
-        :param color_scheme: Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard `prefers-color-scheme` media query. 
+        :param color_scheme: Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard `prefers-color-scheme` media query.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
         :type color_scheme: int
-        :param translate_emoticons: Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends. 
+        :param enable_drafts_synchronization: A boolean parameter to control whether synchronizing drafts is enabled for the user. When synchronization is disabled, all drafts stored in the server will be automatically deleted from the server.  This does not do anything (like sending events) to delete local copies of drafts stored in clients.  **Changes**: New in Zulip 5.0 (feature level 87). 
+        :type enable_drafts_synchronization: bool
+        :param translate_emoticons: Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
         :type translate_emoticons: bool
-        :param default_language: What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, `\"en\"` for English or `\"de\"` for German.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63). 
+        :param default_language: What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, `\"en\"` for English or `\"de\"` for German.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63). 
         :type default_language: str
-        :param default_view: The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the `Esc` keyboard shortcut repeatedly.  * \"recent_topics\" - Recent topics view * \"all_messages\" - All messages view  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). 
+        :param default_view: The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the `Esc` keyboard shortcut repeatedly.  * \"recent_topics\" - Recent topics view * \"all_messages\" - All messages view  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). 
         :type default_view: str
-        :param left_side_userlist: Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked. 
+        :param left_side_userlist: Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
         :type left_side_userlist: bool
-        :param emojiset: The user's configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \"google\" - Google modern * \"google-blob\" - Google classic * \"twitter\" - Twitter * \"text\" - Plain text  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). 
+        :param emojiset: The user's configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \"google\" - Google modern * \"google-blob\" - Google classic * \"twitter\" - Twitter * \"text\" - Plain text  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). 
         :type emojiset: str
-        :param demote_inactive_streams: Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never 
+        :param demote_inactive_streams: Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
         :type demote_inactive_streams: int
-        :param timezone: The user's [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). 
+        :param timezone: The user's [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). 
         :type timezone: str
+        :param enable_stream_desktop_notifications: Enable visual desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+        :type enable_stream_desktop_notifications: bool
+        :param enable_stream_email_notifications: Enable email notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+        :type enable_stream_email_notifications: bool
+        :param enable_stream_push_notifications: Enable mobile notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+        :type enable_stream_push_notifications: bool
+        :param enable_stream_audible_notifications: Enable audible desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+        :type enable_stream_audible_notifications: bool
+        :param notification_sound: Notification sound name.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63). 
+        :type notification_sound: str
+        :param enable_desktop_notifications: Enable visual desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+        :type enable_desktop_notifications: bool
+        :param enable_sounds: Enable audible desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+        :type enable_sounds: bool
+        :param email_notifications_batching_period_seconds: The duration (in seconds) for which the server should wait to batch email notifications before sending them.  **Changes**: New in Zulip 5.0 (feature level 82) 
+        :type email_notifications_batching_period_seconds: int
+        :param enable_offline_email_notifications: Enable email notifications for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+        :type enable_offline_email_notifications: bool
+        :param enable_offline_push_notifications: Enable mobile notification for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+        :type enable_offline_push_notifications: bool
+        :param enable_online_push_notifications: Enable mobile notification for private messages and @-mentions received when the user is online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+        :type enable_online_push_notifications: bool
+        :param enable_digest_emails: Enable digest emails when the user is away.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+        :type enable_digest_emails: bool
+        :param enable_marketing_emails: Enable marketing emails. Has no function outside Zulip Cloud.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+        :type enable_marketing_emails: bool
+        :param enable_login_emails: Enable email notifications for new logins to account.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+        :type enable_login_emails: bool
+        :param message_content_in_email_notifications: Include the message's content in email notifications for new messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+        :type message_content_in_email_notifications: bool
+        :param pm_content_in_desktop_notifications: Include content of private messages in desktop notifications.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+        :type pm_content_in_desktop_notifications: bool
+        :param wildcard_mentions_notify: Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+        :type wildcard_mentions_notify: bool
+        :param desktop_icon_count_display: Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+        :type desktop_icon_count_display: int
+        :param realm_name_in_notifications: Include organization name in subject of message notification emails.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+        :type realm_name_in_notifications: bool
+        :param presence_enabled: Display the presence status to other users when online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+        :type presence_enabled: bool
+        :param enter_sends: Whether pressing Enter in the compose box sends a message (or saves a message edit).  **Changes**: Before Zulip 5.0 (feature level 81), this setting was managed by the `POST /users/me/enter-sends` endpoint, with the same parameter format. 
+        :type enter_sends: bool
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _preload_content: if False, the urllib3.HTTPResponse object will
@@ -2314,44 +2366,96 @@ class UsersApi(object):
         :rtype: JsonSuccessBase
         """
         kwargs['_return_http_data_only'] = True
-        return self.update_display_settings_with_http_info(**kwargs)  # noqa: E501
+        return self.update_settings_with_http_info(**kwargs)  # noqa: E501
 
-    def update_display_settings_with_http_info(self, **kwargs):  # noqa: E501
-        """Update display settings  # noqa: E501
+    def update_settings_with_http_info(self, **kwargs):  # noqa: E501
+        """Update settings  # noqa: E501
 
-        This endpoint is used to edit the current user's user interface settings.  `PATCH {{ api_url }}/v1/settings/display`   # noqa: E501
+        This endpoint is used to edit the current user's settings.  `PATCH {{ api_url }}/v1/settings`  **Changes**: Prior to Zulip 5.0 (feature level 80), this endpoint only supported the `full_name`, `email`, `old_password`, and `new_password` parameters. Notification settings were managed by `PATCH /settings/notifications`, and all other settings by `PATCH /settings/display`. The feature level 80 migration to merge these endpoints did not change how request parameters are encoded. Note, however, that it did change the handling of any invalid parameters present in a request to change notification or display settings, since the merged endpoint uses the new response format that was introduced for `/settings` in Zulip 5.0 (feature level 78).  The `/settings/display` and `/settings/notifications` endpoints are now deprecated aliases for this endpoint for backwards-compatibility, and will be removed once clients have migrated to use this endpoint.   # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.update_display_settings_with_http_info(async_req=True)
+        >>> thread = api.update_settings_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param twenty_four_hour_time: Whether time should be [displayed in 24-hour notation](/help/change-the-time-format). 
+        :param full_name: A new display name for the user. 
+        :type full_name: str
+        :param email: Asks the server to initiate a confirmation sequence to change the user's email address to the indicated value. The user will need to demonstrate control of the new email address by clicking a confirmation link sent to that address. 
+        :type email: str
+        :param old_password: The user's old Zulip password (or LDAP password, if LDAP authentication is in use).  Required only when sending the `new_password` parameter. 
+        :type old_password: str
+        :param new_password: The user's new Zulip password (or LDAP password, if LDAP authentication is in use).  The `old_password` parameter must be included in the request. 
+        :type new_password: str
+        :param twenty_four_hour_time: Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
         :type twenty_four_hour_time: bool
-        :param dense_mode: This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip. 
+        :param dense_mode: This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
         :type dense_mode: bool
-        :param starred_message_counts: Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages). 
+        :param starred_message_counts: Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
         :type starred_message_counts: bool
-        :param fluid_layout_width: Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app's center panel (message feed, recent topics) on wide screens. 
+        :param fluid_layout_width: Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app's center panel (message feed, recent topics) on wide screens.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
         :type fluid_layout_width: bool
-        :param high_contrast_mode: This setting is reserved for use to control variations in Zulip's design to help visually impaired users. 
+        :param high_contrast_mode: This setting is reserved for use to control variations in Zulip's design to help visually impaired users.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
         :type high_contrast_mode: bool
-        :param color_scheme: Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard `prefers-color-scheme` media query. 
+        :param color_scheme: Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard `prefers-color-scheme` media query.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
         :type color_scheme: int
-        :param translate_emoticons: Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends. 
+        :param enable_drafts_synchronization: A boolean parameter to control whether synchronizing drafts is enabled for the user. When synchronization is disabled, all drafts stored in the server will be automatically deleted from the server.  This does not do anything (like sending events) to delete local copies of drafts stored in clients.  **Changes**: New in Zulip 5.0 (feature level 87). 
+        :type enable_drafts_synchronization: bool
+        :param translate_emoticons: Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
         :type translate_emoticons: bool
-        :param default_language: What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, `\"en\"` for English or `\"de\"` for German.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63). 
+        :param default_language: What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, `\"en\"` for English or `\"de\"` for German.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63). 
         :type default_language: str
-        :param default_view: The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the `Esc` keyboard shortcut repeatedly.  * \"recent_topics\" - Recent topics view * \"all_messages\" - All messages view  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). 
+        :param default_view: The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the `Esc` keyboard shortcut repeatedly.  * \"recent_topics\" - Recent topics view * \"all_messages\" - All messages view  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). 
         :type default_view: str
-        :param left_side_userlist: Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked. 
+        :param left_side_userlist: Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
         :type left_side_userlist: bool
-        :param emojiset: The user's configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \"google\" - Google modern * \"google-blob\" - Google classic * \"twitter\" - Twitter * \"text\" - Plain text  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). 
+        :param emojiset: The user's configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \"google\" - Google modern * \"google-blob\" - Google classic * \"twitter\" - Twitter * \"text\" - Plain text  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). 
         :type emojiset: str
-        :param demote_inactive_streams: Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never 
+        :param demote_inactive_streams: Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
         :type demote_inactive_streams: int
-        :param timezone: The user's [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). 
+        :param timezone: The user's [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). 
         :type timezone: str
+        :param enable_stream_desktop_notifications: Enable visual desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+        :type enable_stream_desktop_notifications: bool
+        :param enable_stream_email_notifications: Enable email notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+        :type enable_stream_email_notifications: bool
+        :param enable_stream_push_notifications: Enable mobile notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+        :type enable_stream_push_notifications: bool
+        :param enable_stream_audible_notifications: Enable audible desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+        :type enable_stream_audible_notifications: bool
+        :param notification_sound: Notification sound name.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63). 
+        :type notification_sound: str
+        :param enable_desktop_notifications: Enable visual desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+        :type enable_desktop_notifications: bool
+        :param enable_sounds: Enable audible desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+        :type enable_sounds: bool
+        :param email_notifications_batching_period_seconds: The duration (in seconds) for which the server should wait to batch email notifications before sending them.  **Changes**: New in Zulip 5.0 (feature level 82) 
+        :type email_notifications_batching_period_seconds: int
+        :param enable_offline_email_notifications: Enable email notifications for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+        :type enable_offline_email_notifications: bool
+        :param enable_offline_push_notifications: Enable mobile notification for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+        :type enable_offline_push_notifications: bool
+        :param enable_online_push_notifications: Enable mobile notification for private messages and @-mentions received when the user is online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+        :type enable_online_push_notifications: bool
+        :param enable_digest_emails: Enable digest emails when the user is away.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+        :type enable_digest_emails: bool
+        :param enable_marketing_emails: Enable marketing emails. Has no function outside Zulip Cloud.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+        :type enable_marketing_emails: bool
+        :param enable_login_emails: Enable email notifications for new logins to account.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+        :type enable_login_emails: bool
+        :param message_content_in_email_notifications: Include the message's content in email notifications for new messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+        :type message_content_in_email_notifications: bool
+        :param pm_content_in_desktop_notifications: Include content of private messages in desktop notifications.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+        :type pm_content_in_desktop_notifications: bool
+        :param wildcard_mentions_notify: Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+        :type wildcard_mentions_notify: bool
+        :param desktop_icon_count_display: Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+        :type desktop_icon_count_display: int
+        :param realm_name_in_notifications: Include organization name in subject of message notification emails.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+        :type realm_name_in_notifications: bool
+        :param presence_enabled: Display the presence status to other users when online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+        :type presence_enabled: bool
+        :param enter_sends: Whether pressing Enter in the compose box sends a message (or saves a message edit).  **Changes**: Before Zulip 5.0 (feature level 81), this setting was managed by the `POST /users/me/enter-sends` endpoint, with the same parameter format. 
+        :type enter_sends: bool
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _return_http_data_only: response data without head status code
@@ -2378,19 +2482,45 @@ class UsersApi(object):
         local_var_params = locals()
 
         all_params = [
+            'full_name',
+            'email',
+            'old_password',
+            'new_password',
             'twenty_four_hour_time',
             'dense_mode',
             'starred_message_counts',
             'fluid_layout_width',
             'high_contrast_mode',
             'color_scheme',
+            'enable_drafts_synchronization',
             'translate_emoticons',
             'default_language',
             'default_view',
             'left_side_userlist',
             'emojiset',
             'demote_inactive_streams',
-            'timezone'
+            'timezone',
+            'enable_stream_desktop_notifications',
+            'enable_stream_email_notifications',
+            'enable_stream_push_notifications',
+            'enable_stream_audible_notifications',
+            'notification_sound',
+            'enable_desktop_notifications',
+            'enable_sounds',
+            'email_notifications_batching_period_seconds',
+            'enable_offline_email_notifications',
+            'enable_offline_push_notifications',
+            'enable_online_push_notifications',
+            'enable_digest_emails',
+            'enable_marketing_emails',
+            'enable_login_emails',
+            'message_content_in_email_notifications',
+            'pm_content_in_desktop_notifications',
+            'wildcard_mentions_notify',
+            'desktop_icon_count_display',
+            'realm_name_in_notifications',
+            'presence_enabled',
+            'enter_sends'
         ]
         all_params.extend(
             [
@@ -2406,7 +2536,7 @@ class UsersApi(object):
             if key not in all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method update_display_settings" % key
+                    " to method update_settings" % key
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
@@ -2416,6 +2546,14 @@ class UsersApi(object):
         path_params = {}
 
         query_params = []
+        if 'full_name' in local_var_params and local_var_params['full_name'] is not None:  # noqa: E501
+            query_params.append(('full_name', local_var_params['full_name']))  # noqa: E501
+        if 'email' in local_var_params and local_var_params['email'] is not None:  # noqa: E501
+            query_params.append(('email', local_var_params['email']))  # noqa: E501
+        if 'old_password' in local_var_params and local_var_params['old_password'] is not None:  # noqa: E501
+            query_params.append(('old_password', local_var_params['old_password']))  # noqa: E501
+        if 'new_password' in local_var_params and local_var_params['new_password'] is not None:  # noqa: E501
+            query_params.append(('new_password', local_var_params['new_password']))  # noqa: E501
         if 'twenty_four_hour_time' in local_var_params and local_var_params['twenty_four_hour_time'] is not None:  # noqa: E501
             query_params.append(('twenty_four_hour_time', local_var_params['twenty_four_hour_time']))  # noqa: E501
         if 'dense_mode' in local_var_params and local_var_params['dense_mode'] is not None:  # noqa: E501
@@ -2428,6 +2566,8 @@ class UsersApi(object):
             query_params.append(('high_contrast_mode', local_var_params['high_contrast_mode']))  # noqa: E501
         if 'color_scheme' in local_var_params and local_var_params['color_scheme'] is not None:  # noqa: E501
             query_params.append(('color_scheme', local_var_params['color_scheme']))  # noqa: E501
+        if 'enable_drafts_synchronization' in local_var_params and local_var_params['enable_drafts_synchronization'] is not None:  # noqa: E501
+            query_params.append(('enable_drafts_synchronization', local_var_params['enable_drafts_synchronization']))  # noqa: E501
         if 'translate_emoticons' in local_var_params and local_var_params['translate_emoticons'] is not None:  # noqa: E501
             query_params.append(('translate_emoticons', local_var_params['translate_emoticons']))  # noqa: E501
         if 'default_language' in local_var_params and local_var_params['default_language'] is not None:  # noqa: E501
@@ -2442,225 +2582,6 @@ class UsersApi(object):
             query_params.append(('demote_inactive_streams', local_var_params['demote_inactive_streams']))  # noqa: E501
         if 'timezone' in local_var_params and local_var_params['timezone'] is not None:  # noqa: E501
             query_params.append(('timezone', local_var_params['timezone']))  # noqa: E501
-
-        header_params = {}
-
-        form_params = []
-        local_var_files = {}
-
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = []  # noqa: E501
-        
-        response_types_map = {
-            200: "JsonSuccessBase",
-        }
-
-        return self.api_client.call_api(
-            '/settings/display', 'PATCH',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_types_map=response_types_map,
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats,
-            _request_auth=local_var_params.get('_request_auth'))
-
-    def update_notification_settings(self, **kwargs):  # noqa: E501
-        """Update notification settings  # noqa: E501
-
-        This endpoint is used to edit the user's global notification settings. See [this endpoint](/api/update-subscription-settings) for per-stream notification settings.  `PATCH {{ api_url }}/v1/settings/notifications`   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-
-        >>> thread = api.update_notification_settings(async_req=True)
-        >>> result = thread.get()
-
-        :param enable_stream_desktop_notifications: Enable visual desktop notifications for stream messages. 
-        :type enable_stream_desktop_notifications: bool
-        :param enable_stream_email_notifications: Enable email notifications for stream messages. 
-        :type enable_stream_email_notifications: bool
-        :param enable_stream_push_notifications: Enable mobile notifications for stream messages. 
-        :type enable_stream_push_notifications: bool
-        :param enable_stream_audible_notifications: Enable audible desktop notifications for stream messages. 
-        :type enable_stream_audible_notifications: bool
-        :param notification_sound: Notification sound name.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63). 
-        :type notification_sound: str
-        :param enable_desktop_notifications: Enable visual desktop notifications for private messages and @-mentions. 
-        :type enable_desktop_notifications: bool
-        :param enable_sounds: Enable audible desktop notifications for private messages and @-mentions. 
-        :type enable_sounds: bool
-        :param enable_offline_email_notifications: Enable email notifications for private messages and @-mentions received when the user is offline. 
-        :type enable_offline_email_notifications: bool
-        :param enable_offline_push_notifications: Enable mobile notification for private messages and @-mentions received when the user is offline. 
-        :type enable_offline_push_notifications: bool
-        :param enable_online_push_notifications: Enable mobile notification for private messages and @-mentions received when the user is online. 
-        :type enable_online_push_notifications: bool
-        :param enable_digest_emails: Enable digest emails when the user is away. 
-        :type enable_digest_emails: bool
-        :param enable_marketing_emails: Enable marketing emails. Has no function outside Zulip Cloud. 
-        :type enable_marketing_emails: bool
-        :param enable_login_emails: Enable email notifications for new logins to account. 
-        :type enable_login_emails: bool
-        :param message_content_in_email_notifications: Include the message's content in email notifications for new messages. 
-        :type message_content_in_email_notifications: bool
-        :param pm_content_in_desktop_notifications: Include content of private messages in desktop notifications. 
-        :type pm_content_in_desktop_notifications: bool
-        :param wildcard_mentions_notify: Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention. 
-        :type wildcard_mentions_notify: bool
-        :param desktop_icon_count_display: Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None 
-        :type desktop_icon_count_display: int
-        :param realm_name_in_notifications: Include organization name in subject of message notification emails. 
-        :type realm_name_in_notifications: bool
-        :param presence_enabled: Display the presence status to other users when online. 
-        :type presence_enabled: bool
-        :param async_req: Whether to execute the request asynchronously.
-        :type async_req: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :type _preload_content: bool, optional
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: JsonSuccessBase
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.update_notification_settings_with_http_info(**kwargs)  # noqa: E501
-
-    def update_notification_settings_with_http_info(self, **kwargs):  # noqa: E501
-        """Update notification settings  # noqa: E501
-
-        This endpoint is used to edit the user's global notification settings. See [this endpoint](/api/update-subscription-settings) for per-stream notification settings.  `PATCH {{ api_url }}/v1/settings/notifications`   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-
-        >>> thread = api.update_notification_settings_with_http_info(async_req=True)
-        >>> result = thread.get()
-
-        :param enable_stream_desktop_notifications: Enable visual desktop notifications for stream messages. 
-        :type enable_stream_desktop_notifications: bool
-        :param enable_stream_email_notifications: Enable email notifications for stream messages. 
-        :type enable_stream_email_notifications: bool
-        :param enable_stream_push_notifications: Enable mobile notifications for stream messages. 
-        :type enable_stream_push_notifications: bool
-        :param enable_stream_audible_notifications: Enable audible desktop notifications for stream messages. 
-        :type enable_stream_audible_notifications: bool
-        :param notification_sound: Notification sound name.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63). 
-        :type notification_sound: str
-        :param enable_desktop_notifications: Enable visual desktop notifications for private messages and @-mentions. 
-        :type enable_desktop_notifications: bool
-        :param enable_sounds: Enable audible desktop notifications for private messages and @-mentions. 
-        :type enable_sounds: bool
-        :param enable_offline_email_notifications: Enable email notifications for private messages and @-mentions received when the user is offline. 
-        :type enable_offline_email_notifications: bool
-        :param enable_offline_push_notifications: Enable mobile notification for private messages and @-mentions received when the user is offline. 
-        :type enable_offline_push_notifications: bool
-        :param enable_online_push_notifications: Enable mobile notification for private messages and @-mentions received when the user is online. 
-        :type enable_online_push_notifications: bool
-        :param enable_digest_emails: Enable digest emails when the user is away. 
-        :type enable_digest_emails: bool
-        :param enable_marketing_emails: Enable marketing emails. Has no function outside Zulip Cloud. 
-        :type enable_marketing_emails: bool
-        :param enable_login_emails: Enable email notifications for new logins to account. 
-        :type enable_login_emails: bool
-        :param message_content_in_email_notifications: Include the message's content in email notifications for new messages. 
-        :type message_content_in_email_notifications: bool
-        :param pm_content_in_desktop_notifications: Include content of private messages in desktop notifications. 
-        :type pm_content_in_desktop_notifications: bool
-        :param wildcard_mentions_notify: Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention. 
-        :type wildcard_mentions_notify: bool
-        :param desktop_icon_count_display: Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None 
-        :type desktop_icon_count_display: int
-        :param realm_name_in_notifications: Include organization name in subject of message notification emails. 
-        :type realm_name_in_notifications: bool
-        :param presence_enabled: Display the presence status to other users when online. 
-        :type presence_enabled: bool
-        :param async_req: Whether to execute the request asynchronously.
-        :type async_req: bool, optional
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :type _return_http_data_only: bool, optional
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :type _preload_content: bool, optional
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the authentication
-                              in the spec for a single request.
-        :type _request_auth: dict, optional
-        :return: Returns the result object.
-                 If the method is called asynchronously,
-                 returns the request thread.
-        :rtype: tuple(JsonSuccessBase, status_code(int), headers(HTTPHeaderDict))
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'enable_stream_desktop_notifications',
-            'enable_stream_email_notifications',
-            'enable_stream_push_notifications',
-            'enable_stream_audible_notifications',
-            'notification_sound',
-            'enable_desktop_notifications',
-            'enable_sounds',
-            'enable_offline_email_notifications',
-            'enable_offline_push_notifications',
-            'enable_online_push_notifications',
-            'enable_digest_emails',
-            'enable_marketing_emails',
-            'enable_login_emails',
-            'message_content_in_email_notifications',
-            'pm_content_in_desktop_notifications',
-            'wildcard_mentions_notify',
-            'desktop_icon_count_display',
-            'realm_name_in_notifications',
-            'presence_enabled'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout',
-                '_request_auth'
-            ]
-        )
-
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method update_notification_settings" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-
-        collection_formats = {}
-
-        path_params = {}
-
-        query_params = []
         if 'enable_stream_desktop_notifications' in local_var_params and local_var_params['enable_stream_desktop_notifications'] is not None:  # noqa: E501
             query_params.append(('enable_stream_desktop_notifications', local_var_params['enable_stream_desktop_notifications']))  # noqa: E501
         if 'enable_stream_email_notifications' in local_var_params and local_var_params['enable_stream_email_notifications'] is not None:  # noqa: E501
@@ -2675,6 +2596,8 @@ class UsersApi(object):
             query_params.append(('enable_desktop_notifications', local_var_params['enable_desktop_notifications']))  # noqa: E501
         if 'enable_sounds' in local_var_params and local_var_params['enable_sounds'] is not None:  # noqa: E501
             query_params.append(('enable_sounds', local_var_params['enable_sounds']))  # noqa: E501
+        if 'email_notifications_batching_period_seconds' in local_var_params and local_var_params['email_notifications_batching_period_seconds'] is not None:  # noqa: E501
+            query_params.append(('email_notifications_batching_period_seconds', local_var_params['email_notifications_batching_period_seconds']))  # noqa: E501
         if 'enable_offline_email_notifications' in local_var_params and local_var_params['enable_offline_email_notifications'] is not None:  # noqa: E501
             query_params.append(('enable_offline_email_notifications', local_var_params['enable_offline_email_notifications']))  # noqa: E501
         if 'enable_offline_push_notifications' in local_var_params and local_var_params['enable_offline_push_notifications'] is not None:  # noqa: E501
@@ -2699,6 +2622,8 @@ class UsersApi(object):
             query_params.append(('realm_name_in_notifications', local_var_params['realm_name_in_notifications']))  # noqa: E501
         if 'presence_enabled' in local_var_params and local_var_params['presence_enabled'] is not None:  # noqa: E501
             query_params.append(('presence_enabled', local_var_params['presence_enabled']))  # noqa: E501
+        if 'enter_sends' in local_var_params and local_var_params['enter_sends'] is not None:  # noqa: E501
+            query_params.append(('enter_sends', local_var_params['enter_sends']))  # noqa: E501
 
         header_params = {}
 
@@ -2718,7 +2643,167 @@ class UsersApi(object):
         }
 
         return self.api_client.call_api(
-            '/settings/notifications', 'PATCH',
+            '/settings', 'PATCH',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_types_map=response_types_map,
+            auth_settings=auth_settings,
+            async_req=local_var_params.get('async_req'),
+            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=local_var_params.get('_preload_content', True),
+            _request_timeout=local_var_params.get('_request_timeout'),
+            collection_formats=collection_formats,
+            _request_auth=local_var_params.get('_request_auth'))
+
+    def update_status(self, **kwargs):  # noqa: E501
+        """Update your status  # noqa: E501
+
+        Change your [status](/help/status-and-availability).  `POST {{ api_url }}/v1/users/me/status`  A request to this endpoint will only change the parameters passed. For example, passing just `status_text` requests a change in the status text, but will leave the status emoji unchanged.  Clients that wish to set the user's status to a specific value should pass all supported parameters.   # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+
+        >>> thread = api.update_status(async_req=True)
+        >>> result = thread.get()
+
+        :param status_text: The text content of the status message. Sending the empty string will clear the user's status.  **Note**: The limit on the size of the message is 60 characters. 
+        :type status_text: str
+        :param away: Whether the user should be marked as \"away\". 
+        :type away: bool
+        :param emoji_name: The name for the emoji to associate with this status. 
+        :type emoji_name: str
+        :param emoji_code: A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji. 
+        :type emoji_code: str
+        :param reaction_type: One of the following values:  * `unicode_emoji`: Unicode emoji (`emoji_code` will be its Unicode   codepoint). * `realm_emoji`: [Custom emoji](/help/add-custom-emoji).   (`emoji_code` will be its ID). * `zulip_extra_emoji`: Special emoji included with Zulip.  Exists to   namespace the `zulip` emoji. 
+        :type reaction_type: str
+        :param async_req: Whether to execute the request asynchronously.
+        :type async_req: bool, optional
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :type _preload_content: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: JsonSuccess
+        """
+        kwargs['_return_http_data_only'] = True
+        return self.update_status_with_http_info(**kwargs)  # noqa: E501
+
+    def update_status_with_http_info(self, **kwargs):  # noqa: E501
+        """Update your status  # noqa: E501
+
+        Change your [status](/help/status-and-availability).  `POST {{ api_url }}/v1/users/me/status`  A request to this endpoint will only change the parameters passed. For example, passing just `status_text` requests a change in the status text, but will leave the status emoji unchanged.  Clients that wish to set the user's status to a specific value should pass all supported parameters.   # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+
+        >>> thread = api.update_status_with_http_info(async_req=True)
+        >>> result = thread.get()
+
+        :param status_text: The text content of the status message. Sending the empty string will clear the user's status.  **Note**: The limit on the size of the message is 60 characters. 
+        :type status_text: str
+        :param away: Whether the user should be marked as \"away\". 
+        :type away: bool
+        :param emoji_name: The name for the emoji to associate with this status. 
+        :type emoji_name: str
+        :param emoji_code: A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji. 
+        :type emoji_code: str
+        :param reaction_type: One of the following values:  * `unicode_emoji`: Unicode emoji (`emoji_code` will be its Unicode   codepoint). * `realm_emoji`: [Custom emoji](/help/add-custom-emoji).   (`emoji_code` will be its ID). * `zulip_extra_emoji`: Special emoji included with Zulip.  Exists to   namespace the `zulip` emoji. 
+        :type reaction_type: str
+        :param async_req: Whether to execute the request asynchronously.
+        :type async_req: bool, optional
+        :param _return_http_data_only: response data without head status code
+                                       and headers
+        :type _return_http_data_only: bool, optional
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :type _preload_content: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: tuple(JsonSuccess, status_code(int), headers(HTTPHeaderDict))
+        """
+
+        local_var_params = locals()
+
+        all_params = [
+            'status_text',
+            'away',
+            'emoji_name',
+            'emoji_code',
+            'reaction_type'
+        ]
+        all_params.extend(
+            [
+                'async_req',
+                '_return_http_data_only',
+                '_preload_content',
+                '_request_timeout',
+                '_request_auth'
+            ]
+        )
+
+        for key, val in six.iteritems(local_var_params['kwargs']):
+            if key not in all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method update_status" % key
+                )
+            local_var_params[key] = val
+        del local_var_params['kwargs']
+
+        collection_formats = {}
+
+        path_params = {}
+
+        query_params = []
+        if 'status_text' in local_var_params and local_var_params['status_text'] is not None:  # noqa: E501
+            query_params.append(('status_text', local_var_params['status_text']))  # noqa: E501
+        if 'away' in local_var_params and local_var_params['away'] is not None:  # noqa: E501
+            query_params.append(('away', local_var_params['away']))  # noqa: E501
+        if 'emoji_name' in local_var_params and local_var_params['emoji_name'] is not None:  # noqa: E501
+            query_params.append(('emoji_name', local_var_params['emoji_name']))  # noqa: E501
+        if 'emoji_code' in local_var_params and local_var_params['emoji_code'] is not None:  # noqa: E501
+            query_params.append(('emoji_code', local_var_params['emoji_code']))  # noqa: E501
+        if 'reaction_type' in local_var_params and local_var_params['reaction_type'] is not None:  # noqa: E501
+            query_params.append(('reaction_type', local_var_params['reaction_type']))  # noqa: E501
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = []  # noqa: E501
+        
+        response_types_map = {
+            200: "JsonSuccess",
+            400: "OneOfobjectobjectobjectobjectobjectobject",
+        }
+
+        return self.api_client.call_api(
+            '/users/me/status', 'POST',
             path_params,
             query_params,
             header_params,

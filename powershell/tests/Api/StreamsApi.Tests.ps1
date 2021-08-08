@@ -22,6 +22,14 @@ Describe -tag 'PSOpenAPITools' -name 'StreamsApi' {
         }
     }
 
+    Context 'Invoke-DeleteTopic' {
+        It 'Test Invoke-DeleteTopic' {
+            #$TestResult = Invoke-DeleteTopic -StreamId "TEST_VALUE" -TopicName "TEST_VALUE"
+            #$TestResult | Should -BeOfType TODO
+            #$TestResult.property | Should -Be 0
+        }
+    }
+
     Context 'Get-StreamId' {
         It 'Test Get-StreamId' {
             #$TestResult = Get-StreamId -Stream "TEST_VALUE"
@@ -41,6 +49,14 @@ Describe -tag 'PSOpenAPITools' -name 'StreamsApi' {
     Context 'Get-Streams' {
         It 'Test Get-Streams' {
             #$TestResult = Get-Streams -IncludePublic "TEST_VALUE" -IncludeWebPublic "TEST_VALUE" -IncludeSubscribed "TEST_VALUE" -IncludeAllActive "TEST_VALUE" -IncludeDefault "TEST_VALUE" -IncludeOwnerSubscribed "TEST_VALUE"
+            #$TestResult | Should -BeOfType TODO
+            #$TestResult.property | Should -Be 0
+        }
+    }
+
+    Context 'Get-Subscribers' {
+        It 'Test Get-Subscribers' {
+            #$TestResult = Get-Subscribers -StreamId "TEST_VALUE"
             #$TestResult | Should -BeOfType TODO
             #$TestResult.property | Should -Be 0
         }

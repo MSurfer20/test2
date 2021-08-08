@@ -8,36 +8,44 @@
 
 const Controller = require('./Controller');
 const service = require('../services/StreamsService');
-const archive_stream = async (request, response) => {
-  await Controller.handleRequest(request, response, service.archive_stream);
+const archiveStream = async (request, response) => {
+  await Controller.handleRequest(request, response, service.archiveStream);
 };
 
-const create_big_blue_button_video_call = async (request, response) => {
-  await Controller.handleRequest(request, response, service.create_big_blue_button_video_call);
+const createBigBlueButtonVideoCall = async (request, response) => {
+  await Controller.handleRequest(request, response, service.createBigBlueButtonVideoCall);
 };
 
-const get_stream_id = async (request, response) => {
-  await Controller.handleRequest(request, response, service.get_stream_id);
+const deleteTopic = async (request, response) => {
+  await Controller.handleRequest(request, response, service.deleteTopic);
 };
 
-const get_stream_topics = async (request, response) => {
-  await Controller.handleRequest(request, response, service.get_stream_topics);
+const getStreamId = async (request, response) => {
+  await Controller.handleRequest(request, response, service.getStreamId);
 };
 
-const get_streams = async (request, response) => {
-  await Controller.handleRequest(request, response, service.get_streams);
+const getStreamTopics = async (request, response) => {
+  await Controller.handleRequest(request, response, service.getStreamTopics);
 };
 
-const get_subscription_status = async (request, response) => {
-  await Controller.handleRequest(request, response, service.get_subscription_status);
+const getStreams = async (request, response) => {
+  await Controller.handleRequest(request, response, service.getStreams);
 };
 
-const get_subscriptions = async (request, response) => {
-  await Controller.handleRequest(request, response, service.get_subscriptions);
+const getSubscribers = async (request, response) => {
+  await Controller.handleRequest(request, response, service.getSubscribers);
 };
 
-const mute_topic = async (request, response) => {
-  await Controller.handleRequest(request, response, service.mute_topic);
+const getSubscriptionStatus = async (request, response) => {
+  await Controller.handleRequest(request, response, service.getSubscriptionStatus);
+};
+
+const getSubscriptions = async (request, response) => {
+  await Controller.handleRequest(request, response, service.getSubscriptions);
+};
+
+const muteTopic = async (request, response) => {
+  await Controller.handleRequest(request, response, service.muteTopic);
 };
 
 const subscribe = async (request, response) => {
@@ -48,31 +56,33 @@ const unsubscribe = async (request, response) => {
   await Controller.handleRequest(request, response, service.unsubscribe);
 };
 
-const update_stream = async (request, response) => {
-  await Controller.handleRequest(request, response, service.update_stream);
+const updateStream = async (request, response) => {
+  await Controller.handleRequest(request, response, service.updateStream);
 };
 
-const update_subscription_settings = async (request, response) => {
-  await Controller.handleRequest(request, response, service.update_subscription_settings);
+const updateSubscriptionSettings = async (request, response) => {
+  await Controller.handleRequest(request, response, service.updateSubscriptionSettings);
 };
 
-const update_subscriptions = async (request, response) => {
-  await Controller.handleRequest(request, response, service.update_subscriptions);
+const updateSubscriptions = async (request, response) => {
+  await Controller.handleRequest(request, response, service.updateSubscriptions);
 };
 
 
 module.exports = {
-  archive_stream,
-  create_big_blue_button_video_call,
-  get_stream_id,
-  get_stream_topics,
-  get_streams,
-  get_subscription_status,
-  get_subscriptions,
-  mute_topic,
+  archiveStream,
+  createBigBlueButtonVideoCall,
+  deleteTopic,
+  getStreamId,
+  getStreamTopics,
+  getStreams,
+  getSubscribers,
+  getSubscriptionStatus,
+  getSubscriptions,
+  muteTopic,
   subscribe,
   unsubscribe,
-  update_stream,
-  update_subscription_settings,
-  update_subscriptions,
+  updateStream,
+  updateSubscriptionSettings,
+  updateSubscriptions,
 };

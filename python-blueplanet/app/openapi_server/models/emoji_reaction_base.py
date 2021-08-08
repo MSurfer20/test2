@@ -6,7 +6,9 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from app.openapi_server.models.base_model_ import Model
-from app.openapi_server.models.emoji_reaction_base_user import EmojiReactionBaseUser  # noqa: F401,E501
+from app.openapi_server.models.emoji_base import EmojiBase  # noqa: F401,E501
+from app.openapi_server.models.emoji_reaction_base_all_of import EmojiReactionBaseAllOf  # noqa: F401,E501
+from app.openapi_server.models.emoji_reaction_base_all_of_user import EmojiReactionBaseAllOfUser  # noqa: F401,E501
 from openapi_server import util
 
 
@@ -16,7 +18,7 @@ class EmojiReactionBase(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, emoji_code: str=None, emoji_name: str=None, reaction_type: str=None, user_id: int=None, user: EmojiReactionBaseUser=None):  # noqa: E501
+    def __init__(self, emoji_code: str=None, emoji_name: str=None, reaction_type: str=None, user_id: int=None, user: EmojiReactionBaseAllOfUser=None):  # noqa: E501
         """EmojiReactionBase - a model defined in Swagger
 
         :param emoji_code: The emoji_code of this EmojiReactionBase.  # noqa: E501
@@ -28,14 +30,14 @@ class EmojiReactionBase(Model):
         :param user_id: The user_id of this EmojiReactionBase.  # noqa: E501
         :type user_id: int
         :param user: The user of this EmojiReactionBase.  # noqa: E501
-        :type user: EmojiReactionBaseUser
+        :type user: EmojiReactionBaseAllOfUser
         """
         self.swagger_types = {
             'emoji_code': str,
             'emoji_name': str,
             'reaction_type': str,
             'user_id': int,
-            'user': EmojiReactionBaseUser
+            'user': EmojiReactionBaseAllOfUser
         }
 
         self.attribute_map = {
@@ -67,7 +69,7 @@ class EmojiReactionBase(Model):
     def emoji_code(self) -> str:
         """Gets the emoji_code of this EmojiReactionBase.
 
-        A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint.   # noqa: E501
+        A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji.   # noqa: E501
 
         :return: The emoji_code of this EmojiReactionBase.
         :rtype: str
@@ -78,7 +80,7 @@ class EmojiReactionBase(Model):
     def emoji_code(self, emoji_code: str):
         """Sets the emoji_code of this EmojiReactionBase.
 
-        A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint.   # noqa: E501
+        A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji.   # noqa: E501
 
         :param emoji_code: The emoji_code of this EmojiReactionBase.
         :type emoji_code: str
@@ -156,22 +158,22 @@ class EmojiReactionBase(Model):
         self._user_id = user_id
 
     @property
-    def user(self) -> EmojiReactionBaseUser:
+    def user(self) -> EmojiReactionBaseAllOfUser:
         """Gets the user of this EmojiReactionBase.
 
 
         :return: The user of this EmojiReactionBase.
-        :rtype: EmojiReactionBaseUser
+        :rtype: EmojiReactionBaseAllOfUser
         """
         return self._user
 
     @user.setter
-    def user(self, user: EmojiReactionBaseUser):
+    def user(self, user: EmojiReactionBaseAllOfUser):
         """Sets the user of this EmojiReactionBase.
 
 
         :param user: The user of this EmojiReactionBase.
-        :type user: EmojiReactionBaseUser
+        :type user: EmojiReactionBaseAllOfUser
         """
 
         self._user = user

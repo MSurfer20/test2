@@ -257,6 +257,133 @@ class StreamsApi(object):
             callable=__create_big_blue_button_video_call
         )
 
+        def __delete_topic(
+            self,
+            stream_id,
+            topic_name,
+            **kwargs
+        ):
+            """Delete a topic  # noqa: E501
+
+            Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip.   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
+
+            >>> thread = api.delete_topic(stream_id, topic_name, async_req=True)
+            >>> result = thread.get()
+
+            Args:
+                stream_id (int): The ID of the stream to access. 
+                topic_name (str): The name of the topic to delete. 
+
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (int/float/tuple): timeout setting for this request. If
+                    one number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
+
+            Returns:
+                dict
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['stream_id'] = \
+                stream_id
+            kwargs['topic_name'] = \
+                topic_name
+            return self.call_with_http_info(**kwargs)
+
+        self.delete_topic = _Endpoint(
+            settings={
+                'response_type': (dict,),
+                'auth': [],
+                'endpoint_path': '/streams/{stream_id}/delete_topic',
+                'operation_id': 'delete_topic',
+                'http_method': 'POST',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'stream_id',
+                    'topic_name',
+                ],
+                'required': [
+                    'stream_id',
+                    'topic_name',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'stream_id':
+                        (int,),
+                    'topic_name':
+                        (str,),
+                },
+                'attribute_map': {
+                    'stream_id': 'stream_id',
+                    'topic_name': 'topic_name',
+                },
+                'location_map': {
+                    'stream_id': 'path',
+                    'topic_name': 'query',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__delete_topic
+        )
+
         def __get_stream_id(
             self,
             stream,
@@ -630,6 +757,123 @@ class StreamsApi(object):
             },
             api_client=api_client,
             callable=__get_streams
+        )
+
+        def __get_subscribers(
+            self,
+            stream_id,
+            **kwargs
+        ):
+            """Get the subscribers of a stream  # noqa: E501
+
+            Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members`   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
+
+            >>> thread = api.get_subscribers(stream_id, async_req=True)
+            >>> result = thread.get()
+
+            Args:
+                stream_id (int): The ID of the stream to access. 
+
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (int/float/tuple): timeout setting for this request. If
+                    one number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
+
+            Returns:
+                dict
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['stream_id'] = \
+                stream_id
+            return self.call_with_http_info(**kwargs)
+
+        self.get_subscribers = _Endpoint(
+            settings={
+                'response_type': (dict,),
+                'auth': [],
+                'endpoint_path': '/streams/{stream_id}/members',
+                'operation_id': 'get_subscribers',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'stream_id',
+                ],
+                'required': [
+                    'stream_id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'stream_id':
+                        (int,),
+                },
+                'attribute_map': {
+                    'stream_id': 'stream_id',
+                },
+                'location_map': {
+                    'stream_id': 'path',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__get_subscribers
         )
 
         def __get_subscription_status(

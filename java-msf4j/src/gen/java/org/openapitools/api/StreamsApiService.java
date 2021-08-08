@@ -20,9 +20,12 @@ import java.io.InputStream;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", date = "2021-08-08T20:41:44.271935Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", date = "2021-08-08T21:11:36.575393Z[Etc/UTC]")
 public abstract class StreamsApiService {
     public abstract Response archiveStream(Integer streamId
+ ) throws NotFoundException;
+    public abstract Response deleteTopic(Integer streamId
+ ,String topicName
  ) throws NotFoundException;
     public abstract Response getStreams(Boolean includePublic
  ,Boolean includeWebPublic
@@ -30,6 +33,8 @@ public abstract class StreamsApiService {
  ,Boolean includeAllActive
  ,Boolean includeDefault
  ,Boolean includeOwnerSubscribed
+ ) throws NotFoundException;
+    public abstract Response getSubscribers(Integer streamId
  ) throws NotFoundException;
     public abstract Response updateStream(Integer streamId
  ,String description

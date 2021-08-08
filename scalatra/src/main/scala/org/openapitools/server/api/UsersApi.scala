@@ -19,6 +19,7 @@ import org.openapitools.server.model.JsonSuccess
 import org.openapitools.server.model.JsonSuccessBase
 import org.openapitools.server.model.OneOfobjectobject
 import org.openapitools.server.model.OneOfobjectobjectobject
+import org.openapitools.server.model.OneOfobjectobjectobjectobjectobjectobject
 
 import java.io.File
 
@@ -283,12 +284,24 @@ class UsersApi(implicit val swagger: Swagger) extends ScalatraServlet
 
   
 
-  val updateDisplaySettingsOperation = (apiOperation[JsonSuccessBase]("updateDisplaySettings")
-    summary "Update display settings"
-    parameters(queryParam[Boolean]("twentyFourHourTime").description("").optional, queryParam[Boolean]("denseMode").description("").optional, queryParam[Boolean]("starredMessageCounts").description("").optional, queryParam[Boolean]("fluidLayoutWidth").description("").optional, queryParam[Boolean]("highContrastMode").description("").optional, queryParam[Int]("colorScheme").description("").optional, queryParam[Boolean]("translateEmoticons").description("").optional, queryParam[String]("defaultLanguage").description("").optional, queryParam[String]("defaultView").description("").optional, queryParam[Boolean]("leftSideUserlist").description("").optional, queryParam[String]("emojiset").description("").optional, queryParam[Int]("demoteInactiveStreams").description("").optional, queryParam[String]("timezone").description("").optional)
+  val updateSettingsOperation = (apiOperation[JsonSuccessBase]("updateSettings")
+    summary "Update settings"
+    parameters(queryParam[String]("fullName").description("").optional, queryParam[String]("email").description("").optional, queryParam[String]("oldPassword").description("").optional, queryParam[String]("newPassword").description("").optional, queryParam[Boolean]("twentyFourHourTime").description("").optional, queryParam[Boolean]("denseMode").description("").optional, queryParam[Boolean]("starredMessageCounts").description("").optional, queryParam[Boolean]("fluidLayoutWidth").description("").optional, queryParam[Boolean]("highContrastMode").description("").optional, queryParam[Int]("colorScheme").description("").optional, queryParam[Boolean]("enableDraftsSynchronization").description("").optional, queryParam[Boolean]("translateEmoticons").description("").optional, queryParam[String]("defaultLanguage").description("").optional, queryParam[String]("defaultView").description("").optional, queryParam[Boolean]("leftSideUserlist").description("").optional, queryParam[String]("emojiset").description("").optional, queryParam[Int]("demoteInactiveStreams").description("").optional, queryParam[String]("timezone").description("").optional, queryParam[Boolean]("enableStreamDesktopNotifications").description("").optional, queryParam[Boolean]("enableStreamEmailNotifications").description("").optional, queryParam[Boolean]("enableStreamPushNotifications").description("").optional, queryParam[Boolean]("enableStreamAudibleNotifications").description("").optional, queryParam[String]("notificationSound").description("").optional, queryParam[Boolean]("enableDesktopNotifications").description("").optional, queryParam[Boolean]("enableSounds").description("").optional, queryParam[Int]("emailNotificationsBatchingPeriodSeconds").description("").optional, queryParam[Boolean]("enableOfflineEmailNotifications").description("").optional, queryParam[Boolean]("enableOfflinePushNotifications").description("").optional, queryParam[Boolean]("enableOnlinePushNotifications").description("").optional, queryParam[Boolean]("enableDigestEmails").description("").optional, queryParam[Boolean]("enableMarketingEmails").description("").optional, queryParam[Boolean]("enableLoginEmails").description("").optional, queryParam[Boolean]("messageContentInEmailNotifications").description("").optional, queryParam[Boolean]("pmContentInDesktopNotifications").description("").optional, queryParam[Boolean]("wildcardMentionsNotify").description("").optional, queryParam[Int]("desktopIconCountDisplay").description("").optional, queryParam[Boolean]("realmNameInNotifications").description("").optional, queryParam[Boolean]("presenceEnabled").description("").optional, queryParam[Boolean]("enterSends").description("").optional)
   )
 
-  patch("/settings/display", operation(updateDisplaySettingsOperation)) {
+  patch("/settings", operation(updateSettingsOperation)) {
+            val fullName = params.getAs[String]("fullName")
+
+    //println("fullName: " + fullName)
+            val email = params.getAs[String]("email")
+
+    //println("email: " + email)
+            val oldPassword = params.getAs[String]("oldPassword")
+
+    //println("oldPassword: " + oldPassword)
+            val newPassword = params.getAs[String]("newPassword")
+
+    //println("newPassword: " + newPassword)
             val twentyFourHourTime = params.getAs[Boolean]("twentyFourHourTime")
 
     //println("twentyFourHourTime: " + twentyFourHourTime)
@@ -307,6 +320,9 @@ class UsersApi(implicit val swagger: Swagger) extends ScalatraServlet
             val colorScheme = params.getAs[Int]("colorScheme")
 
     //println("colorScheme: " + colorScheme)
+            val enableDraftsSynchronization = params.getAs[Boolean]("enableDraftsSynchronization")
+
+    //println("enableDraftsSynchronization: " + enableDraftsSynchronization)
             val translateEmoticons = params.getAs[Boolean]("translateEmoticons")
 
     //println("translateEmoticons: " + translateEmoticons)
@@ -328,16 +344,6 @@ class UsersApi(implicit val swagger: Swagger) extends ScalatraServlet
             val timezone = params.getAs[String]("timezone")
 
     //println("timezone: " + timezone)
-  }
-
-  
-
-  val updateNotificationSettingsOperation = (apiOperation[JsonSuccessBase]("updateNotificationSettings")
-    summary "Update notification settings"
-    parameters(queryParam[Boolean]("enableStreamDesktopNotifications").description("").optional, queryParam[Boolean]("enableStreamEmailNotifications").description("").optional, queryParam[Boolean]("enableStreamPushNotifications").description("").optional, queryParam[Boolean]("enableStreamAudibleNotifications").description("").optional, queryParam[String]("notificationSound").description("").optional, queryParam[Boolean]("enableDesktopNotifications").description("").optional, queryParam[Boolean]("enableSounds").description("").optional, queryParam[Boolean]("enableOfflineEmailNotifications").description("").optional, queryParam[Boolean]("enableOfflinePushNotifications").description("").optional, queryParam[Boolean]("enableOnlinePushNotifications").description("").optional, queryParam[Boolean]("enableDigestEmails").description("").optional, queryParam[Boolean]("enableMarketingEmails").description("").optional, queryParam[Boolean]("enableLoginEmails").description("").optional, queryParam[Boolean]("messageContentInEmailNotifications").description("").optional, queryParam[Boolean]("pmContentInDesktopNotifications").description("").optional, queryParam[Boolean]("wildcardMentionsNotify").description("").optional, queryParam[Int]("desktopIconCountDisplay").description("").optional, queryParam[Boolean]("realmNameInNotifications").description("").optional, queryParam[Boolean]("presenceEnabled").description("").optional)
-  )
-
-  patch("/settings/notifications", operation(updateNotificationSettingsOperation)) {
             val enableStreamDesktopNotifications = params.getAs[Boolean]("enableStreamDesktopNotifications")
 
     //println("enableStreamDesktopNotifications: " + enableStreamDesktopNotifications)
@@ -359,6 +365,9 @@ class UsersApi(implicit val swagger: Swagger) extends ScalatraServlet
             val enableSounds = params.getAs[Boolean]("enableSounds")
 
     //println("enableSounds: " + enableSounds)
+            val emailNotificationsBatchingPeriodSeconds = params.getAs[Int]("emailNotificationsBatchingPeriodSeconds")
+
+    //println("emailNotificationsBatchingPeriodSeconds: " + emailNotificationsBatchingPeriodSeconds)
             val enableOfflineEmailNotifications = params.getAs[Boolean]("enableOfflineEmailNotifications")
 
     //println("enableOfflineEmailNotifications: " + enableOfflineEmailNotifications)
@@ -395,6 +404,34 @@ class UsersApi(implicit val swagger: Swagger) extends ScalatraServlet
             val presenceEnabled = params.getAs[Boolean]("presenceEnabled")
 
     //println("presenceEnabled: " + presenceEnabled)
+            val enterSends = params.getAs[Boolean]("enterSends")
+
+    //println("enterSends: " + enterSends)
+  }
+
+  
+
+  val updateStatusOperation = (apiOperation[JsonSuccess]("updateStatus")
+    summary "Update your status"
+    parameters(queryParam[String]("statusText").description("").optional, queryParam[Boolean]("away").description("").optional, queryParam[String]("emojiName").description("").optional, queryParam[String]("emojiCode").description("").optional, queryParam[String]("reactionType").description("").optional)
+  )
+
+  post("/users/me/status", operation(updateStatusOperation)) {
+            val statusText = params.getAs[String]("statusText")
+
+    //println("statusText: " + statusText)
+            val away = params.getAs[Boolean]("away")
+
+    //println("away: " + away)
+            val emojiName = params.getAs[String]("emojiName")
+
+    //println("emojiName: " + emojiName)
+            val emojiCode = params.getAs[String]("emojiCode")
+
+    //println("emojiCode: " + emojiCode)
+            val reactionType = params.getAs[String]("reactionType")
+
+    //println("reactionType: " + reactionType)
   }
 
   

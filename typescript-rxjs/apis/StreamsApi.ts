@@ -26,6 +26,11 @@ export interface ArchiveStreamRequest {
     streamId: number;
 }
 
+export interface DeleteTopicRequest {
+    streamId: number;
+    topicName: string;
+}
+
 export interface GetStreamIdRequest {
     stream: string;
 }
@@ -41,6 +46,10 @@ export interface GetStreamsRequest {
     includeAllActive?: boolean;
     includeDefault?: boolean;
     includeOwnerSubscribed?: boolean;
+}
+
+export interface GetSubscribersRequest {
+    streamId: number;
 }
 
 export interface GetSubscriptionStatusRequest {
@@ -129,6 +138,27 @@ export class StreamsApi extends BaseAPI {
     };
 
     /**
+     * Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+     * Delete a topic
+     */
+    deleteTopic({ streamId, topicName }: DeleteTopicRequest): Observable<JsonSuccess>
+    deleteTopic({ streamId, topicName }: DeleteTopicRequest, opts?: OperationOpts): Observable<RawAjaxResponse<JsonSuccess>>
+    deleteTopic({ streamId, topicName }: DeleteTopicRequest, opts?: OperationOpts): Observable<JsonSuccess | RawAjaxResponse<JsonSuccess>> {
+        throwIfNullOrUndefined(streamId, 'streamId', 'deleteTopic');
+        throwIfNullOrUndefined(topicName, 'topicName', 'deleteTopic');
+
+        const query: HttpQuery = { // required parameters are used directly since they are already checked by throwIfNullOrUndefined
+            'topic_name': topicName,
+        };
+
+        return this.request<JsonSuccess>({
+            url: '/streams/{stream_id}/delete_topic'.replace('{stream_id}', encodeURI(streamId)),
+            method: 'POST',
+            query,
+        }, opts?.responseOpts);
+    };
+
+    /**
      * Get the unique ID of a given stream.  `GET {{ api_url }}/v1/get_stream_id` 
      * Get stream ID
      */
@@ -184,6 +214,21 @@ export class StreamsApi extends BaseAPI {
             url: '/streams',
             method: 'GET',
             query,
+        }, opts?.responseOpts);
+    };
+
+    /**
+     * Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` 
+     * Get the subscribers of a stream
+     */
+    getSubscribers({ streamId }: GetSubscribersRequest): Observable<JsonSuccessBase & object>
+    getSubscribers({ streamId }: GetSubscribersRequest, opts?: OperationOpts): Observable<RawAjaxResponse<JsonSuccessBase & object>>
+    getSubscribers({ streamId }: GetSubscribersRequest, opts?: OperationOpts): Observable<JsonSuccessBase & object | RawAjaxResponse<JsonSuccessBase & object>> {
+        throwIfNullOrUndefined(streamId, 'streamId', 'getSubscribers');
+
+        return this.request<JsonSuccessBase & object>({
+            url: '/streams/{stream_id}/members'.replace('{stream_id}', encodeURI(streamId)),
+            method: 'GET',
         }, opts?.responseOpts);
     };
 

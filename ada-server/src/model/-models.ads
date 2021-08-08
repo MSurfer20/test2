@@ -44,6 +44,716 @@ package .Models is
 
 
 
+   type EmojiReactionBaseAllOfUser_Type is
+     record
+       Id : Swagger.Nullable_Integer;
+       Email : Swagger.Nullable_UString;
+       Full_Name : Swagger.Nullable_UString;
+       Is_Mirror_Dummy : Swagger.Nullable_Boolean;
+     end record;
+
+   package EmojiReactionBaseAllOfUser_Type_Vectors is
+      new Ada.Containers.Vectors (Index_Type   => Positive,
+                                  Element_Type => EmojiReactionBaseAllOfUser_Type);
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in EmojiReactionBaseAllOfUser_Type);
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in EmojiReactionBaseAllOfUser_Type_Vectors.Vector);
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out EmojiReactionBaseAllOfUser_Type);
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out EmojiReactionBaseAllOfUser_Type_Vectors.Vector);
+
+
+
+
+   type EmojiReactionBase_Type is
+     record
+       Emoji_Code : Swagger.Nullable_UString;
+       Emoji_Name : Swagger.Nullable_UString;
+       Reaction_Type : Swagger.Nullable_UString;
+       User_Id : Swagger.Nullable_Integer;
+       User : .Models.EmojiReactionBaseAllOfUser_Type;
+     end record;
+
+   package EmojiReactionBase_Type_Vectors is
+      new Ada.Containers.Vectors (Index_Type   => Positive,
+                                  Element_Type => EmojiReactionBase_Type);
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in EmojiReactionBase_Type);
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in EmojiReactionBase_Type_Vectors.Vector);
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out EmojiReactionBase_Type);
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out EmojiReactionBase_Type_Vectors.Vector);
+
+
+
+
+   type EmojiReactionBaseAllOf_Type is
+     record
+       User_Id : Swagger.Nullable_Integer;
+       User : .Models.EmojiReactionBaseAllOfUser_Type;
+     end record;
+
+   package EmojiReactionBaseAllOf_Type_Vectors is
+      new Ada.Containers.Vectors (Index_Type   => Positive,
+                                  Element_Type => EmojiReactionBaseAllOf_Type);
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in EmojiReactionBaseAllOf_Type);
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in EmojiReactionBaseAllOf_Type_Vectors.Vector);
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out EmojiReactionBaseAllOf_Type);
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out EmojiReactionBaseAllOf_Type_Vectors.Vector);
+
+
+
+
+   type JsonErrorBase_Type is
+     record
+       Result : Swagger.UString;
+       Msg : Swagger.UString;
+     end record;
+
+   package JsonErrorBase_Type_Vectors is
+      new Ada.Containers.Vectors (Index_Type   => Positive,
+                                  Element_Type => JsonErrorBase_Type);
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in JsonErrorBase_Type);
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in JsonErrorBase_Type_Vectors.Vector);
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out JsonErrorBase_Type);
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out JsonErrorBase_Type_Vectors.Vector);
+
+
+
+
+   type JsonSuccessBase_Type is
+     record
+       Result : Swagger.UString;
+       Msg : Swagger.UString;
+     end record;
+
+   package JsonSuccessBase_Type_Vectors is
+      new Ada.Containers.Vectors (Index_Type   => Positive,
+                                  Element_Type => JsonSuccessBase_Type);
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in JsonSuccessBase_Type);
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in JsonSuccessBase_Type_Vectors.Vector);
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out JsonSuccessBase_Type);
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out JsonSuccessBase_Type_Vectors.Vector);
+
+
+
+
+   type SuccessDescription_Type is
+     record
+     end record;
+
+   package SuccessDescription_Type_Vectors is
+      new Ada.Containers.Vectors (Index_Type   => Positive,
+                                  Element_Type => SuccessDescription_Type);
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in SuccessDescription_Type);
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in SuccessDescription_Type_Vectors.Vector);
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out SuccessDescription_Type);
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out SuccessDescription_Type_Vectors.Vector);
+
+
+
+
+   type UserBase_Type is
+     record
+       Email : Swagger.Nullable_UString;
+       Is_Bot : Swagger.Nullable_Boolean;
+       Avatar_Url : Swagger.Nullable_UString;
+       Avatar_Version : Swagger.Nullable_Integer;
+       Full_Name : Swagger.Nullable_UString;
+       Is_Admin : Swagger.Nullable_Boolean;
+       Is_Owner : Swagger.Nullable_Boolean;
+       Is_Billing_Admin : Swagger.Nullable_Boolean;
+       Role : Swagger.Nullable_Integer;
+       Bot_Type : Swagger.Nullable_Integer;
+       User_Id : Swagger.Nullable_Integer;
+       Bot_Owner_Id : Swagger.Nullable_Integer;
+       Is_Active : Swagger.Nullable_Boolean;
+       Is_Guest : Swagger.Nullable_Boolean;
+       Timezone : Swagger.Nullable_UString;
+       Date_Joined : Swagger.Nullable_UString;
+       Delivery_Email : Swagger.Nullable_UString;
+       Profile_Data : Swagger.Object_Map;
+     end record;
+
+   package UserBase_Type_Vectors is
+      new Ada.Containers.Vectors (Index_Type   => Positive,
+                                  Element_Type => UserBase_Type);
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in UserBase_Type);
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in UserBase_Type_Vectors.Vector);
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out UserBase_Type);
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out UserBase_Type_Vectors.Vector);
+
+
+
+
+   type Draft_Type is
+     record
+       Id : Swagger.Nullable_Integer;
+       P_Type : Swagger.UString;
+       To : Integer_Vectors.Vector;
+       Topic : Swagger.UString;
+       Content : Swagger.UString;
+       Timestamp : Swagger.Number;
+     end record;
+
+   package Draft_Type_Vectors is
+      new Ada.Containers.Vectors (Index_Type   => Positive,
+                                  Element_Type => Draft_Type);
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in Draft_Type);
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in Draft_Type_Vectors.Vector);
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out Draft_Type);
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out Draft_Type_Vectors.Vector);
+
+
+
+
+   type EmojiBase_Type is
+     record
+       Emoji_Code : Swagger.Nullable_UString;
+       Emoji_Name : Swagger.Nullable_UString;
+       Reaction_Type : Swagger.Nullable_UString;
+     end record;
+
+   package EmojiBase_Type_Vectors is
+      new Ada.Containers.Vectors (Index_Type   => Positive,
+                                  Element_Type => EmojiBase_Type);
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in EmojiBase_Type);
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in EmojiBase_Type_Vectors.Vector);
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out EmojiBase_Type);
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out EmojiBase_Type_Vectors.Vector);
+
+
+
+
+   type UserGroup_Type is
+     record
+       Name : Swagger.Nullable_UString;
+       Description : Swagger.Nullable_UString;
+       Members : Integer_Vectors.Vector;
+       Id : Swagger.Nullable_Integer;
+     end record;
+
+   package UserGroup_Type_Vectors is
+      new Ada.Containers.Vectors (Index_Type   => Positive,
+                                  Element_Type => UserGroup_Type);
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in UserGroup_Type);
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in UserGroup_Type_Vectors.Vector);
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out UserGroup_Type);
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out UserGroup_Type_Vectors.Vector);
+
+
+
+
+   type RealmPlayground_Type is
+     record
+       Id : Swagger.Nullable_Integer;
+       Name : Swagger.Nullable_UString;
+       Pygments_Language : Swagger.Nullable_UString;
+       Url_Prefix : Swagger.Nullable_UString;
+     end record;
+
+   package RealmPlayground_Type_Vectors is
+      new Ada.Containers.Vectors (Index_Type   => Positive,
+                                  Element_Type => RealmPlayground_Type);
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in RealmPlayground_Type);
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in RealmPlayground_Type_Vectors.Vector);
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out RealmPlayground_Type);
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out RealmPlayground_Type_Vectors.Vector);
+
+
+
+
+   type RealmEmoji_Type is
+     record
+       Id : Swagger.Nullable_UString;
+       Name : Swagger.Nullable_UString;
+       Source_Url : Swagger.Nullable_UString;
+       Deactivated : Swagger.Nullable_Boolean;
+       Author_Id : Swagger.Nullable_Integer;
+     end record;
+
+   package RealmEmoji_Type_Vectors is
+      new Ada.Containers.Vectors (Index_Type   => Positive,
+                                  Element_Type => RealmEmoji_Type);
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in RealmEmoji_Type);
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in RealmEmoji_Type_Vectors.Vector);
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out RealmEmoji_Type);
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out RealmEmoji_Type_Vectors.Vector);
+
+
+
+
+   type CustomProfileField_Type is
+     record
+       Id : Swagger.Nullable_Integer;
+       P_Type : Swagger.Nullable_Integer;
+       Order : Swagger.Nullable_Integer;
+       Name : Swagger.Nullable_UString;
+       Hint : Swagger.Nullable_UString;
+       Field_Data : Swagger.Nullable_UString;
+     end record;
+
+   package CustomProfileField_Type_Vectors is
+      new Ada.Containers.Vectors (Index_Type   => Positive,
+                                  Element_Type => CustomProfileField_Type);
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in CustomProfileField_Type);
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in CustomProfileField_Type_Vectors.Vector);
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out CustomProfileField_Type);
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out CustomProfileField_Type_Vectors.Vector);
+
+
+
+
+   type BasicStreamBase_Type is
+     record
+       Stream_Id : Swagger.Nullable_Integer;
+       Name : Swagger.Nullable_UString;
+       Description : Swagger.Nullable_UString;
+       Date_Created : Swagger.Nullable_Integer;
+       Invite_Only : Swagger.Nullable_Boolean;
+       Rendered_Description : Swagger.Nullable_UString;
+       Is_Web_Public : Swagger.Nullable_Boolean;
+       Stream_Post_Policy : Swagger.Nullable_Integer;
+       Message_Retention_Days : Swagger.Nullable_Integer;
+       History_Public_To_Subscribers : Swagger.Nullable_Boolean;
+       First_Message_Id : Swagger.Nullable_Integer;
+       Is_Announcement_Only : Swagger.Nullable_Boolean;
+     end record;
+
+   package BasicStreamBase_Type_Vectors is
+      new Ada.Containers.Vectors (Index_Type   => Positive,
+                                  Element_Type => BasicStreamBase_Type);
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in BasicStreamBase_Type);
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in BasicStreamBase_Type_Vectors.Vector);
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out BasicStreamBase_Type);
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out BasicStreamBase_Type_Vectors.Vector);
+
+
+
+
+   type EventIdSchema_Type is
+     record
+     end record;
+
+   package EventIdSchema_Type_Vectors is
+      new Ada.Containers.Vectors (Index_Type   => Positive,
+                                  Element_Type => EventIdSchema_Type);
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in EventIdSchema_Type);
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in EventIdSchema_Type_Vectors.Vector);
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out EventIdSchema_Type);
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out EventIdSchema_Type_Vectors.Vector);
+
+
+
+
+   type EventTypeSchema_Type is
+     record
+     end record;
+
+   package EventTypeSchema_Type_Vectors is
+      new Ada.Containers.Vectors (Index_Type   => Positive,
+                                  Element_Type => EventTypeSchema_Type);
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in EventTypeSchema_Type);
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in EventTypeSchema_Type_Vectors.Vector);
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out EventTypeSchema_Type);
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out EventTypeSchema_Type_Vectors.Vector);
+
+
+
+
+   type Hotspot_Type is
+     record
+       P_Delay : Swagger.Number;
+       Name : Swagger.Nullable_UString;
+       Title : Swagger.Nullable_UString;
+       Description : Swagger.Nullable_UString;
+     end record;
+
+   package Hotspot_Type_Vectors is
+      new Ada.Containers.Vectors (Index_Type   => Positive,
+                                  Element_Type => Hotspot_Type);
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in Hotspot_Type);
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in Hotspot_Type_Vectors.Vector);
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out Hotspot_Type);
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out Hotspot_Type_Vectors.Vector);
+
+
+
+
+   type RealmDomain_Type is
+     record
+       Domain : Swagger.Nullable_UString;
+       Allow_Subdomains : Swagger.Nullable_Boolean;
+     end record;
+
+   package RealmDomain_Type_Vectors is
+      new Ada.Containers.Vectors (Index_Type   => Positive,
+                                  Element_Type => RealmDomain_Type);
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in RealmDomain_Type);
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in RealmDomain_Type_Vectors.Vector);
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out RealmDomain_Type);
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out RealmDomain_Type_Vectors.Vector);
+
+
+
+
+   type RealmExport_Type is
+     record
+       Id : Swagger.Nullable_Integer;
+       Acting_User_Id : Swagger.Nullable_Integer;
+       Export_Time : Swagger.Number;
+       Deleted_Timestamp : Swagger.Number;
+       Failed_Timestamp : Swagger.Number;
+       Export_Url : Swagger.Nullable_UString;
+       Pending : Swagger.Nullable_Boolean;
+     end record;
+
+   package RealmExport_Type_Vectors is
+      new Ada.Containers.Vectors (Index_Type   => Positive,
+                                  Element_Type => RealmExport_Type);
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in RealmExport_Type);
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in RealmExport_Type_Vectors.Vector);
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out RealmExport_Type);
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out RealmExport_Type_Vectors.Vector);
+
+
+
+
+   type Subscriptions_Type is
+     record
+       Stream_Id : Swagger.Nullable_Integer;
+       Name : Swagger.Nullable_UString;
+       Description : Swagger.Nullable_UString;
+       Rendered_Description : Swagger.Nullable_UString;
+       Date_Created : Swagger.Nullable_Integer;
+       Invite_Only : Swagger.Nullable_Boolean;
+       Subscribers : Integer_Vectors.Vector;
+       Desktop_Notifications : Swagger.Nullable_Boolean;
+       Email_Notifications : Swagger.Nullable_Boolean;
+       Wildcard_Mentions_Notify : Swagger.Nullable_Boolean;
+       Push_Notifications : Swagger.Nullable_Boolean;
+       Audible_Notifications : Swagger.Nullable_Boolean;
+       Pin_To_Top : Swagger.Nullable_Boolean;
+       Email_Address : Swagger.Nullable_UString;
+       Is_Muted : Swagger.Nullable_Boolean;
+       In_Home_View : Swagger.Nullable_Boolean;
+       Is_Announcement_Only : Swagger.Nullable_Boolean;
+       Is_Web_Public : Swagger.Nullable_Boolean;
+       Role : Swagger.Nullable_Integer;
+       Color : Swagger.Nullable_UString;
+       Stream_Post_Policy : Swagger.Nullable_Integer;
+       Message_Retention_Days : Swagger.Nullable_Integer;
+       History_Public_To_Subscribers : Swagger.Nullable_Boolean;
+       First_Message_Id : Swagger.Nullable_Integer;
+       Stream_Weekly_Traffic : Swagger.Nullable_Integer;
+     end record;
+
+   package Subscriptions_Type_Vectors is
+      new Ada.Containers.Vectors (Index_Type   => Positive,
+                                  Element_Type => Subscriptions_Type);
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in Subscriptions_Type);
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in Subscriptions_Type_Vectors.Vector);
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out Subscriptions_Type);
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out Subscriptions_Type_Vectors.Vector);
+
+
+
+
+   type Presence_Type is
+     record
+       Client : Swagger.Nullable_UString;
+       Status : Swagger.Nullable_UString;
+       Timestamp : Swagger.Nullable_Integer;
+       Pushable : Swagger.Nullable_Boolean;
+     end record;
+
+   package Presence_Type_Vectors is
+      new Ada.Containers.Vectors (Index_Type   => Positive,
+                                  Element_Type => Presence_Type);
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in Presence_Type);
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in Presence_Type_Vectors.Vector);
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out Presence_Type);
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out Presence_Type_Vectors.Vector);
+
+
+
+
+   type JsonResponseBase_Type is
+     record
+       Result : Swagger.Nullable_UString;
+     end record;
+
+   package JsonResponseBase_Type_Vectors is
+      new Ada.Containers.Vectors (Index_Type   => Positive,
+                                  Element_Type => JsonResponseBase_Type);
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in JsonResponseBase_Type);
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in JsonResponseBase_Type_Vectors.Vector);
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out JsonResponseBase_Type);
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out JsonResponseBase_Type_Vectors.Vector);
+
+
+
+
    type AttachmentsMessages_Type is
      record
        Date_Sent : Swagger.Nullable_Integer;
@@ -102,624 +812,6 @@ package .Models is
    procedure Deserialize (From  : in Swagger.Value_Type;
                           Name  : in String;
                           Value : out Attachments_Type_Vectors.Vector);
-
-
-
-
-   type JsonResponseBase_Type is
-     record
-       Result : Swagger.Nullable_UString;
-     end record;
-
-   package JsonResponseBase_Type_Vectors is
-      new Ada.Containers.Vectors (Index_Type   => Positive,
-                                  Element_Type => JsonResponseBase_Type);
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in JsonResponseBase_Type);
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in JsonResponseBase_Type_Vectors.Vector);
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out JsonResponseBase_Type);
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out JsonResponseBase_Type_Vectors.Vector);
-
-
-
-
-   type Subscriptions_Type is
-     record
-       Stream_Id : Swagger.Nullable_Integer;
-       Name : Swagger.Nullable_UString;
-       Description : Swagger.Nullable_UString;
-       Rendered_Description : Swagger.Nullable_UString;
-       Date_Created : Swagger.Nullable_Integer;
-       Invite_Only : Swagger.Nullable_Boolean;
-       Subscribers : Integer_Vectors.Vector;
-       Desktop_Notifications : Swagger.Nullable_Boolean;
-       Email_Notifications : Swagger.Nullable_Boolean;
-       Wildcard_Mentions_Notify : Swagger.Nullable_Boolean;
-       Push_Notifications : Swagger.Nullable_Boolean;
-       Audible_Notifications : Swagger.Nullable_Boolean;
-       Pin_To_Top : Swagger.Nullable_Boolean;
-       Email_Address : Swagger.Nullable_UString;
-       Is_Muted : Swagger.Nullable_Boolean;
-       In_Home_View : Swagger.Nullable_Boolean;
-       Is_Announcement_Only : Swagger.Nullable_Boolean;
-       Is_Web_Public : Swagger.Nullable_Boolean;
-       Role : Swagger.Nullable_Integer;
-       Color : Swagger.Nullable_UString;
-       Stream_Post_Policy : Swagger.Nullable_Integer;
-       Message_Retention_Days : Swagger.Nullable_Integer;
-       History_Public_To_Subscribers : Swagger.Nullable_Boolean;
-       First_Message_Id : Swagger.Nullable_Integer;
-       Stream_Weekly_Traffic : Swagger.Nullable_Integer;
-     end record;
-
-   package Subscriptions_Type_Vectors is
-      new Ada.Containers.Vectors (Index_Type   => Positive,
-                                  Element_Type => Subscriptions_Type);
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in Subscriptions_Type);
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in Subscriptions_Type_Vectors.Vector);
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out Subscriptions_Type);
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out Subscriptions_Type_Vectors.Vector);
-
-
-
-
-   type RealmExport_Type is
-     record
-       Id : Swagger.Nullable_Integer;
-       Acting_User_Id : Swagger.Nullable_Integer;
-       Export_Time : Swagger.Number;
-       Deleted_Timestamp : Swagger.Number;
-       Failed_Timestamp : Swagger.Number;
-       Export_Url : Swagger.Nullable_UString;
-       Pending : Swagger.Nullable_Boolean;
-     end record;
-
-   package RealmExport_Type_Vectors is
-      new Ada.Containers.Vectors (Index_Type   => Positive,
-                                  Element_Type => RealmExport_Type);
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in RealmExport_Type);
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in RealmExport_Type_Vectors.Vector);
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out RealmExport_Type);
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out RealmExport_Type_Vectors.Vector);
-
-
-
-
-   type RealmDomain_Type is
-     record
-       Domain : Swagger.Nullable_UString;
-       Allow_Subdomains : Swagger.Nullable_Boolean;
-     end record;
-
-   package RealmDomain_Type_Vectors is
-      new Ada.Containers.Vectors (Index_Type   => Positive,
-                                  Element_Type => RealmDomain_Type);
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in RealmDomain_Type);
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in RealmDomain_Type_Vectors.Vector);
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out RealmDomain_Type);
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out RealmDomain_Type_Vectors.Vector);
-
-
-
-
-   type Hotspot_Type is
-     record
-       P_Delay : Swagger.Number;
-       Name : Swagger.Nullable_UString;
-       Title : Swagger.Nullable_UString;
-       Description : Swagger.Nullable_UString;
-     end record;
-
-   package Hotspot_Type_Vectors is
-      new Ada.Containers.Vectors (Index_Type   => Positive,
-                                  Element_Type => Hotspot_Type);
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in Hotspot_Type);
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in Hotspot_Type_Vectors.Vector);
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out Hotspot_Type);
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out Hotspot_Type_Vectors.Vector);
-
-
-
-
-   type EventTypeSchema_Type is
-     record
-     end record;
-
-   package EventTypeSchema_Type_Vectors is
-      new Ada.Containers.Vectors (Index_Type   => Positive,
-                                  Element_Type => EventTypeSchema_Type);
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in EventTypeSchema_Type);
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in EventTypeSchema_Type_Vectors.Vector);
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out EventTypeSchema_Type);
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out EventTypeSchema_Type_Vectors.Vector);
-
-
-
-
-   type EventIdSchema_Type is
-     record
-     end record;
-
-   package EventIdSchema_Type_Vectors is
-      new Ada.Containers.Vectors (Index_Type   => Positive,
-                                  Element_Type => EventIdSchema_Type);
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in EventIdSchema_Type);
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in EventIdSchema_Type_Vectors.Vector);
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out EventIdSchema_Type);
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out EventIdSchema_Type_Vectors.Vector);
-
-
-
-
-   type BasicStreamBase_Type is
-     record
-       Stream_Id : Swagger.Nullable_Integer;
-       Name : Swagger.Nullable_UString;
-       Description : Swagger.Nullable_UString;
-       Date_Created : Swagger.Nullable_Integer;
-       Invite_Only : Swagger.Nullable_Boolean;
-       Rendered_Description : Swagger.Nullable_UString;
-       Is_Web_Public : Swagger.Nullable_Boolean;
-       Stream_Post_Policy : Swagger.Nullable_Integer;
-       Message_Retention_Days : Swagger.Nullable_Integer;
-       History_Public_To_Subscribers : Swagger.Nullable_Boolean;
-       First_Message_Id : Swagger.Nullable_Integer;
-       Is_Announcement_Only : Swagger.Nullable_Boolean;
-     end record;
-
-   package BasicStreamBase_Type_Vectors is
-      new Ada.Containers.Vectors (Index_Type   => Positive,
-                                  Element_Type => BasicStreamBase_Type);
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in BasicStreamBase_Type);
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in BasicStreamBase_Type_Vectors.Vector);
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out BasicStreamBase_Type);
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out BasicStreamBase_Type_Vectors.Vector);
-
-
-
-
-   type CustomProfileField_Type is
-     record
-       Id : Swagger.Nullable_Integer;
-       P_Type : Swagger.Nullable_Integer;
-       Order : Swagger.Nullable_Integer;
-       Name : Swagger.Nullable_UString;
-       Hint : Swagger.Nullable_UString;
-       Field_Data : Swagger.Nullable_UString;
-     end record;
-
-   package CustomProfileField_Type_Vectors is
-      new Ada.Containers.Vectors (Index_Type   => Positive,
-                                  Element_Type => CustomProfileField_Type);
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in CustomProfileField_Type);
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in CustomProfileField_Type_Vectors.Vector);
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out CustomProfileField_Type);
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out CustomProfileField_Type_Vectors.Vector);
-
-
-
-
-   type RealmEmoji_Type is
-     record
-       Id : Swagger.Nullable_UString;
-       Name : Swagger.Nullable_UString;
-       Source_Url : Swagger.Nullable_UString;
-       Deactivated : Swagger.Nullable_Boolean;
-       Author_Id : Swagger.Nullable_Integer;
-     end record;
-
-   package RealmEmoji_Type_Vectors is
-      new Ada.Containers.Vectors (Index_Type   => Positive,
-                                  Element_Type => RealmEmoji_Type);
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in RealmEmoji_Type);
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in RealmEmoji_Type_Vectors.Vector);
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out RealmEmoji_Type);
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out RealmEmoji_Type_Vectors.Vector);
-
-
-
-
-   type RealmPlayground_Type is
-     record
-       Id : Swagger.Nullable_Integer;
-       Name : Swagger.Nullable_UString;
-       Pygments_Language : Swagger.Nullable_UString;
-       Url_Prefix : Swagger.Nullable_UString;
-     end record;
-
-   package RealmPlayground_Type_Vectors is
-      new Ada.Containers.Vectors (Index_Type   => Positive,
-                                  Element_Type => RealmPlayground_Type);
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in RealmPlayground_Type);
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in RealmPlayground_Type_Vectors.Vector);
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out RealmPlayground_Type);
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out RealmPlayground_Type_Vectors.Vector);
-
-
-
-
-   type UserGroup_Type is
-     record
-       Name : Swagger.Nullable_UString;
-       Description : Swagger.Nullable_UString;
-       Members : Integer_Vectors.Vector;
-       Id : Swagger.Nullable_Integer;
-     end record;
-
-   package UserGroup_Type_Vectors is
-      new Ada.Containers.Vectors (Index_Type   => Positive,
-                                  Element_Type => UserGroup_Type);
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in UserGroup_Type);
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in UserGroup_Type_Vectors.Vector);
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out UserGroup_Type);
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out UserGroup_Type_Vectors.Vector);
-
-
-
-
-   type Presence_Type is
-     record
-       Client : Swagger.Nullable_UString;
-       Status : Swagger.Nullable_UString;
-       Timestamp : Swagger.Nullable_Integer;
-       Pushable : Swagger.Nullable_Boolean;
-     end record;
-
-   package Presence_Type_Vectors is
-      new Ada.Containers.Vectors (Index_Type   => Positive,
-                                  Element_Type => Presence_Type);
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in Presence_Type);
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in Presence_Type_Vectors.Vector);
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out Presence_Type);
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out Presence_Type_Vectors.Vector);
-
-
-
-
-   type UserBase_Type is
-     record
-       Email : Swagger.Nullable_UString;
-       Is_Bot : Swagger.Nullable_Boolean;
-       Avatar_Url : Swagger.Nullable_UString;
-       Avatar_Version : Swagger.Nullable_Integer;
-       Full_Name : Swagger.Nullable_UString;
-       Is_Admin : Swagger.Nullable_Boolean;
-       Is_Owner : Swagger.Nullable_Boolean;
-       Is_Billing_Admin : Swagger.Nullable_Boolean;
-       Role : Swagger.Nullable_Integer;
-       Bot_Type : Swagger.Nullable_Integer;
-       User_Id : Swagger.Nullable_Integer;
-       Bot_Owner_Id : Swagger.Nullable_Integer;
-       Is_Active : Swagger.Nullable_Boolean;
-       Is_Guest : Swagger.Nullable_Boolean;
-       Timezone : Swagger.Nullable_UString;
-       Date_Joined : Swagger.Nullable_UString;
-       Delivery_Email : Swagger.Nullable_UString;
-       Profile_Data : Swagger.Object_Map;
-     end record;
-
-   package UserBase_Type_Vectors is
-      new Ada.Containers.Vectors (Index_Type   => Positive,
-                                  Element_Type => UserBase_Type);
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in UserBase_Type);
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in UserBase_Type_Vectors.Vector);
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out UserBase_Type);
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out UserBase_Type_Vectors.Vector);
-
-
-
-
-   type SuccessDescription_Type is
-     record
-     end record;
-
-   package SuccessDescription_Type_Vectors is
-      new Ada.Containers.Vectors (Index_Type   => Positive,
-                                  Element_Type => SuccessDescription_Type);
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in SuccessDescription_Type);
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in SuccessDescription_Type_Vectors.Vector);
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out SuccessDescription_Type);
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out SuccessDescription_Type_Vectors.Vector);
-
-
-
-
-   type JsonSuccessBase_Type is
-     record
-       Result : Swagger.UString;
-       Msg : Swagger.UString;
-     end record;
-
-   package JsonSuccessBase_Type_Vectors is
-      new Ada.Containers.Vectors (Index_Type   => Positive,
-                                  Element_Type => JsonSuccessBase_Type);
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in JsonSuccessBase_Type);
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in JsonSuccessBase_Type_Vectors.Vector);
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out JsonSuccessBase_Type);
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out JsonSuccessBase_Type_Vectors.Vector);
-
-
-
-
-   type JsonErrorBase_Type is
-     record
-       Result : Swagger.UString;
-       Msg : Swagger.UString;
-     end record;
-
-   package JsonErrorBase_Type_Vectors is
-      new Ada.Containers.Vectors (Index_Type   => Positive,
-                                  Element_Type => JsonErrorBase_Type);
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in JsonErrorBase_Type);
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in JsonErrorBase_Type_Vectors.Vector);
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out JsonErrorBase_Type);
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out JsonErrorBase_Type_Vectors.Vector);
-
-
-
-
-   type EmojiReactionBaseUser_Type is
-     record
-       Id : Swagger.Nullable_Integer;
-       Email : Swagger.Nullable_UString;
-       Full_Name : Swagger.Nullable_UString;
-       Is_Mirror_Dummy : Swagger.Nullable_Boolean;
-     end record;
-
-   package EmojiReactionBaseUser_Type_Vectors is
-      new Ada.Containers.Vectors (Index_Type   => Positive,
-                                  Element_Type => EmojiReactionBaseUser_Type);
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in EmojiReactionBaseUser_Type);
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in EmojiReactionBaseUser_Type_Vectors.Vector);
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out EmojiReactionBaseUser_Type);
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out EmojiReactionBaseUser_Type_Vectors.Vector);
-
-
-
-
-   type EmojiReactionBase_Type is
-     record
-       Emoji_Code : Swagger.Nullable_UString;
-       Emoji_Name : Swagger.Nullable_UString;
-       Reaction_Type : Swagger.Nullable_UString;
-       User_Id : Swagger.Nullable_Integer;
-       User : .Models.EmojiReactionBaseUser_Type;
-     end record;
-
-   package EmojiReactionBase_Type_Vectors is
-      new Ada.Containers.Vectors (Index_Type   => Positive,
-                                  Element_Type => EmojiReactionBase_Type);
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in EmojiReactionBase_Type);
-
-   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
-                        Name  : in String;
-                        Value : in EmojiReactionBase_Type_Vectors.Vector);
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out EmojiReactionBase_Type);
-
-   procedure Deserialize (From  : in Swagger.Value_Type;
-                          Name  : in String;
-                          Value : out EmojiReactionBase_Type_Vectors.Vector);
 
 
 

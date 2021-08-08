@@ -8,31 +8,31 @@
 
 const Controller = require('./Controller');
 const service = require('../services/RealTimeEventsService');
-const delete_queue = async (request, response) => {
-  await Controller.handleRequest(request, response, service.delete_queue);
+const deleteQueue = async (request, response) => {
+  await Controller.handleRequest(request, response, service.deleteQueue);
 };
 
-const get_events = async (request, response) => {
-  await Controller.handleRequest(request, response, service.get_events);
+const getEvents = async (request, response) => {
+  await Controller.handleRequest(request, response, service.getEvents);
 };
 
 const real_timePOST = async (request, response) => {
   await Controller.handleRequest(request, response, service.real_timePOST);
 };
 
-const register_queue = async (request, response) => {
-  await Controller.handleRequest(request, response, service.register_queue);
+const registerQueue = async (request, response) => {
+  await Controller.handleRequest(request, response, service.registerQueue);
 };
 
-const rest_error_handling = async (request, response) => {
-  await Controller.handleRequest(request, response, service.rest_error_handling);
+const restErrorHandling = async (request, response) => {
+  await Controller.handleRequest(request, response, service.restErrorHandling);
 };
 
 
 module.exports = {
-  delete_queue,
-  get_events,
+  deleteQueue,
+  getEvents,
   real_timePOST,
-  register_queue,
-  rest_error_handling,
+  registerQueue,
+  restErrorHandling,
 };

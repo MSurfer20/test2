@@ -6,9 +6,11 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**archiveStream**](StreamsApi.md#archiveStream) | **DELETE** /streams/{stream_id} | Archive a stream
 [**createBigBlueButtonVideoCall**](StreamsApi.md#createBigBlueButtonVideoCall) | **GET** /calls/bigbluebutton/create | Create BigBlueButton video call
+[**deleteTopic**](StreamsApi.md#deleteTopic) | **POST** /streams/{stream_id}/delete_topic | Delete a topic
 [**getStreamId**](StreamsApi.md#getStreamId) | **GET** /get_stream_id | Get stream ID
 [**getStreamTopics**](StreamsApi.md#getStreamTopics) | **GET** /users/me/{stream_id}/topics | Get topics in a stream
 [**getStreams**](StreamsApi.md#getStreams) | **GET** /streams | Get all streams
+[**getSubscribers**](StreamsApi.md#getSubscribers) | **GET** /streams/{stream_id}/members | Get the subscribers of a stream
 [**getSubscriptionStatus**](StreamsApi.md#getSubscriptionStatus) | **GET** /users/{user_id}/subscriptions/{stream_id} | Get subscription status
 [**getSubscriptions**](StreamsApi.md#getSubscriptions) | **GET** /users/me/subscriptions | Get subscribed streams
 [**muteTopic**](StreamsApi.md#muteTopic) | **PATCH** /users/me/subscriptions/muted_topics | Topic muting
@@ -139,6 +141,71 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Success. |  -  |
+
+<a name="deleteTopic"></a>
+# **deleteTopic**
+> JsonSuccess deleteTopic(streamId, topicName)
+
+Delete a topic
+
+Delete all messages in a topic.  &#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+
+### Example
+```java
+// Import classes:
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.StreamsApi;
+
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("https://example.zulipchat.com/api/v1");
+
+    StreamsApi apiInstance = new StreamsApi(defaultClient);
+    Integer streamId = 1; // Integer | The ID of the stream to access. 
+    String topicName = "new coffee machine"; // String | The name of the topic to delete. 
+    try {
+      JsonSuccess result = apiInstance.deleteTopic(streamId, topicName);
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling StreamsApi#deleteTopic");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **streamId** | **Integer**| The ID of the stream to access.  |
+ **topicName** | **String**| The name of the topic to delete.  |
+
+### Return type
+
+[**JsonSuccess**](JsonSuccess.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Success. |  -  |
+**400** | Error. |  -  |
 
 <a name="getStreamId"></a>
 # **getStreamId**
@@ -319,6 +386,69 @@ Name | Type | Description  | Notes
  **includeAllActive** | **Boolean**| Include all active streams. The user must have administrative privileges to use this parameter.  | [optional] [default to false]
  **includeDefault** | **Boolean**| Include all default streams for the user&#39;s realm.  | [optional] [default to false]
  **includeOwnerSubscribed** | **Boolean**| If the user is a bot, include all streams that the bot&#39;s owner is subscribed to.  | [optional] [default to false]
+
+### Return type
+
+[**JsonSuccessBase**](JsonSuccessBase.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Success. |  -  |
+**400** | Bad request. |  -  |
+
+<a name="getSubscribers"></a>
+# **getSubscribers**
+> JsonSuccessBase getSubscribers(streamId)
+
+Get the subscribers of a stream
+
+Get all users subscribed to a stream.  &#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60; 
+
+### Example
+```java
+// Import classes:
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.StreamsApi;
+
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("https://example.zulipchat.com/api/v1");
+
+    StreamsApi apiInstance = new StreamsApi(defaultClient);
+    Integer streamId = 1; // Integer | The ID of the stream to access. 
+    try {
+      JsonSuccessBase result = apiInstance.getSubscribers(streamId);
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling StreamsApi#getSubscribers");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **streamId** | **Integer**| The ID of the stream to access.  |
 
 ### Return type
 

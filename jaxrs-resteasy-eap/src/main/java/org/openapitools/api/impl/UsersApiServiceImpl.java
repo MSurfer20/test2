@@ -11,6 +11,7 @@ import org.openapitools.model.JsonSuccessBase;
 import org.openapitools.model.NonExistingStreamError;
 import org.openapitools.model.OneOfobjectobject;
 import org.openapitools.model.OneOfobjectobjectobject;
+import org.openapitools.model.OneOfobjectobjectobjectobjectobjectobject;
 import org.openapitools.model.OneOfstringinteger;
 
 import java.util.List;
@@ -20,7 +21,7 @@ import java.io.InputStream;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyEapServerCodegen", date = "2021-08-08T20:42:32.152989Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyEapServerCodegen", date = "2021-08-08T21:12:21.563950Z[Etc/UTC]")
 public class UsersApiServiceImpl implements UsersApi {
       public Response createUser(String email,String password,String fullName,SecurityContext securityContext) {
       // do some magic!
@@ -87,6 +88,10 @@ public class UsersApiServiceImpl implements UsersApi {
       return Response.ok().build();
   }
       public Response unsubscribe(List<String> subscriptions,List<OneOfstringinteger> principals,SecurityContext securityContext) {
+      // do some magic!
+      return Response.ok().build();
+  }
+      public Response updateStatus(String statusText,Boolean away,String emojiName,String emojiCode,String reactionType,SecurityContext securityContext) {
       // do some magic!
       return Response.ok().build();
   }

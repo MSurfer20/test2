@@ -121,7 +121,7 @@ bool EmojiReactionBase::fromJson(const web::json::value& val)
         const web::json::value& fieldValue = val.at(utility::conversions::to_string_t("user"));
         if(!fieldValue.is_null())
         {
-            std::shared_ptr<EmojiReactionBase_user> refVal_user;
+            std::shared_ptr<EmojiReactionBase_allOf_user> refVal_user;
             ok &= ModelBase::fromJson(fieldValue, refVal_user);
             setUser(refVal_user);
         }
@@ -193,7 +193,7 @@ bool EmojiReactionBase::fromMultiPart(std::shared_ptr<MultipartFormData> multipa
     }
     if(multipart->hasContent(utility::conversions::to_string_t("user")))
     {
-        std::shared_ptr<EmojiReactionBase_user> refVal_user;
+        std::shared_ptr<EmojiReactionBase_allOf_user> refVal_user;
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t("user")), refVal_user );
         setUser(refVal_user);
     }
@@ -280,12 +280,12 @@ void EmojiReactionBase::unsetUser_id()
 {
     m_User_idIsSet = false;
 }
-std::shared_ptr<EmojiReactionBase_user> EmojiReactionBase::getUser() const
+std::shared_ptr<EmojiReactionBase_allOf_user> EmojiReactionBase::getUser() const
 {
     return m_User;
 }
 
-void EmojiReactionBase::setUser(const std::shared_ptr<EmojiReactionBase_user>& value)
+void EmojiReactionBase::setUser(const std::shared_ptr<EmojiReactionBase_allOf_user>& value)
 {
     m_User = value;
     m_UserIsSet = true;

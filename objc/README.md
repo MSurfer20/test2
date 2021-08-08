@@ -65,10 +65,13 @@ Import the following:
 #import <OpenAPIClient/OAICodedErrorBaseAllOf.h>
 #import <OpenAPIClient/OAICustomProfileField.h>
 #import <OpenAPIClient/OAIDefaultStreamGroup.h>
+#import <OpenAPIClient/OAIDraft.h>
+#import <OpenAPIClient/OAIEmojiBase.h>
 #import <OpenAPIClient/OAIEmojiReaction.h>
 #import <OpenAPIClient/OAIEmojiReactionAllOf.h>
 #import <OpenAPIClient/OAIEmojiReactionBase.h>
-#import <OpenAPIClient/OAIEmojiReactionBaseUser.h>
+#import <OpenAPIClient/OAIEmojiReactionBaseAllOf.h>
+#import <OpenAPIClient/OAIEmojiReactionBaseAllOfUser.h>
 #import <OpenAPIClient/OAIGetMessages.h>
 #import <OpenAPIClient/OAIGetMessagesAllOf.h>
 #import <OpenAPIClient/OAIHotspot.h>
@@ -108,6 +111,7 @@ Import the following:
 #import <OpenAPIClient/OAIUserNotAuthorizedError.h>
 // load API classes for accessing endpoints
 #import <OpenAPIClient/OAIAuthenticationApi.h>
+#import <OpenAPIClient/OAIDraftsApi.h>
 #import <OpenAPIClient/OAIMessagesApi.h>
 #import <OpenAPIClient/OAIRealTimeEventsApi.h>
 #import <OpenAPIClient/OAIServerAndOrganizationsApi.h>
@@ -153,6 +157,10 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *OAIAuthenticationApi* | [**devFetchApiKey**](docs/OAIAuthenticationApi.md#devfetchapikey) | **POST** /dev_fetch_api_key | Fetch an API key (development only)
 *OAIAuthenticationApi* | [**fetchApiKey**](docs/OAIAuthenticationApi.md#fetchapikey) | **POST** /fetch_api_key | Fetch an API key (production)
+*OAIDraftsApi* | [**createDrafts**](docs/OAIDraftsApi.md#createdrafts) | **POST** /drafts | Create drafts
+*OAIDraftsApi* | [**deleteDraft**](docs/OAIDraftsApi.md#deletedraft) | **DELETE** /drafts/{draft_id} | Delete a draft
+*OAIDraftsApi* | [**editDraft**](docs/OAIDraftsApi.md#editdraft) | **PATCH** /drafts/{draft_id} | Edit a draft
+*OAIDraftsApi* | [**getDrafts**](docs/OAIDraftsApi.md#getdrafts) | **GET** /drafts | Get drafts
 *OAIMessagesApi* | [**addReaction**](docs/OAIMessagesApi.md#addreaction) | **POST** /messages/{message_id}/reactions | Add an emoji reaction
 *OAIMessagesApi* | [**checkMessagesMatchNarrow**](docs/OAIMessagesApi.md#checkmessagesmatchnarrow) | **GET** /messages/matches_narrow | Check if messages match a narrow
 *OAIMessagesApi* | [**deleteMessage**](docs/OAIMessagesApi.md#deletemessage) | **DELETE** /messages/{message_id} | Delete a message
@@ -188,9 +196,11 @@ Class | Method | HTTP request | Description
 *OAIServerAndOrganizationsApi* | [**uploadCustomEmoji**](docs/OAIServerAndOrganizationsApi.md#uploadcustomemoji) | **POST** /realm/emoji/{emoji_name} | Upload custom emoji
 *OAIStreamsApi* | [**archiveStream**](docs/OAIStreamsApi.md#archivestream) | **DELETE** /streams/{stream_id} | Archive a stream
 *OAIStreamsApi* | [**createBigBlueButtonVideoCall**](docs/OAIStreamsApi.md#createbigbluebuttonvideocall) | **GET** /calls/bigbluebutton/create | Create BigBlueButton video call
+*OAIStreamsApi* | [**deleteTopic**](docs/OAIStreamsApi.md#deletetopic) | **POST** /streams/{stream_id}/delete_topic | Delete a topic
 *OAIStreamsApi* | [**getStreamId**](docs/OAIStreamsApi.md#getstreamid) | **GET** /get_stream_id | Get stream ID
 *OAIStreamsApi* | [**getStreamTopics**](docs/OAIStreamsApi.md#getstreamtopics) | **GET** /users/me/{stream_id}/topics | Get topics in a stream
 *OAIStreamsApi* | [**getStreams**](docs/OAIStreamsApi.md#getstreams) | **GET** /streams | Get all streams
+*OAIStreamsApi* | [**getSubscribers**](docs/OAIStreamsApi.md#getsubscribers) | **GET** /streams/{stream_id}/members | Get the subscribers of a stream
 *OAIStreamsApi* | [**getSubscriptionStatus**](docs/OAIStreamsApi.md#getsubscriptionstatus) | **GET** /users/{user_id}/subscriptions/{stream_id} | Get subscription status
 *OAIStreamsApi* | [**getSubscriptions**](docs/OAIStreamsApi.md#getsubscriptions) | **GET** /users/me/subscriptions | Get subscribed streams
 *OAIStreamsApi* | [**muteTopic**](docs/OAIStreamsApi.md#mutetopic) | **PATCH** /users/me/subscriptions/muted_topics | Topic muting
@@ -215,8 +225,8 @@ Class | Method | HTTP request | Description
 *OAIUsersApi* | [**removeUserGroup**](docs/OAIUsersApi.md#removeusergroup) | **DELETE** /user_groups/{user_group_id} | Delete a user group
 *OAIUsersApi* | [**setTypingStatus**](docs/OAIUsersApi.md#settypingstatus) | **POST** /typing | Set \&quot;typing\&quot; status
 *OAIUsersApi* | [**unmuteUser**](docs/OAIUsersApi.md#unmuteuser) | **DELETE** /users/me/muted_users/{muted_user_id} | Unmute a user
-*OAIUsersApi* | [**updateDisplaySettings**](docs/OAIUsersApi.md#updatedisplaysettings) | **PATCH** /settings/display | Update display settings
-*OAIUsersApi* | [**updateNotificationSettings**](docs/OAIUsersApi.md#updatenotificationsettings) | **PATCH** /settings/notifications | Update notification settings
+*OAIUsersApi* | [**updateSettings**](docs/OAIUsersApi.md#updatesettings) | **PATCH** /settings | Update settings
+*OAIUsersApi* | [**updateStatus**](docs/OAIUsersApi.md#updatestatus) | **POST** /users/me/status | Update your status
 *OAIUsersApi* | [**updateUser**](docs/OAIUsersApi.md#updateuser) | **PATCH** /users/{user_id} | Update a user
 *OAIUsersApi* | [**updateUserGroup**](docs/OAIUsersApi.md#updateusergroup) | **PATCH** /user_groups/{user_group_id} | Update a user group
 *OAIUsersApi* | [**updateUserGroupMembers**](docs/OAIUsersApi.md#updateusergroupmembers) | **POST** /user_groups/{user_group_id}/members | Update user group members
@@ -247,10 +257,13 @@ Class | Method | HTTP request | Description
  - [OAICodedErrorBaseAllOf](docs/OAICodedErrorBaseAllOf.md)
  - [OAICustomProfileField](docs/OAICustomProfileField.md)
  - [OAIDefaultStreamGroup](docs/OAIDefaultStreamGroup.md)
+ - [OAIDraft](docs/OAIDraft.md)
+ - [OAIEmojiBase](docs/OAIEmojiBase.md)
  - [OAIEmojiReaction](docs/OAIEmojiReaction.md)
  - [OAIEmojiReactionAllOf](docs/OAIEmojiReactionAllOf.md)
  - [OAIEmojiReactionBase](docs/OAIEmojiReactionBase.md)
- - [OAIEmojiReactionBaseUser](docs/OAIEmojiReactionBaseUser.md)
+ - [OAIEmojiReactionBaseAllOf](docs/OAIEmojiReactionBaseAllOf.md)
+ - [OAIEmojiReactionBaseAllOfUser](docs/OAIEmojiReactionBaseAllOfUser.md)
  - [OAIGetMessages](docs/OAIGetMessages.md)
  - [OAIGetMessagesAllOf](docs/OAIGetMessagesAllOf.md)
  - [OAIHotspot](docs/OAIHotspot.md)

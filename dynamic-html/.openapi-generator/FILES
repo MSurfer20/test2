@@ -29,10 +29,13 @@ docs/models/CodedErrorBase.html
 docs/models/CodedErrorBaseAllOf.html
 docs/models/CustomProfileField.html
 docs/models/DefaultStreamGroup.html
+docs/models/Draft.html
+docs/models/EmojiBase.html
 docs/models/EmojiReaction.html
 docs/models/EmojiReactionAllOf.html
 docs/models/EmojiReactionBase.html
-docs/models/EmojiReactionBaseUser.html
+docs/models/EmojiReactionBaseAllOf.html
+docs/models/EmojiReactionBaseAllOfUser.html
 docs/models/GetMessages.html
 docs/models/GetMessagesAllOf.html
 docs/models/Hotspot.html
@@ -71,6 +74,7 @@ docs/models/UserDeactivatedError.html
 docs/models/UserGroup.html
 docs/models/UserNotAuthorizedError.html
 docs/operations/AuthenticationApi.html
+docs/operations/DraftsApi.html
 docs/operations/MessagesApi.html
 docs/operations/RealTimeEventsApi.html
 docs/operations/ServerAndOrganizationsApi.html

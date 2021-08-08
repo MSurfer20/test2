@@ -12,6 +12,7 @@ from openapi_server.models.json_success import JsonSuccess  # noqa: E501
 from openapi_server.models.json_success_base import JsonSuccessBase  # noqa: E501
 from openapi_server.models.one_ofobjectobject import OneOfobjectobject  # noqa: E501
 from openapi_server.models.one_ofobjectobjectobject import OneOfobjectobjectobject  # noqa: E501
+from openapi_server.models.one_ofobjectobjectobjectobjectobjectobject import OneOfobjectobjectobjectobjectobjectobject  # noqa: E501
 from openapi_server.test import BaseTestCase
 
 
@@ -280,47 +281,37 @@ class TestUsersController(BaseTestCase):
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
-    def test_update_display_settings(self):
-        """Test case for update_display_settings
+    def test_update_settings(self):
+        """Test case for update_settings
 
-        Update display settings
+        Update settings
         """
-        query_string = [('twenty_four_hour_time', true),
+        query_string = [('full_name', 'NewName'),
+                        ('email', 'newname@example.com'),
+                        ('old_password', 'old12345'),
+                        ('new_password', 'new12345'),
+                        ('twenty_four_hour_time', true),
                         ('dense_mode', true),
                         ('starred_message_counts', true),
                         ('fluid_layout_width', true),
                         ('high_contrast_mode', true),
                         ('color_scheme', 56),
+                        ('enable_drafts_synchronization', true),
                         ('translate_emoticons', true),
                         ('default_language', 'en'),
                         ('default_view', 'all_messages'),
                         ('left_side_userlist', true),
                         ('emojiset', 'google'),
                         ('demote_inactive_streams', 56),
-                        ('timezone', 'Asia/Kolkata')]
-        headers = { 
-            'Accept': 'application/json',
-        }
-        response = self.client.open(
-            '/api/v1/settings/display',
-            method='PATCH',
-            headers=headers,
-            query_string=query_string)
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
-
-    def test_update_notification_settings(self):
-        """Test case for update_notification_settings
-
-        Update notification settings
-        """
-        query_string = [('enable_stream_desktop_notifications', true),
+                        ('timezone', 'Asia/Kolkata'),
+                        ('enable_stream_desktop_notifications', true),
                         ('enable_stream_email_notifications', true),
                         ('enable_stream_push_notifications', true),
                         ('enable_stream_audible_notifications', true),
                         ('notification_sound', 'ding'),
                         ('enable_desktop_notifications', true),
                         ('enable_sounds', true),
+                        ('email_notifications_batching_period_seconds', 120),
                         ('enable_offline_email_notifications', true),
                         ('enable_offline_push_notifications', true),
                         ('enable_online_push_notifications', true),
@@ -332,13 +323,35 @@ class TestUsersController(BaseTestCase):
                         ('wildcard_mentions_notify', true),
                         ('desktop_icon_count_display', 56),
                         ('realm_name_in_notifications', true),
-                        ('presence_enabled', true)]
+                        ('presence_enabled', true),
+                        ('enter_sends', true)]
         headers = { 
             'Accept': 'application/json',
         }
         response = self.client.open(
-            '/api/v1/settings/notifications',
+            '/api/v1/settings',
             method='PATCH',
+            headers=headers,
+            query_string=query_string)
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+
+    def test_update_status(self):
+        """Test case for update_status
+
+        Update your status
+        """
+        query_string = [('status_text', 'on vacation'),
+                        ('away', true),
+                        ('emoji_name', 'car'),
+                        ('emoji_code', '1f697'),
+                        ('reaction_type', 'unicode_emoji')]
+        headers = { 
+            'Accept': 'application/json',
+        }
+        response = self.client.open(
+            '/api/v1/users/me/status',
+            method='POST',
             headers=headers,
             query_string=query_string)
         self.assert200(response,

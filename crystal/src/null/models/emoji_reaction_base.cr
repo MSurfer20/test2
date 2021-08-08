@@ -15,7 +15,7 @@ module
   class EmojiReactionBase
     include JSON::Serializable
 
-    # A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint. 
+    # A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji. 
     @[JSON::Field(key: emoji_code, type: String)]
     property emoji_code : String
 
@@ -31,12 +31,20 @@ module
     @[JSON::Field(key: user_id, type: Int32)]
     property user_id : Int32
 
-    @[JSON::Field(key: user, type: EmojiReactionBaseUser)]
-    property user : EmojiReactionBaseUser
+    @[JSON::Field(key: user, type: EmojiReactionBaseAllOfUser)]
+    property user : EmojiReactionBaseAllOfUser
+
+    # List of class defined in allOf (OpenAPI v3)
+    def self.openapi_all_of
+      [
+      :"EmojiBase",
+      :"EmojiReactionBaseAllOf"
+      ]
+    end
 
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize(@emoji_code : String | Nil, @emoji_name : String | Nil, @reaction_type : String | Nil, @user_id : Int32 | Nil, @user : EmojiReactionBaseUser | Nil)
+    def initialize(@emoji_code : String | Nil, @emoji_name : String | Nil, @reaction_type : String | Nil, @user_id : Int32 | Nil, @user : EmojiReactionBaseAllOfUser | Nil)
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?

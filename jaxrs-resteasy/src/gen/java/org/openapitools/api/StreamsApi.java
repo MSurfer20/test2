@@ -31,7 +31,7 @@ import javax.validation.Valid;
 
 
 @io.swagger.annotations.Api(description = "the streams API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyServerCodegen", date = "2021-08-08T20:42:27.763537Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyServerCodegen", date = "2021-08-08T21:12:17.400215Z[Etc/UTC]")
 public class StreamsApi  {
 
     @Inject StreamsApiService service;
@@ -49,6 +49,19 @@ public class StreamsApi  {
     throws NotFoundException {
         return service.archiveStream(streamId,securityContext);
     }
+    @POST
+    @Path("/{stream_id}/delete_topic")
+    
+    @Produces({ "application/json" })
+    @io.swagger.annotations.ApiOperation(value = "Delete a topic", notes = "Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. ", response = JsonSuccess.class, tags={ "streams", })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "Success.", response = JsonSuccess.class),
+        
+        @io.swagger.annotations.ApiResponse(code = 400, message = "Error.", response = JsonError.class) })
+    public Response deleteTopic( @PathParam("stream_id") Integer streamId, @NotNull  @QueryParam("topic_name") String topicName,@Context SecurityContext securityContext)
+    throws NotFoundException {
+        return service.deleteTopic(streamId,topicName,securityContext);
+    }
     @GET
     
     
@@ -61,6 +74,19 @@ public class StreamsApi  {
     public Response getStreams(  @DefaultValue("true") @QueryParam("include_public") Boolean includePublic,  @DefaultValue("false") @QueryParam("include_web_public") Boolean includeWebPublic,  @DefaultValue("true") @QueryParam("include_subscribed") Boolean includeSubscribed,  @DefaultValue("false") @QueryParam("include_all_active") Boolean includeAllActive,  @DefaultValue("false") @QueryParam("include_default") Boolean includeDefault,  @DefaultValue("false") @QueryParam("include_owner_subscribed") Boolean includeOwnerSubscribed,@Context SecurityContext securityContext)
     throws NotFoundException {
         return service.getStreams(includePublic,includeWebPublic,includeSubscribed,includeAllActive,includeDefault,includeOwnerSubscribed,securityContext);
+    }
+    @GET
+    @Path("/{stream_id}/members")
+    
+    @Produces({ "application/json" })
+    @io.swagger.annotations.ApiOperation(value = "Get the subscribers of a stream", notes = "Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` ", response = JsonSuccessBase.class, tags={ "streams", })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "Success.", response = JsonSuccessBase.class),
+        
+        @io.swagger.annotations.ApiResponse(code = 400, message = "Bad request.", response = JsonError.class) })
+    public Response getSubscribers( @PathParam("stream_id") Integer streamId,@Context SecurityContext securityContext)
+    throws NotFoundException {
+        return service.getSubscribers(streamId,securityContext);
     }
     @PATCH
     @Path("/{stream_id}")

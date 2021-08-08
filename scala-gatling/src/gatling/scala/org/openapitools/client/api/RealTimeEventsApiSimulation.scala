@@ -65,16 +65,16 @@ class RealTimeEventsApiSimulation extends Simulation {
     val scenarioBuilders: mutable.MutableList[PopulationBuilder] = new mutable.MutableList[PopulationBuilder]()
 
     // Set up CSV feeders
-    val delete_queueQUERYFeeder = csv(userDataDirectory + File.separator + "deleteQueue-queryParams.csv").random
-    val get_eventsQUERYFeeder = csv(userDataDirectory + File.separator + "getEvents-queryParams.csv").random
+    val delete-queueQUERYFeeder = csv(userDataDirectory + File.separator + "deleteQueue-queryParams.csv").random
+    val get-eventsQUERYFeeder = csv(userDataDirectory + File.separator + "getEvents-queryParams.csv").random
     val nullQUERYFeeder = csv(userDataDirectory + File.separator + "realTimePost-queryParams.csv").random
-    val register_queueQUERYFeeder = csv(userDataDirectory + File.separator + "registerQueue-queryParams.csv").random
+    val register-queueQUERYFeeder = csv(userDataDirectory + File.separator + "registerQueue-queryParams.csv").random
 
     // Setup all scenarios
 
     
     val scndeleteQueue = scenario("deleteQueueSimulation")
-        .feed(delete_queueQUERYFeeder)
+        .feed(delete-queueQUERYFeeder)
         .exec(http("deleteQueue")
         .httpRequest("DELETE","/events")
         .queryParam("queue_id","${queue_id}")
@@ -89,7 +89,7 @@ class RealTimeEventsApiSimulation extends Simulation {
 
     
     val scngetEvents = scenario("getEventsSimulation")
-        .feed(get_eventsQUERYFeeder)
+        .feed(get-eventsQUERYFeeder)
         .exec(http("getEvents")
         .httpRequest("GET","/events")
         .queryParam("last_event_id","${last_event_id}")
@@ -123,17 +123,17 @@ class RealTimeEventsApiSimulation extends Simulation {
 
     
     val scnregisterQueue = scenario("registerQueueSimulation")
-        .feed(register_queueQUERYFeeder)
+        .feed(register-queueQUERYFeeder)
         .exec(http("registerQueue")
         .httpRequest("POST","/register")
         .queryParam("client_gravatar","${client_gravatar}")
         .queryParam("slim_presence","${slim_presence}")
-        .queryParam("client_capabilities","${client_capabilities}")
         .queryParam("apply_markdown","${apply_markdown}")
         .queryParam("narrow","${narrow}")
         .queryParam("all_public_streams","${all_public_streams}")
         .queryParam("fetch_event_types","${fetch_event_types}")
         .queryParam("include_subscribers","${include_subscribers}")
+        .queryParam("client_capabilities","${client_capabilities}")
         .queryParam("event_types","${event_types}")
 )
 

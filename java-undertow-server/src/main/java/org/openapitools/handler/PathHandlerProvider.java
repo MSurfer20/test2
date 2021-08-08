@@ -106,6 +106,30 @@ abstract public class PathHandlerProvider implements HandlerProvider, PathHandle
                     fetchApiKey().handleRequest(exchange);
                 }
             })
+            .add(Methods.POST, basePath + "/drafts", new HttpHandler() {
+                @Override
+                public void handleRequest(HttpServerExchange exchange) throws Exception {
+                    createDrafts().handleRequest(exchange);
+                }
+            })
+            .add(Methods.DELETE, basePath + "/drafts/{draft_id}", new HttpHandler() {
+                @Override
+                public void handleRequest(HttpServerExchange exchange) throws Exception {
+                    deleteDraft().handleRequest(exchange);
+                }
+            })
+            .add(Methods.PATCH, basePath + "/drafts/{draft_id}", new HttpHandler() {
+                @Override
+                public void handleRequest(HttpServerExchange exchange) throws Exception {
+                    editDraft().handleRequest(exchange);
+                }
+            })
+            .add(Methods.GET, basePath + "/drafts", new HttpHandler() {
+                @Override
+                public void handleRequest(HttpServerExchange exchange) throws Exception {
+                    getDrafts().handleRequest(exchange);
+                }
+            })
             .add(Methods.POST, basePath + "/messages/{message_id}/reactions", new HttpHandler() {
                 @Override
                 public void handleRequest(HttpServerExchange exchange) throws Exception {
@@ -316,6 +340,12 @@ abstract public class PathHandlerProvider implements HandlerProvider, PathHandle
                     createBigBlueButtonVideoCall().handleRequest(exchange);
                 }
             })
+            .add(Methods.POST, basePath + "/streams/{stream_id}/delete_topic", new HttpHandler() {
+                @Override
+                public void handleRequest(HttpServerExchange exchange) throws Exception {
+                    deleteTopic().handleRequest(exchange);
+                }
+            })
             .add(Methods.GET, basePath + "/get_stream_id", new HttpHandler() {
                 @Override
                 public void handleRequest(HttpServerExchange exchange) throws Exception {
@@ -332,6 +362,12 @@ abstract public class PathHandlerProvider implements HandlerProvider, PathHandle
                 @Override
                 public void handleRequest(HttpServerExchange exchange) throws Exception {
                     getStreams().handleRequest(exchange);
+                }
+            })
+            .add(Methods.GET, basePath + "/streams/{stream_id}/members", new HttpHandler() {
+                @Override
+                public void handleRequest(HttpServerExchange exchange) throws Exception {
+                    getSubscribers().handleRequest(exchange);
                 }
             })
             .add(Methods.GET, basePath + "/users/{user_id}/subscriptions/{stream_id}", new HttpHandler() {
@@ -478,16 +514,16 @@ abstract public class PathHandlerProvider implements HandlerProvider, PathHandle
                     unmuteUser().handleRequest(exchange);
                 }
             })
-            .add(Methods.PATCH, basePath + "/settings/display", new HttpHandler() {
+            .add(Methods.PATCH, basePath + "/settings", new HttpHandler() {
                 @Override
                 public void handleRequest(HttpServerExchange exchange) throws Exception {
-                    updateDisplaySettings().handleRequest(exchange);
+                    updateSettings().handleRequest(exchange);
                 }
             })
-            .add(Methods.PATCH, basePath + "/settings/notifications", new HttpHandler() {
+            .add(Methods.POST, basePath + "/users/me/status", new HttpHandler() {
                 @Override
                 public void handleRequest(HttpServerExchange exchange) throws Exception {
-                    updateNotificationSettings().handleRequest(exchange);
+                    updateStatus().handleRequest(exchange);
                 }
             })
             .add(Methods.PATCH, basePath + "/users/{user_id}", new HttpHandler() {
@@ -564,6 +600,10 @@ abstract public class PathHandlerProvider implements HandlerProvider, PathHandle
         return Handlers.routing()
             .add(Methods.POST, basePath + "/dev_fetch_api_key", devFetchApiKey())
             .add(Methods.POST, basePath + "/fetch_api_key", fetchApiKey())
+            .add(Methods.POST, basePath + "/drafts", createDrafts())
+            .add(Methods.DELETE, basePath + "/drafts/{draft_id}", deleteDraft())
+            .add(Methods.PATCH, basePath + "/drafts/{draft_id}", editDraft())
+            .add(Methods.GET, basePath + "/drafts", getDrafts())
             .add(Methods.POST, basePath + "/messages/{message_id}/reactions", addReaction())
             .add(Methods.GET, basePath + "/messages/matches_narrow", checkMessagesMatchNarrow())
             .add(Methods.DELETE, basePath + "/messages/{message_id}", deleteMessage())
@@ -599,9 +639,11 @@ abstract public class PathHandlerProvider implements HandlerProvider, PathHandle
             .add(Methods.POST, basePath + "/realm/emoji/{emoji_name}", uploadCustomEmoji())
             .add(Methods.DELETE, basePath + "/streams/{stream_id}", archiveStream())
             .add(Methods.GET, basePath + "/calls/bigbluebutton/create", createBigBlueButtonVideoCall())
+            .add(Methods.POST, basePath + "/streams/{stream_id}/delete_topic", deleteTopic())
             .add(Methods.GET, basePath + "/get_stream_id", getStreamId())
             .add(Methods.GET, basePath + "/users/me/{stream_id}/topics", getStreamTopics())
             .add(Methods.GET, basePath + "/streams", getStreams())
+            .add(Methods.GET, basePath + "/streams/{stream_id}/members", getSubscribers())
             .add(Methods.GET, basePath + "/users/{user_id}/subscriptions/{stream_id}", getSubscriptionStatus())
             .add(Methods.GET, basePath + "/users/me/subscriptions", getSubscriptions())
             .add(Methods.PATCH, basePath + "/users/me/subscriptions/muted_topics", muteTopic())
@@ -626,8 +668,8 @@ abstract public class PathHandlerProvider implements HandlerProvider, PathHandle
             .add(Methods.DELETE, basePath + "/user_groups/{user_group_id}", removeUserGroup())
             .add(Methods.POST, basePath + "/typing", setTypingStatus())
             .add(Methods.DELETE, basePath + "/users/me/muted_users/{muted_user_id}", unmuteUser())
-            .add(Methods.PATCH, basePath + "/settings/display", updateDisplaySettings())
-            .add(Methods.PATCH, basePath + "/settings/notifications", updateNotificationSettings())
+            .add(Methods.PATCH, basePath + "/settings", updateSettings())
+            .add(Methods.POST, basePath + "/users/me/status", updateStatus())
             .add(Methods.PATCH, basePath + "/users/{user_id}", updateUser())
             .add(Methods.PATCH, basePath + "/user_groups/{user_group_id}", updateUserGroup())
             .add(Methods.POST, basePath + "/user_groups/{user_group_id}/members", updateUserGroupMembers())

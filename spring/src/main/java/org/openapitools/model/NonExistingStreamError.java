@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
 /**
  * NonExistingStreamError
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-08-08T20:46:01.944060Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-08-08T21:15:36.024879Z[Etc/UTC]")
 public class NonExistingStreamError   {
   @JsonProperty("result")
   private JsonNullable<Object> result = JsonNullable.undefined();

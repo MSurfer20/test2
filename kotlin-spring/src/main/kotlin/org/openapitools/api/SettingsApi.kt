@@ -29,15 +29,20 @@ class SettingsApiController() {
 
 
     @PatchMapping(
-        value = ["/settings/display"],
+        value = ["/settings"],
         produces = ["application/json"]
     )
-    fun updateDisplaySettings( @RequestParam(value = "twenty_four_hour_time", required = false) twentyFourHourTime: kotlin.Boolean?
+    fun updateSettings( @RequestParam(value = "full_name", required = false) fullName: kotlin.String?
+, @RequestParam(value = "email", required = false) email: kotlin.String?
+, @RequestParam(value = "old_password", required = false) oldPassword: kotlin.String?
+, @RequestParam(value = "new_password", required = false) newPassword: kotlin.String?
+, @RequestParam(value = "twenty_four_hour_time", required = false) twentyFourHourTime: kotlin.Boolean?
 , @RequestParam(value = "dense_mode", required = false) denseMode: kotlin.Boolean?
 , @RequestParam(value = "starred_message_counts", required = false) starredMessageCounts: kotlin.Boolean?
 , @RequestParam(value = "fluid_layout_width", required = false) fluidLayoutWidth: kotlin.Boolean?
 , @RequestParam(value = "high_contrast_mode", required = false) highContrastMode: kotlin.Boolean?
 , @RequestParam(value = "color_scheme", required = false) colorScheme: kotlin.Int?
+, @RequestParam(value = "enable_drafts_synchronization", required = false) enableDraftsSynchronization: kotlin.Boolean?
 , @RequestParam(value = "translate_emoticons", required = false) translateEmoticons: kotlin.Boolean?
 , @RequestParam(value = "default_language", required = false) defaultLanguage: kotlin.String?
 , @RequestParam(value = "default_view", required = false) defaultView: kotlin.String?
@@ -45,22 +50,14 @@ class SettingsApiController() {
 , @RequestParam(value = "emojiset", required = false) emojiset: kotlin.String?
 , @RequestParam(value = "demote_inactive_streams", required = false) demoteInactiveStreams: kotlin.Int?
 , @RequestParam(value = "timezone", required = false) timezone: kotlin.String?
-): ResponseEntity<JsonSuccessBase> {
-        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
-    }
-
-
-    @PatchMapping(
-        value = ["/settings/notifications"],
-        produces = ["application/json"]
-    )
-    fun updateNotificationSettings( @RequestParam(value = "enable_stream_desktop_notifications", required = false) enableStreamDesktopNotifications: kotlin.Boolean?
+, @RequestParam(value = "enable_stream_desktop_notifications", required = false) enableStreamDesktopNotifications: kotlin.Boolean?
 , @RequestParam(value = "enable_stream_email_notifications", required = false) enableStreamEmailNotifications: kotlin.Boolean?
 , @RequestParam(value = "enable_stream_push_notifications", required = false) enableStreamPushNotifications: kotlin.Boolean?
 , @RequestParam(value = "enable_stream_audible_notifications", required = false) enableStreamAudibleNotifications: kotlin.Boolean?
 , @RequestParam(value = "notification_sound", required = false) notificationSound: kotlin.String?
 , @RequestParam(value = "enable_desktop_notifications", required = false) enableDesktopNotifications: kotlin.Boolean?
 , @RequestParam(value = "enable_sounds", required = false) enableSounds: kotlin.Boolean?
+, @RequestParam(value = "email_notifications_batching_period_seconds", required = false) emailNotificationsBatchingPeriodSeconds: kotlin.Int?
 , @RequestParam(value = "enable_offline_email_notifications", required = false) enableOfflineEmailNotifications: kotlin.Boolean?
 , @RequestParam(value = "enable_offline_push_notifications", required = false) enableOfflinePushNotifications: kotlin.Boolean?
 , @RequestParam(value = "enable_online_push_notifications", required = false) enableOnlinePushNotifications: kotlin.Boolean?
@@ -73,6 +70,7 @@ class SettingsApiController() {
 , @RequestParam(value = "desktop_icon_count_display", required = false) desktopIconCountDisplay: kotlin.Int?
 , @RequestParam(value = "realm_name_in_notifications", required = false) realmNameInNotifications: kotlin.Boolean?
 , @RequestParam(value = "presence_enabled", required = false) presenceEnabled: kotlin.Boolean?
+, @RequestParam(value = "enter_sends", required = false) enterSends: kotlin.Boolean?
 ): ResponseEntity<JsonSuccessBase> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }

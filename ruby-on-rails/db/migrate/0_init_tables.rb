@@ -263,6 +263,25 @@ class InitTables < ActiveRecord::Migration
       t.timestamps
     end
 
+    create_table "draft".pluralize.to_sym, id: false do |t|
+      t.integer :id
+      t.string :type
+      t.string :to
+      t.string :topic
+      t.string :content
+      t.Float :timestamp
+
+      t.timestamps
+    end
+
+    create_table "emoji_base".pluralize.to_sym, id: false do |t|
+      t.string :emoji_code
+      t.string :emoji_name
+      t.string :reaction_type
+
+      t.timestamps
+    end
+
     create_table "emoji_reaction".pluralize.to_sym, id: false do |t|
       t.string :emoji_code
       t.string :emoji_name
@@ -293,7 +312,14 @@ class InitTables < ActiveRecord::Migration
       t.timestamps
     end
 
-    create_table "emoji_reaction_base_user".pluralize.to_sym, id: false do |t|
+    create_table "emoji_reaction_base_all_of".pluralize.to_sym, id: false do |t|
+      t.integer :user_id
+      t.string :user
+
+      t.timestamps
+    end
+
+    create_table "emoji_reaction_base_all_of_user".pluralize.to_sym, id: false do |t|
       t.integer :id
       t.string :email
       t.string :full_name

@@ -9,6 +9,7 @@ import java.util.HashSet;
 import org.openapitools.api.impl.AttachmentsApiServiceImpl;
 import org.openapitools.api.impl.CallsApiServiceImpl;
 import org.openapitools.api.impl.DevFetchApiKeyApiServiceImpl;
+import org.openapitools.api.impl.DraftsApiServiceImpl;
 import org.openapitools.api.impl.EventsApiServiceImpl;
 import org.openapitools.api.impl.FetchApiKeyApiServiceImpl;
 import org.openapitools.api.impl.GetStreamIdApiServiceImpl;
@@ -38,6 +39,7 @@ public class RestApplication extends Application {
         resources.add(AttachmentsApiServiceImpl.class);
         resources.add(CallsApiServiceImpl.class);
         resources.add(DevFetchApiKeyApiServiceImpl.class);
+        resources.add(DraftsApiServiceImpl.class);
         resources.add(EventsApiServiceImpl.class);
         resources.add(FetchApiKeyApiServiceImpl.class);
         resources.add(GetStreamIdApiServiceImpl.class);

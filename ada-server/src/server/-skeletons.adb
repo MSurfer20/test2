@@ -73,6 +73,106 @@ package body .Skeletons is
          end if;
       end Fetch_Api_Key;
 
+      package API_Create_Drafts is
+         new Swagger.Servers.Operation (Handler => Create_Drafts,
+                                        Method  => Swagger.Servers.POST,
+                                        URI     => URI_Prefix & "/drafts");
+
+      --  Create drafts
+      procedure Create_Drafts
+         (Req     : in out Swagger.Servers.Request'Class;
+          Reply   : in out Swagger.Servers.Response'Class;
+          Stream  : in out Swagger.Servers.Output_Stream'Class;
+          Context : in out Swagger.Servers.Context_Type) is
+         Impl : Implementation_Type;
+         Drafts : .Models.Draft_Type_Vectors.Vector;
+         Result : .Models.JsonSuccess_Type;
+      begin
+         Swagger.Servers.Get_Query_Parameter (Req, "drafts", Drafts);
+         Impl.Create_Drafts
+            (Drafts, Result, Context);
+         if Context.Get_Status = 200 then
+            Stream.Start_Document;
+            .Models.Serialize (Stream, "", Result);
+            Stream.End_Document;
+         end if;
+      end Create_Drafts;
+
+      package API_Delete_Draft is
+         new Swagger.Servers.Operation (Handler => Delete_Draft,
+                                        Method  => Swagger.Servers.DELETE,
+                                        URI     => URI_Prefix & "/drafts/{draft_id}");
+
+      --  Delete a draft
+      procedure Delete_Draft
+         (Req     : in out Swagger.Servers.Request'Class;
+          Reply   : in out Swagger.Servers.Response'Class;
+          Stream  : in out Swagger.Servers.Output_Stream'Class;
+          Context : in out Swagger.Servers.Context_Type) is
+         Impl : Implementation_Type;
+         Draft_Id : Integer;
+         Result : .Models.JsonSuccess_Type;
+      begin
+         Swagger.Servers.Get_Path_Parameter (Req, 1, Draft_Id);
+         Impl.Delete_Draft
+            (Draft_Id, Result, Context);
+         if Context.Get_Status = 200 then
+            Stream.Start_Document;
+            .Models.Serialize (Stream, "", Result);
+            Stream.End_Document;
+         end if;
+      end Delete_Draft;
+
+      package API_Edit_Draft is
+         new Swagger.Servers.Operation (Handler => Edit_Draft,
+                                        Method  => Swagger.Servers.PATCH,
+                                        URI     => URI_Prefix & "/drafts/{draft_id}");
+
+      --  Edit a draft
+      procedure Edit_Draft
+         (Req     : in out Swagger.Servers.Request'Class;
+          Reply   : in out Swagger.Servers.Response'Class;
+          Stream  : in out Swagger.Servers.Output_Stream'Class;
+          Context : in out Swagger.Servers.Context_Type) is
+         Impl : Implementation_Type;
+         Draft_Id : Integer;
+         Draft : .Models.Draft_Type;
+         Result : .Models.JsonSuccess_Type;
+      begin
+         Swagger.Servers.Get_Query_Parameter (Req, "draft", Draft);
+         Swagger.Servers.Get_Path_Parameter (Req, 1, Draft_Id);
+         Impl.Edit_Draft
+            (Draft_Id,
+             Draft, Result, Context);
+         if Context.Get_Status = 200 then
+            Stream.Start_Document;
+            .Models.Serialize (Stream, "", Result);
+            Stream.End_Document;
+         end if;
+      end Edit_Draft;
+
+      package API_Get_Drafts is
+         new Swagger.Servers.Operation (Handler => Get_Drafts,
+                                        Method  => Swagger.Servers.GET,
+                                        URI     => URI_Prefix & "/drafts");
+
+      --  Get drafts
+      procedure Get_Drafts
+         (Req     : in out Swagger.Servers.Request'Class;
+          Reply   : in out Swagger.Servers.Response'Class;
+          Stream  : in out Swagger.Servers.Output_Stream'Class;
+          Context : in out Swagger.Servers.Context_Type) is
+         Impl : Implementation_Type;
+         Result : .Models.JsonSuccess_Type;
+      begin
+         Impl.Get_Drafts (Result, Context);
+         if Context.Get_Status = 200 then
+            Stream.Start_Document;
+            .Models.Serialize (Stream, "", Result);
+            Stream.End_Document;
+         end if;
+      end Get_Drafts;
+
       package API_Add_Reaction is
          new Swagger.Servers.Operation (Handler => Add_Reaction,
                                         Method  => Swagger.Servers.POST,
@@ -1064,6 +1164,34 @@ package body .Skeletons is
          end if;
       end Create_Big_Blue_Button_Video_Call;
 
+      package API_Delete_Topic is
+         new Swagger.Servers.Operation (Handler => Delete_Topic,
+                                        Method  => Swagger.Servers.POST,
+                                        URI     => URI_Prefix & "/streams/{stream_id}/delete_topic");
+
+      --  Delete a topic
+      procedure Delete_Topic
+         (Req     : in out Swagger.Servers.Request'Class;
+          Reply   : in out Swagger.Servers.Response'Class;
+          Stream  : in out Swagger.Servers.Output_Stream'Class;
+          Context : in out Swagger.Servers.Context_Type) is
+         Impl : Implementation_Type;
+         Stream_Id : Integer;
+         Topic_Name : Swagger.UString;
+         Result : .Models.JsonSuccess_Type;
+      begin
+         Swagger.Servers.Get_Query_Parameter (Req, "topic_name", Topic_Name);
+         Swagger.Servers.Get_Path_Parameter (Req, 1, Stream_Id);
+         Impl.Delete_Topic
+            (Stream_Id,
+             Topic_Name, Result, Context);
+         if Context.Get_Status = 200 then
+            Stream.Start_Document;
+            .Models.Serialize (Stream, "", Result);
+            Stream.End_Document;
+         end if;
+      end Delete_Topic;
+
       package API_Get_Stream_Id is
          new Swagger.Servers.Operation (Handler => Get_Stream_Id,
                                         Method  => Swagger.Servers.GET,
@@ -1153,6 +1281,31 @@ package body .Skeletons is
             Stream.End_Document;
          end if;
       end Get_Streams;
+
+      package API_Get_Subscribers is
+         new Swagger.Servers.Operation (Handler => Get_Subscribers,
+                                        Method  => Swagger.Servers.GET,
+                                        URI     => URI_Prefix & "/streams/{stream_id}/members");
+
+      --  Get the subscribers of a stream
+      procedure Get_Subscribers
+         (Req     : in out Swagger.Servers.Request'Class;
+          Reply   : in out Swagger.Servers.Response'Class;
+          Stream  : in out Swagger.Servers.Output_Stream'Class;
+          Context : in out Swagger.Servers.Context_Type) is
+         Impl : Implementation_Type;
+         Stream_Id : Integer;
+         Result : .Models.JsonSuccessBase_Type;
+      begin
+         Swagger.Servers.Get_Path_Parameter (Req, 1, Stream_Id);
+         Impl.Get_Subscribers
+            (Stream_Id, Result, Context);
+         if Context.Get_Status = 200 then
+            Stream.Start_Document;
+            .Models.Serialize (Stream, "", Result);
+            Stream.End_Document;
+         end if;
+      end Get_Subscribers;
 
       package API_Get_Subscription_Status is
          new Swagger.Servers.Operation (Handler => Get_Subscription_Status,
@@ -1838,24 +1991,29 @@ package body .Skeletons is
          end if;
       end Unmute_User;
 
-      package API_Update_Display_Settings is
-         new Swagger.Servers.Operation (Handler => Update_Display_Settings,
+      package API_Update_Settings is
+         new Swagger.Servers.Operation (Handler => Update_Settings,
                                         Method  => Swagger.Servers.PATCH,
-                                        URI     => URI_Prefix & "/settings/display");
+                                        URI     => URI_Prefix & "/settings");
 
-      --  Update display settings
-      procedure Update_Display_Settings
+      --  Update settings
+      procedure Update_Settings
          (Req     : in out Swagger.Servers.Request'Class;
           Reply   : in out Swagger.Servers.Response'Class;
           Stream  : in out Swagger.Servers.Output_Stream'Class;
           Context : in out Swagger.Servers.Context_Type) is
          Impl : Implementation_Type;
+         Full_Name : Swagger.Nullable_UString;
+         Email : Swagger.Nullable_UString;
+         Old_Password : Swagger.Nullable_UString;
+         New_Password : Swagger.Nullable_UString;
          Twenty_Four_Hour_Time : Swagger.Nullable_Boolean;
          Dense_Mode : Swagger.Nullable_Boolean;
          Starred_Message_Counts : Swagger.Nullable_Boolean;
          Fluid_Layout_Width : Swagger.Nullable_Boolean;
          High_Contrast_Mode : Swagger.Nullable_Boolean;
          Color_Scheme : Swagger.Nullable_Integer;
+         Enable_Drafts_Synchronization : Swagger.Nullable_Boolean;
          Translate_Emoticons : Swagger.Nullable_Boolean;
          Default_Language : Swagger.Nullable_UString;
          Default_View : Swagger.Nullable_UString;
@@ -1863,54 +2021,6 @@ package body .Skeletons is
          Emojiset : Swagger.Nullable_UString;
          Demote_Inactive_Streams : Swagger.Nullable_Integer;
          Timezone : Swagger.Nullable_UString;
-         Result : .Models.JsonSuccessBase_Type;
-      begin
-         Swagger.Servers.Get_Query_Parameter (Req, "twenty_four_hour_time", Twenty_Four_Hour_Time);
-         Swagger.Servers.Get_Query_Parameter (Req, "dense_mode", Dense_Mode);
-         Swagger.Servers.Get_Query_Parameter (Req, "starred_message_counts", Starred_Message_Counts);
-         Swagger.Servers.Get_Query_Parameter (Req, "fluid_layout_width", Fluid_Layout_Width);
-         Swagger.Servers.Get_Query_Parameter (Req, "high_contrast_mode", High_Contrast_Mode);
-         Swagger.Servers.Get_Query_Parameter (Req, "color_scheme", Color_Scheme);
-         Swagger.Servers.Get_Query_Parameter (Req, "translate_emoticons", Translate_Emoticons);
-         Swagger.Servers.Get_Query_Parameter (Req, "default_language", Default_Language);
-         Swagger.Servers.Get_Query_Parameter (Req, "default_view", Default_View);
-         Swagger.Servers.Get_Query_Parameter (Req, "left_side_userlist", Left_Side_Userlist);
-         Swagger.Servers.Get_Query_Parameter (Req, "emojiset", Emojiset);
-         Swagger.Servers.Get_Query_Parameter (Req, "demote_inactive_streams", Demote_Inactive_Streams);
-         Swagger.Servers.Get_Query_Parameter (Req, "timezone", Timezone);
-         Impl.Update_Display_Settings
-            (Twenty_Four_Hour_Time,
-             Dense_Mode,
-             Starred_Message_Counts,
-             Fluid_Layout_Width,
-             High_Contrast_Mode,
-             Color_Scheme,
-             Translate_Emoticons,
-             Default_Language,
-             Default_View,
-             Left_Side_Userlist,
-             Emojiset,
-             Demote_Inactive_Streams,
-             Timezone, Result, Context);
-         if Context.Get_Status = 200 then
-            Stream.Start_Document;
-            .Models.Serialize (Stream, "", Result);
-            Stream.End_Document;
-         end if;
-      end Update_Display_Settings;
-
-      package API_Update_Notification_Settings is
-         new Swagger.Servers.Operation (Handler => Update_Notification_Settings,
-                                        Method  => Swagger.Servers.PATCH,
-                                        URI     => URI_Prefix & "/settings/notifications");
-
-      --  Update notification settings
-      procedure Update_Notification_Settings
-         (Req     : in out Swagger.Servers.Request'Class;
-          Reply   : in out Swagger.Servers.Response'Class;
-          Stream  : in out Swagger.Servers.Output_Stream'Class;
-          Context : in out Swagger.Servers.Context_Type) is
-         Impl : Implementation_Type;
          Enable_Stream_Desktop_Notifications : Swagger.Nullable_Boolean;
          Enable_Stream_Email_Notifications : Swagger.Nullable_Boolean;
          Enable_Stream_Push_Notifications : Swagger.Nullable_Boolean;
@@ -1918,6 +2028,7 @@ package body .Skeletons is
          Notification_Sound : Swagger.Nullable_UString;
          Enable_Desktop_Notifications : Swagger.Nullable_Boolean;
          Enable_Sounds : Swagger.Nullable_Boolean;
+         Email_Notifications_Batching_Period_Seconds : Swagger.Nullable_Integer;
          Enable_Offline_Email_Notifications : Swagger.Nullable_Boolean;
          Enable_Offline_Push_Notifications : Swagger.Nullable_Boolean;
          Enable_Online_Push_Notifications : Swagger.Nullable_Boolean;
@@ -1930,8 +2041,27 @@ package body .Skeletons is
          Desktop_Icon_Count_Display : Swagger.Nullable_Integer;
          Realm_Name_In_Notifications : Swagger.Nullable_Boolean;
          Presence_Enabled : Swagger.Nullable_Boolean;
+         Enter_Sends : Swagger.Nullable_Boolean;
          Result : .Models.JsonSuccessBase_Type;
       begin
+         Swagger.Servers.Get_Query_Parameter (Req, "full_name", Full_Name);
+         Swagger.Servers.Get_Query_Parameter (Req, "email", Email);
+         Swagger.Servers.Get_Query_Parameter (Req, "old_password", Old_Password);
+         Swagger.Servers.Get_Query_Parameter (Req, "new_password", New_Password);
+         Swagger.Servers.Get_Query_Parameter (Req, "twenty_four_hour_time", Twenty_Four_Hour_Time);
+         Swagger.Servers.Get_Query_Parameter (Req, "dense_mode", Dense_Mode);
+         Swagger.Servers.Get_Query_Parameter (Req, "starred_message_counts", Starred_Message_Counts);
+         Swagger.Servers.Get_Query_Parameter (Req, "fluid_layout_width", Fluid_Layout_Width);
+         Swagger.Servers.Get_Query_Parameter (Req, "high_contrast_mode", High_Contrast_Mode);
+         Swagger.Servers.Get_Query_Parameter (Req, "color_scheme", Color_Scheme);
+         Swagger.Servers.Get_Query_Parameter (Req, "enable_drafts_synchronization", Enable_Drafts_Synchronization);
+         Swagger.Servers.Get_Query_Parameter (Req, "translate_emoticons", Translate_Emoticons);
+         Swagger.Servers.Get_Query_Parameter (Req, "default_language", Default_Language);
+         Swagger.Servers.Get_Query_Parameter (Req, "default_view", Default_View);
+         Swagger.Servers.Get_Query_Parameter (Req, "left_side_userlist", Left_Side_Userlist);
+         Swagger.Servers.Get_Query_Parameter (Req, "emojiset", Emojiset);
+         Swagger.Servers.Get_Query_Parameter (Req, "demote_inactive_streams", Demote_Inactive_Streams);
+         Swagger.Servers.Get_Query_Parameter (Req, "timezone", Timezone);
          Swagger.Servers.Get_Query_Parameter (Req, "enable_stream_desktop_notifications", Enable_Stream_Desktop_Notifications);
          Swagger.Servers.Get_Query_Parameter (Req, "enable_stream_email_notifications", Enable_Stream_Email_Notifications);
          Swagger.Servers.Get_Query_Parameter (Req, "enable_stream_push_notifications", Enable_Stream_Push_Notifications);
@@ -1939,6 +2069,7 @@ package body .Skeletons is
          Swagger.Servers.Get_Query_Parameter (Req, "notification_sound", Notification_Sound);
          Swagger.Servers.Get_Query_Parameter (Req, "enable_desktop_notifications", Enable_Desktop_Notifications);
          Swagger.Servers.Get_Query_Parameter (Req, "enable_sounds", Enable_Sounds);
+         Swagger.Servers.Get_Query_Parameter (Req, "email_notifications_batching_period_seconds", Email_Notifications_Batching_Period_Seconds);
          Swagger.Servers.Get_Query_Parameter (Req, "enable_offline_email_notifications", Enable_Offline_Email_Notifications);
          Swagger.Servers.Get_Query_Parameter (Req, "enable_offline_push_notifications", Enable_Offline_Push_Notifications);
          Swagger.Servers.Get_Query_Parameter (Req, "enable_online_push_notifications", Enable_Online_Push_Notifications);
@@ -1951,14 +2082,34 @@ package body .Skeletons is
          Swagger.Servers.Get_Query_Parameter (Req, "desktop_icon_count_display", Desktop_Icon_Count_Display);
          Swagger.Servers.Get_Query_Parameter (Req, "realm_name_in_notifications", Realm_Name_In_Notifications);
          Swagger.Servers.Get_Query_Parameter (Req, "presence_enabled", Presence_Enabled);
-         Impl.Update_Notification_Settings
-            (Enable_Stream_Desktop_Notifications,
+         Swagger.Servers.Get_Query_Parameter (Req, "enter_sends", Enter_Sends);
+         Impl.Update_Settings
+            (Full_Name,
+             Email,
+             Old_Password,
+             New_Password,
+             Twenty_Four_Hour_Time,
+             Dense_Mode,
+             Starred_Message_Counts,
+             Fluid_Layout_Width,
+             High_Contrast_Mode,
+             Color_Scheme,
+             Enable_Drafts_Synchronization,
+             Translate_Emoticons,
+             Default_Language,
+             Default_View,
+             Left_Side_Userlist,
+             Emojiset,
+             Demote_Inactive_Streams,
+             Timezone,
+             Enable_Stream_Desktop_Notifications,
              Enable_Stream_Email_Notifications,
              Enable_Stream_Push_Notifications,
              Enable_Stream_Audible_Notifications,
              Notification_Sound,
              Enable_Desktop_Notifications,
              Enable_Sounds,
+             Email_Notifications_Batching_Period_Seconds,
              Enable_Offline_Email_Notifications,
              Enable_Offline_Push_Notifications,
              Enable_Online_Push_Notifications,
@@ -1970,13 +2121,51 @@ package body .Skeletons is
              Wildcard_Mentions_Notify,
              Desktop_Icon_Count_Display,
              Realm_Name_In_Notifications,
-             Presence_Enabled, Result, Context);
+             Presence_Enabled,
+             Enter_Sends, Result, Context);
          if Context.Get_Status = 200 then
             Stream.Start_Document;
             .Models.Serialize (Stream, "", Result);
             Stream.End_Document;
          end if;
-      end Update_Notification_Settings;
+      end Update_Settings;
+
+      package API_Update_Status is
+         new Swagger.Servers.Operation (Handler => Update_Status,
+                                        Method  => Swagger.Servers.POST,
+                                        URI     => URI_Prefix & "/users/me/status");
+
+      --  Update your status
+      procedure Update_Status
+         (Req     : in out Swagger.Servers.Request'Class;
+          Reply   : in out Swagger.Servers.Response'Class;
+          Stream  : in out Swagger.Servers.Output_Stream'Class;
+          Context : in out Swagger.Servers.Context_Type) is
+         Impl : Implementation_Type;
+         Status_Text : Swagger.Nullable_UString;
+         Away : Swagger.Nullable_Boolean;
+         Emoji_Name : Swagger.Nullable_UString;
+         Emoji_Code : Swagger.Nullable_UString;
+         Reaction_Type : Swagger.Nullable_UString;
+         Result : .Models.JsonSuccess_Type;
+      begin
+         Swagger.Servers.Get_Query_Parameter (Req, "status_text", Status_Text);
+         Swagger.Servers.Get_Query_Parameter (Req, "away", Away);
+         Swagger.Servers.Get_Query_Parameter (Req, "emoji_name", Emoji_Name);
+         Swagger.Servers.Get_Query_Parameter (Req, "emoji_code", Emoji_Code);
+         Swagger.Servers.Get_Query_Parameter (Req, "reaction_type", Reaction_Type);
+         Impl.Update_Status
+            (Status_Text,
+             Away,
+             Emoji_Name,
+             Emoji_Code,
+             Reaction_Type, Result, Context);
+         if Context.Get_Status = 200 then
+            Stream.Start_Document;
+            .Models.Serialize (Stream, "", Result);
+            Stream.End_Document;
+         end if;
+      end Update_Status;
 
       package API_Update_User is
          new Swagger.Servers.Operation (Handler => Update_User,
@@ -2100,6 +2289,10 @@ package body .Skeletons is
       begin
          Swagger.Servers.Register (Server, API_Dev_Fetch_Api_Key.Definition);
          Swagger.Servers.Register (Server, API_Fetch_Api_Key.Definition);
+         Swagger.Servers.Register (Server, API_Create_Drafts.Definition);
+         Swagger.Servers.Register (Server, API_Delete_Draft.Definition);
+         Swagger.Servers.Register (Server, API_Edit_Draft.Definition);
+         Swagger.Servers.Register (Server, API_Get_Drafts.Definition);
          Swagger.Servers.Register (Server, API_Add_Reaction.Definition);
          Swagger.Servers.Register (Server, API_Check_Messages_Match_Narrow.Definition);
          Swagger.Servers.Register (Server, API_Delete_Message.Definition);
@@ -2135,9 +2328,11 @@ package body .Skeletons is
          Swagger.Servers.Register (Server, API_Upload_Custom_Emoji.Definition);
          Swagger.Servers.Register (Server, API_Archive_Stream.Definition);
          Swagger.Servers.Register (Server, API_Create_Big_Blue_Button_Video_Call.Definition);
+         Swagger.Servers.Register (Server, API_Delete_Topic.Definition);
          Swagger.Servers.Register (Server, API_Get_Stream_Id.Definition);
          Swagger.Servers.Register (Server, API_Get_Stream_Topics.Definition);
          Swagger.Servers.Register (Server, API_Get_Streams.Definition);
+         Swagger.Servers.Register (Server, API_Get_Subscribers.Definition);
          Swagger.Servers.Register (Server, API_Get_Subscription_Status.Definition);
          Swagger.Servers.Register (Server, API_Get_Subscriptions.Definition);
          Swagger.Servers.Register (Server, API_Mute_Topic.Definition);
@@ -2162,8 +2357,8 @@ package body .Skeletons is
          Swagger.Servers.Register (Server, API_Remove_User_Group.Definition);
          Swagger.Servers.Register (Server, API_Set_Typing_Status.Definition);
          Swagger.Servers.Register (Server, API_Unmute_User.Definition);
-         Swagger.Servers.Register (Server, API_Update_Display_Settings.Definition);
-         Swagger.Servers.Register (Server, API_Update_Notification_Settings.Definition);
+         Swagger.Servers.Register (Server, API_Update_Settings.Definition);
+         Swagger.Servers.Register (Server, API_Update_Status.Definition);
          Swagger.Servers.Register (Server, API_Update_User.Definition);
          Swagger.Servers.Register (Server, API_Update_User_Group.Definition);
          Swagger.Servers.Register (Server, API_Update_User_Group_Members.Definition);
@@ -2225,6 +2420,102 @@ package body .Skeletons is
          new Swagger.Servers.Operation (Handler => Fetch_Api_Key,
                                         Method  => Swagger.Servers.POST,
                                         URI     => URI_Prefix & "/fetch_api_key");
+
+      --  Create drafts
+      procedure Create_Drafts
+         (Req     : in out Swagger.Servers.Request'Class;
+          Reply   : in out Swagger.Servers.Response'Class;
+          Stream  : in out Swagger.Servers.Output_Stream'Class;
+          Context : in out Swagger.Servers.Context_Type) is
+         Drafts : .Models.Draft_Type_Vectors.Vector;
+         Result : .Models.JsonSuccess_Type;
+      begin
+         Swagger.Servers.Get_Query_Parameter (Req, "drafts", Drafts);
+         Server.Create_Drafts
+            (Drafts, Result, Context);
+         if Context.Get_Status = 200 then
+            Stream.Start_Document;
+            .Models.Serialize (Stream, "", Result);
+            Stream.End_Document;
+         end if;
+      end Create_Drafts;
+
+      package API_Create_Drafts is
+         new Swagger.Servers.Operation (Handler => Create_Drafts,
+                                        Method  => Swagger.Servers.POST,
+                                        URI     => URI_Prefix & "/drafts");
+
+      --  Delete a draft
+      procedure Delete_Draft
+         (Req     : in out Swagger.Servers.Request'Class;
+          Reply   : in out Swagger.Servers.Response'Class;
+          Stream  : in out Swagger.Servers.Output_Stream'Class;
+          Context : in out Swagger.Servers.Context_Type) is
+         Draft_Id : Integer;
+         Result : .Models.JsonSuccess_Type;
+      begin
+         Swagger.Servers.Get_Path_Parameter (Req, 1, Draft_Id);
+         Server.Delete_Draft
+            (Draft_Id, Result, Context);
+         if Context.Get_Status = 200 then
+            Stream.Start_Document;
+            .Models.Serialize (Stream, "", Result);
+            Stream.End_Document;
+         end if;
+      end Delete_Draft;
+
+      package API_Delete_Draft is
+         new Swagger.Servers.Operation (Handler => Delete_Draft,
+                                        Method  => Swagger.Servers.DELETE,
+                                        URI     => URI_Prefix & "/drafts/{draft_id}");
+
+      --  Edit a draft
+      procedure Edit_Draft
+         (Req     : in out Swagger.Servers.Request'Class;
+          Reply   : in out Swagger.Servers.Response'Class;
+          Stream  : in out Swagger.Servers.Output_Stream'Class;
+          Context : in out Swagger.Servers.Context_Type) is
+         Draft_Id : Integer;
+         Draft : .Models.Draft_Type;
+         Result : .Models.JsonSuccess_Type;
+      begin
+         Swagger.Servers.Get_Query_Parameter (Req, "draft", Draft);
+         Swagger.Servers.Get_Path_Parameter (Req, 1, Draft_Id);
+         Server.Edit_Draft
+            (Draft_Id,
+             Draft, Result, Context);
+         if Context.Get_Status = 200 then
+            Stream.Start_Document;
+            .Models.Serialize (Stream, "", Result);
+            Stream.End_Document;
+         end if;
+      end Edit_Draft;
+
+      package API_Edit_Draft is
+         new Swagger.Servers.Operation (Handler => Edit_Draft,
+                                        Method  => Swagger.Servers.PATCH,
+                                        URI     => URI_Prefix & "/drafts/{draft_id}");
+
+      --  Get drafts
+      procedure Get_Drafts
+         (Req     : in out Swagger.Servers.Request'Class;
+          Reply   : in out Swagger.Servers.Response'Class;
+          Stream  : in out Swagger.Servers.Output_Stream'Class;
+          Context : in out Swagger.Servers.Context_Type) is
+         Result : .Models.JsonSuccess_Type;
+      begin
+         Server.Get_Drafts (Result, Context);
+         if Context.Get_Status = 200 then
+            Stream.Start_Document;
+            .Models.Serialize (Stream, "", Result);
+            Stream.End_Document;
+         end if;
+      end Get_Drafts;
+
+      package API_Get_Drafts is
+         new Swagger.Servers.Operation (Handler => Get_Drafts,
+                                        Method  => Swagger.Servers.GET,
+                                        URI     => URI_Prefix & "/drafts");
 
       --  Add an emoji reaction
       procedure Add_Reaction
@@ -3182,6 +3473,33 @@ package body .Skeletons is
                                         Method  => Swagger.Servers.GET,
                                         URI     => URI_Prefix & "/calls/bigbluebutton/create");
 
+      --  Delete a topic
+      procedure Delete_Topic
+         (Req     : in out Swagger.Servers.Request'Class;
+          Reply   : in out Swagger.Servers.Response'Class;
+          Stream  : in out Swagger.Servers.Output_Stream'Class;
+          Context : in out Swagger.Servers.Context_Type) is
+         Stream_Id : Integer;
+         Topic_Name : Swagger.UString;
+         Result : .Models.JsonSuccess_Type;
+      begin
+         Swagger.Servers.Get_Query_Parameter (Req, "topic_name", Topic_Name);
+         Swagger.Servers.Get_Path_Parameter (Req, 1, Stream_Id);
+         Server.Delete_Topic
+            (Stream_Id,
+             Topic_Name, Result, Context);
+         if Context.Get_Status = 200 then
+            Stream.Start_Document;
+            .Models.Serialize (Stream, "", Result);
+            Stream.End_Document;
+         end if;
+      end Delete_Topic;
+
+      package API_Delete_Topic is
+         new Swagger.Servers.Operation (Handler => Delete_Topic,
+                                        Method  => Swagger.Servers.POST,
+                                        URI     => URI_Prefix & "/streams/{stream_id}/delete_topic");
+
       --  Get stream ID
       procedure Get_Stream_Id
          (Req     : in out Swagger.Servers.Request'Class;
@@ -3268,6 +3586,30 @@ package body .Skeletons is
          new Swagger.Servers.Operation (Handler => Get_Streams,
                                         Method  => Swagger.Servers.GET,
                                         URI     => URI_Prefix & "/streams");
+
+      --  Get the subscribers of a stream
+      procedure Get_Subscribers
+         (Req     : in out Swagger.Servers.Request'Class;
+          Reply   : in out Swagger.Servers.Response'Class;
+          Stream  : in out Swagger.Servers.Output_Stream'Class;
+          Context : in out Swagger.Servers.Context_Type) is
+         Stream_Id : Integer;
+         Result : .Models.JsonSuccessBase_Type;
+      begin
+         Swagger.Servers.Get_Path_Parameter (Req, 1, Stream_Id);
+         Server.Get_Subscribers
+            (Stream_Id, Result, Context);
+         if Context.Get_Status = 200 then
+            Stream.Start_Document;
+            .Models.Serialize (Stream, "", Result);
+            Stream.End_Document;
+         end if;
+      end Get_Subscribers;
+
+      package API_Get_Subscribers is
+         new Swagger.Servers.Operation (Handler => Get_Subscribers,
+                                        Method  => Swagger.Servers.GET,
+                                        URI     => URI_Prefix & "/streams/{stream_id}/members");
 
       --  Get subscription status
       procedure Get_Subscription_Status
@@ -3929,18 +4271,23 @@ package body .Skeletons is
                                         Method  => Swagger.Servers.DELETE,
                                         URI     => URI_Prefix & "/users/me/muted_users/{muted_user_id}");
 
-      --  Update display settings
-      procedure Update_Display_Settings
+      --  Update settings
+      procedure Update_Settings
          (Req     : in out Swagger.Servers.Request'Class;
           Reply   : in out Swagger.Servers.Response'Class;
           Stream  : in out Swagger.Servers.Output_Stream'Class;
           Context : in out Swagger.Servers.Context_Type) is
+         Full_Name : Swagger.Nullable_UString;
+         Email : Swagger.Nullable_UString;
+         Old_Password : Swagger.Nullable_UString;
+         New_Password : Swagger.Nullable_UString;
          Twenty_Four_Hour_Time : Swagger.Nullable_Boolean;
          Dense_Mode : Swagger.Nullable_Boolean;
          Starred_Message_Counts : Swagger.Nullable_Boolean;
          Fluid_Layout_Width : Swagger.Nullable_Boolean;
          High_Contrast_Mode : Swagger.Nullable_Boolean;
          Color_Scheme : Swagger.Nullable_Integer;
+         Enable_Drafts_Synchronization : Swagger.Nullable_Boolean;
          Translate_Emoticons : Swagger.Nullable_Boolean;
          Default_Language : Swagger.Nullable_UString;
          Default_View : Swagger.Nullable_UString;
@@ -3948,53 +4295,6 @@ package body .Skeletons is
          Emojiset : Swagger.Nullable_UString;
          Demote_Inactive_Streams : Swagger.Nullable_Integer;
          Timezone : Swagger.Nullable_UString;
-         Result : .Models.JsonSuccessBase_Type;
-      begin
-         Swagger.Servers.Get_Query_Parameter (Req, "twenty_four_hour_time", Twenty_Four_Hour_Time);
-         Swagger.Servers.Get_Query_Parameter (Req, "dense_mode", Dense_Mode);
-         Swagger.Servers.Get_Query_Parameter (Req, "starred_message_counts", Starred_Message_Counts);
-         Swagger.Servers.Get_Query_Parameter (Req, "fluid_layout_width", Fluid_Layout_Width);
-         Swagger.Servers.Get_Query_Parameter (Req, "high_contrast_mode", High_Contrast_Mode);
-         Swagger.Servers.Get_Query_Parameter (Req, "color_scheme", Color_Scheme);
-         Swagger.Servers.Get_Query_Parameter (Req, "translate_emoticons", Translate_Emoticons);
-         Swagger.Servers.Get_Query_Parameter (Req, "default_language", Default_Language);
-         Swagger.Servers.Get_Query_Parameter (Req, "default_view", Default_View);
-         Swagger.Servers.Get_Query_Parameter (Req, "left_side_userlist", Left_Side_Userlist);
-         Swagger.Servers.Get_Query_Parameter (Req, "emojiset", Emojiset);
-         Swagger.Servers.Get_Query_Parameter (Req, "demote_inactive_streams", Demote_Inactive_Streams);
-         Swagger.Servers.Get_Query_Parameter (Req, "timezone", Timezone);
-         Server.Update_Display_Settings
-            (Twenty_Four_Hour_Time,
-             Dense_Mode,
-             Starred_Message_Counts,
-             Fluid_Layout_Width,
-             High_Contrast_Mode,
-             Color_Scheme,
-             Translate_Emoticons,
-             Default_Language,
-             Default_View,
-             Left_Side_Userlist,
-             Emojiset,
-             Demote_Inactive_Streams,
-             Timezone, Result, Context);
-         if Context.Get_Status = 200 then
-            Stream.Start_Document;
-            .Models.Serialize (Stream, "", Result);
-            Stream.End_Document;
-         end if;
-      end Update_Display_Settings;
-
-      package API_Update_Display_Settings is
-         new Swagger.Servers.Operation (Handler => Update_Display_Settings,
-                                        Method  => Swagger.Servers.PATCH,
-                                        URI     => URI_Prefix & "/settings/display");
-
-      --  Update notification settings
-      procedure Update_Notification_Settings
-         (Req     : in out Swagger.Servers.Request'Class;
-          Reply   : in out Swagger.Servers.Response'Class;
-          Stream  : in out Swagger.Servers.Output_Stream'Class;
-          Context : in out Swagger.Servers.Context_Type) is
          Enable_Stream_Desktop_Notifications : Swagger.Nullable_Boolean;
          Enable_Stream_Email_Notifications : Swagger.Nullable_Boolean;
          Enable_Stream_Push_Notifications : Swagger.Nullable_Boolean;
@@ -4002,6 +4302,7 @@ package body .Skeletons is
          Notification_Sound : Swagger.Nullable_UString;
          Enable_Desktop_Notifications : Swagger.Nullable_Boolean;
          Enable_Sounds : Swagger.Nullable_Boolean;
+         Email_Notifications_Batching_Period_Seconds : Swagger.Nullable_Integer;
          Enable_Offline_Email_Notifications : Swagger.Nullable_Boolean;
          Enable_Offline_Push_Notifications : Swagger.Nullable_Boolean;
          Enable_Online_Push_Notifications : Swagger.Nullable_Boolean;
@@ -4014,8 +4315,27 @@ package body .Skeletons is
          Desktop_Icon_Count_Display : Swagger.Nullable_Integer;
          Realm_Name_In_Notifications : Swagger.Nullable_Boolean;
          Presence_Enabled : Swagger.Nullable_Boolean;
+         Enter_Sends : Swagger.Nullable_Boolean;
          Result : .Models.JsonSuccessBase_Type;
       begin
+         Swagger.Servers.Get_Query_Parameter (Req, "full_name", Full_Name);
+         Swagger.Servers.Get_Query_Parameter (Req, "email", Email);
+         Swagger.Servers.Get_Query_Parameter (Req, "old_password", Old_Password);
+         Swagger.Servers.Get_Query_Parameter (Req, "new_password", New_Password);
+         Swagger.Servers.Get_Query_Parameter (Req, "twenty_four_hour_time", Twenty_Four_Hour_Time);
+         Swagger.Servers.Get_Query_Parameter (Req, "dense_mode", Dense_Mode);
+         Swagger.Servers.Get_Query_Parameter (Req, "starred_message_counts", Starred_Message_Counts);
+         Swagger.Servers.Get_Query_Parameter (Req, "fluid_layout_width", Fluid_Layout_Width);
+         Swagger.Servers.Get_Query_Parameter (Req, "high_contrast_mode", High_Contrast_Mode);
+         Swagger.Servers.Get_Query_Parameter (Req, "color_scheme", Color_Scheme);
+         Swagger.Servers.Get_Query_Parameter (Req, "enable_drafts_synchronization", Enable_Drafts_Synchronization);
+         Swagger.Servers.Get_Query_Parameter (Req, "translate_emoticons", Translate_Emoticons);
+         Swagger.Servers.Get_Query_Parameter (Req, "default_language", Default_Language);
+         Swagger.Servers.Get_Query_Parameter (Req, "default_view", Default_View);
+         Swagger.Servers.Get_Query_Parameter (Req, "left_side_userlist", Left_Side_Userlist);
+         Swagger.Servers.Get_Query_Parameter (Req, "emojiset", Emojiset);
+         Swagger.Servers.Get_Query_Parameter (Req, "demote_inactive_streams", Demote_Inactive_Streams);
+         Swagger.Servers.Get_Query_Parameter (Req, "timezone", Timezone);
          Swagger.Servers.Get_Query_Parameter (Req, "enable_stream_desktop_notifications", Enable_Stream_Desktop_Notifications);
          Swagger.Servers.Get_Query_Parameter (Req, "enable_stream_email_notifications", Enable_Stream_Email_Notifications);
          Swagger.Servers.Get_Query_Parameter (Req, "enable_stream_push_notifications", Enable_Stream_Push_Notifications);
@@ -4023,6 +4343,7 @@ package body .Skeletons is
          Swagger.Servers.Get_Query_Parameter (Req, "notification_sound", Notification_Sound);
          Swagger.Servers.Get_Query_Parameter (Req, "enable_desktop_notifications", Enable_Desktop_Notifications);
          Swagger.Servers.Get_Query_Parameter (Req, "enable_sounds", Enable_Sounds);
+         Swagger.Servers.Get_Query_Parameter (Req, "email_notifications_batching_period_seconds", Email_Notifications_Batching_Period_Seconds);
          Swagger.Servers.Get_Query_Parameter (Req, "enable_offline_email_notifications", Enable_Offline_Email_Notifications);
          Swagger.Servers.Get_Query_Parameter (Req, "enable_offline_push_notifications", Enable_Offline_Push_Notifications);
          Swagger.Servers.Get_Query_Parameter (Req, "enable_online_push_notifications", Enable_Online_Push_Notifications);
@@ -4035,14 +4356,34 @@ package body .Skeletons is
          Swagger.Servers.Get_Query_Parameter (Req, "desktop_icon_count_display", Desktop_Icon_Count_Display);
          Swagger.Servers.Get_Query_Parameter (Req, "realm_name_in_notifications", Realm_Name_In_Notifications);
          Swagger.Servers.Get_Query_Parameter (Req, "presence_enabled", Presence_Enabled);
-         Server.Update_Notification_Settings
-            (Enable_Stream_Desktop_Notifications,
+         Swagger.Servers.Get_Query_Parameter (Req, "enter_sends", Enter_Sends);
+         Server.Update_Settings
+            (Full_Name,
+             Email,
+             Old_Password,
+             New_Password,
+             Twenty_Four_Hour_Time,
+             Dense_Mode,
+             Starred_Message_Counts,
+             Fluid_Layout_Width,
+             High_Contrast_Mode,
+             Color_Scheme,
+             Enable_Drafts_Synchronization,
+             Translate_Emoticons,
+             Default_Language,
+             Default_View,
+             Left_Side_Userlist,
+             Emojiset,
+             Demote_Inactive_Streams,
+             Timezone,
+             Enable_Stream_Desktop_Notifications,
              Enable_Stream_Email_Notifications,
              Enable_Stream_Push_Notifications,
              Enable_Stream_Audible_Notifications,
              Notification_Sound,
              Enable_Desktop_Notifications,
              Enable_Sounds,
+             Email_Notifications_Batching_Period_Seconds,
              Enable_Offline_Email_Notifications,
              Enable_Offline_Push_Notifications,
              Enable_Online_Push_Notifications,
@@ -4054,18 +4395,55 @@ package body .Skeletons is
              Wildcard_Mentions_Notify,
              Desktop_Icon_Count_Display,
              Realm_Name_In_Notifications,
-             Presence_Enabled, Result, Context);
+             Presence_Enabled,
+             Enter_Sends, Result, Context);
          if Context.Get_Status = 200 then
             Stream.Start_Document;
             .Models.Serialize (Stream, "", Result);
             Stream.End_Document;
          end if;
-      end Update_Notification_Settings;
+      end Update_Settings;
 
-      package API_Update_Notification_Settings is
-         new Swagger.Servers.Operation (Handler => Update_Notification_Settings,
+      package API_Update_Settings is
+         new Swagger.Servers.Operation (Handler => Update_Settings,
                                         Method  => Swagger.Servers.PATCH,
-                                        URI     => URI_Prefix & "/settings/notifications");
+                                        URI     => URI_Prefix & "/settings");
+
+      --  Update your status
+      procedure Update_Status
+         (Req     : in out Swagger.Servers.Request'Class;
+          Reply   : in out Swagger.Servers.Response'Class;
+          Stream  : in out Swagger.Servers.Output_Stream'Class;
+          Context : in out Swagger.Servers.Context_Type) is
+         Status_Text : Swagger.Nullable_UString;
+         Away : Swagger.Nullable_Boolean;
+         Emoji_Name : Swagger.Nullable_UString;
+         Emoji_Code : Swagger.Nullable_UString;
+         Reaction_Type : Swagger.Nullable_UString;
+         Result : .Models.JsonSuccess_Type;
+      begin
+         Swagger.Servers.Get_Query_Parameter (Req, "status_text", Status_Text);
+         Swagger.Servers.Get_Query_Parameter (Req, "away", Away);
+         Swagger.Servers.Get_Query_Parameter (Req, "emoji_name", Emoji_Name);
+         Swagger.Servers.Get_Query_Parameter (Req, "emoji_code", Emoji_Code);
+         Swagger.Servers.Get_Query_Parameter (Req, "reaction_type", Reaction_Type);
+         Server.Update_Status
+            (Status_Text,
+             Away,
+             Emoji_Name,
+             Emoji_Code,
+             Reaction_Type, Result, Context);
+         if Context.Get_Status = 200 then
+            Stream.Start_Document;
+            .Models.Serialize (Stream, "", Result);
+            Stream.End_Document;
+         end if;
+      end Update_Status;
+
+      package API_Update_Status is
+         new Swagger.Servers.Operation (Handler => Update_Status,
+                                        Method  => Swagger.Servers.POST,
+                                        URI     => URI_Prefix & "/users/me/status");
 
       --  Update a user
       procedure Update_User
@@ -4185,6 +4563,10 @@ package body .Skeletons is
       begin
          Swagger.Servers.Register (Server, API_Dev_Fetch_Api_Key.Definition);
          Swagger.Servers.Register (Server, API_Fetch_Api_Key.Definition);
+         Swagger.Servers.Register (Server, API_Create_Drafts.Definition);
+         Swagger.Servers.Register (Server, API_Delete_Draft.Definition);
+         Swagger.Servers.Register (Server, API_Edit_Draft.Definition);
+         Swagger.Servers.Register (Server, API_Get_Drafts.Definition);
          Swagger.Servers.Register (Server, API_Add_Reaction.Definition);
          Swagger.Servers.Register (Server, API_Check_Messages_Match_Narrow.Definition);
          Swagger.Servers.Register (Server, API_Delete_Message.Definition);
@@ -4220,9 +4602,11 @@ package body .Skeletons is
          Swagger.Servers.Register (Server, API_Upload_Custom_Emoji.Definition);
          Swagger.Servers.Register (Server, API_Archive_Stream.Definition);
          Swagger.Servers.Register (Server, API_Create_Big_Blue_Button_Video_Call.Definition);
+         Swagger.Servers.Register (Server, API_Delete_Topic.Definition);
          Swagger.Servers.Register (Server, API_Get_Stream_Id.Definition);
          Swagger.Servers.Register (Server, API_Get_Stream_Topics.Definition);
          Swagger.Servers.Register (Server, API_Get_Streams.Definition);
+         Swagger.Servers.Register (Server, API_Get_Subscribers.Definition);
          Swagger.Servers.Register (Server, API_Get_Subscription_Status.Definition);
          Swagger.Servers.Register (Server, API_Get_Subscriptions.Definition);
          Swagger.Servers.Register (Server, API_Mute_Topic.Definition);
@@ -4247,8 +4631,8 @@ package body .Skeletons is
          Swagger.Servers.Register (Server, API_Remove_User_Group.Definition);
          Swagger.Servers.Register (Server, API_Set_Typing_Status.Definition);
          Swagger.Servers.Register (Server, API_Unmute_User.Definition);
-         Swagger.Servers.Register (Server, API_Update_Display_Settings.Definition);
-         Swagger.Servers.Register (Server, API_Update_Notification_Settings.Definition);
+         Swagger.Servers.Register (Server, API_Update_Settings.Definition);
+         Swagger.Servers.Register (Server, API_Update_Status.Definition);
          Swagger.Servers.Register (Server, API_Update_User.Definition);
          Swagger.Servers.Register (Server, API_Update_User_Group.Definition);
          Swagger.Servers.Register (Server, API_Update_User_Group_Members.Definition);
@@ -4281,6 +4665,51 @@ package body .Skeletons is
                 Result,
                 Context);
          end Fetch_Api_Key;
+
+         --  Create drafts
+         procedure Create_Drafts
+            (Drafts : in .Models.Draft_Type_Vectors.Vector;
+             Result : out .Models.JsonSuccess_Type;
+             Context : in out Swagger.Servers.Context_Type) is
+         begin
+            Impl.Create_Drafts
+               (Drafts,
+                Result,
+                Context);
+         end Create_Drafts;
+
+         --  Delete a draft
+         procedure Delete_Draft
+            (Draft_Id : in Integer;
+             Result : out .Models.JsonSuccess_Type;
+             Context : in out Swagger.Servers.Context_Type) is
+         begin
+            Impl.Delete_Draft
+               (Draft_Id,
+                Result,
+                Context);
+         end Delete_Draft;
+
+         --  Edit a draft
+         procedure Edit_Draft
+            (Draft_Id : in Integer;
+             Draft : in .Models.Draft_Type;
+             Result : out .Models.JsonSuccess_Type;
+             Context : in out Swagger.Servers.Context_Type) is
+         begin
+            Impl.Edit_Draft
+               (Draft_Id,
+                Draft,
+                Result,
+                Context);
+         end Edit_Draft;
+
+         --  Get drafts
+         procedure Get_Drafts (Result : out .Models.JsonSuccess_Type;
+         Context : in out Swagger.Servers.Context_Type) is
+         begin
+            Impl.Get_Drafts (Result, Context);
+         end Get_Drafts;
 
          --  Add an emoji reaction
          procedure Add_Reaction
@@ -4762,6 +5191,20 @@ package body .Skeletons is
             Impl.Create_Big_Blue_Button_Video_Call (Result, Context);
          end Create_Big_Blue_Button_Video_Call;
 
+         --  Delete a topic
+         procedure Delete_Topic
+            (Stream_Id : in Integer;
+             Topic_Name : in Swagger.UString;
+             Result : out .Models.JsonSuccess_Type;
+             Context : in out Swagger.Servers.Context_Type) is
+         begin
+            Impl.Delete_Topic
+               (Stream_Id,
+                Topic_Name,
+                Result,
+                Context);
+         end Delete_Topic;
+
          --  Get stream ID
          procedure Get_Stream_Id
             (Stream : in Swagger.UString;
@@ -4807,6 +5250,18 @@ package body .Skeletons is
                 Result,
                 Context);
          end Get_Streams;
+
+         --  Get the subscribers of a stream
+         procedure Get_Subscribers
+            (Stream_Id : in Integer;
+             Result : out .Models.JsonSuccessBase_Type;
+             Context : in out Swagger.Servers.Context_Type) is
+         begin
+            Impl.Get_Subscribers
+               (Stream_Id,
+                Result,
+                Context);
+         end Get_Subscribers;
 
          --  Get subscription status
          procedure Get_Subscription_Status
@@ -5140,14 +5595,19 @@ package body .Skeletons is
                 Context);
          end Unmute_User;
 
-         --  Update display settings
-         procedure Update_Display_Settings
-            (Twenty_Four_Hour_Time : in Swagger.Nullable_Boolean;
+         --  Update settings
+         procedure Update_Settings
+            (Full_Name : in Swagger.Nullable_UString;
+             Email : in Swagger.Nullable_UString;
+             Old_Password : in Swagger.Nullable_UString;
+             New_Password : in Swagger.Nullable_UString;
+             Twenty_Four_Hour_Time : in Swagger.Nullable_Boolean;
              Dense_Mode : in Swagger.Nullable_Boolean;
              Starred_Message_Counts : in Swagger.Nullable_Boolean;
              Fluid_Layout_Width : in Swagger.Nullable_Boolean;
              High_Contrast_Mode : in Swagger.Nullable_Boolean;
              Color_Scheme : in Swagger.Nullable_Integer;
+             Enable_Drafts_Synchronization : in Swagger.Nullable_Boolean;
              Translate_Emoticons : in Swagger.Nullable_Boolean;
              Default_Language : in Swagger.Nullable_UString;
              Default_View : in Swagger.Nullable_UString;
@@ -5155,36 +5615,14 @@ package body .Skeletons is
              Emojiset : in Swagger.Nullable_UString;
              Demote_Inactive_Streams : in Swagger.Nullable_Integer;
              Timezone : in Swagger.Nullable_UString;
-             Result : out .Models.JsonSuccessBase_Type;
-             Context : in out Swagger.Servers.Context_Type) is
-         begin
-            Impl.Update_Display_Settings
-               (Twenty_Four_Hour_Time,
-                Dense_Mode,
-                Starred_Message_Counts,
-                Fluid_Layout_Width,
-                High_Contrast_Mode,
-                Color_Scheme,
-                Translate_Emoticons,
-                Default_Language,
-                Default_View,
-                Left_Side_Userlist,
-                Emojiset,
-                Demote_Inactive_Streams,
-                Timezone,
-                Result,
-                Context);
-         end Update_Display_Settings;
-
-         --  Update notification settings
-         procedure Update_Notification_Settings
-            (Enable_Stream_Desktop_Notifications : in Swagger.Nullable_Boolean;
+             Enable_Stream_Desktop_Notifications : in Swagger.Nullable_Boolean;
              Enable_Stream_Email_Notifications : in Swagger.Nullable_Boolean;
              Enable_Stream_Push_Notifications : in Swagger.Nullable_Boolean;
              Enable_Stream_Audible_Notifications : in Swagger.Nullable_Boolean;
              Notification_Sound : in Swagger.Nullable_UString;
              Enable_Desktop_Notifications : in Swagger.Nullable_Boolean;
              Enable_Sounds : in Swagger.Nullable_Boolean;
+             Email_Notifications_Batching_Period_Seconds : in Swagger.Nullable_Integer;
              Enable_Offline_Email_Notifications : in Swagger.Nullable_Boolean;
              Enable_Offline_Push_Notifications : in Swagger.Nullable_Boolean;
              Enable_Online_Push_Notifications : in Swagger.Nullable_Boolean;
@@ -5197,17 +5635,37 @@ package body .Skeletons is
              Desktop_Icon_Count_Display : in Swagger.Nullable_Integer;
              Realm_Name_In_Notifications : in Swagger.Nullable_Boolean;
              Presence_Enabled : in Swagger.Nullable_Boolean;
+             Enter_Sends : in Swagger.Nullable_Boolean;
              Result : out .Models.JsonSuccessBase_Type;
              Context : in out Swagger.Servers.Context_Type) is
          begin
-            Impl.Update_Notification_Settings
-               (Enable_Stream_Desktop_Notifications,
+            Impl.Update_Settings
+               (Full_Name,
+                Email,
+                Old_Password,
+                New_Password,
+                Twenty_Four_Hour_Time,
+                Dense_Mode,
+                Starred_Message_Counts,
+                Fluid_Layout_Width,
+                High_Contrast_Mode,
+                Color_Scheme,
+                Enable_Drafts_Synchronization,
+                Translate_Emoticons,
+                Default_Language,
+                Default_View,
+                Left_Side_Userlist,
+                Emojiset,
+                Demote_Inactive_Streams,
+                Timezone,
+                Enable_Stream_Desktop_Notifications,
                 Enable_Stream_Email_Notifications,
                 Enable_Stream_Push_Notifications,
                 Enable_Stream_Audible_Notifications,
                 Notification_Sound,
                 Enable_Desktop_Notifications,
                 Enable_Sounds,
+                Email_Notifications_Batching_Period_Seconds,
                 Enable_Offline_Email_Notifications,
                 Enable_Offline_Push_Notifications,
                 Enable_Online_Push_Notifications,
@@ -5220,9 +5678,30 @@ package body .Skeletons is
                 Desktop_Icon_Count_Display,
                 Realm_Name_In_Notifications,
                 Presence_Enabled,
+                Enter_Sends,
                 Result,
                 Context);
-         end Update_Notification_Settings;
+         end Update_Settings;
+
+         --  Update your status
+         procedure Update_Status
+            (Status_Text : in Swagger.Nullable_UString;
+             Away : in Swagger.Nullable_Boolean;
+             Emoji_Name : in Swagger.Nullable_UString;
+             Emoji_Code : in Swagger.Nullable_UString;
+             Reaction_Type : in Swagger.Nullable_UString;
+             Result : out .Models.JsonSuccess_Type;
+             Context : in out Swagger.Servers.Context_Type) is
+         begin
+            Impl.Update_Status
+               (Status_Text,
+                Away,
+                Emoji_Name,
+                Emoji_Code,
+                Reaction_Type,
+                Result,
+                Context);
+         end Update_Status;
 
          --  Update a user
          procedure Update_User

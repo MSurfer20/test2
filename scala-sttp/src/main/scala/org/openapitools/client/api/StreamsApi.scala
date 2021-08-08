@@ -59,6 +59,23 @@ class StreamsApi(baseUrl: String) {
       .response(asJson[JsonSuccessBase])
 
   /**
+   * Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+   * 
+   * Expected answers:
+   *   code 200 : JsonSuccess (Success.)
+   *   code 400 : JsonError (Error.)
+   * 
+   * @param streamId The ID of the stream to access. 
+   * @param topicName The name of the topic to delete. 
+   */
+  def deleteTopic(streamId: Int, topicName: String
+): Request[Either[ResponseError[Exception], JsonSuccess], Nothing] =
+    basicRequest
+      .method(Method.POST, uri"$baseUrl/streams/${streamId}/delete_topic?topic_name=${ topicName }")
+      .contentType("application/json")
+      .response(asJson[JsonSuccess])
+
+  /**
    * Get the unique ID of a given stream.  `GET {{ api_url }}/v1/get_stream_id` 
    * 
    * Expected answers:
@@ -108,6 +125,22 @@ class StreamsApi(baseUrl: String) {
 ): Request[Either[ResponseError[Exception], JsonSuccessBase], Nothing] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/streams?include_public=${ includePublic }&include_web_public=${ includeWebPublic }&include_subscribed=${ includeSubscribed }&include_all_active=${ includeAllActive }&include_default=${ includeDefault }&include_owner_subscribed=${ includeOwnerSubscribed }")
+      .contentType("application/json")
+      .response(asJson[JsonSuccessBase])
+
+  /**
+   * Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` 
+   * 
+   * Expected answers:
+   *   code 200 : JsonSuccessBase (Success.)
+   *   code 400 : JsonError (Bad request.)
+   * 
+   * @param streamId The ID of the stream to access. 
+   */
+  def getSubscribers(streamId: Int
+): Request[Either[ResponseError[Exception], JsonSuccessBase], Nothing] =
+    basicRequest
+      .method(Method.GET, uri"$baseUrl/streams/${streamId}/members")
       .contentType("application/json")
       .response(asJson[JsonSuccessBase])
 

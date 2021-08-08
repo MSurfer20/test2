@@ -22,6 +22,9 @@ func main() {
 	AuthenticationApiService := openapi.NewAuthenticationApiService()
 	AuthenticationApiController := openapi.NewAuthenticationApiController(AuthenticationApiService)
 
+	DraftsApiService := openapi.NewDraftsApiService()
+	DraftsApiController := openapi.NewDraftsApiController(DraftsApiService)
+
 	MessagesApiService := openapi.NewMessagesApiService()
 	MessagesApiController := openapi.NewMessagesApiController(MessagesApiService)
 
@@ -40,7 +43,7 @@ func main() {
 	WebhooksApiService := openapi.NewWebhooksApiService()
 	WebhooksApiController := openapi.NewWebhooksApiController(WebhooksApiService)
 
-	router := openapi.NewRouter(AuthenticationApiController, MessagesApiController, RealTimeEventsApiController, ServerAndOrganizationsApiController, StreamsApiController, UsersApiController, WebhooksApiController)
+	router := openapi.NewRouter(AuthenticationApiController, DraftsApiController, MessagesApiController, RealTimeEventsApiController, ServerAndOrganizationsApiController, StreamsApiController, UsersApiController, WebhooksApiController)
 
 	log.Fatal(http.ListenAndServe(":8080", router))
 }

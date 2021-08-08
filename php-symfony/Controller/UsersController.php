@@ -43,6 +43,7 @@ use OpenAPI\Server\Model\JsonSuccess;
 use OpenAPI\Server\Model\JsonSuccessBase;
 use OpenAPI\Server\Model\OneOfObjectObject;
 use OpenAPI\Server\Model\OneOfObjectObjectObject;
+use OpenAPI\Server\Model\OneOfObjectObjectObjectObjectObjectObject;
 
 /**
  * UsersController Class Doc Comment
@@ -1368,14 +1369,14 @@ class UsersController extends Controller
     }
 
     /**
-     * Operation updateDisplaySettings
+     * Operation updateSettings
      *
-     * Update display settings
+     * Update settings
      *
      * @param Request $request The Symfony request to handle.
      * @return Response The Symfony response.
      */
-    public function updateDisplaySettingsAction(Request $request)
+    public function updateSettingsAction(Request $request)
     {
         // Figure out what data format to return to the client
         $produces = ['application/json'];
@@ -1389,12 +1390,17 @@ class UsersController extends Controller
         // Handle authentication
 
         // Read out all input parameter values into variables
+        $fullName = $request->query->get('fullName');
+        $email = $request->query->get('email');
+        $oldPassword = $request->query->get('oldPassword');
+        $newPassword = $request->query->get('newPassword');
         $twentyFourHourTime = $request->query->get('twentyFourHourTime');
         $denseMode = $request->query->get('denseMode');
         $starredMessageCounts = $request->query->get('starredMessageCounts');
         $fluidLayoutWidth = $request->query->get('fluidLayoutWidth');
         $highContrastMode = $request->query->get('highContrastMode');
         $colorScheme = $request->query->get('colorScheme');
+        $enableDraftsSynchronization = $request->query->get('enableDraftsSynchronization');
         $translateEmoticons = $request->query->get('translateEmoticons');
         $defaultLanguage = $request->query->get('defaultLanguage');
         $defaultView = $request->query->get('defaultView');
@@ -1402,17 +1408,43 @@ class UsersController extends Controller
         $emojiset = $request->query->get('emojiset');
         $demoteInactiveStreams = $request->query->get('demoteInactiveStreams');
         $timezone = $request->query->get('timezone');
+        $enableStreamDesktopNotifications = $request->query->get('enableStreamDesktopNotifications');
+        $enableStreamEmailNotifications = $request->query->get('enableStreamEmailNotifications');
+        $enableStreamPushNotifications = $request->query->get('enableStreamPushNotifications');
+        $enableStreamAudibleNotifications = $request->query->get('enableStreamAudibleNotifications');
+        $notificationSound = $request->query->get('notificationSound');
+        $enableDesktopNotifications = $request->query->get('enableDesktopNotifications');
+        $enableSounds = $request->query->get('enableSounds');
+        $emailNotificationsBatchingPeriodSeconds = $request->query->get('emailNotificationsBatchingPeriodSeconds');
+        $enableOfflineEmailNotifications = $request->query->get('enableOfflineEmailNotifications');
+        $enableOfflinePushNotifications = $request->query->get('enableOfflinePushNotifications');
+        $enableOnlinePushNotifications = $request->query->get('enableOnlinePushNotifications');
+        $enableDigestEmails = $request->query->get('enableDigestEmails');
+        $enableMarketingEmails = $request->query->get('enableMarketingEmails');
+        $enableLoginEmails = $request->query->get('enableLoginEmails');
+        $messageContentInEmailNotifications = $request->query->get('messageContentInEmailNotifications');
+        $pmContentInDesktopNotifications = $request->query->get('pmContentInDesktopNotifications');
+        $wildcardMentionsNotify = $request->query->get('wildcardMentionsNotify');
+        $desktopIconCountDisplay = $request->query->get('desktopIconCountDisplay');
+        $realmNameInNotifications = $request->query->get('realmNameInNotifications');
+        $presenceEnabled = $request->query->get('presenceEnabled');
+        $enterSends = $request->query->get('enterSends');
 
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
         try {
+            $fullName = $this->deserialize($fullName, 'string', 'string');
+            $email = $this->deserialize($email, 'string', 'string');
+            $oldPassword = $this->deserialize($oldPassword, 'string', 'string');
+            $newPassword = $this->deserialize($newPassword, 'string', 'string');
             $twentyFourHourTime = $this->deserialize($twentyFourHourTime, 'bool', 'string');
             $denseMode = $this->deserialize($denseMode, 'bool', 'string');
             $starredMessageCounts = $this->deserialize($starredMessageCounts, 'bool', 'string');
             $fluidLayoutWidth = $this->deserialize($fluidLayoutWidth, 'bool', 'string');
             $highContrastMode = $this->deserialize($highContrastMode, 'bool', 'string');
             $colorScheme = $this->deserialize($colorScheme, 'int', 'string');
+            $enableDraftsSynchronization = $this->deserialize($enableDraftsSynchronization, 'bool', 'string');
             $translateEmoticons = $this->deserialize($translateEmoticons, 'bool', 'string');
             $defaultLanguage = $this->deserialize($defaultLanguage, 'string', 'string');
             $defaultView = $this->deserialize($defaultView, 'string', 'string');
@@ -1420,11 +1452,56 @@ class UsersController extends Controller
             $emojiset = $this->deserialize($emojiset, 'string', 'string');
             $demoteInactiveStreams = $this->deserialize($demoteInactiveStreams, 'int', 'string');
             $timezone = $this->deserialize($timezone, 'string', 'string');
+            $enableStreamDesktopNotifications = $this->deserialize($enableStreamDesktopNotifications, 'bool', 'string');
+            $enableStreamEmailNotifications = $this->deserialize($enableStreamEmailNotifications, 'bool', 'string');
+            $enableStreamPushNotifications = $this->deserialize($enableStreamPushNotifications, 'bool', 'string');
+            $enableStreamAudibleNotifications = $this->deserialize($enableStreamAudibleNotifications, 'bool', 'string');
+            $notificationSound = $this->deserialize($notificationSound, 'string', 'string');
+            $enableDesktopNotifications = $this->deserialize($enableDesktopNotifications, 'bool', 'string');
+            $enableSounds = $this->deserialize($enableSounds, 'bool', 'string');
+            $emailNotificationsBatchingPeriodSeconds = $this->deserialize($emailNotificationsBatchingPeriodSeconds, 'int', 'string');
+            $enableOfflineEmailNotifications = $this->deserialize($enableOfflineEmailNotifications, 'bool', 'string');
+            $enableOfflinePushNotifications = $this->deserialize($enableOfflinePushNotifications, 'bool', 'string');
+            $enableOnlinePushNotifications = $this->deserialize($enableOnlinePushNotifications, 'bool', 'string');
+            $enableDigestEmails = $this->deserialize($enableDigestEmails, 'bool', 'string');
+            $enableMarketingEmails = $this->deserialize($enableMarketingEmails, 'bool', 'string');
+            $enableLoginEmails = $this->deserialize($enableLoginEmails, 'bool', 'string');
+            $messageContentInEmailNotifications = $this->deserialize($messageContentInEmailNotifications, 'bool', 'string');
+            $pmContentInDesktopNotifications = $this->deserialize($pmContentInDesktopNotifications, 'bool', 'string');
+            $wildcardMentionsNotify = $this->deserialize($wildcardMentionsNotify, 'bool', 'string');
+            $desktopIconCountDisplay = $this->deserialize($desktopIconCountDisplay, 'int', 'string');
+            $realmNameInNotifications = $this->deserialize($realmNameInNotifications, 'bool', 'string');
+            $presenceEnabled = $this->deserialize($presenceEnabled, 'bool', 'string');
+            $enterSends = $this->deserialize($enterSends, 'bool', 'string');
         } catch (SerializerRuntimeException $exception) {
             return $this->createBadRequestResponse($exception->getMessage());
         }
 
         // Validate the input values
+        $asserts = [];
+        $asserts[] = new Assert\Type("string");
+        $response = $this->validate($fullName, $asserts);
+        if ($response instanceof Response) {
+            return $response;
+        }
+        $asserts = [];
+        $asserts[] = new Assert\Type("string");
+        $response = $this->validate($email, $asserts);
+        if ($response instanceof Response) {
+            return $response;
+        }
+        $asserts = [];
+        $asserts[] = new Assert\Type("string");
+        $response = $this->validate($oldPassword, $asserts);
+        if ($response instanceof Response) {
+            return $response;
+        }
+        $asserts = [];
+        $asserts[] = new Assert\Type("string");
+        $response = $this->validate($newPassword, $asserts);
+        if ($response instanceof Response) {
+            return $response;
+        }
         $asserts = [];
         $asserts[] = new Assert\Type("bool");
         $response = $this->validate($twentyFourHourTime, $asserts);
@@ -1459,6 +1536,12 @@ class UsersController extends Controller
         $asserts[] = new Assert\Choice([ 1, 2, 3 ]);
         $asserts[] = new Assert\Type("int");
         $response = $this->validate($colorScheme, $asserts);
+        if ($response instanceof Response) {
+            return $response;
+        }
+        $asserts = [];
+        $asserts[] = new Assert\Type("bool");
+        $response = $this->validate($enableDraftsSynchronization, $asserts);
         if ($response instanceof Response) {
             return $response;
         }
@@ -1505,113 +1588,6 @@ class UsersController extends Controller
         if ($response instanceof Response) {
             return $response;
         }
-
-
-        try {
-            $handler = $this->getApiHandler();
-
-            
-            // Make the call to the business logic
-            $responseCode = 200;
-            $responseHeaders = [];
-            $result = $handler->updateDisplaySettings($twentyFourHourTime, $denseMode, $starredMessageCounts, $fluidLayoutWidth, $highContrastMode, $colorScheme, $translateEmoticons, $defaultLanguage, $defaultView, $leftSideUserlist, $emojiset, $demoteInactiveStreams, $timezone, $responseCode, $responseHeaders);
-
-            // Find default response message
-            $message = '';
-
-            // Find a more specific message, if available
-            switch ($responseCode) {
-                case 200:
-                    $message = 'Success';
-                    break;
-            }
-
-            return new Response(
-                $result !== null ?$this->serialize($result, $responseFormat):'',
-                $responseCode,
-                array_merge(
-                    $responseHeaders,
-                    [
-                        'Content-Type' => $responseFormat,
-                        'X-OpenAPI-Message' => $message
-                    ]
-                )
-            );
-        } catch (Exception $fallthrough) {
-            return $this->createErrorResponse(new HttpException(500, 'An unsuspected error occurred.', $fallthrough));
-        }
-    }
-
-    /**
-     * Operation updateNotificationSettings
-     *
-     * Update notification settings
-     *
-     * @param Request $request The Symfony request to handle.
-     * @return Response The Symfony response.
-     */
-    public function updateNotificationSettingsAction(Request $request)
-    {
-        // Figure out what data format to return to the client
-        $produces = ['application/json'];
-        // Figure out what the client accepts
-        $clientAccepts = $request->headers->has('Accept')?$request->headers->get('Accept'):'*/*';
-        $responseFormat = $this->getOutputFormat($clientAccepts, $produces);
-        if ($responseFormat === null) {
-            return new Response('', 406);
-        }
-
-        // Handle authentication
-
-        // Read out all input parameter values into variables
-        $enableStreamDesktopNotifications = $request->query->get('enableStreamDesktopNotifications');
-        $enableStreamEmailNotifications = $request->query->get('enableStreamEmailNotifications');
-        $enableStreamPushNotifications = $request->query->get('enableStreamPushNotifications');
-        $enableStreamAudibleNotifications = $request->query->get('enableStreamAudibleNotifications');
-        $notificationSound = $request->query->get('notificationSound');
-        $enableDesktopNotifications = $request->query->get('enableDesktopNotifications');
-        $enableSounds = $request->query->get('enableSounds');
-        $enableOfflineEmailNotifications = $request->query->get('enableOfflineEmailNotifications');
-        $enableOfflinePushNotifications = $request->query->get('enableOfflinePushNotifications');
-        $enableOnlinePushNotifications = $request->query->get('enableOnlinePushNotifications');
-        $enableDigestEmails = $request->query->get('enableDigestEmails');
-        $enableMarketingEmails = $request->query->get('enableMarketingEmails');
-        $enableLoginEmails = $request->query->get('enableLoginEmails');
-        $messageContentInEmailNotifications = $request->query->get('messageContentInEmailNotifications');
-        $pmContentInDesktopNotifications = $request->query->get('pmContentInDesktopNotifications');
-        $wildcardMentionsNotify = $request->query->get('wildcardMentionsNotify');
-        $desktopIconCountDisplay = $request->query->get('desktopIconCountDisplay');
-        $realmNameInNotifications = $request->query->get('realmNameInNotifications');
-        $presenceEnabled = $request->query->get('presenceEnabled');
-
-        // Use the default value if no value was provided
-
-        // Deserialize the input values that needs it
-        try {
-            $enableStreamDesktopNotifications = $this->deserialize($enableStreamDesktopNotifications, 'bool', 'string');
-            $enableStreamEmailNotifications = $this->deserialize($enableStreamEmailNotifications, 'bool', 'string');
-            $enableStreamPushNotifications = $this->deserialize($enableStreamPushNotifications, 'bool', 'string');
-            $enableStreamAudibleNotifications = $this->deserialize($enableStreamAudibleNotifications, 'bool', 'string');
-            $notificationSound = $this->deserialize($notificationSound, 'string', 'string');
-            $enableDesktopNotifications = $this->deserialize($enableDesktopNotifications, 'bool', 'string');
-            $enableSounds = $this->deserialize($enableSounds, 'bool', 'string');
-            $enableOfflineEmailNotifications = $this->deserialize($enableOfflineEmailNotifications, 'bool', 'string');
-            $enableOfflinePushNotifications = $this->deserialize($enableOfflinePushNotifications, 'bool', 'string');
-            $enableOnlinePushNotifications = $this->deserialize($enableOnlinePushNotifications, 'bool', 'string');
-            $enableDigestEmails = $this->deserialize($enableDigestEmails, 'bool', 'string');
-            $enableMarketingEmails = $this->deserialize($enableMarketingEmails, 'bool', 'string');
-            $enableLoginEmails = $this->deserialize($enableLoginEmails, 'bool', 'string');
-            $messageContentInEmailNotifications = $this->deserialize($messageContentInEmailNotifications, 'bool', 'string');
-            $pmContentInDesktopNotifications = $this->deserialize($pmContentInDesktopNotifications, 'bool', 'string');
-            $wildcardMentionsNotify = $this->deserialize($wildcardMentionsNotify, 'bool', 'string');
-            $desktopIconCountDisplay = $this->deserialize($desktopIconCountDisplay, 'int', 'string');
-            $realmNameInNotifications = $this->deserialize($realmNameInNotifications, 'bool', 'string');
-            $presenceEnabled = $this->deserialize($presenceEnabled, 'bool', 'string');
-        } catch (SerializerRuntimeException $exception) {
-            return $this->createBadRequestResponse($exception->getMessage());
-        }
-
-        // Validate the input values
         $asserts = [];
         $asserts[] = new Assert\Type("bool");
         $response = $this->validate($enableStreamDesktopNotifications, $asserts);
@@ -1651,6 +1627,12 @@ class UsersController extends Controller
         $asserts = [];
         $asserts[] = new Assert\Type("bool");
         $response = $this->validate($enableSounds, $asserts);
+        if ($response instanceof Response) {
+            return $response;
+        }
+        $asserts = [];
+        $asserts[] = new Assert\Type("int");
+        $response = $this->validate($emailNotificationsBatchingPeriodSeconds, $asserts);
         if ($response instanceof Response) {
             return $response;
         }
@@ -1727,6 +1709,12 @@ class UsersController extends Controller
         if ($response instanceof Response) {
             return $response;
         }
+        $asserts = [];
+        $asserts[] = new Assert\Type("bool");
+        $response = $this->validate($enterSends, $asserts);
+        if ($response instanceof Response) {
+            return $response;
+        }
 
 
         try {
@@ -1736,7 +1724,7 @@ class UsersController extends Controller
             // Make the call to the business logic
             $responseCode = 200;
             $responseHeaders = [];
-            $result = $handler->updateNotificationSettings($enableStreamDesktopNotifications, $enableStreamEmailNotifications, $enableStreamPushNotifications, $enableStreamAudibleNotifications, $notificationSound, $enableDesktopNotifications, $enableSounds, $enableOfflineEmailNotifications, $enableOfflinePushNotifications, $enableOnlinePushNotifications, $enableDigestEmails, $enableMarketingEmails, $enableLoginEmails, $messageContentInEmailNotifications, $pmContentInDesktopNotifications, $wildcardMentionsNotify, $desktopIconCountDisplay, $realmNameInNotifications, $presenceEnabled, $responseCode, $responseHeaders);
+            $result = $handler->updateSettings($fullName, $email, $oldPassword, $newPassword, $twentyFourHourTime, $denseMode, $starredMessageCounts, $fluidLayoutWidth, $highContrastMode, $colorScheme, $enableDraftsSynchronization, $translateEmoticons, $defaultLanguage, $defaultView, $leftSideUserlist, $emojiset, $demoteInactiveStreams, $timezone, $enableStreamDesktopNotifications, $enableStreamEmailNotifications, $enableStreamPushNotifications, $enableStreamAudibleNotifications, $notificationSound, $enableDesktopNotifications, $enableSounds, $emailNotificationsBatchingPeriodSeconds, $enableOfflineEmailNotifications, $enableOfflinePushNotifications, $enableOnlinePushNotifications, $enableDigestEmails, $enableMarketingEmails, $enableLoginEmails, $messageContentInEmailNotifications, $pmContentInDesktopNotifications, $wildcardMentionsNotify, $desktopIconCountDisplay, $realmNameInNotifications, $presenceEnabled, $enterSends, $responseCode, $responseHeaders);
 
             // Find default response message
             $message = '';
@@ -1744,6 +1732,118 @@ class UsersController extends Controller
             // Find a more specific message, if available
             switch ($responseCode) {
                 case 200:
+                    $message = 'Success';
+                    break;
+            }
+
+            return new Response(
+                $result !== null ?$this->serialize($result, $responseFormat):'',
+                $responseCode,
+                array_merge(
+                    $responseHeaders,
+                    [
+                        'Content-Type' => $responseFormat,
+                        'X-OpenAPI-Message' => $message
+                    ]
+                )
+            );
+        } catch (Exception $fallthrough) {
+            return $this->createErrorResponse(new HttpException(500, 'An unsuspected error occurred.', $fallthrough));
+        }
+    }
+
+    /**
+     * Operation updateStatus
+     *
+     * Update your status
+     *
+     * @param Request $request The Symfony request to handle.
+     * @return Response The Symfony response.
+     */
+    public function updateStatusAction(Request $request)
+    {
+        // Figure out what data format to return to the client
+        $produces = ['application/json'];
+        // Figure out what the client accepts
+        $clientAccepts = $request->headers->has('Accept')?$request->headers->get('Accept'):'*/*';
+        $responseFormat = $this->getOutputFormat($clientAccepts, $produces);
+        if ($responseFormat === null) {
+            return new Response('', 406);
+        }
+
+        // Handle authentication
+
+        // Read out all input parameter values into variables
+        $statusText = $request->query->get('statusText');
+        $away = $request->query->get('away');
+        $emojiName = $request->query->get('emojiName');
+        $emojiCode = $request->query->get('emojiCode');
+        $reactionType = $request->query->get('reactionType');
+
+        // Use the default value if no value was provided
+
+        // Deserialize the input values that needs it
+        try {
+            $statusText = $this->deserialize($statusText, 'string', 'string');
+            $away = $this->deserialize($away, 'bool', 'string');
+            $emojiName = $this->deserialize($emojiName, 'string', 'string');
+            $emojiCode = $this->deserialize($emojiCode, 'string', 'string');
+            $reactionType = $this->deserialize($reactionType, 'string', 'string');
+        } catch (SerializerRuntimeException $exception) {
+            return $this->createBadRequestResponse($exception->getMessage());
+        }
+
+        // Validate the input values
+        $asserts = [];
+        $asserts[] = new Assert\Type("string");
+        $response = $this->validate($statusText, $asserts);
+        if ($response instanceof Response) {
+            return $response;
+        }
+        $asserts = [];
+        $asserts[] = new Assert\Type("bool");
+        $response = $this->validate($away, $asserts);
+        if ($response instanceof Response) {
+            return $response;
+        }
+        $asserts = [];
+        $asserts[] = new Assert\Type("string");
+        $response = $this->validate($emojiName, $asserts);
+        if ($response instanceof Response) {
+            return $response;
+        }
+        $asserts = [];
+        $asserts[] = new Assert\Type("string");
+        $response = $this->validate($emojiCode, $asserts);
+        if ($response instanceof Response) {
+            return $response;
+        }
+        $asserts = [];
+        $asserts[] = new Assert\Type("string");
+        $response = $this->validate($reactionType, $asserts);
+        if ($response instanceof Response) {
+            return $response;
+        }
+
+
+        try {
+            $handler = $this->getApiHandler();
+
+            
+            // Make the call to the business logic
+            $responseCode = 200;
+            $responseHeaders = [];
+            $result = $handler->updateStatus($statusText, $away, $emojiName, $emojiCode, $reactionType, $responseCode, $responseHeaders);
+
+            // Find default response message
+            $message = '';
+
+            // Find a more specific message, if available
+            switch ($responseCode) {
+                case 200:
+                    $message = 'Success.';
+                    break;
+                case 400:
                     $message = 'Success.';
                     break;
             }

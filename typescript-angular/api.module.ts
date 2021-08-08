@@ -3,6 +3,7 @@ import { Configuration } from './configuration';
 import { HttpClient } from '@angular/common/http';
 
 import { AuthenticationService } from './api/authentication.service';
+import { DraftsService } from './api/drafts.service';
 import { MessagesService } from './api/messages.service';
 import { RealTimeEventsService } from './api/realTimeEvents.service';
 import { ServerAndOrganizationsService } from './api/serverAndOrganizations.service';

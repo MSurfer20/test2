@@ -16,6 +16,28 @@ import io.ktor.locations.Location
 
 object Paths {
     /**
+     * Delete a draft
+     * Delete a single draft from the server. The deletion will be automatically
+synchronized to other clients via a &#x60;drafts&#x60; event.
+
+&#x60;DELETE {{ api_url }}/v1/drafts/{draft_id}&#x60;
+
+     * @param draftId The ID of the draft you want to delete.  
+     */
+    @KtorExperimentalLocationsAPI
+    @Location("/drafts/{draft_id}") class deleteDraft(val draftId: kotlin.Int)
+
+    /**
+     * Get drafts
+     * Fetch all drafts for the current user.
+
+&#x60;GET {{ api_url }}/v1/drafts&#x60;
+
+     */
+    @KtorExperimentalLocationsAPI
+    @Location("/drafts") class getDrafts()
+
+    /**
      * Check if messages match a narrow
      * Check whether a set of messages match a [narrow](/api/construct-narrow).
 
@@ -328,6 +350,17 @@ Requires BigBlueButton to be configured on the Zulip server.
      */
     @KtorExperimentalLocationsAPI
     @Location("/streams") class getStreams(val includePublic: kotlin.Boolean? = null, val includeWebPublic: kotlin.Boolean? = null, val includeSubscribed: kotlin.Boolean? = null, val includeAllActive: kotlin.Boolean? = null, val includeDefault: kotlin.Boolean? = null, val includeOwnerSubscribed: kotlin.Boolean? = null)
+
+    /**
+     * Get the subscribers of a stream
+     * Get all users subscribed to a stream.
+
+&#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60;
+
+     * @param streamId The ID of the stream to access.  
+     */
+    @KtorExperimentalLocationsAPI
+    @Location("/streams/{stream_id}/members") class getSubscribers(val streamId: kotlin.Int)
 
     /**
      * Get subscription status

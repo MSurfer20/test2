@@ -76,30 +76,30 @@ class MessagesApiSimulation extends Simulation {
     val scenarioBuilders: mutable.MutableList[PopulationBuilder] = new mutable.MutableList[PopulationBuilder]()
 
     // Set up CSV feeders
-    val add_reactionQUERYFeeder = csv(userDataDirectory + File.separator + "addReaction-queryParams.csv").random
-    val add_reactionPATHFeeder = csv(userDataDirectory + File.separator + "addReaction-pathParams.csv").random
-    val check_messages_match_narrowQUERYFeeder = csv(userDataDirectory + File.separator + "checkMessagesMatchNarrow-queryParams.csv").random
-    val delete_messagePATHFeeder = csv(userDataDirectory + File.separator + "deleteMessage-pathParams.csv").random
-    val get_file_temporary_urlPATHFeeder = csv(userDataDirectory + File.separator + "getFileTemporaryUrl-pathParams.csv").random
-    val get_message_historyPATHFeeder = csv(userDataDirectory + File.separator + "getMessageHistory-pathParams.csv").random
-    val get_messagesQUERYFeeder = csv(userDataDirectory + File.separator + "getMessages-queryParams.csv").random
-    val get_raw_messagePATHFeeder = csv(userDataDirectory + File.separator + "getRawMessage-pathParams.csv").random
-    val mark_stream_as_readQUERYFeeder = csv(userDataDirectory + File.separator + "markStreamAsRead-queryParams.csv").random
-    val mark_topic_as_readQUERYFeeder = csv(userDataDirectory + File.separator + "markTopicAsRead-queryParams.csv").random
-    val remove_reactionQUERYFeeder = csv(userDataDirectory + File.separator + "removeReaction-queryParams.csv").random
-    val remove_reactionPATHFeeder = csv(userDataDirectory + File.separator + "removeReaction-pathParams.csv").random
-    val render_messageQUERYFeeder = csv(userDataDirectory + File.separator + "renderMessage-queryParams.csv").random
-    val send_messageQUERYFeeder = csv(userDataDirectory + File.separator + "sendMessage-queryParams.csv").random
-    val update_messageQUERYFeeder = csv(userDataDirectory + File.separator + "updateMessage-queryParams.csv").random
-    val update_messagePATHFeeder = csv(userDataDirectory + File.separator + "updateMessage-pathParams.csv").random
-    val update_message_flagsQUERYFeeder = csv(userDataDirectory + File.separator + "updateMessageFlags-queryParams.csv").random
+    val add-reactionQUERYFeeder = csv(userDataDirectory + File.separator + "addReaction-queryParams.csv").random
+    val add-reactionPATHFeeder = csv(userDataDirectory + File.separator + "addReaction-pathParams.csv").random
+    val check-messages-match-narrowQUERYFeeder = csv(userDataDirectory + File.separator + "checkMessagesMatchNarrow-queryParams.csv").random
+    val delete-messagePATHFeeder = csv(userDataDirectory + File.separator + "deleteMessage-pathParams.csv").random
+    val get-file-temporary-urlPATHFeeder = csv(userDataDirectory + File.separator + "getFileTemporaryUrl-pathParams.csv").random
+    val get-message-historyPATHFeeder = csv(userDataDirectory + File.separator + "getMessageHistory-pathParams.csv").random
+    val get-messagesQUERYFeeder = csv(userDataDirectory + File.separator + "getMessages-queryParams.csv").random
+    val get-raw-messagePATHFeeder = csv(userDataDirectory + File.separator + "getRawMessage-pathParams.csv").random
+    val mark-stream-as-readQUERYFeeder = csv(userDataDirectory + File.separator + "markStreamAsRead-queryParams.csv").random
+    val mark-topic-as-readQUERYFeeder = csv(userDataDirectory + File.separator + "markTopicAsRead-queryParams.csv").random
+    val remove-reactionQUERYFeeder = csv(userDataDirectory + File.separator + "removeReaction-queryParams.csv").random
+    val remove-reactionPATHFeeder = csv(userDataDirectory + File.separator + "removeReaction-pathParams.csv").random
+    val render-messageQUERYFeeder = csv(userDataDirectory + File.separator + "renderMessage-queryParams.csv").random
+    val send-messageQUERYFeeder = csv(userDataDirectory + File.separator + "sendMessage-queryParams.csv").random
+    val update-messageQUERYFeeder = csv(userDataDirectory + File.separator + "updateMessage-queryParams.csv").random
+    val update-messagePATHFeeder = csv(userDataDirectory + File.separator + "updateMessage-pathParams.csv").random
+    val update-message-flagsQUERYFeeder = csv(userDataDirectory + File.separator + "updateMessageFlags-queryParams.csv").random
 
     // Setup all scenarios
 
     
     val scnaddReaction = scenario("addReactionSimulation")
-        .feed(add_reactionQUERYFeeder)
-        .feed(add_reactionPATHFeeder)
+        .feed(add-reactionQUERYFeeder)
+        .feed(add-reactionPATHFeeder)
         .exec(http("addReaction")
         .httpRequest("POST","/messages/${message_id}/reactions")
         .queryParam("reaction_type","${reaction_type}")
@@ -116,7 +116,7 @@ class MessagesApiSimulation extends Simulation {
 
     
     val scncheckMessagesMatchNarrow = scenario("checkMessagesMatchNarrowSimulation")
-        .feed(check_messages_match_narrowQUERYFeeder)
+        .feed(check-messages-match-narrowQUERYFeeder)
         .exec(http("checkMessagesMatchNarrow")
         .httpRequest("GET","/messages/matches_narrow")
         .queryParam("msg_ids","${msg_ids}")
@@ -132,7 +132,7 @@ class MessagesApiSimulation extends Simulation {
 
     
     val scndeleteMessage = scenario("deleteMessageSimulation")
-        .feed(delete_messagePATHFeeder)
+        .feed(delete-messagePATHFeeder)
         .exec(http("deleteMessage")
         .httpRequest("DELETE","/messages/${message_id}")
 )
@@ -146,7 +146,7 @@ class MessagesApiSimulation extends Simulation {
 
     
     val scngetFileTemporaryUrl = scenario("getFileTemporaryUrlSimulation")
-        .feed(get_file_temporary_urlPATHFeeder)
+        .feed(get-file-temporary-urlPATHFeeder)
         .exec(http("getFileTemporaryUrl")
         .httpRequest("GET","/user_uploads/${realm_id_str}/${filename}")
 )
@@ -160,7 +160,7 @@ class MessagesApiSimulation extends Simulation {
 
     
     val scngetMessageHistory = scenario("getMessageHistorySimulation")
-        .feed(get_message_historyPATHFeeder)
+        .feed(get-message-historyPATHFeeder)
         .exec(http("getMessageHistory")
         .httpRequest("GET","/messages/${message_id}/history")
 )
@@ -174,7 +174,7 @@ class MessagesApiSimulation extends Simulation {
 
     
     val scngetMessages = scenario("getMessagesSimulation")
-        .feed(get_messagesQUERYFeeder)
+        .feed(get-messagesQUERYFeeder)
         .exec(http("getMessages")
         .httpRequest("GET","/messages")
         .queryParam("anchor","${anchor}")
@@ -195,7 +195,7 @@ class MessagesApiSimulation extends Simulation {
 
     
     val scngetRawMessage = scenario("getRawMessageSimulation")
-        .feed(get_raw_messagePATHFeeder)
+        .feed(get-raw-messagePATHFeeder)
         .exec(http("getRawMessage")
         .httpRequest("GET","/messages/${message_id}")
 )
@@ -222,7 +222,7 @@ class MessagesApiSimulation extends Simulation {
 
     
     val scnmarkStreamAsRead = scenario("markStreamAsReadSimulation")
-        .feed(mark_stream_as_readQUERYFeeder)
+        .feed(mark-stream-as-readQUERYFeeder)
         .exec(http("markStreamAsRead")
         .httpRequest("POST","/mark_stream_as_read")
         .queryParam("stream_id","${stream_id}")
@@ -237,7 +237,7 @@ class MessagesApiSimulation extends Simulation {
 
     
     val scnmarkTopicAsRead = scenario("markTopicAsReadSimulation")
-        .feed(mark_topic_as_readQUERYFeeder)
+        .feed(mark-topic-as-readQUERYFeeder)
         .exec(http("markTopicAsRead")
         .httpRequest("POST","/mark_topic_as_read")
         .queryParam("topic_name","${topic_name}")
@@ -253,8 +253,8 @@ class MessagesApiSimulation extends Simulation {
 
     
     val scnremoveReaction = scenario("removeReactionSimulation")
-        .feed(remove_reactionQUERYFeeder)
-        .feed(remove_reactionPATHFeeder)
+        .feed(remove-reactionQUERYFeeder)
+        .feed(remove-reactionPATHFeeder)
         .exec(http("removeReaction")
         .httpRequest("DELETE","/messages/${message_id}/reactions")
         .queryParam("reaction_type","${reaction_type}")
@@ -271,7 +271,7 @@ class MessagesApiSimulation extends Simulation {
 
     
     val scnrenderMessage = scenario("renderMessageSimulation")
-        .feed(render_messageQUERYFeeder)
+        .feed(render-messageQUERYFeeder)
         .exec(http("renderMessage")
         .httpRequest("POST","/messages/render")
         .queryParam("content","${content}")
@@ -286,7 +286,7 @@ class MessagesApiSimulation extends Simulation {
 
     
     val scnsendMessage = scenario("sendMessageSimulation")
-        .feed(send_messageQUERYFeeder)
+        .feed(send-messageQUERYFeeder)
         .exec(http("sendMessage")
         .httpRequest("POST","/messages")
         .queryParam("content","${content}")
@@ -306,8 +306,8 @@ class MessagesApiSimulation extends Simulation {
 
     
     val scnupdateMessage = scenario("updateMessageSimulation")
-        .feed(update_messageQUERYFeeder)
-        .feed(update_messagePATHFeeder)
+        .feed(update-messageQUERYFeeder)
+        .feed(update-messagePATHFeeder)
         .exec(http("updateMessage")
         .httpRequest("PATCH","/messages/${message_id}")
         .queryParam("content","${content}")
@@ -327,7 +327,7 @@ class MessagesApiSimulation extends Simulation {
 
     
     val scnupdateMessageFlags = scenario("updateMessageFlagsSimulation")
-        .feed(update_message_flagsQUERYFeeder)
+        .feed(update-message-flagsQUERYFeeder)
         .exec(http("updateMessageFlags")
         .httpRequest("POST","/messages/flags")
         .queryParam("op","${op}")

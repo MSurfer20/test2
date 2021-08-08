@@ -21,6 +21,7 @@ import org.openapitools.server.api.model.CodedError
 import org.openapitools.server.api.model.JsonError
 import org.openapitools.server.api.model.JsonSuccess
 import org.openapitools.server.api.model.JsonSuccessBase
+import org.openapitools.server.api.model.OneOfLessThanObjectCommaObjectCommaObjectCommaObjectCommaObjectCommaObjectGreaterThan
 import org.openapitools.server.api.model.OneOfLessThanObjectCommaObjectCommaObjectGreaterThan
 import org.openapitools.server.api.model.OneOfLessThanObjectCommaObjectGreaterThan
 
@@ -302,14 +303,19 @@ class UsersApiVertxProxyHandler(private val vertx: Vertx, private val service: U
                     }
                 }
         
-                "updateDisplaySettings" -> {
+                "updateSettings" -> {
                     val params = context.params
+                    val fullName = ApiHandlerUtils.searchStringInJson(params,"full_name")
+                    val email = ApiHandlerUtils.searchStringInJson(params,"email")
+                    val oldPassword = ApiHandlerUtils.searchStringInJson(params,"old_password")
+                    val newPassword = ApiHandlerUtils.searchStringInJson(params,"new_password")
                     val twentyFourHourTime = ApiHandlerUtils.searchStringInJson(params,"twenty_four_hour_time")?.toBoolean()
                     val denseMode = ApiHandlerUtils.searchStringInJson(params,"dense_mode")?.toBoolean()
                     val starredMessageCounts = ApiHandlerUtils.searchStringInJson(params,"starred_message_counts")?.toBoolean()
                     val fluidLayoutWidth = ApiHandlerUtils.searchStringInJson(params,"fluid_layout_width")?.toBoolean()
                     val highContrastMode = ApiHandlerUtils.searchStringInJson(params,"high_contrast_mode")?.toBoolean()
                     val colorScheme = ApiHandlerUtils.searchIntegerInJson(params,"color_scheme")
+                    val enableDraftsSynchronization = ApiHandlerUtils.searchStringInJson(params,"enable_drafts_synchronization")?.toBoolean()
                     val translateEmoticons = ApiHandlerUtils.searchStringInJson(params,"translate_emoticons")?.toBoolean()
                     val defaultLanguage = ApiHandlerUtils.searchStringInJson(params,"default_language")
                     val defaultView = ApiHandlerUtils.searchStringInJson(params,"default_view")
@@ -317,18 +323,6 @@ class UsersApiVertxProxyHandler(private val vertx: Vertx, private val service: U
                     val emojiset = ApiHandlerUtils.searchStringInJson(params,"emojiset")
                     val demoteInactiveStreams = ApiHandlerUtils.searchIntegerInJson(params,"demote_inactive_streams")
                     val timezone = ApiHandlerUtils.searchStringInJson(params,"timezone")
-                    GlobalScope.launch(vertx.dispatcher()){
-                        val result = service.updateDisplaySettings(twentyFourHourTime,denseMode,starredMessageCounts,fluidLayoutWidth,highContrastMode,colorScheme,translateEmoticons,defaultLanguage,defaultView,leftSideUserlist,emojiset,demoteInactiveStreams,timezone,context)
-                        val payload = JsonObject(Json.encode(result.payload)).toBuffer()
-                        val res = OperationResponse(result.statusCode,result.statusMessage,payload,result.headers)
-                        msg.reply(res.toJson())
-                    }.invokeOnCompletion{
-                        it?.let{ throw it }
-                    }
-                }
-        
-                "updateNotificationSettings" -> {
-                    val params = context.params
                     val enableStreamDesktopNotifications = ApiHandlerUtils.searchStringInJson(params,"enable_stream_desktop_notifications")?.toBoolean()
                     val enableStreamEmailNotifications = ApiHandlerUtils.searchStringInJson(params,"enable_stream_email_notifications")?.toBoolean()
                     val enableStreamPushNotifications = ApiHandlerUtils.searchStringInJson(params,"enable_stream_push_notifications")?.toBoolean()
@@ -336,6 +330,7 @@ class UsersApiVertxProxyHandler(private val vertx: Vertx, private val service: U
                     val notificationSound = ApiHandlerUtils.searchStringInJson(params,"notification_sound")
                     val enableDesktopNotifications = ApiHandlerUtils.searchStringInJson(params,"enable_desktop_notifications")?.toBoolean()
                     val enableSounds = ApiHandlerUtils.searchStringInJson(params,"enable_sounds")?.toBoolean()
+                    val emailNotificationsBatchingPeriodSeconds = ApiHandlerUtils.searchIntegerInJson(params,"email_notifications_batching_period_seconds")
                     val enableOfflineEmailNotifications = ApiHandlerUtils.searchStringInJson(params,"enable_offline_email_notifications")?.toBoolean()
                     val enableOfflinePushNotifications = ApiHandlerUtils.searchStringInJson(params,"enable_offline_push_notifications")?.toBoolean()
                     val enableOnlinePushNotifications = ApiHandlerUtils.searchStringInJson(params,"enable_online_push_notifications")?.toBoolean()
@@ -348,8 +343,26 @@ class UsersApiVertxProxyHandler(private val vertx: Vertx, private val service: U
                     val desktopIconCountDisplay = ApiHandlerUtils.searchIntegerInJson(params,"desktop_icon_count_display")
                     val realmNameInNotifications = ApiHandlerUtils.searchStringInJson(params,"realm_name_in_notifications")?.toBoolean()
                     val presenceEnabled = ApiHandlerUtils.searchStringInJson(params,"presence_enabled")?.toBoolean()
+                    val enterSends = ApiHandlerUtils.searchStringInJson(params,"enter_sends")?.toBoolean()
                     GlobalScope.launch(vertx.dispatcher()){
-                        val result = service.updateNotificationSettings(enableStreamDesktopNotifications,enableStreamEmailNotifications,enableStreamPushNotifications,enableStreamAudibleNotifications,notificationSound,enableDesktopNotifications,enableSounds,enableOfflineEmailNotifications,enableOfflinePushNotifications,enableOnlinePushNotifications,enableDigestEmails,enableMarketingEmails,enableLoginEmails,messageContentInEmailNotifications,pmContentInDesktopNotifications,wildcardMentionsNotify,desktopIconCountDisplay,realmNameInNotifications,presenceEnabled,context)
+                        val result = service.updateSettings(fullName,email,oldPassword,newPassword,twentyFourHourTime,denseMode,starredMessageCounts,fluidLayoutWidth,highContrastMode,colorScheme,enableDraftsSynchronization,translateEmoticons,defaultLanguage,defaultView,leftSideUserlist,emojiset,demoteInactiveStreams,timezone,enableStreamDesktopNotifications,enableStreamEmailNotifications,enableStreamPushNotifications,enableStreamAudibleNotifications,notificationSound,enableDesktopNotifications,enableSounds,emailNotificationsBatchingPeriodSeconds,enableOfflineEmailNotifications,enableOfflinePushNotifications,enableOnlinePushNotifications,enableDigestEmails,enableMarketingEmails,enableLoginEmails,messageContentInEmailNotifications,pmContentInDesktopNotifications,wildcardMentionsNotify,desktopIconCountDisplay,realmNameInNotifications,presenceEnabled,enterSends,context)
+                        val payload = JsonObject(Json.encode(result.payload)).toBuffer()
+                        val res = OperationResponse(result.statusCode,result.statusMessage,payload,result.headers)
+                        msg.reply(res.toJson())
+                    }.invokeOnCompletion{
+                        it?.let{ throw it }
+                    }
+                }
+        
+                "updateStatus" -> {
+                    val params = context.params
+                    val statusText = ApiHandlerUtils.searchStringInJson(params,"status_text")
+                    val away = ApiHandlerUtils.searchStringInJson(params,"away")?.toBoolean()
+                    val emojiName = ApiHandlerUtils.searchStringInJson(params,"emoji_name")
+                    val emojiCode = ApiHandlerUtils.searchStringInJson(params,"emoji_code")
+                    val reactionType = ApiHandlerUtils.searchStringInJson(params,"reaction_type")
+                    GlobalScope.launch(vertx.dispatcher()){
+                        val result = service.updateStatus(statusText,away,emojiName,emojiCode,reactionType,context)
                         val payload = JsonObject(Json.encode(result.payload)).toBuffer()
                         val res = OperationResponse(result.statusCode,result.statusMessage,payload,result.headers)
                         msg.reply(res.toJson())

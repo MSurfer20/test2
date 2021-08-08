@@ -12,7 +12,7 @@ import org.openapitools.model.AttachmentsMessages;
 import javax.validation.constraints.*;
 import io.swagger.annotations.*;
 
-@ApiModel(description="Dictionary containing details of a file uploaded by a user. ")@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyEapServerCodegen", date = "2021-08-08T20:42:32.152989Z[Etc/UTC]")
+@ApiModel(description="Dictionary containing details of a file uploaded by a user. ")@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyEapServerCodegen", date = "2021-08-08T21:12:21.563950Z[Etc/UTC]")
 public class Attachments   {
   
 

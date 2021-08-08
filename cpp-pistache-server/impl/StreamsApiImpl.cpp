@@ -30,6 +30,9 @@ void StreamsApiImpl::archive_stream(const int32_t &streamId, Pistache::Http::Res
 void StreamsApiImpl::create_big_blue_button_video_call(Pistache::Http::ResponseWriter &response) {
     response.send(Pistache::Http::Code::Ok, "Do some magic\n");
 }
+void StreamsApiImpl::delete_topic(const int32_t &streamId, const Pistache::Optional<std::string> &topicName, Pistache::Http::ResponseWriter &response) {
+    response.send(Pistache::Http::Code::Ok, "Do some magic\n");
+}
 void StreamsApiImpl::get_stream_id(const Pistache::Optional<std::string> &stream, Pistache::Http::ResponseWriter &response) {
     response.send(Pistache::Http::Code::Ok, "Do some magic\n");
 }
@@ -37,6 +40,9 @@ void StreamsApiImpl::get_stream_topics(const int32_t &streamId, Pistache::Http::
     response.send(Pistache::Http::Code::Ok, "Do some magic\n");
 }
 void StreamsApiImpl::get_streams(const Pistache::Optional<bool> &includePublic, const Pistache::Optional<bool> &includeWebPublic, const Pistache::Optional<bool> &includeSubscribed, const Pistache::Optional<bool> &includeAllActive, const Pistache::Optional<bool> &includeDefault, const Pistache::Optional<bool> &includeOwnerSubscribed, Pistache::Http::ResponseWriter &response) {
+    response.send(Pistache::Http::Code::Ok, "Do some magic\n");
+}
+void StreamsApiImpl::get_subscribers(const int32_t &streamId, Pistache::Http::ResponseWriter &response) {
     response.send(Pistache::Http::Code::Ok, "Do some magic\n");
 }
 void StreamsApiImpl::get_subscription_status(const int32_t &userId, const int32_t &streamId, Pistache::Http::ResponseWriter &response) {

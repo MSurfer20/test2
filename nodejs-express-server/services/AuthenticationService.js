@@ -8,7 +8,7 @@ const Service = require('./Service');
 * username String The email address for the user that owns the API key. 
 * returns ApiKeyResponse
 * */
-const dev_fetch_api_key = ({ username }) => new Promise(
+const devFetchApiKey = ({ username }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -30,7 +30,7 @@ const dev_fetch_api_key = ({ username }) => new Promise(
 * password String The user's Zulip password (or LDAP password, if LDAP authentication is in use). 
 * returns ApiKeyResponse
 * */
-const fetch_api_key = ({ username, password }) => new Promise(
+const fetchApiKey = ({ username, password }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -47,6 +47,6 @@ const fetch_api_key = ({ username, password }) => new Promise(
 );
 
 module.exports = {
-  dev_fetch_api_key,
-  fetch_api_key,
+  devFetchApiKey,
+  fetchApiKey,
 };

@@ -17,9 +17,10 @@ import org.openapitools.model.JsonSuccessBase;
 import org.openapitools.model.NonExistingStreamError;
 import org.openapitools.model.OneOfobjectobject;
 import org.openapitools.model.OneOfobjectobjectobject;
+import org.openapitools.model.OneOfobjectobjectobjectobjectobjectobject;
 import org.openapitools.model.OneOfstringinteger;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen", date = "2021-08-08T20:41:39.775381Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen", date = "2021-08-08T21:11:32.310747Z[Etc/UTC]")
 public class UsersController  {
   /** 
    * Uncomment and implement as you see fit.  These operations will map
@@ -125,6 +126,12 @@ public class UsersController  {
 
   /*
     public ResponseContext unsubscribe(RequestContext request , List<String> subscriptions, List<OneOfstringinteger> principals) {
+        return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
+    }
+  */
+
+  /*
+    public ResponseContext updateStatus(RequestContext request , String statusText, Boolean away, String emojiName, String emojiCode, String reactionType) {
         return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
     }
   */

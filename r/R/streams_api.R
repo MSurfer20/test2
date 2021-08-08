@@ -54,6 +54,31 @@
 #' }
 #' }
 #'
+#' \strong{ DeleteTopic } \emph{ Delete a topic }
+#' Delete all messages in a topic.  &#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+#'
+#' \itemize{
+#' \item \emph{ @param } stream.id integer
+#' \item \emph{ @param } topic.name character
+#' \item \emph{ @returnType } \link{JsonSuccess} \cr
+#'
+#'
+#' \item status code : 200 | Success.
+#'
+#' \item return type : JsonSuccess 
+#' \item response headers :
+#'
+#' \tabular{ll}{
+#' }
+#' \item status code : 400 | Error.
+#'
+#' \item return type : JsonError 
+#' \item response headers :
+#'
+#' \tabular{ll}{
+#' }
+#' }
+#'
 #' \strong{ GetStreamId } \emph{ Get stream ID }
 #' Get the unique ID of a given stream.  &#x60;GET {{ api_url }}/v1/get_stream_id&#x60; 
 #'
@@ -125,6 +150,30 @@
 #' \item status code : 400 | Bad request.
 #'
 #' \item return type : CodedError 
+#' \item response headers :
+#'
+#' \tabular{ll}{
+#' }
+#' }
+#'
+#' \strong{ GetSubscribers } \emph{ Get the subscribers of a stream }
+#' Get all users subscribed to a stream.  &#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60; 
+#'
+#' \itemize{
+#' \item \emph{ @param } stream.id integer
+#' \item \emph{ @returnType } \link{JsonSuccessBase} \cr
+#'
+#'
+#' \item status code : 200 | Success.
+#'
+#' \item return type : JsonSuccessBase 
+#' \item response headers :
+#'
+#' \tabular{ll}{
+#' }
+#' \item status code : 400 | Bad request.
+#'
+#' \item return type : JsonError 
 #' \item response headers :
 #'
 #' \tabular{ll}{
@@ -341,6 +390,18 @@
 #' result <- api.instance$CreateBigBlueButtonVideoCall()
 #'
 #'
+#' ####################  DeleteTopic  ####################
+#'
+#' library(openapi)
+#' var.stream.id <- 1 # integer | The ID of the stream to access. 
+#' var.topic.name <- 'new coffee machine' # character | The name of the topic to delete. 
+#'
+#' #Delete a topic
+#' api.instance <- StreamsApi$new()
+#'
+#' result <- api.instance$DeleteTopic(var.stream.id, var.topic.name)
+#'
+#'
 #' ####################  GetStreamId  ####################
 #'
 #' library(openapi)
@@ -377,6 +438,17 @@
 #' api.instance <- StreamsApi$new()
 #'
 #' result <- api.instance$GetStreams(include.public=var.include.public, include.web.public=var.include.web.public, include.subscribed=var.include.subscribed, include.all.active=var.include.all.active, include.default=var.include.default, include.owner.subscribed=var.include.owner.subscribed)
+#'
+#'
+#' ####################  GetSubscribers  ####################
+#'
+#' library(openapi)
+#' var.stream.id <- 1 # integer | The ID of the stream to access. 
+#'
+#' #Get the subscribers of a stream
+#' api.instance <- StreamsApi$new()
+#'
+#' result <- api.instance$GetSubscribers(var.stream.id)
 #'
 #'
 #' ####################  GetSubscriptionStatus  ####################
@@ -601,6 +673,65 @@ StreamsApi <- R6::R6Class(
         ApiResponse$new("API server error", resp)
       }
     },
+    DeleteTopic = function(stream.id, topic.name, ...){
+      apiResponse <- self$DeleteTopicWithHttpInfo(stream.id, topic.name, ...)
+      resp <- apiResponse$response
+      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        apiResponse$content
+      } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
+        apiResponse
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+        apiResponse
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+        apiResponse
+      }
+    },
+
+    DeleteTopicWithHttpInfo = function(stream.id, topic.name, ...){
+      args <- list(...)
+      queryParams <- list()
+      headerParams <- c()
+
+      if (missing(`stream.id`)) {
+        stop("Missing required parameter `stream.id`.")
+      }
+
+      if (missing(`topic.name`)) {
+        stop("Missing required parameter `topic.name`.")
+      }
+
+      queryParams['topic_name'] <- topic.name
+
+      body <- NULL
+      urlPath <- "/streams/{stream_id}/delete_topic"
+      if (!missing(`stream.id`)) {
+        urlPath <- gsub(paste0("\\{", "stream_id", "\\}"), URLencode(as.character(`stream.id`), reserved = TRUE), urlPath)
+      }
+
+
+      resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
+                                 method = "POST",
+                                 queryParams = queryParams,
+                                 headerParams = headerParams,
+                                 body = body,
+                                 ...)
+
+      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        deserializedRespObj <- tryCatch(
+          self$apiClient$deserialize(resp, "JsonSuccess", loadNamespace("openapi")),
+          error = function(e){
+             stop("Failed to deserialize response")
+          }
+        )
+        ApiResponse$new(deserializedRespObj, resp)
+      } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
+        ApiResponse$new(paste("Server returned " , httr::status_code(resp) , " response status code."), resp)
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+        ApiResponse$new("API client error", resp)
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+        ApiResponse$new("API server error", resp)
+      }
+    },
     GetStreamId = function(stream, ...){
       apiResponse <- self$GetStreamIdWithHttpInfo(stream, ...)
       resp <- apiResponse$response
@@ -738,6 +869,59 @@ StreamsApi <- R6::R6Class(
 
       body <- NULL
       urlPath <- "/streams"
+
+      resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
+                                 method = "GET",
+                                 queryParams = queryParams,
+                                 headerParams = headerParams,
+                                 body = body,
+                                 ...)
+
+      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        deserializedRespObj <- tryCatch(
+          self$apiClient$deserialize(resp, "JsonSuccessBase", loadNamespace("openapi")),
+          error = function(e){
+             stop("Failed to deserialize response")
+          }
+        )
+        ApiResponse$new(deserializedRespObj, resp)
+      } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
+        ApiResponse$new(paste("Server returned " , httr::status_code(resp) , " response status code."), resp)
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+        ApiResponse$new("API client error", resp)
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+        ApiResponse$new("API server error", resp)
+      }
+    },
+    GetSubscribers = function(stream.id, ...){
+      apiResponse <- self$GetSubscribersWithHttpInfo(stream.id, ...)
+      resp <- apiResponse$response
+      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+        apiResponse$content
+      } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
+        apiResponse
+      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
+        apiResponse
+      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
+        apiResponse
+      }
+    },
+
+    GetSubscribersWithHttpInfo = function(stream.id, ...){
+      args <- list(...)
+      queryParams <- list()
+      headerParams <- c()
+
+      if (missing(`stream.id`)) {
+        stop("Missing required parameter `stream.id`.")
+      }
+
+      body <- NULL
+      urlPath <- "/streams/{stream_id}/members"
+      if (!missing(`stream.id`)) {
+        urlPath <- gsub(paste0("\\{", "stream_id", "\\}"), URLencode(as.character(`stream.id`), reserved = TRUE), urlPath)
+      }
+
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",

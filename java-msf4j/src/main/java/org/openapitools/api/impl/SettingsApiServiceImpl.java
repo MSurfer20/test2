@@ -16,15 +16,20 @@ import org.wso2.msf4j.formparam.FileInfo;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", date = "2021-08-08T20:41:44.271935Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", date = "2021-08-08T21:11:36.575393Z[Etc/UTC]")
 public class SettingsApiServiceImpl extends SettingsApiService {
     @Override
-    public Response updateDisplaySettings(Boolean twentyFourHourTime
+    public Response updateSettings(String fullName
+, String email
+, String oldPassword
+, String newPassword
+, Boolean twentyFourHourTime
 , Boolean denseMode
 , Boolean starredMessageCounts
 , Boolean fluidLayoutWidth
 , Boolean highContrastMode
 , Integer colorScheme
+, Boolean enableDraftsSynchronization
 , Boolean translateEmoticons
 , String defaultLanguage
 , String defaultView
@@ -32,18 +37,14 @@ public class SettingsApiServiceImpl extends SettingsApiService {
 , String emojiset
 , Integer demoteInactiveStreams
 , String timezone
- ) throws NotFoundException {
-        // do some magic!
-        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
-    }
-    @Override
-    public Response updateNotificationSettings(Boolean enableStreamDesktopNotifications
+, Boolean enableStreamDesktopNotifications
 , Boolean enableStreamEmailNotifications
 , Boolean enableStreamPushNotifications
 , Boolean enableStreamAudibleNotifications
 , String notificationSound
 , Boolean enableDesktopNotifications
 , Boolean enableSounds
+, Integer emailNotificationsBatchingPeriodSeconds
 , Boolean enableOfflineEmailNotifications
 , Boolean enableOfflinePushNotifications
 , Boolean enableOnlinePushNotifications
@@ -56,6 +57,7 @@ public class SettingsApiServiceImpl extends SettingsApiService {
 , Integer desktopIconCountDisplay
 , Boolean realmNameInNotifications
 , Boolean presenceEnabled
+, Boolean enterSends
  ) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();

@@ -30,7 +30,7 @@ import javax.ws.rs.*;
 
 
 @io.swagger.annotations.Api(description = "the streams API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", date = "2021-08-08T20:41:44.271935Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", date = "2021-08-08T21:11:36.575393Z[Etc/UTC]")
 public class StreamsApi  {
    private final StreamsApiService delegate = StreamsApiServiceFactory.getStreamsApi();
 
@@ -47,6 +47,21 @@ public class StreamsApi  {
 )
     throws NotFoundException {
         return delegate.archiveStream(streamId);
+    }
+    @POST
+    @Path("/{stream_id}/delete_topic")
+    
+    @Produces({ "application/json" })
+    @io.swagger.annotations.ApiOperation(value = "Delete a topic", notes = "Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. ", response = JsonSuccess.class, tags={ "streams", })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "Success.", response = JsonSuccess.class),
+        
+        @io.swagger.annotations.ApiResponse(code = 400, message = "Error.", response = JsonSuccess.class) })
+    public Response deleteTopic(@ApiParam(value = "The ID of the stream to access. ",required=true) @PathParam("stream_id") Integer streamId
+,@ApiParam(value = "The name of the topic to delete. ",required=true) @QueryParam("topic_name") String topicName
+)
+    throws NotFoundException {
+        return delegate.deleteTopic(streamId,topicName);
     }
     @GET
     
@@ -66,6 +81,20 @@ public class StreamsApi  {
 )
     throws NotFoundException {
         return delegate.getStreams(includePublic,includeWebPublic,includeSubscribed,includeAllActive,includeDefault,includeOwnerSubscribed);
+    }
+    @GET
+    @Path("/{stream_id}/members")
+    
+    @Produces({ "application/json" })
+    @io.swagger.annotations.ApiOperation(value = "Get the subscribers of a stream", notes = "Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` ", response = JsonSuccessBase.class, tags={ "streams", })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "Success.", response = JsonSuccessBase.class),
+        
+        @io.swagger.annotations.ApiResponse(code = 400, message = "Bad request.", response = JsonSuccessBase.class) })
+    public Response getSubscribers(@ApiParam(value = "The ID of the stream to access. ",required=true) @PathParam("stream_id") Integer streamId
+)
+    throws NotFoundException {
+        return delegate.getSubscribers(streamId);
     }
     @PATCH
     @Path("/{stream_id}")

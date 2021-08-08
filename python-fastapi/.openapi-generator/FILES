@@ -10,6 +10,7 @@ requirements.txt
 setup.cfg
 src/openapi_server/apis/__init__.py
 src/openapi_server/apis/authentication_api.py
+src/openapi_server/apis/drafts_api.py
 src/openapi_server/apis/messages_api.py
 src/openapi_server/apis/real_time_events_api.py
 src/openapi_server/apis/server_and_organizations_api.py
@@ -40,10 +41,13 @@ src/openapi_server/models/coded_error_base.py
 src/openapi_server/models/coded_error_base_all_of.py
 src/openapi_server/models/custom_profile_field.py
 src/openapi_server/models/default_stream_group.py
+src/openapi_server/models/draft.py
+src/openapi_server/models/emoji_base.py
 src/openapi_server/models/emoji_reaction.py
 src/openapi_server/models/emoji_reaction_all_of.py
 src/openapi_server/models/emoji_reaction_base.py
-src/openapi_server/models/emoji_reaction_base_user.py
+src/openapi_server/models/emoji_reaction_base_all_of.py
+src/openapi_server/models/emoji_reaction_base_all_of_user.py
 src/openapi_server/models/extra_models.py
 src/openapi_server/models/get_messages.py
 src/openapi_server/models/get_messages_all_of.py
@@ -85,6 +89,7 @@ src/openapi_server/models/user_not_authorized_error.py
 src/openapi_server/security_api.py
 tests/conftest.py
 tests/test_authentication_api.py
+tests/test_drafts_api.py
 tests/test_messages_api.py
 tests/test_real_time_events_api.py
 tests/test_server_and_organizations_api.py

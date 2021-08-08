@@ -46,6 +46,19 @@ describe "StreamsApi" do
     end
   end
 
+  # unit tests for delete_topic
+  # Delete a topic
+  # Delete all messages in a topic.  &#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+  # @param stream_id The ID of the stream to access. 
+  # @param topic_name The name of the topic to delete. 
+  # @param [Hash] opts the optional parameters
+  # @return [JsonSuccess]
+  describe "delete_topic test" do
+    it "should work" do
+      # assertion here. ref: https://crystal-lang.org/reference/guides/testing.html
+    end
+  end
+
   # unit tests for get_stream_id
   # Get stream ID
   # Get the unique ID of a given stream.  &#x60;GET {{ api_url }}/v1/get_stream_id&#x60; 
@@ -82,6 +95,18 @@ describe "StreamsApi" do
   # @option opts [Bool] :include_owner_subscribed If the user is a bot, include all streams that the bot&#39;s owner is subscribed to. 
   # @return [JsonSuccessBase]
   describe "get_streams test" do
+    it "should work" do
+      # assertion here. ref: https://crystal-lang.org/reference/guides/testing.html
+    end
+  end
+
+  # unit tests for get_subscribers
+  # Get the subscribers of a stream
+  # Get all users subscribed to a stream.  &#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60; 
+  # @param stream_id The ID of the stream to access. 
+  # @param [Hash] opts the optional parameters
+  # @return [JsonSuccessBase]
+  describe "get_subscribers test" do
     it "should work" do
       # assertion here. ref: https://crystal-lang.org/reference/guides/testing.html
     end

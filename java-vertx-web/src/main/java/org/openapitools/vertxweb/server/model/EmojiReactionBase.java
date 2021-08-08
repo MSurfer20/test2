@@ -3,7 +3,9 @@ package org.openapitools.vertxweb.server.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.openapitools.vertxweb.server.model.EmojiReactionBaseUser;
+import org.openapitools.vertxweb.server.model.EmojiBase;
+import org.openapitools.vertxweb.server.model.EmojiReactionBaseAllOf;
+import org.openapitools.vertxweb.server.model.EmojiReactionBaseAllOfUser;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class EmojiReactionBase   {
@@ -12,13 +14,13 @@ public class EmojiReactionBase   {
   private String emojiName;
   private String reactionType;
   private Integer userId;
-  private EmojiReactionBaseUser user;
+  private EmojiReactionBaseAllOfUser user;
 
   public EmojiReactionBase () {
 
   }
 
-  public EmojiReactionBase (String emojiCode, String emojiName, String reactionType, Integer userId, EmojiReactionBaseUser user) {
+  public EmojiReactionBase (String emojiCode, String emojiName, String reactionType, Integer userId, EmojiReactionBaseAllOfUser user) {
     this.emojiCode = emojiCode;
     this.emojiName = emojiName;
     this.reactionType = reactionType;
@@ -64,10 +66,10 @@ public class EmojiReactionBase   {
 
     
   @JsonProperty("user")
-  public EmojiReactionBaseUser getUser() {
+  public EmojiReactionBaseAllOfUser getUser() {
     return user;
   }
-  public void setUser(EmojiReactionBaseUser user) {
+  public void setUser(EmojiReactionBaseAllOfUser user) {
     this.user = user;
   }
 

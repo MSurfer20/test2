@@ -121,6 +121,55 @@ export default class StreamsApi {
     }
 
     /**
+     * Callback function to receive the result of the deleteTopic operation.
+     * @callback module:api/StreamsApi~deleteTopicCallback
+     * @param {String} error Error message, if any.
+     * @param {module:model/JsonSuccess} data The data returned by the service call.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * Delete a topic
+     * Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+     * @param {Number} streamId The ID of the stream to access. 
+     * @param {String} topicName The name of the topic to delete. 
+     * @param {module:api/StreamsApi~deleteTopicCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {@link module:model/JsonSuccess}
+     */
+    deleteTopic(streamId, topicName, callback) {
+      let postBody = null;
+      // verify the required parameter 'streamId' is set
+      if (streamId === undefined || streamId === null) {
+        throw new Error("Missing the required parameter 'streamId' when calling deleteTopic");
+      }
+      // verify the required parameter 'topicName' is set
+      if (topicName === undefined || topicName === null) {
+        throw new Error("Missing the required parameter 'topicName' when calling deleteTopic");
+      }
+
+      let pathParams = {
+        'stream_id': streamId
+      };
+      let queryParams = {
+        'topic_name': topicName
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = [];
+      let accepts = ['application/json'];
+      let returnType = JsonSuccess;
+      return this.apiClient.callApi(
+        '/streams/{stream_id}/delete_topic', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null, callback
+      );
+    }
+
+    /**
      * Callback function to receive the result of the getStreamId operation.
      * @callback module:api/StreamsApi~getStreamIdCallback
      * @param {String} error Error message, if any.
@@ -252,6 +301,49 @@ export default class StreamsApi {
       let returnType = JsonSuccessBase;
       return this.apiClient.callApi(
         '/streams', 'GET',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null, callback
+      );
+    }
+
+    /**
+     * Callback function to receive the result of the getSubscribers operation.
+     * @callback module:api/StreamsApi~getSubscribersCallback
+     * @param {String} error Error message, if any.
+     * @param {module:model/JsonSuccessBase} data The data returned by the service call.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * Get the subscribers of a stream
+     * Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` 
+     * @param {Number} streamId The ID of the stream to access. 
+     * @param {module:api/StreamsApi~getSubscribersCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {@link module:model/JsonSuccessBase}
+     */
+    getSubscribers(streamId, callback) {
+      let postBody = null;
+      // verify the required parameter 'streamId' is set
+      if (streamId === undefined || streamId === null) {
+        throw new Error("Missing the required parameter 'streamId' when calling getSubscribers");
+      }
+
+      let pathParams = {
+        'stream_id': streamId
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = [];
+      let accepts = ['application/json'];
+      let returnType = JsonSuccessBase;
+      return this.apiClient.callApi(
+        '/streams/{stream_id}/members', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, null, callback
       );

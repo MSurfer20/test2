@@ -54,6 +54,18 @@ public class StreamsApiServiceImpl implements StreamsApi {
     }
 
     /**
+     * Delete a topic
+     *
+     * Delete all messages in a topic.  &#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+     *
+     */
+    @Override
+    public JsonSuccess deleteTopic(Integer streamId, String topicName) {
+        // TODO: Implement...
+        return null;
+    }
+
+    /**
      * Get stream ID
      *
      * Get the unique ID of a given stream.  &#x60;GET {{ api_url }}/v1/get_stream_id&#x60; 
@@ -85,6 +97,18 @@ public class StreamsApiServiceImpl implements StreamsApi {
      */
     @Override
     public JsonSuccessBase getStreams(Boolean includePublic, Boolean includeWebPublic, Boolean includeSubscribed, Boolean includeAllActive, Boolean includeDefault, Boolean includeOwnerSubscribed) {
+        // TODO: Implement...
+        return null;
+    }
+
+    /**
+     * Get the subscribers of a stream
+     *
+     * Get all users subscribed to a stream.  &#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60; 
+     *
+     */
+    @Override
+    public JsonSuccessBase getSubscribers(Integer streamId) {
         // TODO: Implement...
         return null;
     }

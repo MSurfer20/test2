@@ -7,7 +7,7 @@
     {
       "name": "emoji_code",
       "type": ["null", "string"],
-      "doc": "A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint. ",
+      "doc": "A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji. ",
       "default": null
     },
     {
@@ -30,7 +30,7 @@
     },
     {
       "name": "user",
-      "type": ["null", "model.EmojiReactionBaseUser"],
+      "type": ["null", "model.EmojiReactionBaseAllOfUser"],
       "doc": "",
       "default": null
     }

@@ -11,11 +11,13 @@
  */
 
 import { RequestFile } from './models';
-import { EmojiReactionBaseUser } from './emojiReactionBaseUser';
+import { EmojiBase } from './emojiBase';
+import { EmojiReactionBaseAllOf } from './emojiReactionBaseAllOf';
+import { EmojiReactionBaseAllOfUser } from './emojiReactionBaseAllOfUser';
 
 export class EmojiReactionBase {
     /**
-    * A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint. 
+    * A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it\'ll be the ID of the realm emoji. 
     */
     'emojiCode'?: string;
     /**
@@ -30,7 +32,7 @@ export class EmojiReactionBase {
     * The ID of the user who added the reaction.  **Changes**: New in Zulip 3.0 (feature level 2). The `user` object is deprecated and will be removed in the future. 
     */
     'userId'?: number;
-    'user'?: EmojiReactionBaseUser;
+    'user'?: EmojiReactionBaseAllOfUser;
 
     static discriminator: string | undefined = undefined;
 
@@ -58,7 +60,7 @@ export class EmojiReactionBase {
         {
             "name": "user",
             "baseName": "user",
-            "type": "EmojiReactionBaseUser"
+            "type": "EmojiReactionBaseAllOfUser"
         }    ];
 
     static getAttributeTypeMap() {

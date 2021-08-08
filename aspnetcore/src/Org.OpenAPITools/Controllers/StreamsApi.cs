@@ -82,6 +82,36 @@ namespace Org.OpenAPITools.Controllers
         }
 
         /// <summary>
+        /// Delete a topic
+        /// </summary>
+        /// <remarks>Delete all messages in a topic.  &#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. </remarks>
+        /// <param name="streamId">The ID of the stream to access. </param>
+        /// <param name="topicName">The name of the topic to delete. </param>
+        /// <response code="200">Success.</response>
+        /// <response code="400">Error.</response>
+        [HttpPost]
+        [Route("/api/v1/streams/{stream_id}/delete_topic")]
+        [ValidateModelState]
+        [SwaggerOperation("DeleteTopic")]
+        [SwaggerResponse(statusCode: 200, type: typeof(JsonSuccess), description: "Success.")]
+        [SwaggerResponse(statusCode: 400, type: typeof(JsonError), description: "Error.")]
+        public virtual IActionResult DeleteTopic([FromRoute (Name = "stream_id")][Required]int streamId, [FromQuery (Name = "topic_name")][Required()]string topicName)
+        { 
+
+            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(200, default(JsonSuccess));
+            //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(400, default(JsonError));
+            string exampleJson = null;
+            
+            var example = exampleJson != null
+            ? JsonConvert.DeserializeObject<JsonSuccess>(exampleJson)
+            : default(JsonSuccess);
+            //TODO: Change the data returned
+            return new ObjectResult(example);
+        }
+
+        /// <summary>
         /// Get stream ID
         /// </summary>
         /// <remarks>Get the unique ID of a given stream.  &#x60;GET {{ api_url }}/v1/get_stream_id&#x60; </remarks>
@@ -164,6 +194,35 @@ namespace Org.OpenAPITools.Controllers
             // return StatusCode(200, default(JsonSuccessBase));
             //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(400, default(CodedError));
+            string exampleJson = null;
+            
+            var example = exampleJson != null
+            ? JsonConvert.DeserializeObject<JsonSuccessBase>(exampleJson)
+            : default(JsonSuccessBase);
+            //TODO: Change the data returned
+            return new ObjectResult(example);
+        }
+
+        /// <summary>
+        /// Get the subscribers of a stream
+        /// </summary>
+        /// <remarks>Get all users subscribed to a stream.  &#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60; </remarks>
+        /// <param name="streamId">The ID of the stream to access. </param>
+        /// <response code="200">Success.</response>
+        /// <response code="400">Bad request.</response>
+        [HttpGet]
+        [Route("/api/v1/streams/{stream_id}/members")]
+        [ValidateModelState]
+        [SwaggerOperation("GetSubscribers")]
+        [SwaggerResponse(statusCode: 200, type: typeof(JsonSuccessBase), description: "Success.")]
+        [SwaggerResponse(statusCode: 400, type: typeof(JsonError), description: "Bad request.")]
+        public virtual IActionResult GetSubscribers([FromRoute (Name = "stream_id")][Required]int streamId)
+        { 
+
+            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(200, default(JsonSuccessBase));
+            //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(400, default(JsonError));
             string exampleJson = null;
             
             var example = exampleJson != null

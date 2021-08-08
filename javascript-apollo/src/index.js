@@ -35,10 +35,13 @@ import CodedErrorBase from './model/CodedErrorBase';
 import CodedErrorBaseAllOf from './model/CodedErrorBaseAllOf';
 import CustomProfileField from './model/CustomProfileField';
 import DefaultStreamGroup from './model/DefaultStreamGroup';
+import Draft from './model/Draft';
+import EmojiBase from './model/EmojiBase';
 import EmojiReaction from './model/EmojiReaction';
 import EmojiReactionAllOf from './model/EmojiReactionAllOf';
 import EmojiReactionBase from './model/EmojiReactionBase';
-import EmojiReactionBaseUser from './model/EmojiReactionBaseUser';
+import EmojiReactionBaseAllOf from './model/EmojiReactionBaseAllOf';
+import EmojiReactionBaseAllOfUser from './model/EmojiReactionBaseAllOfUser';
 import GetMessages from './model/GetMessages';
 import GetMessagesAllOf from './model/GetMessagesAllOf';
 import Hotspot from './model/Hotspot';
@@ -77,6 +80,7 @@ import UserDeactivatedError from './model/UserDeactivatedError';
 import UserGroup from './model/UserGroup';
 import UserNotAuthorizedError from './model/UserNotAuthorizedError';
 import AuthenticationApi from './api/AuthenticationApi';
+import DraftsApi from './api/DraftsApi';
 import MessagesApi from './api/MessagesApi';
 import RealTimeEventsApi from './api/RealTimeEventsApi';
 import ServerAndOrganizationsApi from './api/ServerAndOrganizationsApi';
@@ -256,6 +260,18 @@ export {
     DefaultStreamGroup,
 
     /**
+     * The Draft model constructor.
+     * @property {module:model/Draft}
+     */
+    Draft,
+
+    /**
+     * The EmojiBase model constructor.
+     * @property {module:model/EmojiBase}
+     */
+    EmojiBase,
+
+    /**
      * The EmojiReaction model constructor.
      * @property {module:model/EmojiReaction}
      */
@@ -274,10 +290,16 @@ export {
     EmojiReactionBase,
 
     /**
-     * The EmojiReactionBaseUser model constructor.
-     * @property {module:model/EmojiReactionBaseUser}
+     * The EmojiReactionBaseAllOf model constructor.
+     * @property {module:model/EmojiReactionBaseAllOf}
      */
-    EmojiReactionBaseUser,
+    EmojiReactionBaseAllOf,
+
+    /**
+     * The EmojiReactionBaseAllOfUser model constructor.
+     * @property {module:model/EmojiReactionBaseAllOfUser}
+     */
+    EmojiReactionBaseAllOfUser,
 
     /**
      * The GetMessages model constructor.
@@ -506,6 +528,12 @@ export {
     * @property {module:api/AuthenticationApi}
     */
     AuthenticationApi,
+
+    /**
+    * The DraftsApi service constructor.
+    * @property {module:api/DraftsApi}
+    */
+    DraftsApi,
 
     /**
     * The MessagesApi service constructor.

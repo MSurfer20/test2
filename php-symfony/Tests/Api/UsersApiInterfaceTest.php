@@ -338,33 +338,33 @@ class UsersApiInterfaceTest extends WebTestCase
     }
 
     /**
-     * Test case for updateDisplaySettings
+     * Test case for updateSettings
      *
-     * Update display settings.
+     * Update settings.
      *
      */
-    public function testUpdateDisplaySettings()
+    public function testUpdateSettings()
     {
         $client = static::createClient();
 
-        $path = '/settings/display';
+        $path = '/settings';
 
         $crawler = $client->request('PATCH', $path);
     }
 
     /**
-     * Test case for updateNotificationSettings
+     * Test case for updateStatus
      *
-     * Update notification settings.
+     * Update your status.
      *
      */
-    public function testUpdateNotificationSettings()
+    public function testUpdateStatus()
     {
         $client = static::createClient();
 
-        $path = '/settings/notifications';
+        $path = '/users/me/status';
 
-        $crawler = $client->request('PATCH', $path);
+        $crawler = $client->request('POST', $path);
     }
 
     /**

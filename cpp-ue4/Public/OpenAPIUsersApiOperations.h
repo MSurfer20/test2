@@ -22,6 +22,7 @@
 #include "OpenAPIJsonSuccessBase.h"
 #include "OpenAPIOneOfobjectobject.h"
 #include "OpenAPIOneOfobjectobjectobject.h"
+#include "OpenAPIOneOfobjectobjectobjectobjectobjectobject.h"
 
 namespace OpenAPI 
 {
@@ -458,26 +459,34 @@ public:
     OpenAPIJsonSuccess Content;
 };
 
-/* Update display settings
+/* Update settings
  *
- * This endpoint is used to edit the current user&#39;s user interface settings.  &#x60;PATCH {{ api_url }}/v1/settings/display&#x60; 
+ * This endpoint is used to edit the current user&#39;s settings.  &#x60;PATCH {{ api_url }}/v1/settings&#x60;  **Changes**: Prior to Zulip 5.0 (feature level 80), this endpoint only supported the &#x60;full_name&#x60;, &#x60;email&#x60;, &#x60;old_password&#x60;, and &#x60;new_password&#x60; parameters. Notification settings were managed by &#x60;PATCH /settings/notifications&#x60;, and all other settings by &#x60;PATCH /settings/display&#x60;. The feature level 80 migration to merge these endpoints did not change how request parameters are encoded. Note, however, that it did change the handling of any invalid parameters present in a request to change notification or display settings, since the merged endpoint uses the new response format that was introduced for &#x60;/settings&#x60; in Zulip 5.0 (feature level 78).  The &#x60;/settings/display&#x60; and &#x60;/settings/notifications&#x60; endpoints are now deprecated aliases for this endpoint for backwards-compatibility, and will be removed once clients have migrated to use this endpoint. 
 */
-class OPENAPI_API OpenAPIUsersApi::UpdateDisplaySettingsRequest : public Request
+class OPENAPI_API OpenAPIUsersApi::UpdateSettingsRequest : public Request
 {
 public:
-    virtual ~UpdateDisplaySettingsRequest() {}
+    virtual ~UpdateSettingsRequest() {}
 	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
     
-	/* Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).  */
+	/* A new display name for the user.  */
+	TOptional<FString> FullName;
+	/* Asks the server to initiate a confirmation sequence to change the user's email address to the indicated value. The user will need to demonstrate control of the new email address by clicking a confirmation link sent to that address.  */
+	TOptional<FString> Email;
+	/* The user's old Zulip password (or LDAP password, if LDAP authentication is in use).  Required only when sending the `new_password` parameter.  */
+	TOptional<FString> OldPassword;
+	/* The user's new Zulip password (or LDAP password, if LDAP authentication is in use).  The `old_password` parameter must be included in the request.  */
+	TOptional<FString> NewPassword;
+	/* Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  */
 	TOptional<bool> TwentyFourHourTime;
-	/* This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip.  */
+	/* This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  */
 	TOptional<bool> DenseMode;
-	/* Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages).  */
+	/* Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  */
 	TOptional<bool> StarredMessageCounts;
-	/* Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app's center panel (message feed, recent topics) on wide screens.  */
+	/* Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app's center panel (message feed, recent topics) on wide screens.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  */
 	TOptional<bool> FluidLayoutWidth;
-	/* This setting is reserved for use to control variations in Zulip's design to help visually impaired users.  */
+	/* This setting is reserved for use to control variations in Zulip's design to help visually impaired users.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  */
 	TOptional<bool> HighContrastMode;
 	enum class ColorSchemeEnum
 	{
@@ -488,17 +497,19 @@ public:
 
 	static FString EnumToString(const ColorSchemeEnum& EnumValue);
 	static bool EnumFromString(const FString& EnumAsString, ColorSchemeEnum& EnumValue);
-	/* Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard `prefers-color-scheme` media query.  */
+	/* Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard `prefers-color-scheme` media query.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  */
 	TOptional<ColorSchemeEnum> ColorScheme;
-	/* Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends.  */
+	/* A boolean parameter to control whether synchronizing drafts is enabled for the user. When synchronization is disabled, all drafts stored in the server will be automatically deleted from the server.  This does not do anything (like sending events) to delete local copies of drafts stored in clients.  **Changes**: New in Zulip 5.0 (feature level 87).  */
+	TOptional<bool> EnableDraftsSynchronization;
+	/* Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  */
 	TOptional<bool> TranslateEmoticons;
-	/* What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, `\"en\"` for English or `\"de\"` for German.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63).  */
+	/* What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, `\"en\"` for English or `\"de\"` for German.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63).  */
 	TOptional<FString> DefaultLanguage;
-	/* The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the `Esc` keyboard shortcut repeatedly.  * \"recent_topics\" - Recent topics view * \"all_messages\" - All messages view  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64).  */
+	/* The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the `Esc` keyboard shortcut repeatedly.  * \"recent_topics\" - Recent topics view * \"all_messages\" - All messages view  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).  */
 	TOptional<FString> DefaultView;
-	/* Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.  */
+	/* Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  */
 	TOptional<bool> LeftSideUserlist;
-	/* The user's configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \"google\" - Google modern * \"google-blob\" - Google classic * \"twitter\" - Twitter * \"text\" - Plain text  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64).  */
+	/* The user's configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \"google\" - Google modern * \"google-blob\" - Google classic * \"twitter\" - Twitter * \"text\" - Plain text  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).  */
 	TOptional<FString> Emojiset;
 	enum class DemoteInactiveStreamsEnum
 	{
@@ -509,64 +520,43 @@ public:
 
 	static FString EnumToString(const DemoteInactiveStreamsEnum& EnumValue);
 	static bool EnumFromString(const FString& EnumAsString, DemoteInactiveStreamsEnum& EnumValue);
-	/* Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never  */
+	/* Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  */
 	TOptional<DemoteInactiveStreamsEnum> DemoteInactiveStreams;
-	/* The user's [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64).  */
+	/* The user's [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).  */
 	TOptional<FString> Timezone;
-};
-
-class OPENAPI_API OpenAPIUsersApi::UpdateDisplaySettingsResponse : public Response
-{
-public:
-    virtual ~UpdateDisplaySettingsResponse() {}
-	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
-	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
-    
-    OpenAPIJsonSuccessBase Content;
-};
-
-/* Update notification settings
- *
- * This endpoint is used to edit the user&#39;s global notification settings. See [this endpoint](/api/update-subscription-settings) for per-stream notification settings.  &#x60;PATCH {{ api_url }}/v1/settings/notifications&#x60; 
-*/
-class OPENAPI_API OpenAPIUsersApi::UpdateNotificationSettingsRequest : public Request
-{
-public:
-    virtual ~UpdateNotificationSettingsRequest() {}
-	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
-	FString ComputePath() const final;
-    
-	/* Enable visual desktop notifications for stream messages.  */
+	/* Enable visual desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  */
 	TOptional<bool> EnableStreamDesktopNotifications;
-	/* Enable email notifications for stream messages.  */
+	/* Enable email notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  */
 	TOptional<bool> EnableStreamEmailNotifications;
-	/* Enable mobile notifications for stream messages.  */
+	/* Enable mobile notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  */
 	TOptional<bool> EnableStreamPushNotifications;
-	/* Enable audible desktop notifications for stream messages.  */
+	/* Enable audible desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  */
 	TOptional<bool> EnableStreamAudibleNotifications;
-	/* Notification sound name.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63).  */
+	/* Notification sound name.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63).  */
 	TOptional<FString> NotificationSound;
-	/* Enable visual desktop notifications for private messages and @-mentions.  */
+	/* Enable visual desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  */
 	TOptional<bool> EnableDesktopNotifications;
-	/* Enable audible desktop notifications for private messages and @-mentions.  */
+	/* Enable audible desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  */
 	TOptional<bool> EnableSounds;
-	/* Enable email notifications for private messages and @-mentions received when the user is offline.  */
+	/* The duration (in seconds) for which the server should wait to batch email notifications before sending them.  **Changes**: New in Zulip 5.0 (feature level 82)  */
+	TOptional<int32> EmailNotificationsBatchingPeriodSeconds;
+	/* Enable email notifications for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  */
 	TOptional<bool> EnableOfflineEmailNotifications;
-	/* Enable mobile notification for private messages and @-mentions received when the user is offline.  */
+	/* Enable mobile notification for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  */
 	TOptional<bool> EnableOfflinePushNotifications;
-	/* Enable mobile notification for private messages and @-mentions received when the user is online.  */
+	/* Enable mobile notification for private messages and @-mentions received when the user is online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  */
 	TOptional<bool> EnableOnlinePushNotifications;
-	/* Enable digest emails when the user is away.  */
+	/* Enable digest emails when the user is away.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  */
 	TOptional<bool> EnableDigestEmails;
-	/* Enable marketing emails. Has no function outside Zulip Cloud.  */
+	/* Enable marketing emails. Has no function outside Zulip Cloud.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  */
 	TOptional<bool> EnableMarketingEmails;
-	/* Enable email notifications for new logins to account.  */
+	/* Enable email notifications for new logins to account.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  */
 	TOptional<bool> EnableLoginEmails;
-	/* Include the message's content in email notifications for new messages.  */
+	/* Include the message's content in email notifications for new messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  */
 	TOptional<bool> MessageContentInEmailNotifications;
-	/* Include content of private messages in desktop notifications.  */
+	/* Include content of private messages in desktop notifications.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  */
 	TOptional<bool> PmContentInDesktopNotifications;
-	/* Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention.  */
+	/* Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  */
 	TOptional<bool> WildcardMentionsNotify;
 	enum class DesktopIconCountDisplayEnum
 	{
@@ -577,22 +567,57 @@ public:
 
 	static FString EnumToString(const DesktopIconCountDisplayEnum& EnumValue);
 	static bool EnumFromString(const FString& EnumAsString, DesktopIconCountDisplayEnum& EnumValue);
-	/* Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None  */
+	/* Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  */
 	TOptional<DesktopIconCountDisplayEnum> DesktopIconCountDisplay;
-	/* Include organization name in subject of message notification emails.  */
+	/* Include organization name in subject of message notification emails.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  */
 	TOptional<bool> RealmNameInNotifications;
-	/* Display the presence status to other users when online.  */
+	/* Display the presence status to other users when online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  */
 	TOptional<bool> PresenceEnabled;
+	/* Whether pressing Enter in the compose box sends a message (or saves a message edit).  **Changes**: Before Zulip 5.0 (feature level 81), this setting was managed by the `POST /users/me/enter-sends` endpoint, with the same parameter format.  */
+	TOptional<bool> EnterSends;
 };
 
-class OPENAPI_API OpenAPIUsersApi::UpdateNotificationSettingsResponse : public Response
+class OPENAPI_API OpenAPIUsersApi::UpdateSettingsResponse : public Response
 {
 public:
-    virtual ~UpdateNotificationSettingsResponse() {}
+    virtual ~UpdateSettingsResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
 	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
     
     OpenAPIJsonSuccessBase Content;
+};
+
+/* Update your status
+ *
+ * Change your [status](/help/status-and-availability).  &#x60;POST {{ api_url }}/v1/users/me/status&#x60;  A request to this endpoint will only change the parameters passed. For example, passing just &#x60;status_text&#x60; requests a change in the status text, but will leave the status emoji unchanged.  Clients that wish to set the user&#39;s status to a specific value should pass all supported parameters. 
+*/
+class OPENAPI_API OpenAPIUsersApi::UpdateStatusRequest : public Request
+{
+public:
+    virtual ~UpdateStatusRequest() {}
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
+	FString ComputePath() const final;
+    
+	/* The text content of the status message. Sending the empty string will clear the user's status.  **Note**: The limit on the size of the message is 60 characters.  */
+	TOptional<FString> StatusText;
+	/* Whether the user should be marked as \"away\".  */
+	TOptional<bool> Away;
+	/* The name for the emoji to associate with this status.  */
+	TOptional<FString> EmojiName;
+	/* A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji.  */
+	TOptional<FString> EmojiCode;
+	/* One of the following values:  * `unicode_emoji`: Unicode emoji (`emoji_code` will be its Unicode   codepoint). * `realm_emoji`: [Custom emoji](/help/add-custom-emoji).   (`emoji_code` will be its ID). * `zulip_extra_emoji`: Special emoji included with Zulip.  Exists to   namespace the `zulip` emoji.  */
+	TOptional<FString> ReactionType;
+};
+
+class OPENAPI_API OpenAPIUsersApi::UpdateStatusResponse : public Response
+{
+public:
+    virtual ~UpdateStatusResponse() {}
+	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
+    
+    OpenAPIJsonSuccess Content;
 };
 
 /* Update a user

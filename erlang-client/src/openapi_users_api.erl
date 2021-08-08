@@ -16,8 +16,8 @@
          remove_user_group/2, remove_user_group/3,
          set_typing_status/3, set_typing_status/4,
          unmute_user/2, unmute_user/3,
-         update_display_settings/1, update_display_settings/2,
-         update_notification_settings/1, update_notification_settings/2,
+         update_settings/1, update_settings/2,
+         update_status/1, update_status/2,
          update_user/2, update_user/3,
          update_user_group/4, update_user_group/5,
          update_user_group_members/2, update_user_group_members/3]).
@@ -360,20 +360,20 @@ unmute_user(Ctx, MutedUserId, Optional) ->
 
     openapi_utils:request(Ctx, Method, [?BASE_URL, Path], QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
 
-%% @doc Update display settings
-%% This endpoint is used to edit the current user's user interface settings.  `PATCH {{ api_url }}/v1/settings/display` 
--spec update_display_settings(ctx:ctx()) -> {ok, openapi_json_success_base:openapi_json_success_base(), openapi_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), openapi_utils:response_info()}.
-update_display_settings(Ctx) ->
-    update_display_settings(Ctx, #{}).
+%% @doc Update settings
+%% This endpoint is used to edit the current user's settings.  `PATCH {{ api_url }}/v1/settings`  **Changes**: Prior to Zulip 5.0 (feature level 80), this endpoint only supported the `full_name`, `email`, `old_password`, and `new_password` parameters. Notification settings were managed by `PATCH /settings/notifications`, and all other settings by `PATCH /settings/display`. The feature level 80 migration to merge these endpoints did not change how request parameters are encoded. Note, however, that it did change the handling of any invalid parameters present in a request to change notification or display settings, since the merged endpoint uses the new response format that was introduced for `/settings` in Zulip 5.0 (feature level 78).  The `/settings/display` and `/settings/notifications` endpoints are now deprecated aliases for this endpoint for backwards-compatibility, and will be removed once clients have migrated to use this endpoint. 
+-spec update_settings(ctx:ctx()) -> {ok, openapi_json_success_base:openapi_json_success_base(), openapi_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), openapi_utils:response_info()}.
+update_settings(Ctx) ->
+    update_settings(Ctx, #{}).
 
--spec update_display_settings(ctx:ctx(), maps:map()) -> {ok, openapi_json_success_base:openapi_json_success_base(), openapi_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), openapi_utils:response_info()}.
-update_display_settings(Ctx, Optional) ->
+-spec update_settings(ctx:ctx(), maps:map()) -> {ok, openapi_json_success_base:openapi_json_success_base(), openapi_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), openapi_utils:response_info()}.
+update_settings(Ctx, Optional) ->
     _OptionalParams = maps:get(params, Optional, #{}),
     Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
 
     Method = patch,
-    Path = [<<"/settings/display">>],
-    QS = lists:flatten([])++openapi_utils:optional_params(['twenty_four_hour_time', 'dense_mode', 'starred_message_counts', 'fluid_layout_width', 'high_contrast_mode', 'color_scheme', 'translate_emoticons', 'default_language', 'default_view', 'left_side_userlist', 'emojiset', 'demote_inactive_streams', 'timezone'], _OptionalParams),
+    Path = [<<"/settings">>],
+    QS = lists:flatten([])++openapi_utils:optional_params(['full_name', 'email', 'old_password', 'new_password', 'twenty_four_hour_time', 'dense_mode', 'starred_message_counts', 'fluid_layout_width', 'high_contrast_mode', 'color_scheme', 'enable_drafts_synchronization', 'translate_emoticons', 'default_language', 'default_view', 'left_side_userlist', 'emojiset', 'demote_inactive_streams', 'timezone', 'enable_stream_desktop_notifications', 'enable_stream_email_notifications', 'enable_stream_push_notifications', 'enable_stream_audible_notifications', 'notification_sound', 'enable_desktop_notifications', 'enable_sounds', 'email_notifications_batching_period_seconds', 'enable_offline_email_notifications', 'enable_offline_push_notifications', 'enable_online_push_notifications', 'enable_digest_emails', 'enable_marketing_emails', 'enable_login_emails', 'message_content_in_email_notifications', 'pm_content_in_desktop_notifications', 'wildcard_mentions_notify', 'desktop_icon_count_display', 'realm_name_in_notifications', 'presence_enabled', 'enter_sends'], _OptionalParams),
     Headers = [],
     Body1 = [],
     ContentTypeHeader = openapi_utils:select_header_content_type([]),
@@ -381,20 +381,20 @@ update_display_settings(Ctx, Optional) ->
 
     openapi_utils:request(Ctx, Method, [?BASE_URL, Path], QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
 
-%% @doc Update notification settings
-%% This endpoint is used to edit the user's global notification settings. See [this endpoint](/api/update-subscription-settings) for per-stream notification settings.  `PATCH {{ api_url }}/v1/settings/notifications` 
--spec update_notification_settings(ctx:ctx()) -> {ok, openapi_json_success_base:openapi_json_success_base(), openapi_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), openapi_utils:response_info()}.
-update_notification_settings(Ctx) ->
-    update_notification_settings(Ctx, #{}).
+%% @doc Update your status
+%% Change your [status](/help/status-and-availability).  `POST {{ api_url }}/v1/users/me/status`  A request to this endpoint will only change the parameters passed. For example, passing just `status_text` requests a change in the status text, but will leave the status emoji unchanged.  Clients that wish to set the user's status to a specific value should pass all supported parameters. 
+-spec update_status(ctx:ctx()) -> {ok, openapi_json_success:openapi_json_success(), openapi_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), openapi_utils:response_info()}.
+update_status(Ctx) ->
+    update_status(Ctx, #{}).
 
--spec update_notification_settings(ctx:ctx(), maps:map()) -> {ok, openapi_json_success_base:openapi_json_success_base(), openapi_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), openapi_utils:response_info()}.
-update_notification_settings(Ctx, Optional) ->
+-spec update_status(ctx:ctx(), maps:map()) -> {ok, openapi_json_success:openapi_json_success(), openapi_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), openapi_utils:response_info()}.
+update_status(Ctx, Optional) ->
     _OptionalParams = maps:get(params, Optional, #{}),
     Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
 
-    Method = patch,
-    Path = [<<"/settings/notifications">>],
-    QS = lists:flatten([])++openapi_utils:optional_params(['enable_stream_desktop_notifications', 'enable_stream_email_notifications', 'enable_stream_push_notifications', 'enable_stream_audible_notifications', 'notification_sound', 'enable_desktop_notifications', 'enable_sounds', 'enable_offline_email_notifications', 'enable_offline_push_notifications', 'enable_online_push_notifications', 'enable_digest_emails', 'enable_marketing_emails', 'enable_login_emails', 'message_content_in_email_notifications', 'pm_content_in_desktop_notifications', 'wildcard_mentions_notify', 'desktop_icon_count_display', 'realm_name_in_notifications', 'presence_enabled'], _OptionalParams),
+    Method = post,
+    Path = [<<"/users/me/status">>],
+    QS = lists:flatten([])++openapi_utils:optional_params(['status_text', 'away', 'emoji_name', 'emoji_code', 'reaction_type'], _OptionalParams),
     Headers = [],
     Body1 = [],
     ContentTypeHeader = openapi_utils:select_header_content_type([]),

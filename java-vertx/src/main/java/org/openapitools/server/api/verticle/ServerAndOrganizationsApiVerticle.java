@@ -19,18 +19,18 @@ import java.util.Map;
 public class ServerAndOrganizationsApiVerticle extends AbstractVerticle {
     static final Logger LOGGER = LoggerFactory.getLogger(ServerAndOrganizationsApiVerticle.class);
     
-    static final String ADD_CODE_PLAYGROUND_SERVICE_ID = "add_code_playground";
-    static final String ADD_LINKIFIER_SERVICE_ID = "add_linkifier";
-    static final String CREATE_CUSTOM_PROFILE_FIELD_SERVICE_ID = "create_custom_profile_field";
-    static final String GET_CUSTOM_EMOJI_SERVICE_ID = "get_custom_emoji";
-    static final String GET_CUSTOM_PROFILE_FIELDS_SERVICE_ID = "get_custom_profile_fields";
-    static final String GET_LINKIFIERS_SERVICE_ID = "get_linkifiers";
-    static final String GET_SERVER_SETTINGS_SERVICE_ID = "get_server_settings";
-    static final String REMOVE_CODE_PLAYGROUND_SERVICE_ID = "remove_code_playground";
-    static final String REMOVE_LINKIFIER_SERVICE_ID = "remove_linkifier";
-    static final String REORDER_CUSTOM_PROFILE_FIELDS_SERVICE_ID = "reorder_custom_profile_fields";
-    static final String UPDATE_LINKIFIER_SERVICE_ID = "update_linkifier";
-    static final String UPLOAD_CUSTOM_EMOJI_SERVICE_ID = "upload_custom_emoji";
+    static final String ADD-CODE-PLAYGROUND_SERVICE_ID = "add-code-playground";
+    static final String ADD-LINKIFIER_SERVICE_ID = "add-linkifier";
+    static final String CREATE-CUSTOM-PROFILE-FIELD_SERVICE_ID = "create-custom-profile-field";
+    static final String GET-CUSTOM-EMOJI_SERVICE_ID = "get-custom-emoji";
+    static final String GET-CUSTOM-PROFILE-FIELDS_SERVICE_ID = "get-custom-profile-fields";
+    static final String GET-LINKIFIERS_SERVICE_ID = "get-linkifiers";
+    static final String GET-SERVER-SETTINGS_SERVICE_ID = "get-server-settings";
+    static final String REMOVE-CODE-PLAYGROUND_SERVICE_ID = "remove-code-playground";
+    static final String REMOVE-LINKIFIER_SERVICE_ID = "remove-linkifier";
+    static final String REORDER-CUSTOM-PROFILE-FIELDS_SERVICE_ID = "reorder-custom-profile-fields";
+    static final String UPDATE-LINKIFIER_SERVICE_ID = "update-linkifier";
+    static final String UPLOAD-CUSTOM-EMOJI_SERVICE_ID = "upload-custom-emoji";
     
     final ServerAndOrganizationsApi service;
 
@@ -47,11 +47,11 @@ public class ServerAndOrganizationsApiVerticle extends AbstractVerticle {
     @Override
     public void start() throws Exception {
         
-        //Consumer for add_code_playground
-        vertx.eventBus().<JsonObject> consumer(ADD_CODE_PLAYGROUND_SERVICE_ID).handler(message -> {
+        //Consumer for add-code-playground
+        vertx.eventBus().<JsonObject> consumer(ADD-CODE-PLAYGROUND_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "add_code_playground";
+                String serviceId = "add-code-playground";
                 String nameParam = message.body().getString("name");
                 if(nameParam == null) {
                     manageError(message, new MainApiException(400, "name is required"), serviceId);
@@ -75,20 +75,20 @@ public class ServerAndOrganizationsApiVerticle extends AbstractVerticle {
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "add_code_playground");
+                        manageError(message, cause, "add-code-playground");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("add_code_playground", e);
+                logUnexpectedError("add-code-playground", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for add_linkifier
-        vertx.eventBus().<JsonObject> consumer(ADD_LINKIFIER_SERVICE_ID).handler(message -> {
+        //Consumer for add-linkifier
+        vertx.eventBus().<JsonObject> consumer(ADD-LINKIFIER_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "add_linkifier";
+                String serviceId = "add-linkifier";
                 String patternParam = message.body().getString("pattern");
                 if(patternParam == null) {
                     manageError(message, new MainApiException(400, "pattern is required"), serviceId);
@@ -106,20 +106,20 @@ public class ServerAndOrganizationsApiVerticle extends AbstractVerticle {
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "add_linkifier");
+                        manageError(message, cause, "add-linkifier");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("add_linkifier", e);
+                logUnexpectedError("add-linkifier", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for create_custom_profile_field
-        vertx.eventBus().<JsonObject> consumer(CREATE_CUSTOM_PROFILE_FIELD_SERVICE_ID).handler(message -> {
+        //Consumer for create-custom-profile-field
+        vertx.eventBus().<JsonObject> consumer(CREATE-CUSTOM-PROFILE-FIELD_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "create_custom_profile_field";
+                String serviceId = "create-custom-profile-field";
                 String fieldTypeParam = message.body().getString("field_type");
                 if(fieldTypeParam == null) {
                     manageError(message, new MainApiException(400, "field_type is required"), serviceId);
@@ -141,96 +141,96 @@ public class ServerAndOrganizationsApiVerticle extends AbstractVerticle {
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "create_custom_profile_field");
+                        manageError(message, cause, "create-custom-profile-field");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("create_custom_profile_field", e);
+                logUnexpectedError("create-custom-profile-field", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for get_custom_emoji
-        vertx.eventBus().<JsonObject> consumer(GET_CUSTOM_EMOJI_SERVICE_ID).handler(message -> {
+        //Consumer for get-custom-emoji
+        vertx.eventBus().<JsonObject> consumer(GET-CUSTOM-EMOJI_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "get_custom_emoji";
+                String serviceId = "get-custom-emoji";
                 service.getCustomEmoji(result -> {
                     if (result.succeeded())
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "get_custom_emoji");
+                        manageError(message, cause, "get-custom-emoji");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("get_custom_emoji", e);
+                logUnexpectedError("get-custom-emoji", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for get_custom_profile_fields
-        vertx.eventBus().<JsonObject> consumer(GET_CUSTOM_PROFILE_FIELDS_SERVICE_ID).handler(message -> {
+        //Consumer for get-custom-profile-fields
+        vertx.eventBus().<JsonObject> consumer(GET-CUSTOM-PROFILE-FIELDS_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "get_custom_profile_fields";
+                String serviceId = "get-custom-profile-fields";
                 service.getCustomProfileFields(result -> {
                     if (result.succeeded())
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "get_custom_profile_fields");
+                        manageError(message, cause, "get-custom-profile-fields");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("get_custom_profile_fields", e);
+                logUnexpectedError("get-custom-profile-fields", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for get_linkifiers
-        vertx.eventBus().<JsonObject> consumer(GET_LINKIFIERS_SERVICE_ID).handler(message -> {
+        //Consumer for get-linkifiers
+        vertx.eventBus().<JsonObject> consumer(GET-LINKIFIERS_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "get_linkifiers";
+                String serviceId = "get-linkifiers";
                 service.getLinkifiers(result -> {
                     if (result.succeeded())
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "get_linkifiers");
+                        manageError(message, cause, "get-linkifiers");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("get_linkifiers", e);
+                logUnexpectedError("get-linkifiers", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for get_server_settings
-        vertx.eventBus().<JsonObject> consumer(GET_SERVER_SETTINGS_SERVICE_ID).handler(message -> {
+        //Consumer for get-server-settings
+        vertx.eventBus().<JsonObject> consumer(GET-SERVER-SETTINGS_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "get_server_settings";
+                String serviceId = "get-server-settings";
                 service.getServerSettings(result -> {
                     if (result.succeeded())
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "get_server_settings");
+                        manageError(message, cause, "get-server-settings");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("get_server_settings", e);
+                logUnexpectedError("get-server-settings", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for remove_code_playground
-        vertx.eventBus().<JsonObject> consumer(REMOVE_CODE_PLAYGROUND_SERVICE_ID).handler(message -> {
+        //Consumer for remove-code-playground
+        vertx.eventBus().<JsonObject> consumer(REMOVE-CODE-PLAYGROUND_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "remove_code_playground";
+                String serviceId = "remove-code-playground";
                 String playgroundIdParam = message.body().getString("playground_id");
                 if(playgroundIdParam == null) {
                     manageError(message, new MainApiException(400, "playground_id is required"), serviceId);
@@ -242,20 +242,20 @@ public class ServerAndOrganizationsApiVerticle extends AbstractVerticle {
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "remove_code_playground");
+                        manageError(message, cause, "remove-code-playground");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("remove_code_playground", e);
+                logUnexpectedError("remove-code-playground", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for remove_linkifier
-        vertx.eventBus().<JsonObject> consumer(REMOVE_LINKIFIER_SERVICE_ID).handler(message -> {
+        //Consumer for remove-linkifier
+        vertx.eventBus().<JsonObject> consumer(REMOVE-LINKIFIER_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "remove_linkifier";
+                String serviceId = "remove-linkifier";
                 String filterIdParam = message.body().getString("filter_id");
                 if(filterIdParam == null) {
                     manageError(message, new MainApiException(400, "filter_id is required"), serviceId);
@@ -267,20 +267,20 @@ public class ServerAndOrganizationsApiVerticle extends AbstractVerticle {
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "remove_linkifier");
+                        manageError(message, cause, "remove-linkifier");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("remove_linkifier", e);
+                logUnexpectedError("remove-linkifier", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for reorder_custom_profile_fields
-        vertx.eventBus().<JsonObject> consumer(REORDER_CUSTOM_PROFILE_FIELDS_SERVICE_ID).handler(message -> {
+        //Consumer for reorder-custom-profile-fields
+        vertx.eventBus().<JsonObject> consumer(REORDER-CUSTOM-PROFILE-FIELDS_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "reorder_custom_profile_fields";
+                String serviceId = "reorder-custom-profile-fields";
                 JsonArray orderParam = message.body().getJsonArray("order");
                 if(orderParam == null) {
                     manageError(message, new MainApiException(400, "order is required"), serviceId);
@@ -293,20 +293,20 @@ public class ServerAndOrganizationsApiVerticle extends AbstractVerticle {
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "reorder_custom_profile_fields");
+                        manageError(message, cause, "reorder-custom-profile-fields");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("reorder_custom_profile_fields", e);
+                logUnexpectedError("reorder-custom-profile-fields", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for update_linkifier
-        vertx.eventBus().<JsonObject> consumer(UPDATE_LINKIFIER_SERVICE_ID).handler(message -> {
+        //Consumer for update-linkifier
+        vertx.eventBus().<JsonObject> consumer(UPDATE-LINKIFIER_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "update_linkifier";
+                String serviceId = "update-linkifier";
                 String filterIdParam = message.body().getString("filter_id");
                 if(filterIdParam == null) {
                     manageError(message, new MainApiException(400, "filter_id is required"), serviceId);
@@ -330,20 +330,20 @@ public class ServerAndOrganizationsApiVerticle extends AbstractVerticle {
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "update_linkifier");
+                        manageError(message, cause, "update-linkifier");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("update_linkifier", e);
+                logUnexpectedError("update-linkifier", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for upload_custom_emoji
-        vertx.eventBus().<JsonObject> consumer(UPLOAD_CUSTOM_EMOJI_SERVICE_ID).handler(message -> {
+        //Consumer for upload-custom-emoji
+        vertx.eventBus().<JsonObject> consumer(UPLOAD-CUSTOM-EMOJI_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "upload_custom_emoji";
+                String serviceId = "upload-custom-emoji";
                 String emojiNameParam = message.body().getString("emoji_name");
                 if(emojiNameParam == null) {
                     manageError(message, new MainApiException(400, "emoji_name is required"), serviceId);
@@ -357,11 +357,11 @@ public class ServerAndOrganizationsApiVerticle extends AbstractVerticle {
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "upload_custom_emoji");
+                        manageError(message, cause, "upload-custom-emoji");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("upload_custom_emoji", e);
+                logUnexpectedError("upload-custom-emoji", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });

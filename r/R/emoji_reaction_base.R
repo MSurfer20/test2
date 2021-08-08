@@ -21,7 +21,7 @@
 #'
 #' @field user_id  integer [optional]
 #'
-#' @field user  \link{EmojiReactionBaseUser} [optional]
+#' @field user  \link{EmojiReactionBaseAllOfUser} [optional]
 #'
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -99,7 +99,7 @@ EmojiReactionBase <- R6::R6Class(
         self$`user_id` <- EmojiReactionBaseObject$`user_id`
       }
       if (!is.null(EmojiReactionBaseObject$`user`)) {
-        userObject <- EmojiReactionBaseUser$new()
+        userObject <- EmojiReactionBaseAllOfUser$new()
         userObject$fromJSON(jsonlite::toJSON(EmojiReactionBaseObject$user, auto_unbox = TRUE, digits = NA))
         self$`user` <- userObject
       }
@@ -152,7 +152,7 @@ EmojiReactionBase <- R6::R6Class(
       self$`emoji_name` <- EmojiReactionBaseObject$`emoji_name`
       self$`reaction_type` <- EmojiReactionBaseObject$`reaction_type`
       self$`user_id` <- EmojiReactionBaseObject$`user_id`
-      self$`user` <- EmojiReactionBaseUser$new()$fromJSON(jsonlite::toJSON(EmojiReactionBaseObject$user, auto_unbox = TRUE, digits = NA))
+      self$`user` <- EmojiReactionBaseAllOfUser$new()$fromJSON(jsonlite::toJSON(EmojiReactionBaseObject$user, auto_unbox = TRUE, digits = NA))
       self
     }
   )

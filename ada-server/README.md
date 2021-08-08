@@ -76,6 +76,10 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**Dev_Fetch_Api_Key**](AuthenticationApi.md#Dev_Fetch_Api_Key) | **POST** /dev_fetch_api_key | Fetch an API key (development only)
 [**Fetch_Api_Key**](AuthenticationApi.md#Fetch_Api_Key) | **POST** /fetch_api_key | Fetch an API key (production)
+[**Create_Drafts**](DraftsApi.md#Create_Drafts) | **POST** /drafts | Create drafts
+[**Delete_Draft**](DraftsApi.md#Delete_Draft) | **DELETE** /drafts/{draft_id} | Delete a draft
+[**Edit_Draft**](DraftsApi.md#Edit_Draft) | **PATCH** /drafts/{draft_id} | Edit a draft
+[**Get_Drafts**](DraftsApi.md#Get_Drafts) | **GET** /drafts | Get drafts
 [**Add_Reaction**](MessagesApi.md#Add_Reaction) | **POST** /messages/{message_id}/reactions | Add an emoji reaction
 [**Check_Messages_Match_Narrow**](MessagesApi.md#Check_Messages_Match_Narrow) | **GET** /messages/matches_narrow | Check if messages match a narrow
 [**Delete_Message**](MessagesApi.md#Delete_Message) | **DELETE** /messages/{message_id} | Delete a message
@@ -111,9 +115,11 @@ Method | HTTP request | Description
 [**Upload_Custom_Emoji**](ServerAndOrganizationsApi.md#Upload_Custom_Emoji) | **POST** /realm/emoji/{emoji_name} | Upload custom emoji
 [**Archive_Stream**](StreamsApi.md#Archive_Stream) | **DELETE** /streams/{stream_id} | Archive a stream
 [**Create_Big_Blue_Button_Video_Call**](StreamsApi.md#Create_Big_Blue_Button_Video_Call) | **GET** /calls/bigbluebutton/create | Create BigBlueButton video call
+[**Delete_Topic**](StreamsApi.md#Delete_Topic) | **POST** /streams/{stream_id}/delete_topic | Delete a topic
 [**Get_Stream_Id**](StreamsApi.md#Get_Stream_Id) | **GET** /get_stream_id | Get stream ID
 [**Get_Stream_Topics**](StreamsApi.md#Get_Stream_Topics) | **GET** /users/me/{stream_id}/topics | Get topics in a stream
 [**Get_Streams**](StreamsApi.md#Get_Streams) | **GET** /streams | Get all streams
+[**Get_Subscribers**](StreamsApi.md#Get_Subscribers) | **GET** /streams/{stream_id}/members | Get the subscribers of a stream
 [**Get_Subscription_Status**](StreamsApi.md#Get_Subscription_Status) | **GET** /users/{user_id}/subscriptions/{stream_id} | Get subscription status
 [**Get_Subscriptions**](StreamsApi.md#Get_Subscriptions) | **GET** /users/me/subscriptions | Get subscribed streams
 [**Mute_Topic**](StreamsApi.md#Mute_Topic) | **PATCH** /users/me/subscriptions/muted_topics | Topic muting
@@ -138,8 +144,8 @@ Method | HTTP request | Description
 [**Remove_User_Group**](UsersApi.md#Remove_User_Group) | **DELETE** /user_groups/{user_group_id} | Delete a user group
 [**Set_Typing_Status**](UsersApi.md#Set_Typing_Status) | **POST** /typing | Set \"typing\" status
 [**Unmute_User**](UsersApi.md#Unmute_User) | **DELETE** /users/me/muted_users/{muted_user_id} | Unmute a user
-[**Update_Display_Settings**](UsersApi.md#Update_Display_Settings) | **PATCH** /settings/display | Update display settings
-[**Update_Notification_Settings**](UsersApi.md#Update_Notification_Settings) | **PATCH** /settings/notifications | Update notification settings
+[**Update_Settings**](UsersApi.md#Update_Settings) | **PATCH** /settings | Update settings
+[**Update_Status**](UsersApi.md#Update_Status) | **POST** /users/me/status | Update your status
 [**Update_User**](UsersApi.md#Update_User) | **PATCH** /users/{user_id} | Update a user
 [**Update_User_Group**](UsersApi.md#Update_User_Group) | **PATCH** /user_groups/{user_group_id} | Update a user group
 [**Update_User_Group_Members**](UsersApi.md#Update_User_Group_Members) | **POST** /user_groups/{user_group_id}/members | Update user group members
@@ -170,8 +176,11 @@ Method | HTTP request | Description
  - [.Models.CodedError_Type](CodedError_Type.md)
  - [.Models.CustomProfileField_Type](CustomProfileField_Type.md)
  - [.Models.DefaultStreamGroup_Type](DefaultStreamGroup_Type.md)
+ - [.Models.Draft_Type](Draft_Type.md)
+ - [.Models.EmojiBase_Type](EmojiBase_Type.md)
  - [.Models.EmojiReactionAllOf_Type](EmojiReactionAllOf_Type.md)
- - [.Models.EmojiReactionBaseUser_Type](EmojiReactionBaseUser_Type.md)
+ - [.Models.EmojiReactionBaseAllOfUser_Type](EmojiReactionBaseAllOfUser_Type.md)
+ - [.Models.EmojiReactionBaseAllOf_Type](EmojiReactionBaseAllOf_Type.md)
  - [.Models.EmojiReactionBase_Type](EmojiReactionBase_Type.md)
  - [.Models.EmojiReaction_Type](EmojiReaction_Type.md)
  - [.Models.GetMessagesAllOf_Type](GetMessagesAllOf_Type.md)

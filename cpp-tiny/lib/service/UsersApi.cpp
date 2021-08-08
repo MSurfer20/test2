@@ -736,7 +736,19 @@ using namespace Tiny;
             JsonSuccessBase
         >
         UsersApi::
-        updateDisplaySettings(
+        updateSettings(
+            
+            std::string fullName
+            , 
+            
+            std::string email
+            , 
+            
+            std::string oldPassword
+            , 
+            
+            std::string newPassword
+            , 
             
             bool twentyFourHourTime
             , 
@@ -754,6 +766,9 @@ using namespace Tiny;
             , 
             
             int colorScheme
+            , 
+            
+            bool enableDraftsSynchronization
             , 
             
             bool translateEmoticons
@@ -775,44 +790,7 @@ using namespace Tiny;
             , 
             
             std::string timezone
-            
-        )
-        {
-            std::string url = basepath + "/settings/display"; //
-            // Query    | twentyFourHourTime denseMode starredMessageCounts fluidLayoutWidth highContrastMode colorScheme translateEmoticons defaultLanguage defaultView leftSideUserlist emojiset demoteInactiveStreams timezone 
-            // Headers  | 
-            // Form     | 
-            // Body     | 
-
-
-            begin(url);
-
-            std::string payload = "";
-            // Send Request
-            // METHOD | PATCH
-            int httpCode = http.sendRequest("PATCH", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
-
-            // Handle Request
-            String output = http.getString();
-            std::string output_string = output.c_str();
-
-            http.end();
-
-
-
-
-            JsonSuccessBase obj(output_string);
-
-
-            Response<JsonSuccessBase> response(obj, httpCode);
-            return response;
-        }
-
-        Response<
-            JsonSuccessBase
-        >
-        UsersApi::
-        updateNotificationSettings(
+            , 
             
             bool enableStreamDesktopNotifications
             , 
@@ -833,6 +811,9 @@ using namespace Tiny;
             , 
             
             bool enableSounds
+            , 
+            
+            int emailNotificationsBatchingPeriodSeconds
             , 
             
             bool enableOfflineEmailNotifications
@@ -869,11 +850,14 @@ using namespace Tiny;
             , 
             
             bool presenceEnabled
+            , 
+            
+            bool enterSends
             
         )
         {
-            std::string url = basepath + "/settings/notifications"; //
-            // Query    | enableStreamDesktopNotifications enableStreamEmailNotifications enableStreamPushNotifications enableStreamAudibleNotifications notificationSound enableDesktopNotifications enableSounds enableOfflineEmailNotifications enableOfflinePushNotifications enableOnlinePushNotifications enableDigestEmails enableMarketingEmails enableLoginEmails messageContentInEmailNotifications pmContentInDesktopNotifications wildcardMentionsNotify desktopIconCountDisplay realmNameInNotifications presenceEnabled 
+            std::string url = basepath + "/settings"; //
+            // Query    | fullName email oldPassword newPassword twentyFourHourTime denseMode starredMessageCounts fluidLayoutWidth highContrastMode colorScheme enableDraftsSynchronization translateEmoticons defaultLanguage defaultView leftSideUserlist emojiset demoteInactiveStreams timezone enableStreamDesktopNotifications enableStreamEmailNotifications enableStreamPushNotifications enableStreamAudibleNotifications notificationSound enableDesktopNotifications enableSounds emailNotificationsBatchingPeriodSeconds enableOfflineEmailNotifications enableOfflinePushNotifications enableOnlinePushNotifications enableDigestEmails enableMarketingEmails enableLoginEmails messageContentInEmailNotifications pmContentInDesktopNotifications wildcardMentionsNotify desktopIconCountDisplay realmNameInNotifications presenceEnabled enterSends 
             // Headers  | 
             // Form     | 
             // Body     | 
@@ -899,6 +883,58 @@ using namespace Tiny;
 
 
             Response<JsonSuccessBase> response(obj, httpCode);
+            return response;
+        }
+
+        Response<
+            JsonSuccess
+        >
+        UsersApi::
+        updateStatus(
+            
+            std::string statusText
+            , 
+            
+            bool away
+            , 
+            
+            std::string emojiName
+            , 
+            
+            std::string emojiCode
+            , 
+            
+            std::string reactionType
+            
+        )
+        {
+            std::string url = basepath + "/users/me/status"; //
+            // Query    | statusText away emojiName emojiCode reactionType 
+            // Headers  | 
+            // Form     | 
+            // Body     | 
+
+
+            begin(url);
+
+            std::string payload = "";
+            // Send Request
+            // METHOD | POST
+            int httpCode = http.sendRequest("POST", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
+
+            // Handle Request
+            String output = http.getString();
+            std::string output_string = output.c_str();
+
+            http.end();
+
+
+
+
+            JsonSuccess obj(output_string);
+
+
+            Response<JsonSuccess> response(obj, httpCode);
             return response;
         }
 

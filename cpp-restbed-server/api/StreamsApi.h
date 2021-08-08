@@ -111,6 +111,36 @@ private:
 };
 
 /// <summary>
+/// Delete a topic
+/// </summary>
+/// <remarks>
+/// Delete all messages in a topic.  &#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+/// </remarks>
+class  StreamsApiStreamsStream_idDelete_topicResource: public restbed::Resource
+{
+public:
+	StreamsApiStreamsStream_idDelete_topicResource();
+    virtual ~StreamsApiStreamsStream_idDelete_topicResource();
+    void POST_method_handler(const std::shared_ptr<restbed::Session> session);
+
+	void set_handler_POST(
+		std::function<std::pair<int, std::string>(
+			int32_t const &, std::string const &
+		)> handler
+	);
+
+
+private:
+	std::function<std::pair<int, std::string>(
+		int32_t const &, std::string const &
+	)> handler_POST_;
+
+
+	int32_t streamId{};
+	std::string topicName{};
+};
+
+/// <summary>
 /// Get stream ID
 /// </summary>
 /// <remarks>
@@ -200,6 +230,35 @@ private:
 	bool includeAllActive{};
 	bool includeDefault{};
 	bool includeOwnerSubscribed{};
+};
+
+/// <summary>
+/// Get the subscribers of a stream
+/// </summary>
+/// <remarks>
+/// Get all users subscribed to a stream.  &#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60; 
+/// </remarks>
+class  StreamsApiStreamsStream_idMembersResource: public restbed::Resource
+{
+public:
+	StreamsApiStreamsStream_idMembersResource();
+    virtual ~StreamsApiStreamsStream_idMembersResource();
+    void GET_method_handler(const std::shared_ptr<restbed::Session> session);
+
+	void set_handler_GET(
+		std::function<std::pair<int, std::string>(
+			int32_t const &
+		)> handler
+	);
+
+
+private:
+	std::function<std::pair<int, std::string>(
+		int32_t const &
+	)> handler_GET_;
+
+
+	int32_t streamId{};
 };
 
 /// <summary>
@@ -346,9 +405,11 @@ public:
 protected:
 	std::shared_ptr<StreamsApiStreamsStream_idResource> m_spStreamsApiStreamsStream_idResource;
 	std::shared_ptr<StreamsApiCallsBigbluebuttonCreateResource> m_spStreamsApiCallsBigbluebuttonCreateResource;
+	std::shared_ptr<StreamsApiStreamsStream_idDelete_topicResource> m_spStreamsApiStreamsStream_idDelete_topicResource;
 	std::shared_ptr<StreamsApiGet_stream_idResource> m_spStreamsApiGet_stream_idResource;
 	std::shared_ptr<StreamsApiUsersMeStream_idTopicsResource> m_spStreamsApiUsersMeStream_idTopicsResource;
 	std::shared_ptr<StreamsApiStreamsResource> m_spStreamsApiStreamsResource;
+	std::shared_ptr<StreamsApiStreamsStream_idMembersResource> m_spStreamsApiStreamsStream_idMembersResource;
 	std::shared_ptr<StreamsApiUsersUser_idSubscriptionsStream_idResource> m_spStreamsApiUsersUser_idSubscriptionsStream_idResource;
 	std::shared_ptr<StreamsApiUsersMeSubscriptionsResource> m_spStreamsApiUsersMeSubscriptionsResource;
 	std::shared_ptr<StreamsApiUsersMeSubscriptionsMuted_topicsResource> m_spStreamsApiUsersMeSubscriptionsMuted_topicsResource;

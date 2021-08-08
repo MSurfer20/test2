@@ -6,9 +6,11 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**ArchiveStream**](StreamsApi.md#ArchiveStream) | **DELETE** /streams/{stream_id} | Archive a stream
 [**CreateBigBlueButtonVideoCall**](StreamsApi.md#CreateBigBlueButtonVideoCall) | **GET** /calls/bigbluebutton/create | Create BigBlueButton video call
+[**DeleteTopic**](StreamsApi.md#DeleteTopic) | **POST** /streams/{stream_id}/delete_topic | Delete a topic
 [**GetStreamId**](StreamsApi.md#GetStreamId) | **GET** /get_stream_id | Get stream ID
 [**GetStreamTopics**](StreamsApi.md#GetStreamTopics) | **GET** /users/me/{stream_id}/topics | Get topics in a stream
 [**GetStreams**](StreamsApi.md#GetStreams) | **GET** /streams | Get all streams
+[**GetSubscribers**](StreamsApi.md#GetSubscribers) | **GET** /streams/{stream_id}/members | Get the subscribers of a stream
 [**GetSubscriptionStatus**](StreamsApi.md#GetSubscriptionStatus) | **GET** /users/{user_id}/subscriptions/{stream_id} | Get subscription status
 [**GetSubscriptions**](StreamsApi.md#GetSubscriptions) | **GET** /users/me/subscriptions | Get subscribed streams
 [**MuteTopic**](StreamsApi.md#MuteTopic) | **PATCH** /users/me/subscriptions/muted_topics | Topic muting
@@ -101,6 +103,52 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Success. |  -  |
+
+# **DeleteTopic**
+> JsonSuccess DeleteTopic(stream.id, topic.name)
+
+Delete a topic
+
+Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+
+### Example
+```R
+library(openapi)
+
+var.stream.id <- 1 # integer | The ID of the stream to access. 
+var.topic.name <- 'new coffee machine' # character | The name of the topic to delete. 
+
+#Delete a topic
+api.instance <- StreamsApi$new()
+result <- api.instance$DeleteTopic(var.stream.id, var.topic.name)
+dput(result)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **stream.id** | **integer**| The ID of the stream to access.  | 
+ **topic.name** | **character**| The name of the topic to delete.  | 
+
+### Return type
+
+[**JsonSuccess**](JsonSuccess.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Success. |  -  |
+| **400** | Error. |  -  |
 
 # **GetStreamId**
 > JsonSuccessBase GetStreamId(stream)
@@ -224,6 +272,50 @@ Name | Type | Description  | Notes
  **include.all.active** | **character**| Include all active streams. The user must have administrative privileges to use this parameter.  | [optional] [default to FALSE]
  **include.default** | **character**| Include all default streams for the user&#39;s realm.  | [optional] [default to FALSE]
  **include.owner.subscribed** | **character**| If the user is a bot, include all streams that the bot&#39;s owner is subscribed to.  | [optional] [default to FALSE]
+
+### Return type
+
+[**JsonSuccessBase**](JsonSuccessBase.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Success. |  -  |
+| **400** | Bad request. |  -  |
+
+# **GetSubscribers**
+> JsonSuccessBase GetSubscribers(stream.id)
+
+Get the subscribers of a stream
+
+Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` 
+
+### Example
+```R
+library(openapi)
+
+var.stream.id <- 1 # integer | The ID of the stream to access. 
+
+#Get the subscribers of a stream
+api.instance <- StreamsApi$new()
+result <- api.instance$GetSubscribers(var.stream.id)
+dput(result)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **stream.id** | **integer**| The ID of the stream to access.  | 
 
 ### Return type
 

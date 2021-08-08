@@ -6,9 +6,11 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**StreamsAPI_archiveStream**](StreamsAPI.md#StreamsAPI_archiveStream) | **DELETE** /streams/{stream_id} | Archive a stream
 [**StreamsAPI_createBigBlueButtonVideoCall**](StreamsAPI.md#StreamsAPI_createBigBlueButtonVideoCall) | **GET** /calls/bigbluebutton/create | Create BigBlueButton video call
+[**StreamsAPI_deleteTopic**](StreamsAPI.md#StreamsAPI_deleteTopic) | **POST** /streams/{stream_id}/delete_topic | Delete a topic
 [**StreamsAPI_getStreamId**](StreamsAPI.md#StreamsAPI_getStreamId) | **GET** /get_stream_id | Get stream ID
 [**StreamsAPI_getStreamTopics**](StreamsAPI.md#StreamsAPI_getStreamTopics) | **GET** /users/me/{stream_id}/topics | Get topics in a stream
 [**StreamsAPI_getStreams**](StreamsAPI.md#StreamsAPI_getStreams) | **GET** /streams | Get all streams
+[**StreamsAPI_getSubscribers**](StreamsAPI.md#StreamsAPI_getSubscribers) | **GET** /streams/{stream_id}/members | Get the subscribers of a stream
 [**StreamsAPI_getSubscriptionStatus**](StreamsAPI.md#StreamsAPI_getSubscriptionStatus) | **GET** /users/{user_id}/subscriptions/{stream_id} | Get subscription status
 [**StreamsAPI_getSubscriptions**](StreamsAPI.md#StreamsAPI_getSubscriptions) | **GET** /users/me/subscriptions | Get subscribed streams
 [**StreamsAPI_muteTopic**](StreamsAPI.md#StreamsAPI_muteTopic) | **PATCH** /users/me/subscriptions/muted_topics | Topic muting
@@ -67,6 +69,38 @@ Name | Type | Description  | Notes
 ### Return type
 
 [json_success_base_t](json_success_base.md) *
+
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **StreamsAPI_deleteTopic**
+```c
+// Delete a topic
+//
+// Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+//
+json_success_t* StreamsAPI_deleteTopic(apiClient_t *apiClient, int stream_id, char * topic_name);
+```
+
+### Parameters
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**apiClient** | **apiClient_t \*** | context containing the client configuration | 
+**stream_id** | **int** | The ID of the stream to access.  | 
+**topic_name** | **char \*** | The name of the topic to delete.  | 
+
+### Return type
+
+[json_success_t](json_success.md) *
 
 
 ### Authorization
@@ -161,6 +195,37 @@ Name | Type | Description  | Notes
 **include_all_active** | **int** | Include all active streams. The user must have administrative privileges to use this parameter.  | [optional] [default to false]
 **include_default** | **int** | Include all default streams for the user&#39;s realm.  | [optional] [default to false]
 **include_owner_subscribed** | **int** | If the user is a bot, include all streams that the bot&#39;s owner is subscribed to.  | [optional] [default to false]
+
+### Return type
+
+[json_success_base_t](json_success_base.md) *
+
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **StreamsAPI_getSubscribers**
+```c
+// Get the subscribers of a stream
+//
+// Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` 
+//
+json_success_base_t* StreamsAPI_getSubscribers(apiClient_t *apiClient, int stream_id);
+```
+
+### Parameters
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**apiClient** | **apiClient_t \*** | context containing the client configuration | 
+**stream_id** | **int** | The ID of the stream to access.  | 
 
 ### Return type
 

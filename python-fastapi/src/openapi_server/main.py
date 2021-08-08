@@ -13,6 +13,7 @@
 from fastapi import FastAPI
 
 from openapi_server.apis.authentication_api import router as AuthenticationApiRouter
+from openapi_server.apis.drafts_api import router as DraftsApiRouter
 from openapi_server.apis.messages_api import router as MessagesApiRouter
 from openapi_server.apis.real_time_events_api import router as RealTimeEventsApiRouter
 from openapi_server.apis.server_and_organizations_api import router as ServerAndOrganizationsApiRouter
@@ -27,6 +28,7 @@ app = FastAPI(
 )
 
 app.include_router(AuthenticationApiRouter)
+app.include_router(DraftsApiRouter)
 app.include_router(MessagesApiRouter)
 app.include_router(RealTimeEventsApiRouter)
 app.include_router(ServerAndOrganizationsApiRouter)

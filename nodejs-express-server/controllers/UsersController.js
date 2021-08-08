@@ -8,111 +8,111 @@
 
 const Controller = require('./Controller');
 const service = require('../services/UsersService');
-const create_user = async (request, response) => {
-  await Controller.handleRequest(request, response, service.create_user);
+const createUser = async (request, response) => {
+  await Controller.handleRequest(request, response, service.createUser);
 };
 
-const create_user_group = async (request, response) => {
-  await Controller.handleRequest(request, response, service.create_user_group);
+const createUserGroup = async (request, response) => {
+  await Controller.handleRequest(request, response, service.createUserGroup);
 };
 
-const deactivate_own_user = async (request, response) => {
-  await Controller.handleRequest(request, response, service.deactivate_own_user);
+const deactivateOwnUser = async (request, response) => {
+  await Controller.handleRequest(request, response, service.deactivateOwnUser);
 };
 
-const deactivate_user = async (request, response) => {
-  await Controller.handleRequest(request, response, service.deactivate_user);
+const deactivateUser = async (request, response) => {
+  await Controller.handleRequest(request, response, service.deactivateUser);
 };
 
-const get_attachments = async (request, response) => {
-  await Controller.handleRequest(request, response, service.get_attachments);
+const getAttachments = async (request, response) => {
+  await Controller.handleRequest(request, response, service.getAttachments);
 };
 
-const get_own_user = async (request, response) => {
-  await Controller.handleRequest(request, response, service.get_own_user);
+const getOwnUser = async (request, response) => {
+  await Controller.handleRequest(request, response, service.getOwnUser);
 };
 
-const get_user = async (request, response) => {
-  await Controller.handleRequest(request, response, service.get_user);
+const getUser = async (request, response) => {
+  await Controller.handleRequest(request, response, service.getUser);
 };
 
-const get_user_by_email = async (request, response) => {
-  await Controller.handleRequest(request, response, service.get_user_by_email);
+const getUserByEmail = async (request, response) => {
+  await Controller.handleRequest(request, response, service.getUserByEmail);
 };
 
-const get_user_groups = async (request, response) => {
-  await Controller.handleRequest(request, response, service.get_user_groups);
+const getUserGroups = async (request, response) => {
+  await Controller.handleRequest(request, response, service.getUserGroups);
 };
 
-const get_user_presence = async (request, response) => {
-  await Controller.handleRequest(request, response, service.get_user_presence);
+const getUserPresence = async (request, response) => {
+  await Controller.handleRequest(request, response, service.getUserPresence);
 };
 
-const get_users = async (request, response) => {
-  await Controller.handleRequest(request, response, service.get_users);
+const getUsers = async (request, response) => {
+  await Controller.handleRequest(request, response, service.getUsers);
 };
 
-const mute_user = async (request, response) => {
-  await Controller.handleRequest(request, response, service.mute_user);
+const muteUser = async (request, response) => {
+  await Controller.handleRequest(request, response, service.muteUser);
 };
 
-const reactivate_user = async (request, response) => {
-  await Controller.handleRequest(request, response, service.reactivate_user);
+const reactivateUser = async (request, response) => {
+  await Controller.handleRequest(request, response, service.reactivateUser);
 };
 
-const remove_user_group = async (request, response) => {
-  await Controller.handleRequest(request, response, service.remove_user_group);
+const removeUserGroup = async (request, response) => {
+  await Controller.handleRequest(request, response, service.removeUserGroup);
 };
 
-const set_typing_status = async (request, response) => {
-  await Controller.handleRequest(request, response, service.set_typing_status);
+const setTypingStatus = async (request, response) => {
+  await Controller.handleRequest(request, response, service.setTypingStatus);
 };
 
-const unmute_user = async (request, response) => {
-  await Controller.handleRequest(request, response, service.unmute_user);
+const unmuteUser = async (request, response) => {
+  await Controller.handleRequest(request, response, service.unmuteUser);
 };
 
-const update_display_settings = async (request, response) => {
-  await Controller.handleRequest(request, response, service.update_display_settings);
+const updateSettings = async (request, response) => {
+  await Controller.handleRequest(request, response, service.updateSettings);
 };
 
-const update_notification_settings = async (request, response) => {
-  await Controller.handleRequest(request, response, service.update_notification_settings);
+const updateStatus = async (request, response) => {
+  await Controller.handleRequest(request, response, service.updateStatus);
 };
 
-const update_user = async (request, response) => {
-  await Controller.handleRequest(request, response, service.update_user);
+const updateUser = async (request, response) => {
+  await Controller.handleRequest(request, response, service.updateUser);
 };
 
-const update_user_group = async (request, response) => {
-  await Controller.handleRequest(request, response, service.update_user_group);
+const updateUserGroup = async (request, response) => {
+  await Controller.handleRequest(request, response, service.updateUserGroup);
 };
 
-const update_user_group_members = async (request, response) => {
-  await Controller.handleRequest(request, response, service.update_user_group_members);
+const updateUserGroupMembers = async (request, response) => {
+  await Controller.handleRequest(request, response, service.updateUserGroupMembers);
 };
 
 
 module.exports = {
-  create_user,
-  create_user_group,
-  deactivate_own_user,
-  deactivate_user,
-  get_attachments,
-  get_own_user,
-  get_user,
-  get_user_by_email,
-  get_user_groups,
-  get_user_presence,
-  get_users,
-  mute_user,
-  reactivate_user,
-  remove_user_group,
-  set_typing_status,
-  unmute_user,
-  update_display_settings,
-  update_notification_settings,
-  update_user,
-  update_user_group,
-  update_user_group_members,
+  createUser,
+  createUserGroup,
+  deactivateOwnUser,
+  deactivateUser,
+  getAttachments,
+  getOwnUser,
+  getUser,
+  getUserByEmail,
+  getUserGroups,
+  getUserPresence,
+  getUsers,
+  muteUser,
+  reactivateUser,
+  removeUserGroup,
+  setTypingStatus,
+  unmuteUser,
+  updateSettings,
+  updateStatus,
+  updateUser,
+  updateUserGroup,
+  updateUserGroupMembers,
 };

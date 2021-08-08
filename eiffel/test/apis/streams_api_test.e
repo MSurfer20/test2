@@ -41,6 +41,23 @@ feature -- Test routines
             assert ("not_implemented", False)
         end
     
+    test_delete_topic
+            -- Delete a topic
+            -- 
+            -- Delete all messages in a topic.  &#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip.  
+        local
+            l_response: JSON_SUCCESS
+            l_stream_id: INTEGER_32
+            l_topic_name: STRING_32
+        do
+            -- TODO: Initialize required params.
+            -- l_stream_id
+            -- l_topic_name
+                      
+            -- l_response := api.delete_topic(l_stream_id, l_topic_name)
+            assert ("not_implemented", False)
+        end
+    
     test_mute_topic
             -- Topic muting
             -- 
@@ -128,6 +145,21 @@ feature -- Test routines
             -- create {ARRAYED_LIST [ANY]} l_subscriptions.make (2)
                       
             -- l_response := api.subscribe(l_subscriptions, l_principals, l_authorization_errors_fatal, l_announce, l_invite_only, l_history_public_to_subscribers, l_stream_post_policy, l_message_retention_days)
+            assert ("not_implemented", False)
+        end
+    
+    test_subscribers
+            -- Get the subscribers of a stream
+            -- 
+            -- Get all users subscribed to a stream.  &#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60;  
+        local
+            l_response: JSON_SUCCESS_BASE
+            l_stream_id: INTEGER_32
+        do
+            -- TODO: Initialize required params.
+            -- l_stream_id
+                      
+            -- l_response := api.subscribers(l_stream_id)
             assert ("not_implemented", False)
         end
     

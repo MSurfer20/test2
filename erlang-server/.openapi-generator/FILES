@@ -7,6 +7,7 @@ src/openapi_api.erl
 src/openapi_auth.erl
 src/openapi_authentication_handler.erl
 src/openapi_default_logic_handler.erl
+src/openapi_drafts_handler.erl
 src/openapi_logic_handler.erl
 src/openapi_messages_handler.erl
 src/openapi_real_time_events_handler.erl

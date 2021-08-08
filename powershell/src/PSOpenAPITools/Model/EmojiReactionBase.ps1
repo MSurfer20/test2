@@ -15,7 +15,7 @@ No summary available.
 No description available.
 
 .PARAMETER EmojiCode
-A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint. 
+A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji. 
 .PARAMETER EmojiName
 Name of the emoji. 
 .PARAMETER ReactionType

@@ -72,6 +72,37 @@ public class OASStreamsApi {
         );
     }
     /**
+     * Delete a topic
+     * Delete all messages in a topic.\n\n&#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;\n\nTopics are a field on messages (not an independent\ndata structure), so deleting all the messages in the topic\ndeletes the topic from Zulip.\n
+     * @param streamId The ID of the stream to access.\n (required)
+     * @param topicName The name of the topic to delete.\n (required)
+     * @return OASJsonSuccess
+     * @throws OAS.ApiException if fails to make API call
+     */
+    public OASJsonSuccess deleteTopic(Map<String, Object> params) {
+        client.assertNotNull(params.get('streamId'), 'streamId');
+        client.assertNotNull(params.get('topicName'), 'topicName');
+        List<OAS.Param> query = new List<OAS.Param>();
+
+        // cast query params to verify their expected type
+        query.addAll(client.makeParam('topic_name', (String) params.get('topicName')));
+
+        List<OAS.Param> form = new List<OAS.Param>();
+
+        return (OASJsonSuccess) client.invoke(
+            'POST', '/streams/{stream_id}/delete_topic', '',
+            query, form,
+            new Map<String, Object>{
+                'stream_id' => (Integer) params.get('streamId')
+            },
+            new Map<String, Object>(),
+            new List<String>{ 'application/json' },
+            new List<String>(),
+            new List<String>(),
+            OASJsonSuccess.class
+        );
+    }
+    /**
      * Get stream ID
      * Get the unique ID of a given stream.\n\n&#x60;GET {{ api_url }}/v1/get_stream_id&#x60;\n
      * @param stream The name of the stream to access.\n (required)
@@ -152,6 +183,31 @@ public class OASStreamsApi {
             'GET', '/streams', '',
             query, form,
             new Map<String, Object>(),
+            new Map<String, Object>(),
+            new List<String>{ 'application/json' },
+            new List<String>(),
+            new List<String>(),
+            OASJsonSuccessBase.class
+        );
+    }
+    /**
+     * Get the subscribers of a stream
+     * Get all users subscribed to a stream.\n\n&#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60;\n
+     * @param streamId The ID of the stream to access.\n (required)
+     * @return OASJsonSuccessBase
+     * @throws OAS.ApiException if fails to make API call
+     */
+    public OASJsonSuccessBase getSubscribers(Map<String, Object> params) {
+        client.assertNotNull(params.get('streamId'), 'streamId');
+        List<OAS.Param> query = new List<OAS.Param>();
+        List<OAS.Param> form = new List<OAS.Param>();
+
+        return (OASJsonSuccessBase) client.invoke(
+            'GET', '/streams/{stream_id}/members', '',
+            query, form,
+            new Map<String, Object>{
+                'stream_id' => (Integer) params.get('streamId')
+            },
             new Map<String, Object>(),
             new List<String>{ 'application/json' },
             new List<String>(),

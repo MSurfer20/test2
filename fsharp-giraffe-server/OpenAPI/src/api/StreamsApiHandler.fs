@@ -56,6 +56,26 @@ module StreamsApiHandler =
         }
     //#endregion
 
+    //#region DeleteTopic
+    /// <summary>
+    /// Delete a topic
+    /// </summary>
+
+    let DeleteTopic (pathParams:DeleteTopicPathParams) : HttpHandler = 
+      fun (next : HttpFunc) (ctx : HttpContext) ->
+        task {
+          let queryParams = ctx.TryBindQueryString<DeleteTopicQueryParams>()
+          let serviceArgs = {  queryParams=queryParams;  pathParams=pathParams;  } : DeleteTopicArgs
+          let result = StreamsApiService.DeleteTopic ctx serviceArgs
+          return! (match result with 
+                      | DeleteTopicStatusCode200 resolved ->
+                            setStatusCode 200 >=> json resolved.content
+                      | DeleteTopicStatusCode400 resolved ->
+                            setStatusCode 400 >=> json resolved.content
+          ) next ctx
+        }
+    //#endregion
+
     //#region GetStreamId
     /// <summary>
     /// Get stream ID
@@ -110,6 +130,25 @@ module StreamsApiHandler =
                       | GetStreamsStatusCode200 resolved ->
                             setStatusCode 200 >=> json resolved.content
                       | GetStreamsStatusCode400 resolved ->
+                            setStatusCode 400 >=> json resolved.content
+          ) next ctx
+        }
+    //#endregion
+
+    //#region GetSubscribers
+    /// <summary>
+    /// Get the subscribers of a stream
+    /// </summary>
+
+    let GetSubscribers (pathParams:GetSubscribersPathParams) : HttpHandler = 
+      fun (next : HttpFunc) (ctx : HttpContext) ->
+        task {
+          let serviceArgs = {    pathParams=pathParams;  } : GetSubscribersArgs
+          let result = StreamsApiService.GetSubscribers ctx serviceArgs
+          return! (match result with 
+                      | GetSubscribersStatusCode200 resolved ->
+                            setStatusCode 200 >=> json resolved.content
+                      | GetSubscribersStatusCode400 resolved ->
                             setStatusCode 400 >=> json resolved.content
           ) next ctx
         }

@@ -74,6 +74,33 @@ public:
     OpenAPIJsonSuccessBase Content;
 };
 
+/* Delete a topic
+ *
+ * Delete all messages in a topic.  &#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+*/
+class OPENAPI_API OpenAPIStreamsApi::DeleteTopicRequest : public Request
+{
+public:
+    virtual ~DeleteTopicRequest() {}
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
+	FString ComputePath() const final;
+    
+	/* The ID of the stream to access.  */
+	int32 StreamId = 0;
+	/* The name of the topic to delete.  */
+	FString TopicName;
+};
+
+class OPENAPI_API OpenAPIStreamsApi::DeleteTopicResponse : public Response
+{
+public:
+    virtual ~DeleteTopicResponse() {}
+	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
+    
+    OpenAPIJsonSuccess Content;
+};
+
 /* Get stream ID
  *
  * Get the unique ID of a given stream.  &#x60;GET {{ api_url }}/v1/get_stream_id&#x60; 
@@ -153,6 +180,31 @@ class OPENAPI_API OpenAPIStreamsApi::GetStreamsResponse : public Response
 {
 public:
     virtual ~GetStreamsResponse() {}
+	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
+    
+    OpenAPIJsonSuccessBase Content;
+};
+
+/* Get the subscribers of a stream
+ *
+ * Get all users subscribed to a stream.  &#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60; 
+*/
+class OPENAPI_API OpenAPIStreamsApi::GetSubscribersRequest : public Request
+{
+public:
+    virtual ~GetSubscribersRequest() {}
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
+	FString ComputePath() const final;
+    
+	/* The ID of the stream to access.  */
+	int32 StreamId = 0;
+};
+
+class OPENAPI_API OpenAPIStreamsApi::GetSubscribersResponse : public Response
+{
+public:
+    virtual ~GetSubscribersResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
 	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
     

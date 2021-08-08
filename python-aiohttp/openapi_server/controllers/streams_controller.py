@@ -33,6 +33,20 @@ async def create_big_blue_button_video_call(request: web.Request, ) -> web.Respo
     return web.Response(status=200)
 
 
+async def delete_topic(request: web.Request, stream_id, topic_name) -> web.Response:
+    """Delete a topic
+
+    Delete all messages in a topic.  &#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+
+    :param stream_id: The ID of the stream to access. 
+    :type stream_id: int
+    :param topic_name: The name of the topic to delete. 
+    :type topic_name: str
+
+    """
+    return web.Response(status=200)
+
+
 async def get_stream_id(request: web.Request, stream) -> web.Response:
     """Get stream ID
 
@@ -74,6 +88,18 @@ async def get_streams(request: web.Request, include_public=None, include_web_pub
     :type include_default: bool
     :param include_owner_subscribed: If the user is a bot, include all streams that the bot&#39;s owner is subscribed to. 
     :type include_owner_subscribed: bool
+
+    """
+    return web.Response(status=200)
+
+
+async def get_subscribers(request: web.Request, stream_id) -> web.Response:
+    """Get the subscribers of a stream
+
+    Get all users subscribed to a stream.  &#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60; 
+
+    :param stream_id: The ID of the stream to access. 
+    :type stream_id: int
 
     """
     return web.Response(status=200)

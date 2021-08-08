@@ -6,6 +6,7 @@ import apimodels.JsonSuccess;
 import apimodels.JsonSuccessBase;
 import apimodels.OneOfobjectobject;
 import apimodels.OneOfobjectobjectobject;
+import apimodels.OneOfobjectobjectobjectobjectobjectobject;
 
 import com.typesafe.config.Config;
 import play.mvc.Controller;
@@ -28,7 +29,7 @@ import com.typesafe.config.Config;
 
 import openapitools.OpenAPIUtils.ApiAction;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", date = "2021-08-08T20:41:53.018098Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", date = "2021-08-08T21:11:44.583112Z[Etc/UTC]")
 public class UsersApiController extends Controller {
     private final UsersApiControllerImpInterface imp;
     private final ObjectMapper mapper;
@@ -244,7 +245,35 @@ public class UsersApiController extends Controller {
     }
 
     @ApiAction
-    public Result updateDisplaySettings(Http.Request request) throws Exception {
+    public Result updateSettings(Http.Request request) throws Exception {
+        String valuefullName = request.getQueryString("full_name");
+        String fullName;
+        if (valuefullName != null) {
+            fullName = valuefullName;
+        } else {
+            fullName = null;
+        }
+        String valueemail = request.getQueryString("email");
+        String email;
+        if (valueemail != null) {
+            email = valueemail;
+        } else {
+            email = null;
+        }
+        String valueoldPassword = request.getQueryString("old_password");
+        String oldPassword;
+        if (valueoldPassword != null) {
+            oldPassword = valueoldPassword;
+        } else {
+            oldPassword = null;
+        }
+        String valuenewPassword = request.getQueryString("new_password");
+        String newPassword;
+        if (valuenewPassword != null) {
+            newPassword = valuenewPassword;
+        } else {
+            newPassword = null;
+        }
         String valuetwentyFourHourTime = request.getQueryString("twenty_four_hour_time");
         Boolean twentyFourHourTime;
         if (valuetwentyFourHourTime != null) {
@@ -286,6 +315,13 @@ public class UsersApiController extends Controller {
             colorScheme = Integer.parseInt(valuecolorScheme);
         } else {
             colorScheme = null;
+        }
+        String valueenableDraftsSynchronization = request.getQueryString("enable_drafts_synchronization");
+        Boolean enableDraftsSynchronization;
+        if (valueenableDraftsSynchronization != null) {
+            enableDraftsSynchronization = Boolean.valueOf(valueenableDraftsSynchronization);
+        } else {
+            enableDraftsSynchronization = null;
         }
         String valuetranslateEmoticons = request.getQueryString("translate_emoticons");
         Boolean translateEmoticons;
@@ -336,11 +372,6 @@ public class UsersApiController extends Controller {
         } else {
             timezone = null;
         }
-        return imp.updateDisplaySettingsHttp(request, twentyFourHourTime, denseMode, starredMessageCounts, fluidLayoutWidth, highContrastMode, colorScheme, translateEmoticons, defaultLanguage, defaultView, leftSideUserlist, emojiset, demoteInactiveStreams, timezone);
-    }
-
-    @ApiAction
-    public Result updateNotificationSettings(Http.Request request) throws Exception {
         String valueenableStreamDesktopNotifications = request.getQueryString("enable_stream_desktop_notifications");
         Boolean enableStreamDesktopNotifications;
         if (valueenableStreamDesktopNotifications != null) {
@@ -389,6 +420,13 @@ public class UsersApiController extends Controller {
             enableSounds = Boolean.valueOf(valueenableSounds);
         } else {
             enableSounds = null;
+        }
+        String valueemailNotificationsBatchingPeriodSeconds = request.getQueryString("email_notifications_batching_period_seconds");
+        Integer emailNotificationsBatchingPeriodSeconds;
+        if (valueemailNotificationsBatchingPeriodSeconds != null) {
+            emailNotificationsBatchingPeriodSeconds = Integer.parseInt(valueemailNotificationsBatchingPeriodSeconds);
+        } else {
+            emailNotificationsBatchingPeriodSeconds = null;
         }
         String valueenableOfflineEmailNotifications = request.getQueryString("enable_offline_email_notifications");
         Boolean enableOfflineEmailNotifications;
@@ -474,7 +512,54 @@ public class UsersApiController extends Controller {
         } else {
             presenceEnabled = null;
         }
-        return imp.updateNotificationSettingsHttp(request, enableStreamDesktopNotifications, enableStreamEmailNotifications, enableStreamPushNotifications, enableStreamAudibleNotifications, notificationSound, enableDesktopNotifications, enableSounds, enableOfflineEmailNotifications, enableOfflinePushNotifications, enableOnlinePushNotifications, enableDigestEmails, enableMarketingEmails, enableLoginEmails, messageContentInEmailNotifications, pmContentInDesktopNotifications, wildcardMentionsNotify, desktopIconCountDisplay, realmNameInNotifications, presenceEnabled);
+        String valueenterSends = request.getQueryString("enter_sends");
+        Boolean enterSends;
+        if (valueenterSends != null) {
+            enterSends = Boolean.valueOf(valueenterSends);
+        } else {
+            enterSends = null;
+        }
+        return imp.updateSettingsHttp(request, fullName, email, oldPassword, newPassword, twentyFourHourTime, denseMode, starredMessageCounts, fluidLayoutWidth, highContrastMode, colorScheme, enableDraftsSynchronization, translateEmoticons, defaultLanguage, defaultView, leftSideUserlist, emojiset, demoteInactiveStreams, timezone, enableStreamDesktopNotifications, enableStreamEmailNotifications, enableStreamPushNotifications, enableStreamAudibleNotifications, notificationSound, enableDesktopNotifications, enableSounds, emailNotificationsBatchingPeriodSeconds, enableOfflineEmailNotifications, enableOfflinePushNotifications, enableOnlinePushNotifications, enableDigestEmails, enableMarketingEmails, enableLoginEmails, messageContentInEmailNotifications, pmContentInDesktopNotifications, wildcardMentionsNotify, desktopIconCountDisplay, realmNameInNotifications, presenceEnabled, enterSends);
+    }
+
+    @ApiAction
+    public Result updateStatus(Http.Request request) throws Exception {
+        String valuestatusText = request.getQueryString("status_text");
+        String statusText;
+        if (valuestatusText != null) {
+            statusText = valuestatusText;
+        } else {
+            statusText = null;
+        }
+        String valueaway = request.getQueryString("away");
+        Boolean away;
+        if (valueaway != null) {
+            away = Boolean.valueOf(valueaway);
+        } else {
+            away = null;
+        }
+        String valueemojiName = request.getQueryString("emoji_name");
+        String emojiName;
+        if (valueemojiName != null) {
+            emojiName = valueemojiName;
+        } else {
+            emojiName = null;
+        }
+        String valueemojiCode = request.getQueryString("emoji_code");
+        String emojiCode;
+        if (valueemojiCode != null) {
+            emojiCode = valueemojiCode;
+        } else {
+            emojiCode = null;
+        }
+        String valuereactionType = request.getQueryString("reaction_type");
+        String reactionType;
+        if (valuereactionType != null) {
+            reactionType = valuereactionType;
+        } else {
+            reactionType = null;
+        }
+        return imp.updateStatusHttp(request, statusText, away, emojiName, emojiCode, reactionType);
     }
 
     @ApiAction

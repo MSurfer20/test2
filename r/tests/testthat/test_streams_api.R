@@ -28,6 +28,19 @@ test_that("CreateBigBlueButtonVideoCall", {
   #expect_equal(result, "EXPECTED_RESULT")
 })
 
+test_that("DeleteTopic", {
+  # tests for DeleteTopic
+  # base path: https://example.zulipchat.com/api/v1
+  # Delete a topic
+  # Delete all messages in a topic.  &#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+  # @param stream.id integer The ID of the stream to access. 
+  # @param topic.name character The name of the topic to delete. 
+  # @return [JsonSuccess]
+
+  # uncomment below to test the operation
+  #expect_equal(result, "EXPECTED_RESULT")
+})
+
 test_that("GetStreamId", {
   # tests for GetStreamId
   # base path: https://example.zulipchat.com/api/v1
@@ -63,6 +76,18 @@ test_that("GetStreams", {
   # @param include.all.active character Include all active streams. The user must have administrative privileges to use this parameter.  (optional)
   # @param include.default character Include all default streams for the user's realm.  (optional)
   # @param include.owner.subscribed character If the user is a bot, include all streams that the bot's owner is subscribed to.  (optional)
+  # @return [JsonSuccessBase]
+
+  # uncomment below to test the operation
+  #expect_equal(result, "EXPECTED_RESULT")
+})
+
+test_that("GetSubscribers", {
+  # tests for GetSubscribers
+  # base path: https://example.zulipchat.com/api/v1
+  # Get the subscribers of a stream
+  # Get all users subscribed to a stream.  &#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60; 
+  # @param stream.id integer The ID of the stream to access. 
   # @return [JsonSuccessBase]
 
   # uncomment below to test the operation

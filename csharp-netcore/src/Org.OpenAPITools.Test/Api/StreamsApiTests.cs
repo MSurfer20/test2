@@ -78,6 +78,19 @@ namespace Org.OpenAPITools.Test.Api
         }
 
         /// <summary>
+        /// Test DeleteTopic
+        /// </summary>
+        [Fact]
+        public void DeleteTopicTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //int streamId = null;
+            //string topicName = null;
+            //var response = instance.DeleteTopic(streamId, topicName);
+            //Assert.IsType<JsonSuccess>(response);
+        }
+
+        /// <summary>
         /// Test GetStreamId
         /// </summary>
         [Fact]
@@ -115,6 +128,18 @@ namespace Org.OpenAPITools.Test.Api
             //bool? includeDefault = null;
             //bool? includeOwnerSubscribed = null;
             //var response = instance.GetStreams(includePublic, includeWebPublic, includeSubscribed, includeAllActive, includeDefault, includeOwnerSubscribed);
+            //Assert.IsType<JsonSuccessBase>(response);
+        }
+
+        /// <summary>
+        /// Test GetSubscribers
+        /// </summary>
+        [Fact]
+        public void GetSubscribersTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //int streamId = null;
+            //var response = instance.GetSubscribers(streamId);
             //Assert.IsType<JsonSuccessBase>(response);
         }
 

@@ -87,6 +87,9 @@ newtype ApplyMarkdown = ApplyMarkdown { unApplyMarkdown :: Bool } deriving (P.Eq
 -- ** AuthorizationErrorsFatal
 newtype AuthorizationErrorsFatal = AuthorizationErrorsFatal { unAuthorizationErrorsFatal :: Bool } deriving (P.Eq, P.Show)
 
+-- ** Away
+newtype Away = Away { unAway :: Bool } deriving (P.Eq, P.Show)
+
 -- ** ClientCapabilities
 newtype ClientCapabilities = ClientCapabilities { unClientCapabilities :: A.Value } deriving (P.Eq, P.Show)
 
@@ -94,7 +97,7 @@ newtype ClientCapabilities = ClientCapabilities { unClientCapabilities :: A.Valu
 newtype ClientGravatar = ClientGravatar { unClientGravatar :: Bool } deriving (P.Eq, P.Show)
 
 -- ** ColorScheme
-newtype ColorScheme = ColorScheme { unColorScheme :: E'DesktopIconCountDisplay } deriving (P.Eq, P.Show)
+newtype ColorScheme = ColorScheme { unColorScheme :: E'ColorScheme } deriving (P.Eq, P.Show)
 
 -- ** Content
 newtype Content = Content { unContent :: Text } deriving (P.Eq, P.Show)
@@ -112,7 +115,7 @@ newtype Delete = Delete { unDelete :: [Text] } deriving (P.Eq, P.Show)
 newtype DeleteInt = DeleteInt { unDeleteInt :: [Int] } deriving (P.Eq, P.Show)
 
 -- ** DemoteInactiveStreams
-newtype DemoteInactiveStreams = DemoteInactiveStreams { unDemoteInactiveStreams :: E'DesktopIconCountDisplay } deriving (P.Eq, P.Show)
+newtype DemoteInactiveStreams = DemoteInactiveStreams { unDemoteInactiveStreams :: E'ColorScheme } deriving (P.Eq, P.Show)
 
 -- ** DenseMode
 newtype DenseMode = DenseMode { unDenseMode :: Bool } deriving (P.Eq, P.Show)
@@ -121,13 +124,25 @@ newtype DenseMode = DenseMode { unDenseMode :: Bool } deriving (P.Eq, P.Show)
 newtype Description = Description { unDescription :: Text } deriving (P.Eq, P.Show)
 
 -- ** DesktopIconCountDisplay
-newtype DesktopIconCountDisplay = DesktopIconCountDisplay { unDesktopIconCountDisplay :: E'DesktopIconCountDisplay } deriving (P.Eq, P.Show)
+newtype DesktopIconCountDisplay = DesktopIconCountDisplay { unDesktopIconCountDisplay :: E'ColorScheme } deriving (P.Eq, P.Show)
 
 -- ** DontBlock
 newtype DontBlock = DontBlock { unDontBlock :: Bool } deriving (P.Eq, P.Show)
 
+-- ** Draft2
+newtype Draft2 = Draft2 { unDraft2 :: Draft } deriving (P.Eq, P.Show)
+
+-- ** DraftId
+newtype DraftId = DraftId { unDraftId :: Int } deriving (P.Eq, P.Show)
+
+-- ** Drafts
+newtype Drafts = Drafts { unDrafts :: [Draft] } deriving (P.Eq, P.Show)
+
 -- ** Email
 newtype Email = Email { unEmail :: Text } deriving (P.Eq, P.Show)
+
+-- ** EmailNotificationsBatchingPeriodSeconds
+newtype EmailNotificationsBatchingPeriodSeconds = EmailNotificationsBatchingPeriodSeconds { unEmailNotificationsBatchingPeriodSeconds :: Int } deriving (P.Eq, P.Show)
 
 -- ** EmojiCode
 newtype EmojiCode = EmojiCode { unEmojiCode :: Text } deriving (P.Eq, P.Show)
@@ -143,6 +158,9 @@ newtype EnableDesktopNotifications = EnableDesktopNotifications { unEnableDeskto
 
 -- ** EnableDigestEmails
 newtype EnableDigestEmails = EnableDigestEmails { unEnableDigestEmails :: Bool } deriving (P.Eq, P.Show)
+
+-- ** EnableDraftsSynchronization
+newtype EnableDraftsSynchronization = EnableDraftsSynchronization { unEnableDraftsSynchronization :: Bool } deriving (P.Eq, P.Show)
 
 -- ** EnableLoginEmails
 newtype EnableLoginEmails = EnableLoginEmails { unEnableLoginEmails :: Bool } deriving (P.Eq, P.Show)
@@ -173,6 +191,9 @@ newtype EnableStreamEmailNotifications = EnableStreamEmailNotifications { unEnab
 
 -- ** EnableStreamPushNotifications
 newtype EnableStreamPushNotifications = EnableStreamPushNotifications { unEnableStreamPushNotifications :: Bool } deriving (P.Eq, P.Show)
+
+-- ** EnterSends
+newtype EnterSends = EnterSends { unEnterSends :: Bool } deriving (P.Eq, P.Show)
 
 -- ** EventTypes
 newtype EventTypes = EventTypes { unEventTypes :: [Text] } deriving (P.Eq, P.Show)
@@ -288,6 +309,9 @@ newtype NarrowText = NarrowText { unNarrowText :: [[Text]] } deriving (P.Eq, P.S
 -- ** NewName
 newtype NewName = NewName { unNewName :: Text } deriving (P.Eq, P.Show)
 
+-- ** NewPassword
+newtype NewPassword = NewPassword { unNewPassword :: Text } deriving (P.Eq, P.Show)
+
 -- ** NotificationSound
 newtype NotificationSound = NotificationSound { unNotificationSound :: Text } deriving (P.Eq, P.Show)
 
@@ -296,6 +320,9 @@ newtype NumAfter = NumAfter { unNumAfter :: Int } deriving (P.Eq, P.Show)
 
 -- ** NumBefore
 newtype NumBefore = NumBefore { unNumBefore :: Int } deriving (P.Eq, P.Show)
+
+-- ** OldPassword
+newtype OldPassword = OldPassword { unOldPassword :: Text } deriving (P.Eq, P.Show)
 
 -- ** Op
 newtype Op = Op { unOp :: E'Op } deriving (P.Eq, P.Show)
@@ -307,7 +334,7 @@ newtype Op2 = Op2 { unOp2 :: E'Op2 } deriving (P.Eq, P.Show)
 newtype Order = Order { unOrder :: [Int] } deriving (P.Eq, P.Show)
 
 -- ** ParamType
-newtype ParamType = ParamType { unParamType :: E'Type } deriving (P.Eq, P.Show)
+newtype ParamType = ParamType { unParamType :: E'Type2 } deriving (P.Eq, P.Show)
 
 -- ** Password
 newtype Password = Password { unPassword :: Text } deriving (P.Eq, P.Show)
@@ -362,6 +389,9 @@ newtype SlimPresence = SlimPresence { unSlimPresence :: Bool } deriving (P.Eq, P
 
 -- ** StarredMessageCounts
 newtype StarredMessageCounts = StarredMessageCounts { unStarredMessageCounts :: Bool } deriving (P.Eq, P.Show)
+
+-- ** StatusText
+newtype StatusText = StatusText { unStatusText :: Text } deriving (P.Eq, P.Show)
 
 -- ** Stream
 newtype Stream = Stream { unStream :: Text } deriving (P.Eq, P.Show)
@@ -1545,6 +1575,95 @@ mkDefaultStreamGroup =
   , defaultStreamGroupStreams = Nothing
   }
 
+-- ** Draft
+-- | Draft
+-- A dictionary for representing a message draft. 
+data Draft = Draft
+  { draftId :: !(Maybe Int) -- ^ "id" - The unique ID of the draft. It will only used whenever the drafts are fetched. This field should not be specified when the draft is being created or edited. 
+  , draftType :: !(E'Type) -- ^ /Required/ "type" - The type of the draft. Either unaddressed (empty string), \&quot;stream\&quot;, or \&quot;private\&quot; (for PMs and private group messages). 
+  , draftTo :: !([Int]) -- ^ /Required/ "to" - An array of the tentative target audience IDs. For \&quot;stream\&quot; messages, this should contain exactly 1 ID, the ID of the target stream. For private messages, this should be an array of target user IDs. For unaddressed drafts, this is ignored, and clients should send an empty array. 
+  , draftTopic :: !(Text) -- ^ /Required/ "topic" - For stream message drafts, the tentative topic name. For private or unaddressed messages, this will be ignored and should ideally be the empty string. Should not contain null bytes. 
+  , draftContent :: !(Text) -- ^ /Required/ "content" - The body of the draft. Should not contain null bytes. 
+  , draftTimestamp :: !(Maybe Double) -- ^ "timestamp" - A Unix timestamp (seconds only) representing when the draft was last edited. When creating a draft, this key need not be present and it will be filled in automatically by the server. 
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON Draft
+instance A.FromJSON Draft where
+  parseJSON = A.withObject "Draft" $ \o ->
+    Draft
+      <$> (o .:? "id")
+      <*> (o .:  "type")
+      <*> (o .:  "to")
+      <*> (o .:  "topic")
+      <*> (o .:  "content")
+      <*> (o .:? "timestamp")
+
+-- | ToJSON Draft
+instance A.ToJSON Draft where
+  toJSON Draft {..} =
+   _omitNulls
+      [ "id" .= draftId
+      , "type" .= draftType
+      , "to" .= draftTo
+      , "topic" .= draftTopic
+      , "content" .= draftContent
+      , "timestamp" .= draftTimestamp
+      ]
+
+
+-- | Construct a value of type 'Draft' (by applying it's required fields, if any)
+mkDraft
+  :: E'Type -- ^ 'draftType': The type of the draft. Either unaddressed (empty string), \"stream\", or \"private\" (for PMs and private group messages). 
+  -> [Int] -- ^ 'draftTo': An array of the tentative target audience IDs. For \"stream\" messages, this should contain exactly 1 ID, the ID of the target stream. For private messages, this should be an array of target user IDs. For unaddressed drafts, this is ignored, and clients should send an empty array. 
+  -> Text -- ^ 'draftTopic': For stream message drafts, the tentative topic name. For private or unaddressed messages, this will be ignored and should ideally be the empty string. Should not contain null bytes. 
+  -> Text -- ^ 'draftContent': The body of the draft. Should not contain null bytes. 
+  -> Draft
+mkDraft draftType draftTo draftTopic draftContent =
+  Draft
+  { draftId = Nothing
+  , draftType
+  , draftTo
+  , draftTopic
+  , draftContent
+  , draftTimestamp = Nothing
+  }
+
+-- ** EmojiBase
+-- | EmojiBase
+data EmojiBase = EmojiBase
+  { emojiBaseEmojiCode :: !(Maybe Text) -- ^ "emoji_code" - A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint; for &#x60;realm_emoji&#x60;, it&#39;ll be the ID of the realm emoji. 
+  , emojiBaseEmojiName :: !(Maybe Text) -- ^ "emoji_name" - Name of the emoji. 
+  , emojiBaseReactionType :: !(Maybe Text) -- ^ "reaction_type" - One of the following values:  * &#x60;unicode_emoji&#x60;: Unicode emoji (&#x60;emoji_code&#x60; will be its Unicode   codepoint). * &#x60;realm_emoji&#x60;: [Custom emoji](/help/add-custom-emoji).   (&#x60;emoji_code&#x60; will be its ID). * &#x60;zulip_extra_emoji&#x60;: Special emoji included with Zulip.  Exists to   namespace the &#x60;zulip&#x60; emoji. 
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON EmojiBase
+instance A.FromJSON EmojiBase where
+  parseJSON = A.withObject "EmojiBase" $ \o ->
+    EmojiBase
+      <$> (o .:? "emoji_code")
+      <*> (o .:? "emoji_name")
+      <*> (o .:? "reaction_type")
+
+-- | ToJSON EmojiBase
+instance A.ToJSON EmojiBase where
+  toJSON EmojiBase {..} =
+   _omitNulls
+      [ "emoji_code" .= emojiBaseEmojiCode
+      , "emoji_name" .= emojiBaseEmojiName
+      , "reaction_type" .= emojiBaseReactionType
+      ]
+
+
+-- | Construct a value of type 'EmojiBase' (by applying it's required fields, if any)
+mkEmojiBase
+  :: EmojiBase
+mkEmojiBase =
+  EmojiBase
+  { emojiBaseEmojiCode = Nothing
+  , emojiBaseEmojiName = Nothing
+  , emojiBaseReactionType = Nothing
+  }
+
 -- ** EmojiReaction
 -- | EmojiReaction
 data EmojiReaction = EmojiReaction
@@ -1636,11 +1755,11 @@ mkEmojiReactionAllOf =
 -- ** EmojiReactionBase
 -- | EmojiReactionBase
 data EmojiReactionBase = EmojiReactionBase
-  { emojiReactionBaseEmojiCode :: !(Maybe Text) -- ^ "emoji_code" - A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint. 
+  { emojiReactionBaseEmojiCode :: !(Maybe Text) -- ^ "emoji_code" - A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint; for &#x60;realm_emoji&#x60;, it&#39;ll be the ID of the realm emoji. 
   , emojiReactionBaseEmojiName :: !(Maybe Text) -- ^ "emoji_name" - Name of the emoji. 
   , emojiReactionBaseReactionType :: !(Maybe Text) -- ^ "reaction_type" - One of the following values:  * &#x60;unicode_emoji&#x60;: Unicode emoji (&#x60;emoji_code&#x60; will be its Unicode   codepoint). * &#x60;realm_emoji&#x60;: [Custom emoji](/help/add-custom-emoji).   (&#x60;emoji_code&#x60; will be its ID). * &#x60;zulip_extra_emoji&#x60;: Special emoji included with Zulip.  Exists to   namespace the &#x60;zulip&#x60; emoji. 
   , emojiReactionBaseUserId :: !(Maybe Int) -- ^ "user_id" - The ID of the user who added the reaction.  **Changes**: New in Zulip 3.0 (feature level 2). The &#x60;user&#x60; object is deprecated and will be removed in the future. 
-  , emojiReactionBaseUser :: !(Maybe EmojiReactionBaseUser) -- ^ "user"
+  , emojiReactionBaseUser :: !(Maybe EmojiReactionBaseAllOfUser) -- ^ "user"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON EmojiReactionBase
@@ -1677,45 +1796,77 @@ mkEmojiReactionBase =
   , emojiReactionBaseUser = Nothing
   }
 
--- ** EmojiReactionBaseUser
--- | EmojiReactionBaseUser
--- Dictionary with data on the user who added the reaction, including the user ID as the `id` field.  **Note**: In the [events API](/api/get-events), this `user` dictionary confusing had the user ID in a field called `user_id` instead.  We recommend ignoring fields other than the user ID.  **Deprecated** and to be removed in a future release once core clients have migrated to use the `user_id` field. 
-data EmojiReactionBaseUser = EmojiReactionBaseUser
-  { emojiReactionBaseUserId :: !(Maybe Int) -- ^ "id" - ID of the user. 
-  , emojiReactionBaseUserEmail :: !(Maybe Text) -- ^ "email" - Email of the user. 
-  , emojiReactionBaseUserFullName :: !(Maybe Text) -- ^ "full_name" - Full name of the user. 
-  , emojiReactionBaseUserIsMirrorDummy :: !(Maybe Bool) -- ^ "is_mirror_dummy" - Whether the user is a mirror dummy. 
+-- ** EmojiReactionBaseAllOf
+-- | EmojiReactionBaseAllOf
+data EmojiReactionBaseAllOf = EmojiReactionBaseAllOf
+  { emojiReactionBaseAllOfUserId :: !(Maybe Int) -- ^ "user_id" - The ID of the user who added the reaction.  **Changes**: New in Zulip 3.0 (feature level 2). The &#x60;user&#x60; object is deprecated and will be removed in the future. 
+  , emojiReactionBaseAllOfUser :: !(Maybe EmojiReactionBaseAllOfUser) -- ^ "user"
   } deriving (P.Show, P.Eq, P.Typeable)
 
--- | FromJSON EmojiReactionBaseUser
-instance A.FromJSON EmojiReactionBaseUser where
-  parseJSON = A.withObject "EmojiReactionBaseUser" $ \o ->
-    EmojiReactionBaseUser
+-- | FromJSON EmojiReactionBaseAllOf
+instance A.FromJSON EmojiReactionBaseAllOf where
+  parseJSON = A.withObject "EmojiReactionBaseAllOf" $ \o ->
+    EmojiReactionBaseAllOf
+      <$> (o .:? "user_id")
+      <*> (o .:? "user")
+
+-- | ToJSON EmojiReactionBaseAllOf
+instance A.ToJSON EmojiReactionBaseAllOf where
+  toJSON EmojiReactionBaseAllOf {..} =
+   _omitNulls
+      [ "user_id" .= emojiReactionBaseAllOfUserId
+      , "user" .= emojiReactionBaseAllOfUser
+      ]
+
+
+-- | Construct a value of type 'EmojiReactionBaseAllOf' (by applying it's required fields, if any)
+mkEmojiReactionBaseAllOf
+  :: EmojiReactionBaseAllOf
+mkEmojiReactionBaseAllOf =
+  EmojiReactionBaseAllOf
+  { emojiReactionBaseAllOfUserId = Nothing
+  , emojiReactionBaseAllOfUser = Nothing
+  }
+
+-- ** EmojiReactionBaseAllOfUser
+-- | EmojiReactionBaseAllOfUser
+-- Whether the user is a mirror dummy. Dictionary with data on the user who added the reaction, including the user ID as the `id` field.  **Note**: In the [events API](/api/get-events), this `user` dictionary confusing had the user ID in a field called `user_id` instead.  We recommend ignoring fields other than the user ID.  **Deprecated** and to be removed in a future release once core clients have migrated to use the `user_id` field. 
+data EmojiReactionBaseAllOfUser = EmojiReactionBaseAllOfUser
+  { emojiReactionBaseAllOfUserId :: !(Maybe Int) -- ^ "id" - ID of the user. 
+  , emojiReactionBaseAllOfUserEmail :: !(Maybe Text) -- ^ "email" - Email of the user. 
+  , emojiReactionBaseAllOfUserFullName :: !(Maybe Text) -- ^ "full_name" - Full name of the user. 
+  , emojiReactionBaseAllOfUserIsMirrorDummy :: !(Maybe Bool) -- ^ "is_mirror_dummy" - Whether the user is a mirror dummy. 
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON EmojiReactionBaseAllOfUser
+instance A.FromJSON EmojiReactionBaseAllOfUser where
+  parseJSON = A.withObject "EmojiReactionBaseAllOfUser" $ \o ->
+    EmojiReactionBaseAllOfUser
       <$> (o .:? "id")
       <*> (o .:? "email")
       <*> (o .:? "full_name")
       <*> (o .:? "is_mirror_dummy")
 
--- | ToJSON EmojiReactionBaseUser
-instance A.ToJSON EmojiReactionBaseUser where
-  toJSON EmojiReactionBaseUser {..} =
+-- | ToJSON EmojiReactionBaseAllOfUser
+instance A.ToJSON EmojiReactionBaseAllOfUser where
+  toJSON EmojiReactionBaseAllOfUser {..} =
    _omitNulls
-      [ "id" .= emojiReactionBaseUserId
-      , "email" .= emojiReactionBaseUserEmail
-      , "full_name" .= emojiReactionBaseUserFullName
-      , "is_mirror_dummy" .= emojiReactionBaseUserIsMirrorDummy
+      [ "id" .= emojiReactionBaseAllOfUserId
+      , "email" .= emojiReactionBaseAllOfUserEmail
+      , "full_name" .= emojiReactionBaseAllOfUserFullName
+      , "is_mirror_dummy" .= emojiReactionBaseAllOfUserIsMirrorDummy
       ]
 
 
--- | Construct a value of type 'EmojiReactionBaseUser' (by applying it's required fields, if any)
-mkEmojiReactionBaseUser
-  :: EmojiReactionBaseUser
-mkEmojiReactionBaseUser =
-  EmojiReactionBaseUser
-  { emojiReactionBaseUserId = Nothing
-  , emojiReactionBaseUserEmail = Nothing
-  , emojiReactionBaseUserFullName = Nothing
-  , emojiReactionBaseUserIsMirrorDummy = Nothing
+-- | Construct a value of type 'EmojiReactionBaseAllOfUser' (by applying it's required fields, if any)
+mkEmojiReactionBaseAllOfUser
+  :: EmojiReactionBaseAllOfUser
+mkEmojiReactionBaseAllOfUser =
+  EmojiReactionBaseAllOfUser
+  { emojiReactionBaseAllOfUserId = Nothing
+  , emojiReactionBaseAllOfUserEmail = Nothing
+  , emojiReactionBaseAllOfUserFullName = Nothing
+  , emojiReactionBaseAllOfUserIsMirrorDummy = Nothing
   }
 
 -- ** GetMessages
@@ -3733,35 +3884,35 @@ mkUserNotAuthorizedError userNotAuthorizedErrorResult userNotAuthorizedErrorMsg 
 -- * Enums
 
 
--- ** E'DesktopIconCountDisplay
+-- ** E'ColorScheme
 
 -- | Enum of 'Int'
-data E'DesktopIconCountDisplay
-  = E'DesktopIconCountDisplay'Num1 -- ^ @1@
-  | E'DesktopIconCountDisplay'Num2 -- ^ @2@
-  | E'DesktopIconCountDisplay'Num3 -- ^ @3@
+data E'ColorScheme
+  = E'ColorScheme'Num1 -- ^ @1@
+  | E'ColorScheme'Num2 -- ^ @2@
+  | E'ColorScheme'Num3 -- ^ @3@
   deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
 
-instance A.ToJSON E'DesktopIconCountDisplay where toJSON = A.toJSON . fromE'DesktopIconCountDisplay
-instance A.FromJSON E'DesktopIconCountDisplay where parseJSON o = P.either P.fail (pure . P.id) . toE'DesktopIconCountDisplay =<< A.parseJSON o
-instance WH.ToHttpApiData E'DesktopIconCountDisplay where toQueryParam = WH.toQueryParam . fromE'DesktopIconCountDisplay
-instance WH.FromHttpApiData E'DesktopIconCountDisplay where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toE'DesktopIconCountDisplay
-instance MimeRender MimeMultipartFormData E'DesktopIconCountDisplay where mimeRender _ = mimeRenderDefaultMultipartFormData
+instance A.ToJSON E'ColorScheme where toJSON = A.toJSON . fromE'ColorScheme
+instance A.FromJSON E'ColorScheme where parseJSON o = P.either P.fail (pure . P.id) . toE'ColorScheme =<< A.parseJSON o
+instance WH.ToHttpApiData E'ColorScheme where toQueryParam = WH.toQueryParam . fromE'ColorScheme
+instance WH.FromHttpApiData E'ColorScheme where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toE'ColorScheme
+instance MimeRender MimeMultipartFormData E'ColorScheme where mimeRender _ = mimeRenderDefaultMultipartFormData
 
--- | unwrap 'E'DesktopIconCountDisplay' enum
-fromE'DesktopIconCountDisplay :: E'DesktopIconCountDisplay -> Int
-fromE'DesktopIconCountDisplay = \case
-  E'DesktopIconCountDisplay'Num1 -> 1
-  E'DesktopIconCountDisplay'Num2 -> 2
-  E'DesktopIconCountDisplay'Num3 -> 3
+-- | unwrap 'E'ColorScheme' enum
+fromE'ColorScheme :: E'ColorScheme -> Int
+fromE'ColorScheme = \case
+  E'ColorScheme'Num1 -> 1
+  E'ColorScheme'Num2 -> 2
+  E'ColorScheme'Num3 -> 3
 
--- | parse 'E'DesktopIconCountDisplay' enum
-toE'DesktopIconCountDisplay :: Int -> P.Either String E'DesktopIconCountDisplay
-toE'DesktopIconCountDisplay = \case
-  1 -> P.Right E'DesktopIconCountDisplay'Num1
-  2 -> P.Right E'DesktopIconCountDisplay'Num2
-  3 -> P.Right E'DesktopIconCountDisplay'Num3
-  s -> P.Left $ "toE'DesktopIconCountDisplay: enum parse failure: " P.++ P.show s
+-- | parse 'E'ColorScheme' enum
+toE'ColorScheme :: Int -> P.Either String E'ColorScheme
+toE'ColorScheme = \case
+  1 -> P.Right E'ColorScheme'Num1
+  2 -> P.Right E'ColorScheme'Num2
+  3 -> P.Right E'ColorScheme'Num3
+  s -> P.Left $ "toE'ColorScheme: enum parse failure: " P.++ P.show s
 
 
 -- ** E'Op
@@ -3999,10 +4150,12 @@ toE'Status = \case
 
 -- ** E'Type
 
--- | Enum of 'Text'
+-- | Enum of 'Text' .
+-- The type of the draft. Either unaddressed (empty string), \"stream\", or \"private\" (for PMs and private group messages). 
 data E'Type
-  = E'Type'Private -- ^ @"private"@
+  = E'Type'Empty -- ^ @""@
   | E'Type'Stream -- ^ @"stream"@
+  | E'Type'Private -- ^ @"private"@
   deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
 
 instance A.ToJSON E'Type where toJSON = A.toJSON . fromE'Type
@@ -4014,15 +4167,45 @@ instance MimeRender MimeMultipartFormData E'Type where mimeRender _ = mimeRender
 -- | unwrap 'E'Type' enum
 fromE'Type :: E'Type -> Text
 fromE'Type = \case
-  E'Type'Private -> "private"
+  E'Type'Empty -> ""
   E'Type'Stream -> "stream"
+  E'Type'Private -> "private"
 
 -- | parse 'E'Type' enum
 toE'Type :: Text -> P.Either String E'Type
 toE'Type = \case
-  "private" -> P.Right E'Type'Private
+  "" -> P.Right E'Type'Empty
   "stream" -> P.Right E'Type'Stream
+  "private" -> P.Right E'Type'Private
   s -> P.Left $ "toE'Type: enum parse failure: " P.++ P.show s
+
+
+-- ** E'Type2
+
+-- | Enum of 'Text'
+data E'Type2
+  = E'Type2'Private -- ^ @"private"@
+  | E'Type2'Stream -- ^ @"stream"@
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+
+instance A.ToJSON E'Type2 where toJSON = A.toJSON . fromE'Type2
+instance A.FromJSON E'Type2 where parseJSON o = P.either P.fail (pure . P.id) . toE'Type2 =<< A.parseJSON o
+instance WH.ToHttpApiData E'Type2 where toQueryParam = WH.toQueryParam . fromE'Type2
+instance WH.FromHttpApiData E'Type2 where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toE'Type2
+instance MimeRender MimeMultipartFormData E'Type2 where mimeRender _ = mimeRenderDefaultMultipartFormData
+
+-- | unwrap 'E'Type2' enum
+fromE'Type2 :: E'Type2 -> Text
+fromE'Type2 = \case
+  E'Type2'Private -> "private"
+  E'Type2'Stream -> "stream"
+
+-- | parse 'E'Type2' enum
+toE'Type2 :: Text -> P.Either String E'Type2
+toE'Type2 = \case
+  "private" -> P.Right E'Type2'Private
+  "stream" -> P.Right E'Type2'Stream
+  s -> P.Left $ "toE'Type2: enum parse failure: " P.++ P.show s
 
 
 -- * Auth Methods

@@ -5,6 +5,7 @@ build.sbt
 project/build.properties
 project/plugins.sbt
 src/main/scala/io/swagger/client/api/AuthenticationApi.scala
+src/main/scala/io/swagger/client/api/DraftsApi.scala
 src/main/scala/io/swagger/client/api/MessagesApi.scala
 src/main/scala/io/swagger/client/api/RealTimeEventsApi.scala
 src/main/scala/io/swagger/client/api/ServerAndOrganizationsApi.scala
@@ -33,10 +34,13 @@ src/main/scala/io/swagger/client/model/CodedErrorBase.scala
 src/main/scala/io/swagger/client/model/CodedErrorBaseAllOf.scala
 src/main/scala/io/swagger/client/model/CustomProfileField.scala
 src/main/scala/io/swagger/client/model/DefaultStreamGroup.scala
+src/main/scala/io/swagger/client/model/Draft.scala
+src/main/scala/io/swagger/client/model/EmojiBase.scala
 src/main/scala/io/swagger/client/model/EmojiReaction.scala
 src/main/scala/io/swagger/client/model/EmojiReactionAllOf.scala
 src/main/scala/io/swagger/client/model/EmojiReactionBase.scala
-src/main/scala/io/swagger/client/model/EmojiReactionBaseUser.scala
+src/main/scala/io/swagger/client/model/EmojiReactionBaseAllOf.scala
+src/main/scala/io/swagger/client/model/EmojiReactionBaseAllOfUser.scala
 src/main/scala/io/swagger/client/model/GetMessages.scala
 src/main/scala/io/swagger/client/model/GetMessagesAllOf.scala
 src/main/scala/io/swagger/client/model/Hotspot.scala

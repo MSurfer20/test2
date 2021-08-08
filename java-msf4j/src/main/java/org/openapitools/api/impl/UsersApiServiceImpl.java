@@ -10,6 +10,7 @@ import org.openapitools.model.JsonSuccessBase;
 import org.openapitools.model.NonExistingStreamError;
 import org.openapitools.model.OneOfobjectobject;
 import org.openapitools.model.OneOfobjectobjectobject;
+import org.openapitools.model.OneOfobjectobjectobjectobjectobjectobject;
 import org.openapitools.model.OneOfstringinteger;
 
 import java.util.List;
@@ -23,7 +24,7 @@ import org.wso2.msf4j.formparam.FileInfo;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", date = "2021-08-08T20:41:44.271935Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", date = "2021-08-08T21:11:36.575393Z[Etc/UTC]")
 public class UsersApiServiceImpl extends UsersApiService {
     @Override
     public Response createUser(String email
@@ -140,6 +141,16 @@ public class UsersApiServiceImpl extends UsersApiService {
     @Override
     public Response unsubscribe(List<String> subscriptions
 , List<OneOfstringinteger> principals
+ ) throws NotFoundException {
+        // do some magic!
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+    }
+    @Override
+    public Response updateStatus(String statusText
+, Boolean away
+, String emojiName
+, String emojiCode
+, String reactionType
  ) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();

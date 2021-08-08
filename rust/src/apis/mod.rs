@@ -62,6 +62,7 @@ pub fn urlencode<T: AsRef<str>>(s: T) -> String {
 }
 
 pub mod authentication_api;
+pub mod drafts_api;
 pub mod messages_api;
 pub mod real_time_events_api;
 pub mod server_and_organizations_api;

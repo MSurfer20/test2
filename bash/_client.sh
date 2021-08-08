@@ -297,7 +297,10 @@ case $state in
     # Operations
     _values "Operations" \
             "devFetchApiKey[Fetch an API key (development only)]" \
-            "fetchApiKey[Fetch an API key (production)]"             "addReaction[Add an emoji reaction]" \
+            "fetchApiKey[Fetch an API key (production)]"             "createDrafts[Create drafts]" \
+            "deleteDraft[Delete a draft]" \
+            "editDraft[Edit a draft]" \
+            "getDrafts[Get drafts]"             "addReaction[Add an emoji reaction]" \
             "checkMessagesMatchNarrow[Check if messages match a narrow]" \
             "deleteMessage[Delete a message]" \
             "getFileTemporaryUrl[Get public temporary URL]" \
@@ -329,9 +332,11 @@ case $state in
             "updateLinkifier[Update a linkifier]" \
             "uploadCustomEmoji[Upload custom emoji]"             "archiveStream[Archive a stream]" \
             "createBigBlueButtonVideoCall[Create BigBlueButton video call]" \
+            "deleteTopic[Delete a topic]" \
             "getStreamId[Get stream ID]" \
             "getStreamTopics[Get topics in a stream]" \
             "getStreams[Get all streams]" \
+            "getSubscribers[Get the subscribers of a stream]" \
             "getSubscriptionStatus[Get subscription status]" \
             "getSubscriptions[Get subscribed streams]" \
             "muteTopic[Topic muting]" \
@@ -355,8 +360,8 @@ case $state in
             "removeUserGroup[Delete a user group]" \
             "setTypingStatus[Set \"typing\" status]" \
             "unmuteUser[Unmute a user]" \
-            "updateDisplaySettings[Update display settings]" \
-            "updateNotificationSettings[Update notification settings]" \
+            "updateSettings[Update settings]" \
+            "updateStatus[Update your status]" \
             "updateUser[Update a user]" \
             "updateUserGroup[Update a user group]" \
             "updateUserGroupMembers[Update user group members]"             "zulipOutgoingWebhooks[Outgoing webhooks]" \
@@ -384,6 +389,34 @@ See the &#39;require_email_format_usernames&#39; parameter documented in
 [GET /server_settings](/api/get-server-settings) for details."
 "password=:[QUERY] The user&#39;s Zulip password (or LDAP password, if LDAP authentication is in use)."
           )
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
+        ;;
+      createDrafts)
+        local -a _op_arguments
+        _op_arguments=(
+                    "drafts=:[QUERY] A JSON-encoded list of containing new draft objects."
+          )
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
+        ;;
+      deleteDraft)
+        local -a _op_arguments
+        _op_arguments=(
+          "draft_id=:[PATH] The ID of the draft you want to delete."
+                    )
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
+        ;;
+      editDraft)
+        local -a _op_arguments
+        _op_arguments=(
+          "draft_id=:[PATH] The ID of the draft to be edited."
+          "draft=:[QUERY] A JSON-encoded object containing a replacement draft object for this ID."
+          )
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
+        ;;
+      getDrafts)
+        local -a _op_arguments
+        _op_arguments=(
+                              )
         _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
       addReaction)
@@ -835,8 +868,9 @@ relevant to the format of responses sent by the server.
   client can handle the current API with null values for
   stream-level notification settings (which means the stream
   is not customized and should inherit the user&#39;s global
-  notification settings for stream messages).  New in Zulip
-  2.1.0; in earlier Zulip releases, stream-level
+  notification settings for stream messages).
+  &lt;br /&gt;
+  New in Zulip 2.1.0; in earlier Zulip releases, stream-level
   notification settings were simple booleans.
 
 * &#39;bulk_message_deletion&#39;: Boolean for whether the client&#39;s
@@ -844,7 +878,9 @@ relevant to the format of responses sent by the server.
    updated to process the new bulk format (with a
    &#39;message_ids&#39;, rather than a singleton &#39;message_id&#39;).
    Otherwise, the server will send &#39;delete_message&#39; events
-   in a loop.  New in Zulip 3.0 (feature level 13).  This
+   in a loop.
+   &lt;br /&gt;
+   New in Zulip 3.0 (feature level 13).  This
    capability is for backwards-compatibility; it will be
    required in a future server release.
 
@@ -855,14 +891,32 @@ relevant to the format of responses sent by the server.
    &#39;avatar_url&#39; field in the &#39;realm_user&#39; at its sole discretion
    to optimize network performance.  This is an important optimization
    in organizations with 10,000s of users.
+   &lt;br /&gt;
    New in Zulip 3.0 (feature level 18).
 
 * &#39;stream_typing_notifications&#39;: Boolean for whether the client
   supports stream typing notifications.
-
+  &lt;br /&gt;
   New in Zulip 4.0 (feature level 58).  This capability is
   for backwards-compatibility; it will be required in a
-  future server release."
+  future server release.
+
+* &#39;user_settings_object&#39;: Boolean for whether the client supports the modern
+  &#39;user_settings&#39; event type. If False, the server will additionally send the
+  legacy &#39;update_display_settings&#39; and &#39;update_global_notifications&#39; event
+  types for backwards-compatibility with clients that predate this API migration.
+  &lt;br /&gt;
+  &lt;br /&gt;
+  Because the feature level 89 API changes were merged together, clients can
+  safely make a request with this client capability and requesting all of the
+  &#39;user_settings&#39;, &#39;update_display_settings&#39;, and
+  &#39;update_global_notifications&#39; event types, and get exactly one copy of
+  settings data on any server version. (And then use the &#39;zulip_feature_level&#39;
+  in the &#39;/register&#39; response or the presence/absence of a &#39;user_settings&#39; key
+  to determine where to look).
+  &lt;br /&gt;
+  New in Zulip 5.0 (feature level 89).  This capability is for
+  backwards-compatibility; it will be removed in a future server release."
 "fetch_event_types=:[QUERY] Same as the &#39;event_types&#39; parameter except that the values in
 &#39;fetch_event_types&#39; are used to fetch initial data. If
 &#39;fetch_event_types&#39; is not provided, &#39;event_types&#39; is used and if
@@ -1022,6 +1076,14 @@ handles emoji)."
                               )
         _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
+      deleteTopic)
+        local -a _op_arguments
+        _op_arguments=(
+          "stream_id=:[PATH] The ID of the stream to access."
+          "topic_name=:[QUERY] The name of the topic to delete."
+          )
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
+        ;;
       getStreamId)
         local -a _op_arguments
         _op_arguments=(
@@ -1056,6 +1118,13 @@ subscribed to."
           "include_owner_subscribed=false:[QUERY] If the user is a bot, include all streams that the bot&#39;s owner is
 subscribed to."
           )
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
+        ;;
+      getSubscribers)
+        local -a _op_arguments
+        _op_arguments=(
+          "stream_id=:[PATH] The ID of the stream to access."
+                    )
         _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
       getSubscriptionStatus)
@@ -1490,27 +1559,67 @@ Ignored in case of &#39;private&#39; type."
                     )
         _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
-      updateDisplaySettings)
+      updateSettings)
         local -a _op_arguments
         _op_arguments=(
-                    "twenty_four_hour_time=true:[QUERY] Whether time should be [displayed in 24-hour notation](/help/change-the-time-format)."
-          "twenty_four_hour_time=false:[QUERY] Whether time should be [displayed in 24-hour notation](/help/change-the-time-format)."
+                    "full_name=:[QUERY] A new display name for the user."
+"email=:[QUERY] Asks the server to initiate a confirmation sequence to change the user&#39;s email
+address to the indicated value. The user will need to demonstrate control of the
+new email address by clicking a confirmation link sent to that address."
+"old_password=:[QUERY] The user&#39;s old Zulip password (or LDAP password, if LDAP authentication is in use).
+
+Required only when sending the &#39;new_password&#39; parameter."
+"new_password=:[QUERY] The user&#39;s new Zulip password (or LDAP password, if LDAP authentication is in use).
+
+The &#39;old_password&#39; parameter must be included in the request."
+"twenty_four_hour_time=true:[QUERY] Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/display&#39; endpoint."
+          "twenty_four_hour_time=false:[QUERY] Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/display&#39; endpoint."
 "dense_mode=true:[QUERY] This setting has no effect at present.  It is reserved for use in controlling
-the default font size in Zulip."
+the default font size in Zulip.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/display&#39; endpoint."
           "dense_mode=false:[QUERY] This setting has no effect at present.  It is reserved for use in controlling
-the default font size in Zulip."
+the default font size in Zulip.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/display&#39; endpoint."
 "starred_message_counts=true:[QUERY] Whether clients should display the [number of starred
-messages](/help/star-a-message#display-the-number-of-starred-messages)."
+messages](/help/star-a-message#display-the-number-of-starred-messages).
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/display&#39; endpoint."
           "starred_message_counts=false:[QUERY] Whether clients should display the [number of starred
-messages](/help/star-a-message#display-the-number-of-starred-messages)."
+messages](/help/star-a-message#display-the-number-of-starred-messages).
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/display&#39; endpoint."
 "fluid_layout_width=true:[QUERY] Whether to use the [maximum available screen width](/help/enable-full-width-display)
-for the web app&#39;s center panel (message feed, recent topics) on wide screens."
+for the web app&#39;s center panel (message feed, recent topics) on wide screens.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/display&#39; endpoint."
           "fluid_layout_width=false:[QUERY] Whether to use the [maximum available screen width](/help/enable-full-width-display)
-for the web app&#39;s center panel (message feed, recent topics) on wide screens."
+for the web app&#39;s center panel (message feed, recent topics) on wide screens.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/display&#39; endpoint."
 "high_contrast_mode=true:[QUERY] This setting is reserved for use to control variations in Zulip&#39;s design
-to help visually impaired users."
+to help visually impaired users.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/display&#39; endpoint."
           "high_contrast_mode=false:[QUERY] This setting is reserved for use to control variations in Zulip&#39;s design
-to help visually impaired users."
+to help visually impaired users.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/display&#39; endpoint."
 "color_scheme=:[QUERY] Controls which [color theme](/help/night-mode) to use.
 
 * 1 - Automatic
@@ -1518,11 +1627,36 @@ to help visually impaired users."
 * 3 - Day mode
 
 Automatic detection is implementing using the standard &#39;prefers-color-scheme&#39;
-media query."
+media query.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/display&#39; endpoint."
+"enable_drafts_synchronization=true:[QUERY] A boolean parameter to control whether synchronizing drafts is enabled for
+the user. When synchronization is disabled, all drafts stored in the server
+will be automatically deleted from the server.
+
+This does not do anything (like sending events) to delete local copies of
+drafts stored in clients.
+
+**Changes**: New in Zulip 5.0 (feature level 87)."
+          "enable_drafts_synchronization=false:[QUERY] A boolean parameter to control whether synchronizing drafts is enabled for
+the user. When synchronization is disabled, all drafts stored in the server
+will be automatically deleted from the server.
+
+This does not do anything (like sending events) to delete local copies of
+drafts stored in clients.
+
+**Changes**: New in Zulip 5.0 (feature level 87)."
 "translate_emoticons=true:[QUERY] Whether to [translate emoticons to emoji](/help/enable-emoticon-translations)
-in messages the user sends."
+in messages the user sends.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/display&#39; endpoint."
           "translate_emoticons=false:[QUERY] Whether to [translate emoticons to emoji](/help/enable-emoticon-translations)
-in messages the user sends."
+in messages the user sends.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/display&#39; endpoint."
 "default_language=:[QUERY] What [default language](/help/change-your-language) to use for the account.
 
 This controls both the Zulip UI as well as email notifications sent to the user.
@@ -1530,20 +1664,32 @@ This controls both the Zulip UI as well as email notifications sent to the user.
 The value needs to be a standard language code that the Zulip server has
 translation data for; for example, &#39;\&quot;en\&quot;&#39; for English or &#39;\&quot;de\&quot;&#39; for German.
 
-**Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63)."
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/display&#39; endpoint.
+
+Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63)."
 "default_view=:[QUERY] The [default view](/help/change-default-view) used when opening a new
 Zulip web app window or hitting the &#39;Esc&#39; keyboard shortcut repeatedly.
 
 * \&quot;recent_topics\&quot; - Recent topics view
 * \&quot;all_messages\&quot; - All messages view
 
-**Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64)."
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/display&#39; endpoint.
+
+Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64)."
 "left_side_userlist=true:[QUERY] Whether the users list on left sidebar in narrow windows.
 
-This feature is not heavily used and is likely to be reworked."
+This feature is not heavily used and is likely to be reworked.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/display&#39; endpoint."
           "left_side_userlist=false:[QUERY] Whether the users list on left sidebar in narrow windows.
 
-This feature is not heavily used and is likely to be reworked."
+This feature is not heavily used and is likely to be reworked.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/display&#39; endpoint."
 "emojiset=:[QUERY] The user&#39;s configured [emoji set](/help/emoji-and-emoticons#use-emoticons),
 used to display emoji to the user everything they appear in the UI.
 
@@ -1552,76 +1698,227 @@ used to display emoji to the user everything they appear in the UI.
 * \&quot;twitter\&quot; - Twitter
 * \&quot;text\&quot; - Plain text
 
-**Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64)."
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/display&#39; endpoint.
+
+Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64)."
 "demote_inactive_streams=:[QUERY] Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.
 
 * 1 - Automatic
 * 2 - Always
-* 3 - Never"
+* 3 - Never
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/display&#39; endpoint."
 "timezone=:[QUERY] The user&#39;s [configured timezone](/help/change-your-timezone).
 
 Timezone values supported by the server are served at
 [/static/generated/timezones.json](/static/generated/timezones.json).
 
-**Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64)."
-          )
-        _describe -t actions 'operations' _op_arguments -S '' && ret=0
-        ;;
-      updateNotificationSettings)
-        local -a _op_arguments
-        _op_arguments=(
-                    "enable_stream_desktop_notifications=true:[QUERY] Enable visual desktop notifications for stream messages."
-          "enable_stream_desktop_notifications=false:[QUERY] Enable visual desktop notifications for stream messages."
-"enable_stream_email_notifications=true:[QUERY] Enable email notifications for stream messages."
-          "enable_stream_email_notifications=false:[QUERY] Enable email notifications for stream messages."
-"enable_stream_push_notifications=true:[QUERY] Enable mobile notifications for stream messages."
-          "enable_stream_push_notifications=false:[QUERY] Enable mobile notifications for stream messages."
-"enable_stream_audible_notifications=true:[QUERY] Enable audible desktop notifications for stream messages."
-          "enable_stream_audible_notifications=false:[QUERY] Enable audible desktop notifications for stream messages."
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/display&#39; endpoint.
+
+Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64)."
+"enable_stream_desktop_notifications=true:[QUERY] Enable visual desktop notifications for stream messages.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/notifications&#39; endpoint."
+          "enable_stream_desktop_notifications=false:[QUERY] Enable visual desktop notifications for stream messages.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/notifications&#39; endpoint."
+"enable_stream_email_notifications=true:[QUERY] Enable email notifications for stream messages.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/notifications&#39; endpoint."
+          "enable_stream_email_notifications=false:[QUERY] Enable email notifications for stream messages.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/notifications&#39; endpoint."
+"enable_stream_push_notifications=true:[QUERY] Enable mobile notifications for stream messages.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/notifications&#39; endpoint."
+          "enable_stream_push_notifications=false:[QUERY] Enable mobile notifications for stream messages.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/notifications&#39; endpoint."
+"enable_stream_audible_notifications=true:[QUERY] Enable audible desktop notifications for stream messages.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/notifications&#39; endpoint."
+          "enable_stream_audible_notifications=false:[QUERY] Enable audible desktop notifications for stream messages.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/notifications&#39; endpoint."
 "notification_sound=:[QUERY] Notification sound name.
 
-**Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63)."
-"enable_desktop_notifications=true:[QUERY] Enable visual desktop notifications for private messages and @-mentions."
-          "enable_desktop_notifications=false:[QUERY] Enable visual desktop notifications for private messages and @-mentions."
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/notifications&#39; endpoint.
+
+Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63)."
+"enable_desktop_notifications=true:[QUERY] Enable visual desktop notifications for private messages and @-mentions.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/notifications&#39; endpoint."
+          "enable_desktop_notifications=false:[QUERY] Enable visual desktop notifications for private messages and @-mentions.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/notifications&#39; endpoint."
 "enable_sounds=true:[QUERY] Enable audible desktop notifications for private messages and
-@-mentions."
+@-mentions.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/notifications&#39; endpoint."
           "enable_sounds=false:[QUERY] Enable audible desktop notifications for private messages and
-@-mentions."
+@-mentions.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/notifications&#39; endpoint."
+"email_notifications_batching_period_seconds=:[QUERY] The duration (in seconds) for which the server should wait to batch
+email notifications before sending them.
+
+**Changes**: New in Zulip 5.0 (feature level 82)"
 "enable_offline_email_notifications=true:[QUERY] Enable email notifications for private messages and @-mentions received
-when the user is offline."
+when the user is offline.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/notifications&#39; endpoint."
           "enable_offline_email_notifications=false:[QUERY] Enable email notifications for private messages and @-mentions received
-when the user is offline."
+when the user is offline.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/notifications&#39; endpoint."
 "enable_offline_push_notifications=true:[QUERY] Enable mobile notification for private messages and @-mentions received
-when the user is offline."
+when the user is offline.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/notifications&#39; endpoint."
           "enable_offline_push_notifications=false:[QUERY] Enable mobile notification for private messages and @-mentions received
-when the user is offline."
+when the user is offline.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/notifications&#39; endpoint."
 "enable_online_push_notifications=true:[QUERY] Enable mobile notification for private messages and @-mentions received
-when the user is online."
+when the user is online.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/notifications&#39; endpoint."
           "enable_online_push_notifications=false:[QUERY] Enable mobile notification for private messages and @-mentions received
-when the user is online."
-"enable_digest_emails=true:[QUERY] Enable digest emails when the user is away."
-          "enable_digest_emails=false:[QUERY] Enable digest emails when the user is away."
-"enable_marketing_emails=true:[QUERY] Enable marketing emails. Has no function outside Zulip Cloud."
-          "enable_marketing_emails=false:[QUERY] Enable marketing emails. Has no function outside Zulip Cloud."
-"enable_login_emails=true:[QUERY] Enable email notifications for new logins to account."
-          "enable_login_emails=false:[QUERY] Enable email notifications for new logins to account."
-"message_content_in_email_notifications=true:[QUERY] Include the message&#39;s content in email notifications for new messages."
-          "message_content_in_email_notifications=false:[QUERY] Include the message&#39;s content in email notifications for new messages."
-"pm_content_in_desktop_notifications=true:[QUERY] Include content of private messages in desktop notifications."
-          "pm_content_in_desktop_notifications=false:[QUERY] Include content of private messages in desktop notifications."
+when the user is online.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/notifications&#39; endpoint."
+"enable_digest_emails=true:[QUERY] Enable digest emails when the user is away.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/notifications&#39; endpoint."
+          "enable_digest_emails=false:[QUERY] Enable digest emails when the user is away.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/notifications&#39; endpoint."
+"enable_marketing_emails=true:[QUERY] Enable marketing emails. Has no function outside Zulip Cloud.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/notifications&#39; endpoint."
+          "enable_marketing_emails=false:[QUERY] Enable marketing emails. Has no function outside Zulip Cloud.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/notifications&#39; endpoint."
+"enable_login_emails=true:[QUERY] Enable email notifications for new logins to account.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/notifications&#39; endpoint."
+          "enable_login_emails=false:[QUERY] Enable email notifications for new logins to account.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/notifications&#39; endpoint."
+"message_content_in_email_notifications=true:[QUERY] Include the message&#39;s content in email notifications for new messages.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/notifications&#39; endpoint."
+          "message_content_in_email_notifications=false:[QUERY] Include the message&#39;s content in email notifications for new messages.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/notifications&#39; endpoint."
+"pm_content_in_desktop_notifications=true:[QUERY] Include content of private messages in desktop notifications.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/notifications&#39; endpoint."
+          "pm_content_in_desktop_notifications=false:[QUERY] Include content of private messages in desktop notifications.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/notifications&#39; endpoint."
 "wildcard_mentions_notify=true:[QUERY] Whether wildcard mentions (E.g. @**all**) should send notifications
-like a personal mention."
+like a personal mention.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/notifications&#39; endpoint."
           "wildcard_mentions_notify=false:[QUERY] Whether wildcard mentions (E.g. @**all**) should send notifications
-like a personal mention."
+like a personal mention.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/notifications&#39; endpoint."
 "desktop_icon_count_display=:[QUERY] Unread count summary (appears in desktop sidebar and browser tab)
 
 * 1 - All unreads
 * 2 - Private messages and mentions
-* 3 - None"
-"realm_name_in_notifications=true:[QUERY] Include organization name in subject of message notification emails."
-          "realm_name_in_notifications=false:[QUERY] Include organization name in subject of message notification emails."
-"presence_enabled=true:[QUERY] Display the presence status to other users when online."
-          "presence_enabled=false:[QUERY] Display the presence status to other users when online."
+* 3 - None
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/notifications&#39; endpoint."
+"realm_name_in_notifications=true:[QUERY] Include organization name in subject of message notification emails.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/notifications&#39; endpoint."
+          "realm_name_in_notifications=false:[QUERY] Include organization name in subject of message notification emails.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/notifications&#39; endpoint."
+"presence_enabled=true:[QUERY] Display the presence status to other users when online.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/notifications&#39; endpoint."
+          "presence_enabled=false:[QUERY] Display the presence status to other users when online.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#39;PATCH /settings/notifications&#39; endpoint."
+"enter_sends=true:[QUERY] Whether pressing Enter in the compose box sends a message
+(or saves a message edit).
+
+**Changes**: Before Zulip 5.0 (feature level 81), this setting was managed by
+the &#39;POST /users/me/enter-sends&#39; endpoint, with the same parameter format."
+          "enter_sends=false:[QUERY] Whether pressing Enter in the compose box sends a message
+(or saves a message edit).
+
+**Changes**: Before Zulip 5.0 (feature level 81), this setting was managed by
+the &#39;POST /users/me/enter-sends&#39; endpoint, with the same parameter format."
+          )
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
+        ;;
+      updateStatus)
+        local -a _op_arguments
+        _op_arguments=(
+                    "status_text=:[QUERY] The text content of the status message. Sending the empty string
+will clear the user&#39;s status.
+
+**Note**: The limit on the size of the message is 60 characters."
+"away=true:[QUERY] Whether the user should be marked as \&quot;away\&quot;."
+          "away=false:[QUERY] Whether the user should be marked as \&quot;away\&quot;."
+"emoji_name=:[QUERY] The name for the emoji to associate with this status."
+"emoji_code=:[QUERY] A unique identifier, defining the specific emoji codepoint requested,
+within the namespace of the &#39;reaction_type&#39;.
+
+For example, for &#39;unicode_emoji&#39;, this will be an encoding of the
+Unicode codepoint; for &#39;realm_emoji&#39;, it&#39;ll be the ID of the realm emoji."
+"reaction_type=:[QUERY] One of the following values:
+
+* &#39;unicode_emoji&#39;: Unicode emoji (&#39;emoji_code&#39; will be its Unicode
+  codepoint).
+* &#39;realm_emoji&#39;: [Custom emoji](/help/add-custom-emoji).
+  (&#39;emoji_code&#39; will be its ID).
+* &#39;zulip_extra_emoji&#39;: Special emoji included with Zulip.  Exists to
+  namespace the &#39;zulip&#39; emoji."
           )
         _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;

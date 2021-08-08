@@ -30,7 +30,7 @@ import javax.validation.constraints.*;
 @Api(description = "the streams API")
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen", date = "2021-08-08T20:42:18.771666Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen", date = "2021-08-08T21:12:08.985690Z[Etc/UTC]")
 
 public class StreamsApi  {
 
@@ -51,6 +51,18 @@ public class StreamsApi  {
         return delegate.archiveStream(streamId, securityContext);
     }
 
+    @POST
+    @Path("/{stream_id}/delete_topic")
+    
+    @Produces({ "application/json" })
+    @ApiOperation(value = "Delete a topic", notes = "Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. ", response = JsonSuccess.class, tags={ "streams" })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Success.", response = JsonSuccess.class),
+        @ApiResponse(code = 400, message = "Error.", response = JsonError.class) })
+    public Response deleteTopic(@ApiParam(value = "The ID of the stream to access. ",required=true) @PathParam("stream_id") Integer streamId,  @NotNull @ApiParam(value = "The name of the topic to delete. ",required=true)  @QueryParam("topic_name") String topicName) {
+        return delegate.deleteTopic(streamId, topicName, securityContext);
+    }
+
     @GET
     
     
@@ -61,6 +73,18 @@ public class StreamsApi  {
         @ApiResponse(code = 400, message = "Bad request.", response = CodedError.class) })
     public Response getStreams(@ApiParam(value = "Include all public streams. ", defaultValue="true") @DefaultValue("true")  @QueryParam("include_public") Boolean includePublic, @ApiParam(value = "Include all web public streams. ", defaultValue="false") @DefaultValue("false")  @QueryParam("include_web_public") Boolean includeWebPublic, @ApiParam(value = "Include all streams that the user is subscribed to. ", defaultValue="true") @DefaultValue("true")  @QueryParam("include_subscribed") Boolean includeSubscribed, @ApiParam(value = "Include all active streams. The user must have administrative privileges to use this parameter. ", defaultValue="false") @DefaultValue("false")  @QueryParam("include_all_active") Boolean includeAllActive, @ApiParam(value = "Include all default streams for the user's realm. ", defaultValue="false") @DefaultValue("false")  @QueryParam("include_default") Boolean includeDefault, @ApiParam(value = "If the user is a bot, include all streams that the bot's owner is subscribed to. ", defaultValue="false") @DefaultValue("false")  @QueryParam("include_owner_subscribed") Boolean includeOwnerSubscribed) {
         return delegate.getStreams(includePublic, includeWebPublic, includeSubscribed, includeAllActive, includeDefault, includeOwnerSubscribed, securityContext);
+    }
+
+    @GET
+    @Path("/{stream_id}/members")
+    
+    @Produces({ "application/json" })
+    @ApiOperation(value = "Get the subscribers of a stream", notes = "Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` ", response = JsonSuccessBase.class, tags={ "streams" })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Success.", response = JsonSuccessBase.class),
+        @ApiResponse(code = 400, message = "Bad request.", response = JsonError.class) })
+    public Response getSubscribers(@ApiParam(value = "The ID of the stream to access. ",required=true) @PathParam("stream_id") Integer streamId) {
+        return delegate.getSubscribers(streamId, securityContext);
     }
 
     @PATCH

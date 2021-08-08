@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Dictionary containing details of a default stream group. 
  **/
 @ApiModel(description = "Dictionary containing details of a default stream group. ")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-08T20:42:36.410808Z[Etc/UTC]")public class DefaultStreamGroup   {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-08T21:12:25.585041Z[Etc/UTC]")public class DefaultStreamGroup   {
   
   private @Valid String name;
   private @Valid String description;

@@ -7,6 +7,7 @@ open OpenAPI.Model.JsonSuccess
 open OpenAPI.Model.JsonSuccessBase
 open OpenAPI.Model.OneOfobjectobject
 open OpenAPI.Model.OneOfobjectobjectobject
+open OpenAPI.Model.OneOfobjectobjectobjectobjectobjectobject
 open System.Collections.Generic
 open System
 
@@ -347,7 +348,19 @@ module UsersApiHandlerParams =
 
     //#region Query parameters
     [<CLIMutable>]
-    type UpdateDisplaySettingsQueryParams = {
+    type UpdateSettingsQueryParams = {
+      fullName : string option;
+      
+
+      email : string option;
+      
+
+      oldPassword : string option;
+      
+
+      newPassword : string option;
+      
+
       twentyFourHourTime : bool option;
       
 
@@ -364,6 +377,9 @@ module UsersApiHandlerParams =
       
 
       colorScheme : int option;
+      
+
+      enableDraftsSynchronization : bool option;
       
 
       translateEmoticons : bool option;
@@ -386,23 +402,7 @@ module UsersApiHandlerParams =
 
       timezone : string option;
       
-    }
-    //#endregion
 
-    
-    type UpdateDisplaySettingsStatusCode200Response = {
-      content:JsonSuccessBase;
-      
-    }
-    type UpdateDisplaySettingsResult = UpdateDisplaySettingsStatusCode200 of UpdateDisplaySettingsStatusCode200Response
-
-    type UpdateDisplaySettingsArgs = {
-      queryParams:Result<UpdateDisplaySettingsQueryParams,string>;
-    }
-
-    //#region Query parameters
-    [<CLIMutable>]
-    type UpdateNotificationSettingsQueryParams = {
       enableStreamDesktopNotifications : bool option;
       
 
@@ -422,6 +422,9 @@ module UsersApiHandlerParams =
       
 
       enableSounds : bool option;
+      
+
+      emailNotificationsBatchingPeriodSeconds : int option;
       
 
       enableOfflineEmailNotifications : bool option;
@@ -459,18 +462,57 @@ module UsersApiHandlerParams =
 
       presenceEnabled : bool option;
       
+
+      enterSends : bool option;
+      
     }
     //#endregion
 
     
-    type UpdateNotificationSettingsStatusCode200Response = {
+    type UpdateSettingsStatusCode200Response = {
       content:JsonSuccessBase;
       
     }
-    type UpdateNotificationSettingsResult = UpdateNotificationSettingsStatusCode200 of UpdateNotificationSettingsStatusCode200Response
+    type UpdateSettingsResult = UpdateSettingsStatusCode200 of UpdateSettingsStatusCode200Response
 
-    type UpdateNotificationSettingsArgs = {
-      queryParams:Result<UpdateNotificationSettingsQueryParams,string>;
+    type UpdateSettingsArgs = {
+      queryParams:Result<UpdateSettingsQueryParams,string>;
+    }
+
+    //#region Query parameters
+    [<CLIMutable>]
+    type UpdateStatusQueryParams = {
+      statusText : string option;
+      
+
+      away : bool option;
+      
+
+      emojiName : string option;
+      
+
+      emojiCode : string option;
+      
+
+      reactionType : string option;
+      
+    }
+    //#endregion
+
+    
+    type UpdateStatusStatusCode200Response = {
+      content:JsonSuccess;
+      
+    }
+    
+    type UpdateStatusStatusCode400Response = {
+      content:OneOfobjectobjectobjectobjectobjectobject;
+      
+    }
+    type UpdateStatusResult = UpdateStatusStatusCode200 of UpdateStatusStatusCode200Response|UpdateStatusStatusCode400 of UpdateStatusStatusCode400Response
+
+    type UpdateStatusArgs = {
+      queryParams:Result<UpdateStatusQueryParams,string>;
     }
     //#region Path parameters
     [<CLIMutable>]

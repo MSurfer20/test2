@@ -107,6 +107,24 @@ class StreamsApiInterfaceTest extends WebTestCase
     }
 
     /**
+     * Test case for deleteTopic
+     *
+     * Delete a topic.
+     *
+     */
+    public function testDeleteTopic()
+    {
+        $client = static::createClient();
+
+        $path = '/streams/{stream_id}/delete_topic';
+        $pattern = '{streamId}';
+        $data = $this->genTestData('\d+');
+        $path = str_replace($pattern, $data, $path);
+
+        $crawler = $client->request('POST', $path);
+    }
+
+    /**
      * Test case for getStreamId
      *
      * Get stream ID.
@@ -150,6 +168,24 @@ class StreamsApiInterfaceTest extends WebTestCase
         $client = static::createClient();
 
         $path = '/streams';
+
+        $crawler = $client->request('GET', $path);
+    }
+
+    /**
+     * Test case for getSubscribers
+     *
+     * Get the subscribers of a stream.
+     *
+     */
+    public function testGetSubscribers()
+    {
+        $client = static::createClient();
+
+        $path = '/streams/{stream_id}/members';
+        $pattern = '{streamId}';
+        $data = $this->genTestData('\d+');
+        $path = str_replace($pattern, $data, $path);
 
         $crawler = $client->request('GET', $path);
     }

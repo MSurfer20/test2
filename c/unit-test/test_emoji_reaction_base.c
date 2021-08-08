@@ -16,7 +16,7 @@
 #include "../model/emoji_reaction_base.h"
 emoji_reaction_base_t* instantiate_emoji_reaction_base(int include_optional);
 
-#include "test_emoji_reaction_base_user.c"
+#include "test_emoji_reaction_base_all_of_user.c"
 
 
 emoji_reaction_base_t* instantiate_emoji_reaction_base(int include_optional) {
@@ -28,7 +28,7 @@ emoji_reaction_base_t* instantiate_emoji_reaction_base(int include_optional) {
       "0",
       56,
        // false, not to have infinite recursion
-      instantiate_emoji_reaction_base_user(0)
+      instantiate_emoji_reaction_base_all_of_user(0)
     );
   } else {
     emoji_reaction_base = emoji_reaction_base_create(

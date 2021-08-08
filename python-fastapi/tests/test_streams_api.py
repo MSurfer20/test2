@@ -48,6 +48,25 @@ def test_create_big_blue_button_video_call(client: TestClient):
     #assert response.status_code == 200
 
 
+def test_delete_topic(client: TestClient):
+    """Test case for delete_topic
+
+    Delete a topic
+    """
+    params = [("topic_name", 'new coffee machine')]
+    headers = {
+    }
+    response = client.request(
+        "POST",
+        "/streams/{stream_id}/delete_topic".format(stream_id=1),
+        headers=headers,
+        params=params,
+    )
+
+    # uncomment below to assert the status code of the HTTP response
+    #assert response.status_code == 200
+
+
 def test_get_stream_id(client: TestClient):
     """Test case for get_stream_id
 
@@ -98,6 +117,24 @@ def test_get_streams(client: TestClient):
         "/streams",
         headers=headers,
         params=params,
+    )
+
+    # uncomment below to assert the status code of the HTTP response
+    #assert response.status_code == 200
+
+
+def test_get_subscribers(client: TestClient):
+    """Test case for get_subscribers
+
+    Get the subscribers of a stream
+    """
+
+    headers = {
+    }
+    response = client.request(
+        "GET",
+        "/streams/{stream_id}/members".format(stream_id=1),
+        headers=headers,
     )
 
     # uncomment below to assert the status code of the HTTP response

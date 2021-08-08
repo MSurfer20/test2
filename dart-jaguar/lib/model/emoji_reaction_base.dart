@@ -1,12 +1,16 @@
 import 'package:jaguar_serializer/jaguar_serializer.dart';
 
 
-import 'package:openapi/model/emoji_reaction_base_user.dart';
+import 'package:openapi/model/emoji_base.dart';
+
+import 'package:openapi/model/emoji_reaction_base_all_of_user.dart';
+
+import 'package:openapi/model/emoji_reaction_base_all_of.dart';
 
 part 'emoji_reaction_base.jser.dart';
 
 class EmojiReactionBase {
-   /* A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint.  */
+   /* A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji.  */
   @Alias('emoji_code', isNullable: false,  )
   final String emojiCode;
    /* Name of the emoji.  */
@@ -20,7 +24,7 @@ class EmojiReactionBase {
   final int userId;
   
   @Alias('user', isNullable: false,  )
-  final EmojiReactionBaseUser user;
+  final EmojiReactionBaseAllOfUser user;
   
 
   EmojiReactionBase(

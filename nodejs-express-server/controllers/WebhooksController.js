@@ -8,11 +8,11 @@
 
 const Controller = require('./Controller');
 const service = require('../services/WebhooksService');
-const zulip_outgoing_webhooks = async (request, response) => {
-  await Controller.handleRequest(request, response, service.zulip_outgoing_webhooks);
+const zulipOutgoingWebhooks = async (request, response) => {
+  await Controller.handleRequest(request, response, service.zulipOutgoingWebhooks);
 };
 
 
 module.exports = {
-  zulip_outgoing_webhooks,
+  zulipOutgoingWebhooks,
 };

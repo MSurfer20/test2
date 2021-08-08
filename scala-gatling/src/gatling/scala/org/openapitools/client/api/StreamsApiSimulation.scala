@@ -58,9 +58,11 @@ class StreamsApiSimulation extends Simulation {
     // Setup all the operations per second for the test to ultimately be generated from configs
     val archiveStreamPerSecond = config.getDouble("performance.operationsPerSecond.archiveStream") * rateMultiplier * instanceMultiplier
     val createBigBlueButtonVideoCallPerSecond = config.getDouble("performance.operationsPerSecond.createBigBlueButtonVideoCall") * rateMultiplier * instanceMultiplier
+    val deleteTopicPerSecond = config.getDouble("performance.operationsPerSecond.deleteTopic") * rateMultiplier * instanceMultiplier
     val getStreamIdPerSecond = config.getDouble("performance.operationsPerSecond.getStreamId") * rateMultiplier * instanceMultiplier
     val getStreamTopicsPerSecond = config.getDouble("performance.operationsPerSecond.getStreamTopics") * rateMultiplier * instanceMultiplier
     val getStreamsPerSecond = config.getDouble("performance.operationsPerSecond.getStreams") * rateMultiplier * instanceMultiplier
+    val getSubscribersPerSecond = config.getDouble("performance.operationsPerSecond.getSubscribers") * rateMultiplier * instanceMultiplier
     val getSubscriptionStatusPerSecond = config.getDouble("performance.operationsPerSecond.getSubscriptionStatus") * rateMultiplier * instanceMultiplier
     val getSubscriptionsPerSecond = config.getDouble("performance.operationsPerSecond.getSubscriptions") * rateMultiplier * instanceMultiplier
     val muteTopicPerSecond = config.getDouble("performance.operationsPerSecond.muteTopic") * rateMultiplier * instanceMultiplier
@@ -73,25 +75,28 @@ class StreamsApiSimulation extends Simulation {
     val scenarioBuilders: mutable.MutableList[PopulationBuilder] = new mutable.MutableList[PopulationBuilder]()
 
     // Set up CSV feeders
-    val archive_streamPATHFeeder = csv(userDataDirectory + File.separator + "archiveStream-pathParams.csv").random
-    val get_stream_idQUERYFeeder = csv(userDataDirectory + File.separator + "getStreamId-queryParams.csv").random
-    val get_stream_topicsPATHFeeder = csv(userDataDirectory + File.separator + "getStreamTopics-pathParams.csv").random
-    val get_streamsQUERYFeeder = csv(userDataDirectory + File.separator + "getStreams-queryParams.csv").random
-    val get_subscription_statusPATHFeeder = csv(userDataDirectory + File.separator + "getSubscriptionStatus-pathParams.csv").random
-    val get_subscriptionsQUERYFeeder = csv(userDataDirectory + File.separator + "getSubscriptions-queryParams.csv").random
-    val mute_topicQUERYFeeder = csv(userDataDirectory + File.separator + "muteTopic-queryParams.csv").random
+    val archive-streamPATHFeeder = csv(userDataDirectory + File.separator + "archiveStream-pathParams.csv").random
+    val delete-topicQUERYFeeder = csv(userDataDirectory + File.separator + "deleteTopic-queryParams.csv").random
+    val delete-topicPATHFeeder = csv(userDataDirectory + File.separator + "deleteTopic-pathParams.csv").random
+    val get-stream-idQUERYFeeder = csv(userDataDirectory + File.separator + "getStreamId-queryParams.csv").random
+    val get-stream-topicsPATHFeeder = csv(userDataDirectory + File.separator + "getStreamTopics-pathParams.csv").random
+    val get-streamsQUERYFeeder = csv(userDataDirectory + File.separator + "getStreams-queryParams.csv").random
+    val get-subscribersPATHFeeder = csv(userDataDirectory + File.separator + "getSubscribers-pathParams.csv").random
+    val get-subscription-statusPATHFeeder = csv(userDataDirectory + File.separator + "getSubscriptionStatus-pathParams.csv").random
+    val get-subscriptionsQUERYFeeder = csv(userDataDirectory + File.separator + "getSubscriptions-queryParams.csv").random
+    val mute-topicQUERYFeeder = csv(userDataDirectory + File.separator + "muteTopic-queryParams.csv").random
     val subscribeQUERYFeeder = csv(userDataDirectory + File.separator + "subscribe-queryParams.csv").random
     val unsubscribeQUERYFeeder = csv(userDataDirectory + File.separator + "unsubscribe-queryParams.csv").random
-    val update_streamQUERYFeeder = csv(userDataDirectory + File.separator + "updateStream-queryParams.csv").random
-    val update_streamPATHFeeder = csv(userDataDirectory + File.separator + "updateStream-pathParams.csv").random
-    val update_subscription_settingsQUERYFeeder = csv(userDataDirectory + File.separator + "updateSubscriptionSettings-queryParams.csv").random
-    val update_subscriptionsQUERYFeeder = csv(userDataDirectory + File.separator + "updateSubscriptions-queryParams.csv").random
+    val update-streamQUERYFeeder = csv(userDataDirectory + File.separator + "updateStream-queryParams.csv").random
+    val update-streamPATHFeeder = csv(userDataDirectory + File.separator + "updateStream-pathParams.csv").random
+    val update-subscription-settingsQUERYFeeder = csv(userDataDirectory + File.separator + "updateSubscriptionSettings-queryParams.csv").random
+    val update-subscriptionsQUERYFeeder = csv(userDataDirectory + File.separator + "updateSubscriptions-queryParams.csv").random
 
     // Setup all scenarios
 
     
     val scnarchiveStream = scenario("archiveStreamSimulation")
-        .feed(archive_streamPATHFeeder)
+        .feed(archive-streamPATHFeeder)
         .exec(http("archiveStream")
         .httpRequest("DELETE","/streams/${stream_id}")
 )
@@ -117,8 +122,24 @@ class StreamsApiSimulation extends Simulation {
     )
 
     
+    val scndeleteTopic = scenario("deleteTopicSimulation")
+        .feed(delete-topicQUERYFeeder)
+        .feed(delete-topicPATHFeeder)
+        .exec(http("deleteTopic")
+        .httpRequest("POST","/streams/${stream_id}/delete_topic")
+        .queryParam("topic_name","${topic_name}")
+)
+
+    // Run scndeleteTopic with warm up and reach a constant rate for entire duration
+    scenarioBuilders += scndeleteTopic.inject(
+        rampUsersPerSec(1) to(deleteTopicPerSecond) during(rampUpSeconds),
+        constantUsersPerSec(deleteTopicPerSecond) during(durationSeconds),
+        rampUsersPerSec(deleteTopicPerSecond) to(1) during(rampDownSeconds)
+    )
+
+    
     val scngetStreamId = scenario("getStreamIdSimulation")
-        .feed(get_stream_idQUERYFeeder)
+        .feed(get-stream-idQUERYFeeder)
         .exec(http("getStreamId")
         .httpRequest("GET","/get_stream_id")
         .queryParam("stream","${stream}")
@@ -133,7 +154,7 @@ class StreamsApiSimulation extends Simulation {
 
     
     val scngetStreamTopics = scenario("getStreamTopicsSimulation")
-        .feed(get_stream_topicsPATHFeeder)
+        .feed(get-stream-topicsPATHFeeder)
         .exec(http("getStreamTopics")
         .httpRequest("GET","/users/me/${stream_id}/topics")
 )
@@ -147,7 +168,7 @@ class StreamsApiSimulation extends Simulation {
 
     
     val scngetStreams = scenario("getStreamsSimulation")
-        .feed(get_streamsQUERYFeeder)
+        .feed(get-streamsQUERYFeeder)
         .exec(http("getStreams")
         .httpRequest("GET","/streams")
         .queryParam("include_web_public","${include_web_public}")
@@ -166,8 +187,22 @@ class StreamsApiSimulation extends Simulation {
     )
 
     
+    val scngetSubscribers = scenario("getSubscribersSimulation")
+        .feed(get-subscribersPATHFeeder)
+        .exec(http("getSubscribers")
+        .httpRequest("GET","/streams/${stream_id}/members")
+)
+
+    // Run scngetSubscribers with warm up and reach a constant rate for entire duration
+    scenarioBuilders += scngetSubscribers.inject(
+        rampUsersPerSec(1) to(getSubscribersPerSecond) during(rampUpSeconds),
+        constantUsersPerSec(getSubscribersPerSecond) during(durationSeconds),
+        rampUsersPerSec(getSubscribersPerSecond) to(1) during(rampDownSeconds)
+    )
+
+    
     val scngetSubscriptionStatus = scenario("getSubscriptionStatusSimulation")
-        .feed(get_subscription_statusPATHFeeder)
+        .feed(get-subscription-statusPATHFeeder)
         .exec(http("getSubscriptionStatus")
         .httpRequest("GET","/users/${user_id}/subscriptions/${stream_id}")
 )
@@ -181,7 +216,7 @@ class StreamsApiSimulation extends Simulation {
 
     
     val scngetSubscriptions = scenario("getSubscriptionsSimulation")
-        .feed(get_subscriptionsQUERYFeeder)
+        .feed(get-subscriptionsQUERYFeeder)
         .exec(http("getSubscriptions")
         .httpRequest("GET","/users/me/subscriptions")
         .queryParam("include_subscribers","${include_subscribers}")
@@ -196,7 +231,7 @@ class StreamsApiSimulation extends Simulation {
 
     
     val scnmuteTopic = scenario("muteTopicSimulation")
-        .feed(mute_topicQUERYFeeder)
+        .feed(mute-topicQUERYFeeder)
         .exec(http("muteTopic")
         .httpRequest("PATCH","/users/me/subscriptions/muted_topics")
         .queryParam("topic","${topic}")
@@ -252,8 +287,8 @@ class StreamsApiSimulation extends Simulation {
 
     
     val scnupdateStream = scenario("updateStreamSimulation")
-        .feed(update_streamQUERYFeeder)
-        .feed(update_streamPATHFeeder)
+        .feed(update-streamQUERYFeeder)
+        .feed(update-streamPATHFeeder)
         .exec(http("updateStream")
         .httpRequest("PATCH","/streams/${stream_id}")
         .queryParam("history_public_to_subscribers","${history_public_to_subscribers}")
@@ -274,7 +309,7 @@ class StreamsApiSimulation extends Simulation {
 
     
     val scnupdateSubscriptionSettings = scenario("updateSubscriptionSettingsSimulation")
-        .feed(update_subscription_settingsQUERYFeeder)
+        .feed(update-subscription-settingsQUERYFeeder)
         .exec(http("updateSubscriptionSettings")
         .httpRequest("POST","/users/me/subscriptions/properties")
         .queryParam("subscription_data","${subscription_data}")
@@ -289,7 +324,7 @@ class StreamsApiSimulation extends Simulation {
 
     
     val scnupdateSubscriptions = scenario("updateSubscriptionsSimulation")
-        .feed(update_subscriptionsQUERYFeeder)
+        .feed(update-subscriptionsQUERYFeeder)
         .exec(http("updateSubscriptions")
         .httpRequest("PATCH","/users/me/subscriptions")
         .queryParam("add","${add}")

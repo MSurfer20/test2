@@ -6,6 +6,7 @@ import apimodels.JsonSuccess;
 import apimodels.JsonSuccessBase;
 import apimodels.OneOfobjectobject;
 import apimodels.OneOfobjectobjectobject;
+import apimodels.OneOfobjectobjectobjectobjectobjectobject;
 
 import play.mvc.Http;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.LinkedHashSet;
 import java.io.FileInputStream;
 import play.libs.Files.TemporaryFile;
 import javax.validation.constraints.*;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", date = "2021-08-08T20:41:53.018098Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", date = "2021-08-08T21:11:44.583112Z[Etc/UTC]")
 public class UsersApiControllerImp extends UsersApiControllerImpInterface {
     @Override
     public JsonSuccessBase createUser(Http.Request request, @NotNull String email, @NotNull String password, @NotNull String fullName) throws Exception {
@@ -114,15 +115,15 @@ public class UsersApiControllerImp extends UsersApiControllerImpInterface {
     }
 
     @Override
-    public JsonSuccessBase updateDisplaySettings(Http.Request request, Boolean twentyFourHourTime, Boolean denseMode, Boolean starredMessageCounts, Boolean fluidLayoutWidth, Boolean highContrastMode, Integer colorScheme, Boolean translateEmoticons, String defaultLanguage, String defaultView, Boolean leftSideUserlist, String emojiset, Integer demoteInactiveStreams, String timezone) throws Exception {
+    public JsonSuccessBase updateSettings(Http.Request request, String fullName, String email, String oldPassword, String newPassword, Boolean twentyFourHourTime, Boolean denseMode, Boolean starredMessageCounts, Boolean fluidLayoutWidth, Boolean highContrastMode, Integer colorScheme, Boolean enableDraftsSynchronization, Boolean translateEmoticons, String defaultLanguage, String defaultView, Boolean leftSideUserlist, String emojiset, Integer demoteInactiveStreams, String timezone, Boolean enableStreamDesktopNotifications, Boolean enableStreamEmailNotifications, Boolean enableStreamPushNotifications, Boolean enableStreamAudibleNotifications, String notificationSound, Boolean enableDesktopNotifications, Boolean enableSounds, Integer emailNotificationsBatchingPeriodSeconds, Boolean enableOfflineEmailNotifications, Boolean enableOfflinePushNotifications, Boolean enableOnlinePushNotifications, Boolean enableDigestEmails, Boolean enableMarketingEmails, Boolean enableLoginEmails, Boolean messageContentInEmailNotifications, Boolean pmContentInDesktopNotifications, Boolean wildcardMentionsNotify, Integer desktopIconCountDisplay, Boolean realmNameInNotifications, Boolean presenceEnabled, Boolean enterSends) throws Exception {
         //Do your magic!!!
         return new JsonSuccessBase();
     }
 
     @Override
-    public JsonSuccessBase updateNotificationSettings(Http.Request request, Boolean enableStreamDesktopNotifications, Boolean enableStreamEmailNotifications, Boolean enableStreamPushNotifications, Boolean enableStreamAudibleNotifications, String notificationSound, Boolean enableDesktopNotifications, Boolean enableSounds, Boolean enableOfflineEmailNotifications, Boolean enableOfflinePushNotifications, Boolean enableOnlinePushNotifications, Boolean enableDigestEmails, Boolean enableMarketingEmails, Boolean enableLoginEmails, Boolean messageContentInEmailNotifications, Boolean pmContentInDesktopNotifications, Boolean wildcardMentionsNotify, Integer desktopIconCountDisplay, Boolean realmNameInNotifications, Boolean presenceEnabled) throws Exception {
+    public JsonSuccess updateStatus(Http.Request request, String statusText, Boolean away, String emojiName, String emojiCode, String reactionType) throws Exception {
         //Do your magic!!!
-        return new JsonSuccessBase();
+        return new JsonSuccess();
     }
 
     @Override

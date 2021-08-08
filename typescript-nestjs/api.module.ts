@@ -2,6 +2,7 @@ import { DynamicModule, HttpService, HttpModule, Module, Global } from '@nestjs/
 import { Configuration } from './configuration';
 
 import { AuthenticationService } from './api/authentication.service';
+import { DraftsService } from './api/drafts.service';
 import { MessagesService } from './api/messages.service';
 import { RealTimeEventsService } from './api/realTimeEvents.service';
 import { ServerAndOrganizationsService } from './api/serverAndOrganizations.service';
@@ -14,6 +15,7 @@ import { WebhooksService } from './api/webhooks.service';
   imports:      [ HttpModule ],
   exports:      [
     AuthenticationService,
+    DraftsService,
     MessagesService,
     RealTimeEventsService,
     ServerAndOrganizationsService,
@@ -23,6 +25,7 @@ import { WebhooksService } from './api/webhooks.service';
   ],
   providers: [
     AuthenticationService,
+    DraftsService,
     MessagesService,
     RealTimeEventsService,
     ServerAndOrganizationsService,

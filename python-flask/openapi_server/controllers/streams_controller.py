@@ -35,6 +35,21 @@ def create_big_blue_button_video_call():  # noqa: E501
     return 'do some magic!'
 
 
+def delete_topic(stream_id, topic_name):  # noqa: E501
+    """Delete a topic
+
+    Delete all messages in a topic.  &#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip.  # noqa: E501
+
+    :param stream_id: The ID of the stream to access. 
+    :type stream_id: int
+    :param topic_name: The name of the topic to delete. 
+    :type topic_name: str
+
+    :rtype: JsonSuccess
+    """
+    return 'do some magic!'
+
+
 def get_stream_id(stream):  # noqa: E501
     """Get stream ID
 
@@ -78,6 +93,19 @@ def get_streams(include_public=None, include_web_public=None, include_subscribed
     :type include_default: bool
     :param include_owner_subscribed: If the user is a bot, include all streams that the bot&#39;s owner is subscribed to. 
     :type include_owner_subscribed: bool
+
+    :rtype: JsonSuccessBase
+    """
+    return 'do some magic!'
+
+
+def get_subscribers(stream_id):  # noqa: E501
+    """Get the subscribers of a stream
+
+    Get all users subscribed to a stream.  &#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60;  # noqa: E501
+
+    :param stream_id: The ID of the stream to access. 
+    :type stream_id: int
 
     :rtype: JsonSuccessBase
     """

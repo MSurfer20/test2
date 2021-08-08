@@ -274,8 +274,9 @@ relevant to the format of responses sent by the server.
   client can handle the current API with null values for
   stream-level notification settings (which means the stream
   is not customized and should inherit the user's global
-  notification settings for stream messages).  New in Zulip
-  2.1.0; in earlier Zulip releases, stream-level
+  notification settings for stream messages).
+  <br />
+  New in Zulip 2.1.0; in earlier Zulip releases, stream-level
   notification settings were simple booleans.
 
 * 'bulk_message_deletion': Boolean for whether the client's
@@ -283,7 +284,9 @@ relevant to the format of responses sent by the server.
    updated to process the new bulk format (with a
    'message_ids', rather than a singleton 'message_id').
    Otherwise, the server will send 'delete_message' events
-   in a loop.  New in Zulip 3.0 (feature level 13).  This
+   in a loop.
+   <br />
+   New in Zulip 3.0 (feature level 13).  This
    capability is for backwards-compatibility; it will be
    required in a future server release.
 
@@ -294,14 +297,32 @@ relevant to the format of responses sent by the server.
    'avatar_url' field in the 'realm_user' at its sole discretion
    to optimize network performance.  This is an important optimization
    in organizations with 10,000s of users.
+   <br />
    New in Zulip 3.0 (feature level 18).
 
 * 'stream_typing_notifications': Boolean for whether the client
   supports stream typing notifications.
-
+  <br />
   New in Zulip 4.0 (feature level 58).  This capability is
   for backwards-compatibility; it will be required in a
-  future server release. | [optional] [default to null]
+  future server release.
+
+* 'user_settings_object': Boolean for whether the client supports the modern
+  'user_settings' event type. If False, the server will additionally send the
+  legacy 'update_display_settings' and 'update_global_notifications' event
+  types for backwards-compatibility with clients that predate this API migration.
+  <br />
+  <br />
+  Because the feature level 89 API changes were merged together, clients can
+  safely make a request with this client capability and requesting all of the
+  'user_settings', 'update_display_settings', and
+  'update_global_notifications' event types, and get exactly one copy of
+  settings data on any server version. (And then use the 'zulip_feature_level'
+  in the '/register' response or the presence/absence of a 'user_settings' key
+  to determine where to look).
+  <br />
+  New in Zulip 5.0 (feature level 89).  This capability is for
+  backwards-compatibility; it will be removed in a future server release. | [optional] [default to null]
  **fetchEventTypes** | [**array[string]**](string.md) | Same as the 'event_types' parameter except that the values in
 'fetch_event_types' are used to fetch initial data. If
 'fetch_event_types' is not provided, 'event_types' is used and if

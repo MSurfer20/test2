@@ -40,9 +40,11 @@ public class StreamsApiHandler {
     public void mount(RouterBuilder builder) {
         builder.operation("archiveStream").handler(this::archiveStream);
         builder.operation("createBigBlueButtonVideoCall").handler(this::createBigBlueButtonVideoCall);
+        builder.operation("deleteTopic").handler(this::deleteTopic);
         builder.operation("getStreamId").handler(this::getStreamId);
         builder.operation("getStreamTopics").handler(this::getStreamTopics);
         builder.operation("getStreams").handler(this::getStreams);
+        builder.operation("getSubscribers").handler(this::getSubscribers);
         builder.operation("getSubscriptionStatus").handler(this::getSubscriptionStatus);
         builder.operation("getSubscriptions").handler(this::getSubscriptions);
         builder.operation("muteTopic").handler(this::muteTopic);
@@ -84,6 +86,30 @@ public class StreamsApiHandler {
 
 
         api.createBigBlueButtonVideoCall()
+            .onSuccess(apiResponse -> {
+                routingContext.response().setStatusCode(apiResponse.getStatusCode());
+                if (apiResponse.hasData()) {
+                    routingContext.json(apiResponse.getData());
+                } else {
+                    routingContext.response().end();
+                }
+            })
+            .onFailure(routingContext::fail);
+    }
+
+    private void deleteTopic(RoutingContext routingContext) {
+        logger.info("deleteTopic()");
+
+        // Param extraction
+        RequestParameters requestParameters = routingContext.get(ValidationHandler.REQUEST_CONTEXT_KEY);
+
+        Integer streamId = requestParameters.pathParameter("stream_id") != null ? requestParameters.pathParameter("stream_id").getInteger() : null;
+        String topicName = requestParameters.queryParameter("topic_name") != null ? requestParameters.queryParameter("topic_name").getString() : null;
+
+        logger.debug("Parameter streamId is {}", streamId);
+        logger.debug("Parameter topicName is {}", topicName);
+
+        api.deleteTopic(streamId, topicName)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
                 if (apiResponse.hasData()) {
@@ -160,6 +186,28 @@ public class StreamsApiHandler {
         logger.debug("Parameter includeOwnerSubscribed is {}", includeOwnerSubscribed);
 
         api.getStreams(includePublic, includeWebPublic, includeSubscribed, includeAllActive, includeDefault, includeOwnerSubscribed)
+            .onSuccess(apiResponse -> {
+                routingContext.response().setStatusCode(apiResponse.getStatusCode());
+                if (apiResponse.hasData()) {
+                    routingContext.json(apiResponse.getData());
+                } else {
+                    routingContext.response().end();
+                }
+            })
+            .onFailure(routingContext::fail);
+    }
+
+    private void getSubscribers(RoutingContext routingContext) {
+        logger.info("getSubscribers()");
+
+        // Param extraction
+        RequestParameters requestParameters = routingContext.get(ValidationHandler.REQUEST_CONTEXT_KEY);
+
+        Integer streamId = requestParameters.pathParameter("stream_id") != null ? requestParameters.pathParameter("stream_id").getInteger() : null;
+
+        logger.debug("Parameter streamId is {}", streamId);
+
+        api.getSubscribers(streamId)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
                 if (apiResponse.hasData()) {

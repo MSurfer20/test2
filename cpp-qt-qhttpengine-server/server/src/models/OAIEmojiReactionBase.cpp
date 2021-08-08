@@ -165,10 +165,10 @@ bool OAIEmojiReactionBase::is_user_id_Valid() const{
     return m_user_id_isValid;
 }
 
-OAIEmojiReactionBase_user OAIEmojiReactionBase::getUser() const {
+OAIEmojiReactionBase_allOf_user OAIEmojiReactionBase::getUser() const {
     return user;
 }
-void OAIEmojiReactionBase::setUser(const OAIEmojiReactionBase_user &user) {
+void OAIEmojiReactionBase::setUser(const OAIEmojiReactionBase_allOf_user &user) {
     this->user = user;
     this->m_user_isSet = true;
 }

@@ -9,6 +9,12 @@ GET     /api                        controllers.ApiDocController.api
 POST     /api/v1/dev_fetch_api_key                     controllers.AuthenticationApiController.devFetchApiKey(request: Request)
 POST     /api/v1/fetch_api_key                     controllers.AuthenticationApiController.fetchApiKey(request: Request)
 
+#Functions for Drafts API
+POST     /api/v1/drafts                     controllers.DraftsApiController.createDrafts(request: Request)
+DELETE     /api/v1/drafts/:draftId                     controllers.DraftsApiController.deleteDraft(request: Request, draftId: Integer)
+PATCH     /api/v1/drafts/:draftId                     controllers.DraftsApiController.editDraft(request: Request, draftId: Integer)
+GET     /api/v1/drafts                     controllers.DraftsApiController.getDrafts(request: Request)
+
 #Functions for Messages API
 POST     /api/v1/messages/:messageId/reactions                     controllers.MessagesApiController.addReaction(request: Request, messageId: Integer)
 GET     /api/v1/messages/matches_narrow                     controllers.MessagesApiController.checkMessagesMatchNarrow(request: Request)
@@ -51,9 +57,11 @@ POST     /api/v1/realm/emoji/:emojiName                     controllers.ServerAn
 #Functions for Streams API
 DELETE     /api/v1/streams/:streamId                     controllers.StreamsApiController.archiveStream(request: Request, streamId: Integer)
 GET     /api/v1/calls/bigbluebutton/create                     controllers.StreamsApiController.createBigBlueButtonVideoCall(request: Request)
+POST     /api/v1/streams/:streamId/delete_topic                     controllers.StreamsApiController.deleteTopic(request: Request, streamId: Integer)
 GET     /api/v1/get_stream_id                     controllers.StreamsApiController.getStreamId(request: Request)
 GET     /api/v1/users/me/:streamId/topics                     controllers.StreamsApiController.getStreamTopics(request: Request, streamId: Integer)
 GET     /api/v1/streams                     controllers.StreamsApiController.getStreams(request: Request)
+GET     /api/v1/streams/:streamId/members                     controllers.StreamsApiController.getSubscribers(request: Request, streamId: Integer)
 GET     /api/v1/users/:userId/subscriptions/:streamId                     controllers.StreamsApiController.getSubscriptionStatus(request: Request, userId: Integer, streamId: Integer)
 GET     /api/v1/users/me/subscriptions                     controllers.StreamsApiController.getSubscriptions(request: Request)
 PATCH     /api/v1/users/me/subscriptions/muted_topics                     controllers.StreamsApiController.muteTopic(request: Request)
@@ -80,8 +88,8 @@ POST     /api/v1/users/:userId/reactivate                     controllers.UsersA
 DELETE     /api/v1/user_groups/:userGroupId                     controllers.UsersApiController.removeUserGroup(request: Request, userGroupId: Integer)
 POST     /api/v1/typing                     controllers.UsersApiController.setTypingStatus(request: Request)
 DELETE     /api/v1/users/me/muted_users/:mutedUserId                     controllers.UsersApiController.unmuteUser(request: Request, mutedUserId: Integer)
-PATCH     /api/v1/settings/display                     controllers.UsersApiController.updateDisplaySettings(request: Request)
-PATCH     /api/v1/settings/notifications                     controllers.UsersApiController.updateNotificationSettings(request: Request)
+PATCH     /api/v1/settings                     controllers.UsersApiController.updateSettings(request: Request)
+POST     /api/v1/users/me/status                     controllers.UsersApiController.updateStatus(request: Request)
 PATCH     /api/v1/users/:userId                     controllers.UsersApiController.updateUser(request: Request, userId: Integer)
 PATCH     /api/v1/user_groups/:userGroupId                     controllers.UsersApiController.updateUserGroup(request: Request, userGroupId: Integer)
 POST     /api/v1/user_groups/:userGroupId/members                     controllers.UsersApiController.updateUserGroupMembers(request: Request, userGroupId: Integer)

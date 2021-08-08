@@ -10,6 +10,8 @@ src/main/java/com/prokarma/pkmst/config/swagger/OpenAPIDocumentationConfig.java
 src/main/java/com/prokarma/pkmst/config/swagger/PkmstProperties.java
 src/main/java/com/prokarma/pkmst/controller/AuthenticationApi.java
 src/main/java/com/prokarma/pkmst/controller/AuthenticationApiController.java
+src/main/java/com/prokarma/pkmst/controller/DraftsApi.java
+src/main/java/com/prokarma/pkmst/controller/DraftsApiController.java
 src/main/java/com/prokarma/pkmst/controller/MessagesApi.java
 src/main/java/com/prokarma/pkmst/controller/MessagesApiController.java
 src/main/java/com/prokarma/pkmst/controller/RealTimeEventsApi.java
@@ -45,10 +47,13 @@ src/main/java/com/prokarma/pkmst/model/CodedErrorBase.java
 src/main/java/com/prokarma/pkmst/model/CodedErrorBaseAllOf.java
 src/main/java/com/prokarma/pkmst/model/CustomProfileField.java
 src/main/java/com/prokarma/pkmst/model/DefaultStreamGroup.java
+src/main/java/com/prokarma/pkmst/model/Draft.java
+src/main/java/com/prokarma/pkmst/model/EmojiBase.java
 src/main/java/com/prokarma/pkmst/model/EmojiReaction.java
 src/main/java/com/prokarma/pkmst/model/EmojiReactionAllOf.java
 src/main/java/com/prokarma/pkmst/model/EmojiReactionBase.java
-src/main/java/com/prokarma/pkmst/model/EmojiReactionBaseUser.java
+src/main/java/com/prokarma/pkmst/model/EmojiReactionBaseAllOf.java
+src/main/java/com/prokarma/pkmst/model/EmojiReactionBaseAllOfUser.java
 src/main/java/com/prokarma/pkmst/model/GetMessages.java
 src/main/java/com/prokarma/pkmst/model/GetMessagesAllOf.java
 src/main/java/com/prokarma/pkmst/model/Hotspot.java
@@ -94,6 +99,7 @@ src/main/resources/application-dev.yml
 src/main/resources/application-local.yml
 src/main/resources/bootstrap.yml
 src/test/java/com/prokarma/pkmst/controller/AuthenticationApiTest.java
+src/test/java/com/prokarma/pkmst/controller/DraftsApiTest.java
 src/test/java/com/prokarma/pkmst/controller/MessagesApiTest.java
 src/test/java/com/prokarma/pkmst/controller/PkmstIT.java
 src/test/java/com/prokarma/pkmst/controller/RealTimeEventsApiTest.java

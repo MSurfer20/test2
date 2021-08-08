@@ -180,13 +180,18 @@ void OAIUsersApiHandler::unmuteUser(qint32 muted_user_id) {
         reqObj->unmuteUserResponse(res);
     }    
 }
-void OAIUsersApiHandler::updateDisplaySettings(bool twenty_four_hour_time, bool dense_mode, bool starred_message_counts, bool fluid_layout_width, bool high_contrast_mode, qint32 color_scheme, bool translate_emoticons, QString default_language, QString default_view, bool left_side_userlist, QString emojiset, qint32 demote_inactive_streams, QString timezone) {
+void OAIUsersApiHandler::updateSettings(QString full_name, QString email, QString old_password, QString new_password, bool twenty_four_hour_time, bool dense_mode, bool starred_message_counts, bool fluid_layout_width, bool high_contrast_mode, qint32 color_scheme, bool enable_drafts_synchronization, bool translate_emoticons, QString default_language, QString default_view, bool left_side_userlist, QString emojiset, qint32 demote_inactive_streams, QString timezone, bool enable_stream_desktop_notifications, bool enable_stream_email_notifications, bool enable_stream_push_notifications, bool enable_stream_audible_notifications, QString notification_sound, bool enable_desktop_notifications, bool enable_sounds, qint32 email_notifications_batching_period_seconds, bool enable_offline_email_notifications, bool enable_offline_push_notifications, bool enable_online_push_notifications, bool enable_digest_emails, bool enable_marketing_emails, bool enable_login_emails, bool message_content_in_email_notifications, bool pm_content_in_desktop_notifications, bool wildcard_mentions_notify, qint32 desktop_icon_count_display, bool realm_name_in_notifications, bool presence_enabled, bool enter_sends) {
+    Q_UNUSED(full_name);
+    Q_UNUSED(email);
+    Q_UNUSED(old_password);
+    Q_UNUSED(new_password);
     Q_UNUSED(twenty_four_hour_time);
     Q_UNUSED(dense_mode);
     Q_UNUSED(starred_message_counts);
     Q_UNUSED(fluid_layout_width);
     Q_UNUSED(high_contrast_mode);
     Q_UNUSED(color_scheme);
+    Q_UNUSED(enable_drafts_synchronization);
     Q_UNUSED(translate_emoticons);
     Q_UNUSED(default_language);
     Q_UNUSED(default_view);
@@ -194,14 +199,6 @@ void OAIUsersApiHandler::updateDisplaySettings(bool twenty_four_hour_time, bool 
     Q_UNUSED(emojiset);
     Q_UNUSED(demote_inactive_streams);
     Q_UNUSED(timezone);
-    auto reqObj = qobject_cast<OAIUsersApiRequest*>(sender());
-    if( reqObj != nullptr ) 
-    { 
-        OAIJsonSuccessBase res;
-        reqObj->updateDisplaySettingsResponse(res);
-    }    
-}
-void OAIUsersApiHandler::updateNotificationSettings(bool enable_stream_desktop_notifications, bool enable_stream_email_notifications, bool enable_stream_push_notifications, bool enable_stream_audible_notifications, QString notification_sound, bool enable_desktop_notifications, bool enable_sounds, bool enable_offline_email_notifications, bool enable_offline_push_notifications, bool enable_online_push_notifications, bool enable_digest_emails, bool enable_marketing_emails, bool enable_login_emails, bool message_content_in_email_notifications, bool pm_content_in_desktop_notifications, bool wildcard_mentions_notify, qint32 desktop_icon_count_display, bool realm_name_in_notifications, bool presence_enabled) {
     Q_UNUSED(enable_stream_desktop_notifications);
     Q_UNUSED(enable_stream_email_notifications);
     Q_UNUSED(enable_stream_push_notifications);
@@ -209,6 +206,7 @@ void OAIUsersApiHandler::updateNotificationSettings(bool enable_stream_desktop_n
     Q_UNUSED(notification_sound);
     Q_UNUSED(enable_desktop_notifications);
     Q_UNUSED(enable_sounds);
+    Q_UNUSED(email_notifications_batching_period_seconds);
     Q_UNUSED(enable_offline_email_notifications);
     Q_UNUSED(enable_offline_push_notifications);
     Q_UNUSED(enable_online_push_notifications);
@@ -221,11 +219,25 @@ void OAIUsersApiHandler::updateNotificationSettings(bool enable_stream_desktop_n
     Q_UNUSED(desktop_icon_count_display);
     Q_UNUSED(realm_name_in_notifications);
     Q_UNUSED(presence_enabled);
+    Q_UNUSED(enter_sends);
     auto reqObj = qobject_cast<OAIUsersApiRequest*>(sender());
     if( reqObj != nullptr ) 
     { 
         OAIJsonSuccessBase res;
-        reqObj->updateNotificationSettingsResponse(res);
+        reqObj->updateSettingsResponse(res);
+    }    
+}
+void OAIUsersApiHandler::updateStatus(QString status_text, bool away, QString emoji_name, QString emoji_code, QString reaction_type) {
+    Q_UNUSED(status_text);
+    Q_UNUSED(away);
+    Q_UNUSED(emoji_name);
+    Q_UNUSED(emoji_code);
+    Q_UNUSED(reaction_type);
+    auto reqObj = qobject_cast<OAIUsersApiRequest*>(sender());
+    if( reqObj != nullptr ) 
+    { 
+        OAIJsonSuccess res;
+        reqObj->updateStatusResponse(res);
     }    
 }
 void OAIUsersApiHandler::updateUser(qint32 user_id, QString full_name, qint32 role, QList<OAIObject> profile_data) {

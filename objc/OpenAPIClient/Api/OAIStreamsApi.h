@@ -53,6 +53,21 @@ extern NSInteger kOAIStreamsApiMissingParamErrorCode;
     (void (^)(OAIJsonSuccessBase* output, NSError* error)) handler;
 
 
+/// Delete a topic
+/// Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+///
+/// @param streamId The ID of the stream to access. 
+/// @param topicName The name of the topic to delete. 
+/// 
+///  code:200 message:"Success.",
+///  code:400 message:"Error."
+///
+/// @return OAIJsonSuccess*
+-(NSURLSessionTask*) deleteTopicWithStreamId: (NSNumber*) streamId
+    topicName: (NSString*) topicName
+    completionHandler: (void (^)(OAIJsonSuccess* output, NSError* error)) handler;
+
+
 /// Get stream ID
 /// Get the unique ID of a given stream.  `GET {{ api_url }}/v1/get_stream_id` 
 ///
@@ -99,6 +114,19 @@ extern NSInteger kOAIStreamsApiMissingParamErrorCode;
     includeAllActive: (NSNumber*) includeAllActive
     includeDefault: (NSNumber*) includeDefault
     includeOwnerSubscribed: (NSNumber*) includeOwnerSubscribed
+    completionHandler: (void (^)(OAIJsonSuccessBase* output, NSError* error)) handler;
+
+
+/// Get the subscribers of a stream
+/// Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` 
+///
+/// @param streamId The ID of the stream to access. 
+/// 
+///  code:200 message:"Success.",
+///  code:400 message:"Bad request."
+///
+/// @return OAIJsonSuccessBase*
+-(NSURLSessionTask*) getSubscribersWithStreamId: (NSNumber*) streamId
     completionHandler: (void (^)(OAIJsonSuccessBase* output, NSError* error)) handler;
 
 

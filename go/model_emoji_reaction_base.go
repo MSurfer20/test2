@@ -16,7 +16,7 @@ import (
 
 // EmojiReactionBase struct for EmojiReactionBase
 type EmojiReactionBase struct {
-	// A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint. 
+	// A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji. 
 	EmojiCode *string `json:"emoji_code,omitempty"`
 	// Name of the emoji. 
 	EmojiName *string `json:"emoji_name,omitempty"`
@@ -24,7 +24,7 @@ type EmojiReactionBase struct {
 	ReactionType *string `json:"reaction_type,omitempty"`
 	// The ID of the user who added the reaction.  **Changes**: New in Zulip 3.0 (feature level 2). The `user` object is deprecated and will be removed in the future. 
 	UserId *int32 `json:"user_id,omitempty"`
-	User *EmojiReactionBaseUser `json:"user,omitempty"`
+	User *EmojiReactionBaseAllOfUser `json:"user,omitempty"`
 }
 
 // NewEmojiReactionBase instantiates a new EmojiReactionBase object
@@ -173,9 +173,9 @@ func (o *EmojiReactionBase) SetUserId(v int32) {
 }
 
 // GetUser returns the User field value if set, zero value otherwise.
-func (o *EmojiReactionBase) GetUser() EmojiReactionBaseUser {
+func (o *EmojiReactionBase) GetUser() EmojiReactionBaseAllOfUser {
 	if o == nil || o.User == nil {
-		var ret EmojiReactionBaseUser
+		var ret EmojiReactionBaseAllOfUser
 		return ret
 	}
 	return *o.User
@@ -183,7 +183,7 @@ func (o *EmojiReactionBase) GetUser() EmojiReactionBaseUser {
 
 // GetUserOk returns a tuple with the User field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EmojiReactionBase) GetUserOk() (*EmojiReactionBaseUser, bool) {
+func (o *EmojiReactionBase) GetUserOk() (*EmojiReactionBaseAllOfUser, bool) {
 	if o == nil || o.User == nil {
 		return nil, false
 	}
@@ -199,8 +199,8 @@ func (o *EmojiReactionBase) HasUser() bool {
 	return false
 }
 
-// SetUser gets a reference to the given EmojiReactionBaseUser and assigns it to the User field.
-func (o *EmojiReactionBase) SetUser(v EmojiReactionBaseUser) {
+// SetUser gets a reference to the given EmojiReactionBaseAllOfUser and assigns it to the User field.
+func (o *EmojiReactionBase) SetUser(v EmojiReactionBaseAllOfUser) {
 	o.User = &v
 }
 

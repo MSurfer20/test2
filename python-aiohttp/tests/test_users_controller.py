@@ -10,6 +10,7 @@ from openapi_server.models.json_success import JsonSuccess
 from openapi_server.models.json_success_base import JsonSuccessBase
 from openapi_server.models.one_ofobjectobject import OneOfobjectobject
 from openapi_server.models.one_ofobjectobjectobject import OneOfobjectobjectobject
+from openapi_server.models.one_ofobjectobjectobjectobjectobjectobject import OneOfobjectobjectobjectobjectobjectobject
 
 
 async def test_create_user(client):
@@ -290,48 +291,37 @@ async def test_unmute_user(client):
     assert response.status == 200, 'Response body is : ' + (await response.read()).decode('utf-8')
 
 
-async def test_update_display_settings(client):
-    """Test case for update_display_settings
+async def test_update_settings(client):
+    """Test case for update_settings
 
-    Update display settings
+    Update settings
     """
-    params = [('twenty_four_hour_time', true),
+    params = [('full_name', 'NewName'),
+                    ('email', 'newname@example.com'),
+                    ('old_password', 'old12345'),
+                    ('new_password', 'new12345'),
+                    ('twenty_four_hour_time', true),
                     ('dense_mode', true),
                     ('starred_message_counts', true),
                     ('fluid_layout_width', true),
                     ('high_contrast_mode', true),
                     ('color_scheme', 56),
+                    ('enable_drafts_synchronization', true),
                     ('translate_emoticons', true),
                     ('default_language', 'en'),
                     ('default_view', 'all_messages'),
                     ('left_side_userlist', true),
                     ('emojiset', 'google'),
                     ('demote_inactive_streams', 56),
-                    ('timezone', 'Asia/Kolkata')]
-    headers = { 
-        'Accept': 'application/json',
-    }
-    response = await client.request(
-        method='PATCH',
-        path='/api/v1/settings/display',
-        headers=headers,
-        params=params,
-        )
-    assert response.status == 200, 'Response body is : ' + (await response.read()).decode('utf-8')
-
-
-async def test_update_notification_settings(client):
-    """Test case for update_notification_settings
-
-    Update notification settings
-    """
-    params = [('enable_stream_desktop_notifications', true),
+                    ('timezone', 'Asia/Kolkata'),
+                    ('enable_stream_desktop_notifications', true),
                     ('enable_stream_email_notifications', true),
                     ('enable_stream_push_notifications', true),
                     ('enable_stream_audible_notifications', true),
                     ('notification_sound', 'ding'),
                     ('enable_desktop_notifications', true),
                     ('enable_sounds', true),
+                    ('email_notifications_batching_period_seconds', 120),
                     ('enable_offline_email_notifications', true),
                     ('enable_offline_push_notifications', true),
                     ('enable_online_push_notifications', true),
@@ -343,13 +333,36 @@ async def test_update_notification_settings(client):
                     ('wildcard_mentions_notify', true),
                     ('desktop_icon_count_display', 56),
                     ('realm_name_in_notifications', true),
-                    ('presence_enabled', true)]
+                    ('presence_enabled', true),
+                    ('enter_sends', true)]
     headers = { 
         'Accept': 'application/json',
     }
     response = await client.request(
         method='PATCH',
-        path='/api/v1/settings/notifications',
+        path='/api/v1/settings',
+        headers=headers,
+        params=params,
+        )
+    assert response.status == 200, 'Response body is : ' + (await response.read()).decode('utf-8')
+
+
+async def test_update_status(client):
+    """Test case for update_status
+
+    Update your status
+    """
+    params = [('status_text', 'on vacation'),
+                    ('away', true),
+                    ('emoji_name', 'car'),
+                    ('emoji_code', '1f697'),
+                    ('reaction_type', 'unicode_emoji')]
+    headers = { 
+        'Accept': 'application/json',
+    }
+    response = await client.request(
+        method='POST',
+        path='/api/v1/users/me/status',
         headers=headers,
         params=params,
         )

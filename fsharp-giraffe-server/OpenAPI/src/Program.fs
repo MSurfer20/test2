@@ -20,6 +20,7 @@ open Giraffe.GiraffeViewEngine
 open AspNet.Security.ApiKey.Providers
 
 open AuthenticationApiHandlerParams
+open DraftsApiHandlerParams
 open MessagesApiHandlerParams
 open RealTimeEventsApiHandlerParams
 open ServerAndOrganizationsApiHandlerParams
@@ -54,6 +55,10 @@ module App =
     choose (CustomHandlers.handlers @ [
       HttpPost >=> route "/api/v1/dev_fetch_api_key" >=>  AuthenticationApiHandler.DevFetchApiKey;
       HttpPost >=> route "/api/v1/fetch_api_key" >=>  AuthenticationApiHandler.FetchApiKey;
+      HttpPost >=> route "/api/v1/drafts" >=>  DraftsApiHandler.CreateDrafts;
+      HttpDelete >=> routeBind<DeleteDraftPathParams> "/api/v1/drafts/{draft_id}"  (fun x ->  DraftsApiHandler.DeleteDraft x);
+      HttpPatch >=> routeBind<EditDraftPathParams> "/api/v1/drafts/{draft_id}"  (fun x ->  DraftsApiHandler.EditDraft x);
+      HttpGet >=> route "/api/v1/drafts" >=>  DraftsApiHandler.GetDrafts;
       HttpPost >=> routeBind<AddReactionPathParams> "/api/v1/messages/{message_id}/reactions"  (fun x ->  MessagesApiHandler.AddReaction x);
       HttpGet >=> route "/api/v1/messages/matches_narrow" >=>  MessagesApiHandler.CheckMessagesMatchNarrow;
       HttpDelete >=> routeBind<DeleteMessagePathParams> "/api/v1/messages/{message_id}"  (fun x ->  MessagesApiHandler.DeleteMessage x);
@@ -89,9 +94,11 @@ module App =
       HttpPost >=> routeBind<UploadCustomEmojiPathParams> "/api/v1/realm/emoji/{emoji_name}"  (fun x ->  ServerAndOrganizationsApiHandler.UploadCustomEmoji x);
       HttpDelete >=> routeBind<ArchiveStreamPathParams> "/api/v1/streams/{stream_id}"  (fun x ->  StreamsApiHandler.ArchiveStream x);
       HttpGet >=> route "/api/v1/calls/bigbluebutton/create" >=>  StreamsApiHandler.CreateBigBlueButtonVideoCall;
+      HttpPost >=> routeBind<DeleteTopicPathParams> "/api/v1/streams/{stream_id}/delete_topic"  (fun x ->  StreamsApiHandler.DeleteTopic x);
       HttpGet >=> route "/api/v1/get_stream_id" >=>  StreamsApiHandler.GetStreamId;
       HttpGet >=> routeBind<GetStreamTopicsPathParams> "/api/v1/users/me/{stream_id}/topics"  (fun x ->  StreamsApiHandler.GetStreamTopics x);
       HttpGet >=> route "/api/v1/streams" >=>  StreamsApiHandler.GetStreams;
+      HttpGet >=> routeBind<GetSubscribersPathParams> "/api/v1/streams/{stream_id}/members"  (fun x ->  StreamsApiHandler.GetSubscribers x);
       HttpGet >=> routeBind<GetSubscriptionStatusPathParams> "/api/v1/users/{user_id}/subscriptions/{stream_id}"  (fun x -> (fun x ->  StreamsApiHandler.GetSubscriptionStatus x) x);
       HttpGet >=> route "/api/v1/users/me/subscriptions" >=>  StreamsApiHandler.GetSubscriptions;
       HttpPatch >=> route "/api/v1/users/me/subscriptions/muted_topics" >=>  StreamsApiHandler.MuteTopic;
@@ -116,8 +123,8 @@ module App =
       HttpDelete >=> routeBind<RemoveUserGroupPathParams> "/api/v1/user_groups/{user_group_id}"  (fun x ->  UsersApiHandler.RemoveUserGroup x);
       HttpPost >=> route "/api/v1/typing" >=>  UsersApiHandler.SetTypingStatus;
       HttpDelete >=> routeBind<UnmuteUserPathParams> "/api/v1/users/me/muted_users/{muted_user_id}"  (fun x ->  UsersApiHandler.UnmuteUser x);
-      HttpPatch >=> route "/api/v1/settings/display" >=>  UsersApiHandler.UpdateDisplaySettings;
-      HttpPatch >=> route "/api/v1/settings/notifications" >=>  UsersApiHandler.UpdateNotificationSettings;
+      HttpPatch >=> route "/api/v1/settings" >=>  UsersApiHandler.UpdateSettings;
+      HttpPost >=> route "/api/v1/users/me/status" >=>  UsersApiHandler.UpdateStatus;
       HttpPatch >=> routeBind<UpdateUserPathParams> "/api/v1/users/{user_id}"  (fun x ->  UsersApiHandler.UpdateUser x);
       HttpPatch >=> routeBind<UpdateUserGroupPathParams> "/api/v1/user_groups/{user_group_id}"  (fun x ->  UsersApiHandler.UpdateUserGroup x);
       HttpPost >=> routeBind<UpdateUserGroupMembersPathParams> "/api/v1/user_groups/{user_group_id}/members"  (fun x ->  UsersApiHandler.UpdateUserGroupMembers x);

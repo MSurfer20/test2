@@ -34,12 +34,12 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="EmojiReactionBase" /> class.
         /// </summary>
-        /// <param name="emojiCode">A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint. .</param>
+        /// <param name="emojiCode">A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint; for &#x60;realm_emoji&#x60;, it&#39;ll be the ID of the realm emoji. .</param>
         /// <param name="emojiName">Name of the emoji. .</param>
         /// <param name="reactionType">One of the following values:  * &#x60;unicode_emoji&#x60;: Unicode emoji (&#x60;emoji_code&#x60; will be its Unicode   codepoint). * &#x60;realm_emoji&#x60;: [Custom emoji](/help/add-custom-emoji).   (&#x60;emoji_code&#x60; will be its ID). * &#x60;zulip_extra_emoji&#x60;: Special emoji included with Zulip.  Exists to   namespace the &#x60;zulip&#x60; emoji. .</param>
         /// <param name="userId">The ID of the user who added the reaction.  **Changes**: New in Zulip 3.0 (feature level 2). The &#x60;user&#x60; object is deprecated and will be removed in the future. .</param>
         /// <param name="user">user.</param>
-        public EmojiReactionBase(string emojiCode = default(string), string emojiName = default(string), string reactionType = default(string), int userId = default(int), EmojiReactionBaseUser user = default(EmojiReactionBaseUser))
+        public EmojiReactionBase(string emojiCode = default(string), string emojiName = default(string), string reactionType = default(string), int userId = default(int), EmojiReactionBaseAllOfUser user = default(EmojiReactionBaseAllOfUser))
         {
             this.EmojiCode = emojiCode;
             this.EmojiName = emojiName;
@@ -49,9 +49,9 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint. 
+        /// A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint; for &#x60;realm_emoji&#x60;, it&#39;ll be the ID of the realm emoji. 
         /// </summary>
-        /// <value>A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint. </value>
+        /// <value>A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint; for &#x60;realm_emoji&#x60;, it&#39;ll be the ID of the realm emoji. </value>
         [DataMember(Name = "emoji_code", EmitDefaultValue = false)]
         public string EmojiCode { get; set; }
 
@@ -80,7 +80,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets User
         /// </summary>
         [DataMember(Name = "user", EmitDefaultValue = false)]
-        public EmojiReactionBaseUser User { get; set; }
+        public EmojiReactionBaseAllOfUser User { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

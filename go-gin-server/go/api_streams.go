@@ -25,6 +25,11 @@ func CreateBigBlueButtonVideoCall(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{})
 }
 
+// DeleteTopic - Delete a topic
+func DeleteTopic(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{})
+}
+
 // GetStreamId - Get stream ID
 func GetStreamId(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{})
@@ -37,6 +42,11 @@ func GetStreamTopics(c *gin.Context) {
 
 // GetStreams - Get all streams
 func GetStreams(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{})
+}
+
+// GetSubscribers - Get the subscribers of a stream
+func GetSubscribers(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{})
 }
 

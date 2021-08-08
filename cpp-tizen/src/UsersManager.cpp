@@ -2564,7 +2564,7 @@ bool UsersManager::unmuteUserSync(char * accessToken,
 	handler, userData, false);
 }
 
-static bool updateDisplaySettingsProcessor(MemoryStruct_s p_chunk, long code, char* errormsg, void* userData,
+static bool updateSettingsProcessor(MemoryStruct_s p_chunk, long code, char* errormsg, void* userData,
 	void(* voidHandler)())
 {
 	void(* handler)(JsonSuccessBase, Error, void* )
@@ -2619,8 +2619,8 @@ static bool updateDisplaySettingsProcessor(MemoryStruct_s p_chunk, long code, ch
 			}
 }
 
-static bool updateDisplaySettingsHelper(char * accessToken,
-	bool twentyFourHourTime, bool denseMode, bool starredMessageCounts, bool fluidLayoutWidth, bool highContrastMode, int colorScheme, bool translateEmoticons, std::string defaultLanguage, std::string defaultView, bool leftSideUserlist, std::string emojiset, int demoteInactiveStreams, std::string timezone, 
+static bool updateSettingsHelper(char * accessToken,
+	std::string fullName, std::string email, std::string oldPassword, std::string newPassword, bool twentyFourHourTime, bool denseMode, bool starredMessageCounts, bool fluidLayoutWidth, bool highContrastMode, int colorScheme, bool enableDraftsSynchronization, bool translateEmoticons, std::string defaultLanguage, std::string defaultView, bool leftSideUserlist, std::string emojiset, int demoteInactiveStreams, std::string timezone, bool enableStreamDesktopNotifications, bool enableStreamEmailNotifications, bool enableStreamPushNotifications, bool enableStreamAudibleNotifications, std::string notificationSound, bool enableDesktopNotifications, bool enableSounds, int emailNotificationsBatchingPeriodSeconds, bool enableOfflineEmailNotifications, bool enableOfflinePushNotifications, bool enableOnlinePushNotifications, bool enableDigestEmails, bool enableMarketingEmails, bool enableLoginEmails, bool messageContentInEmailNotifications, bool pmContentInDesktopNotifications, bool wildcardMentionsNotify, int desktopIconCountDisplay, bool realmNameInNotifications, bool presenceEnabled, bool enterSends, 
 	void(* handler)(JsonSuccessBase, Error, void* )
 	, void* userData, bool isAsync)
 {
@@ -2637,6 +2637,34 @@ static bool updateDisplaySettingsHelper(char * accessToken,
 	map <string, string> queryParams;
 	string itemAtq;
 	
+
+	itemAtq = stringify(&fullName, "std::string");
+	queryParams.insert(pair<string, string>("full_name", itemAtq));
+	if( itemAtq.empty()==true){
+		queryParams.erase("full_name");
+	}
+
+
+	itemAtq = stringify(&email, "std::string");
+	queryParams.insert(pair<string, string>("email", itemAtq));
+	if( itemAtq.empty()==true){
+		queryParams.erase("email");
+	}
+
+
+	itemAtq = stringify(&oldPassword, "std::string");
+	queryParams.insert(pair<string, string>("old_password", itemAtq));
+	if( itemAtq.empty()==true){
+		queryParams.erase("old_password");
+	}
+
+
+	itemAtq = stringify(&newPassword, "std::string");
+	queryParams.insert(pair<string, string>("new_password", itemAtq));
+	if( itemAtq.empty()==true){
+		queryParams.erase("new_password");
+	}
+
 
 	itemAtq = stringify(&twentyFourHourTime, "bool");
 	queryParams.insert(pair<string, string>("twenty_four_hour_time", itemAtq));
@@ -2677,6 +2705,13 @@ static bool updateDisplaySettingsHelper(char * accessToken,
 	queryParams.insert(pair<string, string>("color_scheme", itemAtq));
 	if( itemAtq.empty()==true){
 		queryParams.erase("color_scheme");
+	}
+
+
+	itemAtq = stringify(&enableDraftsSynchronization, "bool");
+	queryParams.insert(pair<string, string>("enable_drafts_synchronization", itemAtq));
+	if( itemAtq.empty()==true){
+		queryParams.erase("enable_drafts_synchronization");
 	}
 
 
@@ -2728,152 +2763,6 @@ static bool updateDisplaySettingsHelper(char * accessToken,
 		queryParams.erase("timezone");
 	}
 
-	string mBody = "";
-	JsonNode* node;
-	JsonArray* json_array;
-
-	string url("/settings/display");
-	int pos;
-
-
-	//TODO: free memory of errormsg, memorystruct
-	MemoryStruct_s* p_chunk = new MemoryStruct_s();
-	long code;
-	char* errormsg = NULL;
-	string myhttpmethod("PATCH");
-
-	if(strcmp("PUT", "PATCH") == 0){
-		if(strcmp("", mBody.c_str()) == 0){
-			mBody.append("{}");
-		}
-	}
-
-	if(!isAsync){
-		NetClient::easycurl(UsersManager::getBasePath(), url, myhttpmethod, queryParams,
-			mBody, headerList, p_chunk, &code, errormsg);
-		bool retval = updateDisplaySettingsProcessor(*p_chunk, code, errormsg, userData,reinterpret_cast<void(*)()>(handler));
-
-		curl_slist_free_all(headerList);
-		if (p_chunk) {
-			if(p_chunk->memory) {
-				free(p_chunk->memory);
-			}
-			delete (p_chunk);
-		}
-		if (errormsg) {
-			free(errormsg);
-		}
-		return retval;
-	} else{
-		GThread *thread = NULL;
-		RequestInfo *requestInfo = NULL;
-
-		requestInfo = new(nothrow) RequestInfo (UsersManager::getBasePath(), url, myhttpmethod, queryParams,
-			mBody, headerList, p_chunk, &code, errormsg, userData, reinterpret_cast<void(*)()>(handler), updateDisplaySettingsProcessor);;
-		if(requestInfo == NULL)
-			return false;
-
-		thread = g_thread_new(NULL, __UsersManagerthreadFunc, static_cast<gpointer>(requestInfo));
-		return true;
-	}
-}
-
-
-
-
-bool UsersManager::updateDisplaySettingsAsync(char * accessToken,
-	bool twentyFourHourTime, bool denseMode, bool starredMessageCounts, bool fluidLayoutWidth, bool highContrastMode, int colorScheme, bool translateEmoticons, std::string defaultLanguage, std::string defaultView, bool leftSideUserlist, std::string emojiset, int demoteInactiveStreams, std::string timezone, 
-	void(* handler)(JsonSuccessBase, Error, void* )
-	, void* userData)
-{
-	return updateDisplaySettingsHelper(accessToken,
-	twentyFourHourTime, denseMode, starredMessageCounts, fluidLayoutWidth, highContrastMode, colorScheme, translateEmoticons, defaultLanguage, defaultView, leftSideUserlist, emojiset, demoteInactiveStreams, timezone, 
-	handler, userData, true);
-}
-
-bool UsersManager::updateDisplaySettingsSync(char * accessToken,
-	bool twentyFourHourTime, bool denseMode, bool starredMessageCounts, bool fluidLayoutWidth, bool highContrastMode, int colorScheme, bool translateEmoticons, std::string defaultLanguage, std::string defaultView, bool leftSideUserlist, std::string emojiset, int demoteInactiveStreams, std::string timezone, 
-	void(* handler)(JsonSuccessBase, Error, void* )
-	, void* userData)
-{
-	return updateDisplaySettingsHelper(accessToken,
-	twentyFourHourTime, denseMode, starredMessageCounts, fluidLayoutWidth, highContrastMode, colorScheme, translateEmoticons, defaultLanguage, defaultView, leftSideUserlist, emojiset, demoteInactiveStreams, timezone, 
-	handler, userData, false);
-}
-
-static bool updateNotificationSettingsProcessor(MemoryStruct_s p_chunk, long code, char* errormsg, void* userData,
-	void(* voidHandler)())
-{
-	void(* handler)(JsonSuccessBase, Error, void* )
-	= reinterpret_cast<void(*)(JsonSuccessBase, Error, void* )> (voidHandler);
-	
-	JsonNode* pJson;
-	char * data = p_chunk.memory;
-
-	
-	JsonSuccessBase out;
-
-	if (code >= 200 && code < 300) {
-		Error error(code, string("No Error"));
-
-
-
-
-		if (isprimitive("JsonSuccessBase")) {
-			pJson = json_from_string(data, NULL);
-			jsonToValue(&out, pJson, "JsonSuccessBase", "JsonSuccessBase");
-			json_node_free(pJson);
-
-			if ("JsonSuccessBase" == "std::string") {
-				string* val = (std::string*)(&out);
-				if (val->empty() && p_chunk.size>4) {
-					*val = string(p_chunk.memory, p_chunk.size);
-				}
-			}
-		} else {
-			
-			out.fromJson(data);
-			char *jsonStr =  out.toJson();
-			printf("\n%s\n", jsonStr);
-			g_free(static_cast<gpointer>(jsonStr));
-			
-		}
-		handler(out, error, userData);
-		return true;
-		//TODO: handle case where json parsing has an error
-
-	} else {
-		Error error;
-		if (errormsg != NULL) {
-			error = Error(code, string(errormsg));
-		} else if (p_chunk.memory != NULL) {
-			error = Error(code, string(p_chunk.memory));
-		} else {
-			error = Error(code, string("Unknown Error"));
-		}
-		 handler(out, error, userData);
-		return false;
-			}
-}
-
-static bool updateNotificationSettingsHelper(char * accessToken,
-	bool enableStreamDesktopNotifications, bool enableStreamEmailNotifications, bool enableStreamPushNotifications, bool enableStreamAudibleNotifications, std::string notificationSound, bool enableDesktopNotifications, bool enableSounds, bool enableOfflineEmailNotifications, bool enableOfflinePushNotifications, bool enableOnlinePushNotifications, bool enableDigestEmails, bool enableMarketingEmails, bool enableLoginEmails, bool messageContentInEmailNotifications, bool pmContentInDesktopNotifications, bool wildcardMentionsNotify, int desktopIconCountDisplay, bool realmNameInNotifications, bool presenceEnabled, 
-	void(* handler)(JsonSuccessBase, Error, void* )
-	, void* userData, bool isAsync)
-{
-
-	//TODO: maybe delete headerList after its used to free up space?
-	struct curl_slist *headerList = NULL;
-
-	
-	string accessHeader = "Authorization: Bearer ";
-	accessHeader.append(accessToken);
-	headerList = curl_slist_append(headerList, accessHeader.c_str());
-	headerList = curl_slist_append(headerList, "Content-Type: application/json");
-
-	map <string, string> queryParams;
-	string itemAtq;
-	
 
 	itemAtq = stringify(&enableStreamDesktopNotifications, "bool");
 	queryParams.insert(pair<string, string>("enable_stream_desktop_notifications", itemAtq));
@@ -2921,6 +2810,13 @@ static bool updateNotificationSettingsHelper(char * accessToken,
 	queryParams.insert(pair<string, string>("enable_sounds", itemAtq));
 	if( itemAtq.empty()==true){
 		queryParams.erase("enable_sounds");
+	}
+
+
+	itemAtq = stringify(&emailNotificationsBatchingPeriodSeconds, "int");
+	queryParams.insert(pair<string, string>("email_notifications_batching_period_seconds", itemAtq));
+	if( itemAtq.empty()==true){
+		queryParams.erase("email_notifications_batching_period_seconds");
 	}
 
 
@@ -3007,11 +2903,18 @@ static bool updateNotificationSettingsHelper(char * accessToken,
 		queryParams.erase("presence_enabled");
 	}
 
+
+	itemAtq = stringify(&enterSends, "bool");
+	queryParams.insert(pair<string, string>("enter_sends", itemAtq));
+	if( itemAtq.empty()==true){
+		queryParams.erase("enter_sends");
+	}
+
 	string mBody = "";
 	JsonNode* node;
 	JsonArray* json_array;
 
-	string url("/settings/notifications");
+	string url("/settings");
 	int pos;
 
 
@@ -3030,7 +2933,7 @@ static bool updateNotificationSettingsHelper(char * accessToken,
 	if(!isAsync){
 		NetClient::easycurl(UsersManager::getBasePath(), url, myhttpmethod, queryParams,
 			mBody, headerList, p_chunk, &code, errormsg);
-		bool retval = updateNotificationSettingsProcessor(*p_chunk, code, errormsg, userData,reinterpret_cast<void(*)()>(handler));
+		bool retval = updateSettingsProcessor(*p_chunk, code, errormsg, userData,reinterpret_cast<void(*)()>(handler));
 
 		curl_slist_free_all(headerList);
 		if (p_chunk) {
@@ -3048,7 +2951,7 @@ static bool updateNotificationSettingsHelper(char * accessToken,
 		RequestInfo *requestInfo = NULL;
 
 		requestInfo = new(nothrow) RequestInfo (UsersManager::getBasePath(), url, myhttpmethod, queryParams,
-			mBody, headerList, p_chunk, &code, errormsg, userData, reinterpret_cast<void(*)()>(handler), updateNotificationSettingsProcessor);;
+			mBody, headerList, p_chunk, &code, errormsg, userData, reinterpret_cast<void(*)()>(handler), updateSettingsProcessor);;
 		if(requestInfo == NULL)
 			return false;
 
@@ -3060,23 +2963,209 @@ static bool updateNotificationSettingsHelper(char * accessToken,
 
 
 
-bool UsersManager::updateNotificationSettingsAsync(char * accessToken,
-	bool enableStreamDesktopNotifications, bool enableStreamEmailNotifications, bool enableStreamPushNotifications, bool enableStreamAudibleNotifications, std::string notificationSound, bool enableDesktopNotifications, bool enableSounds, bool enableOfflineEmailNotifications, bool enableOfflinePushNotifications, bool enableOnlinePushNotifications, bool enableDigestEmails, bool enableMarketingEmails, bool enableLoginEmails, bool messageContentInEmailNotifications, bool pmContentInDesktopNotifications, bool wildcardMentionsNotify, int desktopIconCountDisplay, bool realmNameInNotifications, bool presenceEnabled, 
+bool UsersManager::updateSettingsAsync(char * accessToken,
+	std::string fullName, std::string email, std::string oldPassword, std::string newPassword, bool twentyFourHourTime, bool denseMode, bool starredMessageCounts, bool fluidLayoutWidth, bool highContrastMode, int colorScheme, bool enableDraftsSynchronization, bool translateEmoticons, std::string defaultLanguage, std::string defaultView, bool leftSideUserlist, std::string emojiset, int demoteInactiveStreams, std::string timezone, bool enableStreamDesktopNotifications, bool enableStreamEmailNotifications, bool enableStreamPushNotifications, bool enableStreamAudibleNotifications, std::string notificationSound, bool enableDesktopNotifications, bool enableSounds, int emailNotificationsBatchingPeriodSeconds, bool enableOfflineEmailNotifications, bool enableOfflinePushNotifications, bool enableOnlinePushNotifications, bool enableDigestEmails, bool enableMarketingEmails, bool enableLoginEmails, bool messageContentInEmailNotifications, bool pmContentInDesktopNotifications, bool wildcardMentionsNotify, int desktopIconCountDisplay, bool realmNameInNotifications, bool presenceEnabled, bool enterSends, 
 	void(* handler)(JsonSuccessBase, Error, void* )
 	, void* userData)
 {
-	return updateNotificationSettingsHelper(accessToken,
-	enableStreamDesktopNotifications, enableStreamEmailNotifications, enableStreamPushNotifications, enableStreamAudibleNotifications, notificationSound, enableDesktopNotifications, enableSounds, enableOfflineEmailNotifications, enableOfflinePushNotifications, enableOnlinePushNotifications, enableDigestEmails, enableMarketingEmails, enableLoginEmails, messageContentInEmailNotifications, pmContentInDesktopNotifications, wildcardMentionsNotify, desktopIconCountDisplay, realmNameInNotifications, presenceEnabled, 
+	return updateSettingsHelper(accessToken,
+	fullName, email, oldPassword, newPassword, twentyFourHourTime, denseMode, starredMessageCounts, fluidLayoutWidth, highContrastMode, colorScheme, enableDraftsSynchronization, translateEmoticons, defaultLanguage, defaultView, leftSideUserlist, emojiset, demoteInactiveStreams, timezone, enableStreamDesktopNotifications, enableStreamEmailNotifications, enableStreamPushNotifications, enableStreamAudibleNotifications, notificationSound, enableDesktopNotifications, enableSounds, emailNotificationsBatchingPeriodSeconds, enableOfflineEmailNotifications, enableOfflinePushNotifications, enableOnlinePushNotifications, enableDigestEmails, enableMarketingEmails, enableLoginEmails, messageContentInEmailNotifications, pmContentInDesktopNotifications, wildcardMentionsNotify, desktopIconCountDisplay, realmNameInNotifications, presenceEnabled, enterSends, 
 	handler, userData, true);
 }
 
-bool UsersManager::updateNotificationSettingsSync(char * accessToken,
-	bool enableStreamDesktopNotifications, bool enableStreamEmailNotifications, bool enableStreamPushNotifications, bool enableStreamAudibleNotifications, std::string notificationSound, bool enableDesktopNotifications, bool enableSounds, bool enableOfflineEmailNotifications, bool enableOfflinePushNotifications, bool enableOnlinePushNotifications, bool enableDigestEmails, bool enableMarketingEmails, bool enableLoginEmails, bool messageContentInEmailNotifications, bool pmContentInDesktopNotifications, bool wildcardMentionsNotify, int desktopIconCountDisplay, bool realmNameInNotifications, bool presenceEnabled, 
+bool UsersManager::updateSettingsSync(char * accessToken,
+	std::string fullName, std::string email, std::string oldPassword, std::string newPassword, bool twentyFourHourTime, bool denseMode, bool starredMessageCounts, bool fluidLayoutWidth, bool highContrastMode, int colorScheme, bool enableDraftsSynchronization, bool translateEmoticons, std::string defaultLanguage, std::string defaultView, bool leftSideUserlist, std::string emojiset, int demoteInactiveStreams, std::string timezone, bool enableStreamDesktopNotifications, bool enableStreamEmailNotifications, bool enableStreamPushNotifications, bool enableStreamAudibleNotifications, std::string notificationSound, bool enableDesktopNotifications, bool enableSounds, int emailNotificationsBatchingPeriodSeconds, bool enableOfflineEmailNotifications, bool enableOfflinePushNotifications, bool enableOnlinePushNotifications, bool enableDigestEmails, bool enableMarketingEmails, bool enableLoginEmails, bool messageContentInEmailNotifications, bool pmContentInDesktopNotifications, bool wildcardMentionsNotify, int desktopIconCountDisplay, bool realmNameInNotifications, bool presenceEnabled, bool enterSends, 
 	void(* handler)(JsonSuccessBase, Error, void* )
 	, void* userData)
 {
-	return updateNotificationSettingsHelper(accessToken,
-	enableStreamDesktopNotifications, enableStreamEmailNotifications, enableStreamPushNotifications, enableStreamAudibleNotifications, notificationSound, enableDesktopNotifications, enableSounds, enableOfflineEmailNotifications, enableOfflinePushNotifications, enableOnlinePushNotifications, enableDigestEmails, enableMarketingEmails, enableLoginEmails, messageContentInEmailNotifications, pmContentInDesktopNotifications, wildcardMentionsNotify, desktopIconCountDisplay, realmNameInNotifications, presenceEnabled, 
+	return updateSettingsHelper(accessToken,
+	fullName, email, oldPassword, newPassword, twentyFourHourTime, denseMode, starredMessageCounts, fluidLayoutWidth, highContrastMode, colorScheme, enableDraftsSynchronization, translateEmoticons, defaultLanguage, defaultView, leftSideUserlist, emojiset, demoteInactiveStreams, timezone, enableStreamDesktopNotifications, enableStreamEmailNotifications, enableStreamPushNotifications, enableStreamAudibleNotifications, notificationSound, enableDesktopNotifications, enableSounds, emailNotificationsBatchingPeriodSeconds, enableOfflineEmailNotifications, enableOfflinePushNotifications, enableOnlinePushNotifications, enableDigestEmails, enableMarketingEmails, enableLoginEmails, messageContentInEmailNotifications, pmContentInDesktopNotifications, wildcardMentionsNotify, desktopIconCountDisplay, realmNameInNotifications, presenceEnabled, enterSends, 
+	handler, userData, false);
+}
+
+static bool updateStatusProcessor(MemoryStruct_s p_chunk, long code, char* errormsg, void* userData,
+	void(* voidHandler)())
+{
+	void(* handler)(JsonSuccess, Error, void* )
+	= reinterpret_cast<void(*)(JsonSuccess, Error, void* )> (voidHandler);
+	
+	JsonNode* pJson;
+	char * data = p_chunk.memory;
+
+	
+	JsonSuccess out;
+
+	if (code >= 200 && code < 300) {
+		Error error(code, string("No Error"));
+
+
+
+
+		if (isprimitive("JsonSuccess")) {
+			pJson = json_from_string(data, NULL);
+			jsonToValue(&out, pJson, "JsonSuccess", "JsonSuccess");
+			json_node_free(pJson);
+
+			if ("JsonSuccess" == "std::string") {
+				string* val = (std::string*)(&out);
+				if (val->empty() && p_chunk.size>4) {
+					*val = string(p_chunk.memory, p_chunk.size);
+				}
+			}
+		} else {
+			
+			out.fromJson(data);
+			char *jsonStr =  out.toJson();
+			printf("\n%s\n", jsonStr);
+			g_free(static_cast<gpointer>(jsonStr));
+			
+			out.fromJson(data);
+			char *jsonStr =  out.toJson();
+			printf("\n%s\n", jsonStr);
+			g_free(static_cast<gpointer>(jsonStr));
+			
+		}
+		handler(out, error, userData);
+		return true;
+		//TODO: handle case where json parsing has an error
+
+	} else {
+		Error error;
+		if (errormsg != NULL) {
+			error = Error(code, string(errormsg));
+		} else if (p_chunk.memory != NULL) {
+			error = Error(code, string(p_chunk.memory));
+		} else {
+			error = Error(code, string("Unknown Error"));
+		}
+		 handler(out, error, userData);
+		return false;
+			}
+}
+
+static bool updateStatusHelper(char * accessToken,
+	std::string statusText, bool away, std::string emojiName, std::string emojiCode, std::string reactionType, 
+	void(* handler)(JsonSuccess, Error, void* )
+	, void* userData, bool isAsync)
+{
+
+	//TODO: maybe delete headerList after its used to free up space?
+	struct curl_slist *headerList = NULL;
+
+	
+	string accessHeader = "Authorization: Bearer ";
+	accessHeader.append(accessToken);
+	headerList = curl_slist_append(headerList, accessHeader.c_str());
+	headerList = curl_slist_append(headerList, "Content-Type: application/json");
+
+	map <string, string> queryParams;
+	string itemAtq;
+	
+
+	itemAtq = stringify(&statusText, "std::string");
+	queryParams.insert(pair<string, string>("status_text", itemAtq));
+	if( itemAtq.empty()==true){
+		queryParams.erase("status_text");
+	}
+
+
+	itemAtq = stringify(&away, "bool");
+	queryParams.insert(pair<string, string>("away", itemAtq));
+	if( itemAtq.empty()==true){
+		queryParams.erase("away");
+	}
+
+
+	itemAtq = stringify(&emojiName, "std::string");
+	queryParams.insert(pair<string, string>("emoji_name", itemAtq));
+	if( itemAtq.empty()==true){
+		queryParams.erase("emoji_name");
+	}
+
+
+	itemAtq = stringify(&emojiCode, "std::string");
+	queryParams.insert(pair<string, string>("emoji_code", itemAtq));
+	if( itemAtq.empty()==true){
+		queryParams.erase("emoji_code");
+	}
+
+
+	itemAtq = stringify(&reactionType, "std::string");
+	queryParams.insert(pair<string, string>("reaction_type", itemAtq));
+	if( itemAtq.empty()==true){
+		queryParams.erase("reaction_type");
+	}
+
+	string mBody = "";
+	JsonNode* node;
+	JsonArray* json_array;
+
+	string url("/users/me/status");
+	int pos;
+
+
+	//TODO: free memory of errormsg, memorystruct
+	MemoryStruct_s* p_chunk = new MemoryStruct_s();
+	long code;
+	char* errormsg = NULL;
+	string myhttpmethod("POST");
+
+	if(strcmp("PUT", "POST") == 0){
+		if(strcmp("", mBody.c_str()) == 0){
+			mBody.append("{}");
+		}
+	}
+
+	if(!isAsync){
+		NetClient::easycurl(UsersManager::getBasePath(), url, myhttpmethod, queryParams,
+			mBody, headerList, p_chunk, &code, errormsg);
+		bool retval = updateStatusProcessor(*p_chunk, code, errormsg, userData,reinterpret_cast<void(*)()>(handler));
+
+		curl_slist_free_all(headerList);
+		if (p_chunk) {
+			if(p_chunk->memory) {
+				free(p_chunk->memory);
+			}
+			delete (p_chunk);
+		}
+		if (errormsg) {
+			free(errormsg);
+		}
+		return retval;
+	} else{
+		GThread *thread = NULL;
+		RequestInfo *requestInfo = NULL;
+
+		requestInfo = new(nothrow) RequestInfo (UsersManager::getBasePath(), url, myhttpmethod, queryParams,
+			mBody, headerList, p_chunk, &code, errormsg, userData, reinterpret_cast<void(*)()>(handler), updateStatusProcessor);;
+		if(requestInfo == NULL)
+			return false;
+
+		thread = g_thread_new(NULL, __UsersManagerthreadFunc, static_cast<gpointer>(requestInfo));
+		return true;
+	}
+}
+
+
+
+
+bool UsersManager::updateStatusAsync(char * accessToken,
+	std::string statusText, bool away, std::string emojiName, std::string emojiCode, std::string reactionType, 
+	void(* handler)(JsonSuccess, Error, void* )
+	, void* userData)
+{
+	return updateStatusHelper(accessToken,
+	statusText, away, emojiName, emojiCode, reactionType, 
+	handler, userData, true);
+}
+
+bool UsersManager::updateStatusSync(char * accessToken,
+	std::string statusText, bool away, std::string emojiName, std::string emojiCode, std::string reactionType, 
+	void(* handler)(JsonSuccess, Error, void* )
+	, void* userData)
+{
+	return updateStatusHelper(accessToken,
+	statusText, away, emojiName, emojiCode, reactionType, 
 	handler, userData, false);
 }
 

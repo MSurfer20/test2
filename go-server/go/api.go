@@ -25,6 +25,15 @@ type AuthenticationApiRouter interface {
 	DevFetchApiKey(http.ResponseWriter, *http.Request)
 	FetchApiKey(http.ResponseWriter, *http.Request)
 }
+// DraftsApiRouter defines the required methods for binding the api requests to a responses for the DraftsApi
+// The DraftsApiRouter implementation should parse necessary information from the http request, 
+// pass the data to a DraftsApiServicer to perform the required actions, then write the service results to the http response.
+type DraftsApiRouter interface { 
+	CreateDrafts(http.ResponseWriter, *http.Request)
+	DeleteDraft(http.ResponseWriter, *http.Request)
+	EditDraft(http.ResponseWriter, *http.Request)
+	GetDrafts(http.ResponseWriter, *http.Request)
+}
 // MessagesApiRouter defines the required methods for binding the api requests to a responses for the MessagesApi
 // The MessagesApiRouter implementation should parse necessary information from the http request, 
 // pass the data to a MessagesApiServicer to perform the required actions, then write the service results to the http response.
@@ -79,9 +88,11 @@ type ServerAndOrganizationsApiRouter interface {
 type StreamsApiRouter interface { 
 	ArchiveStream(http.ResponseWriter, *http.Request)
 	CreateBigBlueButtonVideoCall(http.ResponseWriter, *http.Request)
+	DeleteTopic(http.ResponseWriter, *http.Request)
 	GetStreamId(http.ResponseWriter, *http.Request)
 	GetStreamTopics(http.ResponseWriter, *http.Request)
 	GetStreams(http.ResponseWriter, *http.Request)
+	GetSubscribers(http.ResponseWriter, *http.Request)
 	GetSubscriptionStatus(http.ResponseWriter, *http.Request)
 	GetSubscriptions(http.ResponseWriter, *http.Request)
 	MuteTopic(http.ResponseWriter, *http.Request)
@@ -111,8 +122,8 @@ type UsersApiRouter interface {
 	RemoveUserGroup(http.ResponseWriter, *http.Request)
 	SetTypingStatus(http.ResponseWriter, *http.Request)
 	UnmuteUser(http.ResponseWriter, *http.Request)
-	UpdateDisplaySettings(http.ResponseWriter, *http.Request)
-	UpdateNotificationSettings(http.ResponseWriter, *http.Request)
+	UpdateSettings(http.ResponseWriter, *http.Request)
+	UpdateStatus(http.ResponseWriter, *http.Request)
 	UpdateUser(http.ResponseWriter, *http.Request)
 	UpdateUserGroup(http.ResponseWriter, *http.Request)
 	UpdateUserGroupMembers(http.ResponseWriter, *http.Request)
@@ -132,6 +143,18 @@ type WebhooksApiRouter interface {
 type AuthenticationApiServicer interface { 
 	DevFetchApiKey(context.Context, string) (ImplResponse, error)
 	FetchApiKey(context.Context, string, string) (ImplResponse, error)
+}
+
+
+// DraftsApiServicer defines the api actions for the DraftsApi service
+// This interface intended to stay up to date with the openapi yaml used to generate it, 
+// while the service implementation can ignored with the .openapi-generator-ignore file 
+// and updated with the logic required for the API.
+type DraftsApiServicer interface { 
+	CreateDrafts(context.Context, []Draft) (ImplResponse, error)
+	DeleteDraft(context.Context, int32) (ImplResponse, error)
+	EditDraft(context.Context, int32, Draft) (ImplResponse, error)
+	GetDrafts(context.Context) (ImplResponse, error)
 }
 
 
@@ -199,9 +222,11 @@ type ServerAndOrganizationsApiServicer interface {
 type StreamsApiServicer interface { 
 	ArchiveStream(context.Context, int32) (ImplResponse, error)
 	CreateBigBlueButtonVideoCall(context.Context) (ImplResponse, error)
+	DeleteTopic(context.Context, int32, string) (ImplResponse, error)
 	GetStreamId(context.Context, string) (ImplResponse, error)
 	GetStreamTopics(context.Context, int32) (ImplResponse, error)
 	GetStreams(context.Context, bool, bool, bool, bool, bool, bool) (ImplResponse, error)
+	GetSubscribers(context.Context, int32) (ImplResponse, error)
 	GetSubscriptionStatus(context.Context, int32, int32) (ImplResponse, error)
 	GetSubscriptions(context.Context, bool) (ImplResponse, error)
 	MuteTopic(context.Context, string, string, string, int32) (ImplResponse, error)
@@ -234,8 +259,8 @@ type UsersApiServicer interface {
 	RemoveUserGroup(context.Context, int32) (ImplResponse, error)
 	SetTypingStatus(context.Context, string, []int32, string, string) (ImplResponse, error)
 	UnmuteUser(context.Context, int32) (ImplResponse, error)
-	UpdateDisplaySettings(context.Context, bool, bool, bool, bool, bool, int32, bool, string, string, bool, string, int32, string) (ImplResponse, error)
-	UpdateNotificationSettings(context.Context, bool, bool, bool, bool, string, bool, bool, bool, bool, bool, bool, bool, bool, bool, bool, bool, int32, bool, bool) (ImplResponse, error)
+	UpdateSettings(context.Context, string, string, string, string, bool, bool, bool, bool, bool, int32, bool, bool, string, string, bool, string, int32, string, bool, bool, bool, bool, string, bool, bool, int32, bool, bool, bool, bool, bool, bool, bool, bool, bool, int32, bool, bool, bool) (ImplResponse, error)
+	UpdateStatus(context.Context, string, bool, string, string, string) (ImplResponse, error)
 	UpdateUser(context.Context, int32, string, int32, []map[string]interface{}) (ImplResponse, error)
 	UpdateUserGroup(context.Context, int32, string, string) (ImplResponse, error)
 	UpdateUserGroupMembers(context.Context, int32, []int32, []int32) (ImplResponse, error)

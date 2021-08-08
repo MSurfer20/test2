@@ -5,6 +5,7 @@ README.md
 git_push.sh
 shard.yml
 spec/api/authentication_api_spec.cr
+spec/api/drafts_api_spec.cr
 spec/api/messages_api_spec.cr
 spec/api/real_time_events_api_spec.cr
 spec/api/server_and_organizations_api_spec.cr
@@ -33,9 +34,12 @@ spec/models/coded_error_base_spec.cr
 spec/models/coded_error_spec.cr
 spec/models/custom_profile_field_spec.cr
 spec/models/default_stream_group_spec.cr
+spec/models/draft_spec.cr
+spec/models/emoji_base_spec.cr
 spec/models/emoji_reaction_all_of_spec.cr
+spec/models/emoji_reaction_base_all_of_spec.cr
+spec/models/emoji_reaction_base_all_of_user_spec.cr
 spec/models/emoji_reaction_base_spec.cr
-spec/models/emoji_reaction_base_user_spec.cr
 spec/models/emoji_reaction_spec.cr
 spec/models/get_messages_all_of_spec.cr
 spec/models/get_messages_spec.cr
@@ -77,6 +81,7 @@ spec/models/user_spec.cr
 spec/spec_helper.cr
 src/null.cr
 src/null/api/authentication_api.cr
+src/null/api/drafts_api.cr
 src/null/api/messages_api.cr
 src/null/api/real_time_events_api.cr
 src/null/api/server_and_organizations_api.cr
@@ -108,10 +113,13 @@ src/null/models/coded_error_base.cr
 src/null/models/coded_error_base_all_of.cr
 src/null/models/custom_profile_field.cr
 src/null/models/default_stream_group.cr
+src/null/models/draft.cr
+src/null/models/emoji_base.cr
 src/null/models/emoji_reaction.cr
 src/null/models/emoji_reaction_all_of.cr
 src/null/models/emoji_reaction_base.cr
-src/null/models/emoji_reaction_base_user.cr
+src/null/models/emoji_reaction_base_all_of.cr
+src/null/models/emoji_reaction_base_all_of_user.cr
 src/null/models/get_messages.cr
 src/null/models/get_messages_all_of.cr
 src/null/models/hotspot.cr

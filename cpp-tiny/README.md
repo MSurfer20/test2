@@ -33,6 +33,14 @@ All URIs are relative to https://example.zulipchat.comhttps://example.zulipchat.
 |*devFetchApiKey* | *POST* /dev_fetch_api_key | Fetch an API key (development only).|
 |*fetchApiKey* | *POST* /fetch_api_key | Fetch an API key (production).|
 
+### DraftsApi
+|Method | HTTP request | Description|
+|------------- | ------------- | -------------|
+|*createDrafts* | *POST* /drafts | Create drafts.|
+|*deleteDraft* | *DELETE* /drafts/{draft_id} | Delete a draft.|
+|*editDraft* | *PATCH* /drafts/{draft_id} | Edit a draft.|
+|*getDrafts* | *GET* /drafts | Get drafts.|
+
 ### MessagesApi
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
@@ -83,9 +91,11 @@ All URIs are relative to https://example.zulipchat.comhttps://example.zulipchat.
 |------------- | ------------- | -------------|
 |*archiveStream* | *DELETE* /streams/{stream_id} | Archive a stream.|
 |*createBigBlueButtonVideoCall* | *GET* /calls/bigbluebutton/create | Create BigBlueButton video call.|
+|*deleteTopic* | *POST* /streams/{stream_id}/delete_topic | Delete a topic.|
 |*getStreamId* | *GET* /get_stream_id | Get stream ID.|
 |*getStreamTopics* | *GET* /users/me/{stream_id}/topics | Get topics in a stream.|
 |*getStreams* | *GET* /streams | Get all streams.|
+|*getSubscribers* | *GET* /streams/{stream_id}/members | Get the subscribers of a stream.|
 |*getSubscriptionStatus* | *GET* /users/{user_id}/subscriptions/{stream_id} | Get subscription status.|
 |*getSubscriptions* | *GET* /users/me/subscriptions | Get subscribed streams.|
 |*muteTopic* | *PATCH* /users/me/subscriptions/muted_topics | Topic muting.|
@@ -114,8 +124,8 @@ All URIs are relative to https://example.zulipchat.comhttps://example.zulipchat.
 |*removeUserGroup* | *DELETE* /user_groups/{user_group_id} | Delete a user group.|
 |*setTypingStatus* | *POST* /typing | Set \"typing\" status.|
 |*unmuteUser* | *DELETE* /users/me/muted_users/{muted_user_id} | Unmute a user.|
-|*updateDisplaySettings* | *PATCH* /settings/display | Update display settings.|
-|*updateNotificationSettings* | *PATCH* /settings/notifications | Update notification settings.|
+|*updateSettings* | *PATCH* /settings | Update settings.|
+|*updateStatus* | *POST* /users/me/status | Update your status.|
 |*updateUser* | *PATCH* /users/{user_id} | Update a user.|
 |*updateUserGroup* | *PATCH* /user_groups/{user_group_id} | Update a user group.|
 |*updateUserGroupMembers* | *POST* /user_groups/{user_group_id}/members | Update user group members.|
@@ -151,9 +161,12 @@ All URIs are relative to https://example.zulipchat.comhttps://example.zulipchat.
 |*CodedError_allOf* | |
 |*CustomProfileField* | Dictionary containing the details of a custom profile field configured for this organization. |
 |*DefaultStreamGroup* | Dictionary containing details of a default stream group. |
+|*Draft* | A dictionary for representing a message draft. |
+|*EmojiBase* | |
 |*EmojiReaction* | |
 |*EmojiReactionBase* | |
-|*EmojiReactionBase_user* | Dictionary with data on the user who added the reaction, including the user ID as the `id` field.  **Note**: In the [events API](/api/get-events), this `user` dictionary confusing had the user ID in a field called `user_id` instead.  We recommend ignoring fields other than the user ID.  **Deprecated** and to be removed in a future release once core clients have migrated to use the `user_id` field. |
+|*EmojiReactionBase_allOf* | |
+|*EmojiReactionBase_allOf_user* | Whether the user is a mirror dummy. Dictionary with data on the user who added the reaction, including the user ID as the `id` field.  **Note**: In the [events API](/api/get-events), this `user` dictionary confusing had the user ID in a field called `user_id` instead.  We recommend ignoring fields other than the user ID.  **Deprecated** and to be removed in a future release once core clients have migrated to use the `user_id` field. |
 |*EmojiReaction_allOf* | |
 |*GetMessages* | |
 |*GetMessages_allOf* | |

@@ -23,19 +23,21 @@ import java.util.Map;
 public class StreamsApiVerticle extends AbstractVerticle {
     static final Logger LOGGER = LoggerFactory.getLogger(StreamsApiVerticle.class);
     
-    static final String ARCHIVE_STREAM_SERVICE_ID = "archive_stream";
-    static final String CREATE_BIG_BLUE_BUTTON_VIDEO_CALL_SERVICE_ID = "create_big_blue_button_video_call";
-    static final String GET_STREAM_ID_SERVICE_ID = "get_stream_id";
-    static final String GET_STREAM_TOPICS_SERVICE_ID = "get_stream_topics";
-    static final String GET_STREAMS_SERVICE_ID = "get_streams";
-    static final String GET_SUBSCRIPTION_STATUS_SERVICE_ID = "get_subscription_status";
-    static final String GET_SUBSCRIPTIONS_SERVICE_ID = "get_subscriptions";
-    static final String MUTE_TOPIC_SERVICE_ID = "mute_topic";
+    static final String ARCHIVE-STREAM_SERVICE_ID = "archive-stream";
+    static final String CREATE-BIG-BLUE-BUTTON-VIDEO-CALL_SERVICE_ID = "create-big-blue-button-video-call";
+    static final String DELETE-TOPIC_SERVICE_ID = "delete-topic";
+    static final String GET-STREAM-ID_SERVICE_ID = "get-stream-id";
+    static final String GET-STREAM-TOPICS_SERVICE_ID = "get-stream-topics";
+    static final String GET-STREAMS_SERVICE_ID = "get-streams";
+    static final String GET-SUBSCRIBERS_SERVICE_ID = "get-subscribers";
+    static final String GET-SUBSCRIPTION-STATUS_SERVICE_ID = "get-subscription-status";
+    static final String GET-SUBSCRIPTIONS_SERVICE_ID = "get-subscriptions";
+    static final String MUTE-TOPIC_SERVICE_ID = "mute-topic";
     static final String SUBSCRIBE_SERVICE_ID = "subscribe";
     static final String UNSUBSCRIBE_SERVICE_ID = "unsubscribe";
-    static final String UPDATE_STREAM_SERVICE_ID = "update_stream";
-    static final String UPDATE_SUBSCRIPTION_SETTINGS_SERVICE_ID = "update_subscription_settings";
-    static final String UPDATE_SUBSCRIPTIONS_SERVICE_ID = "update_subscriptions";
+    static final String UPDATE-STREAM_SERVICE_ID = "update-stream";
+    static final String UPDATE-SUBSCRIPTION-SETTINGS_SERVICE_ID = "update-subscription-settings";
+    static final String UPDATE-SUBSCRIPTIONS_SERVICE_ID = "update-subscriptions";
     
     final StreamsApi service;
 
@@ -52,11 +54,11 @@ public class StreamsApiVerticle extends AbstractVerticle {
     @Override
     public void start() throws Exception {
         
-        //Consumer for archive_stream
-        vertx.eventBus().<JsonObject> consumer(ARCHIVE_STREAM_SERVICE_ID).handler(message -> {
+        //Consumer for archive-stream
+        vertx.eventBus().<JsonObject> consumer(ARCHIVE-STREAM_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "archive_stream";
+                String serviceId = "archive-stream";
                 String streamIdParam = message.body().getString("stream_id");
                 if(streamIdParam == null) {
                     manageError(message, new MainApiException(400, "stream_id is required"), serviceId);
@@ -68,39 +70,70 @@ public class StreamsApiVerticle extends AbstractVerticle {
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "archive_stream");
+                        manageError(message, cause, "archive-stream");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("archive_stream", e);
+                logUnexpectedError("archive-stream", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for create_big_blue_button_video_call
-        vertx.eventBus().<JsonObject> consumer(CREATE_BIG_BLUE_BUTTON_VIDEO_CALL_SERVICE_ID).handler(message -> {
+        //Consumer for create-big-blue-button-video-call
+        vertx.eventBus().<JsonObject> consumer(CREATE-BIG-BLUE-BUTTON-VIDEO-CALL_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "create_big_blue_button_video_call";
+                String serviceId = "create-big-blue-button-video-call";
                 service.createBigBlueButtonVideoCall(result -> {
                     if (result.succeeded())
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "create_big_blue_button_video_call");
+                        manageError(message, cause, "create-big-blue-button-video-call");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("create_big_blue_button_video_call", e);
+                logUnexpectedError("create-big-blue-button-video-call", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for get_stream_id
-        vertx.eventBus().<JsonObject> consumer(GET_STREAM_ID_SERVICE_ID).handler(message -> {
+        //Consumer for delete-topic
+        vertx.eventBus().<JsonObject> consumer(DELETE-TOPIC_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "get_stream_id";
+                String serviceId = "delete-topic";
+                String streamIdParam = message.body().getString("stream_id");
+                if(streamIdParam == null) {
+                    manageError(message, new MainApiException(400, "stream_id is required"), serviceId);
+                    return;
+                }
+                Integer streamId = Json.mapper.readValue(streamIdParam, Integer.class);
+                String topicNameParam = message.body().getString("topic_name");
+                if(topicNameParam == null) {
+                    manageError(message, new MainApiException(400, "topic_name is required"), serviceId);
+                    return;
+                }
+                String topicName = topicNameParam;
+                service.deleteTopic(streamId, topicName, result -> {
+                    if (result.succeeded())
+                        message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
+                    else {
+                        Throwable cause = result.cause();
+                        manageError(message, cause, "delete-topic");
+                    }
+                });
+            } catch (Exception e) {
+                logUnexpectedError("delete-topic", e);
+                message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
+            }
+        });
+        
+        //Consumer for get-stream-id
+        vertx.eventBus().<JsonObject> consumer(GET-STREAM-ID_SERVICE_ID).handler(message -> {
+            try {
+                // Workaround for #allParams section clearing the vendorExtensions map
+                String serviceId = "get-stream-id";
                 String streamParam = message.body().getString("stream");
                 if(streamParam == null) {
                     manageError(message, new MainApiException(400, "stream is required"), serviceId);
@@ -112,20 +145,20 @@ public class StreamsApiVerticle extends AbstractVerticle {
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "get_stream_id");
+                        manageError(message, cause, "get-stream-id");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("get_stream_id", e);
+                logUnexpectedError("get-stream-id", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for get_stream_topics
-        vertx.eventBus().<JsonObject> consumer(GET_STREAM_TOPICS_SERVICE_ID).handler(message -> {
+        //Consumer for get-stream-topics
+        vertx.eventBus().<JsonObject> consumer(GET-STREAM-TOPICS_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "get_stream_topics";
+                String serviceId = "get-stream-topics";
                 String streamIdParam = message.body().getString("stream_id");
                 if(streamIdParam == null) {
                     manageError(message, new MainApiException(400, "stream_id is required"), serviceId);
@@ -137,20 +170,20 @@ public class StreamsApiVerticle extends AbstractVerticle {
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "get_stream_topics");
+                        manageError(message, cause, "get-stream-topics");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("get_stream_topics", e);
+                logUnexpectedError("get-stream-topics", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for get_streams
-        vertx.eventBus().<JsonObject> consumer(GET_STREAMS_SERVICE_ID).handler(message -> {
+        //Consumer for get-streams
+        vertx.eventBus().<JsonObject> consumer(GET-STREAMS_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "get_streams";
+                String serviceId = "get-streams";
                 String includePublicParam = message.body().getString("include_public");
                 Boolean includePublic = (includePublicParam == null) ? true : Json.mapper.readValue(includePublicParam, Boolean.class);
                 String includeWebPublicParam = message.body().getString("include_web_public");
@@ -168,20 +201,45 @@ public class StreamsApiVerticle extends AbstractVerticle {
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "get_streams");
+                        manageError(message, cause, "get-streams");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("get_streams", e);
+                logUnexpectedError("get-streams", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for get_subscription_status
-        vertx.eventBus().<JsonObject> consumer(GET_SUBSCRIPTION_STATUS_SERVICE_ID).handler(message -> {
+        //Consumer for get-subscribers
+        vertx.eventBus().<JsonObject> consumer(GET-SUBSCRIBERS_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "get_subscription_status";
+                String serviceId = "get-subscribers";
+                String streamIdParam = message.body().getString("stream_id");
+                if(streamIdParam == null) {
+                    manageError(message, new MainApiException(400, "stream_id is required"), serviceId);
+                    return;
+                }
+                Integer streamId = Json.mapper.readValue(streamIdParam, Integer.class);
+                service.getSubscribers(streamId, result -> {
+                    if (result.succeeded())
+                        message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
+                    else {
+                        Throwable cause = result.cause();
+                        manageError(message, cause, "get-subscribers");
+                    }
+                });
+            } catch (Exception e) {
+                logUnexpectedError("get-subscribers", e);
+                message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
+            }
+        });
+        
+        //Consumer for get-subscription-status
+        vertx.eventBus().<JsonObject> consumer(GET-SUBSCRIPTION-STATUS_SERVICE_ID).handler(message -> {
+            try {
+                // Workaround for #allParams section clearing the vendorExtensions map
+                String serviceId = "get-subscription-status";
                 String userIdParam = message.body().getString("user_id");
                 if(userIdParam == null) {
                     manageError(message, new MainApiException(400, "user_id is required"), serviceId);
@@ -199,20 +257,20 @@ public class StreamsApiVerticle extends AbstractVerticle {
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "get_subscription_status");
+                        manageError(message, cause, "get-subscription-status");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("get_subscription_status", e);
+                logUnexpectedError("get-subscription-status", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for get_subscriptions
-        vertx.eventBus().<JsonObject> consumer(GET_SUBSCRIPTIONS_SERVICE_ID).handler(message -> {
+        //Consumer for get-subscriptions
+        vertx.eventBus().<JsonObject> consumer(GET-SUBSCRIPTIONS_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "get_subscriptions";
+                String serviceId = "get-subscriptions";
                 String includeSubscribersParam = message.body().getString("include_subscribers");
                 Boolean includeSubscribers = (includeSubscribersParam == null) ? false : Json.mapper.readValue(includeSubscribersParam, Boolean.class);
                 service.getSubscriptions(includeSubscribers, result -> {
@@ -220,20 +278,20 @@ public class StreamsApiVerticle extends AbstractVerticle {
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "get_subscriptions");
+                        manageError(message, cause, "get-subscriptions");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("get_subscriptions", e);
+                logUnexpectedError("get-subscriptions", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for mute_topic
-        vertx.eventBus().<JsonObject> consumer(MUTE_TOPIC_SERVICE_ID).handler(message -> {
+        //Consumer for mute-topic
+        vertx.eventBus().<JsonObject> consumer(MUTE-TOPIC_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "mute_topic";
+                String serviceId = "mute-topic";
                 String topicParam = message.body().getString("topic");
                 if(topicParam == null) {
                     manageError(message, new MainApiException(400, "topic is required"), serviceId);
@@ -255,11 +313,11 @@ public class StreamsApiVerticle extends AbstractVerticle {
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "mute_topic");
+                        manageError(message, cause, "mute-topic");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("mute_topic", e);
+                logUnexpectedError("mute-topic", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
@@ -338,11 +396,11 @@ public class StreamsApiVerticle extends AbstractVerticle {
             }
         });
         
-        //Consumer for update_stream
-        vertx.eventBus().<JsonObject> consumer(UPDATE_STREAM_SERVICE_ID).handler(message -> {
+        //Consumer for update-stream
+        vertx.eventBus().<JsonObject> consumer(UPDATE-STREAM_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "update_stream";
+                String serviceId = "update-stream";
                 String streamIdParam = message.body().getString("stream_id");
                 if(streamIdParam == null) {
                     manageError(message, new MainApiException(400, "stream_id is required"), serviceId);
@@ -372,20 +430,20 @@ public class StreamsApiVerticle extends AbstractVerticle {
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "update_stream");
+                        manageError(message, cause, "update-stream");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("update_stream", e);
+                logUnexpectedError("update-stream", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for update_subscription_settings
-        vertx.eventBus().<JsonObject> consumer(UPDATE_SUBSCRIPTION_SETTINGS_SERVICE_ID).handler(message -> {
+        //Consumer for update-subscription-settings
+        vertx.eventBus().<JsonObject> consumer(UPDATE-SUBSCRIPTION-SETTINGS_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "update_subscription_settings";
+                String serviceId = "update-subscription-settings";
                 JsonArray subscriptionDataParam = message.body().getJsonArray("subscription_data");
                 if(subscriptionDataParam == null) {
                     manageError(message, new MainApiException(400, "subscription_data is required"), serviceId);
@@ -398,20 +456,20 @@ public class StreamsApiVerticle extends AbstractVerticle {
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "update_subscription_settings");
+                        manageError(message, cause, "update-subscription-settings");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("update_subscription_settings", e);
+                logUnexpectedError("update-subscription-settings", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for update_subscriptions
-        vertx.eventBus().<JsonObject> consumer(UPDATE_SUBSCRIPTIONS_SERVICE_ID).handler(message -> {
+        //Consumer for update-subscriptions
+        vertx.eventBus().<JsonObject> consumer(UPDATE-SUBSCRIPTIONS_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "update_subscriptions";
+                String serviceId = "update-subscriptions";
                 JsonArray deleteParam = message.body().getJsonArray("delete");
                 List<String> delete = (deleteParam == null) ? null : Json.mapper.readValue(deleteParam.encode(),
                     Json.mapper.getTypeFactory().constructCollectionType(List.class, String.class));
@@ -423,11 +481,11 @@ public class StreamsApiVerticle extends AbstractVerticle {
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "update_subscriptions");
+                        manageError(message, cause, "update-subscriptions");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("update_subscriptions", e);
+                logUnexpectedError("update-subscriptions", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });

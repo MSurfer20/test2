@@ -14,10 +14,18 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    EmojiReactionBaseUser,
-    EmojiReactionBaseUserFromJSON,
-    EmojiReactionBaseUserFromJSONTyped,
-    EmojiReactionBaseUserToJSON,
+    EmojiBase,
+    EmojiBaseFromJSON,
+    EmojiBaseFromJSONTyped,
+    EmojiBaseToJSON,
+    EmojiReactionBaseAllOf,
+    EmojiReactionBaseAllOfFromJSON,
+    EmojiReactionBaseAllOfFromJSONTyped,
+    EmojiReactionBaseAllOfToJSON,
+    EmojiReactionBaseAllOfUser,
+    EmojiReactionBaseAllOfUserFromJSON,
+    EmojiReactionBaseAllOfUserFromJSONTyped,
+    EmojiReactionBaseAllOfUserToJSON,
 } from './';
 
 /**
@@ -31,7 +39,7 @@ export interface EmojiReactionBase {
      * within the namespace of the `reaction_type`.
      * 
      * For example, for `unicode_emoji`, this will be an encoding of the
-     * Unicode codepoint.
+     * Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji.
      * @type {string}
      * @memberof EmojiReactionBase
      */
@@ -66,10 +74,10 @@ export interface EmojiReactionBase {
     userId?: number;
     /**
      * 
-     * @type {EmojiReactionBaseUser}
+     * @type {EmojiReactionBaseAllOfUser}
      * @memberof EmojiReactionBase
      */
-    user?: EmojiReactionBaseUser;
+    user?: EmojiReactionBaseAllOfUser;
 }
 
 export function EmojiReactionBaseFromJSON(json: any): EmojiReactionBase {
@@ -86,7 +94,7 @@ export function EmojiReactionBaseFromJSONTyped(json: any, ignoreDiscriminator: b
         'emojiName': !exists(json, 'emoji_name') ? undefined : json['emoji_name'],
         'reactionType': !exists(json, 'reaction_type') ? undefined : json['reaction_type'],
         'userId': !exists(json, 'user_id') ? undefined : json['user_id'],
-        'user': !exists(json, 'user') ? undefined : EmojiReactionBaseUserFromJSON(json['user']),
+        'user': !exists(json, 'user') ? undefined : EmojiReactionBaseAllOfUserFromJSON(json['user']),
     };
 }
 
@@ -103,7 +111,7 @@ export function EmojiReactionBaseToJSON(value?: EmojiReactionBase | null): any {
         'emoji_name': value.emojiName,
         'reaction_type': value.reactionType,
         'user_id': value.userId,
-        'user': EmojiReactionBaseUserToJSON(value.user),
+        'user': EmojiReactionBaseAllOfUserToJSON(value.user),
     };
 }
 

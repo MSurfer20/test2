@@ -39,6 +39,11 @@ export interface ArchiveStreamRequest {
     streamId: number;
 }
 
+export interface DeleteTopicRequest {
+    streamId: number;
+    topicName: string;
+}
+
 export interface GetStreamIdRequest {
     stream: string;
 }
@@ -54,6 +59,10 @@ export interface GetStreamsRequest {
     includeAllActive?: boolean;
     includeDefault?: boolean;
     includeOwnerSubscribed?: boolean;
+}
+
+export interface GetSubscribersRequest {
+    streamId: number;
 }
 
 export interface GetSubscriptionStatusRequest {
@@ -174,6 +183,46 @@ export class StreamsApi extends runtime.BaseAPI {
     }
 
     /**
+     * Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+     * Delete a topic
+     */
+    async deleteTopicRaw(requestParameters: DeleteTopicRequest): Promise<runtime.ApiResponse<JsonSuccess>> {
+        if (requestParameters.streamId === null || requestParameters.streamId === undefined) {
+            throw new runtime.RequiredError('streamId','Required parameter requestParameters.streamId was null or undefined when calling deleteTopic.');
+        }
+
+        if (requestParameters.topicName === null || requestParameters.topicName === undefined) {
+            throw new runtime.RequiredError('topicName','Required parameter requestParameters.topicName was null or undefined when calling deleteTopic.');
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters.topicName !== undefined) {
+            queryParameters['topic_name'] = requestParameters.topicName;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/streams/{stream_id}/delete_topic`.replace(`{${"stream_id"}}`, encodeURIComponent(String(requestParameters.streamId))),
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => JsonSuccessFromJSON(jsonValue));
+    }
+
+    /**
+     * Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+     * Delete a topic
+     */
+    async deleteTopic(requestParameters: DeleteTopicRequest): Promise<JsonSuccess> {
+        const response = await this.deleteTopicRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
      * Get the unique ID of a given stream.  `GET {{ api_url }}/v1/get_stream_id` 
      * Get stream ID
      */
@@ -290,6 +339,38 @@ export class StreamsApi extends runtime.BaseAPI {
      */
     async getStreams(requestParameters: GetStreamsRequest): Promise<JsonSuccessBase & object> {
         const response = await this.getStreamsRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` 
+     * Get the subscribers of a stream
+     */
+    async getSubscribersRaw(requestParameters: GetSubscribersRequest): Promise<runtime.ApiResponse<JsonSuccessBase & object>> {
+        if (requestParameters.streamId === null || requestParameters.streamId === undefined) {
+            throw new runtime.RequiredError('streamId','Required parameter requestParameters.streamId was null or undefined when calling getSubscribers.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/streams/{stream_id}/members`.replace(`{${"stream_id"}}`, encodeURIComponent(String(requestParameters.streamId))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => JsonSuccessBase &amp; objectFromJSON(jsonValue));
+    }
+
+    /**
+     * Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` 
+     * Get the subscribers of a stream
+     */
+    async getSubscribers(requestParameters: GetSubscribersRequest): Promise<JsonSuccessBase & object> {
+        const response = await this.getSubscribersRaw(requestParameters);
         return await response.value();
     }
 

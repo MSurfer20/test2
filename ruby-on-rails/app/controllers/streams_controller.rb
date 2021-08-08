@@ -21,6 +21,12 @@ class StreamsController < ApplicationController
     render json: {"message" => "yes, it worked"}
   end
 
+  def delete_topic
+    # Your code here
+
+    render json: {"message" => "yes, it worked"}
+  end
+
   def get_stream_id
     # Your code here
 
@@ -34,6 +40,12 @@ class StreamsController < ApplicationController
   end
 
   def index
+    # Your code here
+
+    render json: {"message" => "yes, it worked"}
+  end
+
+  def get_subscribers
     # Your code here
 
     render json: {"message" => "yes, it worked"}

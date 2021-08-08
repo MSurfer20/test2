@@ -26,6 +26,10 @@ type ServiceFuture = BoxFuture<'static, Result<Response<Body>, crate::ServiceErr
 use crate::{Api,
      DevFetchApiKeyResponse,
      FetchApiKeyResponse,
+     CreateDraftsResponse,
+     DeleteDraftResponse,
+     EditDraftResponse,
+     GetDraftsResponse,
      AddReactionResponse,
      CheckMessagesMatchNarrowResponse,
      DeleteMessageResponse,
@@ -61,9 +65,11 @@ use crate::{Api,
      UploadCustomEmojiResponse,
      ArchiveStreamResponse,
      CreateBigBlueButtonVideoCallResponse,
+     DeleteTopicResponse,
      GetStreamIdResponse,
      GetStreamTopicsResponse,
      GetStreamsResponse,
+     GetSubscribersResponse,
      GetSubscriptionStatusResponse,
      GetSubscriptionsResponse,
      MuteTopicResponse,
@@ -88,8 +94,8 @@ use crate::{Api,
      RemoveUserGroupResponse,
      SetTypingStatusResponse,
      UnmuteUserResponse,
-     UpdateDisplaySettingsResponse,
-     UpdateNotificationSettingsResponse,
+     UpdateSettingsResponse,
+     UpdateStatusResponse,
      UpdateUserResponse,
      UpdateUserGroupResponse,
      UpdateUserGroupMembersResponse,
@@ -104,6 +110,8 @@ mod paths {
             r"^/api/v1/attachments$",
             r"^/api/v1/calls/bigbluebutton/create$",
             r"^/api/v1/dev_fetch_api_key$",
+            r"^/api/v1/drafts$",
+            r"^/api/v1/drafts/(?P<draft_id>[^/?#]*)$",
             r"^/api/v1/events$",
             r"^/api/v1/fetch_api_key$",
             r"^/api/v1/get_stream_id$",
@@ -129,10 +137,11 @@ mod paths {
             r"^/api/v1/register$",
             r"^/api/v1/rest-error-handling$",
             r"^/api/v1/server_settings$",
-            r"^/api/v1/settings/display$",
-            r"^/api/v1/settings/notifications$",
+            r"^/api/v1/settings$",
             r"^/api/v1/streams$",
             r"^/api/v1/streams/(?P<stream_id>[^/?#]*)$",
+            r"^/api/v1/streams/(?P<stream_id>[^/?#]*)/delete_topic$",
+            r"^/api/v1/streams/(?P<stream_id>[^/?#]*)/members$",
             r"^/api/v1/typing$",
             r"^/api/v1/user_groups$",
             r"^/api/v1/user_groups/create$",
@@ -143,6 +152,7 @@ mod paths {
             r"^/api/v1/users$",
             r"^/api/v1/users/me$",
             r"^/api/v1/users/me/muted_users/(?P<muted_user_id>[^/?#]*)$",
+            r"^/api/v1/users/me/status$",
             r"^/api/v1/users/me/subscriptions$",
             r"^/api/v1/users/me/subscriptions/muted_topics$",
             r"^/api/v1/users/me/subscriptions/properties$",
@@ -159,140 +169,159 @@ mod paths {
     pub(crate) static ID_ATTACHMENTS: usize = 0;
     pub(crate) static ID_CALLS_BIGBLUEBUTTON_CREATE: usize = 1;
     pub(crate) static ID_DEV_FETCH_API_KEY: usize = 2;
-    pub(crate) static ID_EVENTS: usize = 3;
-    pub(crate) static ID_FETCH_API_KEY: usize = 4;
-    pub(crate) static ID_GET_STREAM_ID: usize = 5;
-    pub(crate) static ID_MARK_ALL_AS_READ: usize = 6;
-    pub(crate) static ID_MARK_STREAM_AS_READ: usize = 7;
-    pub(crate) static ID_MARK_TOPIC_AS_READ: usize = 8;
-    pub(crate) static ID_MESSAGES: usize = 9;
-    pub(crate) static ID_MESSAGES_FLAGS: usize = 10;
-    pub(crate) static ID_MESSAGES_MATCHES_NARROW: usize = 11;
-    pub(crate) static ID_MESSAGES_RENDER: usize = 12;
-    pub(crate) static ID_MESSAGES_MESSAGE_ID: usize = 13;
+    pub(crate) static ID_DRAFTS: usize = 3;
+    pub(crate) static ID_DRAFTS_DRAFT_ID: usize = 4;
+    lazy_static! {
+        pub static ref REGEX_DRAFTS_DRAFT_ID: regex::Regex =
+            regex::Regex::new(r"^/api/v1/drafts/(?P<draft_id>[^/?#]*)$")
+                .expect("Unable to create regex for DRAFTS_DRAFT_ID");
+    }
+    pub(crate) static ID_EVENTS: usize = 5;
+    pub(crate) static ID_FETCH_API_KEY: usize = 6;
+    pub(crate) static ID_GET_STREAM_ID: usize = 7;
+    pub(crate) static ID_MARK_ALL_AS_READ: usize = 8;
+    pub(crate) static ID_MARK_STREAM_AS_READ: usize = 9;
+    pub(crate) static ID_MARK_TOPIC_AS_READ: usize = 10;
+    pub(crate) static ID_MESSAGES: usize = 11;
+    pub(crate) static ID_MESSAGES_FLAGS: usize = 12;
+    pub(crate) static ID_MESSAGES_MATCHES_NARROW: usize = 13;
+    pub(crate) static ID_MESSAGES_RENDER: usize = 14;
+    pub(crate) static ID_MESSAGES_MESSAGE_ID: usize = 15;
     lazy_static! {
         pub static ref REGEX_MESSAGES_MESSAGE_ID: regex::Regex =
             regex::Regex::new(r"^/api/v1/messages/(?P<message_id>[^/?#]*)$")
                 .expect("Unable to create regex for MESSAGES_MESSAGE_ID");
     }
-    pub(crate) static ID_MESSAGES_MESSAGE_ID_HISTORY: usize = 14;
+    pub(crate) static ID_MESSAGES_MESSAGE_ID_HISTORY: usize = 16;
     lazy_static! {
         pub static ref REGEX_MESSAGES_MESSAGE_ID_HISTORY: regex::Regex =
             regex::Regex::new(r"^/api/v1/messages/(?P<message_id>[^/?#]*)/history$")
                 .expect("Unable to create regex for MESSAGES_MESSAGE_ID_HISTORY");
     }
-    pub(crate) static ID_MESSAGES_MESSAGE_ID_REACTIONS: usize = 15;
+    pub(crate) static ID_MESSAGES_MESSAGE_ID_REACTIONS: usize = 17;
     lazy_static! {
         pub static ref REGEX_MESSAGES_MESSAGE_ID_REACTIONS: regex::Regex =
             regex::Regex::new(r"^/api/v1/messages/(?P<message_id>[^/?#]*)/reactions$")
                 .expect("Unable to create regex for MESSAGES_MESSAGE_ID_REACTIONS");
     }
-    pub(crate) static ID_REAL_TIME: usize = 16;
-    pub(crate) static ID_REALM_EMOJI: usize = 17;
-    pub(crate) static ID_REALM_EMOJI_EMOJI_NAME: usize = 18;
+    pub(crate) static ID_REAL_TIME: usize = 18;
+    pub(crate) static ID_REALM_EMOJI: usize = 19;
+    pub(crate) static ID_REALM_EMOJI_EMOJI_NAME: usize = 20;
     lazy_static! {
         pub static ref REGEX_REALM_EMOJI_EMOJI_NAME: regex::Regex =
             regex::Regex::new(r"^/api/v1/realm/emoji/(?P<emoji_name>[^/?#]*)$")
                 .expect("Unable to create regex for REALM_EMOJI_EMOJI_NAME");
     }
-    pub(crate) static ID_REALM_FILTERS: usize = 19;
-    pub(crate) static ID_REALM_FILTERS_FILTER_ID: usize = 20;
+    pub(crate) static ID_REALM_FILTERS: usize = 21;
+    pub(crate) static ID_REALM_FILTERS_FILTER_ID: usize = 22;
     lazy_static! {
         pub static ref REGEX_REALM_FILTERS_FILTER_ID: regex::Regex =
             regex::Regex::new(r"^/api/v1/realm/filters/(?P<filter_id>[^/?#]*)$")
                 .expect("Unable to create regex for REALM_FILTERS_FILTER_ID");
     }
-    pub(crate) static ID_REALM_LINKIFIERS: usize = 21;
-    pub(crate) static ID_REALM_PLAYGROUNDS: usize = 22;
-    pub(crate) static ID_REALM_PLAYGROUNDS_PLAYGROUND_ID: usize = 23;
+    pub(crate) static ID_REALM_LINKIFIERS: usize = 23;
+    pub(crate) static ID_REALM_PLAYGROUNDS: usize = 24;
+    pub(crate) static ID_REALM_PLAYGROUNDS_PLAYGROUND_ID: usize = 25;
     lazy_static! {
         pub static ref REGEX_REALM_PLAYGROUNDS_PLAYGROUND_ID: regex::Regex =
             regex::Regex::new(r"^/api/v1/realm/playgrounds/(?P<playground_id>[^/?#]*)$")
                 .expect("Unable to create regex for REALM_PLAYGROUNDS_PLAYGROUND_ID");
     }
-    pub(crate) static ID_REALM_PROFILE_FIELDS: usize = 24;
-    pub(crate) static ID_REGISTER: usize = 25;
-    pub(crate) static ID_REST_ERROR_HANDLING: usize = 26;
-    pub(crate) static ID_SERVER_SETTINGS: usize = 27;
-    pub(crate) static ID_SETTINGS_DISPLAY: usize = 28;
-    pub(crate) static ID_SETTINGS_NOTIFICATIONS: usize = 29;
-    pub(crate) static ID_STREAMS: usize = 30;
-    pub(crate) static ID_STREAMS_STREAM_ID: usize = 31;
+    pub(crate) static ID_REALM_PROFILE_FIELDS: usize = 26;
+    pub(crate) static ID_REGISTER: usize = 27;
+    pub(crate) static ID_REST_ERROR_HANDLING: usize = 28;
+    pub(crate) static ID_SERVER_SETTINGS: usize = 29;
+    pub(crate) static ID_SETTINGS: usize = 30;
+    pub(crate) static ID_STREAMS: usize = 31;
+    pub(crate) static ID_STREAMS_STREAM_ID: usize = 32;
     lazy_static! {
         pub static ref REGEX_STREAMS_STREAM_ID: regex::Regex =
             regex::Regex::new(r"^/api/v1/streams/(?P<stream_id>[^/?#]*)$")
                 .expect("Unable to create regex for STREAMS_STREAM_ID");
     }
-    pub(crate) static ID_TYPING: usize = 32;
-    pub(crate) static ID_USER_GROUPS: usize = 33;
-    pub(crate) static ID_USER_GROUPS_CREATE: usize = 34;
-    pub(crate) static ID_USER_GROUPS_USER_GROUP_ID: usize = 35;
+    pub(crate) static ID_STREAMS_STREAM_ID_DELETE_TOPIC: usize = 33;
+    lazy_static! {
+        pub static ref REGEX_STREAMS_STREAM_ID_DELETE_TOPIC: regex::Regex =
+            regex::Regex::new(r"^/api/v1/streams/(?P<stream_id>[^/?#]*)/delete_topic$")
+                .expect("Unable to create regex for STREAMS_STREAM_ID_DELETE_TOPIC");
+    }
+    pub(crate) static ID_STREAMS_STREAM_ID_MEMBERS: usize = 34;
+    lazy_static! {
+        pub static ref REGEX_STREAMS_STREAM_ID_MEMBERS: regex::Regex =
+            regex::Regex::new(r"^/api/v1/streams/(?P<stream_id>[^/?#]*)/members$")
+                .expect("Unable to create regex for STREAMS_STREAM_ID_MEMBERS");
+    }
+    pub(crate) static ID_TYPING: usize = 35;
+    pub(crate) static ID_USER_GROUPS: usize = 36;
+    pub(crate) static ID_USER_GROUPS_CREATE: usize = 37;
+    pub(crate) static ID_USER_GROUPS_USER_GROUP_ID: usize = 38;
     lazy_static! {
         pub static ref REGEX_USER_GROUPS_USER_GROUP_ID: regex::Regex =
             regex::Regex::new(r"^/api/v1/user_groups/(?P<user_group_id>[^/?#]*)$")
                 .expect("Unable to create regex for USER_GROUPS_USER_GROUP_ID");
     }
-    pub(crate) static ID_USER_GROUPS_USER_GROUP_ID_MEMBERS: usize = 36;
+    pub(crate) static ID_USER_GROUPS_USER_GROUP_ID_MEMBERS: usize = 39;
     lazy_static! {
         pub static ref REGEX_USER_GROUPS_USER_GROUP_ID_MEMBERS: regex::Regex =
             regex::Regex::new(r"^/api/v1/user_groups/(?P<user_group_id>[^/?#]*)/members$")
                 .expect("Unable to create regex for USER_GROUPS_USER_GROUP_ID_MEMBERS");
     }
-    pub(crate) static ID_USER_UPLOADS: usize = 37;
-    pub(crate) static ID_USER_UPLOADS_REALM_ID_STR_FILENAME: usize = 38;
+    pub(crate) static ID_USER_UPLOADS: usize = 40;
+    pub(crate) static ID_USER_UPLOADS_REALM_ID_STR_FILENAME: usize = 41;
     lazy_static! {
         pub static ref REGEX_USER_UPLOADS_REALM_ID_STR_FILENAME: regex::Regex =
             regex::Regex::new(r"^/api/v1/user_uploads/(?P<realm_id_str>[^/?#]*)/(?P<filename>[^/?#]*)$")
                 .expect("Unable to create regex for USER_UPLOADS_REALM_ID_STR_FILENAME");
     }
-    pub(crate) static ID_USERS: usize = 39;
-    pub(crate) static ID_USERS_ME: usize = 40;
-    pub(crate) static ID_USERS_ME_MUTED_USERS_MUTED_USER_ID: usize = 41;
+    pub(crate) static ID_USERS: usize = 42;
+    pub(crate) static ID_USERS_ME: usize = 43;
+    pub(crate) static ID_USERS_ME_MUTED_USERS_MUTED_USER_ID: usize = 44;
     lazy_static! {
         pub static ref REGEX_USERS_ME_MUTED_USERS_MUTED_USER_ID: regex::Regex =
             regex::Regex::new(r"^/api/v1/users/me/muted_users/(?P<muted_user_id>[^/?#]*)$")
                 .expect("Unable to create regex for USERS_ME_MUTED_USERS_MUTED_USER_ID");
     }
-    pub(crate) static ID_USERS_ME_SUBSCRIPTIONS: usize = 42;
-    pub(crate) static ID_USERS_ME_SUBSCRIPTIONS_MUTED_TOPICS: usize = 43;
-    pub(crate) static ID_USERS_ME_SUBSCRIPTIONS_PROPERTIES: usize = 44;
-    pub(crate) static ID_USERS_ME_STREAM_ID_TOPICS: usize = 45;
+    pub(crate) static ID_USERS_ME_STATUS: usize = 45;
+    pub(crate) static ID_USERS_ME_SUBSCRIPTIONS: usize = 46;
+    pub(crate) static ID_USERS_ME_SUBSCRIPTIONS_MUTED_TOPICS: usize = 47;
+    pub(crate) static ID_USERS_ME_SUBSCRIPTIONS_PROPERTIES: usize = 48;
+    pub(crate) static ID_USERS_ME_STREAM_ID_TOPICS: usize = 49;
     lazy_static! {
         pub static ref REGEX_USERS_ME_STREAM_ID_TOPICS: regex::Regex =
             regex::Regex::new(r"^/api/v1/users/me/(?P<stream_id>[^/?#]*)/topics$")
                 .expect("Unable to create regex for USERS_ME_STREAM_ID_TOPICS");
     }
-    pub(crate) static ID_USERS_EMAIL: usize = 46;
+    pub(crate) static ID_USERS_EMAIL: usize = 50;
     lazy_static! {
         pub static ref REGEX_USERS_EMAIL: regex::Regex =
             regex::Regex::new(r"^/api/v1/users/(?P<email>[^/?#]*)$")
                 .expect("Unable to create regex for USERS_EMAIL");
     }
-    pub(crate) static ID_USERS_USER_ID_OR_EMAIL_PRESENCE: usize = 47;
+    pub(crate) static ID_USERS_USER_ID_OR_EMAIL_PRESENCE: usize = 51;
     lazy_static! {
         pub static ref REGEX_USERS_USER_ID_OR_EMAIL_PRESENCE: regex::Regex =
             regex::Regex::new(r"^/api/v1/users/(?P<user_id_or_email>[^/?#]*)/presence$")
                 .expect("Unable to create regex for USERS_USER_ID_OR_EMAIL_PRESENCE");
     }
-    pub(crate) static ID_USERS_USER_ID: usize = 48;
+    pub(crate) static ID_USERS_USER_ID: usize = 52;
     lazy_static! {
         pub static ref REGEX_USERS_USER_ID: regex::Regex =
             regex::Regex::new(r"^/api/v1/users/(?P<user_id>[^/?#]*)$")
                 .expect("Unable to create regex for USERS_USER_ID");
     }
-    pub(crate) static ID_USERS_USER_ID_REACTIVATE: usize = 49;
+    pub(crate) static ID_USERS_USER_ID_REACTIVATE: usize = 53;
     lazy_static! {
         pub static ref REGEX_USERS_USER_ID_REACTIVATE: regex::Regex =
             regex::Regex::new(r"^/api/v1/users/(?P<user_id>[^/?#]*)/reactivate$")
                 .expect("Unable to create regex for USERS_USER_ID_REACTIVATE");
     }
-    pub(crate) static ID_USERS_USER_ID_SUBSCRIPTIONS_STREAM_ID: usize = 50;
+    pub(crate) static ID_USERS_USER_ID_SUBSCRIPTIONS_STREAM_ID: usize = 54;
     lazy_static! {
         pub static ref REGEX_USERS_USER_ID_SUBSCRIPTIONS_STREAM_ID: regex::Regex =
             regex::Regex::new(r"^/api/v1/users/(?P<user_id>[^/?#]*)/subscriptions/(?P<stream_id>[^/?#]*)$")
                 .expect("Unable to create regex for USERS_USER_ID_SUBSCRIPTIONS_STREAM_ID");
     }
-    pub(crate) static ID_ZULIP_OUTGOING_WEBHOOK: usize = 51;
+    pub(crate) static ID_ZULIP_OUTGOING_WEBHOOK: usize = 55;
 }
 
 pub struct MakeService<T, C> where
@@ -535,6 +564,280 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/json")
                                                             .expect("Unable to create Content-Type header for FETCH_API_KEY_VALID_CREDENTIALS_THE_CLIENT_CAN_USE_TO_ACCESS_THE_ZULIP_API"));
+                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body);
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+            },
+
+            // CreateDrafts - POST /drafts
+            &hyper::Method::POST if path.matched(paths::ID_DRAFTS) => {
+                // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
+                let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
+                let param_drafts = query_params.iter().filter(|e| e.0 == "drafts").map(|e| e.1.to_owned())
+                    .nth(0);
+                let param_drafts = match param_drafts {
+                    Some(param_drafts) => {
+                        let param_drafts =
+                            serde_json::from_str::<Vec<models::Draft>>
+                                (&param_drafts);
+                        match param_drafts {
+                            Ok(param_drafts) => Some(param_drafts),
+                            Err(e) => return Ok(Response::builder()
+                                .status(StatusCode::BAD_REQUEST)
+                                .body(Body::from(format!("Couldn't parse query parameter drafts - doesn't match schema: {}", e)))
+                                .expect("Unable to create Bad Request response for invalid query parameter drafts")),
+                        }
+                    },
+                    None => None,
+                };
+
+                                let result = api_impl.create_drafts(
+                                            param_drafts.as_ref(),
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                CreateDraftsResponse::Success
+                                                    (body)
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str("application/json")
+                                                            .expect("Unable to create Content-Type header for CREATE_DRAFTS_SUCCESS"));
+                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body);
+                                                },
+                                                CreateDraftsResponse::BadRequest
+                                                    (body)
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str("application/json")
+                                                            .expect("Unable to create Content-Type header for CREATE_DRAFTS_BAD_REQUEST"));
+                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body);
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+            },
+
+            // DeleteDraft - DELETE /drafts/{draft_id}
+            &hyper::Method::DELETE if path.matched(paths::ID_DRAFTS_DRAFT_ID) => {
+                // Path parameters
+                let path: &str = &uri.path().to_string();
+                let path_params =
+                    paths::REGEX_DRAFTS_DRAFT_ID
+                    .captures(&path)
+                    .unwrap_or_else(||
+                        panic!("Path {} matched RE DRAFTS_DRAFT_ID in set but failed match against \"{}\"", path, paths::REGEX_DRAFTS_DRAFT_ID.as_str())
+                    );
+
+                let param_draft_id = match percent_encoding::percent_decode(path_params["draft_id"].as_bytes()).decode_utf8() {
+                    Ok(param_draft_id) => match param_draft_id.parse::<i32>() {
+                        Ok(param_draft_id) => param_draft_id,
+                        Err(e) => return Ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Couldn't parse path parameter draft_id: {}", e)))
+                                        .expect("Unable to create Bad Request response for invalid path parameter")),
+                    },
+                    Err(_) => return Ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["draft_id"])))
+                                        .expect("Unable to create Bad Request response for invalid percent decode"))
+                };
+
+                                let result = api_impl.delete_draft(
+                                            param_draft_id,
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                DeleteDraftResponse::Success
+                                                    (body)
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str("application/json")
+                                                            .expect("Unable to create Content-Type header for DELETE_DRAFT_SUCCESS"));
+                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body);
+                                                },
+                                                DeleteDraftResponse::NotFound
+                                                    (body)
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str("application/json")
+                                                            .expect("Unable to create Content-Type header for DELETE_DRAFT_NOT_FOUND"));
+                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body);
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+            },
+
+            // EditDraft - PATCH /drafts/{draft_id}
+            &hyper::Method::PATCH if path.matched(paths::ID_DRAFTS_DRAFT_ID) => {
+                // Path parameters
+                let path: &str = &uri.path().to_string();
+                let path_params =
+                    paths::REGEX_DRAFTS_DRAFT_ID
+                    .captures(&path)
+                    .unwrap_or_else(||
+                        panic!("Path {} matched RE DRAFTS_DRAFT_ID in set but failed match against \"{}\"", path, paths::REGEX_DRAFTS_DRAFT_ID.as_str())
+                    );
+
+                let param_draft_id = match percent_encoding::percent_decode(path_params["draft_id"].as_bytes()).decode_utf8() {
+                    Ok(param_draft_id) => match param_draft_id.parse::<i32>() {
+                        Ok(param_draft_id) => param_draft_id,
+                        Err(e) => return Ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Couldn't parse path parameter draft_id: {}", e)))
+                                        .expect("Unable to create Bad Request response for invalid path parameter")),
+                    },
+                    Err(_) => return Ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["draft_id"])))
+                                        .expect("Unable to create Bad Request response for invalid percent decode"))
+                };
+
+                // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
+                let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
+                let param_draft = query_params.iter().filter(|e| e.0 == "draft").map(|e| e.1.to_owned())
+                    .nth(0);
+                let param_draft = match param_draft {
+                    Some(param_draft) => {
+                        let param_draft =
+                            serde_json::from_str::<models::Draft>
+                                (&param_draft);
+                        match param_draft {
+                            Ok(param_draft) => Some(param_draft),
+                            Err(e) => return Ok(Response::builder()
+                                .status(StatusCode::BAD_REQUEST)
+                                .body(Body::from(format!("Couldn't parse query parameter draft - doesn't match schema: {}", e)))
+                                .expect("Unable to create Bad Request response for invalid query parameter draft")),
+                        }
+                    },
+                    None => None,
+                };
+                let param_draft = match param_draft {
+                    Some(param_draft) => param_draft,
+                    None => return Ok(Response::builder()
+                        .status(StatusCode::BAD_REQUEST)
+                        .body(Body::from("Missing required query parameter draft"))
+                        .expect("Unable to create Bad Request response for missing query parameter draft")),
+                };
+
+                                let result = api_impl.edit_draft(
+                                            param_draft_id,
+                                            param_draft,
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                EditDraftResponse::Success
+                                                    (body)
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str("application/json")
+                                                            .expect("Unable to create Content-Type header for EDIT_DRAFT_SUCCESS"));
+                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body);
+                                                },
+                                                EditDraftResponse::NotFound
+                                                    (body)
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(404).expect("Unable to turn 404 into a StatusCode");
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str("application/json")
+                                                            .expect("Unable to create Content-Type header for EDIT_DRAFT_NOT_FOUND"));
+                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body);
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+            },
+
+            // GetDrafts - GET /drafts
+            &hyper::Method::GET if path.matched(paths::ID_DRAFTS) => {
+                                let result = api_impl.get_drafts(
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                GetDraftsResponse::Success
+                                                    (body)
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str("application/json")
+                                                            .expect("Unable to create Content-Type header for GET_DRAFTS_SUCCESS"));
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
                                                 },
@@ -3711,6 +4014,105 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                         Ok(response)
             },
 
+            // DeleteTopic - POST /streams/{stream_id}/delete_topic
+            &hyper::Method::POST if path.matched(paths::ID_STREAMS_STREAM_ID_DELETE_TOPIC) => {
+                // Path parameters
+                let path: &str = &uri.path().to_string();
+                let path_params =
+                    paths::REGEX_STREAMS_STREAM_ID_DELETE_TOPIC
+                    .captures(&path)
+                    .unwrap_or_else(||
+                        panic!("Path {} matched RE STREAMS_STREAM_ID_DELETE_TOPIC in set but failed match against \"{}\"", path, paths::REGEX_STREAMS_STREAM_ID_DELETE_TOPIC.as_str())
+                    );
+
+                let param_stream_id = match percent_encoding::percent_decode(path_params["stream_id"].as_bytes()).decode_utf8() {
+                    Ok(param_stream_id) => match param_stream_id.parse::<i32>() {
+                        Ok(param_stream_id) => param_stream_id,
+                        Err(e) => return Ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Couldn't parse path parameter stream_id: {}", e)))
+                                        .expect("Unable to create Bad Request response for invalid path parameter")),
+                    },
+                    Err(_) => return Ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["stream_id"])))
+                                        .expect("Unable to create Bad Request response for invalid percent decode"))
+                };
+
+                // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
+                let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
+                let param_topic_name = query_params.iter().filter(|e| e.0 == "topic_name").map(|e| e.1.to_owned())
+                    .nth(0);
+                let param_topic_name = match param_topic_name {
+                    Some(param_topic_name) => {
+                        let param_topic_name =
+                            <String as std::str::FromStr>::from_str
+                                (&param_topic_name);
+                        match param_topic_name {
+                            Ok(param_topic_name) => Some(param_topic_name),
+                            Err(e) => return Ok(Response::builder()
+                                .status(StatusCode::BAD_REQUEST)
+                                .body(Body::from(format!("Couldn't parse query parameter topic_name - doesn't match schema: {}", e)))
+                                .expect("Unable to create Bad Request response for invalid query parameter topic_name")),
+                        }
+                    },
+                    None => None,
+                };
+                let param_topic_name = match param_topic_name {
+                    Some(param_topic_name) => param_topic_name,
+                    None => return Ok(Response::builder()
+                        .status(StatusCode::BAD_REQUEST)
+                        .body(Body::from("Missing required query parameter topic_name"))
+                        .expect("Unable to create Bad Request response for missing query parameter topic_name")),
+                };
+
+                                let result = api_impl.delete_topic(
+                                            param_stream_id,
+                                            param_topic_name,
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                DeleteTopicResponse::Success
+                                                    (body)
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str("application/json")
+                                                            .expect("Unable to create Content-Type header for DELETE_TOPIC_SUCCESS"));
+                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body);
+                                                },
+                                                DeleteTopicResponse::Error
+                                                    (body)
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str("application/json")
+                                                            .expect("Unable to create Content-Type header for DELETE_TOPIC_ERROR"));
+                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body);
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+            },
+
             // GetStreamId - GET /get_stream_id
             &hyper::Method::GET if path.matched(paths::ID_GET_STREAM_ID) => {
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
@@ -4000,6 +4402,77 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/json")
                                                             .expect("Unable to create Content-Type header for GET_STREAMS_BAD_REQUEST"));
+                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body);
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+            },
+
+            // GetSubscribers - GET /streams/{stream_id}/members
+            &hyper::Method::GET if path.matched(paths::ID_STREAMS_STREAM_ID_MEMBERS) => {
+                // Path parameters
+                let path: &str = &uri.path().to_string();
+                let path_params =
+                    paths::REGEX_STREAMS_STREAM_ID_MEMBERS
+                    .captures(&path)
+                    .unwrap_or_else(||
+                        panic!("Path {} matched RE STREAMS_STREAM_ID_MEMBERS in set but failed match against \"{}\"", path, paths::REGEX_STREAMS_STREAM_ID_MEMBERS.as_str())
+                    );
+
+                let param_stream_id = match percent_encoding::percent_decode(path_params["stream_id"].as_bytes()).decode_utf8() {
+                    Ok(param_stream_id) => match param_stream_id.parse::<i32>() {
+                        Ok(param_stream_id) => param_stream_id,
+                        Err(e) => return Ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Couldn't parse path parameter stream_id: {}", e)))
+                                        .expect("Unable to create Bad Request response for invalid path parameter")),
+                    },
+                    Err(_) => return Ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["stream_id"])))
+                                        .expect("Unable to create Bad Request response for invalid percent decode"))
+                };
+
+                                let result = api_impl.get_subscribers(
+                                            param_stream_id,
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                GetSubscribersResponse::Success
+                                                    (body)
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str("application/json")
+                                                            .expect("Unable to create Content-Type header for GET_SUBSCRIBERS_SUCCESS"));
+                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body);
+                                                },
+                                                GetSubscribersResponse::BadRequest
+                                                    (body)
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str("application/json")
+                                                            .expect("Unable to create Content-Type header for GET_SUBSCRIBERS_BAD_REQUEST"));
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
                                                 },
@@ -6134,10 +6607,78 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                         Ok(response)
             },
 
-            // UpdateDisplaySettings - PATCH /settings/display
-            &hyper::Method::PATCH if path.matched(paths::ID_SETTINGS_DISPLAY) => {
+            // UpdateSettings - PATCH /settings
+            &hyper::Method::PATCH if path.matched(paths::ID_SETTINGS) => {
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
                 let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
+                let param_full_name = query_params.iter().filter(|e| e.0 == "full_name").map(|e| e.1.to_owned())
+                    .nth(0);
+                let param_full_name = match param_full_name {
+                    Some(param_full_name) => {
+                        let param_full_name =
+                            <String as std::str::FromStr>::from_str
+                                (&param_full_name);
+                        match param_full_name {
+                            Ok(param_full_name) => Some(param_full_name),
+                            Err(e) => return Ok(Response::builder()
+                                .status(StatusCode::BAD_REQUEST)
+                                .body(Body::from(format!("Couldn't parse query parameter full_name - doesn't match schema: {}", e)))
+                                .expect("Unable to create Bad Request response for invalid query parameter full_name")),
+                        }
+                    },
+                    None => None,
+                };
+                let param_email = query_params.iter().filter(|e| e.0 == "email").map(|e| e.1.to_owned())
+                    .nth(0);
+                let param_email = match param_email {
+                    Some(param_email) => {
+                        let param_email =
+                            <String as std::str::FromStr>::from_str
+                                (&param_email);
+                        match param_email {
+                            Ok(param_email) => Some(param_email),
+                            Err(e) => return Ok(Response::builder()
+                                .status(StatusCode::BAD_REQUEST)
+                                .body(Body::from(format!("Couldn't parse query parameter email - doesn't match schema: {}", e)))
+                                .expect("Unable to create Bad Request response for invalid query parameter email")),
+                        }
+                    },
+                    None => None,
+                };
+                let param_old_password = query_params.iter().filter(|e| e.0 == "old_password").map(|e| e.1.to_owned())
+                    .nth(0);
+                let param_old_password = match param_old_password {
+                    Some(param_old_password) => {
+                        let param_old_password =
+                            <String as std::str::FromStr>::from_str
+                                (&param_old_password);
+                        match param_old_password {
+                            Ok(param_old_password) => Some(param_old_password),
+                            Err(e) => return Ok(Response::builder()
+                                .status(StatusCode::BAD_REQUEST)
+                                .body(Body::from(format!("Couldn't parse query parameter old_password - doesn't match schema: {}", e)))
+                                .expect("Unable to create Bad Request response for invalid query parameter old_password")),
+                        }
+                    },
+                    None => None,
+                };
+                let param_new_password = query_params.iter().filter(|e| e.0 == "new_password").map(|e| e.1.to_owned())
+                    .nth(0);
+                let param_new_password = match param_new_password {
+                    Some(param_new_password) => {
+                        let param_new_password =
+                            <String as std::str::FromStr>::from_str
+                                (&param_new_password);
+                        match param_new_password {
+                            Ok(param_new_password) => Some(param_new_password),
+                            Err(e) => return Ok(Response::builder()
+                                .status(StatusCode::BAD_REQUEST)
+                                .body(Body::from(format!("Couldn't parse query parameter new_password - doesn't match schema: {}", e)))
+                                .expect("Unable to create Bad Request response for invalid query parameter new_password")),
+                        }
+                    },
+                    None => None,
+                };
                 let param_twenty_four_hour_time = query_params.iter().filter(|e| e.0 == "twenty_four_hour_time").map(|e| e.1.to_owned())
                     .nth(0);
                 let param_twenty_four_hour_time = match param_twenty_four_hour_time {
@@ -6236,6 +6777,23 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 .status(StatusCode::BAD_REQUEST)
                                 .body(Body::from(format!("Couldn't parse query parameter color_scheme - doesn't match schema: {}", e)))
                                 .expect("Unable to create Bad Request response for invalid query parameter color_scheme")),
+                        }
+                    },
+                    None => None,
+                };
+                let param_enable_drafts_synchronization = query_params.iter().filter(|e| e.0 == "enable_drafts_synchronization").map(|e| e.1.to_owned())
+                    .nth(0);
+                let param_enable_drafts_synchronization = match param_enable_drafts_synchronization {
+                    Some(param_enable_drafts_synchronization) => {
+                        let param_enable_drafts_synchronization =
+                            <bool as std::str::FromStr>::from_str
+                                (&param_enable_drafts_synchronization);
+                        match param_enable_drafts_synchronization {
+                            Ok(param_enable_drafts_synchronization) => Some(param_enable_drafts_synchronization),
+                            Err(e) => return Ok(Response::builder()
+                                .status(StatusCode::BAD_REQUEST)
+                                .body(Body::from(format!("Couldn't parse query parameter enable_drafts_synchronization - doesn't match schema: {}", e)))
+                                .expect("Unable to create Bad Request response for invalid query parameter enable_drafts_synchronization")),
                         }
                     },
                     None => None,
@@ -6359,58 +6917,6 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                     },
                     None => None,
                 };
-
-                                let result = api_impl.update_display_settings(
-                                            param_twenty_four_hour_time,
-                                            param_dense_mode,
-                                            param_starred_message_counts,
-                                            param_fluid_layout_width,
-                                            param_high_contrast_mode,
-                                            param_color_scheme,
-                                            param_translate_emoticons,
-                                            param_default_language,
-                                            param_default_view,
-                                            param_left_side_userlist,
-                                            param_emojiset,
-                                            param_demote_inactive_streams,
-                                            param_timezone,
-                                        &context
-                                    ).await;
-                                let mut response = Response::new(Body::empty());
-                                response.headers_mut().insert(
-                                            HeaderName::from_static("x-span-id"),
-                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
-                                                .expect("Unable to create X-Span-ID header value"));
-
-                                        match result {
-                                            Ok(rsp) => match rsp {
-                                                UpdateDisplaySettingsResponse::Success
-                                                    (body)
-                                                => {
-                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-                                                    response.headers_mut().insert(
-                                                        CONTENT_TYPE,
-                                                        HeaderValue::from_str("application/json")
-                                                            .expect("Unable to create Content-Type header for UPDATE_DISPLAY_SETTINGS_SUCCESS"));
-                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
-                                                    *response.body_mut() = Body::from(body);
-                                                },
-                                            },
-                                            Err(_) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
-                                                *response.body_mut() = Body::from("An internal error occurred");
-                                            },
-                                        }
-
-                                        Ok(response)
-            },
-
-            // UpdateNotificationSettings - PATCH /settings/notifications
-            &hyper::Method::PATCH if path.matched(paths::ID_SETTINGS_NOTIFICATIONS) => {
-                // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
-                let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
                 let param_enable_stream_desktop_notifications = query_params.iter().filter(|e| e.0 == "enable_stream_desktop_notifications").map(|e| e.1.to_owned())
                     .nth(0);
                 let param_enable_stream_desktop_notifications = match param_enable_stream_desktop_notifications {
@@ -6526,6 +7032,23 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 .status(StatusCode::BAD_REQUEST)
                                 .body(Body::from(format!("Couldn't parse query parameter enable_sounds - doesn't match schema: {}", e)))
                                 .expect("Unable to create Bad Request response for invalid query parameter enable_sounds")),
+                        }
+                    },
+                    None => None,
+                };
+                let param_email_notifications_batching_period_seconds = query_params.iter().filter(|e| e.0 == "email_notifications_batching_period_seconds").map(|e| e.1.to_owned())
+                    .nth(0);
+                let param_email_notifications_batching_period_seconds = match param_email_notifications_batching_period_seconds {
+                    Some(param_email_notifications_batching_period_seconds) => {
+                        let param_email_notifications_batching_period_seconds =
+                            <i32 as std::str::FromStr>::from_str
+                                (&param_email_notifications_batching_period_seconds);
+                        match param_email_notifications_batching_period_seconds {
+                            Ok(param_email_notifications_batching_period_seconds) => Some(param_email_notifications_batching_period_seconds),
+                            Err(e) => return Ok(Response::builder()
+                                .status(StatusCode::BAD_REQUEST)
+                                .body(Body::from(format!("Couldn't parse query parameter email_notifications_batching_period_seconds - doesn't match schema: {}", e)))
+                                .expect("Unable to create Bad Request response for invalid query parameter email_notifications_batching_period_seconds")),
                         }
                     },
                     None => None,
@@ -6734,8 +7257,43 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                     },
                     None => None,
                 };
+                let param_enter_sends = query_params.iter().filter(|e| e.0 == "enter_sends").map(|e| e.1.to_owned())
+                    .nth(0);
+                let param_enter_sends = match param_enter_sends {
+                    Some(param_enter_sends) => {
+                        let param_enter_sends =
+                            <bool as std::str::FromStr>::from_str
+                                (&param_enter_sends);
+                        match param_enter_sends {
+                            Ok(param_enter_sends) => Some(param_enter_sends),
+                            Err(e) => return Ok(Response::builder()
+                                .status(StatusCode::BAD_REQUEST)
+                                .body(Body::from(format!("Couldn't parse query parameter enter_sends - doesn't match schema: {}", e)))
+                                .expect("Unable to create Bad Request response for invalid query parameter enter_sends")),
+                        }
+                    },
+                    None => None,
+                };
 
-                                let result = api_impl.update_notification_settings(
+                                let result = api_impl.update_settings(
+                                            param_full_name,
+                                            param_email,
+                                            param_old_password,
+                                            param_new_password,
+                                            param_twenty_four_hour_time,
+                                            param_dense_mode,
+                                            param_starred_message_counts,
+                                            param_fluid_layout_width,
+                                            param_high_contrast_mode,
+                                            param_color_scheme,
+                                            param_enable_drafts_synchronization,
+                                            param_translate_emoticons,
+                                            param_default_language,
+                                            param_default_view,
+                                            param_left_side_userlist,
+                                            param_emojiset,
+                                            param_demote_inactive_streams,
+                                            param_timezone,
                                             param_enable_stream_desktop_notifications,
                                             param_enable_stream_email_notifications,
                                             param_enable_stream_push_notifications,
@@ -6743,6 +7301,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                             param_notification_sound,
                                             param_enable_desktop_notifications,
                                             param_enable_sounds,
+                                            param_email_notifications_batching_period_seconds,
                                             param_enable_offline_email_notifications,
                                             param_enable_offline_push_notifications,
                                             param_enable_online_push_notifications,
@@ -6755,6 +7314,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                             param_desktop_icon_count_display,
                                             param_realm_name_in_notifications,
                                             param_presence_enabled,
+                                            param_enter_sends,
                                         &context
                                     ).await;
                                 let mut response = Response::new(Body::empty());
@@ -6765,14 +7325,154 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
 
                                         match result {
                                             Ok(rsp) => match rsp {
-                                                UpdateNotificationSettingsResponse::Success
+                                                UpdateSettingsResponse::Success
                                                     (body)
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/json")
-                                                            .expect("Unable to create Content-Type header for UPDATE_NOTIFICATION_SETTINGS_SUCCESS"));
+                                                            .expect("Unable to create Content-Type header for UPDATE_SETTINGS_SUCCESS"));
+                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body);
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+            },
+
+            // UpdateStatus - POST /users/me/status
+            &hyper::Method::POST if path.matched(paths::ID_USERS_ME_STATUS) => {
+                // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
+                let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
+                let param_status_text = query_params.iter().filter(|e| e.0 == "status_text").map(|e| e.1.to_owned())
+                    .nth(0);
+                let param_status_text = match param_status_text {
+                    Some(param_status_text) => {
+                        let param_status_text =
+                            <String as std::str::FromStr>::from_str
+                                (&param_status_text);
+                        match param_status_text {
+                            Ok(param_status_text) => Some(param_status_text),
+                            Err(e) => return Ok(Response::builder()
+                                .status(StatusCode::BAD_REQUEST)
+                                .body(Body::from(format!("Couldn't parse query parameter status_text - doesn't match schema: {}", e)))
+                                .expect("Unable to create Bad Request response for invalid query parameter status_text")),
+                        }
+                    },
+                    None => None,
+                };
+                let param_away = query_params.iter().filter(|e| e.0 == "away").map(|e| e.1.to_owned())
+                    .nth(0);
+                let param_away = match param_away {
+                    Some(param_away) => {
+                        let param_away =
+                            <bool as std::str::FromStr>::from_str
+                                (&param_away);
+                        match param_away {
+                            Ok(param_away) => Some(param_away),
+                            Err(e) => return Ok(Response::builder()
+                                .status(StatusCode::BAD_REQUEST)
+                                .body(Body::from(format!("Couldn't parse query parameter away - doesn't match schema: {}", e)))
+                                .expect("Unable to create Bad Request response for invalid query parameter away")),
+                        }
+                    },
+                    None => None,
+                };
+                let param_emoji_name = query_params.iter().filter(|e| e.0 == "emoji_name").map(|e| e.1.to_owned())
+                    .nth(0);
+                let param_emoji_name = match param_emoji_name {
+                    Some(param_emoji_name) => {
+                        let param_emoji_name =
+                            <String as std::str::FromStr>::from_str
+                                (&param_emoji_name);
+                        match param_emoji_name {
+                            Ok(param_emoji_name) => Some(param_emoji_name),
+                            Err(e) => return Ok(Response::builder()
+                                .status(StatusCode::BAD_REQUEST)
+                                .body(Body::from(format!("Couldn't parse query parameter emoji_name - doesn't match schema: {}", e)))
+                                .expect("Unable to create Bad Request response for invalid query parameter emoji_name")),
+                        }
+                    },
+                    None => None,
+                };
+                let param_emoji_code = query_params.iter().filter(|e| e.0 == "emoji_code").map(|e| e.1.to_owned())
+                    .nth(0);
+                let param_emoji_code = match param_emoji_code {
+                    Some(param_emoji_code) => {
+                        let param_emoji_code =
+                            <String as std::str::FromStr>::from_str
+                                (&param_emoji_code);
+                        match param_emoji_code {
+                            Ok(param_emoji_code) => Some(param_emoji_code),
+                            Err(e) => return Ok(Response::builder()
+                                .status(StatusCode::BAD_REQUEST)
+                                .body(Body::from(format!("Couldn't parse query parameter emoji_code - doesn't match schema: {}", e)))
+                                .expect("Unable to create Bad Request response for invalid query parameter emoji_code")),
+                        }
+                    },
+                    None => None,
+                };
+                let param_reaction_type = query_params.iter().filter(|e| e.0 == "reaction_type").map(|e| e.1.to_owned())
+                    .nth(0);
+                let param_reaction_type = match param_reaction_type {
+                    Some(param_reaction_type) => {
+                        let param_reaction_type =
+                            <String as std::str::FromStr>::from_str
+                                (&param_reaction_type);
+                        match param_reaction_type {
+                            Ok(param_reaction_type) => Some(param_reaction_type),
+                            Err(e) => return Ok(Response::builder()
+                                .status(StatusCode::BAD_REQUEST)
+                                .body(Body::from(format!("Couldn't parse query parameter reaction_type - doesn't match schema: {}", e)))
+                                .expect("Unable to create Bad Request response for invalid query parameter reaction_type")),
+                        }
+                    },
+                    None => None,
+                };
+
+                                let result = api_impl.update_status(
+                                            param_status_text,
+                                            param_away,
+                                            param_emoji_name,
+                                            param_emoji_code,
+                                            param_reaction_type,
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                UpdateStatusResponse::Success
+                                                    (body)
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str("application/json")
+                                                            .expect("Unable to create Content-Type header for UPDATE_STATUS_SUCCESS"));
+                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    *response.body_mut() = Body::from(body);
+                                                },
+                                                UpdateStatusResponse::Success_2
+                                                    (body)
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(400).expect("Unable to turn 400 into a StatusCode");
+                                                    response.headers_mut().insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str("application/json")
+                                                            .expect("Unable to create Content-Type header for UPDATE_STATUS_SUCCESS_2"));
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
                                                     *response.body_mut() = Body::from(body);
                                                 },
@@ -7178,6 +7878,8 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             _ if path.matched(paths::ID_ATTACHMENTS) => method_not_allowed(),
             _ if path.matched(paths::ID_CALLS_BIGBLUEBUTTON_CREATE) => method_not_allowed(),
             _ if path.matched(paths::ID_DEV_FETCH_API_KEY) => method_not_allowed(),
+            _ if path.matched(paths::ID_DRAFTS) => method_not_allowed(),
+            _ if path.matched(paths::ID_DRAFTS_DRAFT_ID) => method_not_allowed(),
             _ if path.matched(paths::ID_EVENTS) => method_not_allowed(),
             _ if path.matched(paths::ID_FETCH_API_KEY) => method_not_allowed(),
             _ if path.matched(paths::ID_GET_STREAM_ID) => method_not_allowed(),
@@ -7203,10 +7905,11 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             _ if path.matched(paths::ID_REGISTER) => method_not_allowed(),
             _ if path.matched(paths::ID_REST_ERROR_HANDLING) => method_not_allowed(),
             _ if path.matched(paths::ID_SERVER_SETTINGS) => method_not_allowed(),
-            _ if path.matched(paths::ID_SETTINGS_DISPLAY) => method_not_allowed(),
-            _ if path.matched(paths::ID_SETTINGS_NOTIFICATIONS) => method_not_allowed(),
+            _ if path.matched(paths::ID_SETTINGS) => method_not_allowed(),
             _ if path.matched(paths::ID_STREAMS) => method_not_allowed(),
             _ if path.matched(paths::ID_STREAMS_STREAM_ID) => method_not_allowed(),
+            _ if path.matched(paths::ID_STREAMS_STREAM_ID_DELETE_TOPIC) => method_not_allowed(),
+            _ if path.matched(paths::ID_STREAMS_STREAM_ID_MEMBERS) => method_not_allowed(),
             _ if path.matched(paths::ID_TYPING) => method_not_allowed(),
             _ if path.matched(paths::ID_USER_GROUPS) => method_not_allowed(),
             _ if path.matched(paths::ID_USER_GROUPS_CREATE) => method_not_allowed(),
@@ -7217,6 +7920,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             _ if path.matched(paths::ID_USERS) => method_not_allowed(),
             _ if path.matched(paths::ID_USERS_ME) => method_not_allowed(),
             _ if path.matched(paths::ID_USERS_ME_MUTED_USERS_MUTED_USER_ID) => method_not_allowed(),
+            _ if path.matched(paths::ID_USERS_ME_STATUS) => method_not_allowed(),
             _ if path.matched(paths::ID_USERS_ME_SUBSCRIPTIONS) => method_not_allowed(),
             _ if path.matched(paths::ID_USERS_ME_SUBSCRIPTIONS_MUTED_TOPICS) => method_not_allowed(),
             _ if path.matched(paths::ID_USERS_ME_SUBSCRIPTIONS_PROPERTIES) => method_not_allowed(),
@@ -7244,6 +7948,14 @@ impl<T> RequestParser<T> for ApiRequestParser {
             &hyper::Method::POST if path.matched(paths::ID_DEV_FETCH_API_KEY) => Ok("DevFetchApiKey"),
             // FetchApiKey - POST /fetch_api_key
             &hyper::Method::POST if path.matched(paths::ID_FETCH_API_KEY) => Ok("FetchApiKey"),
+            // CreateDrafts - POST /drafts
+            &hyper::Method::POST if path.matched(paths::ID_DRAFTS) => Ok("CreateDrafts"),
+            // DeleteDraft - DELETE /drafts/{draft_id}
+            &hyper::Method::DELETE if path.matched(paths::ID_DRAFTS_DRAFT_ID) => Ok("DeleteDraft"),
+            // EditDraft - PATCH /drafts/{draft_id}
+            &hyper::Method::PATCH if path.matched(paths::ID_DRAFTS_DRAFT_ID) => Ok("EditDraft"),
+            // GetDrafts - GET /drafts
+            &hyper::Method::GET if path.matched(paths::ID_DRAFTS) => Ok("GetDrafts"),
             // AddReaction - POST /messages/{message_id}/reactions
             &hyper::Method::POST if path.matched(paths::ID_MESSAGES_MESSAGE_ID_REACTIONS) => Ok("AddReaction"),
             // CheckMessagesMatchNarrow - GET /messages/matches_narrow
@@ -7314,12 +8026,16 @@ impl<T> RequestParser<T> for ApiRequestParser {
             &hyper::Method::DELETE if path.matched(paths::ID_STREAMS_STREAM_ID) => Ok("ArchiveStream"),
             // CreateBigBlueButtonVideoCall - GET /calls/bigbluebutton/create
             &hyper::Method::GET if path.matched(paths::ID_CALLS_BIGBLUEBUTTON_CREATE) => Ok("CreateBigBlueButtonVideoCall"),
+            // DeleteTopic - POST /streams/{stream_id}/delete_topic
+            &hyper::Method::POST if path.matched(paths::ID_STREAMS_STREAM_ID_DELETE_TOPIC) => Ok("DeleteTopic"),
             // GetStreamId - GET /get_stream_id
             &hyper::Method::GET if path.matched(paths::ID_GET_STREAM_ID) => Ok("GetStreamId"),
             // GetStreamTopics - GET /users/me/{stream_id}/topics
             &hyper::Method::GET if path.matched(paths::ID_USERS_ME_STREAM_ID_TOPICS) => Ok("GetStreamTopics"),
             // GetStreams - GET /streams
             &hyper::Method::GET if path.matched(paths::ID_STREAMS) => Ok("GetStreams"),
+            // GetSubscribers - GET /streams/{stream_id}/members
+            &hyper::Method::GET if path.matched(paths::ID_STREAMS_STREAM_ID_MEMBERS) => Ok("GetSubscribers"),
             // GetSubscriptionStatus - GET /users/{user_id}/subscriptions/{stream_id}
             &hyper::Method::GET if path.matched(paths::ID_USERS_USER_ID_SUBSCRIPTIONS_STREAM_ID) => Ok("GetSubscriptionStatus"),
             // GetSubscriptions - GET /users/me/subscriptions
@@ -7368,10 +8084,10 @@ impl<T> RequestParser<T> for ApiRequestParser {
             &hyper::Method::POST if path.matched(paths::ID_TYPING) => Ok("SetTypingStatus"),
             // UnmuteUser - DELETE /users/me/muted_users/{muted_user_id}
             &hyper::Method::DELETE if path.matched(paths::ID_USERS_ME_MUTED_USERS_MUTED_USER_ID) => Ok("UnmuteUser"),
-            // UpdateDisplaySettings - PATCH /settings/display
-            &hyper::Method::PATCH if path.matched(paths::ID_SETTINGS_DISPLAY) => Ok("UpdateDisplaySettings"),
-            // UpdateNotificationSettings - PATCH /settings/notifications
-            &hyper::Method::PATCH if path.matched(paths::ID_SETTINGS_NOTIFICATIONS) => Ok("UpdateNotificationSettings"),
+            // UpdateSettings - PATCH /settings
+            &hyper::Method::PATCH if path.matched(paths::ID_SETTINGS) => Ok("UpdateSettings"),
+            // UpdateStatus - POST /users/me/status
+            &hyper::Method::POST if path.matched(paths::ID_USERS_ME_STATUS) => Ok("UpdateStatus"),
             // UpdateUser - PATCH /users/{user_id}
             &hyper::Method::PATCH if path.matched(paths::ID_USERS_USER_ID) => Ok("UpdateUser"),
             // UpdateUserGroup - PATCH /user_groups/{user_group_id}

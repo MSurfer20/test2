@@ -296,6 +296,153 @@ class StreamsApi(object):
             collection_formats=collection_formats,
             _request_auth=local_var_params.get('_request_auth'))
 
+    def delete_topic(self, stream_id, topic_name, **kwargs):  # noqa: E501
+        """Delete a topic  # noqa: E501
+
+        Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip.   # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+
+        >>> thread = api.delete_topic(stream_id, topic_name, async_req=True)
+        >>> result = thread.get()
+
+        :param stream_id: The ID of the stream to access.  (required)
+        :type stream_id: int
+        :param topic_name: The name of the topic to delete.  (required)
+        :type topic_name: str
+        :param async_req: Whether to execute the request asynchronously.
+        :type async_req: bool, optional
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :type _preload_content: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: JsonSuccess
+        """
+        kwargs['_return_http_data_only'] = True
+        return self.delete_topic_with_http_info(stream_id, topic_name, **kwargs)  # noqa: E501
+
+    def delete_topic_with_http_info(self, stream_id, topic_name, **kwargs):  # noqa: E501
+        """Delete a topic  # noqa: E501
+
+        Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip.   # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+
+        >>> thread = api.delete_topic_with_http_info(stream_id, topic_name, async_req=True)
+        >>> result = thread.get()
+
+        :param stream_id: The ID of the stream to access.  (required)
+        :type stream_id: int
+        :param topic_name: The name of the topic to delete.  (required)
+        :type topic_name: str
+        :param async_req: Whether to execute the request asynchronously.
+        :type async_req: bool, optional
+        :param _return_http_data_only: response data without head status code
+                                       and headers
+        :type _return_http_data_only: bool, optional
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :type _preload_content: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: tuple(JsonSuccess, status_code(int), headers(HTTPHeaderDict))
+        """
+
+        local_var_params = locals()
+
+        all_params = [
+            'stream_id',
+            'topic_name'
+        ]
+        all_params.extend(
+            [
+                'async_req',
+                '_return_http_data_only',
+                '_preload_content',
+                '_request_timeout',
+                '_request_auth'
+            ]
+        )
+
+        for key, val in six.iteritems(local_var_params['kwargs']):
+            if key not in all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method delete_topic" % key
+                )
+            local_var_params[key] = val
+        del local_var_params['kwargs']
+        # verify the required parameter 'stream_id' is set
+        if self.api_client.client_side_validation and ('stream_id' not in local_var_params or  # noqa: E501
+                                                        local_var_params['stream_id'] is None):  # noqa: E501
+            raise ApiValueError("Missing the required parameter `stream_id` when calling `delete_topic`")  # noqa: E501
+        # verify the required parameter 'topic_name' is set
+        if self.api_client.client_side_validation and ('topic_name' not in local_var_params or  # noqa: E501
+                                                        local_var_params['topic_name'] is None):  # noqa: E501
+            raise ApiValueError("Missing the required parameter `topic_name` when calling `delete_topic`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'stream_id' in local_var_params:
+            path_params['stream_id'] = local_var_params['stream_id']  # noqa: E501
+
+        query_params = []
+        if 'topic_name' in local_var_params and local_var_params['topic_name'] is not None:  # noqa: E501
+            query_params.append(('topic_name', local_var_params['topic_name']))  # noqa: E501
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = []  # noqa: E501
+        
+        response_types_map = {
+            200: "JsonSuccess",
+            400: "JsonError",
+        }
+
+        return self.api_client.call_api(
+            '/streams/{stream_id}/delete_topic', 'POST',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_types_map=response_types_map,
+            auth_settings=auth_settings,
+            async_req=local_var_params.get('async_req'),
+            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=local_var_params.get('_preload_content', True),
+            _request_timeout=local_var_params.get('_request_timeout'),
+            collection_formats=collection_formats,
+            _request_auth=local_var_params.get('_request_auth'))
+
     def get_stream_id(self, stream, **kwargs):  # noqa: E501
         """Get stream ID  # noqa: E501
 
@@ -720,6 +867,142 @@ class StreamsApi(object):
 
         return self.api_client.call_api(
             '/streams', 'GET',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_types_map=response_types_map,
+            auth_settings=auth_settings,
+            async_req=local_var_params.get('async_req'),
+            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=local_var_params.get('_preload_content', True),
+            _request_timeout=local_var_params.get('_request_timeout'),
+            collection_formats=collection_formats,
+            _request_auth=local_var_params.get('_request_auth'))
+
+    def get_subscribers(self, stream_id, **kwargs):  # noqa: E501
+        """Get the subscribers of a stream  # noqa: E501
+
+        Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members`   # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+
+        >>> thread = api.get_subscribers(stream_id, async_req=True)
+        >>> result = thread.get()
+
+        :param stream_id: The ID of the stream to access.  (required)
+        :type stream_id: int
+        :param async_req: Whether to execute the request asynchronously.
+        :type async_req: bool, optional
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :type _preload_content: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: JsonSuccessBase
+        """
+        kwargs['_return_http_data_only'] = True
+        return self.get_subscribers_with_http_info(stream_id, **kwargs)  # noqa: E501
+
+    def get_subscribers_with_http_info(self, stream_id, **kwargs):  # noqa: E501
+        """Get the subscribers of a stream  # noqa: E501
+
+        Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members`   # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+
+        >>> thread = api.get_subscribers_with_http_info(stream_id, async_req=True)
+        >>> result = thread.get()
+
+        :param stream_id: The ID of the stream to access.  (required)
+        :type stream_id: int
+        :param async_req: Whether to execute the request asynchronously.
+        :type async_req: bool, optional
+        :param _return_http_data_only: response data without head status code
+                                       and headers
+        :type _return_http_data_only: bool, optional
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :type _preload_content: bool, optional
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :return: Returns the result object.
+                 If the method is called asynchronously,
+                 returns the request thread.
+        :rtype: tuple(JsonSuccessBase, status_code(int), headers(HTTPHeaderDict))
+        """
+
+        local_var_params = locals()
+
+        all_params = [
+            'stream_id'
+        ]
+        all_params.extend(
+            [
+                'async_req',
+                '_return_http_data_only',
+                '_preload_content',
+                '_request_timeout',
+                '_request_auth'
+            ]
+        )
+
+        for key, val in six.iteritems(local_var_params['kwargs']):
+            if key not in all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method get_subscribers" % key
+                )
+            local_var_params[key] = val
+        del local_var_params['kwargs']
+        # verify the required parameter 'stream_id' is set
+        if self.api_client.client_side_validation and ('stream_id' not in local_var_params or  # noqa: E501
+                                                        local_var_params['stream_id'] is None):  # noqa: E501
+            raise ApiValueError("Missing the required parameter `stream_id` when calling `get_subscribers`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'stream_id' in local_var_params:
+            path_params['stream_id'] = local_var_params['stream_id']  # noqa: E501
+
+        query_params = []
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = []  # noqa: E501
+        
+        response_types_map = {
+            200: "JsonSuccessBase",
+            400: "JsonError",
+        }
+
+        return self.api_client.call_api(
+            '/streams/{stream_id}/members', 'GET',
             path_params,
             query_params,
             header_params,

@@ -4,6 +4,7 @@ from __future__ import absolute_import
 
 # import apis into api package
 from openapi_client.api.authentication_api import AuthenticationApi
+from openapi_client.api.drafts_api import DraftsApi
 from openapi_client.api.messages_api import MessagesApi
 from openapi_client.api.real_time_events_api import RealTimeEventsApi
 from openapi_client.api.server_and_organizations_api import ServerAndOrganizationsApi

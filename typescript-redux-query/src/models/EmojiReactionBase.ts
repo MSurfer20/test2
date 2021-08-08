@@ -11,58 +11,29 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
 import {
-    EmojiReactionBaseUser,
-    EmojiReactionBaseUserFromJSON,
-    EmojiReactionBaseUserToJSON,
+    EmojiBase,
+    EmojiBaseFromJSON,
+    EmojiBaseToJSON,
+    EmojiReactionBaseAllOf,
+    EmojiReactionBaseAllOfFromJSON,
+    EmojiReactionBaseAllOfToJSON,
+    EmojiReactionBaseAllOfUser,
+    EmojiReactionBaseAllOfUserFromJSON,
+    EmojiReactionBaseAllOfUserToJSON,
 } from './';
 
 /**
- * 
+ * @type EmojiReactionBase
  * @export
- * @interface EmojiReactionBase
  */
-export interface EmojiReactionBase  {
-    /**
-     * A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint. 
-     * @type {string}
-     * @memberof EmojiReactionBase
-     */
-    emojiCode?: string;
-    /**
-     * Name of the emoji. 
-     * @type {string}
-     * @memberof EmojiReactionBase
-     */
-    emojiName?: string;
-    /**
-     * One of the following values:  * `unicode_emoji`: Unicode emoji (`emoji_code` will be its Unicode   codepoint). * `realm_emoji`: [Custom emoji](/help/add-custom-emoji).   (`emoji_code` will be its ID). * `zulip_extra_emoji`: Special emoji included with Zulip.  Exists to   namespace the `zulip` emoji. 
-     * @type {string}
-     * @memberof EmojiReactionBase
-     */
-    reactionType?: string;
-    /**
-     * The ID of the user who added the reaction.  **Changes**: New in Zulip 3.0 (feature level 2). The `user` object is deprecated and will be removed in the future. 
-     * @type {number}
-     * @memberof EmojiReactionBase
-     */
-    userId?: number;
-    /**
-     * 
-     * @type {EmojiReactionBaseUser}
-     * @memberof EmojiReactionBase
-     */
-    user?: EmojiReactionBaseUser;
+export interface EmojiReactionBase extends EmojiBase, EmojiReactionBaseAllOf {
 }
 
 export function EmojiReactionBaseFromJSON(json: any): EmojiReactionBase {
     return {
-        'emojiCode': !exists(json, 'emoji_code') ? undefined : json['emoji_code'],
-        'emojiName': !exists(json, 'emoji_name') ? undefined : json['emoji_name'],
-        'reactionType': !exists(json, 'reaction_type') ? undefined : json['reaction_type'],
-        'userId': !exists(json, 'user_id') ? undefined : json['user_id'],
-        'user': !exists(json, 'user') ? undefined : EmojiReactionBaseUserFromJSON(json['user']),
+        ...EmojiBaseFromJSON(json),
+        ...EmojiReactionBaseAllOfFromJSON(json),
     };
 }
 
@@ -71,12 +42,7 @@ export function EmojiReactionBaseToJSON(value?: EmojiReactionBase): any {
         return undefined;
     }
     return {
-        'emoji_code': value.emojiCode,
-        'emoji_name': value.emojiName,
-        'reaction_type': value.reactionType,
-        'user_id': value.userId,
-        'user': EmojiReactionBaseUserToJSON(value.user),
+        ...EmojiBaseToJSON(value),
+        ...EmojiReactionBaseAllOfToJSON(value),
     };
 }
-
-

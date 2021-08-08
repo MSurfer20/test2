@@ -26,7 +26,7 @@ import org.openapitools.model.AttachmentsMessages;
  */
 
 @ApiModel(description = "Dictionary containing details of a file uploaded by a user. ")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaUndertowServerCodegen", date = "2021-08-08T20:41:57.310585Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaUndertowServerCodegen", date = "2021-08-08T21:11:48.795765Z[Etc/UTC]")
 public class Attachments   {
   
   private Integer id;

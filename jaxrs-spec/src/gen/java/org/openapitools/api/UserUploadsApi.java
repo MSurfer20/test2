@@ -16,7 +16,7 @@ import javax.validation.Valid;
 
 @Path("/user_uploads")
 @Api(description = "the user_uploads API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-08T20:42:36.410808Z[Etc/UTC]")public class UserUploadsApi {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-08T21:12:25.585041Z[Etc/UTC]")public class UserUploadsApi {
 
     @GET
     @Path("/{realm_id_str}/{filename}")

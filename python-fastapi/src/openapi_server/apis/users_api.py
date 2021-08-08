@@ -23,6 +23,7 @@ from openapi_server.models.json_success import JsonSuccess
 from openapi_server.models.json_success_base import JsonSuccessBase
 from openapi_server.models.one_ofobjectobject import OneOfobjectobject
 from openapi_server.models.one_ofobjectobjectobject import OneOfobjectobjectobject
+from openapi_server.models.one_ofobjectobjectobjectobjectobjectobject import OneOfobjectobjectobjectobjectobjectobject
 
 
 router = APIRouter()
@@ -285,62 +286,75 @@ async def unmute_user(
 
 
 @router.patch(
-    "/settings/display",
+    "/settings",
     responses={
         200: {"model": JsonSuccessBase, "description": "Success"},
     },
     tags=["users"],
-    summary="Update display settings",
+    summary="Update settings",
 )
-async def update_display_settings(
-    twenty_four_hour_time: bool = Query(None, description="Whether time should be [displayed in 24-hour notation](/help/change-the-time-format). "),
-    dense_mode: bool = Query(None, description="This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip. "),
-    starred_message_counts: bool = Query(None, description="Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages). "),
-    fluid_layout_width: bool = Query(None, description="Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app&#39;s center panel (message feed, recent topics) on wide screens. "),
-    high_contrast_mode: bool = Query(None, description="This setting is reserved for use to control variations in Zulip&#39;s design to help visually impaired users. "),
-    color_scheme: int = Query(None, description="Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard &#x60;prefers-color-scheme&#x60; media query. "),
-    translate_emoticons: bool = Query(None, description="Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends. "),
-    default_language: str = Query(None, description="What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, &#x60;\&quot;en\&quot;&#x60; for English or &#x60;\&quot;de\&quot;&#x60; for German.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63). "),
-    default_view: str = Query(None, description="The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the &#x60;Esc&#x60; keyboard shortcut repeatedly.  * \&quot;recent_topics\&quot; - Recent topics view * \&quot;all_messages\&quot; - All messages view  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). "),
-    left_side_userlist: bool = Query(None, description="Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked. "),
-    emojiset: str = Query(None, description="The user&#39;s configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \&quot;google\&quot; - Google modern * \&quot;google-blob\&quot; - Google classic * \&quot;twitter\&quot; - Twitter * \&quot;text\&quot; - Plain text  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). "),
-    demote_inactive_streams: int = Query(None, description="Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never "),
-    timezone: str = Query(None, description="The user&#39;s [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). "),
+async def update_settings(
+    full_name: str = Query(None, description="A new display name for the user. "),
+    email: str = Query(None, description="Asks the server to initiate a confirmation sequence to change the user&#39;s email address to the indicated value. The user will need to demonstrate control of the new email address by clicking a confirmation link sent to that address. "),
+    old_password: str = Query(None, description="The user&#39;s old Zulip password (or LDAP password, if LDAP authentication is in use).  Required only when sending the &#x60;new_password&#x60; parameter. "),
+    new_password: str = Query(None, description="The user&#39;s new Zulip password (or LDAP password, if LDAP authentication is in use).  The &#x60;old_password&#x60; parameter must be included in the request. "),
+    twenty_four_hour_time: bool = Query(None, description="Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. "),
+    dense_mode: bool = Query(None, description="This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. "),
+    starred_message_counts: bool = Query(None, description="Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. "),
+    fluid_layout_width: bool = Query(None, description="Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app&#39;s center panel (message feed, recent topics) on wide screens.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. "),
+    high_contrast_mode: bool = Query(None, description="This setting is reserved for use to control variations in Zulip&#39;s design to help visually impaired users.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. "),
+    color_scheme: int = Query(None, description="Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard &#x60;prefers-color-scheme&#x60; media query.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. "),
+    enable_drafts_synchronization: bool = Query(None, description="A boolean parameter to control whether synchronizing drafts is enabled for the user. When synchronization is disabled, all drafts stored in the server will be automatically deleted from the server.  This does not do anything (like sending events) to delete local copies of drafts stored in clients.  **Changes**: New in Zulip 5.0 (feature level 87). "),
+    translate_emoticons: bool = Query(None, description="Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. "),
+    default_language: str = Query(None, description="What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, &#x60;\&quot;en\&quot;&#x60; for English or &#x60;\&quot;de\&quot;&#x60; for German.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63). "),
+    default_view: str = Query(None, description="The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the &#x60;Esc&#x60; keyboard shortcut repeatedly.  * \&quot;recent_topics\&quot; - Recent topics view * \&quot;all_messages\&quot; - All messages view  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). "),
+    left_side_userlist: bool = Query(None, description="Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. "),
+    emojiset: str = Query(None, description="The user&#39;s configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \&quot;google\&quot; - Google modern * \&quot;google-blob\&quot; - Google classic * \&quot;twitter\&quot; - Twitter * \&quot;text\&quot; - Plain text  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). "),
+    demote_inactive_streams: int = Query(None, description="Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. "),
+    timezone: str = Query(None, description="The user&#39;s [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). "),
+    enable_stream_desktop_notifications: bool = Query(None, description="Enable visual desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. "),
+    enable_stream_email_notifications: bool = Query(None, description="Enable email notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. "),
+    enable_stream_push_notifications: bool = Query(None, description="Enable mobile notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. "),
+    enable_stream_audible_notifications: bool = Query(None, description="Enable audible desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. "),
+    notification_sound: str = Query(None, description="Notification sound name.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63). "),
+    enable_desktop_notifications: bool = Query(None, description="Enable visual desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. "),
+    enable_sounds: bool = Query(None, description="Enable audible desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. "),
+    email_notifications_batching_period_seconds: int = Query(None, description="The duration (in seconds) for which the server should wait to batch email notifications before sending them.  **Changes**: New in Zulip 5.0 (feature level 82) "),
+    enable_offline_email_notifications: bool = Query(None, description="Enable email notifications for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. "),
+    enable_offline_push_notifications: bool = Query(None, description="Enable mobile notification for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. "),
+    enable_online_push_notifications: bool = Query(None, description="Enable mobile notification for private messages and @-mentions received when the user is online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. "),
+    enable_digest_emails: bool = Query(None, description="Enable digest emails when the user is away.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. "),
+    enable_marketing_emails: bool = Query(None, description="Enable marketing emails. Has no function outside Zulip Cloud.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. "),
+    enable_login_emails: bool = Query(None, description="Enable email notifications for new logins to account.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. "),
+    message_content_in_email_notifications: bool = Query(None, description="Include the message&#39;s content in email notifications for new messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. "),
+    pm_content_in_desktop_notifications: bool = Query(None, description="Include content of private messages in desktop notifications.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. "),
+    wildcard_mentions_notify: bool = Query(None, description="Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. "),
+    desktop_icon_count_display: int = Query(None, description="Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. "),
+    realm_name_in_notifications: bool = Query(None, description="Include organization name in subject of message notification emails.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. "),
+    presence_enabled: bool = Query(None, description="Display the presence status to other users when online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. "),
+    enter_sends: bool = Query(None, description="Whether pressing Enter in the compose box sends a message (or saves a message edit).  **Changes**: Before Zulip 5.0 (feature level 81), this setting was managed by the &#x60;POST /users/me/enter-sends&#x60; endpoint, with the same parameter format. "),
 ) -> JsonSuccessBase:
-    """This endpoint is used to edit the current user&#39;s user interface settings.  &#x60;PATCH {{ api_url }}/v1/settings/display&#x60; """
+    """This endpoint is used to edit the current user&#39;s settings.  &#x60;PATCH {{ api_url }}/v1/settings&#x60;  **Changes**: Prior to Zulip 5.0 (feature level 80), this endpoint only supported the &#x60;full_name&#x60;, &#x60;email&#x60;, &#x60;old_password&#x60;, and &#x60;new_password&#x60; parameters. Notification settings were managed by &#x60;PATCH /settings/notifications&#x60;, and all other settings by &#x60;PATCH /settings/display&#x60;. The feature level 80 migration to merge these endpoints did not change how request parameters are encoded. Note, however, that it did change the handling of any invalid parameters present in a request to change notification or display settings, since the merged endpoint uses the new response format that was introduced for &#x60;/settings&#x60; in Zulip 5.0 (feature level 78).  The &#x60;/settings/display&#x60; and &#x60;/settings/notifications&#x60; endpoints are now deprecated aliases for this endpoint for backwards-compatibility, and will be removed once clients have migrated to use this endpoint. """
     ...
 
 
-@router.patch(
-    "/settings/notifications",
+@router.post(
+    "/users/me/status",
     responses={
-        200: {"model": JsonSuccessBase, "description": "Success."},
+        200: {"model": JsonSuccess, "description": "Success."},
+        400: {"model": OneOfobjectobjectobjectobjectobjectobject, "description": "Success."},
     },
     tags=["users"],
-    summary="Update notification settings",
+    summary="Update your status",
 )
-async def update_notification_settings(
-    enable_stream_desktop_notifications: bool = Query(None, description="Enable visual desktop notifications for stream messages. "),
-    enable_stream_email_notifications: bool = Query(None, description="Enable email notifications for stream messages. "),
-    enable_stream_push_notifications: bool = Query(None, description="Enable mobile notifications for stream messages. "),
-    enable_stream_audible_notifications: bool = Query(None, description="Enable audible desktop notifications for stream messages. "),
-    notification_sound: str = Query(None, description="Notification sound name.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63). "),
-    enable_desktop_notifications: bool = Query(None, description="Enable visual desktop notifications for private messages and @-mentions. "),
-    enable_sounds: bool = Query(None, description="Enable audible desktop notifications for private messages and @-mentions. "),
-    enable_offline_email_notifications: bool = Query(None, description="Enable email notifications for private messages and @-mentions received when the user is offline. "),
-    enable_offline_push_notifications: bool = Query(None, description="Enable mobile notification for private messages and @-mentions received when the user is offline. "),
-    enable_online_push_notifications: bool = Query(None, description="Enable mobile notification for private messages and @-mentions received when the user is online. "),
-    enable_digest_emails: bool = Query(None, description="Enable digest emails when the user is away. "),
-    enable_marketing_emails: bool = Query(None, description="Enable marketing emails. Has no function outside Zulip Cloud. "),
-    enable_login_emails: bool = Query(None, description="Enable email notifications for new logins to account. "),
-    message_content_in_email_notifications: bool = Query(None, description="Include the message&#39;s content in email notifications for new messages. "),
-    pm_content_in_desktop_notifications: bool = Query(None, description="Include content of private messages in desktop notifications. "),
-    wildcard_mentions_notify: bool = Query(None, description="Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention. "),
-    desktop_icon_count_display: int = Query(None, description="Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None "),
-    realm_name_in_notifications: bool = Query(None, description="Include organization name in subject of message notification emails. "),
-    presence_enabled: bool = Query(None, description="Display the presence status to other users when online. "),
-) -> JsonSuccessBase:
-    """This endpoint is used to edit the user&#39;s global notification settings. See [this endpoint](/api/update-subscription-settings) for per-stream notification settings.  &#x60;PATCH {{ api_url }}/v1/settings/notifications&#x60; """
+async def update_status(
+    status_text: str = Query(None, description="The text content of the status message. Sending the empty string will clear the user&#39;s status.  **Note**: The limit on the size of the message is 60 characters. "),
+    away: bool = Query(None, description="Whether the user should be marked as \&quot;away\&quot;. "),
+    emoji_name: str = Query(None, description="The name for the emoji to associate with this status. "),
+    emoji_code: str = Query(None, description="A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint; for &#x60;realm_emoji&#x60;, it&#39;ll be the ID of the realm emoji. "),
+    reaction_type: str = Query(None, description="One of the following values:  * &#x60;unicode_emoji&#x60;: Unicode emoji (&#x60;emoji_code&#x60; will be its Unicode   codepoint). * &#x60;realm_emoji&#x60;: [Custom emoji](/help/add-custom-emoji).   (&#x60;emoji_code&#x60; will be its ID). * &#x60;zulip_extra_emoji&#x60;: Special emoji included with Zulip.  Exists to   namespace the &#x60;zulip&#x60; emoji. "),
+) -> JsonSuccess:
+    """Change your [status](/help/status-and-availability).  &#x60;POST {{ api_url }}/v1/users/me/status&#x60;  A request to this endpoint will only change the parameters passed. For example, passing just &#x60;status_text&#x60; requests a change in the status text, but will leave the status emoji unchanged.  Clients that wish to set the user&#39;s status to a specific value should pass all supported parameters. """
     ...
 
 

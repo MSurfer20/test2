@@ -351,6 +351,167 @@ bool StreamsManager::createBigBlueButtonVideoCallSync(char * accessToken,
 	handler, userData, false);
 }
 
+static bool deleteTopicProcessor(MemoryStruct_s p_chunk, long code, char* errormsg, void* userData,
+	void(* voidHandler)())
+{
+	void(* handler)(JsonSuccess, Error, void* )
+	= reinterpret_cast<void(*)(JsonSuccess, Error, void* )> (voidHandler);
+	
+	JsonNode* pJson;
+	char * data = p_chunk.memory;
+
+	
+	JsonSuccess out;
+
+	if (code >= 200 && code < 300) {
+		Error error(code, string("No Error"));
+
+
+
+
+		if (isprimitive("JsonSuccess")) {
+			pJson = json_from_string(data, NULL);
+			jsonToValue(&out, pJson, "JsonSuccess", "JsonSuccess");
+			json_node_free(pJson);
+
+			if ("JsonSuccess" == "std::string") {
+				string* val = (std::string*)(&out);
+				if (val->empty() && p_chunk.size>4) {
+					*val = string(p_chunk.memory, p_chunk.size);
+				}
+			}
+		} else {
+			
+			out.fromJson(data);
+			char *jsonStr =  out.toJson();
+			printf("\n%s\n", jsonStr);
+			g_free(static_cast<gpointer>(jsonStr));
+			
+			out.fromJson(data);
+			char *jsonStr =  out.toJson();
+			printf("\n%s\n", jsonStr);
+			g_free(static_cast<gpointer>(jsonStr));
+			
+		}
+		handler(out, error, userData);
+		return true;
+		//TODO: handle case where json parsing has an error
+
+	} else {
+		Error error;
+		if (errormsg != NULL) {
+			error = Error(code, string(errormsg));
+		} else if (p_chunk.memory != NULL) {
+			error = Error(code, string(p_chunk.memory));
+		} else {
+			error = Error(code, string("Unknown Error"));
+		}
+		 handler(out, error, userData);
+		return false;
+			}
+}
+
+static bool deleteTopicHelper(char * accessToken,
+	int streamId, std::string topicName, 
+	void(* handler)(JsonSuccess, Error, void* )
+	, void* userData, bool isAsync)
+{
+
+	//TODO: maybe delete headerList after its used to free up space?
+	struct curl_slist *headerList = NULL;
+
+	
+	string accessHeader = "Authorization: Bearer ";
+	accessHeader.append(accessToken);
+	headerList = curl_slist_append(headerList, accessHeader.c_str());
+	headerList = curl_slist_append(headerList, "Content-Type: application/json");
+
+	map <string, string> queryParams;
+	string itemAtq;
+	
+
+	itemAtq = stringify(&topicName, "std::string");
+	queryParams.insert(pair<string, string>("topic_name", itemAtq));
+
+	string mBody = "";
+	JsonNode* node;
+	JsonArray* json_array;
+
+	string url("/streams/{stream_id}/delete_topic");
+	int pos;
+
+	string s_streamId("{");
+	s_streamId.append("stream_id");
+	s_streamId.append("}");
+	pos = url.find(s_streamId);
+	url.erase(pos, s_streamId.length());
+	url.insert(pos, stringify(&streamId, "int"));
+
+	//TODO: free memory of errormsg, memorystruct
+	MemoryStruct_s* p_chunk = new MemoryStruct_s();
+	long code;
+	char* errormsg = NULL;
+	string myhttpmethod("POST");
+
+	if(strcmp("PUT", "POST") == 0){
+		if(strcmp("", mBody.c_str()) == 0){
+			mBody.append("{}");
+		}
+	}
+
+	if(!isAsync){
+		NetClient::easycurl(StreamsManager::getBasePath(), url, myhttpmethod, queryParams,
+			mBody, headerList, p_chunk, &code, errormsg);
+		bool retval = deleteTopicProcessor(*p_chunk, code, errormsg, userData,reinterpret_cast<void(*)()>(handler));
+
+		curl_slist_free_all(headerList);
+		if (p_chunk) {
+			if(p_chunk->memory) {
+				free(p_chunk->memory);
+			}
+			delete (p_chunk);
+		}
+		if (errormsg) {
+			free(errormsg);
+		}
+		return retval;
+	} else{
+		GThread *thread = NULL;
+		RequestInfo *requestInfo = NULL;
+
+		requestInfo = new(nothrow) RequestInfo (StreamsManager::getBasePath(), url, myhttpmethod, queryParams,
+			mBody, headerList, p_chunk, &code, errormsg, userData, reinterpret_cast<void(*)()>(handler), deleteTopicProcessor);;
+		if(requestInfo == NULL)
+			return false;
+
+		thread = g_thread_new(NULL, __StreamsManagerthreadFunc, static_cast<gpointer>(requestInfo));
+		return true;
+	}
+}
+
+
+
+
+bool StreamsManager::deleteTopicAsync(char * accessToken,
+	int streamId, std::string topicName, 
+	void(* handler)(JsonSuccess, Error, void* )
+	, void* userData)
+{
+	return deleteTopicHelper(accessToken,
+	streamId, topicName, 
+	handler, userData, true);
+}
+
+bool StreamsManager::deleteTopicSync(char * accessToken,
+	int streamId, std::string topicName, 
+	void(* handler)(JsonSuccess, Error, void* )
+	, void* userData)
+{
+	return deleteTopicHelper(accessToken,
+	streamId, topicName, 
+	handler, userData, false);
+}
+
 static bool getStreamIdProcessor(MemoryStruct_s p_chunk, long code, char* errormsg, void* userData,
 	void(* voidHandler)())
 {
@@ -853,6 +1014,163 @@ bool StreamsManager::getStreamsSync(char * accessToken,
 {
 	return getStreamsHelper(accessToken,
 	includePublic, includeWebPublic, includeSubscribed, includeAllActive, includeDefault, includeOwnerSubscribed, 
+	handler, userData, false);
+}
+
+static bool getSubscribersProcessor(MemoryStruct_s p_chunk, long code, char* errormsg, void* userData,
+	void(* voidHandler)())
+{
+	void(* handler)(JsonSuccessBase, Error, void* )
+	= reinterpret_cast<void(*)(JsonSuccessBase, Error, void* )> (voidHandler);
+	
+	JsonNode* pJson;
+	char * data = p_chunk.memory;
+
+	
+	JsonSuccessBase out;
+
+	if (code >= 200 && code < 300) {
+		Error error(code, string("No Error"));
+
+
+
+
+		if (isprimitive("JsonSuccessBase")) {
+			pJson = json_from_string(data, NULL);
+			jsonToValue(&out, pJson, "JsonSuccessBase", "JsonSuccessBase");
+			json_node_free(pJson);
+
+			if ("JsonSuccessBase" == "std::string") {
+				string* val = (std::string*)(&out);
+				if (val->empty() && p_chunk.size>4) {
+					*val = string(p_chunk.memory, p_chunk.size);
+				}
+			}
+		} else {
+			
+			out.fromJson(data);
+			char *jsonStr =  out.toJson();
+			printf("\n%s\n", jsonStr);
+			g_free(static_cast<gpointer>(jsonStr));
+			
+			out.fromJson(data);
+			char *jsonStr =  out.toJson();
+			printf("\n%s\n", jsonStr);
+			g_free(static_cast<gpointer>(jsonStr));
+			
+		}
+		handler(out, error, userData);
+		return true;
+		//TODO: handle case where json parsing has an error
+
+	} else {
+		Error error;
+		if (errormsg != NULL) {
+			error = Error(code, string(errormsg));
+		} else if (p_chunk.memory != NULL) {
+			error = Error(code, string(p_chunk.memory));
+		} else {
+			error = Error(code, string("Unknown Error"));
+		}
+		 handler(out, error, userData);
+		return false;
+			}
+}
+
+static bool getSubscribersHelper(char * accessToken,
+	int streamId, 
+	void(* handler)(JsonSuccessBase, Error, void* )
+	, void* userData, bool isAsync)
+{
+
+	//TODO: maybe delete headerList after its used to free up space?
+	struct curl_slist *headerList = NULL;
+
+	
+	string accessHeader = "Authorization: Bearer ";
+	accessHeader.append(accessToken);
+	headerList = curl_slist_append(headerList, accessHeader.c_str());
+	headerList = curl_slist_append(headerList, "Content-Type: application/json");
+
+	map <string, string> queryParams;
+	string itemAtq;
+	
+	string mBody = "";
+	JsonNode* node;
+	JsonArray* json_array;
+
+	string url("/streams/{stream_id}/members");
+	int pos;
+
+	string s_streamId("{");
+	s_streamId.append("stream_id");
+	s_streamId.append("}");
+	pos = url.find(s_streamId);
+	url.erase(pos, s_streamId.length());
+	url.insert(pos, stringify(&streamId, "int"));
+
+	//TODO: free memory of errormsg, memorystruct
+	MemoryStruct_s* p_chunk = new MemoryStruct_s();
+	long code;
+	char* errormsg = NULL;
+	string myhttpmethod("GET");
+
+	if(strcmp("PUT", "GET") == 0){
+		if(strcmp("", mBody.c_str()) == 0){
+			mBody.append("{}");
+		}
+	}
+
+	if(!isAsync){
+		NetClient::easycurl(StreamsManager::getBasePath(), url, myhttpmethod, queryParams,
+			mBody, headerList, p_chunk, &code, errormsg);
+		bool retval = getSubscribersProcessor(*p_chunk, code, errormsg, userData,reinterpret_cast<void(*)()>(handler));
+
+		curl_slist_free_all(headerList);
+		if (p_chunk) {
+			if(p_chunk->memory) {
+				free(p_chunk->memory);
+			}
+			delete (p_chunk);
+		}
+		if (errormsg) {
+			free(errormsg);
+		}
+		return retval;
+	} else{
+		GThread *thread = NULL;
+		RequestInfo *requestInfo = NULL;
+
+		requestInfo = new(nothrow) RequestInfo (StreamsManager::getBasePath(), url, myhttpmethod, queryParams,
+			mBody, headerList, p_chunk, &code, errormsg, userData, reinterpret_cast<void(*)()>(handler), getSubscribersProcessor);;
+		if(requestInfo == NULL)
+			return false;
+
+		thread = g_thread_new(NULL, __StreamsManagerthreadFunc, static_cast<gpointer>(requestInfo));
+		return true;
+	}
+}
+
+
+
+
+bool StreamsManager::getSubscribersAsync(char * accessToken,
+	int streamId, 
+	void(* handler)(JsonSuccessBase, Error, void* )
+	, void* userData)
+{
+	return getSubscribersHelper(accessToken,
+	streamId, 
+	handler, userData, true);
+}
+
+bool StreamsManager::getSubscribersSync(char * accessToken,
+	int streamId, 
+	void(* handler)(JsonSuccessBase, Error, void* )
+	, void* userData)
+{
+	return getSubscribersHelper(accessToken,
+	streamId, 
 	handler, userData, false);
 }
 

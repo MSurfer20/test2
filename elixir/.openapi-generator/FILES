@@ -3,6 +3,7 @@
 README.md
 config/config.exs
 lib/zulip_restapi/api/authentication.ex
+lib/zulip_restapi/api/drafts.ex
 lib/zulip_restapi/api/messages.ex
 lib/zulip_restapi/api/real_time_events.ex
 lib/zulip_restapi/api/server_and_organizations.ex
@@ -33,10 +34,13 @@ lib/zulip_restapi/model/coded_error_base.ex
 lib/zulip_restapi/model/coded_error_base_all_of.ex
 lib/zulip_restapi/model/custom_profile_field.ex
 lib/zulip_restapi/model/default_stream_group.ex
+lib/zulip_restapi/model/draft.ex
+lib/zulip_restapi/model/emoji_base.ex
 lib/zulip_restapi/model/emoji_reaction.ex
 lib/zulip_restapi/model/emoji_reaction_all_of.ex
 lib/zulip_restapi/model/emoji_reaction_base.ex
-lib/zulip_restapi/model/emoji_reaction_base_user.ex
+lib/zulip_restapi/model/emoji_reaction_base_all_of.ex
+lib/zulip_restapi/model/emoji_reaction_base_all_of_user.ex
 lib/zulip_restapi/model/get_messages.ex
 lib/zulip_restapi/model/get_messages_all_of.ex
 lib/zulip_restapi/model/hotspot.ex

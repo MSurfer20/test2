@@ -24,8 +24,8 @@ module UsersApiServiceInterface =
       abstract member RemoveUserGroup : unit -> RemoveUserGroupResult
       abstract member SetTypingStatus : unit -> SetTypingStatusResult
       abstract member UnmuteUser : unit -> UnmuteUserResult
-      abstract member UpdateDisplaySettings : unit -> UpdateDisplaySettingsResult
-      abstract member UpdateNotificationSettings : unit -> UpdateNotificationSettingsResult
+      abstract member UpdateSettings : unit -> UpdateSettingsResult
+      abstract member UpdateStatus : unit -> UpdateStatusResult
       abstract member UpdateUser : unit -> UpdateUserResult
       abstract member UpdateUserGroup : unit -> UpdateUserGroupResult
       abstract member UpdateUserGroupMembers : unit -> UpdateUserGroupMembersResult

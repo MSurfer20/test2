@@ -139,6 +139,333 @@ h4. Responses
 
 
 
+h3. createDrafts
+{panel:title=createDrafts|borderStyle=solid|borderColor=#003b6f|titleBGColor=#003b6f|titleColor=#a6b8c7|bgColor=#ffffff}
+    *Summary:* Create drafts
+    *Description:* Create one or more drafts on the server. These drafts will be automatically
+synchronized to other clients via &#x60;drafts&#x60; events.
+
+&#x60;POST {{ api_url }}/v1/drafts&#x60;
+
+	|| HttpMethod | {status:colour=Yellow|title=post|subtle=false} |
+    || Protocol | {noformat:nopanel=true}https{noformat} |
+    || Path | {noformat:nopanel=true}/drafts{noformat} |
+    || Base Path | {noformat:nopanel=true}https://example.zulipchat.com/api/v1{noformat} |
+    || Produces | {noformat:nopanel=true}application/json{noformat} |
+----
+h4. Parameters
+
+
+
+h5. Query Parameters
+        ||Name||Description||Required||Default||Pattern||
+        |drafts |A JSON-encoded list of containing new draft objects. | array[Draft] | (x) |null |  |  |
+----
+h4. Responses
+
+    	|| Status Code | {status:colour=Green|title=200|subtle=false} |
+    	|| Message | Success. |
+    	|| Response Type | JsonSuccess |
+    	|| Response Model | [JsonSuccess Model|#JsonSuccessModelAnchor|Jump to model] |
+    	|| Response Schema | {code:collapse=true}{
+  "description" : "Success.",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/JsonSuccess"
+        }, {
+          "type" : "object",
+          "properties" : {
+            "ids" : {
+              "type" : "array",
+              "description" : "An array of the IDs for the drafts that were just created in the same\norder as they were submitted.\n",
+              "items" : {
+                "type" : "integer"
+              }
+            }
+          },
+          "additionalProperties" : false,
+          "description" : "When all of the drafts in the request are valid, this endpoint will return\nan array of the IDs for the drafts that were just created in the same\norder as they were requested. If any of the drafts failed the validation\nstep, then none of the drafts will be created and we would not get this\nstatus code.\n",
+          "example" : {
+            "result" : "success",
+            "msg" : "",
+            "ids" : [ 1, 2, 3 ]
+          }
+        } ]
+      }
+    }
+  }
+}{code} |
+       
+
+
+    	|| Status Code | {status:colour=Green|title=400|subtle=false} |
+    	|| Message | Bad request. |
+    	|| Response Type | CodedError |
+    	|| Response Model | [CodedError Model|#CodedErrorModelAnchor|Jump to model] |
+    	|| Response Schema | {code:collapse=true}{
+  "description" : "Bad request.",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/CodedError"
+        }, {
+          "description" : "JSON response for when a draft targeted towards a stream does not specify\nexactly one stream ID.\n",
+          "example" : {
+            "code" : "BAD_REQUEST",
+            "msg" : "Must specify exactly 1 stream ID for stream messages",
+            "result" : "error"
+          }
+        } ]
+      }
+    }
+  }
+}{code} |
+       
+
+{panel}
+
+
+
+h3. deleteDraft
+{panel:title=deleteDraft|borderStyle=solid|borderColor=#003b6f|titleBGColor=#003b6f|titleColor=#a6b8c7|bgColor=#ffffff}
+    *Summary:* Delete a draft
+    *Description:* Delete a single draft from the server. The deletion will be automatically
+synchronized to other clients via a &#x60;drafts&#x60; event.
+
+&#x60;DELETE {{ api_url }}/v1/drafts/{draft_id}&#x60;
+
+	|| HttpMethod | {status:colour=Yellow|title=delete|subtle=false} |
+    || Protocol | {noformat:nopanel=true}https{noformat} |
+    || Path | {noformat:nopanel=true}/drafts/{draft_id}{noformat} |
+    || Base Path | {noformat:nopanel=true}https://example.zulipchat.com/api/v1{noformat} |
+    || Produces | {noformat:nopanel=true}application/json{noformat} |
+----
+h4. Parameters
+h5. Path Parameters
+        ||Name||Description||Type||Required||Default||Pattern||Enum||
+        |draft_id |The ID of the draft you want to delete. | Integer | (/) |null |  |  |
+
+
+
+----
+h4. Responses
+
+    	|| Status Code | {status:colour=Green|title=200|subtle=false} |
+    	|| Message | Success. |
+    	|| Response Type | JsonSuccess |
+    	|| Response Model | [JsonSuccess Model|#JsonSuccessModelAnchor|Jump to model] |
+    	|| Response Schema | {code:collapse=true}{
+  "description" : "Success.",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/JsonSuccess"
+        }, {
+          "$ref" : "#/components/schemas/SuccessDescription"
+        } ]
+      }
+    }
+  }
+}{code} |
+       
+
+
+    	|| Status Code | {status:colour=Green|title=404|subtle=false} |
+    	|| Message | Not Found. |
+    	|| Response Type | JsonError |
+    	|| Response Model | [JsonError Model|#JsonErrorModelAnchor|Jump to model] |
+    	|| Response Schema | {code:collapse=true}{
+  "description" : "Not Found.",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/JsonError"
+        }, {
+          "description" : "JSON response for when no draft exists with the provided ID.\n",
+          "example" : {
+            "result" : "error",
+            "msg" : "Draft does not exist"
+          }
+        } ]
+      }
+    }
+  }
+}{code} |
+       
+
+{panel}
+
+
+
+h3. editDraft
+{panel:title=editDraft|borderStyle=solid|borderColor=#003b6f|titleBGColor=#003b6f|titleColor=#a6b8c7|bgColor=#ffffff}
+    *Summary:* Edit a draft
+    *Description:* Edit a draft on the server. The edit will be automatically
+synchronized to other clients via &#x60;drafts&#x60; events.
+
+&#x60;PATCH {{ api_url }}/v1/drafts/{draft_id}&#x60;
+
+	|| HttpMethod | {status:colour=Yellow|title=patch|subtle=false} |
+    || Protocol | {noformat:nopanel=true}https{noformat} |
+    || Path | {noformat:nopanel=true}/drafts/{draft_id}{noformat} |
+    || Base Path | {noformat:nopanel=true}https://example.zulipchat.com/api/v1{noformat} |
+    || Produces | {noformat:nopanel=true}application/json{noformat} |
+----
+h4. Parameters
+h5. Path Parameters
+        ||Name||Description||Type||Required||Default||Pattern||Enum||
+        |draft_id |The ID of the draft to be edited. | Integer | (/) |null |  |  |
+
+
+
+h5. Query Parameters
+        ||Name||Description||Required||Default||Pattern||
+        |draft |A JSON-encoded object containing a replacement draft object for this ID. | Draft | (/) |null |  |  |
+----
+h4. Responses
+
+    	|| Status Code | {status:colour=Green|title=200|subtle=false} |
+    	|| Message | Success. |
+    	|| Response Type | JsonSuccess |
+    	|| Response Model | [JsonSuccess Model|#JsonSuccessModelAnchor|Jump to model] |
+    	|| Response Schema | {code:collapse=true}{
+  "description" : "Success.",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/JsonSuccess"
+        }, {
+          "$ref" : "#/components/schemas/SuccessDescription"
+        } ]
+      }
+    }
+  }
+}{code} |
+       
+
+
+    	|| Status Code | {status:colour=Green|title=404|subtle=false} |
+    	|| Message | Not Found. |
+    	|| Response Type | JsonError |
+    	|| Response Model | [JsonError Model|#JsonErrorModelAnchor|Jump to model] |
+    	|| Response Schema | {code:collapse=true}{
+  "description" : "Not Found.",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/JsonError"
+        }, {
+          "description" : "JSON response for when no draft exists with the provided ID.\n",
+          "example" : {
+            "result" : "error",
+            "msg" : "Draft does not exist"
+          }
+        } ]
+      }
+    }
+  }
+}{code} |
+       
+
+{panel}
+
+
+
+h3. getDrafts
+{panel:title=getDrafts|borderStyle=solid|borderColor=#003b6f|titleBGColor=#003b6f|titleColor=#a6b8c7|bgColor=#ffffff}
+    *Summary:* Get drafts
+    *Description:* Fetch all drafts for the current user.
+
+&#x60;GET {{ api_url }}/v1/drafts&#x60;
+
+	|| HttpMethod | {status:colour=Yellow|title=get|subtle=false} |
+    || Protocol | {noformat:nopanel=true}https{noformat} |
+    || Path | {noformat:nopanel=true}/drafts{noformat} |
+    || Base Path | {noformat:nopanel=true}https://example.zulipchat.com/api/v1{noformat} |
+    || Produces | {noformat:nopanel=true}application/json{noformat} |
+----
+h4. Parameters
+
+
+
+----
+h4. Responses
+
+    	|| Status Code | {status:colour=Green|title=200|subtle=false} |
+    	|| Message | Success. |
+    	|| Response Type | JsonSuccess |
+    	|| Response Model | [JsonSuccess Model|#JsonSuccessModelAnchor|Jump to model] |
+    	|| Response Schema | {code:collapse=true}{
+  "description" : "Success.",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/JsonSuccess"
+        }, {
+          "$ref" : "#/components/schemas/SuccessDescription"
+        }, {
+          "type" : "object",
+          "properties" : {
+            "count" : {
+              "type" : "integer",
+              "description" : "The number of drafts the user currently has. Also the\nnumber of drafts returned under \"drafts\".\n",
+              "example" : 3
+            },
+            "drafts" : {
+              "type" : "array",
+              "description" : "Returns all of the current user's drafts, in order of last edit time\n(with the most recently edited draft appearing first).\n",
+              "items" : {
+                "$ref" : "#/components/schemas/Draft"
+              }
+            }
+          },
+          "additionalProperties" : false,
+          "example" : {
+            "result" : "success",
+            "msg" : "",
+            "count" : 3,
+            "drafts" : [ {
+              "id" : 1,
+              "type" : "stream",
+              "to" : [ 3 ],
+              "topic" : "sync drafts",
+              "content" : "Let's add backend support for syncing drafts.",
+              "timestamp" : 1.59547901943915E9
+            }, {
+              "id" : 2,
+              "type" : "private",
+              "to" : [ 4 ],
+              "topic" : "",
+              "content" : "What if we made it possible to sync drafts in Zulip?",
+              "timestamp" : 1.59547902043916E9
+            }, {
+              "id" : 3,
+              "type" : "private",
+              "to" : [ 4, 10 ],
+              "topic" : "",
+              "content" : "What if we made it possible to sync drafts in Zulip?",
+              "timestamp" : 1.59547902143916E9
+            } ]
+          }
+        } ]
+      }
+    }
+  }
+}{code} |
+       
+
+{panel}
+
+
+
 h3. addReaction
 {panel:title=addReaction|borderStyle=solid|borderColor=#003b6f|titleBGColor=#003b6f|titleColor=#a6b8c7|bgColor=#ffffff}
     *Summary:* Add an emoji reaction
@@ -1813,13 +2140,14 @@ h4. Responses
                     }
                   },
                   "additionalProperties" : false,
-                  "description" : "Event sent to a user's clients when that user's display settings\nhave changed.\n",
+                  "description" : "Event sent to clients that that have requested the\n`update_display_settings` event type and did not include\n`user_settings_object` in their `client_capabilities` when\nregistering the event queue.\n\n**Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients\nconnecting to newer servers should declare the `user_settings_object`\nclient capability and process the `user_settings` event type instead.\n",
                   "example" : {
                     "type" : "update_display_settings",
                     "setting_name" : "high_contrast_mode",
                     "setting" : false,
                     "id" : 0
-                  }
+                  },
+                  "deprecated" : true
                 }, {
                   "type" : "object",
                   "properties" : {
@@ -1850,11 +2178,58 @@ h4. Responses
                     }
                   },
                   "additionalProperties" : false,
-                  "description" : "Event sent to a user's clients when that user's [notification\nsettings](/api/update-notification-settings) have changed.\n",
+                  "description" : "Event sent to a user's clients when that user's [notification\nsettings](/api/update-settings) have changed with an additional\nrule that it is only sent to clients that did not include\n`user_settings_object` in their `client_capabilities` when\nregistering the event queue.\n\n**Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients\nconnecting to newer servers should declare the `user_settings_object`\nclient capability and process the `user_settings` event type instead.\n",
                   "example" : {
                     "type" : "update_global_notifications",
                     "notification_name" : "enable_sounds",
                     "setting" : true,
+                    "id" : 0
+                  },
+                  "deprecated" : true
+                }, {
+                  "type" : "object",
+                  "properties" : {
+                    "id" : {
+                      "$ref" : "#/components/schemas/EventIdSchema"
+                    },
+                    "type" : {
+                      "allOf" : [ {
+                        "$ref" : "#/components/schemas/EventTypeSchema"
+                      }, {
+                        "type" : "string",
+                        "enum" : [ "user_settings" ]
+                      } ]
+                    },
+                    "op" : {
+                      "type" : "string",
+                      "enum" : [ "update" ]
+                    },
+                    "property" : {
+                      "type" : "string",
+                      "description" : "Name of the changed setting.\n"
+                    },
+                    "value" : {
+                      "description" : "New value of the changed setting.\n",
+                      "oneOf" : [ {
+                        "type" : "boolean"
+                      }, {
+                        "type" : "integer"
+                      }, {
+                        "type" : "string"
+                      } ]
+                    },
+                    "language_name" : {
+                      "type" : "string",
+                      "description" : "Present only if the setting to be changed is\n`default_language`. Contains the name of the\nnew default language in English.\n"
+                    }
+                  },
+                  "additionalProperties" : false,
+                  "description" : "Event sent to a user's clients when that user's settings\nhave changed.\n\n**Changes**: New in Zulip 5.0 (feature level 89), replacing the\nprevious `update_display_settings` and `update_global_notifications`\nevent types, which are still present for backwards compatibility reasons.\n",
+                  "example" : {
+                    "type" : "user_settings",
+                    "op" : "update",
+                    "property" : "high_contrast_mode",
+                    "value" : false,
                     "id" : 0
                   }
                 }, {
@@ -2969,11 +3344,23 @@ h4. Responses
                     },
                     "away" : {
                       "type" : "boolean",
-                      "description" : "Whether the user has marked themself \"away\".\n"
+                      "description" : "Whether the user has marked themself \"away\" with this status.\n"
                     },
                     "status_text" : {
                       "type" : "string",
                       "description" : "The text content of the status message.\n"
+                    },
+                    "emoji_name" : {
+                      "type" : "string",
+                      "description" : "The [emoji name](/api/add-reaction#parameters) for the emoji\nthe user selected for their new status.\n\nThis will be \"\" for users who set a status without selecting\nan emoji.\n\n**Changes**; New in Zulip 5.0 (feature level 86).\n"
+                    },
+                    "emoji_code" : {
+                      "type" : "string",
+                      "description" : "The [emoji code](/api/add-reaction#parameters) for the emoji\nthe user selected for their new status.\n\nThis will be \"\" for users who set a status without selecting\nan emoji.\n\n**Changes**; New in Zulip 5.0 (feature level 86).\n"
+                    },
+                    "reaction_type" : {
+                      "type" : "string",
+                      "description" : "The [emoji type](/api/add-reaction#parameters) for the emoji\nthe user selected for their new status.\n\nThis will be \"\" for users who set a status without selecting\nan emoji.\n\n**Changes**; New in Zulip 5.0 (feature level 86).\n"
                     },
                     "user_id" : {
                       "type" : "integer",
@@ -2987,6 +3374,9 @@ h4. Responses
                     "user_id" : 10,
                     "away" : true,
                     "status_text" : "out to lunch",
+                    "emoji_name" : "car",
+                    "emoji_code" : "1f697",
+                    "reaction_type" : "unicode_emoji",
                     "id" : 0
                   }
                 }, {
@@ -4550,6 +4940,10 @@ h4. Responses
                       "type" : "string",
                       "description" : "The Zulip version number, in the format where this appears\nin the [server_settings](/api/get-server-settings) and\n[register](/api/register-queue) responses.\n\n**Changes**: New in Zulip 4.0 (feature level 59).\n"
                     },
+                    "zulip_merge_base" : {
+                      "type" : "string",
+                      "description" : "The Zulip merge base number, in the format where this appears\nin the [server_settings](/api/get-server-settings) and\n[register](/api/register-queue) responses.\n\n**Changes**: New in Zulip 5.0 (feature level 88).\n"
+                    },
                     "zulip_feature_level" : {
                       "type" : "integer",
                       "description" : "The [Zulip feature level](/api/changelog) of the server\nafter the restart.\n\nClients can safely avoid refetching their state and\ncreating a new event queue when the API feature level has not\nchanged, or when they know the specific feature level change\nis not relevant to the client (E.g. it just adds a new endpoint\nthat the client doesn't use).\n\n**Changes**: New in Zulip 4.0 (feature level 59).\n"
@@ -4571,7 +4965,8 @@ h4. Responses
                     "server_generation" : 1619334181,
                     "type" : "restart",
                     "zulip_feature_level" : 57,
-                    "zulip_version" : "4.0-dev+git"
+                    "zulip_version" : "5.0-dev-1650-gc3fd37755f",
+                    "zulip_merge_base" : "5.0-dev-1646-gea6b21cd8c"
                   }
                 }, {
                   "type" : "object",
@@ -4598,10 +4993,6 @@ h4. Responses
                     "data" : {
                       "type" : "object",
                       "properties" : {
-                        "add_emoji_by_admins_only" : {
-                          "type" : "boolean",
-                          "description" : "Whether the organization is configured to only allow administrators\nto upload new custom emoji.\n"
-                        },
                         "allow_edit_history" : {
                           "type" : "boolean",
                           "description" : "Whether this organization is configured to allow users to access\n[message edit history](/help/view-a-messages-edit-history).\n"
@@ -4653,10 +5044,6 @@ h4. Responses
                         "invite_required" : {
                           "type" : "boolean",
                           "description" : "Whether an invitation is required to join this organization.\n"
-                        },
-                        "invite_to_realm_policy" : {
-                          "type" : "integer",
-                          "description" : "Policy for [who can invite new users](/help/invite-new-users#change-who-can-send-invitations)\nto join the organization:\n\n* 1 = Members only\n* 2 = Administrators only\n* 3 = Full members only\n* 4 = Moderators only\n\n**Changes**: New in Zulip 4.0 (feature level 50) replacing the\nprevious `invite_by_admins_only` boolean.\n"
                         },
                         "inline_image_preview" : {
                           "type" : "boolean",
@@ -4716,7 +5103,7 @@ h4. Responses
                         },
                         "user_group_edit_policy" : {
                           "type" : "integer",
-                          "description" : "The organization's policy for [who can manage user groups\n](/help/restrict-user-group-management).\n\n* 1 = All members can create and edit user groups\n* 2 = Only organization administrators can create and edit user groups\n"
+                          "description" : "The organization's policy for [who can manage user groups\n](/help/restrict-user-group-management).\n\n* 1 = All members can create and edit user groups\n* 2 = Only organization administrators can create and edit user groups\n* 3 = Only full members can create and edit user groups\n* 4 = Only organization administrators and moderators can create and edit user groups\n"
                         },
                         "default_code_block_language" : {
                           "type" : "string",
@@ -4943,6 +5330,112 @@ h4. Responses
                       "edit_topic_policy" : 2
                     },
                     "id" : 0
+                  }
+                }, {
+                  "type" : "object",
+                  "properties" : {
+                    "id" : {
+                      "$ref" : "#/components/schemas/EventIdSchema"
+                    },
+                    "type" : {
+                      "allOf" : [ {
+                        "$ref" : "#/components/schemas/EventTypeSchema"
+                      }, {
+                        "type" : "string",
+                        "enum" : [ "drafts" ]
+                      } ]
+                    },
+                    "op" : {
+                      "type" : "string",
+                      "enum" : [ "add" ]
+                    },
+                    "drafts" : {
+                      "type" : "array",
+                      "description" : "An array containing objects for the newly created drafts.\n",
+                      "items" : {
+                        "$ref" : "#/components/schemas/Draft"
+                      }
+                    }
+                  },
+                  "additionalProperties" : false,
+                  "description" : "Event containing details of newly created drafts.\n",
+                  "example" : {
+                    "type" : "drafts",
+                    "op" : "add",
+                    "drafts" : [ {
+                      "id" : 17,
+                      "type" : "private",
+                      "to" : [ 6 ],
+                      "topic" : "",
+                      "content" : "Hello there!",
+                      "timestamp" : 15954790200
+                    } ]
+                  }
+                }, {
+                  "type" : "object",
+                  "properties" : {
+                    "id" : {
+                      "$ref" : "#/components/schemas/EventIdSchema"
+                    },
+                    "type" : {
+                      "allOf" : [ {
+                        "$ref" : "#/components/schemas/EventTypeSchema"
+                      }, {
+                        "type" : "string",
+                        "enum" : [ "drafts" ]
+                      } ]
+                    },
+                    "op" : {
+                      "type" : "string",
+                      "enum" : [ "update" ]
+                    },
+                    "draft" : {
+                      "$ref" : "#/components/schemas/Draft"
+                    }
+                  },
+                  "additionalProperties" : false,
+                  "description" : "Event containing details for an edited draft.\n",
+                  "example" : {
+                    "type" : "drafts",
+                    "op" : "update",
+                    "draft" : {
+                      "id" : 17,
+                      "type" : "private",
+                      "to" : [ 6, 7, 8, 9, 10 ],
+                      "topic" : "",
+                      "content" : "Hello everyone!",
+                      "timestamp" : 15954790200
+                    }
+                  }
+                }, {
+                  "type" : "object",
+                  "properties" : {
+                    "id" : {
+                      "$ref" : "#/components/schemas/EventIdSchema"
+                    },
+                    "type" : {
+                      "allOf" : [ {
+                        "$ref" : "#/components/schemas/EventTypeSchema"
+                      }, {
+                        "type" : "string",
+                        "enum" : [ "drafts" ]
+                      } ]
+                    },
+                    "op" : {
+                      "type" : "string",
+                      "enum" : [ "remove" ]
+                    },
+                    "draft_id" : {
+                      "type" : "integer",
+                      "description" : "The ID of the draft that was just deleted.\n"
+                    }
+                  },
+                  "additionalProperties" : false,
+                  "description" : "Event containing the id of a deleted draft.\n",
+                  "example" : {
+                    "type" : "drafts",
+                    "op" : "update",
+                    "draft_id" : 17
                   }
                 } ]
               }
@@ -5192,8 +5685,9 @@ relevant to the format of responses sent by the server.
   client can handle the current API with null values for
   stream-level notification settings (which means the stream
   is not customized and should inherit the user&#39;s global
-  notification settings for stream messages).  New in Zulip
-  2.1.0; in earlier Zulip releases, stream-level
+  notification settings for stream messages).
+  &lt;br /&gt;
+  New in Zulip 2.1.0; in earlier Zulip releases, stream-level
   notification settings were simple booleans.
 
 * &#x60;bulk_message_deletion&#x60;: Boolean for whether the client&#39;s
@@ -5201,7 +5695,9 @@ relevant to the format of responses sent by the server.
    updated to process the new bulk format (with a
    &#x60;message_ids&#x60;, rather than a singleton &#x60;message_id&#x60;).
    Otherwise, the server will send &#x60;delete_message&#x60; events
-   in a loop.  New in Zulip 3.0 (feature level 13).  This
+   in a loop.
+   &lt;br /&gt;
+   New in Zulip 3.0 (feature level 13).  This
    capability is for backwards-compatibility; it will be
    required in a future server release.
 
@@ -5212,14 +5708,32 @@ relevant to the format of responses sent by the server.
    &#x60;avatar_url&#x60; field in the &#x60;realm_user&#x60; at its sole discretion
    to optimize network performance.  This is an important optimization
    in organizations with 10,000s of users.
+   &lt;br /&gt;
    New in Zulip 3.0 (feature level 18).
 
 * &#x60;stream_typing_notifications&#x60;: Boolean for whether the client
   supports stream typing notifications.
-
+  &lt;br /&gt;
   New in Zulip 4.0 (feature level 58).  This capability is
   for backwards-compatibility; it will be required in a
-  future server release. | Object | (x) |null |  |  ||fetch_event_types |Same as the &#x60;event_types&#x60; parameter except that the values in
+  future server release.
+
+* &#x60;user_settings_object&#x60;: Boolean for whether the client supports the modern
+  &#x60;user_settings&#x60; event type. If False, the server will additionally send the
+  legacy &#x60;update_display_settings&#x60; and &#x60;update_global_notifications&#x60; event
+  types for backwards-compatibility with clients that predate this API migration.
+  &lt;br /&gt;
+  &lt;br /&gt;
+  Because the feature level 89 API changes were merged together, clients can
+  safely make a request with this client capability and requesting all of the
+  &#x60;user_settings&#x60;, &#x60;update_display_settings&#x60;, and
+  &#x60;update_global_notifications&#x60; event types, and get exactly one copy of
+  settings data on any server version. (And then use the &#x60;zulip_feature_level&#x60;
+  in the &#x60;/register&#x60; response or the presence/absence of a &#x60;user_settings&#x60; key
+  to determine where to look).
+  &lt;br /&gt;
+  New in Zulip 5.0 (feature level 89).  This capability is for
+  backwards-compatibility; it will be removed in a future server release. | Object | (x) |null |  |  ||fetch_event_types |Same as the &#x60;event_types&#x60; parameter except that the values in
 &#x60;fetch_event_types&#x60; are used to fetch initial data. If
 &#x60;fetch_event_types&#x60; is not provided, &#x60;event_types&#x60; is used and if
 &#x60;event_types&#x60; is not provided, this parameter defaults to &#x60;None&#x60;.
@@ -5266,7 +5780,11 @@ h4. Responses
             },
             "zulip_version" : {
               "type" : "string",
-              "description" : "The server's version.\n"
+              "description" : "The server's version number.  This is often a release version number,\nlike `2.1.7`. But for a server running a [version from Git][git-release],\nit will be a Git reference to the commit, like `5.0-dev-1650-gc3fd37755f`.\n\n[git-release]: https://zulip.readthedocs.io/en/latest/overview/release-lifecycle.html#git-versions\n"
+            },
+            "zulip_merge_base" : {
+              "type" : "string",
+              "description" : "The `git merge-base` between `zulip_verson` and official branches\nin the public\n[Zulip server and web app repository](https://github.com/zulip/zulip),\nin the same format as `zulip_version`. This will equal\n`zulip_version` if the server is not running a fork of the Zulip server.\n\nThis will be `\"\"` if the server does not know its `merge-base`.\n\n**Changes**: New in Zulip 5.0 (feature level 88).\n"
             },
             "alert_words" : {
               "type" : "array",
@@ -5300,6 +5818,13 @@ h4. Responses
                 "description" : "`{FIELD_TYPE}`: Dictionary which contains the details\nof the field type with the field type as the name of the\nproperty itself. The current supported field types are as follows:\n* `SHORT_TEXT`\n* `LONG_TEXT`\n* `DATE` for date-based fields.\n* `CHOICE` for a list of options.\n* `URL` for links.\n* `EXTERNAL_ACCOUNT` for external accounts.\n* `USER` for selecting a user for the field.\n"
               },
               "description" : "Present if `custom_profile_fields` is present in `fetch_event_types`.\n\n An array of objects; each object describes a type of custom profile field\n that could be configured on this Zulip server.  Each custom profile type\n has a id and the `type` property of a custom profile field is equal\n to one of these ids.\n\n This attribute is only useful for clients containing UI for changing\n the set of configured custom profile fields in a Zulip organization.\n"
+            },
+            "drafts" : {
+              "type" : "array",
+              "description" : "An array containing draft objects for the user. These drafts are being\nstored on the backend for the purpose of syncing across devices. This\narray will be empty if `enable_drafts_synchronization` is set to `false`.\n",
+              "items" : {
+                "$ref" : "#/components/schemas/Draft"
+              }
             },
             "hotspots" : {
               "type" : "array",
@@ -5597,17 +6122,10 @@ h4. Responses
                 },
                 "streams" : {
                   "type" : "array",
-                  "description" : "An array of dictionaries where each dictionary contains\ndetails of all unread messages of a single subscribed stream,\nincluding muted streams.\n",
+                  "description" : "An array of dictionaries where each dictionary contains\ndetails of all unread messages of a single subscribed stream,\nincluding muted streams.\n\n**Changes**: Prior to Zulip 5.0 (feature level 90), the\ndictionaries included an additional `sender_ids` key listing\nthe set of IDs of users who had sent the unread messages.\n",
                   "items" : {
                     "type" : "object",
                     "properties" : {
-                      "sender_ids" : {
-                        "type" : "array",
-                        "description" : "Array containing the id of the users who have sent recent messages\non this stream under the given topic which have been unread by the user.\n",
-                        "items" : {
-                          "type" : "integer"
-                        }
-                      },
                       "topic" : {
                         "type" : "string",
                         "description" : "The topic under which the message was sent.\n"
@@ -5704,7 +6222,6 @@ h4. Responses
               }
             },
             "user_status" : {
-              "type" : "object",
               "additionalProperties" : {
                 "type" : "object",
                 "properties" : {
@@ -5715,12 +6232,200 @@ h4. Responses
                   "status_text" : {
                     "type" : "string",
                     "description" : "The text content of the status message.\n"
+                  },
+                  "emoji_name" : {
+                    "type" : "string",
+                    "description" : "The [emoji name](/api/add-reaction#parameters) for the emoji associated with the new status.\n\n**Changes**: New in Zulip 5.0 (feature level 86).\n"
+                  },
+                  "emoji_code" : {
+                    "type" : "string",
+                    "description" : "The [emoji code](/api/add-reaction#parameters) for the emoji associated with the new status.\n\n**Changes**: New in Zulip 5.0 (feature level 86).\n"
+                  },
+                  "reaction_type" : {
+                    "type" : "string",
+                    "description" : "The [emoji type](/api/add-reaction#parameters) for the emoji associated with the new status.\n\n**Changes**: New in Zulip 5.0 (feature level 86).\n"
                   }
                 },
                 "additionalProperties" : false,
                 "description" : "`{user_id}`: Object containing the status details of a user\nwith the key of the object being the id of the user.\n"
               },
-              "description" : "Present if `user_status` is present in `fetch_event_types`.\n\nA dictionary which contains the [status](/help/status-and-availability)\nof all users in the Zulip organization who have set a status.\n"
+              "description" : "Present if `user_status` is present in `fetch_event_types`.\n\nA dictionary which contains the [status](/help/status-and-availability)\nof all users in the Zulip organization who have set a status.\n\n**Changes**: The emoji parameters are new in Zulip 5.0 (feature level 86).\nPreviously, Zulip did not support emoji associated with statuses.\n\nA status that does not have an emoji associated with it is encoded\nwith `emoji_name=\"\"`.\n",
+              "allOf" : [ {
+                "$ref" : "#/components/schemas/EmojiBase"
+              } ]
+            },
+            "user_settings" : {
+              "type" : "object",
+              "properties" : {
+                "twenty_four_hour_time" : {
+                  "type" : "boolean",
+                  "description" : "Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).\n"
+                },
+                "dense_mode" : {
+                  "type" : "boolean",
+                  "description" : "This setting has no effect at present.  It is reserved for use in controlling\nthe default font size in Zulip.\n"
+                },
+                "starred_message_counts" : {
+                  "type" : "boolean",
+                  "description" : "Whether clients should display the [number of starred\nmessages](/help/star-a-message#display-the-number-of-starred-messages).\n"
+                },
+                "fluid_layout_width" : {
+                  "type" : "boolean",
+                  "description" : "Whether to use the [maximum available screen width](/help/enable-full-width-display)\nfor the web app's center panel (message feed, recent topics) on wide screens.\n"
+                },
+                "high_contrast_mode" : {
+                  "type" : "boolean",
+                  "description" : "This setting is reserved for use to control variations in Zulip's design\nto help visually impaired users.\n"
+                },
+                "color_scheme" : {
+                  "type" : "integer",
+                  "description" : "Controls which [color theme](/help/night-mode) to use.\n\n* 1 - Automatic\n* 2 - Night mode\n* 3 - Day mode\n\nAutomatic detection is implementing using the standard `prefers-color-scheme`\nmedia query.\n"
+                },
+                "translate_emoticons" : {
+                  "type" : "boolean",
+                  "description" : "Whether to [translate emoticons to emoji](/help/enable-emoticon-translations)\nin messages the user sends.\n"
+                },
+                "default_language" : {
+                  "type" : "string",
+                  "description" : "What [default language](/help/change-your-language) to use for the account.\n\nThis controls both the Zulip UI as well as email notifications sent to the user.\n\nThe value needs to be a standard language code that the Zulip server has\ntranslation data for; for example, `\"en\"` for English or `\"de\"` for German.\n"
+                },
+                "default_view" : {
+                  "type" : "string",
+                  "description" : "The [default view](/help/change-default-view) used when opening a new\nZulip web app window or hitting the `Esc` keyboard shortcut repeatedly.\n\n* \"recent_topics\" - Recent topics view\n* \"all_messages\" - All messages view\n"
+                },
+                "left_side_userlist" : {
+                  "type" : "boolean",
+                  "description" : "Whether the users list on left sidebar in narrow windows.\n\nThis feature is not heavily used and is likely to be reworked.\n"
+                },
+                "emojiset" : {
+                  "type" : "string",
+                  "description" : "The user's configured [emoji set](/help/emoji-and-emoticons#use-emoticons),\nused to display emoji to the user everything they appear in the UI.\n\n* \"google\" - Google modern\n* \"google-blob\" - Google classic\n* \"twitter\" - Twitter\n* \"text\" - Plain text\n"
+                },
+                "demote_inactive_streams" : {
+                  "type" : "integer",
+                  "description" : "Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.\n\n* 1 - Automatic\n* 2 - Always\n* 3 - Never\n"
+                },
+                "timezone" : {
+                  "type" : "string",
+                  "description" : "The user's [configured timezone](/help/change-your-timezone).\n\nTimezone values supported by the server are served at\n[/static/generated/timezones.json](/static/generated/timezones.json).\n"
+                },
+                "enter_sends" : {
+                  "type" : "boolean",
+                  "description" : "Whether the user setting for [sending on pressing Enter](/help/enable-enter-to-send)\nin the compose box is enabled.\n"
+                },
+                "enable_drafts_synchronization" : {
+                  "type" : "boolean",
+                  "description" : "A boolean parameter to control whether synchronizing drafts is enabled for\nthe user. When synchronization is disabled, all drafts stored in the server\nwill be automatically deleted from the server.\n\nThis does not do anything (like sending events) to delete local copies of\ndrafts stored in clients.\n"
+                },
+                "enable_stream_desktop_notifications" : {
+                  "type" : "boolean",
+                  "description" : "Enable visual desktop notifications for stream messages.\n"
+                },
+                "enable_stream_email_notifications" : {
+                  "type" : "boolean",
+                  "description" : "Enable email notifications for stream messages.\n"
+                },
+                "enable_stream_push_notifications" : {
+                  "type" : "boolean",
+                  "description" : "Enable mobile notifications for stream messages.\n"
+                },
+                "enable_stream_audible_notifications" : {
+                  "type" : "boolean",
+                  "description" : "Enable audible desktop notifications for stream messages.\n"
+                },
+                "notification_sound" : {
+                  "type" : "string",
+                  "description" : "Notification sound name.\n"
+                },
+                "enable_desktop_notifications" : {
+                  "type" : "boolean",
+                  "description" : "Enable visual desktop notifications for private messages and @-mentions.\n"
+                },
+                "enable_sounds" : {
+                  "type" : "boolean",
+                  "description" : "Enable audible desktop notifications for private messages and\n@-mentions.\n"
+                },
+                "email_notifications_batching_period_seconds" : {
+                  "type" : "integer",
+                  "description" : "The duration (in seconds) for which the server should wait to batch\nemail notifications before sending them.\n"
+                },
+                "enable_offline_email_notifications" : {
+                  "type" : "boolean",
+                  "description" : "Enable email notifications for private messages and @-mentions received\nwhen the user is offline.\n"
+                },
+                "enable_offline_push_notifications" : {
+                  "type" : "boolean",
+                  "description" : "Enable mobile notification for private messages and @-mentions received\nwhen the user is offline.\n"
+                },
+                "enable_online_push_notifications" : {
+                  "type" : "boolean",
+                  "description" : "Enable mobile notification for private messages and @-mentions received\nwhen the user is online.\n"
+                },
+                "enable_digest_emails" : {
+                  "type" : "boolean",
+                  "description" : "Enable digest emails when the user is away.\n"
+                },
+                "enable_marketing_emails" : {
+                  "type" : "boolean",
+                  "description" : "Enable marketing emails. Has no function outside Zulip Cloud.\n"
+                },
+                "enable_login_emails" : {
+                  "type" : "boolean",
+                  "description" : "Enable email notifications for new logins to account.\n"
+                },
+                "message_content_in_email_notifications" : {
+                  "type" : "boolean",
+                  "description" : "Include the message's content in email notifications for new messages.\n"
+                },
+                "pm_content_in_desktop_notifications" : {
+                  "type" : "boolean",
+                  "description" : "Include content of private messages in desktop notifications.\n"
+                },
+                "wildcard_mentions_notify" : {
+                  "type" : "boolean",
+                  "description" : "Whether wildcard mentions (E.g. @**all**) should send notifications\nlike a personal mention.\n"
+                },
+                "desktop_icon_count_display" : {
+                  "type" : "integer",
+                  "description" : "Unread count summary (appears in desktop sidebar and browser tab)\n\n* 1 - All unreads\n* 2 - Private messages and mentions\n* 3 - None\n"
+                },
+                "realm_name_in_notifications" : {
+                  "type" : "boolean",
+                  "description" : "Include organization name in subject of message notification emails.\n"
+                },
+                "presence_enabled" : {
+                  "type" : "boolean",
+                  "description" : "Display the presence status to other users when online.\n"
+                },
+                "available_notification_sounds" : {
+                  "type" : "array",
+                  "description" : "Array containing the names of the notification sound options\nsupported by this Zulip server.  Only relevant to support UI\nfor configuring notification sounds.\n",
+                  "items" : {
+                    "type" : "string"
+                  }
+                },
+                "emojiset_choices" : {
+                  "type" : "array",
+                  "description" : "Array of dictionaries where each dictionary describes an emojiset\nsupported by this version of the Zulip server.\n\nOnly relevant to clients with configuration UI for choosing an emojiset;\nthe currently selected emojiset is available in the `emojiset` key.\n\nSee [PATCH /settings](/api/update-settings) for details on\nthe meaning of this setting.\n",
+                  "items" : {
+                    "type" : "object",
+                    "properties" : {
+                      "key" : {
+                        "type" : "string",
+                        "description" : "The key or the name of the emojiset which will be the value\nof `emojiset` if this emojiset is chosen.\n"
+                      },
+                      "text" : {
+                        "type" : "string",
+                        "description" : "The text describing the emojiset.\n"
+                      }
+                    },
+                    "additionalProperties" : false,
+                    "description" : "Object describing a emojiset.\n"
+                  }
+                }
+              },
+              "additionalProperties" : false,
+              "description" : "Present if `user_settings` is present in `fetch_event_types`.\n\nA dictionary containing the user's personal settings.\n\n**Changes**: New in Zulip 5.0 (feature level 89). Previously,\nthese settings appeared in the top-level object, where they are\navailable for clients without the `user_settings_object` client\ncapability for backwards-compatibility.\n"
             },
             "has_zoom_token" : {
               "type" : "boolean",
@@ -5732,142 +6437,186 @@ h4. Responses
             },
             "enable_desktop_notifications" : {
               "type" : "boolean",
-              "description" : "Present if `update_global_notifications` is present in `fetch_event_types`.\n\nThe current value of this global notification setting for the user.\nSee [update-notification-settings](/api/update-notification-settings)\nfor details on notification settings.\n"
+              "description" : "Present if `update_global_notifications` is present in `fetch_event_types`\nand only for clients that did not include `user_settings_object` in their\nclient_capabilities` when registering the event queue.\n\nThe current value of this global notification setting for the user.\nSee [PATCH /settings](/api/update-settings) for details on\nthe meaning of this setting.\n\n**Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients\nconnecting to newer servers should declare the `user_settings_object`\nclient capability and access the `user_settings` object instead.\n",
+              "deprecated" : true
             },
             "enable_digest_emails" : {
               "type" : "boolean",
-              "description" : "Present if `update_global_notifications` is present in `fetch_event_types`.\n\nThe current value of this global notification setting for the user.\nSee [update-notification-settings](/api/update-notification-settings)\nfor details on notification settings.\n"
+              "description" : "Present if `update_global_notifications` is present in `fetch_event_types`\nand only for clients that did not include `user_settings_object` in their\nclient_capabilities` when registering the event queue.\n\nThe current value of this global notification setting for the user.\nSee [PATCH /settings](/api/update-settings) for details on\nthe meaning of this setting.\n\n**Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients\nconnecting to newer servers should declare the `user_settings_object`\nclient capability and access the `user_settings` object instead.\n",
+              "deprecated" : true
             },
             "enable_login_emails" : {
               "type" : "boolean",
-              "description" : "Present if `update_global_notifications` is present in `fetch_event_types`.\n\nThe current value of this global notification setting for the user.\nSee [update-notification-settings](/api/update-notification-settings)\nfor details on notification settings.\n"
+              "description" : "Present if `update_global_notifications` is present in `fetch_event_types`\nand only for clients that did not include `user_settings_object` in their\nclient_capabilities` when registering the event queue.\n\nThe current value of this global notification setting for the user.\nSee [PATCH /settings](/api/update-settings) for details on\nthe meaning of this setting.\n\n**Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients\nconnecting to newer servers should declare the `user_settings_object`\nclient capability and access the `user_settings` object instead.\n",
+              "deprecated" : true
             },
             "enable_marketing_emails" : {
               "type" : "boolean",
-              "description" : "Present if `update_global_notifications` is present in `fetch_event_types`.\n\nThe current value of this global notification setting for the user.\nSee [update-notification-settings](/api/update-notification-settings)\nfor details on notification settings.\n"
+              "description" : "Present if `update_global_notifications` is present in `fetch_event_types`\nand only for clients that did not include `user_settings_object` in their\nclient_capabilities` when registering the event queue.\n\nThe current value of this global notification setting for the user.\nSee [PATCH /settings](/api/update-settings) for details on\nthe meaning of this setting.\n\n**Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients\nconnecting to newer servers should declare the `user_settings_object`\nclient capability and access the `user_settings` object instead.\n",
+              "deprecated" : true
+            },
+            "email_notifications_batching_period_seconds" : {
+              "type" : "integer",
+              "description" : "Present if `update_global_notifications` is present in `fetch_event_types`\nand only for clients that did not include `user_settings_object` in their\nclient_capabilities` when registering the event queue.\n\nThe current value of this global notification setting for the user.\nSee [PATCH /settings](/api/update-settings) for details on\nthe meaning of this setting.\n\n**Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients\nconnecting to newer servers should declare the `user_settings_object`\nclient capability and access the `user_settings` object instead.\n",
+              "deprecated" : true
             },
             "enable_offline_email_notifications" : {
               "type" : "boolean",
-              "description" : "Present if `update_global_notifications` is present in `fetch_event_types`.\n\nThe current value of this global notification setting for the user.\nSee [update-notification-settings](/api/update-notification-settings)\nfor details on notification settings.\n"
+              "description" : "Present if `update_global_notifications` is present in `fetch_event_types`\nand only for clients that did not include `user_settings_object` in their\nclient_capabilities` when registering the event queue.\n\nThe current value of this global notification setting for the user.\nSee [PATCH /settings](/api/update-settings) for details on\nthe meaning of this setting.\n\n**Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients\nconnecting to newer servers should declare the `user_settings_object`\nclient capability and access the `user_settings` object instead.\n",
+              "deprecated" : true
             },
             "enable_offline_push_notifications" : {
               "type" : "boolean",
-              "description" : "Present if `update_global_notifications` is present in `fetch_event_types`.\n\nThe current value of this global notification setting for the user.\nSee [update-notification-settings](/api/update-notification-settings)\nfor details on notification settings.\n"
+              "description" : "Present if `update_global_notifications` is present in `fetch_event_types`\nand only for clients that did not include `user_settings_object` in their\nclient_capabilities` when registering the event queue.\n\nThe current value of this global notification setting for the user.\nSee [PATCH /settings](/api/update-settings) for details on\nthe meaning of this setting.\n\n**Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients\nconnecting to newer servers should declare the `user_settings_object`\nclient capability and access the `user_settings` object instead.\n",
+              "deprecated" : true
             },
             "enable_online_push_notifications" : {
               "type" : "boolean",
-              "description" : "Present if `update_global_notifications` is present in `fetch_event_types`.\n\nThe current value of this global notification setting for the user.\nSee [update-notification-settings](/api/update-notification-settings)\nfor details on notification settings.\n"
+              "description" : "Present if `update_global_notifications` is present in `fetch_event_types`\nand only for clients that did not include `user_settings_object` in their\nclient_capabilities` when registering the event queue.\n\nThe current value of this global notification setting for the user.\nSee [PATCH /settings](/api/update-settings) for details on\nthe meaning of this setting.\n\n**Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients\nconnecting to newer servers should declare the `user_settings_object`\nclient capability and access the `user_settings` object instead.\n",
+              "deprecated" : true
             },
             "enable_sounds" : {
               "type" : "boolean",
-              "description" : "Present if `update_global_notifications` is present in `fetch_event_types`.\n\nThe current value of this global notification setting for the user.\nSee [update-notification-settings](/api/update-notification-settings)\nfor details on notification settings.\n"
+              "description" : "Present if `update_global_notifications` is present in `fetch_event_types`\nand only for clients that did not include `user_settings_object` in their\nclient_capabilities` when registering the event queue.\n\nThe current value of this global notification setting for the user.\nSee [PATCH /settings](/api/update-settings) for details on\nthe meaning of this setting.\n\n**Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients\nconnecting to newer servers should declare the `user_settings_object`\nclient capability and access the `user_settings` object instead.\n",
+              "deprecated" : true
             },
             "enable_stream_desktop_notifications" : {
               "type" : "boolean",
-              "description" : "Present if `update_global_notifications` is present in `fetch_event_types`.\n\nThe current value of this global notification setting for the user.\nSee [update-notification-settings](/api/update-notification-settings)\nfor details on notification settings.\n"
+              "description" : "Present if `update_global_notifications` is present in `fetch_event_types`\nand only for clients that did not include `user_settings_object` in their\nclient_capabilities` when registering the event queue.\n\nThe current value of this global notification setting for the user.\nSee [PATCH /settings](/api/update-settings) for details on\nthe meaning of this setting.\n\n**Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients\nconnecting to newer servers should declare the `user_settings_object`\nclient capability and access the `user_settings` object instead.\n",
+              "deprecated" : true
             },
             "enable_stream_email_notifications" : {
               "type" : "boolean",
-              "description" : "Present if `update_global_notifications` is present in `fetch_event_types`.\n\nThe current value of this global notification setting for the user.\nSee [update-notification-settings](/api/update-notification-settings)\nfor details on notification settings.\n"
+              "description" : "Present if `update_global_notifications` is present in `fetch_event_types`\nand only for clients that did not include `user_settings_object` in their\nclient_capabilities` when registering the event queue.\n\nThe current value of this global notification setting for the user.\nSee [PATCH /settings](/api/update-settings) for details on\nthe meaning of this setting.\n\n**Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients\nconnecting to newer servers should declare the `user_settings_object`\nclient capability and access the `user_settings` object instead.\n",
+              "deprecated" : true
             },
             "enable_stream_push_notifications" : {
               "type" : "boolean",
-              "description" : "Present if `update_global_notifications` is present in `fetch_event_types`.\n\nThe current value of this global notification setting for the user.\nSee [update-notification-settings](/api/update-notification-settings)\nfor details on notification settings.\n"
+              "description" : "Present if `update_global_notifications` is present in `fetch_event_types`\nand only for clients that did not include `user_settings_object` in their\nclient_capabilities` when registering the event queue.\n\nThe current value of this global notification setting for the user.\nSee [PATCH /settings](/api/update-settings) for details on\nthe meaning of this setting.\n\n**Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients\nconnecting to newer servers should declare the `user_settings_object`\nclient capability and access the `user_settings` object instead.\n",
+              "deprecated" : true
             },
             "enable_stream_audible_notifications" : {
               "type" : "boolean",
-              "description" : "Present if `update_global_notifications` is present in `fetch_event_types`.\n\nThe current value of this global notification setting for the user.\nSee [update-notification-settings](/api/update-notification-settings)\nfor details on notification settings.\n"
+              "description" : "Present if `update_global_notifications` is present in `fetch_event_types`\nand only for clients that did not include `user_settings_object` in their\nclient_capabilities` when registering the event queue.\n\nThe current value of this global notification setting for the user.\nSee [PATCH /settings](/api/update-settings) for details on\nthe meaning of this setting.\n\n**Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients\nconnecting to newer servers should declare the `user_settings_object`\nclient capability and access the `user_settings` object instead.\n",
+              "deprecated" : true
             },
             "wildcard_mentions_notify" : {
               "type" : "boolean",
-              "description" : "Present if `update_global_notifications` is present in `fetch_event_types`.\n\nThe current value of this global notification setting for the user.\nSee [update-notification-settings](/api/update-notification-settings)\nfor details on notification settings.\n"
+              "description" : "Present if `update_global_notifications` is present in `fetch_event_types`\nand only for clients that did not include `user_settings_object` in their\nclient_capabilities` when registering the event queue.\n\nThe current value of this global notification setting for the user.\nSee [PATCH /settings](/api/update-settings) for details on\nthe meaning of this setting.\n\n**Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients\nconnecting to newer servers should declare the `user_settings_object`\nclient capability and access the `user_settings` object instead.\n",
+              "deprecated" : true
             },
             "message_content_in_email_notifications" : {
               "type" : "boolean",
-              "description" : "Present if `update_global_notifications` is present in `fetch_event_types`.\n\nThe current value of this global notification setting for the user.\nSee [update-notification-settings](/api/update-notification-settings)\nfor details on notification settings.\n"
+              "description" : "Present if `update_global_notifications` is present in `fetch_event_types`\nand only for clients that did not include `user_settings_object` in their\nclient_capabilities` when registering the event queue.\n\nThe current value of this global notification setting for the user.\nSee [PATCH /settings](/api/update-settings) for details on\nthe meaning of this setting.\n\n**Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients\nconnecting to newer servers should declare the `user_settings_object`\nclient capability and access the `user_settings` object instead.\n",
+              "deprecated" : true
             },
             "notification_sound" : {
               "type" : "string",
-              "description" : "Present if `update_global_notifications` is present in `fetch_event_types`.\n\nThe current value of this global notification setting for the user.\nSee [update-notification-settings](/api/update-notification-settings)\nfor details on notification settings.\n"
+              "description" : "Present if `update_global_notifications` is present in `fetch_event_types`\nand only for clients that did not include `user_settings_object` in their\nclient_capabilities` when registering the event queue.\n\nThe current value of this global notification setting for the user.\nSee [PATCH /settings](/api/update-settings) for details on\nthe meaning of this setting.\n\n**Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients\nconnecting to newer servers should declare the `user_settings_object`\nclient capability and access the `user_settings` object instead.\n",
+              "deprecated" : true
             },
             "pm_content_in_desktop_notifications" : {
               "type" : "boolean",
-              "description" : "Present if `update_global_notifications` is present in `fetch_event_types`.\n\nThe current value of this global notification setting for the user.\nSee [update-notification-settings](/api/update-notification-settings)\nfor details on notification settings.\n"
+              "description" : "Present if `update_global_notifications` is present in `fetch_event_types`\nand only for clients that did not include `user_settings_object` in their\nclient_capabilities` when registering the event queue.\n\nThe current value of this global notification setting for the user.\nSee [PATCH /settings](/api/update-settings) for details on\nthe meaning of this setting.\n\n**Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients\nconnecting to newer servers should declare the `user_settings_object`\nclient capability and access the `user_settings` object instead.\n",
+              "deprecated" : true
             },
             "desktop_icon_count_display" : {
               "type" : "integer",
-              "description" : "Present if `update_global_notifications` is present in `fetch_event_types`.\n\nThe current value of this global notification setting for the user.\nSee [update-notification-settings](/api/update-notification-settings)\nfor details on notification settings.\n"
+              "description" : "Present if `update_global_notifications` is present in `fetch_event_types`\nand only for clients that did not include `user_settings_object` in their\nclient_capabilities` when registering the event queue.\n\nThe current value of this global notification setting for the user.\nSee [PATCH /settings](/api/update-settings) for details on\nthe meaning of this setting.\n\n**Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients\nconnecting to newer servers should declare the `user_settings_object`\nclient capability and access the `user_settings` object instead.\n",
+              "deprecated" : true
             },
             "realm_name_in_notifications" : {
               "type" : "boolean",
-              "description" : "Present if `update_global_notifications` is present in `fetch_event_types`.\n\nThe current value of this global notification setting for the user.\nSee [update-notification-settings](/api/update-notification-settings)\nfor details on notification settings.\n"
+              "description" : "Present if `update_global_notifications` is present in `fetch_event_types`\nand only for clients that did not include `user_settings_object` in their\nclient_capabilities` when registering the event queue.\n\nThe current value of this global notification setting for the user.\nSee [PATCH /settings](/api/update-settings) for details on\nthe meaning of this setting.\n\n**Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients\nconnecting to newer servers should declare the `user_settings_object`\nclient capability and access the `user_settings` object instead.\n",
+              "deprecated" : true
             },
             "presence_enabled" : {
               "type" : "boolean",
-              "description" : "Present if `update_global_notifications` is present in `fetch_event_types`.\n\nThe current value of this global notification setting for the user.\nSee [update-notification-settings](/api/update-notification-settings)\nfor details on notification settings.\n"
+              "description" : "Present if `update_global_notifications` is present in `fetch_event_types`\nand only for clients that did not include `user_settings_object` in their\nclient_capabilities` when registering the event queue.\n\nThe current value of this global notification setting for the user.\nSee [PATCH /settings](/api/update-settings) for details on\nthe meaning of this setting.\n\n**Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients\nconnecting to newer servers should declare the `user_settings_object`\nclient capability and access the `user_settings` object instead.\n",
+              "deprecated" : true
             },
             "available_notification_sounds" : {
               "type" : "array",
-              "description" : "Present if `update_global_notifications` is present in `fetch_event_types`.\n\nArray containing the names of the notification sound options supported by\nthis Zulip server.  Only relevant to support UI for configuring notification\nsounds.\n",
+              "description" : "Present if `update_global_notifications` is present in `fetch_event_types`\nand only for clients that did not include `user_settings_object` in their\nclient_capabilities` when registering the event queue.\n\nArray containing the names of the notification sound options supported by\nthis Zulip server.  Only relevant to support UI for configuring notification\nsounds.\n\n**Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients\nconnecting to newer servers should declare the `user_settings_object`\nclient capability and access the `user_settings` object instead.\n",
+              "deprecated" : true,
               "items" : {
                 "type" : "string"
               }
             },
             "color_scheme" : {
               "type" : "integer",
-              "description" : "Present if `update_display_settings` is present in `fetch_event_types`.\n\nThe color scheme selected by the user.\n\nSee [PATCH /settings/display](/api/update-display-settings)\nfor api details on display settings.\n"
+              "description" : "Present if `update_display_settings` is present in `fetch_event_types`\nand only for clients that did not include `user_settings_object` in\ntheir client_capabilities` when registering the event queue.\n\nThe color scheme selected by the user.\n\nSee [PATCH /settings](/api/update-settings) for details on\nthe meaning of this setting.\n\n**Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients\nconnecting to newer servers should declare the `user_settings_object`\nclient capability and access the `user_settings` object instead.\n",
+              "deprecated" : true
             },
             "default_language" : {
               "type" : "string",
-              "description" : "Present if `update_display_settings` is present in `fetch_event_types`.\n\nThe default language chosen by the user.\n\nSee [PATCH /settings/display](/api/update-display-settings)\nfor api details on display settings.\n"
+              "description" : "Present if `update_display_settings` is present in `fetch_event_types`\nand only for clients that did not include `user_settings_object` in\ntheir client_capabilities` when registering the event queue.\n\nThe default language chosen by the user.\n\nSee [PATCH /settings](/api/update-settings) for details on\nthe meaning of this setting.\n\n**Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients\nconnecting to newer servers should declare the `user_settings_object`\nclient capability and access the `user_settings` object instead.\n",
+              "deprecated" : true
             },
             "demote_inactive_streams" : {
               "type" : "integer",
-              "description" : "Present if `update_display_settings` is present in `fetch_event_types`.\n\nWhether the user has chosen to demote inactive streams.\n\nSee [PATCH /settings/display](/api/update-display-settings)\nfor api details on display settings.\n"
+              "description" : "Present if `update_display_settings` is present in `fetch_event_types`\nand only for clients that did not include `user_settings_object` in\ntheir client_capabilities` when registering the event queue.\n\nWhether the user has chosen to demote inactive streams.\n\nSee [PATCH /settings](/api/update-settings) for details on\nthe meaning of this setting.\n\n**Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients\nconnecting to newer servers should declare the `user_settings_object`\nclient capability and access the `user_settings` object instead.\n",
+              "deprecated" : true
             },
             "dense_mode" : {
               "type" : "boolean",
-              "description" : "Present if `update_display_settings` is present in `fetch_event_types`.\n\nWhether the user has switched on dense mode.  Dense mode is an experimental\nfeature that is only available in development environments.\n\nSee [PATCH /settings/display](/api/update-display-settings)\nfor api details on display settings.\n"
+              "description" : "Present if `update_display_settings` is present in `fetch_event_types`\nand only for clients that did not include `user_settings_object` in\ntheir client_capabilities` when registering the event queue.\n\nWhether the user has switched on dense mode.  Dense mode is an experimental\nfeature that is only available in development environments.\n\nSee [PATCH /settings](/api/update-settings) for details on\nthe meaning of this setting.\n\n**Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients\nconnecting to newer servers should declare the `user_settings_object`\nclient capability and access the `user_settings` object instead.\n",
+              "deprecated" : true
             },
             "emojiset" : {
               "type" : "string",
-              "description" : "Present if `update_display_settings` is present in `fetch_event_types`.\n\nThe name of the emojiset that the user has chosen.\n\nSee [PATCH /settings/display](/api/update-display-settings)\nfor api details on display settings.\n"
+              "description" : "Present if `update_display_settings` is present in `fetch_event_types`\nand only for clients that did not include `user_settings_object` in\ntheir client_capabilities` when registering the event queue.\n\nThe name of the emojiset that the user has chosen.\n\nSee [PATCH /settings](/api/update-settings) for details on\nthe meaning of this setting.\n\n**Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients\nconnecting to newer servers should declare the `user_settings_object`\nclient capability and access the `user_settings` object instead.\n",
+              "deprecated" : true
+            },
+            "enable_drafts_synchronization" : {
+              "type" : "boolean",
+              "description" : "Present if `update_display_settings` is present in `fetch_event_types`.\n\nWhether drafts synchronization is enabled for the user. If disabled,\nclients will receive an error when trying to use the `drafts` endpoints.\n\nSee [PATCH /settings](/api/update-settings) for details on\nthe meaning of this setting.\n\n**Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients\nconnecting to newer servers should declare the `user_settings_object`\nclient capability and access the `user_settings` object instead.\n\nNew in Zulip 5.0 (feature level 87).\n",
+              "deprecated" : true
             },
             "fluid_layout_width" : {
               "type" : "boolean",
-              "description" : "Present if `update_display_settings` is present in `fetch_event_types`.\n\nWhether the user has chosen for the layout width to be fluid.\n\nSee [PATCH /settings/display](/api/update-display-settings)\nfor api details on display settings.\n"
+              "description" : "Present if `update_display_settings` is present in `fetch_event_types`\nand only for clients that did not include `user_settings_object` in\ntheir client_capabilities` when registering the event queue.\n\nWhether the user has chosen for the layout width to be fluid.\n\nSee [PATCH /settings](/api/update-settings) for details on\nthe meaning of this setting.\n\n**Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients\nconnecting to newer servers should declare the `user_settings_object`\nclient capability and access the `user_settings` object instead.\n",
+              "deprecated" : true
             },
             "default_view" : {
               "type" : "string",
-              "description" : "Present if `update_display_settings` is present in `fetch_event_types`.\n\nThe [default view](/help/change-default-view) in Zulip, represented\nas the URL suffix after `#` to be rendered when Zulip loads.\n\nCurrently supported values are `all_messages` and `recent_topics`.\n\nSee [PATCH /settings/display](/api/update-display-settings)\nfor api details on display settings.\n"
+              "description" : "Present if `update_display_settings` is present in `fetch_event_types`\nand only for clients that did not include `user_settings_object` in\ntheir client_capabilities` when registering the event queue.\n\nThe [default view](/help/change-default-view) in Zulip, represented\nas the URL suffix after `#` to be rendered when Zulip loads.\n\nCurrently supported values are `all_messages` and `recent_topics`.\n\nSee [PATCH /settings](/api/update-settings) for details on\nthe meaning of this setting.\n\n**Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients\nconnecting to newer servers should declare the `user_settings_object`\nclient capability and access the `user_settings` object instead.\n",
+              "deprecated" : true
             },
             "high_contrast_mode" : {
               "type" : "boolean",
-              "description" : "Present if `update_display_settings` is present in `fetch_event_types`.\n\nWhether has switched on high contrast mode.\n\nSee [PATCH /settings/display](/api/update-display-settings)\nfor api details on display settings.\n"
+              "description" : "Present if `update_display_settings` is present in `fetch_event_types`\nand only for clients that did not include `user_settings_object` in\ntheir client_capabilities` when registering the event queue.\n\nWhether has switched on high contrast mode.\n\nSee [PATCH /settings](/api/update-settings) for details on\nthe meaning of this setting.\n\n**Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients\nconnecting to newer servers should declare the `user_settings_object`\nclient capability and access the `user_settings` object instead.\n",
+              "deprecated" : true
             },
             "left_side_userlist" : {
               "type" : "boolean",
-              "description" : "Present if `update_display_settings` is present in `fetch_event_types`.\n\nWhether the user has chosen for the userlist to be displayed\non the left side of the screen (for desktop app and web app) in narrow\nwindows.\n\nSee [PATCH /settings/display](/api/update-display-settings)\nfor api details on display settings.\n"
+              "description" : "Present if `update_display_settings` is present in `fetch_event_types`\nand only for clients that did not include `user_settings_object` in\ntheir client_capabilities` when registering the event queue.\n\nWhether the user has chosen for the userlist to be displayed\non the left side of the screen (for desktop app and web app) in narrow\nwindows.\n\nSee [PATCH /settings](/api/update-settings) for details on\nthe meaning of this setting.\n\n**Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients\nconnecting to newer servers should declare the `user_settings_object`\nclient capability and access the `user_settings` object instead.\n",
+              "deprecated" : true
             },
             "starred_message_counts" : {
               "type" : "boolean",
-              "description" : "Present if `update_display_settings` is present in `fetch_event_types`.\n\nWhether the user has chosen the number of starred messages to\nbe displayed similar to unread counts.\n\nSee [PATCH /settings/display](/api/update-display-settings)\nfor api details on display settings.\n"
+              "description" : "Present if `update_display_settings` is present in `fetch_event_types`\nand only for clients that did not include `user_settings_object` in\ntheir client_capabilities` when registering the event queue.\n\nWhether the user has chosen the number of starred messages to\nbe displayed similar to unread counts.\n\nSee [PATCH /settings](/api/update-settings) for details on\nthe meaning of this setting.\n\n**Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients\nconnecting to newer servers should declare the `user_settings_object`\nclient capability and access the `user_settings` object instead.\n",
+              "deprecated" : true
             },
             "timezone" : {
               "type" : "string",
-              "description" : "Present if `update_display_settings` is present in `fetch_event_types`.\n\nThe timezone configured for the user.  This is used primarily to display\nthe user's timezone to other users.\n\nSee [PATCH /settings/display](/api/update-display-settings)\nfor api details on display settings.\n"
+              "description" : "Present if `update_display_settings` is present in `fetch_event_types`\nand only for clients that did not include `user_settings_object` in\ntheir client_capabilities` when registering the event queue.\n\nThe timezone configured for the user.  This is used primarily to display\nthe user's timezone to other users.\n\nSee [PATCH /settings](/api/update-settings) for details on\nthe meaning of this setting.\n\n**Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients\nconnecting to newer servers should declare the `user_settings_object`\nclient capability and access the `user_settings` object instead.\n",
+              "deprecated" : true
             },
             "translate_emoticons" : {
               "type" : "boolean",
-              "description" : "Present if `update_display_settings` is present in `fetch_event_types`.\n\nWhether the user has chosen for emoticons to be translated into emoji\nin the Zulip compose box.\n\nSee [PATCH /settings/display](/api/update-display-settings)\nfor api details on display settings.\n"
+              "description" : "Present if `update_display_settings` is present in `fetch_event_types`\nand only for clients that did not include `user_settings_object` in\ntheir client_capabilities` when registering the event queue.\n\nWhether the user has chosen for emoticons to be translated into emoji\nin the Zulip compose box.\n\nSee [PATCH /settings](/api/update-settings) for details on\nthe meaning of this setting.\n\n**Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients\nconnecting to newer servers should declare the `user_settings_object`\nclient capability and access the `user_settings` object instead.\n",
+              "deprecated" : true
             },
             "twenty_four_hour_time" : {
               "type" : "boolean",
-              "description" : "Present if `update_display_settings` is present in `fetch_event_types`.\n\nWhether the user has chosen a twenty four hour time display (true)\nor a twelve hour one (false).\n\nSee [PATCH /settings/display](/api/update-display-settings)\nfor api details on display settings.\n"
+              "description" : "Present if `update_display_settings` is present in `fetch_event_types`\nand only for clients that did not include `user_settings_object` in\ntheir client_capabilities` when registering the event queue.\n\nWhether the user has chosen a twenty four hour time display (true)\nor a twelve hour one (false).\n\nSee [PATCH /settings](/api/update-settings) for details on\nthe meaning of this setting.\n\n**Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients\nconnecting to newer servers should declare the `user_settings_object`\nclient capability and access the `user_settings` object instead.\n",
+              "deprecated" : true
             },
             "emojiset_choices" : {
               "type" : "array",
-              "description" : "Present if `update_display_settings` is present in `fetch_event_types`.\n\nArray of dictionaries where each dictionary describes an emojiset\nsupported by this version of the Zulip server.\n\nOnly relevant to clients with configuration UI for choosing an emojiset;\nthe currently selected emojiset is available in the `emojiset` key.\n\nSee [PATCH /settings/display](/api/update-display-settings)\nfor api details on display settings.\n",
+              "description" : "Present if `update_display_settings` is present in `fetch_event_types`\nand only for clients that did not include `user_settings_object` in\ntheir client_capabilities` when registering the event queue.\n\nArray of dictionaries where each dictionary describes an emojiset\nsupported by this version of the Zulip server.\n\nOnly relevant to clients with configuration UI for choosing an emojiset;\nthe currently selected emojiset is available in the `emojiset` key.\n\nSee [PATCH /settings](/api/update-settings) for details on\nthe meaning of this setting.\n\n**Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients\nconnecting to newer servers should declare the `user_settings_object`\nclient capability and access the `user_settings` object instead.\n",
+              "deprecated" : true,
               "items" : {
                 "type" : "object",
                 "properties" : {
@@ -5884,9 +6633,9 @@ h4. Responses
                 "description" : "Object describing a emojiset.\n"
               }
             },
-            "realm_add_emoji_by_admins_only" : {
-              "type" : "boolean",
-              "description" : "Present if `realm` is present in `fetch_event_types`.\n\nWhether the organization is configured to only allow administrators\nto upload new custom emoji.\n"
+            "realm_add_custom_emoji_policy" : {
+              "type" : "integer",
+              "description" : "Present if `realm` is present in `fetch_event_types`.\n\nThe policy for which users can upload new custom emoji in this\norganization.\n\n* 1 = Members only\n* 2 = Administrators only\n* 3 = Full members only\n* 4 = Moderators only\n\n**Changes**: New in Zulip 5.0 (feature level 85) replacing the\nprevious `realm_add_emoji_by_admins_only` boolean.\n"
             },
             "realm_allow_edit_history" : {
               "type" : "boolean",
@@ -5946,7 +6695,7 @@ h4. Responses
             },
             "realm_invite_to_realm_policy" : {
               "type" : "integer",
-              "description" : "Present if `realm` is present in `fetch_event_types`.\n\nPolicy for [who can invite new users](/help/invite-new-users#change-who-can-send-invitations)\nto join the organization:\n\n* 1 = Members only\n* 2 = Administrators only\n* 3 = Full members only\n* 4 = Moderators only\n\n**Changes**: New in Zulip 4.0 (feature level 50) replacing the\nprevious `realm_invite_by_admins_only` boolean.\n"
+              "description" : "Present if `realm` is present in `fetch_event_types`.\n\nPolicy for [who can invite new users](/help/invite-new-users#change-who-can-send-invitations)\nto join the organization:\n\n* 1 = Members only\n* 2 = Administrators only\n* 3 = Full members only\n* 4 = Moderators only\n* 6 = Nobody\n\n**Changes**: New in Zulip 4.0 (feature level 50) replacing the\nprevious `realm_invite_by_admins_only` boolean.\n"
             },
             "realm_move_messages_between_streams_policy" : {
               "type" : "integer",
@@ -6014,7 +6763,7 @@ h4. Responses
             },
             "realm_user_group_edit_policy" : {
               "type" : "integer",
-              "description" : "Present if `realm` is present in `fetch_event_types`.\n\nThe organization's policy for [who can manage user groups\n](/help/restrict-user-group-management).\n\n* 1 = All members can create and edit user groups\n* 2 = Only organization administrators can create and edit user groups\n"
+              "description" : "Present if `realm` is present in `fetch_event_types`.\n\nThe organization's policy for [who can manage user groups\n](/help/restrict-user-group-management).\n\n* 1 = All members can create and edit user groups\n* 2 = Only organization administrators can create and edit user groups\n* 3 = Only full members can create and edit user groups.\n* 4 = Only organization administrators and moderators can create and edit user groups.\n"
             },
             "realm_default_code_block_language" : {
               "type" : "string",
@@ -6315,7 +7064,8 @@ h4. Responses
             },
             "enter_sends" : {
               "type" : "boolean",
-              "description" : "Present if `realm_user` is present in `fetch_event_types`.\n\nWhether the user setting for [sending on pressing Enter](/help/enable-enter-to-send)\nin the compose box is enabled.\n"
+              "description" : "Present if `update_display_settings` is present in `fetch_event_types`\nand only for clients that did not include `user_settings_object` in\ntheir client_capabilities` when registering the event queue.\n\nWhether the user setting for [sending on pressing Enter](/help/enable-enter-to-send)\nin the compose box is enabled.\n\n**Changes**: Deprecated in Zulip 5.0 (feature level 89). Clients\nconnecting to newer servers should declare the `user_settings_object`\nclient capability and process the `user_settings` event type instead.\nPrior to Zulip 5.0 (feature level 84) this field was present\nin response if 'realm_user' was present in `fetch_event_types`, not\n`update_display_settings`.\n",
+              "deprecated" : true
             },
             "user_id" : {
               "type" : "integer",
@@ -6360,9 +7110,9 @@ h4. Responses
                     "date_joined" : { },
                     "delivery_email" : { },
                     "profile_data" : { },
-                    "is_cross_realm_bot" : {
+                    "is_system_bot" : {
                       "type" : "boolean",
-                      "description" : "Whether the user is a cross realm bot.\n"
+                      "description" : "Whether the user is a system bot.  System bots are special\nbot user accounts that are managed by the system, rather than\nthe organization's administrators.\n\n**Changes**: This field was called `is_cross_realm_bot`\nbefore Zulip 5.0 (feature level 83).\n"
                     }
                   },
                   "additionalProperties" : false
@@ -6386,7 +7136,8 @@ h4. Responses
             },
             "result" : "success",
             "zulip_feature_level" : 2,
-            "zulip_version" : "2.1.0"
+            "zulip_version" : "5.0-dev-1650-gc3fd37755f",
+            "zulip_merge_base" : "5.0-dev-1646-gea6b21cd8c"
           }
         } ]
       }
@@ -7115,13 +7866,17 @@ h4. Responses
                 "additionalProperties" : false
               }
             },
-            "zulip_version" : {
-              "type" : "string",
-              "description" : "The version of Zulip running in the server.\n"
-            },
             "zulip_feature_level" : {
               "type" : "integer",
               "description" : "An integer indicating what features are\navailable on the server. The feature level increases monotonically;\na value of N means the server supports all API features introduced\nbefore feature level N.  This is designed to provide a simple way\nfor client apps to decide whether the server supports a given\nfeature or API change.  See the [changelog](/api/changelog) for\ndetails on what each feature level means.\n\n**Changes**.  New in Zulip 3.0.  We recommend using an implied value\nof 0 for Zulip servers that do not send this field.\n"
+            },
+            "zulip_version" : {
+              "type" : "string",
+              "description" : "The server's version number.  This is often a release version number,\nlike `2.1.7`. But for a server running a [version from Git][git-release],\nit will be a Git reference to the commit, like `5.0-dev-1650-gc3fd37755f`.\n\n[git-release]: https://zulip.readthedocs.io/en/latest/overview/release-lifecycle.html#git-versions\n"
+            },
+            "zulip_merge_base" : {
+              "type" : "string",
+              "description" : "The `git merge-base` between `zulip_verson` and official branches\nin the public\n[Zulip server and web app repository](https://github.com/zulip/zulip),\nin the same format as `zulip_version`. This will equal\n`zulip_version` if the server is not running a fork of the Zulip server.\n\nThis will be `\"\"` if unavailable.\n\n**Changes**: New in Zulip 5.0 (feature level 88).\n"
             },
             "push_notifications_enabled" : {
               "type" : "boolean",
@@ -7170,7 +7925,8 @@ h4. Responses
               "google" : true,
               "saml" : true
             },
-            "zulip_version" : "2.0.6+git",
+            "zulip_version" : "5.0-dev-1650-gc3fd37755f",
+            "zulip_merge_base" : "5.0-dev-1646-gea6b21cd8c",
             "push_notifications_enabled" : false,
             "msg" : "",
             "is_incompatible" : false,
@@ -7614,6 +8370,86 @@ h4. Responses
 
 
 
+h3. deleteTopic
+{panel:title=deleteTopic|borderStyle=solid|borderColor=#003b6f|titleBGColor=#003b6f|titleColor=#a6b8c7|bgColor=#ffffff}
+    *Summary:* Delete a topic
+    *Description:* Delete all messages in a topic.
+
+&#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;
+
+Topics are a field on messages (not an independent
+data structure), so deleting all the messages in the topic
+deletes the topic from Zulip.
+
+	|| HttpMethod | {status:colour=Yellow|title=post|subtle=false} |
+    || Protocol | {noformat:nopanel=true}https{noformat} |
+    || Path | {noformat:nopanel=true}/streams/{stream_id}/delete_topic{noformat} |
+    || Base Path | {noformat:nopanel=true}https://example.zulipchat.com/api/v1{noformat} |
+    || Produces | {noformat:nopanel=true}application/json{noformat} |
+----
+h4. Parameters
+h5. Path Parameters
+        ||Name||Description||Type||Required||Default||Pattern||Enum||
+        |stream_id |The ID of the stream to access. | Integer | (/) |null |  |  |
+
+
+
+h5. Query Parameters
+        ||Name||Description||Required||Default||Pattern||
+        |topic_name |The name of the topic to delete. | String | (/) |null |  |  |
+----
+h4. Responses
+
+    	|| Status Code | {status:colour=Green|title=200|subtle=false} |
+    	|| Message | Success. |
+    	|| Response Type | JsonSuccess |
+    	|| Response Model | [JsonSuccess Model|#JsonSuccessModelAnchor|Jump to model] |
+    	|| Response Schema | {code:collapse=true}{
+  "description" : "Success.",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/JsonSuccess"
+        }, {
+          "$ref" : "#/components/schemas/SuccessDescription"
+        } ]
+      }
+    }
+  }
+}{code} |
+       
+
+
+    	|| Status Code | {status:colour=Green|title=400|subtle=false} |
+    	|| Message | Error. |
+    	|| Response Type | JsonError |
+    	|| Response Model | [JsonError Model|#JsonErrorModelAnchor|Jump to model] |
+    	|| Response Schema | {code:collapse=true}{
+  "description" : "Error.",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/JsonError"
+        }, {
+          "description" : "Error when the user does not have permission\nto delete topics in this organization.\n",
+          "example" : {
+            "result" : "error",
+            "msg" : "Must be an organization administrator",
+            "code" : "UNAUTHORIZED_PRINCIPAL"
+          }
+        } ]
+      }
+    }
+  }
+}{code} |
+       
+
+{panel}
+
+
+
 h3. getStreamId
 {panel:title=getStreamId|borderStyle=solid|borderColor=#003b6f|titleBGColor=#003b6f|titleColor=#a6b8c7|bgColor=#ffffff}
     *Summary:* Get stream ID
@@ -7949,6 +8785,96 @@ h4. Responses
           "example" : {
             "code" : "BAD_REQUEST",
             "msg" : "User not authorized for this query",
+            "result" : "error"
+          }
+        } ]
+      }
+    }
+  }
+}{code} |
+       
+
+{panel}
+
+
+
+h3. getSubscribers
+{panel:title=getSubscribers|borderStyle=solid|borderColor=#003b6f|titleBGColor=#003b6f|titleColor=#a6b8c7|bgColor=#ffffff}
+    *Summary:* Get the subscribers of a stream
+    *Description:* Get all users subscribed to a stream.
+
+&#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60;
+
+	|| HttpMethod | {status:colour=Yellow|title=get|subtle=false} |
+    || Protocol | {noformat:nopanel=true}https{noformat} |
+    || Path | {noformat:nopanel=true}/streams/{stream_id}/members{noformat} |
+    || Base Path | {noformat:nopanel=true}https://example.zulipchat.com/api/v1{noformat} |
+    || Produces | {noformat:nopanel=true}application/json{noformat} |
+----
+h4. Parameters
+h5. Path Parameters
+        ||Name||Description||Type||Required||Default||Pattern||Enum||
+        |stream_id |The ID of the stream to access. | Integer | (/) |null |  |  |
+
+
+
+----
+h4. Responses
+
+    	|| Status Code | {status:colour=Green|title=200|subtle=false} |
+    	|| Message | Success. |
+    	|| Response Type | JsonSuccessBase |
+    	|| Response Model | [JsonSuccessBase Model|#JsonSuccessBaseModelAnchor|Jump to model] |
+    	|| Response Schema | {code:collapse=true}{
+  "description" : "Success.",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/JsonSuccessBase"
+        }, {
+          "$ref" : "#/components/schemas/SuccessDescription"
+        }, {
+          "type" : "object",
+          "properties" : {
+            "subscribers" : {
+              "type" : "array",
+              "description" : "A list containing the IDs of all active users who are subscribed\nto the stream.\n",
+              "items" : {
+                "type" : "integer"
+              }
+            }
+          },
+          "additionalProperties" : false,
+          "example" : {
+            "result" : "success",
+            "msg" : "",
+            "subscribers" : [ 11, 26 ]
+          }
+        } ]
+      }
+    }
+  }
+}{code} |
+       
+
+
+    	|| Status Code | {status:colour=Green|title=400|subtle=false} |
+    	|| Message | Bad request. |
+    	|| Response Type | JsonError |
+    	|| Response Model | [JsonError Model|#JsonErrorModelAnchor|Jump to model] |
+    	|| Response Schema | {code:collapse=true}{
+  "description" : "Bad request.",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/JsonError"
+        }, {
+          "description" : "An example JSON response for when the requested stream does not exist,\nor where the user does not have permission to access the target stream:\n",
+          "example" : {
+            "code" : "BAD_REQUEST",
+            "msg" : "Invalid stream id",
             "result" : "error"
           }
         } ]
@@ -10474,16 +11400,33 @@ h4. Responses
 
 
 
-h3. updateDisplaySettings
-{panel:title=updateDisplaySettings|borderStyle=solid|borderColor=#003b6f|titleBGColor=#003b6f|titleColor=#a6b8c7|bgColor=#ffffff}
-    *Summary:* Update display settings
-    *Description:* This endpoint is used to edit the current user&#39;s user interface settings.
+h3. updateSettings
+{panel:title=updateSettings|borderStyle=solid|borderColor=#003b6f|titleBGColor=#003b6f|titleColor=#a6b8c7|bgColor=#ffffff}
+    *Summary:* Update settings
+    *Description:* This endpoint is used to edit the current user&#39;s settings.
 
-&#x60;PATCH {{ api_url }}/v1/settings/display&#x60;
+&#x60;PATCH {{ api_url }}/v1/settings&#x60;
+
+**Changes**: Prior to Zulip 5.0 (feature level 80), this
+endpoint only supported the &#x60;full_name&#x60;, &#x60;email&#x60;,
+&#x60;old_password&#x60;, and &#x60;new_password&#x60; parameters. Notification
+settings were managed by &#x60;PATCH /settings/notifications&#x60;, and
+all other settings by &#x60;PATCH /settings/display&#x60;. The feature level
+80 migration to merge these endpoints did not change how request
+parameters are encoded. Note, however, that it did change the
+handling of any invalid parameters present in a request to change
+notification or display settings, since the merged endpoint uses
+the new response format that was introduced for &#x60;/settings&#x60; in
+Zulip 5.0 (feature level 78).
+
+The &#x60;/settings/display&#x60; and &#x60;/settings/notifications&#x60;
+endpoints are now deprecated aliases for this endpoint for
+backwards-compatibility, and will be removed once clients have
+migrated to use this endpoint.
 
 	|| HttpMethod | {status:colour=Yellow|title=patch|subtle=false} |
     || Protocol | {noformat:nopanel=true}https{noformat} |
-    || Path | {noformat:nopanel=true}/settings/display{noformat} |
+    || Path | {noformat:nopanel=true}/settings{noformat} |
     || Base Path | {noformat:nopanel=true}https://example.zulipchat.com/api/v1{noformat} |
     || Produces | {noformat:nopanel=true}application/json{noformat} |
 ----
@@ -10493,34 +11436,77 @@ h4. Parameters
 
 h5. Query Parameters
         ||Name||Description||Required||Default||Pattern||
-        |twenty_four_hour_time |Whether time should be [displayed in 24-hour notation](/help/change-the-time-format). | Boolean | (x) |null |  |  ||dense_mode |This setting has no effect at present.  It is reserved for use in controlling
-the default font size in Zulip. | Boolean | (x) |null |  |  ||starred_message_counts |Whether clients should display the [number of starred
-messages](/help/star-a-message#display-the-number-of-starred-messages). | Boolean | (x) |null |  |  ||fluid_layout_width |Whether to use the [maximum available screen width](/help/enable-full-width-display)
-for the web app&#39;s center panel (message feed, recent topics) on wide screens. | Boolean | (x) |null |  |  ||high_contrast_mode |This setting is reserved for use to control variations in Zulip&#39;s design
-to help visually impaired users. | Boolean | (x) |null |  |  ||color_scheme |Controls which [color theme](/help/night-mode) to use.
+        |full_name |A new display name for the user. | String | (x) |null |  |  ||email |Asks the server to initiate a confirmation sequence to change the user&#39;s email
+address to the indicated value. The user will need to demonstrate control of the
+new email address by clicking a confirmation link sent to that address. | String | (x) |null |  |  ||old_password |The user&#39;s old Zulip password (or LDAP password, if LDAP authentication is in use).
+
+Required only when sending the &#x60;new_password&#x60; parameter. | String | (x) |null |  |  ||new_password |The user&#39;s new Zulip password (or LDAP password, if LDAP authentication is in use).
+
+The &#x60;old_password&#x60; parameter must be included in the request. | String | (x) |null |  |  ||twenty_four_hour_time |Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#x60;PATCH /settings/display&#x60; endpoint. | Boolean | (x) |null |  |  ||dense_mode |This setting has no effect at present.  It is reserved for use in controlling
+the default font size in Zulip.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#x60;PATCH /settings/display&#x60; endpoint. | Boolean | (x) |null |  |  ||starred_message_counts |Whether clients should display the [number of starred
+messages](/help/star-a-message#display-the-number-of-starred-messages).
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#x60;PATCH /settings/display&#x60; endpoint. | Boolean | (x) |null |  |  ||fluid_layout_width |Whether to use the [maximum available screen width](/help/enable-full-width-display)
+for the web app&#39;s center panel (message feed, recent topics) on wide screens.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#x60;PATCH /settings/display&#x60; endpoint. | Boolean | (x) |null |  |  ||high_contrast_mode |This setting is reserved for use to control variations in Zulip&#39;s design
+to help visually impaired users.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#x60;PATCH /settings/display&#x60; endpoint. | Boolean | (x) |null |  |  ||color_scheme |Controls which [color theme](/help/night-mode) to use.
 
 * 1 - Automatic
 * 2 - Night mode
 * 3 - Day mode
 
 Automatic detection is implementing using the standard &#x60;prefers-color-scheme&#x60;
-media query. | Integer | (x) |null |  | [1, 2, 3] ||translate_emoticons |Whether to [translate emoticons to emoji](/help/enable-emoticon-translations)
-in messages the user sends. | Boolean | (x) |null |  |  ||default_language |What [default language](/help/change-your-language) to use for the account.
+media query.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#x60;PATCH /settings/display&#x60; endpoint. | Integer | (x) |null |  | [1, 2, 3] ||enable_drafts_synchronization |A boolean parameter to control whether synchronizing drafts is enabled for
+the user. When synchronization is disabled, all drafts stored in the server
+will be automatically deleted from the server.
+
+This does not do anything (like sending events) to delete local copies of
+drafts stored in clients.
+
+**Changes**: New in Zulip 5.0 (feature level 87). | Boolean | (x) |null |  |  ||translate_emoticons |Whether to [translate emoticons to emoji](/help/enable-emoticon-translations)
+in messages the user sends.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#x60;PATCH /settings/display&#x60; endpoint. | Boolean | (x) |null |  |  ||default_language |What [default language](/help/change-your-language) to use for the account.
 
 This controls both the Zulip UI as well as email notifications sent to the user.
 
 The value needs to be a standard language code that the Zulip server has
 translation data for; for example, &#x60;&quot;en&quot;&#x60; for English or &#x60;&quot;de&quot;&#x60; for German.
 
-**Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63). | String | (x) |null |  |  ||default_view |The [default view](/help/change-default-view) used when opening a new
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#x60;PATCH /settings/display&#x60; endpoint.
+
+Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63). | String | (x) |null |  |  ||default_view |The [default view](/help/change-default-view) used when opening a new
 Zulip web app window or hitting the &#x60;Esc&#x60; keyboard shortcut repeatedly.
 
 * &quot;recent_topics&quot; - Recent topics view
 * &quot;all_messages&quot; - All messages view
 
-**Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). | String | (x) |null |  |  ||left_side_userlist |Whether the users list on left sidebar in narrow windows.
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#x60;PATCH /settings/display&#x60; endpoint.
 
-This feature is not heavily used and is likely to be reworked. | Boolean | (x) |null |  |  ||emojiset |The user&#39;s configured [emoji set](/help/emoji-and-emoticons#use-emoticons),
+Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). | String | (x) |null |  |  ||left_side_userlist |Whether the users list on left sidebar in narrow windows.
+
+This feature is not heavily used and is likely to be reworked.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#x60;PATCH /settings/display&#x60; endpoint. | Boolean | (x) |null |  |  ||emojiset |The user&#39;s configured [emoji set](/help/emoji-and-emoticons#use-emoticons),
 used to display emoji to the user everything they appear in the UI.
 
 * &quot;google&quot; - Google modern
@@ -10528,16 +11514,100 @@ used to display emoji to the user everything they appear in the UI.
 * &quot;twitter&quot; - Twitter
 * &quot;text&quot; - Plain text
 
-**Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). | String | (x) |null |  |  ||demote_inactive_streams |Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#x60;PATCH /settings/display&#x60; endpoint.
+
+Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). | String | (x) |null |  |  ||demote_inactive_streams |Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.
 
 * 1 - Automatic
 * 2 - Always
-* 3 - Never | Integer | (x) |null |  | [1, 2, 3] ||timezone |The user&#39;s [configured timezone](/help/change-your-timezone).
+* 3 - Never
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#x60;PATCH /settings/display&#x60; endpoint. | Integer | (x) |null |  | [1, 2, 3] ||timezone |The user&#39;s [configured timezone](/help/change-your-timezone).
 
 Timezone values supported by the server are served at
 [/static/generated/timezones.json](/static/generated/timezones.json).
 
-**Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). | String | (x) |null |  |  |
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#x60;PATCH /settings/display&#x60; endpoint.
+
+Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). | String | (x) |null |  |  ||enable_stream_desktop_notifications |Enable visual desktop notifications for stream messages.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#x60;PATCH /settings/notifications&#x60; endpoint. | Boolean | (x) |null |  |  ||enable_stream_email_notifications |Enable email notifications for stream messages.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#x60;PATCH /settings/notifications&#x60; endpoint. | Boolean | (x) |null |  |  ||enable_stream_push_notifications |Enable mobile notifications for stream messages.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#x60;PATCH /settings/notifications&#x60; endpoint. | Boolean | (x) |null |  |  ||enable_stream_audible_notifications |Enable audible desktop notifications for stream messages.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#x60;PATCH /settings/notifications&#x60; endpoint. | Boolean | (x) |null |  |  ||notification_sound |Notification sound name.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#x60;PATCH /settings/notifications&#x60; endpoint.
+
+Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63). | String | (x) |null |  |  ||enable_desktop_notifications |Enable visual desktop notifications for private messages and @-mentions.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#x60;PATCH /settings/notifications&#x60; endpoint. | Boolean | (x) |null |  |  ||enable_sounds |Enable audible desktop notifications for private messages and
+@-mentions.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#x60;PATCH /settings/notifications&#x60; endpoint. | Boolean | (x) |null |  |  ||email_notifications_batching_period_seconds |The duration (in seconds) for which the server should wait to batch
+email notifications before sending them.
+
+**Changes**: New in Zulip 5.0 (feature level 82) | Integer | (x) |null |  |  ||enable_offline_email_notifications |Enable email notifications for private messages and @-mentions received
+when the user is offline.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#x60;PATCH /settings/notifications&#x60; endpoint. | Boolean | (x) |null |  |  ||enable_offline_push_notifications |Enable mobile notification for private messages and @-mentions received
+when the user is offline.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#x60;PATCH /settings/notifications&#x60; endpoint. | Boolean | (x) |null |  |  ||enable_online_push_notifications |Enable mobile notification for private messages and @-mentions received
+when the user is online.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#x60;PATCH /settings/notifications&#x60; endpoint. | Boolean | (x) |null |  |  ||enable_digest_emails |Enable digest emails when the user is away.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#x60;PATCH /settings/notifications&#x60; endpoint. | Boolean | (x) |null |  |  ||enable_marketing_emails |Enable marketing emails. Has no function outside Zulip Cloud.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#x60;PATCH /settings/notifications&#x60; endpoint. | Boolean | (x) |null |  |  ||enable_login_emails |Enable email notifications for new logins to account.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#x60;PATCH /settings/notifications&#x60; endpoint. | Boolean | (x) |null |  |  ||message_content_in_email_notifications |Include the message&#39;s content in email notifications for new messages.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#x60;PATCH /settings/notifications&#x60; endpoint. | Boolean | (x) |null |  |  ||pm_content_in_desktop_notifications |Include content of private messages in desktop notifications.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#x60;PATCH /settings/notifications&#x60; endpoint. | Boolean | (x) |null |  |  ||wildcard_mentions_notify |Whether wildcard mentions (E.g. @**all**) should send notifications
+like a personal mention.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#x60;PATCH /settings/notifications&#x60; endpoint. | Boolean | (x) |null |  |  ||desktop_icon_count_display |Unread count summary (appears in desktop sidebar and browser tab)
+
+* 1 - All unreads
+* 2 - Private messages and mentions
+* 3 - None
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#x60;PATCH /settings/notifications&#x60; endpoint. | Integer | (x) |null |  | [1, 2, 3] ||realm_name_in_notifications |Include organization name in subject of message notification emails.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#x60;PATCH /settings/notifications&#x60; endpoint. | Boolean | (x) |null |  |  ||presence_enabled |Display the presence status to other users when online.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the &#x60;PATCH /settings/notifications&#x60; endpoint. | Boolean | (x) |null |  |  ||enter_sends |Whether pressing Enter in the compose box sends a message
+(or saves a message edit).
+
+**Changes**: Before Zulip 5.0 (feature level 81), this setting was managed by
+the &#x60;POST /users/me/enter-sends&#x60; endpoint, with the same parameter format. | Boolean | (x) |null |  |  |
 ----
 h4. Responses
 
@@ -10559,63 +11629,17 @@ h4. Responses
           "properties" : {
             "result" : { },
             "msg" : { },
-            "twenty_four_hour_time" : {
-              "type" : "boolean",
-              "description" : "The setting for `twenty_four_hour_time`, if it was changed in this request.\n"
-            },
-            "dense_mode" : {
-              "type" : "boolean",
-              "description" : "The setting for `dense_mode`, if it was changed in this request.\nThis setting is however reserved for future, and can not be\nmodified in production environment.\n"
-            },
-            "starred_message_counts" : {
-              "type" : "boolean",
-              "description" : "The setting for `starred_message_counts`, if it was changed\nin this request.\n"
-            },
-            "fluid_layout_width" : {
-              "type" : "boolean",
-              "description" : "The setting for `fluid_layout_width`, if it was changed\nin this request.\n"
-            },
-            "high_contrast_mode" : {
-              "type" : "boolean",
-              "description" : "The setting for `high_contrast_mode`, if it was changed in\nthis request.\nThis setting is however reserved for future, and can not be\nmodified in production environment.\n"
-            },
-            "color_scheme" : {
-              "type" : "integer",
-              "description" : "The numerical key corresponding to new `color_scheme` if it was changed in this request.\n"
-            },
-            "translate_emoticons" : {
-              "type" : "boolean",
-              "description" : "The setting for `translate_emoticons`, if it was changed in this request.\n"
-            },
-            "default_language" : {
-              "type" : "string",
-              "description" : "The language code corresponding to new `default_language` if it was changed in this request.\n"
-            },
-            "default_view" : {
-              "type" : "string",
-              "description" : "The new setting for `default_view`, if it was changed in this request.\n"
-            },
-            "left_side_userlist" : {
-              "type" : "boolean",
-              "description" : "The setting for `left_side_userlist`, if it was changed in this request.\n"
-            },
-            "emojiset" : {
-              "type" : "string",
-              "description" : "The string identifier corresponding to new `emojiset` if it was changed in this request.\n"
-            },
-            "demote_inactive_streams" : {
-              "type" : "integer",
-              "description" : "The numerical key corresponding to new `demote_inactive_streams` setting if it was changed in this request.\n"
-            },
-            "timezone" : {
-              "type" : "string",
-              "description" : "The setting for `timezone`, if it was changed in this request.\n"
+            "ignored_parameters_unsupported" : {
+              "type" : "array",
+              "description" : "This field lists any parameters sent in the request that are not\nsupported by the endpoint. While this can be expected, e.g. when sending\nboth current and legacy names for a parameter to a Zulip server of\nunknown version, this often indicates a bug in the client\nimplementation or an attempt to configure a new feature, while\nconnected to an older Zulip server that does not support the feature.\n\n**Changes**: New in Zulip 5.0 (feature level 78). Previously,\nthe `/settings` endpoint indicated which parameters it had\nprocessed by including in the response object `\"key\": value`\nentries for values successfully changed by the request.\n\nThe `/settings/notifications` and `/settings/display` endpoints\nalso had this behavior before they became aliases of `/settings`\nin Zulip 5.0 (feature level 80).\n\nBefore those changes, request parameters that were not supported\nor were unchanged were silently ignored.\n",
+              "items" : {
+                "type" : "string"
+              }
             }
           },
           "additionalProperties" : false,
           "example" : {
-            "emojiset" : "google",
-            "left_side_userlist" : true,
+            "ignored_parameters_unsupported" : [ "name", "password" ],
             "msg" : "",
             "result" : "success"
           }
@@ -10630,18 +11654,23 @@ h4. Responses
 
 
 
-h3. updateNotificationSettings
-{panel:title=updateNotificationSettings|borderStyle=solid|borderColor=#003b6f|titleBGColor=#003b6f|titleColor=#a6b8c7|bgColor=#ffffff}
-    *Summary:* Update notification settings
-    *Description:* This endpoint is used to edit the user&#39;s global notification settings.
-See [this endpoint](/api/update-subscription-settings) for
-per-stream notification settings.
+h3. updateStatus
+{panel:title=updateStatus|borderStyle=solid|borderColor=#003b6f|titleBGColor=#003b6f|titleColor=#a6b8c7|bgColor=#ffffff}
+    *Summary:* Update your status
+    *Description:* Change your [status](/help/status-and-availability).
 
-&#x60;PATCH {{ api_url }}/v1/settings/notifications&#x60;
+&#x60;POST {{ api_url }}/v1/users/me/status&#x60;
 
-	|| HttpMethod | {status:colour=Yellow|title=patch|subtle=false} |
+A request to this endpoint will only change the parameters passed.
+For example, passing just &#x60;status_text&#x60; requests a change in the status
+text, but will leave the status emoji unchanged.
+
+Clients that wish to set the user&#39;s status to a specific value should
+pass all supported parameters.
+
+	|| HttpMethod | {status:colour=Yellow|title=post|subtle=false} |
     || Protocol | {noformat:nopanel=true}https{noformat} |
-    || Path | {noformat:nopanel=true}/settings/notifications{noformat} |
+    || Path | {noformat:nopanel=true}/users/me/status{noformat} |
     || Base Path | {noformat:nopanel=true}https://example.zulipchat.com/api/v1{noformat} |
     || Produces | {noformat:nopanel=true}application/json{noformat} |
 ----
@@ -10651,91 +11680,125 @@ h4. Parameters
 
 h5. Query Parameters
         ||Name||Description||Required||Default||Pattern||
-        |enable_stream_desktop_notifications |Enable visual desktop notifications for stream messages. | Boolean | (x) |null |  |  ||enable_stream_email_notifications |Enable email notifications for stream messages. | Boolean | (x) |null |  |  ||enable_stream_push_notifications |Enable mobile notifications for stream messages. | Boolean | (x) |null |  |  ||enable_stream_audible_notifications |Enable audible desktop notifications for stream messages. | Boolean | (x) |null |  |  ||notification_sound |Notification sound name.
+        |status_text |The text content of the status message. Sending the empty string
+will clear the user&#39;s status.
 
-**Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63). | String | (x) |null |  |  ||enable_desktop_notifications |Enable visual desktop notifications for private messages and @-mentions. | Boolean | (x) |null |  |  ||enable_sounds |Enable audible desktop notifications for private messages and
-@-mentions. | Boolean | (x) |null |  |  ||enable_offline_email_notifications |Enable email notifications for private messages and @-mentions received
-when the user is offline. | Boolean | (x) |null |  |  ||enable_offline_push_notifications |Enable mobile notification for private messages and @-mentions received
-when the user is offline. | Boolean | (x) |null |  |  ||enable_online_push_notifications |Enable mobile notification for private messages and @-mentions received
-when the user is online. | Boolean | (x) |null |  |  ||enable_digest_emails |Enable digest emails when the user is away. | Boolean | (x) |null |  |  ||enable_marketing_emails |Enable marketing emails. Has no function outside Zulip Cloud. | Boolean | (x) |null |  |  ||enable_login_emails |Enable email notifications for new logins to account. | Boolean | (x) |null |  |  ||message_content_in_email_notifications |Include the message&#39;s content in email notifications for new messages. | Boolean | (x) |null |  |  ||pm_content_in_desktop_notifications |Include content of private messages in desktop notifications. | Boolean | (x) |null |  |  ||wildcard_mentions_notify |Whether wildcard mentions (E.g. @**all**) should send notifications
-like a personal mention. | Boolean | (x) |null |  |  ||desktop_icon_count_display |Unread count summary (appears in desktop sidebar and browser tab)
+**Note**: The limit on the size of the message is 60 characters. | String | (x) |null |  |  ||away |Whether the user should be marked as &quot;away&quot;. | Boolean | (x) |null |  |  ||emoji_name |The name for the emoji to associate with this status. | String | (x) |null |  |  ||emoji_code |A unique identifier, defining the specific emoji codepoint requested,
+within the namespace of the &#x60;reaction_type&#x60;.
 
-* 1 - All unreads
-* 2 - Private messages and mentions
-* 3 - None | Integer | (x) |null |  | [1, 2, 3] ||realm_name_in_notifications |Include organization name in subject of message notification emails. | Boolean | (x) |null |  |  ||presence_enabled |Display the presence status to other users when online. | Boolean | (x) |null |  |  |
+For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the
+Unicode codepoint; for &#x60;realm_emoji&#x60;, it&#39;ll be the ID of the realm emoji. | String | (x) |null |  |  ||reaction_type |One of the following values:
+
+* &#x60;unicode_emoji&#x60;: Unicode emoji (&#x60;emoji_code&#x60; will be its Unicode
+  codepoint).
+* &#x60;realm_emoji&#x60;: [Custom emoji](/help/add-custom-emoji).
+  (&#x60;emoji_code&#x60; will be its ID).
+* &#x60;zulip_extra_emoji&#x60;: Special emoji included with Zulip.  Exists to
+  namespace the &#x60;zulip&#x60; emoji. | String | (x) |null |  |  |
 ----
 h4. Responses
 
     	|| Status Code | {status:colour=Green|title=200|subtle=false} |
     	|| Message | Success. |
-    	|| Response Type | JsonSuccessBase |
-    	|| Response Model | [JsonSuccessBase Model|#JsonSuccessBaseModelAnchor|Jump to model] |
+    	|| Response Type | JsonSuccess |
+    	|| Response Model | [JsonSuccess Model|#JsonSuccessModelAnchor|Jump to model] |
     	|| Response Schema | {code:collapse=true}{
   "description" : "Success.",
   "content" : {
     "application/json" : {
       "schema" : {
         "allOf" : [ {
-          "$ref" : "#/components/schemas/JsonSuccessBase"
+          "$ref" : "#/components/schemas/JsonSuccess"
         }, {
           "$ref" : "#/components/schemas/SuccessDescription"
         }, {
-          "type" : "object",
-          "properties" : {
-            "result" : { },
-            "msg" : { },
-            "enable_desktop_notifications" : {
-              "type" : "boolean",
-              "description" : "The setting for `enable_desktop_notifications`, if it was changed in\nthis request.\n"
-            },
-            "enable_digest_emails" : {
-              "type" : "boolean",
-              "description" : "The setting for `enable_digest_emails`, if it was changed in this\nrequest.\n"
-            },
-            "enable_marketing_emails" : {
-              "type" : "boolean",
-              "description" : "The setting for `enable_marketing_emails`, if it was changed in this\nrequest.\n"
-            },
-            "enable_offline_email_notifications" : {
-              "type" : "boolean",
-              "description" : "The setting for `enable_offline_email_notifications`, if it was changed\nin this request.\n"
-            },
-            "enable_offline_push_notifications" : {
-              "type" : "boolean",
-              "description" : "The setting for `enable_offline_push_notifications`, if it was changed\nin this request.\n"
-            },
-            "enable_online_push_notifications" : {
-              "type" : "boolean",
-              "description" : "The setting for `enable_online_push_notifications`, if it was changed in\nthis request.\n"
-            },
-            "enable_sounds" : {
-              "type" : "boolean",
-              "description" : "The setting for `enable_sounds`, if it was changed in this request.\n"
-            },
-            "enable_stream_email_notifications" : {
-              "type" : "boolean",
-              "description" : "The setting for `enable_stream_email_notifications`, if it was changed\nin this request.\n"
-            },
-            "enable_stream_push_notifications" : {
-              "type" : "boolean",
-              "description" : "The setting for `enable_stream_push_notifications`, if it was changed in\nthis request.\n"
-            },
-            "enable_stream_audible_notifications" : {
-              "type" : "boolean",
-              "description" : "The setting for `enable_stream_audible_notifications`, if it was changed\nin this request.\n"
-            },
-            "message_content_in_email_notifications" : {
-              "type" : "boolean",
-              "description" : "The setting for `message_content_in_email_notifications`, if it was\nchanged in this request.\n"
-            }
-          },
-          "additionalProperties" : false,
           "example" : {
-            "enable_offline_push_notifications" : true,
-            "enable_online_push_notifications" : true,
             "msg" : "",
             "result" : "success"
           }
+        } ]
+      }
+    }
+  }
+}{code} |
+       
+
+
+    	|| Status Code | {status:colour=Green|title=400|subtle=false} |
+    	|| Message | Success. |
+    	|| Response Type | oneOf<object,object,object,object,object,object> |
+    	|| Response Model | [oneOf&lt;object,object,object,object,object,object&gt; Model|#oneOf&lt;object,object,object,object,object,object&gt;ModelAnchor|Jump to model] |
+    	|| Response Schema | {code:collapse=true}{
+  "description" : "Success.",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "oneOf" : [ {
+          "allOf" : [ {
+            "$ref" : "#/components/schemas/CodedError"
+          }, {
+            "description" : "An example JSON error response when no changes were requested\n",
+            "example" : {
+              "result" : "error",
+              "msg" : "Client did not pass any new values.",
+              "code" : "BAD_REQUEST"
+            }
+          } ]
+        }, {
+          "allOf" : [ {
+            "$ref" : "#/components/schemas/CodedError"
+          }, {
+            "description" : "An example JSON error response when the\n`status_text` message exceeds the limit of\n60 characters\n",
+            "example" : {
+              "result" : "error",
+              "msg" : "status_text is too long (limit: 60 characters)",
+              "code" : "BAD_REQUEST"
+            }
+          } ]
+        }, {
+          "allOf" : [ {
+            "$ref" : "#/components/schemas/CodedError"
+          }, {
+            "description" : "An example JSON error response when `emoji_name` is not specified\nbut `emoji_code` or `reaction_type` is specified\n",
+            "example" : {
+              "result" : "error",
+              "msg" : "Client must pass emoji_name if they pass either emoji_code or reaction_type.",
+              "code" : "BAD_REQUEST"
+            }
+          } ]
+        }, {
+          "allOf" : [ {
+            "$ref" : "#/components/schemas/CodedError"
+          }, {
+            "description" : "An example JSON error response when the emoji name does not exist\n",
+            "example" : {
+              "result" : "error",
+              "msg" : "Emoji 'invalid' does not exist",
+              "code" : "BAD_REQUEST"
+            }
+          } ]
+        }, {
+          "allOf" : [ {
+            "$ref" : "#/components/schemas/CodedError"
+          }, {
+            "description" : "An example JSON error response when the emoji name is invalid\n",
+            "example" : {
+              "result" : "error",
+              "msg" : "Invalid emoji name.",
+              "code" : "BAD_REQUEST"
+            }
+          } ]
+        }, {
+          "allOf" : [ {
+            "$ref" : "#/components/schemas/CodedError"
+          }, {
+            "description" : "An example JSON error response when the custom emoji is invalid\n",
+            "example" : {
+              "result" : "error",
+              "msg" : "Invalid custom emoji.",
+              "code" : "BAD_REQUEST"
+            }
+          } ]
         } ]
       }
     }
@@ -11439,6 +12502,53 @@ group.
          |streams |(x) |{noformat:nopanel=true}array[BasicStream]{noformat} |Array containing details about the streams
 in the default stream group. |  |
          
+        {anchor:DraftModelAnchor}
+        h3. Draft
+
+        A dictionary for representing a message draft.
+        
+        
+        ||Field Name||Required||Type||Description||Enum||
+         |id |(x) |{noformat:nopanel=true}Integer{noformat} |The unique ID of the draft. It will only used whenever the drafts are
+fetched. This field should not be specified when the draft is being
+created or edited. |  |
+         |type |(/) |{noformat:nopanel=true}String{noformat} |The type of the draft. Either unaddressed (empty string), &quot;stream&quot;,
+or &quot;private&quot; (for PMs and private group messages). |  [, stream, private]  |
+         |to |(/) |{noformat:nopanel=true}array[Integer]{noformat} |An array of the tentative target audience IDs. For &quot;stream&quot;
+messages, this should contain exactly 1 ID, the ID of the
+target stream. For private messages, this should be an array
+of target user IDs. For unaddressed drafts, this is ignored,
+and clients should send an empty array. |  |
+         |topic |(/) |{noformat:nopanel=true}String{noformat} |For stream message drafts, the tentative topic name. For private
+or unaddressed messages, this will be ignored and should ideally
+be the empty string. Should not contain null bytes. |  |
+         |content |(/) |{noformat:nopanel=true}String{noformat} |The body of the draft. Should not contain null bytes. |  |
+         |timestamp |(x) |{noformat:nopanel=true}BigDecimal{noformat} |A Unix timestamp (seconds only) representing when the draft was
+last edited. When creating a draft, this key need not be present
+and it will be filled in automatically by the server. |  |
+         
+        {anchor:EmojiBaseModelAnchor}
+        h3. EmojiBase
+
+        
+        
+        
+        ||Field Name||Required||Type||Description||Enum||
+         |emoji_code |(x) |{noformat:nopanel=true}String{noformat} |A unique identifier, defining the specific emoji codepoint requested,
+within the namespace of the &#x60;reaction_type&#x60;.
+
+For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the
+Unicode codepoint; for &#x60;realm_emoji&#x60;, it&#39;ll be the ID of the realm emoji. |  |
+         |emoji_name |(x) |{noformat:nopanel=true}String{noformat} |Name of the emoji. |  |
+         |reaction_type |(x) |{noformat:nopanel=true}String{noformat} |One of the following values:
+
+* &#x60;unicode_emoji&#x60;: Unicode emoji (&#x60;emoji_code&#x60; will be its Unicode
+  codepoint).
+* &#x60;realm_emoji&#x60;: [Custom emoji](/help/add-custom-emoji).
+  (&#x60;emoji_code&#x60; will be its ID).
+* &#x60;zulip_extra_emoji&#x60;: Special emoji included with Zulip.  Exists to
+  namespace the &#x60;zulip&#x60; emoji. |  |
+         
         {anchor:EmojiReactionModelAnchor}
         h3. EmojiReaction
 
@@ -11476,7 +12586,7 @@ in the default stream group. |  |
 within the namespace of the &#x60;reaction_type&#x60;.
 
 For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the
-Unicode codepoint. |  |
+Unicode codepoint; for &#x60;realm_emoji&#x60;, it&#39;ll be the ID of the realm emoji. |  |
          |emoji_name |(x) |{noformat:nopanel=true}String{noformat} |Name of the emoji. |  |
          |reaction_type |(x) |{noformat:nopanel=true}String{noformat} |One of the following values:
 
@@ -11490,12 +12600,26 @@ Unicode codepoint. |  |
 
 **Changes**: New in Zulip 3.0 (feature level 2). The &#x60;user&#x60;
 object is deprecated and will be removed in the future. |  |
-         |user |(x) |{noformat:nopanel=true}EmojiReactionBase_user{noformat} | |  |
+         |user |(x) |{noformat:nopanel=true}EmojiReactionBase_allOf_user{noformat} | |  |
          
-        {anchor:EmojiReactionBaseUserModelAnchor}
-        h3. EmojiReactionBaseUser
+        {anchor:EmojiReactionBaseAllOfModelAnchor}
+        h3. EmojiReactionBaseAllOf
 
-        Dictionary with data on the user who added the reaction, including
+        
+        
+        
+        ||Field Name||Required||Type||Description||Enum||
+         |user_id |(x) |{noformat:nopanel=true}Integer{noformat} |The ID of the user who added the reaction.
+
+**Changes**: New in Zulip 3.0 (feature level 2). The &#x60;user&#x60;
+object is deprecated and will be removed in the future. |  |
+         |user |(x) |{noformat:nopanel=true}EmojiReactionBase_allOf_user{noformat} | |  |
+         
+        {anchor:EmojiReactionBaseAllOfUserModelAnchor}
+        h3. EmojiReactionBaseAllOfUser
+
+        Whether the user is a mirror dummy.
+Dictionary with data on the user who added the reaction, including
 the user ID as the `id` field.  **Note**: In the [events
 API](/api/get-events), this `user` dictionary
 confusing had the user ID in a field called `user_id`

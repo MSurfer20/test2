@@ -16,52 +16,52 @@ import java.util.List;
 import java.util.Map;
 
 public interface MessagesApi  {
-    //add_reaction
+    //add-reaction
     void addReaction(Integer messageId, String emojiName, String emojiCode, String reactionType, Handler<AsyncResult<JsonSuccess>> handler);
     
-    //check_messages_match_narrow
+    //check-messages-match-narrow
     void checkMessagesMatchNarrow(List<Integer> msgIds, List<Object> narrow, Handler<AsyncResult<Object>> handler);
     
-    //delete_message
+    //delete-message
     void deleteMessage(Integer messageId, Handler<AsyncResult<JsonSuccess>> handler);
     
-    //get_file_temporary_url
+    //get-file-temporary-url
     void getFileTemporaryUrl(Integer realmIdStr, String filename, Handler<AsyncResult<JsonSuccessBase>> handler);
     
-    //get_message_history
+    //get-message-history
     void getMessageHistory(Integer messageId, Handler<AsyncResult<JsonSuccessBase>> handler);
     
-    //get_messages
+    //get-messages
     void getMessages(Integer numBefore, Integer numAfter, OneOfstringinteger anchor, List<Object> narrow, Boolean clientGravatar, Boolean applyMarkdown, Boolean useFirstUnreadAnchor, Handler<AsyncResult<JsonSuccessBase>> handler);
     
-    //get_raw_message
+    //get-raw-message
     void getRawMessage(Integer messageId, Handler<AsyncResult<JsonSuccessBase>> handler);
     
-    //mark_all_as_read
+    //mark-all-as-read
     void markAllAsRead(Handler<AsyncResult<JsonSuccess>> handler);
     
-    //mark_stream_as_read
+    //mark-stream-as-read
     void markStreamAsRead(Integer streamId, Handler<AsyncResult<JsonSuccess>> handler);
     
-    //mark_topic_as_read
+    //mark-topic-as-read
     void markTopicAsRead(Integer streamId, String topicName, Handler<AsyncResult<JsonSuccess>> handler);
     
-    //remove_reaction
+    //remove-reaction
     void removeReaction(Integer messageId, String emojiName, String emojiCode, String reactionType, Handler<AsyncResult<JsonSuccess>> handler);
     
-    //render_message
+    //render-message
     void renderMessage(String content, Handler<AsyncResult<JsonSuccessBase>> handler);
     
-    //send_message
+    //send-message
     void sendMessage(String type, List<Integer> to, String content, String topic, String queueId, String localId, Handler<AsyncResult<JsonSuccessBase>> handler);
     
-    //update_message
+    //update-message
     void updateMessage(Integer messageId, String topic, String propagateMode, Boolean sendNotificationToOldThread, Boolean sendNotificationToNewThread, String content, Integer streamId, Handler<AsyncResult<JsonSuccess>> handler);
     
-    //update_message_flags
+    //update-message-flags
     void updateMessageFlags(List<Integer> messages, String op, String flag, Handler<AsyncResult<JsonSuccessBase>> handler);
     
-    //upload_file
+    //upload-file
     void uploadFile(File filename, Handler<AsyncResult<JsonSuccessBase>> handler);
     
 }

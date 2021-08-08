@@ -14,9 +14,15 @@
 */
 
 
-#import "OAIEmojiReactionBaseUser.h"
-@protocol OAIEmojiReactionBaseUser;
-@class OAIEmojiReactionBaseUser;
+#import "OAIEmojiBase.h"
+#import "OAIEmojiReactionBaseAllOf.h"
+#import "OAIEmojiReactionBaseAllOfUser.h"
+@protocol OAIEmojiBase;
+@class OAIEmojiBase;
+@protocol OAIEmojiReactionBaseAllOf;
+@class OAIEmojiReactionBaseAllOf;
+@protocol OAIEmojiReactionBaseAllOfUser;
+@class OAIEmojiReactionBaseAllOfUser;
 
 
 
@@ -25,7 +31,7 @@
 
 @interface OAIEmojiReactionBase : OAIObject
 
-/* A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint.  [optional]
+/* A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji.  [optional]
  */
 @property(nonatomic) NSString* emojiCode;
 /* Name of the emoji.  [optional]
@@ -38,6 +44,6 @@
  */
 @property(nonatomic) NSNumber* userId;
 
-@property(nonatomic) OAIEmojiReactionBaseUser* user;
+@property(nonatomic) OAIEmojiReactionBaseAllOfUser* user;
 
 @end

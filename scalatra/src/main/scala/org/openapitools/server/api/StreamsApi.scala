@@ -67,6 +67,21 @@ class StreamsApi(implicit val swagger: Swagger) extends ScalatraServlet
 
   
 
+  val deleteTopicOperation = (apiOperation[JsonSuccess]("deleteTopic")
+    summary "Delete a topic"
+    parameters(pathParam[Int]("streamId").description(""), queryParam[String]("topicName").description(""))
+  )
+
+  post("/streams/:stream_id/delete_topic", operation(deleteTopicOperation)) {
+    val streamId = params.getOrElse("streamId", halt(400))
+    //println("streamId: " + streamId)
+            val topicName = params.getAs[String]("topicName")
+
+    //println("topicName: " + topicName)
+  }
+
+  
+
   val getStreamIdOperation = (apiOperation[JsonSuccessBase]("getStreamId")
     summary "Get stream ID"
     parameters(queryParam[String]("stream").description(""))
@@ -116,6 +131,18 @@ class StreamsApi(implicit val swagger: Swagger) extends ScalatraServlet
             val includeOwnerSubscribed = params.getAs[Boolean]("includeOwnerSubscribed")
 
     //println("includeOwnerSubscribed: " + includeOwnerSubscribed)
+  }
+
+  
+
+  val getSubscribersOperation = (apiOperation[JsonSuccessBase]("getSubscribers")
+    summary "Get the subscribers of a stream"
+    parameters(pathParam[Int]("streamId").description(""))
+  )
+
+  get("/streams/:stream_id/members", operation(getSubscribersOperation)) {
+    val streamId = params.getOrElse("streamId", halt(400))
+    //println("streamId: " + streamId)
   }
 
   

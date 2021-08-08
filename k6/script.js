@@ -110,6 +110,41 @@ export default function() {
         });
         sleep(SLEEP_DURATION);
     });
+    group("/drafts", () => {
+        let drafts = "TODO_EDIT_THE_DRAFTS";
+        let url = BASE_URL + `/drafts`;
+        // Request No. 1
+        let request = http.get(url);
+        check(request, {
+            "Success.": (r) => r.status === 200
+        });
+        sleep(SLEEP_DURATION);
+
+        // Request No. 2
+        request = http.post(url);
+        check(request, {
+            "Success.": (r) => r.status === 200
+        });
+        sleep(SLEEP_DURATION);
+    });
+    group("/drafts/{draft_id}", () => {
+        let draftId = "TODO_EDIT_THE_DRAFT_ID";
+        let draft = "TODO_EDIT_THE_DRAFT";
+        let url = BASE_URL + `/drafts/${draft_id}`;
+        // Request No. 1
+        let request = http.del(url);
+        check(request, {
+            "Success.": (r) => r.status === 200
+        });
+        sleep(SLEEP_DURATION);
+
+        // Request No. 2
+        request = http.patch(url);
+        check(request, {
+            "Success.": (r) => r.status === 200
+        });
+        sleep(SLEEP_DURATION);
+    });
     group("/messages", () => {
         let queueId = "TODO_EDIT_THE_QUEUE_ID";
         let useFirstUnreadAnchor = "TODO_EDIT_THE_USE_FIRST_UNREAD_ANCHOR";
@@ -307,6 +342,20 @@ export default function() {
 
         // Request No. 2
         request = http.del(url);
+        check(request, {
+            "Success.": (r) => r.status === 200
+        });
+        sleep(SLEEP_DURATION);
+    });
+    group("/users/me/status", () => {
+        let emojiName = "TODO_EDIT_THE_EMOJI_NAME";
+        let away = "TODO_EDIT_THE_AWAY";
+        let reactionType = "TODO_EDIT_THE_REACTION_TYPE";
+        let statusText = "TODO_EDIT_THE_STATUS_TEXT";
+        let emojiCode = "TODO_EDIT_THE_EMOJI_CODE";
+        let url = BASE_URL + `/users/me/status?status_text=${status_text}&away=${away}&emoji_name=${emoji_name}&emoji_code=${emoji_code}&reaction_type=${reaction_type}`;
+        // Request No. 1
+        let request = http.post(url);
         check(request, {
             "Success.": (r) => r.status === 200
         });
@@ -593,53 +642,61 @@ export default function() {
         });
         sleep(SLEEP_DURATION);
     });
-    group("/settings/notifications", () => {
+    group("/settings", () => {
         let enableDesktopNotifications = "TODO_EDIT_THE_ENABLE_DESKTOP_NOTIFICATIONS";
-        let enableStreamPushNotifications = "TODO_EDIT_THE_ENABLE_STREAM_PUSH_NOTIFICATIONS";
-        let presenceEnabled = "TODO_EDIT_THE_PRESENCE_ENABLED";
-        let notificationSound = "TODO_EDIT_THE_NOTIFICATION_SOUND";
-        let enableStreamAudibleNotifications = "TODO_EDIT_THE_ENABLE_STREAM_AUDIBLE_NOTIFICATIONS";
-        let enableLoginEmails = "TODO_EDIT_THE_ENABLE_LOGIN_EMAILS";
-        let enableOfflineEmailNotifications = "TODO_EDIT_THE_ENABLE_OFFLINE_EMAIL_NOTIFICATIONS";
-        let realmNameInNotifications = "TODO_EDIT_THE_REALM_NAME_IN_NOTIFICATIONS";
-        let enableSounds = "TODO_EDIT_THE_ENABLE_SOUNDS";
-        let enableOfflinePushNotifications = "TODO_EDIT_THE_ENABLE_OFFLINE_PUSH_NOTIFICATIONS";
-        let pmContentInDesktopNotifications = "TODO_EDIT_THE_PM_CONTENT_IN_DESKTOP_NOTIFICATIONS";
-        let enableStreamDesktopNotifications = "TODO_EDIT_THE_ENABLE_STREAM_DESKTOP_NOTIFICATIONS";
-        let enableStreamEmailNotifications = "TODO_EDIT_THE_ENABLE_STREAM_EMAIL_NOTIFICATIONS";
-        let messageContentInEmailNotifications = "TODO_EDIT_THE_MESSAGE_CONTENT_IN_EMAIL_NOTIFICATIONS";
-        let enableOnlinePushNotifications = "TODO_EDIT_THE_ENABLE_ONLINE_PUSH_NOTIFICATIONS";
-        let desktopIconCountDisplay = "TODO_EDIT_THE_DESKTOP_ICON_COUNT_DISPLAY";
-        let wildcardMentionsNotify = "TODO_EDIT_THE_WILDCARD_MENTIONS_NOTIFY";
-        let enableMarketingEmails = "TODO_EDIT_THE_ENABLE_MARKETING_EMAILS";
-        let enableDigestEmails = "TODO_EDIT_THE_ENABLE_DIGEST_EMAILS";
-        let url = BASE_URL + `/settings/notifications?enable_stream_desktop_notifications=${enable_stream_desktop_notifications}&enable_stream_email_notifications=${enable_stream_email_notifications}&enable_stream_push_notifications=${enable_stream_push_notifications}&enable_stream_audible_notifications=${enable_stream_audible_notifications}&notification_sound=${notification_sound}&enable_desktop_notifications=${enable_desktop_notifications}&enable_sounds=${enable_sounds}&enable_offline_email_notifications=${enable_offline_email_notifications}&enable_offline_push_notifications=${enable_offline_push_notifications}&enable_online_push_notifications=${enable_online_push_notifications}&enable_digest_emails=${enable_digest_emails}&enable_marketing_emails=${enable_marketing_emails}&enable_login_emails=${enable_login_emails}&message_content_in_email_notifications=${message_content_in_email_notifications}&pm_content_in_desktop_notifications=${pm_content_in_desktop_notifications}&wildcard_mentions_notify=${wildcard_mentions_notify}&desktop_icon_count_display=${desktop_icon_count_display}&realm_name_in_notifications=${realm_name_in_notifications}&presence_enabled=${presence_enabled}`;
-        // Request No. 1
-        let request = http.patch(url);
-        check(request, {
-            "Success.": (r) => r.status === 200
-        });
-        sleep(SLEEP_DURATION);
-    });
-    group("/settings/display", () => {
         let demoteInactiveStreams = "TODO_EDIT_THE_DEMOTE_INACTIVE_STREAMS";
         let timezone = "TODO_EDIT_THE_TIMEZONE";
-        let highContrastMode = "TODO_EDIT_THE_HIGH_CONTRAST_MODE";
+        let notificationSound = "TODO_EDIT_THE_NOTIFICATION_SOUND";
+        let enableLoginEmails = "TODO_EDIT_THE_ENABLE_LOGIN_EMAILS";
+        let enableDraftsSynchronization = "TODO_EDIT_THE_ENABLE_DRAFTS_SYNCHRONIZATION";
+        let enableOfflineEmailNotifications = "TODO_EDIT_THE_ENABLE_OFFLINE_EMAIL_NOTIFICATIONS";
+        let enableSounds = "TODO_EDIT_THE_ENABLE_SOUNDS";
         let denseMode = "TODO_EDIT_THE_DENSE_MODE";
         let translateEmoticons = "TODO_EDIT_THE_TRANSLATE_EMOTICONS";
         let defaultLanguage = "TODO_EDIT_THE_DEFAULT_LANGUAGE";
-        let defaultView = "TODO_EDIT_THE_DEFAULT_VIEW";
         let emojiset = "TODO_EDIT_THE_EMOJISET";
         let starredMessageCounts = "TODO_EDIT_THE_STARRED_MESSAGE_COUNTS";
-        let leftSideUserlist = "TODO_EDIT_THE_LEFT_SIDE_USERLIST";
+        let enableOnlinePushNotifications = "TODO_EDIT_THE_ENABLE_ONLINE_PUSH_NOTIFICATIONS";
         let fluidLayoutWidth = "TODO_EDIT_THE_FLUID_LAYOUT_WIDTH";
+        let wildcardMentionsNotify = "TODO_EDIT_THE_WILDCARD_MENTIONS_NOTIFY";
+        let email = "TODO_EDIT_THE_EMAIL";
+        let enableMarketingEmails = "TODO_EDIT_THE_ENABLE_MARKETING_EMAILS";
+        let enableDigestEmails = "TODO_EDIT_THE_ENABLE_DIGEST_EMAILS";
+        let emailNotificationsBatchingPeriodSeconds = "TODO_EDIT_THE_EMAIL_NOTIFICATIONS_BATCHING_PERIOD_SECONDS";
+        let oldPassword = "TODO_EDIT_THE_OLD_PASSWORD";
+        let enableStreamPushNotifications = "TODO_EDIT_THE_ENABLE_STREAM_PUSH_NOTIFICATIONS";
+        let presenceEnabled = "TODO_EDIT_THE_PRESENCE_ENABLED";
+        let enableStreamAudibleNotifications = "TODO_EDIT_THE_ENABLE_STREAM_AUDIBLE_NOTIFICATIONS";
+        let fullName = "TODO_EDIT_THE_FULL_NAME";
+        let newPassword = "TODO_EDIT_THE_NEW_PASSWORD";
+        let realmNameInNotifications = "TODO_EDIT_THE_REALM_NAME_IN_NOTIFICATIONS";
+        let enableOfflinePushNotifications = "TODO_EDIT_THE_ENABLE_OFFLINE_PUSH_NOTIFICATIONS";
+        let highContrastMode = "TODO_EDIT_THE_HIGH_CONTRAST_MODE";
+        let pmContentInDesktopNotifications = "TODO_EDIT_THE_PM_CONTENT_IN_DESKTOP_NOTIFICATIONS";
+        let defaultView = "TODO_EDIT_THE_DEFAULT_VIEW";
+        let enableStreamDesktopNotifications = "TODO_EDIT_THE_ENABLE_STREAM_DESKTOP_NOTIFICATIONS";
+        let enableStreamEmailNotifications = "TODO_EDIT_THE_ENABLE_STREAM_EMAIL_NOTIFICATIONS";
+        let messageContentInEmailNotifications = "TODO_EDIT_THE_MESSAGE_CONTENT_IN_EMAIL_NOTIFICATIONS";
+        let leftSideUserlist = "TODO_EDIT_THE_LEFT_SIDE_USERLIST";
+        let desktopIconCountDisplay = "TODO_EDIT_THE_DESKTOP_ICON_COUNT_DISPLAY";
+        let enterSends = "TODO_EDIT_THE_ENTER_SENDS";
         let twentyFourHourTime = "TODO_EDIT_THE_TWENTY_FOUR_HOUR_TIME";
         let colorScheme = "TODO_EDIT_THE_COLOR_SCHEME";
-        let url = BASE_URL + `/settings/display?twenty_four_hour_time=${twenty_four_hour_time}&dense_mode=${dense_mode}&starred_message_counts=${starred_message_counts}&fluid_layout_width=${fluid_layout_width}&high_contrast_mode=${high_contrast_mode}&color_scheme=${color_scheme}&translate_emoticons=${translate_emoticons}&default_language=${default_language}&default_view=${default_view}&left_side_userlist=${left_side_userlist}&emojiset=${emojiset}&demote_inactive_streams=${demote_inactive_streams}&timezone=${timezone}`;
+        let url = BASE_URL + `/settings?full_name=${full_name}&email=${email}&old_password=${old_password}&new_password=${new_password}&twenty_four_hour_time=${twenty_four_hour_time}&dense_mode=${dense_mode}&starred_message_counts=${starred_message_counts}&fluid_layout_width=${fluid_layout_width}&high_contrast_mode=${high_contrast_mode}&color_scheme=${color_scheme}&enable_drafts_synchronization=${enable_drafts_synchronization}&translate_emoticons=${translate_emoticons}&default_language=${default_language}&default_view=${default_view}&left_side_userlist=${left_side_userlist}&emojiset=${emojiset}&demote_inactive_streams=${demote_inactive_streams}&timezone=${timezone}&enable_stream_desktop_notifications=${enable_stream_desktop_notifications}&enable_stream_email_notifications=${enable_stream_email_notifications}&enable_stream_push_notifications=${enable_stream_push_notifications}&enable_stream_audible_notifications=${enable_stream_audible_notifications}&notification_sound=${notification_sound}&enable_desktop_notifications=${enable_desktop_notifications}&enable_sounds=${enable_sounds}&email_notifications_batching_period_seconds=${email_notifications_batching_period_seconds}&enable_offline_email_notifications=${enable_offline_email_notifications}&enable_offline_push_notifications=${enable_offline_push_notifications}&enable_online_push_notifications=${enable_online_push_notifications}&enable_digest_emails=${enable_digest_emails}&enable_marketing_emails=${enable_marketing_emails}&enable_login_emails=${enable_login_emails}&message_content_in_email_notifications=${message_content_in_email_notifications}&pm_content_in_desktop_notifications=${pm_content_in_desktop_notifications}&wildcard_mentions_notify=${wildcard_mentions_notify}&desktop_icon_count_display=${desktop_icon_count_display}&realm_name_in_notifications=${realm_name_in_notifications}&presence_enabled=${presence_enabled}&enter_sends=${enter_sends}`;
         // Request No. 1
         let request = http.patch(url);
         check(request, {
             "Success": (r) => r.status === 200
+        });
+        sleep(SLEEP_DURATION);
+    });
+    group("/streams/{stream_id}/members", () => {
+        let streamId = "TODO_EDIT_THE_STREAM_ID";
+        let url = BASE_URL + `/streams/${stream_id}/members`;
+        // Request No. 1
+        let request = http.get(url);
+        check(request, {
+            "Success.": (r) => r.status === 200
         });
         sleep(SLEEP_DURATION);
     });
@@ -677,6 +734,17 @@ export default function() {
 
         // Request No. 2
         request = http.patch(url);
+        check(request, {
+            "Success.": (r) => r.status === 200
+        });
+        sleep(SLEEP_DURATION);
+    });
+    group("/streams/{stream_id}/delete_topic", () => {
+        let streamId = "TODO_EDIT_THE_STREAM_ID";
+        let topicName = "TODO_EDIT_THE_TOPIC_NAME";
+        let url = BASE_URL + `/streams/${stream_id}/delete_topic?topic_name=${topic_name}`;
+        // Request No. 1
+        let request = http.post(url);
         check(request, {
             "Success.": (r) => r.status === 200
         });

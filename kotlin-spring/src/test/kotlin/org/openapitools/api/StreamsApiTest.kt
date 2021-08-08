@@ -32,6 +32,23 @@ class StreamsApiTest {
     }
     
     /**
+    * Delete a topic
+    *
+    * Delete all messages in a topic.  &#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+    *
+    * @throws ApiException
+    *          if the Api call fails
+    */
+    @Test
+    fun deleteTopicTest() {
+        val streamId:kotlin.Int? = null
+        val topicName:kotlin.String? = null
+        val response: ResponseEntity<JsonSuccess> = api.deleteTopic(streamId!!, topicName!!)
+
+        // TODO: test validations
+    }
+    
+    /**
     * Get all streams
     *
     * Get all streams that the user has access to.  &#x60;GET {{ api_url }}/v1/streams&#x60; 
@@ -48,6 +65,22 @@ class StreamsApiTest {
         val includeDefault:kotlin.Boolean? = null
         val includeOwnerSubscribed:kotlin.Boolean? = null
         val response: ResponseEntity<JsonSuccessBase> = api.getStreams(includePublic!!, includeWebPublic!!, includeSubscribed!!, includeAllActive!!, includeDefault!!, includeOwnerSubscribed!!)
+
+        // TODO: test validations
+    }
+    
+    /**
+    * Get the subscribers of a stream
+    *
+    * Get all users subscribed to a stream.  &#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60; 
+    *
+    * @throws ApiException
+    *          if the Api call fails
+    */
+    @Test
+    fun getSubscribersTest() {
+        val streamId:kotlin.Int? = null
+        val response: ResponseEntity<JsonSuccessBase> = api.getSubscribers(streamId!!)
 
         // TODO: test validations
     }

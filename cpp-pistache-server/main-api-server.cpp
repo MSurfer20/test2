@@ -21,6 +21,7 @@
 #endif
 
 #include "AuthenticationApiImpl.h"
+#include "DraftsApiImpl.h"
 #include "MessagesApiImpl.h"
 #include "RealTimeEventsApiImpl.h"
 #include "ServerAndOrganizationsApiImpl.h"
@@ -85,6 +86,8 @@ int main() {
     
     AuthenticationApiImpl AuthenticationApiserver(router);
     AuthenticationApiserver.init();
+    DraftsApiImpl DraftsApiserver(router);
+    DraftsApiserver.init();
     MessagesApiImpl MessagesApiserver(router);
     MessagesApiserver.init();
     RealTimeEventsApiImpl RealTimeEventsApiserver(router);

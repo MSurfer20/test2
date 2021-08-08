@@ -16,6 +16,19 @@ Powerful open source group chat
                 * `POST /api/v1/dev_fetch_api_key?username=[value]` - Fetch an API key (development only)
                 * `POST /api/v1/fetch_api_key?username=[value]&password=[value]` - Fetch an API key (production)
 
+          ### Drafts
+
+          |Name|Role|
+          |----|----|
+          |`org.openapitools.server.api.DraftsController`|akka-http API controller|
+          |`org.openapitools.server.api.DraftsApi`|Representing trait|
+              |`org.openapitools.server.api.DraftsApiImpl`|Default implementation|
+
+                * `POST /api/v1/drafts?drafts=[value]` - Create drafts
+                * `DELETE /api/v1/drafts/{draft_id}` - Delete a draft
+                * `PATCH /api/v1/drafts/{draft_id}?draft=[value]` - Edit a draft
+                * `GET /api/v1/drafts` - Get drafts
+
           ### Messages
 
           |Name|Role|
@@ -86,9 +99,11 @@ Powerful open source group chat
 
                 * `DELETE /api/v1/streams/{stream_id}` - Archive a stream
                 * `GET /api/v1/calls/bigbluebutton/create` - Create BigBlueButton video call
+                * `POST /api/v1/streams/{stream_id}/delete_topic?topicName=[value]` - Delete a topic
                 * `GET /api/v1/get_stream_id?stream=[value]` - Get stream ID
                 * `GET /api/v1/users/me/{stream_id}/topics` - Get topics in a stream
                 * `GET /api/v1/streams?includePublic=[value]&includeWebPublic=[value]&includeSubscribed=[value]&includeAllActive=[value]&includeDefault=[value]&includeOwnerSubscribed=[value]` - Get all streams
+                * `GET /api/v1/streams/{stream_id}/members` - Get the subscribers of a stream
                 * `GET /api/v1/users/{user_id}/subscriptions/{stream_id}` - Get subscription status
                 * `GET /api/v1/users/me/subscriptions?includeSubscribers=[value]` - Get subscribed streams
                 * `PATCH /api/v1/users/me/subscriptions/muted_topics?stream=[value]&streamId=[value]&topic=[value]&op=[value]` - Topic muting
@@ -122,8 +137,8 @@ Powerful open source group chat
                 * `DELETE /api/v1/user_groups/{user_group_id}` - Delete a user group
                 * `POST /api/v1/typing?`type`=[value]&op=[value]&to=[value]&topic=[value]` - Set \&quot;typing\&quot; status
                 * `DELETE /api/v1/users/me/muted_users/{muted_user_id}` - Unmute a user
-                * `PATCH /api/v1/settings/display?twentyFourHourTime=[value]&denseMode=[value]&starredMessageCounts=[value]&fluidLayoutWidth=[value]&highContrastMode=[value]&colorScheme=[value]&translateEmoticons=[value]&defaultLanguage=[value]&defaultView=[value]&leftSideUserlist=[value]&emojiset=[value]&demoteInactiveStreams=[value]&timezone=[value]` - Update display settings
-                * `PATCH /api/v1/settings/notifications?enableStreamDesktopNotifications=[value]&enableStreamEmailNotifications=[value]&enableStreamPushNotifications=[value]&enableStreamAudibleNotifications=[value]&notificationSound=[value]&enableDesktopNotifications=[value]&enableSounds=[value]&enableOfflineEmailNotifications=[value]&enableOfflinePushNotifications=[value]&enableOnlinePushNotifications=[value]&enableDigestEmails=[value]&enableMarketingEmails=[value]&enableLoginEmails=[value]&messageContentInEmailNotifications=[value]&pmContentInDesktopNotifications=[value]&wildcardMentionsNotify=[value]&desktopIconCountDisplay=[value]&realmNameInNotifications=[value]&presenceEnabled=[value]` - Update notification settings
+                * `PATCH /api/v1/settings?fullName=[value]&email=[value]&oldPassword=[value]&newPassword=[value]&twentyFourHourTime=[value]&denseMode=[value]&starredMessageCounts=[value]&fluidLayoutWidth=[value]&highContrastMode=[value]&colorScheme=[value]&enableDraftsSynchronization=[value]&translateEmoticons=[value]&defaultLanguage=[value]&defaultView=[value]&leftSideUserlist=[value]&emojiset=[value]&demoteInactiveStreams=[value]&timezone=[value]&enableStreamDesktopNotifications=[value]&enableStreamEmailNotifications=[value]&enableStreamPushNotifications=[value]&enableStreamAudibleNotifications=[value]&notificationSound=[value]&enableDesktopNotifications=[value]&enableSounds=[value]&emailNotificationsBatchingPeriodSeconds=[value]&enableOfflineEmailNotifications=[value]&enableOfflinePushNotifications=[value]&enableOnlinePushNotifications=[value]&enableDigestEmails=[value]&enableMarketingEmails=[value]&enableLoginEmails=[value]&messageContentInEmailNotifications=[value]&pmContentInDesktopNotifications=[value]&wildcardMentionsNotify=[value]&desktopIconCountDisplay=[value]&realmNameInNotifications=[value]&presenceEnabled=[value]&enterSends=[value]` - Update settings
+                * `POST /api/v1/users/me/status?statusText=[value]&away=[value]&emojiName=[value]&emojiCode=[value]&reactionType=[value]` - Update your status
                 * `PATCH /api/v1/users/{user_id}?fullName=[value]&role=[value]&profileData=[value]` - Update a user
                 * `PATCH /api/v1/user_groups/{user_group_id}?name=[value]&description=[value]` - Update a user group
                 * `POST /api/v1/user_groups/{user_group_id}/members?delete=[value]&add=[value]` - Update user group members

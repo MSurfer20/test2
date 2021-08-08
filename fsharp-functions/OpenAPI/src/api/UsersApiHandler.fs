@@ -302,37 +302,41 @@ module UsersApiHandlers =
           let responseContentType = "application/json"
           ContentResult(Content = content, ContentType = responseContentType, StatusCode = System.Nullable(400)) 
 
-    //#region UpdateDisplaySettings
+    //#region UpdateSettings
     /// <summary>
-    /// Update display settings
+    /// Update settings
     /// </summary>
-   [<FunctionName("UpdateDisplaySettings")>]
-    let UpdateDisplaySettings
-        ([<HttpTrigger(Extensions.Http.AuthorizationLevel.Anonymous, "PATCH", Route = "/api/v1/settings/display")>]
+   [<FunctionName("UpdateSettings")>]
+    let UpdateSettings
+        ([<HttpTrigger(Extensions.Http.AuthorizationLevel.Anonymous, "PATCH", Route = "/api/v1/settings")>]
         req:HttpRequest ) =
       
-      let result = UsersApiService.UpdateDisplaySettings ()
+      let result = UsersApiService.UpdateSettings ()
       match result with 
-      | UpdateDisplaySettingsStatusCode200 resolved ->
+      | UpdateSettingsStatusCode200 resolved ->
           let content = JsonConvert.SerializeObject resolved.content
           let responseContentType = "application/json"
           ContentResult(Content = content, ContentType = responseContentType, StatusCode = System.Nullable(200)) 
 
-    //#region UpdateNotificationSettings
+    //#region UpdateStatus
     /// <summary>
-    /// Update notification settings
+    /// Update your status
     /// </summary>
-   [<FunctionName("UpdateNotificationSettings")>]
-    let UpdateNotificationSettings
-        ([<HttpTrigger(Extensions.Http.AuthorizationLevel.Anonymous, "PATCH", Route = "/api/v1/settings/notifications")>]
+   [<FunctionName("UpdateStatus")>]
+    let UpdateStatus
+        ([<HttpTrigger(Extensions.Http.AuthorizationLevel.Anonymous, "POST", Route = "/api/v1/users/me/status")>]
         req:HttpRequest ) =
       
-      let result = UsersApiService.UpdateNotificationSettings ()
+      let result = UsersApiService.UpdateStatus ()
       match result with 
-      | UpdateNotificationSettingsStatusCode200 resolved ->
+      | UpdateStatusStatusCode200 resolved ->
           let content = JsonConvert.SerializeObject resolved.content
           let responseContentType = "application/json"
           ContentResult(Content = content, ContentType = responseContentType, StatusCode = System.Nullable(200)) 
+      | UpdateStatusStatusCode400 resolved ->
+          let content = JsonConvert.SerializeObject resolved.content
+          let responseContentType = "application/json"
+          ContentResult(Content = content, ContentType = responseContentType, StatusCode = System.Nullable(400)) 
 
     //#region UpdateUser
     /// <summary>

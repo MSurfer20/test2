@@ -15,6 +15,13 @@ type mutation {
   # @return [JsonSuccess]
   ArchiveStream(streamId: Int!): JsonSuccess
 
+  # Delete a topic
+  # Delete all messages in a topic.  &#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+  # @param Int! streamId The ID of the stream to access. 
+  # @param String! topicName The name of the topic to delete. 
+  # @return [JsonSuccess]
+  DeleteTopic(streamId: Int!, topicName: String!): JsonSuccess
+
   # Topic muting
   # This endpoint mutes/unmutes a topic within a stream that the current user is subscribed to.  Muted topics are displayed faded in the Zulip UI, and are not included in the user&#39;s unread count totals.  &#x60;PATCH {{ api_url }}/v1/users/me/subscriptions/muted_topics&#x60; 
   # @param String! topic The topic to (un)mute. Note that the request will succeed regardless of whether any messages have been sent to the specified topic. 
@@ -100,6 +107,12 @@ type query {
   # @param Boolean! includeOwnerSubscribed If the user is a bot, include all streams that the bot&#39;s owner is subscribed to. 
   # @return [JsonSuccessBase]
   GetStreams(includePublic: Boolean!, includeWebPublic: Boolean!, includeSubscribed: Boolean!, includeAllActive: Boolean!, includeDefault: Boolean!, includeOwnerSubscribed: Boolean!): JsonSuccessBase
+
+  # Get the subscribers of a stream
+  # Get all users subscribed to a stream.  &#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60; 
+  # @param Int! streamId The ID of the stream to access. 
+  # @return [JsonSuccessBase]
+  GetSubscribers(streamId: Int!): JsonSuccessBase
 
   # Get subscription status
   # Check whether a user is subscribed to a stream.  &#x60;GET {{ api_url }}/v1/users/{user_id}/subscriptions/{stream_id}&#x60;  **Changes**: New in Zulip 3.0 (feature level 11). 

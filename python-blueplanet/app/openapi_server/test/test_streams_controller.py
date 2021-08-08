@@ -40,6 +40,19 @@ class TestStreamsController(BaseTestCase):
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
+    def test_delete_topic(self):
+        """Test case for delete_topic
+
+        Delete a topic
+        """
+        query_string = [('topic_name', 'new coffee machine')]
+        response = self.client.open(
+            '/api/v1/streams/{stream_id}/delete_topic'.format(stream_id=1),
+            method='POST',
+            query_string=query_string)
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+
     def test_get_stream_id(self):
         """Test case for get_stream_id
 
@@ -79,6 +92,17 @@ class TestStreamsController(BaseTestCase):
             '/api/v1/streams',
             method='GET',
             query_string=query_string)
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+
+    def test_get_subscribers(self):
+        """Test case for get_subscribers
+
+        Get the subscribers of a stream
+        """
+        response = self.client.open(
+            '/api/v1/streams/{stream_id}/members'.format(stream_id=1),
+            method='GET')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 

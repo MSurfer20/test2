@@ -48,6 +48,19 @@ Method | HTTP request | Description
 *fetchApiKeyASync* | *POST* /fetch_api_key | Fetch an API key (production).
 
 
+### DraftsManager
+Method | HTTP request | Description
+------------- | ------------- | -------------
+*createDraftsSync* | *POST* /drafts | Create drafts.
+*createDraftsASync* | *POST* /drafts | Create drafts.
+*deleteDraftSync* | *DELETE* /drafts/{draft_id} | Delete a draft.
+*deleteDraftASync* | *DELETE* /drafts/{draft_id} | Delete a draft.
+*editDraftSync* | *PATCH* /drafts/{draft_id} | Edit a draft.
+*editDraftASync* | *PATCH* /drafts/{draft_id} | Edit a draft.
+*getDraftsSync* | *GET* /drafts | Get drafts.
+*getDraftsASync* | *GET* /drafts | Get drafts.
+
+
 ### MessagesManager
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -136,12 +149,16 @@ Method | HTTP request | Description
 *archiveStreamASync* | *DELETE* /streams/{stream_id} | Archive a stream.
 *createBigBlueButtonVideoCallSync* | *GET* /calls/bigbluebutton/create | Create BigBlueButton video call.
 *createBigBlueButtonVideoCallASync* | *GET* /calls/bigbluebutton/create | Create BigBlueButton video call.
+*deleteTopicSync* | *POST* /streams/{stream_id}/delete_topic | Delete a topic.
+*deleteTopicASync* | *POST* /streams/{stream_id}/delete_topic | Delete a topic.
 *getStreamIdSync* | *GET* /get_stream_id | Get stream ID.
 *getStreamIdASync* | *GET* /get_stream_id | Get stream ID.
 *getStreamTopicsSync* | *GET* /users/me/{stream_id}/topics | Get topics in a stream.
 *getStreamTopicsASync* | *GET* /users/me/{stream_id}/topics | Get topics in a stream.
 *getStreamsSync* | *GET* /streams | Get all streams.
 *getStreamsASync* | *GET* /streams | Get all streams.
+*getSubscribersSync* | *GET* /streams/{stream_id}/members | Get the subscribers of a stream.
+*getSubscribersASync* | *GET* /streams/{stream_id}/members | Get the subscribers of a stream.
 *getSubscriptionStatusSync* | *GET* /users/{user_id}/subscriptions/{stream_id} | Get subscription status.
 *getSubscriptionStatusASync* | *GET* /users/{user_id}/subscriptions/{stream_id} | Get subscription status.
 *getSubscriptionsSync* | *GET* /users/me/subscriptions | Get subscribed streams.
@@ -195,10 +212,10 @@ Method | HTTP request | Description
 *setTypingStatusASync* | *POST* /typing | Set \"typing\" status.
 *unmuteUserSync* | *DELETE* /users/me/muted_users/{muted_user_id} | Unmute a user.
 *unmuteUserASync* | *DELETE* /users/me/muted_users/{muted_user_id} | Unmute a user.
-*updateDisplaySettingsSync* | *PATCH* /settings/display | Update display settings.
-*updateDisplaySettingsASync* | *PATCH* /settings/display | Update display settings.
-*updateNotificationSettingsSync* | *PATCH* /settings/notifications | Update notification settings.
-*updateNotificationSettingsASync* | *PATCH* /settings/notifications | Update notification settings.
+*updateSettingsSync* | *PATCH* /settings | Update settings.
+*updateSettingsASync* | *PATCH* /settings | Update settings.
+*updateStatusSync* | *POST* /users/me/status | Update your status.
+*updateStatusASync* | *POST* /users/me/status | Update your status.
 *updateUserSync* | *PATCH* /users/{user_id} | Update a user.
 *updateUserASync* | *PATCH* /users/{user_id} | Update a user.
 *updateUserGroupSync* | *PATCH* /user_groups/{user_group_id} | Update a user group.
@@ -239,9 +256,12 @@ Class | Description
  *CodedError_allOf* | 
  *CustomProfileField* | Dictionary containing the details of a custom profile field configured for this organization. 
  *DefaultStreamGroup* | Dictionary containing details of a default stream group. 
+ *Draft* | A dictionary for representing a message draft. 
+ *EmojiBase* | 
  *EmojiReaction* | 
  *EmojiReactionBase* | 
- *EmojiReactionBase_user* | Dictionary with data on the user who added the reaction, including the user ID as the `id` field.  **Note**: In the [events API](/api/get-events), this `user` dictionary confusing had the user ID in a field called `user_id` instead.  We recommend ignoring fields other than the user ID.  **Deprecated** and to be removed in a future release once core clients have migrated to use the `user_id` field. 
+ *EmojiReactionBase_allOf* | 
+ *EmojiReactionBase_allOf_user* | Whether the user is a mirror dummy. Dictionary with data on the user who added the reaction, including the user ID as the `id` field.  **Note**: In the [events API](/api/get-events), this `user` dictionary confusing had the user ID in a field called `user_id` instead.  We recommend ignoring fields other than the user ID.  **Deprecated** and to be removed in a future release once core clients have migrated to use the `user_id` field. 
  *EmojiReaction_allOf* | 
  *GetMessages* | 
  *GetMessages_allOf* | 

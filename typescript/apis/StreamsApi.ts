@@ -84,6 +84,52 @@ export class StreamsApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
+     * Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+     * Delete a topic
+     * @param streamId The ID of the stream to access. 
+     * @param topicName The name of the topic to delete. 
+     */
+    public async deleteTopic(streamId: number, topicName: string, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // verify required parameter 'streamId' is not null or undefined
+        if (streamId === null || streamId === undefined) {
+            throw new RequiredError('Required parameter streamId was null or undefined when calling deleteTopic.');
+        }
+
+
+        // verify required parameter 'topicName' is not null or undefined
+        if (topicName === null || topicName === undefined) {
+            throw new RequiredError('Required parameter topicName was null or undefined when calling deleteTopic.');
+        }
+
+
+        // Path Params
+        const localVarPath = '/streams/{stream_id}/delete_topic'
+            .replace('{' + 'stream_id' + '}', encodeURIComponent(String(streamId)));
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+        // Query Params
+        if (topicName !== undefined) {
+            requestContext.setQueryParam("topic_name", ObjectSerializer.serialize(topicName, "string", ""));
+        }
+
+        // Header Params
+
+        // Form Params
+
+
+        // Body Params
+
+        // Apply auth methods
+
+        return requestContext;
+    }
+
+    /**
      * Get the unique ID of a given stream.  `GET {{ api_url }}/v1/get_stream_id` 
      * Get stream ID
      * @param stream The name of the stream to access. 
@@ -202,6 +248,42 @@ export class StreamsApiRequestFactory extends BaseAPIRequestFactory {
         if (includeOwnerSubscribed !== undefined) {
             requestContext.setQueryParam("include_owner_subscribed", ObjectSerializer.serialize(includeOwnerSubscribed, "boolean", ""));
         }
+
+        // Header Params
+
+        // Form Params
+
+
+        // Body Params
+
+        // Apply auth methods
+
+        return requestContext;
+    }
+
+    /**
+     * Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` 
+     * Get the subscribers of a stream
+     * @param streamId The ID of the stream to access. 
+     */
+    public async getSubscribers(streamId: number, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // verify required parameter 'streamId' is not null or undefined
+        if (streamId === null || streamId === undefined) {
+            throw new RequiredError('Required parameter streamId was null or undefined when calling getSubscribers.');
+        }
+
+
+        // Path Params
+        const localVarPath = '/streams/{stream_id}/members'
+            .replace('{' + 'stream_id' + '}', encodeURIComponent(String(streamId)));
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+        // Query Params
 
         // Header Params
 
@@ -688,6 +770,43 @@ export class StreamsApiResponseProcessor {
      * Unwraps the actual response sent by the server from the response context and deserializes the response content
      * to the expected objects
      *
+     * @params response Response returned by the server for a request to deleteTopic
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async deleteTopic(response: ResponseContext): Promise<JsonSuccess > {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("200", response.httpStatusCode)) {
+            const body: JsonSuccess = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "JsonSuccess", ""
+            ) as JsonSuccess;
+            return body;
+        }
+        if (isCodeInRange("400", response.httpStatusCode)) {
+            const body: JsonError = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "JsonError", ""
+            ) as JsonError;
+            throw new ApiException<JsonError>(400, body);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: JsonSuccess = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "JsonSuccess", ""
+            ) as JsonSuccess;
+            return body;
+        }
+
+        let body = response.body || "";
+        throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
      * @params response Response returned by the server for a request to getStreamId
      * @throws ApiException if the response code was not in [200, 299]
      */
@@ -780,6 +899,43 @@ export class StreamsApiResponseProcessor {
                 "CodedError", ""
             ) as CodedError;
             throw new ApiException<CodedError>(400, body);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: JsonSuccessBase = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "JsonSuccessBase", ""
+            ) as JsonSuccessBase;
+            return body;
+        }
+
+        let body = response.body || "";
+        throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to getSubscribers
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async getSubscribers(response: ResponseContext): Promise<JsonSuccessBase > {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("200", response.httpStatusCode)) {
+            const body: JsonSuccessBase = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "JsonSuccessBase", ""
+            ) as JsonSuccessBase;
+            return body;
+        }
+        if (isCodeInRange("400", response.httpStatusCode)) {
+            const body: JsonError = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "JsonError", ""
+            ) as JsonError;
+            throw new ApiException<JsonError>(400, body);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml

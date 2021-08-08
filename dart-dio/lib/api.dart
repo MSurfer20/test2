@@ -14,6 +14,7 @@ import 'package:openapi/auth/api_key_auth.dart';
 import 'package:openapi/auth/basic_auth.dart';
 import 'package:openapi/auth/oauth.dart';
 import 'package:openapi/api/authentication_api.dart';
+import 'package:openapi/api/drafts_api.dart';
 import 'package:openapi/api/messages_api.dart';
 import 'package:openapi/api/real_time_events_api.dart';
 import 'package:openapi/api/server_and_organizations_api.dart';
@@ -74,6 +75,15 @@ class Openapi {
     */
     AuthenticationApi getAuthenticationApi() {
     return AuthenticationApi(dio, serializers);
+    }
+
+
+    /**
+    * Get DraftsApi instance, base route and serializer can be overridden by a given but be careful,
+    * by doing that all interceptors will not be executed
+    */
+    DraftsApi getDraftsApi() {
+    return DraftsApi(dio, serializers);
     }
 
 

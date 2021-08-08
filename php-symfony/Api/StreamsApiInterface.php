@@ -76,6 +76,21 @@ interface StreamsApiInterface
     public function createBigBlueButtonVideoCall(&$responseCode, array &$responseHeaders);
 
     /**
+     * Operation deleteTopic
+     *
+     * Delete a topic
+     *
+     * @param  int $streamId  The ID of the stream to access. (required)
+     * @param  string $topicName  The name of the topic to delete. (required)
+     * @param  integer $responseCode     The HTTP response code to return
+     * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
+     *
+     * @return JsonSuccess
+     *
+     */
+    public function deleteTopic($streamId, $topicName, &$responseCode, array &$responseHeaders);
+
+    /**
      * Operation getStreamId
      *
      * Get stream ID
@@ -121,6 +136,20 @@ interface StreamsApiInterface
      *
      */
     public function getStreams($includePublic = true, $includeWebPublic = false, $includeSubscribed = true, $includeAllActive = false, $includeDefault = false, $includeOwnerSubscribed = false, &$responseCode, array &$responseHeaders);
+
+    /**
+     * Operation getSubscribers
+     *
+     * Get the subscribers of a stream
+     *
+     * @param  int $streamId  The ID of the stream to access. (required)
+     * @param  integer $responseCode     The HTTP response code to return
+     * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
+     *
+     * @return JsonSuccessBase
+     *
+     */
+    public function getSubscribers($streamId, &$responseCode, array &$responseHeaders);
 
     /**
      * Operation getSubscriptionStatus

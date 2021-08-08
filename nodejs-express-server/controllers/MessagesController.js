@@ -8,86 +8,86 @@
 
 const Controller = require('./Controller');
 const service = require('../services/MessagesService');
-const add_reaction = async (request, response) => {
-  await Controller.handleRequest(request, response, service.add_reaction);
+const addReaction = async (request, response) => {
+  await Controller.handleRequest(request, response, service.addReaction);
 };
 
-const check_messages_match_narrow = async (request, response) => {
-  await Controller.handleRequest(request, response, service.check_messages_match_narrow);
+const checkMessagesMatchNarrow = async (request, response) => {
+  await Controller.handleRequest(request, response, service.checkMessagesMatchNarrow);
 };
 
-const delete_message = async (request, response) => {
-  await Controller.handleRequest(request, response, service.delete_message);
+const deleteMessage = async (request, response) => {
+  await Controller.handleRequest(request, response, service.deleteMessage);
 };
 
-const get_file_temporary_url = async (request, response) => {
-  await Controller.handleRequest(request, response, service.get_file_temporary_url);
+const getFileTemporaryUrl = async (request, response) => {
+  await Controller.handleRequest(request, response, service.getFileTemporaryUrl);
 };
 
-const get_message_history = async (request, response) => {
-  await Controller.handleRequest(request, response, service.get_message_history);
+const getMessageHistory = async (request, response) => {
+  await Controller.handleRequest(request, response, service.getMessageHistory);
 };
 
-const get_messages = async (request, response) => {
-  await Controller.handleRequest(request, response, service.get_messages);
+const getMessages = async (request, response) => {
+  await Controller.handleRequest(request, response, service.getMessages);
 };
 
-const get_raw_message = async (request, response) => {
-  await Controller.handleRequest(request, response, service.get_raw_message);
+const getRawMessage = async (request, response) => {
+  await Controller.handleRequest(request, response, service.getRawMessage);
 };
 
-const mark_all_as_read = async (request, response) => {
-  await Controller.handleRequest(request, response, service.mark_all_as_read);
+const markAllAsRead = async (request, response) => {
+  await Controller.handleRequest(request, response, service.markAllAsRead);
 };
 
-const mark_stream_as_read = async (request, response) => {
-  await Controller.handleRequest(request, response, service.mark_stream_as_read);
+const markStreamAsRead = async (request, response) => {
+  await Controller.handleRequest(request, response, service.markStreamAsRead);
 };
 
-const mark_topic_as_read = async (request, response) => {
-  await Controller.handleRequest(request, response, service.mark_topic_as_read);
+const markTopicAsRead = async (request, response) => {
+  await Controller.handleRequest(request, response, service.markTopicAsRead);
 };
 
-const remove_reaction = async (request, response) => {
-  await Controller.handleRequest(request, response, service.remove_reaction);
+const removeReaction = async (request, response) => {
+  await Controller.handleRequest(request, response, service.removeReaction);
 };
 
-const render_message = async (request, response) => {
-  await Controller.handleRequest(request, response, service.render_message);
+const renderMessage = async (request, response) => {
+  await Controller.handleRequest(request, response, service.renderMessage);
 };
 
-const send_message = async (request, response) => {
-  await Controller.handleRequest(request, response, service.send_message);
+const sendMessage = async (request, response) => {
+  await Controller.handleRequest(request, response, service.sendMessage);
 };
 
-const update_message = async (request, response) => {
-  await Controller.handleRequest(request, response, service.update_message);
+const updateMessage = async (request, response) => {
+  await Controller.handleRequest(request, response, service.updateMessage);
 };
 
-const update_message_flags = async (request, response) => {
-  await Controller.handleRequest(request, response, service.update_message_flags);
+const updateMessageFlags = async (request, response) => {
+  await Controller.handleRequest(request, response, service.updateMessageFlags);
 };
 
-const upload_file = async (request, response) => {
-  await Controller.handleRequest(request, response, service.upload_file);
+const uploadFile = async (request, response) => {
+  await Controller.handleRequest(request, response, service.uploadFile);
 };
 
 
 module.exports = {
-  add_reaction,
-  check_messages_match_narrow,
-  delete_message,
-  get_file_temporary_url,
-  get_message_history,
-  get_messages,
-  get_raw_message,
-  mark_all_as_read,
-  mark_stream_as_read,
-  mark_topic_as_read,
-  remove_reaction,
-  render_message,
-  send_message,
-  update_message,
-  update_message_flags,
-  upload_file,
+  addReaction,
+  checkMessagesMatchNarrow,
+  deleteMessage,
+  getFileTemporaryUrl,
+  getMessageHistory,
+  getMessages,
+  getRawMessage,
+  markAllAsRead,
+  markStreamAsRead,
+  markTopicAsRead,
+  removeReaction,
+  renderMessage,
+  sendMessage,
+  updateMessage,
+  updateMessageFlags,
+  uploadFile,
 };

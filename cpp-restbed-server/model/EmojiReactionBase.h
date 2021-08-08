@@ -21,8 +21,10 @@
 
 
 
+#include "EmojiReactionBase_allOf.h"
+#include "EmojiBase.h"
+#include "EmojiReactionBase_allOf_user.h"
 #include <string>
-#include "EmojiReactionBase_user.h"
 #include <memory>
 #include <boost/property_tree/ptree.hpp>
 
@@ -34,7 +36,7 @@ namespace model {
 /// <summary>
 /// 
 /// </summary>
-class  EmojiReactionBase 
+class  EmojiReactionBase : public EmojiBase, public EmojiReactionBase_allOf
 {
 public:
     EmojiReactionBase();
@@ -49,7 +51,7 @@ public:
     /// EmojiReactionBase members
 
     /// <summary>
-    /// A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint. 
+    /// A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint; for &#x60;realm_emoji&#x60;, it&#39;ll be the ID of the realm emoji. 
     /// </summary>
     std::string getEmojiCode() const;
     void setEmojiCode(std::string value);
@@ -75,14 +77,14 @@ public:
     /// <summary>
     /// 
     /// </summary>
-    std::shared_ptr<EmojiReactionBase_user> getUser() const;
-    void setUser(std::shared_ptr<EmojiReactionBase_user> value);
+    std::shared_ptr<EmojiReactionBase_allOf_user> getUser() const;
+    void setUser(std::shared_ptr<EmojiReactionBase_allOf_user> value);
 protected:
     std::string m_Emoji_code;
     std::string m_Emoji_name;
     std::string m_Reaction_type;
     int32_t m_User_id;
-    std::shared_ptr<EmojiReactionBase_user> m_User;
+    std::shared_ptr<EmojiReactionBase_allOf_user> m_User;
 };
 
 }

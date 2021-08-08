@@ -6,9 +6,11 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**archiveStream**](StreamsApiInterface.md#archiveStream) | **DELETE** /streams/{stream_id} | Archive a stream
 [**createBigBlueButtonVideoCall**](StreamsApiInterface.md#createBigBlueButtonVideoCall) | **GET** /calls/bigbluebutton/create | Create BigBlueButton video call
+[**deleteTopic**](StreamsApiInterface.md#deleteTopic) | **POST** /streams/{stream_id}/delete_topic | Delete a topic
 [**getStreamId**](StreamsApiInterface.md#getStreamId) | **GET** /get_stream_id | Get stream ID
 [**getStreamTopics**](StreamsApiInterface.md#getStreamTopics) | **GET** /users/me/{stream_id}/topics | Get topics in a stream
 [**getStreams**](StreamsApiInterface.md#getStreams) | **GET** /streams | Get all streams
+[**getSubscribers**](StreamsApiInterface.md#getSubscribers) | **GET** /streams/{stream_id}/members | Get the subscribers of a stream
 [**getSubscriptionStatus**](StreamsApiInterface.md#getSubscriptionStatus) | **GET** /users/{user_id}/subscriptions/{stream_id} | Get subscription status
 [**getSubscriptions**](StreamsApiInterface.md#getSubscriptions) | **GET** /users/me/subscriptions | Get subscribed streams
 [**muteTopic**](StreamsApiInterface.md#muteTopic) | **PATCH** /users/me/subscriptions/muted_topics | Topic muting
@@ -124,6 +126,61 @@ This endpoint does not need any parameter.
 ### Return type
 
 [**JsonSuccessBase**](../Model/JsonSuccessBase.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+
+## **deleteTopic**
+> JsonSuccess deleteTopic($streamId, $topicName)
+
+Delete a topic
+
+Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip.
+
+### Example Implementation
+```php
+<?php
+// src/Acme/MyBundle/Api/StreamsApiInterface.php
+
+namespace Acme\MyBundle\Api;
+
+use OpenAPI\Server\Api\StreamsApiInterface;
+
+class StreamsApi implements StreamsApiInterface
+{
+
+    // ...
+
+    /**
+     * Implementation of StreamsApiInterface#deleteTopic
+     */
+    public function deleteTopic($streamId, $topicName)
+    {
+        // Implement the operation ...
+    }
+
+    // ...
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **streamId** | **int**| The ID of the stream to access. |
+ **topicName** | **string**| The name of the topic to delete. |
+
+### Return type
+
+[**JsonSuccess**](../Model/JsonSuccess.md)
 
 ### Authorization
 
@@ -287,6 +344,60 @@ Name | Type | Description  | Notes
  **includeAllActive** | **bool**| Include all active streams. The user must have administrative privileges to use this parameter. | [optional] [default to false]
  **includeDefault** | **bool**| Include all default streams for the user&#39;s realm. | [optional] [default to false]
  **includeOwnerSubscribed** | **bool**| If the user is a bot, include all streams that the bot&#39;s owner is subscribed to. | [optional] [default to false]
+
+### Return type
+
+[**JsonSuccessBase**](../Model/JsonSuccessBase.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+
+## **getSubscribers**
+> JsonSuccessBase getSubscribers($streamId)
+
+Get the subscribers of a stream
+
+Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members`
+
+### Example Implementation
+```php
+<?php
+// src/Acme/MyBundle/Api/StreamsApiInterface.php
+
+namespace Acme\MyBundle\Api;
+
+use OpenAPI\Server\Api\StreamsApiInterface;
+
+class StreamsApi implements StreamsApiInterface
+{
+
+    // ...
+
+    /**
+     * Implementation of StreamsApiInterface#getSubscribers
+     */
+    public function getSubscribers($streamId)
+    {
+        // Implement the operation ...
+    }
+
+    // ...
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **streamId** | **int**| The ID of the stream to access. |
 
 ### Return type
 

@@ -89,6 +89,26 @@ class StreamsApiVertxProxyHandler(private val vertx: Vertx, private val service:
                 "createBigBlueButtonVideoCall" -> {
                 }
         
+                "deleteTopic" -> {
+                    val params = context.params
+                    val streamId = ApiHandlerUtils.searchIntegerInJson(params,"stream_id")
+                    if(streamId == null){
+                        throw IllegalArgumentException("streamId is required")
+                    }
+                    val topicName = ApiHandlerUtils.searchStringInJson(params,"topic_name")
+                    if(topicName == null){
+                        throw IllegalArgumentException("topicName is required")
+                    }
+                    GlobalScope.launch(vertx.dispatcher()){
+                        val result = service.deleteTopic(streamId,topicName,context)
+                        val payload = JsonObject(Json.encode(result.payload)).toBuffer()
+                        val res = OperationResponse(result.statusCode,result.statusMessage,payload,result.headers)
+                        msg.reply(res.toJson())
+                    }.invokeOnCompletion{
+                        it?.let{ throw it }
+                    }
+                }
+        
                 "getStreamId" -> {
                     val params = context.params
                     val stream = ApiHandlerUtils.searchStringInJson(params,"stream")
@@ -131,6 +151,22 @@ class StreamsApiVertxProxyHandler(private val vertx: Vertx, private val service:
                     val includeOwnerSubscribed = ApiHandlerUtils.searchStringInJson(params,"include_owner_subscribed")?.toBoolean()
                     GlobalScope.launch(vertx.dispatcher()){
                         val result = service.getStreams(includePublic,includeWebPublic,includeSubscribed,includeAllActive,includeDefault,includeOwnerSubscribed,context)
+                        val payload = JsonObject(Json.encode(result.payload)).toBuffer()
+                        val res = OperationResponse(result.statusCode,result.statusMessage,payload,result.headers)
+                        msg.reply(res.toJson())
+                    }.invokeOnCompletion{
+                        it?.let{ throw it }
+                    }
+                }
+        
+                "getSubscribers" -> {
+                    val params = context.params
+                    val streamId = ApiHandlerUtils.searchIntegerInJson(params,"stream_id")
+                    if(streamId == null){
+                        throw IllegalArgumentException("streamId is required")
+                    }
+                    GlobalScope.launch(vertx.dispatcher()){
+                        val result = service.getSubscribers(streamId,context)
                         val payload = JsonObject(Json.encode(result.payload)).toBuffer()
                         val res = OperationResponse(result.statusCode,result.statusMessage,payload,result.headers)
                         msg.reply(res.toJson())

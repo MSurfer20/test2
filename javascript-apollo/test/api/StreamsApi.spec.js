@@ -59,6 +59,16 @@ describe('StreamsApi', function() {
         done();
       });
     });
+    describe('deleteTopic', function() {
+      it('should call deleteTopic successfully', function(done) {
+        //uncomment below and update the code to test deleteTopic
+        //instance.deleteTopic(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
     describe('getStreamId', function() {
       it('should call getStreamId successfully', function(done) {
         //uncomment below and update the code to test getStreamId
@@ -83,6 +93,16 @@ describe('StreamsApi', function() {
       it('should call getStreams successfully', function(done) {
         //uncomment below and update the code to test getStreams
         //instance.getStreams(function(error) {
+        //  if (error) throw error;
+        //expect().to.be();
+        //});
+        done();
+      });
+    });
+    describe('getSubscribers', function() {
+      it('should call getSubscribers successfully', function(done) {
+        //uncomment below and update the code to test getSubscribers
+        //instance.getSubscribers(function(error) {
         //  if (error) throw error;
         //expect().to.be();
         //});

@@ -4,6 +4,9 @@ app/api/ApiDocController.scala
 app/api/AuthenticationApi.scala
 app/api/AuthenticationApiController.scala
 app/api/AuthenticationApiImpl.scala
+app/api/DraftsApi.scala
+app/api/DraftsApiController.scala
+app/api/DraftsApiImpl.scala
 app/api/MessagesApi.scala
 app/api/MessagesApiController.scala
 app/api/MessagesApiImpl.scala
@@ -44,10 +47,13 @@ app/model/CodedErrorBase.scala
 app/model/CodedErrorBaseAllOf.scala
 app/model/CustomProfileField.scala
 app/model/DefaultStreamGroup.scala
+app/model/Draft.scala
+app/model/EmojiBase.scala
 app/model/EmojiReaction.scala
 app/model/EmojiReactionAllOf.scala
 app/model/EmojiReactionBase.scala
-app/model/EmojiReactionBaseUser.scala
+app/model/EmojiReactionBaseAllOf.scala
+app/model/EmojiReactionBaseAllOfUser.scala
 app/model/GetMessages.scala
 app/model/GetMessagesAllOf.scala
 app/model/Hotspot.scala

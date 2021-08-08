@@ -6,6 +6,7 @@ open OpenAPI.Model.JsonSuccess
 open OpenAPI.Model.JsonSuccessBase
 open OpenAPI.Model.OneOfobjectobject
 open OpenAPI.Model.OneOfobjectobjectobject
+open OpenAPI.Model.OneOfobjectobjectobjectobjectobjectobject
 open UsersApiHandlerParams
 open UsersApiServiceInterface
 open System.Collections.Generic
@@ -113,13 +114,17 @@ module UsersApiServiceImplementation =
             let content = "Bad request." :> obj :?> OneOfobjectobject // this cast is obviously wrong, and is only intended to allow generated project to compile   
             UnmuteUserStatusCode400 { content = content }
 
-        member this.UpdateDisplaySettings () =
+        member this.UpdateSettings () =
             let content = "Success" :> obj :?> JsonSuccessBase // this cast is obviously wrong, and is only intended to allow generated project to compile   
-            UpdateDisplaySettingsStatusCode200 { content = content }
+            UpdateSettingsStatusCode200 { content = content }
 
-        member this.UpdateNotificationSettings () =
-            let content = "Success." :> obj :?> JsonSuccessBase // this cast is obviously wrong, and is only intended to allow generated project to compile   
-            UpdateNotificationSettingsStatusCode200 { content = content }
+        member this.UpdateStatus () =
+          if true then 
+            let content = "Success." :> obj :?> JsonSuccess // this cast is obviously wrong, and is only intended to allow generated project to compile   
+            UpdateStatusStatusCode200 { content = content }
+          else
+            let content = "Success." :> obj :?> OneOfobjectobjectobjectobjectobjectobject // this cast is obviously wrong, and is only intended to allow generated project to compile   
+            UpdateStatusStatusCode400 { content = content }
 
         member this.UpdateUser () =
           if true then 

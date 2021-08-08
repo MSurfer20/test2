@@ -7,6 +7,7 @@ import org.openapitools.model.JsonSuccess
 import org.openapitools.model.JsonSuccessBase
 import org.openapitools.model.OneOfobjectobject
 import org.openapitools.model.OneOfobjectobjectobject
+import org.openapitools.model.OneOfobjectobjectobjectobjectobjectobject
 
 class UsersApi {
     String basePath = "https://example.zulipchat.com/api/v1"
@@ -445,8 +446,8 @@ class UsersApi {
 
     }
 
-    def updateDisplaySettings ( Boolean twentyFourHourTime, Boolean denseMode, Boolean starredMessageCounts, Boolean fluidLayoutWidth, Boolean highContrastMode, Integer colorScheme, Boolean translateEmoticons, String defaultLanguage, String defaultView, Boolean leftSideUserlist, String emojiset, Integer demoteInactiveStreams, String timezone, Closure onSuccess, Closure onFailure)  {
-        String resourcePath = "/settings/display"
+    def updateSettings ( String fullName, String email, String oldPassword, String newPassword, Boolean twentyFourHourTime, Boolean denseMode, Boolean starredMessageCounts, Boolean fluidLayoutWidth, Boolean highContrastMode, Integer colorScheme, Boolean enableDraftsSynchronization, Boolean translateEmoticons, String defaultLanguage, String defaultView, Boolean leftSideUserlist, String emojiset, Integer demoteInactiveStreams, String timezone, Boolean enableStreamDesktopNotifications, Boolean enableStreamEmailNotifications, Boolean enableStreamPushNotifications, Boolean enableStreamAudibleNotifications, String notificationSound, Boolean enableDesktopNotifications, Boolean enableSounds, Integer emailNotificationsBatchingPeriodSeconds, Boolean enableOfflineEmailNotifications, Boolean enableOfflinePushNotifications, Boolean enableOnlinePushNotifications, Boolean enableDigestEmails, Boolean enableMarketingEmails, Boolean enableLoginEmails, Boolean messageContentInEmailNotifications, Boolean pmContentInDesktopNotifications, Boolean wildcardMentionsNotify, Integer desktopIconCountDisplay, Boolean realmNameInNotifications, Boolean presenceEnabled, Boolean enterSends, Closure onSuccess, Closure onFailure)  {
+        String resourcePath = "/settings"
 
         // params
         def queryParams = [:]
@@ -455,6 +456,18 @@ class UsersApi {
         def contentType
 
 
+        if (fullName != null) {
+            queryParams.put("full_name", fullName)
+        }
+        if (email != null) {
+            queryParams.put("email", email)
+        }
+        if (oldPassword != null) {
+            queryParams.put("old_password", oldPassword)
+        }
+        if (newPassword != null) {
+            queryParams.put("new_password", newPassword)
+        }
         if (twentyFourHourTime != null) {
             queryParams.put("twenty_four_hour_time", twentyFourHourTime)
         }
@@ -472,6 +485,9 @@ class UsersApi {
         }
         if (colorScheme != null) {
             queryParams.put("color_scheme", colorScheme)
+        }
+        if (enableDraftsSynchronization != null) {
+            queryParams.put("enable_drafts_synchronization", enableDraftsSynchronization)
         }
         if (translateEmoticons != null) {
             queryParams.put("translate_emoticons", translateEmoticons)
@@ -494,26 +510,6 @@ class UsersApi {
         if (timezone != null) {
             queryParams.put("timezone", timezone)
         }
-
-
-
-
-        apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
-                    "PATCH", "",
-                    JsonSuccessBase.class )
-
-    }
-
-    def updateNotificationSettings ( Boolean enableStreamDesktopNotifications, Boolean enableStreamEmailNotifications, Boolean enableStreamPushNotifications, Boolean enableStreamAudibleNotifications, String notificationSound, Boolean enableDesktopNotifications, Boolean enableSounds, Boolean enableOfflineEmailNotifications, Boolean enableOfflinePushNotifications, Boolean enableOnlinePushNotifications, Boolean enableDigestEmails, Boolean enableMarketingEmails, Boolean enableLoginEmails, Boolean messageContentInEmailNotifications, Boolean pmContentInDesktopNotifications, Boolean wildcardMentionsNotify, Integer desktopIconCountDisplay, Boolean realmNameInNotifications, Boolean presenceEnabled, Closure onSuccess, Closure onFailure)  {
-        String resourcePath = "/settings/notifications"
-
-        // params
-        def queryParams = [:]
-        def headerParams = [:]
-        def bodyParams
-        def contentType
-
-
         if (enableStreamDesktopNotifications != null) {
             queryParams.put("enable_stream_desktop_notifications", enableStreamDesktopNotifications)
         }
@@ -534,6 +530,9 @@ class UsersApi {
         }
         if (enableSounds != null) {
             queryParams.put("enable_sounds", enableSounds)
+        }
+        if (emailNotificationsBatchingPeriodSeconds != null) {
+            queryParams.put("email_notifications_batching_period_seconds", emailNotificationsBatchingPeriodSeconds)
         }
         if (enableOfflineEmailNotifications != null) {
             queryParams.put("enable_offline_email_notifications", enableOfflineEmailNotifications)
@@ -571,6 +570,9 @@ class UsersApi {
         if (presenceEnabled != null) {
             queryParams.put("presence_enabled", presenceEnabled)
         }
+        if (enterSends != null) {
+            queryParams.put("enter_sends", enterSends)
+        }
 
 
 
@@ -578,6 +580,41 @@ class UsersApi {
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
                     "PATCH", "",
                     JsonSuccessBase.class )
+
+    }
+
+    def updateStatus ( String statusText, Boolean away, String emojiName, String emojiCode, String reactionType, Closure onSuccess, Closure onFailure)  {
+        String resourcePath = "/users/me/status"
+
+        // params
+        def queryParams = [:]
+        def headerParams = [:]
+        def bodyParams
+        def contentType
+
+
+        if (statusText != null) {
+            queryParams.put("status_text", statusText)
+        }
+        if (away != null) {
+            queryParams.put("away", away)
+        }
+        if (emojiName != null) {
+            queryParams.put("emoji_name", emojiName)
+        }
+        if (emojiCode != null) {
+            queryParams.put("emoji_code", emojiCode)
+        }
+        if (reactionType != null) {
+            queryParams.put("reaction_type", reactionType)
+        }
+
+
+
+
+        apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
+                    "POST", "",
+                    JsonSuccess.class )
 
     }
 

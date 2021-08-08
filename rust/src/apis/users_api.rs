@@ -135,17 +135,18 @@ pub enum UnmuteUserError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method `update_display_settings`
+/// struct for typed errors of method `update_settings`
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum UpdateDisplaySettingsError {
+pub enum UpdateSettingsError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method `update_notification_settings`
+/// struct for typed errors of method `update_status`
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum UpdateNotificationSettingsError {
+pub enum UpdateStatusError {
+    Status400(crate::models::OneOfobjectobjectobjectobjectobjectobject),
     UnknownValue(serde_json::Value),
 }
 
@@ -637,14 +638,26 @@ pub async fn unmute_user(configuration: &configuration::Configuration, muted_use
     }
 }
 
-/// This endpoint is used to edit the current user's user interface settings.  `PATCH {{ api_url }}/v1/settings/display` 
-pub async fn update_display_settings(configuration: &configuration::Configuration, twenty_four_hour_time: Option<bool>, dense_mode: Option<bool>, starred_message_counts: Option<bool>, fluid_layout_width: Option<bool>, high_contrast_mode: Option<bool>, color_scheme: Option<i32>, translate_emoticons: Option<bool>, default_language: Option<&str>, default_view: Option<&str>, left_side_userlist: Option<bool>, emojiset: Option<&str>, demote_inactive_streams: Option<i32>, timezone: Option<&str>) -> Result<crate::models::JsonSuccessBase, Error<UpdateDisplaySettingsError>> {
+/// This endpoint is used to edit the current user's settings.  `PATCH {{ api_url }}/v1/settings`  **Changes**: Prior to Zulip 5.0 (feature level 80), this endpoint only supported the `full_name`, `email`, `old_password`, and `new_password` parameters. Notification settings were managed by `PATCH /settings/notifications`, and all other settings by `PATCH /settings/display`. The feature level 80 migration to merge these endpoints did not change how request parameters are encoded. Note, however, that it did change the handling of any invalid parameters present in a request to change notification or display settings, since the merged endpoint uses the new response format that was introduced for `/settings` in Zulip 5.0 (feature level 78).  The `/settings/display` and `/settings/notifications` endpoints are now deprecated aliases for this endpoint for backwards-compatibility, and will be removed once clients have migrated to use this endpoint. 
+pub async fn update_settings(configuration: &configuration::Configuration, full_name: Option<&str>, email: Option<&str>, old_password: Option<&str>, new_password: Option<&str>, twenty_four_hour_time: Option<bool>, dense_mode: Option<bool>, starred_message_counts: Option<bool>, fluid_layout_width: Option<bool>, high_contrast_mode: Option<bool>, color_scheme: Option<i32>, enable_drafts_synchronization: Option<bool>, translate_emoticons: Option<bool>, default_language: Option<&str>, default_view: Option<&str>, left_side_userlist: Option<bool>, emojiset: Option<&str>, demote_inactive_streams: Option<i32>, timezone: Option<&str>, enable_stream_desktop_notifications: Option<bool>, enable_stream_email_notifications: Option<bool>, enable_stream_push_notifications: Option<bool>, enable_stream_audible_notifications: Option<bool>, notification_sound: Option<&str>, enable_desktop_notifications: Option<bool>, enable_sounds: Option<bool>, email_notifications_batching_period_seconds: Option<i32>, enable_offline_email_notifications: Option<bool>, enable_offline_push_notifications: Option<bool>, enable_online_push_notifications: Option<bool>, enable_digest_emails: Option<bool>, enable_marketing_emails: Option<bool>, enable_login_emails: Option<bool>, message_content_in_email_notifications: Option<bool>, pm_content_in_desktop_notifications: Option<bool>, wildcard_mentions_notify: Option<bool>, desktop_icon_count_display: Option<i32>, realm_name_in_notifications: Option<bool>, presence_enabled: Option<bool>, enter_sends: Option<bool>) -> Result<crate::models::JsonSuccessBase, Error<UpdateSettingsError>> {
 
     let local_var_client = &configuration.client;
 
-    let local_var_uri_str = format!("{}/settings/display", configuration.base_path);
+    let local_var_uri_str = format!("{}/settings", configuration.base_path);
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::PATCH, local_var_uri_str.as_str());
 
+    if let Some(ref local_var_str) = full_name {
+        local_var_req_builder = local_var_req_builder.query(&[("full_name", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_str) = email {
+        local_var_req_builder = local_var_req_builder.query(&[("email", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_str) = old_password {
+        local_var_req_builder = local_var_req_builder.query(&[("old_password", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_str) = new_password {
+        local_var_req_builder = local_var_req_builder.query(&[("new_password", &local_var_str.to_string())]);
+    }
     if let Some(ref local_var_str) = twenty_four_hour_time {
         local_var_req_builder = local_var_req_builder.query(&[("twenty_four_hour_time", &local_var_str.to_string())]);
     }
@@ -662,6 +675,9 @@ pub async fn update_display_settings(configuration: &configuration::Configuratio
     }
     if let Some(ref local_var_str) = color_scheme {
         local_var_req_builder = local_var_req_builder.query(&[("color_scheme", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_str) = enable_drafts_synchronization {
+        local_var_req_builder = local_var_req_builder.query(&[("enable_drafts_synchronization", &local_var_str.to_string())]);
     }
     if let Some(ref local_var_str) = translate_emoticons {
         local_var_req_builder = local_var_req_builder.query(&[("translate_emoticons", &local_var_str.to_string())]);
@@ -684,33 +700,6 @@ pub async fn update_display_settings(configuration: &configuration::Configuratio
     if let Some(ref local_var_str) = timezone {
         local_var_req_builder = local_var_req_builder.query(&[("timezone", &local_var_str.to_string())]);
     }
-    if let Some(ref local_var_user_agent) = configuration.user_agent {
-        local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
-    }
-
-    let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
-
-    let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
-
-    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-        serde_json::from_str(&local_var_content).map_err(Error::from)
-    } else {
-        let local_var_entity: Option<UpdateDisplaySettingsError> = serde_json::from_str(&local_var_content).ok();
-        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
-        Err(Error::ResponseError(local_var_error))
-    }
-}
-
-/// This endpoint is used to edit the user's global notification settings. See [this endpoint](/api/update-subscription-settings) for per-stream notification settings.  `PATCH {{ api_url }}/v1/settings/notifications` 
-pub async fn update_notification_settings(configuration: &configuration::Configuration, enable_stream_desktop_notifications: Option<bool>, enable_stream_email_notifications: Option<bool>, enable_stream_push_notifications: Option<bool>, enable_stream_audible_notifications: Option<bool>, notification_sound: Option<&str>, enable_desktop_notifications: Option<bool>, enable_sounds: Option<bool>, enable_offline_email_notifications: Option<bool>, enable_offline_push_notifications: Option<bool>, enable_online_push_notifications: Option<bool>, enable_digest_emails: Option<bool>, enable_marketing_emails: Option<bool>, enable_login_emails: Option<bool>, message_content_in_email_notifications: Option<bool>, pm_content_in_desktop_notifications: Option<bool>, wildcard_mentions_notify: Option<bool>, desktop_icon_count_display: Option<i32>, realm_name_in_notifications: Option<bool>, presence_enabled: Option<bool>) -> Result<crate::models::JsonSuccessBase, Error<UpdateNotificationSettingsError>> {
-
-    let local_var_client = &configuration.client;
-
-    let local_var_uri_str = format!("{}/settings/notifications", configuration.base_path);
-    let mut local_var_req_builder = local_var_client.request(reqwest::Method::PATCH, local_var_uri_str.as_str());
-
     if let Some(ref local_var_str) = enable_stream_desktop_notifications {
         local_var_req_builder = local_var_req_builder.query(&[("enable_stream_desktop_notifications", &local_var_str.to_string())]);
     }
@@ -731,6 +720,9 @@ pub async fn update_notification_settings(configuration: &configuration::Configu
     }
     if let Some(ref local_var_str) = enable_sounds {
         local_var_req_builder = local_var_req_builder.query(&[("enable_sounds", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_str) = email_notifications_batching_period_seconds {
+        local_var_req_builder = local_var_req_builder.query(&[("email_notifications_batching_period_seconds", &local_var_str.to_string())]);
     }
     if let Some(ref local_var_str) = enable_offline_email_notifications {
         local_var_req_builder = local_var_req_builder.query(&[("enable_offline_email_notifications", &local_var_str.to_string())]);
@@ -768,6 +760,9 @@ pub async fn update_notification_settings(configuration: &configuration::Configu
     if let Some(ref local_var_str) = presence_enabled {
         local_var_req_builder = local_var_req_builder.query(&[("presence_enabled", &local_var_str.to_string())]);
     }
+    if let Some(ref local_var_str) = enter_sends {
+        local_var_req_builder = local_var_req_builder.query(&[("enter_sends", &local_var_str.to_string())]);
+    }
     if let Some(ref local_var_user_agent) = configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
@@ -781,7 +776,49 @@ pub async fn update_notification_settings(configuration: &configuration::Configu
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
     } else {
-        let local_var_entity: Option<UpdateNotificationSettingsError> = serde_json::from_str(&local_var_content).ok();
+        let local_var_entity: Option<UpdateSettingsError> = serde_json::from_str(&local_var_content).ok();
+        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+        Err(Error::ResponseError(local_var_error))
+    }
+}
+
+/// Change your [status](/help/status-and-availability).  `POST {{ api_url }}/v1/users/me/status`  A request to this endpoint will only change the parameters passed. For example, passing just `status_text` requests a change in the status text, but will leave the status emoji unchanged.  Clients that wish to set the user's status to a specific value should pass all supported parameters. 
+pub async fn update_status(configuration: &configuration::Configuration, status_text: Option<&str>, away: Option<bool>, emoji_name: Option<&str>, emoji_code: Option<&str>, reaction_type: Option<&str>) -> Result<crate::models::JsonSuccess, Error<UpdateStatusError>> {
+
+    let local_var_client = &configuration.client;
+
+    let local_var_uri_str = format!("{}/users/me/status", configuration.base_path);
+    let mut local_var_req_builder = local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
+
+    if let Some(ref local_var_str) = status_text {
+        local_var_req_builder = local_var_req_builder.query(&[("status_text", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_str) = away {
+        local_var_req_builder = local_var_req_builder.query(&[("away", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_str) = emoji_name {
+        local_var_req_builder = local_var_req_builder.query(&[("emoji_name", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_str) = emoji_code {
+        local_var_req_builder = local_var_req_builder.query(&[("emoji_code", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_str) = reaction_type {
+        local_var_req_builder = local_var_req_builder.query(&[("reaction_type", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_user_agent) = configuration.user_agent {
+        local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+    }
+
+    let local_var_req = local_var_req_builder.build()?;
+    let local_var_resp = local_var_client.execute(local_var_req).await?;
+
+    let local_var_status = local_var_resp.status();
+    let local_var_content = local_var_resp.text().await?;
+
+    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+        serde_json::from_str(&local_var_content).map_err(Error::from)
+    } else {
+        let local_var_entity: Option<UpdateStatusError> = serde_json::from_str(&local_var_content).ok();
         let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Err(Error::ResponseError(local_var_error))
     }

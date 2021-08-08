@@ -73,6 +73,24 @@ void OAIStreamsApiRequest::createBigBlueButtonVideoCallRequest(){
 }
 
 
+void OAIStreamsApiRequest::deleteTopicRequest(const QString& stream_idstr){
+    qDebug() << "/api/v1/streams/{stream_id}/delete_topic";
+    connect(this, &OAIStreamsApiRequest::deleteTopic, handler.data(), &OAIStreamsApiHandler::deleteTopic);
+
+    
+    QString topic_name;
+    if(socket->queryString().keys().contains("topic_name")){
+        fromStringValue(socket->queryString().value("topic_name"), topic_name);
+    }
+    
+    qint32 stream_id;
+    fromStringValue(stream_idstr, stream_id);
+    
+
+    emit deleteTopic(stream_id, topic_name);
+}
+
+
 void OAIStreamsApiRequest::getStreamIdRequest(){
     qDebug() << "/api/v1/get_stream_id";
     connect(this, &OAIStreamsApiRequest::getStreamId, handler.data(), &OAIStreamsApiHandler::getStreamId);
@@ -140,6 +158,19 @@ void OAIStreamsApiRequest::getStreamsRequest(){
 
 
     emit getStreams(include_public, include_web_public, include_subscribed, include_all_active, include_default, include_owner_subscribed);
+}
+
+
+void OAIStreamsApiRequest::getSubscribersRequest(const QString& stream_idstr){
+    qDebug() << "/api/v1/streams/{stream_id}/members";
+    connect(this, &OAIStreamsApiRequest::getSubscribers, handler.data(), &OAIStreamsApiHandler::getSubscribers);
+
+    
+    qint32 stream_id;
+    fromStringValue(stream_idstr, stream_id);
+    
+
+    emit getSubscribers(stream_id);
 }
 
 
@@ -381,6 +412,15 @@ void OAIStreamsApiRequest::createBigBlueButtonVideoCallResponse(const OAIJsonSuc
     }
 }
 
+void OAIStreamsApiRequest::deleteTopicResponse(const OAIJsonSuccess& res){
+    setSocketResponseHeaders();
+    QJsonDocument resDoc(::OpenAPI::toJsonValue(res).toObject());
+    socket->writeJson(resDoc);
+    if(socket->isOpen()){
+        socket->close();
+    }
+}
+
 void OAIStreamsApiRequest::getStreamIdResponse(const OAIJsonSuccessBase& res){
     setSocketResponseHeaders();
     QJsonDocument resDoc(::OpenAPI::toJsonValue(res).toObject());
@@ -400,6 +440,15 @@ void OAIStreamsApiRequest::getStreamTopicsResponse(const OAIJsonSuccessBase& res
 }
 
 void OAIStreamsApiRequest::getStreamsResponse(const OAIJsonSuccessBase& res){
+    setSocketResponseHeaders();
+    QJsonDocument resDoc(::OpenAPI::toJsonValue(res).toObject());
+    socket->writeJson(resDoc);
+    if(socket->isOpen()){
+        socket->close();
+    }
+}
+
+void OAIStreamsApiRequest::getSubscribersResponse(const OAIJsonSuccessBase& res){
     setSocketResponseHeaders();
     QJsonDocument resDoc(::OpenAPI::toJsonValue(res).toObject());
     socket->writeJson(resDoc);
@@ -503,6 +552,17 @@ void OAIStreamsApiRequest::createBigBlueButtonVideoCallError(const OAIJsonSucces
     }
 }
 
+void OAIStreamsApiRequest::deleteTopicError(const OAIJsonSuccess& res, QNetworkReply::NetworkError error_type, QString& error_str){
+    Q_UNUSED(error_type); // TODO: Remap error_type to QHttpEngine::Socket errors
+    setSocketResponseHeaders();
+    Q_UNUSED(error_str);  // response will be used instead of error string
+    QJsonDocument resDoc(::OpenAPI::toJsonValue(res).toObject());
+    socket->writeJson(resDoc);
+    if(socket->isOpen()){
+        socket->close();
+    }
+}
+
 void OAIStreamsApiRequest::getStreamIdError(const OAIJsonSuccessBase& res, QNetworkReply::NetworkError error_type, QString& error_str){
     Q_UNUSED(error_type); // TODO: Remap error_type to QHttpEngine::Socket errors
     setSocketResponseHeaders();
@@ -526,6 +586,17 @@ void OAIStreamsApiRequest::getStreamTopicsError(const OAIJsonSuccessBase& res, Q
 }
 
 void OAIStreamsApiRequest::getStreamsError(const OAIJsonSuccessBase& res, QNetworkReply::NetworkError error_type, QString& error_str){
+    Q_UNUSED(error_type); // TODO: Remap error_type to QHttpEngine::Socket errors
+    setSocketResponseHeaders();
+    Q_UNUSED(error_str);  // response will be used instead of error string
+    QJsonDocument resDoc(::OpenAPI::toJsonValue(res).toObject());
+    socket->writeJson(resDoc);
+    if(socket->isOpen()){
+        socket->close();
+    }
+}
+
+void OAIStreamsApiRequest::getSubscribersError(const OAIJsonSuccessBase& res, QNetworkReply::NetworkError error_type, QString& error_str){
     Q_UNUSED(error_type); // TODO: Remap error_type to QHttpEngine::Socket errors
     setSocketResponseHeaders();
     Q_UNUSED(error_str);  // response will be used instead of error string

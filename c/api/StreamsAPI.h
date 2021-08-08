@@ -34,6 +34,14 @@ json_success_base_t*
 StreamsAPI_createBigBlueButtonVideoCall(apiClient_t *apiClient);
 
 
+// Delete a topic
+//
+// Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+//
+json_success_t*
+StreamsAPI_deleteTopic(apiClient_t *apiClient, int stream_id , char * topic_name );
+
+
 // Get stream ID
 //
 // Get the unique ID of a given stream.  `GET {{ api_url }}/v1/get_stream_id` 
@@ -56,6 +64,14 @@ StreamsAPI_getStreamTopics(apiClient_t *apiClient, int stream_id );
 //
 json_success_base_t*
 StreamsAPI_getStreams(apiClient_t *apiClient, int include_public , int include_web_public , int include_subscribed , int include_all_active , int include_default , int include_owner_subscribed );
+
+
+// Get the subscribers of a stream
+//
+// Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` 
+//
+json_success_base_t*
+StreamsAPI_getSubscribers(apiClient_t *apiClient, int stream_id );
 
 
 // Get subscription status

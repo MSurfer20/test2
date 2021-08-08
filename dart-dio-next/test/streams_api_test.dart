@@ -25,6 +25,15 @@ void main() {
       // TODO
     });
 
+    // Delete a topic
+    //
+    // Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+    //
+    //Future<JsonSuccess> deleteTopic(int streamId, String topicName) async
+    test('test deleteTopic', () async {
+      // TODO
+    });
+
     // Get stream ID
     //
     // Get the unique ID of a given stream.  `GET {{ api_url }}/v1/get_stream_id` 
@@ -49,6 +58,15 @@ void main() {
     //
     //Future<JsonSuccessBase> getStreams({ bool includePublic, bool includeWebPublic, bool includeSubscribed, bool includeAllActive, bool includeDefault, bool includeOwnerSubscribed }) async
     test('test getStreams', () async {
+      // TODO
+    });
+
+    // Get the subscribers of a stream
+    //
+    // Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` 
+    //
+    //Future<JsonSuccessBase> getSubscribers(int streamId) async
+    test('test getSubscribers', () async {
       // TODO
     });
 

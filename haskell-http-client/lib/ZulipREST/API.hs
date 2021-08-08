@@ -14,6 +14,7 @@ Module : ZulipREST.API
 
 module ZulipREST.API
   ( module ZulipREST.API.Authentication
+  , module ZulipREST.API.Drafts
   , module ZulipREST.API.Messages
   , module ZulipREST.API.RealTimeEvents
   , module ZulipREST.API.ServerAndOrganizations
@@ -23,6 +24,7 @@ module ZulipREST.API
   ) where
 
 import ZulipREST.API.Authentication
+import ZulipREST.API.Drafts
 import ZulipREST.API.Messages
 import ZulipREST.API.RealTimeEvents
 import ZulipREST.API.ServerAndOrganizations

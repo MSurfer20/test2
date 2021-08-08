@@ -1266,50 +1266,128 @@ function Invoke-UnmuteUser {
 <#
 .SYNOPSIS
 
-Update display settings
+Update settings
 
 .DESCRIPTION
 
 No description available.
 
+.PARAMETER FullName
+A new display name for the user. 
+
+.PARAMETER Email
+Asks the server to initiate a confirmation sequence to change the user's email address to the indicated value. The user will need to demonstrate control of the new email address by clicking a confirmation link sent to that address. 
+
+.PARAMETER OldPassword
+The user's old Zulip password (or LDAP password, if LDAP authentication is in use).  Required only when sending the `new_password` parameter. 
+
+.PARAMETER NewPassword
+The user's new Zulip password (or LDAP password, if LDAP authentication is in use).  The `old_password` parameter must be included in the request. 
+
 .PARAMETER TwentyFourHourTime
-Whether time should be [displayed in 24-hour notation](/help/change-the-time-format). 
+Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
 
 .PARAMETER DenseMode
-This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip. 
+This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
 
 .PARAMETER StarredMessageCounts
-Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages). 
+Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
 
 .PARAMETER FluidLayoutWidth
-Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app's center panel (message feed, recent topics) on wide screens. 
+Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app's center panel (message feed, recent topics) on wide screens.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
 
 .PARAMETER HighContrastMode
-This setting is reserved for use to control variations in Zulip's design to help visually impaired users. 
+This setting is reserved for use to control variations in Zulip's design to help visually impaired users.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
 
 .PARAMETER ColorScheme
-Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard `prefers-color-scheme` media query. 
+Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard `prefers-color-scheme` media query.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+
+.PARAMETER EnableDraftsSynchronization
+A boolean parameter to control whether synchronizing drafts is enabled for the user. When synchronization is disabled, all drafts stored in the server will be automatically deleted from the server.  This does not do anything (like sending events) to delete local copies of drafts stored in clients.  **Changes**: New in Zulip 5.0 (feature level 87). 
 
 .PARAMETER TranslateEmoticons
-Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends. 
+Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
 
 .PARAMETER DefaultLanguage
-What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, `""en""` for English or `""de""` for German.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63). 
+What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, `""en""` for English or `""de""` for German.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63). 
 
 .PARAMETER DefaultView
-The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the `Esc` keyboard shortcut repeatedly.  * ""recent_topics"" - Recent topics view * ""all_messages"" - All messages view  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). 
+The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the `Esc` keyboard shortcut repeatedly.  * ""recent_topics"" - Recent topics view * ""all_messages"" - All messages view  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). 
 
 .PARAMETER LeftSideUserlist
-Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked. 
+Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
 
 .PARAMETER Emojiset
-The user's configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * ""google"" - Google modern * ""google-blob"" - Google classic * ""twitter"" - Twitter * ""text"" - Plain text  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). 
+The user's configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * ""google"" - Google modern * ""google-blob"" - Google classic * ""twitter"" - Twitter * ""text"" - Plain text  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). 
 
 .PARAMETER DemoteInactiveStreams
-Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never 
+Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
 
 .PARAMETER Timezone
-The user's [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). 
+The user's [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). 
+
+.PARAMETER EnableStreamDesktopNotifications
+Enable visual desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+
+.PARAMETER EnableStreamEmailNotifications
+Enable email notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+
+.PARAMETER EnableStreamPushNotifications
+Enable mobile notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+
+.PARAMETER EnableStreamAudibleNotifications
+Enable audible desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+
+.PARAMETER NotificationSound
+Notification sound name.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63). 
+
+.PARAMETER EnableDesktopNotifications
+Enable visual desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+
+.PARAMETER EnableSounds
+Enable audible desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+
+.PARAMETER EmailNotificationsBatchingPeriodSeconds
+The duration (in seconds) for which the server should wait to batch email notifications before sending them.  **Changes**: New in Zulip 5.0 (feature level 82) 
+
+.PARAMETER EnableOfflineEmailNotifications
+Enable email notifications for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+
+.PARAMETER EnableOfflinePushNotifications
+Enable mobile notification for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+
+.PARAMETER EnableOnlinePushNotifications
+Enable mobile notification for private messages and @-mentions received when the user is online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+
+.PARAMETER EnableDigestEmails
+Enable digest emails when the user is away.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+
+.PARAMETER EnableMarketingEmails
+Enable marketing emails. Has no function outside Zulip Cloud.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+
+.PARAMETER EnableLoginEmails
+Enable email notifications for new logins to account.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+
+.PARAMETER MessageContentInEmailNotifications
+Include the message's content in email notifications for new messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+
+.PARAMETER PmContentInDesktopNotifications
+Include content of private messages in desktop notifications.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+
+.PARAMETER WildcardMentionsNotify
+Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+
+.PARAMETER DesktopIconCountDisplay
+Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+
+.PARAMETER RealmNameInNotifications
+Include organization name in subject of message notification emails.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+
+.PARAMETER PresenceEnabled
+Display the presence status to other users when online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+
+.PARAMETER EnterSends
+Whether pressing Enter in the compose box sends a message (or saves a message edit).  **Changes**: Before Zulip 5.0 (feature level 81), this setting was managed by the `POST /users/me/enter-sends` endpoint, with the same parameter format. 
 
 .PARAMETER WithHttpInfo
 
@@ -1319,56 +1397,135 @@ A switch when turned on will return a hash table of Response, StatusCode and Hea
 
 JsonSuccessBase
 #>
-function Update-DisplaySettings {
+function Update-Settings {
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
-        [System.Nullable[Boolean]]
-        ${TwentyFourHourTime},
+        [String]
+        ${FullName},
         [Parameter(Position = 1, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
-        [System.Nullable[Boolean]]
-        ${DenseMode},
+        [String]
+        ${Email},
         [Parameter(Position = 2, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
-        [System.Nullable[Boolean]]
-        ${StarredMessageCounts},
+        [String]
+        ${OldPassword},
         [Parameter(Position = 3, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
-        [System.Nullable[Boolean]]
-        ${FluidLayoutWidth},
+        [String]
+        ${NewPassword},
         [Parameter(Position = 4, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [System.Nullable[Boolean]]
-        ${HighContrastMode},
+        ${TwentyFourHourTime},
         [Parameter(Position = 5, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [System.Nullable[Boolean]]
+        ${DenseMode},
+        [Parameter(Position = 6, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [System.Nullable[Boolean]]
+        ${StarredMessageCounts},
+        [Parameter(Position = 7, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [System.Nullable[Boolean]]
+        ${FluidLayoutWidth},
+        [Parameter(Position = 8, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [System.Nullable[Boolean]]
+        ${HighContrastMode},
+        [Parameter(Position = 9, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [ValidateSet("1", "2", "3")]
         [System.Nullable[Int32]]
         ${ColorScheme},
-        [Parameter(Position = 6, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [Parameter(Position = 10, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [System.Nullable[Boolean]]
+        ${EnableDraftsSynchronization},
+        [Parameter(Position = 11, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [System.Nullable[Boolean]]
         ${TranslateEmoticons},
-        [Parameter(Position = 7, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [Parameter(Position = 12, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [String]
         ${DefaultLanguage},
-        [Parameter(Position = 8, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [Parameter(Position = 13, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [String]
         ${DefaultView},
-        [Parameter(Position = 9, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [Parameter(Position = 14, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [System.Nullable[Boolean]]
         ${LeftSideUserlist},
-        [Parameter(Position = 10, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [Parameter(Position = 15, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [String]
         ${Emojiset},
-        [Parameter(Position = 11, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [Parameter(Position = 16, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [ValidateSet("1", "2", "3")]
         [System.Nullable[Int32]]
         ${DemoteInactiveStreams},
-        [Parameter(Position = 12, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [Parameter(Position = 17, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
         [String]
         ${Timezone},
+        [Parameter(Position = 18, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [System.Nullable[Boolean]]
+        ${EnableStreamDesktopNotifications},
+        [Parameter(Position = 19, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [System.Nullable[Boolean]]
+        ${EnableStreamEmailNotifications},
+        [Parameter(Position = 20, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [System.Nullable[Boolean]]
+        ${EnableStreamPushNotifications},
+        [Parameter(Position = 21, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [System.Nullable[Boolean]]
+        ${EnableStreamAudibleNotifications},
+        [Parameter(Position = 22, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [String]
+        ${NotificationSound},
+        [Parameter(Position = 23, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [System.Nullable[Boolean]]
+        ${EnableDesktopNotifications},
+        [Parameter(Position = 24, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [System.Nullable[Boolean]]
+        ${EnableSounds},
+        [Parameter(Position = 25, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [System.Nullable[Int32]]
+        ${EmailNotificationsBatchingPeriodSeconds},
+        [Parameter(Position = 26, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [System.Nullable[Boolean]]
+        ${EnableOfflineEmailNotifications},
+        [Parameter(Position = 27, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [System.Nullable[Boolean]]
+        ${EnableOfflinePushNotifications},
+        [Parameter(Position = 28, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [System.Nullable[Boolean]]
+        ${EnableOnlinePushNotifications},
+        [Parameter(Position = 29, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [System.Nullable[Boolean]]
+        ${EnableDigestEmails},
+        [Parameter(Position = 30, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [System.Nullable[Boolean]]
+        ${EnableMarketingEmails},
+        [Parameter(Position = 31, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [System.Nullable[Boolean]]
+        ${EnableLoginEmails},
+        [Parameter(Position = 32, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [System.Nullable[Boolean]]
+        ${MessageContentInEmailNotifications},
+        [Parameter(Position = 33, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [System.Nullable[Boolean]]
+        ${PmContentInDesktopNotifications},
+        [Parameter(Position = 34, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [System.Nullable[Boolean]]
+        ${WildcardMentionsNotify},
+        [Parameter(Position = 35, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [ValidateSet("1", "2", "3")]
+        [System.Nullable[Int32]]
+        ${DesktopIconCountDisplay},
+        [Parameter(Position = 36, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [System.Nullable[Boolean]]
+        ${RealmNameInNotifications},
+        [Parameter(Position = 37, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [System.Nullable[Boolean]]
+        ${PresenceEnabled},
+        [Parameter(Position = 38, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [System.Nullable[Boolean]]
+        ${EnterSends},
         [Switch]
         $WithHttpInfo
     )
 
     Process {
-        'Calling method: Update-DisplaySettings' | Write-Debug
+        'Calling method: Update-Settings' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $LocalVarAccepts = @()
@@ -1384,7 +1541,23 @@ function Update-DisplaySettings {
         # HTTP header 'Accept' (if needed)
         $LocalVarAccepts = @('application/json')
 
-        $LocalVarUri = '/settings/display'
+        $LocalVarUri = '/settings'
+
+        if ($FullName) {
+            $LocalVarQueryParameters['full_name'] = $FullName
+        }
+
+        if ($Email) {
+            $LocalVarQueryParameters['email'] = $Email
+        }
+
+        if ($OldPassword) {
+            $LocalVarQueryParameters['old_password'] = $OldPassword
+        }
+
+        if ($NewPassword) {
+            $LocalVarQueryParameters['new_password'] = $NewPassword
+        }
 
         if ($TwentyFourHourTime) {
             $LocalVarQueryParameters['twenty_four_hour_time'] = $TwentyFourHourTime
@@ -1408,6 +1581,10 @@ function Update-DisplaySettings {
 
         if ($ColorScheme) {
             $LocalVarQueryParameters['color_scheme'] = $ColorScheme
+        }
+
+        if ($EnableDraftsSynchronization) {
+            $LocalVarQueryParameters['enable_drafts_synchronization'] = $EnableDraftsSynchronization
         }
 
         if ($TranslateEmoticons) {
@@ -1438,184 +1615,6 @@ function Update-DisplaySettings {
             $LocalVarQueryParameters['timezone'] = $Timezone
         }
 
-        $LocalVarResult = Invoke-ApiClient -Method 'PATCH' `
-                                -Uri $LocalVarUri `
-                                -Accepts $LocalVarAccepts `
-                                -ContentTypes $LocalVarContentTypes `
-                                -Body $LocalVarBodyParameter `
-                                -HeaderParameters $LocalVarHeaderParameters `
-                                -QueryParameters $LocalVarQueryParameters `
-                                -FormParameters $LocalVarFormParameters `
-                                -CookieParameters $LocalVarCookieParameters `
-                                -ReturnType "JsonSuccessBase" `
-                                -IsBodyNullable $false
-
-        if ($WithHttpInfo.IsPresent) {
-            return $LocalVarResult
-        } else {
-            return $LocalVarResult["Response"]
-        }
-    }
-}
-
-<#
-.SYNOPSIS
-
-Update notification settings
-
-.DESCRIPTION
-
-No description available.
-
-.PARAMETER EnableStreamDesktopNotifications
-Enable visual desktop notifications for stream messages. 
-
-.PARAMETER EnableStreamEmailNotifications
-Enable email notifications for stream messages. 
-
-.PARAMETER EnableStreamPushNotifications
-Enable mobile notifications for stream messages. 
-
-.PARAMETER EnableStreamAudibleNotifications
-Enable audible desktop notifications for stream messages. 
-
-.PARAMETER NotificationSound
-Notification sound name.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63). 
-
-.PARAMETER EnableDesktopNotifications
-Enable visual desktop notifications for private messages and @-mentions. 
-
-.PARAMETER EnableSounds
-Enable audible desktop notifications for private messages and @-mentions. 
-
-.PARAMETER EnableOfflineEmailNotifications
-Enable email notifications for private messages and @-mentions received when the user is offline. 
-
-.PARAMETER EnableOfflinePushNotifications
-Enable mobile notification for private messages and @-mentions received when the user is offline. 
-
-.PARAMETER EnableOnlinePushNotifications
-Enable mobile notification for private messages and @-mentions received when the user is online. 
-
-.PARAMETER EnableDigestEmails
-Enable digest emails when the user is away. 
-
-.PARAMETER EnableMarketingEmails
-Enable marketing emails. Has no function outside Zulip Cloud. 
-
-.PARAMETER EnableLoginEmails
-Enable email notifications for new logins to account. 
-
-.PARAMETER MessageContentInEmailNotifications
-Include the message's content in email notifications for new messages. 
-
-.PARAMETER PmContentInDesktopNotifications
-Include content of private messages in desktop notifications. 
-
-.PARAMETER WildcardMentionsNotify
-Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention. 
-
-.PARAMETER DesktopIconCountDisplay
-Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None 
-
-.PARAMETER RealmNameInNotifications
-Include organization name in subject of message notification emails. 
-
-.PARAMETER PresenceEnabled
-Display the presence status to other users when online. 
-
-.PARAMETER WithHttpInfo
-
-A switch when turned on will return a hash table of Response, StatusCode and Headers instead of just the Response
-
-.OUTPUTS
-
-JsonSuccessBase
-#>
-function Update-NotificationSettings {
-    [CmdletBinding()]
-    Param (
-        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
-        [System.Nullable[Boolean]]
-        ${EnableStreamDesktopNotifications},
-        [Parameter(Position = 1, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
-        [System.Nullable[Boolean]]
-        ${EnableStreamEmailNotifications},
-        [Parameter(Position = 2, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
-        [System.Nullable[Boolean]]
-        ${EnableStreamPushNotifications},
-        [Parameter(Position = 3, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
-        [System.Nullable[Boolean]]
-        ${EnableStreamAudibleNotifications},
-        [Parameter(Position = 4, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
-        [String]
-        ${NotificationSound},
-        [Parameter(Position = 5, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
-        [System.Nullable[Boolean]]
-        ${EnableDesktopNotifications},
-        [Parameter(Position = 6, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
-        [System.Nullable[Boolean]]
-        ${EnableSounds},
-        [Parameter(Position = 7, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
-        [System.Nullable[Boolean]]
-        ${EnableOfflineEmailNotifications},
-        [Parameter(Position = 8, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
-        [System.Nullable[Boolean]]
-        ${EnableOfflinePushNotifications},
-        [Parameter(Position = 9, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
-        [System.Nullable[Boolean]]
-        ${EnableOnlinePushNotifications},
-        [Parameter(Position = 10, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
-        [System.Nullable[Boolean]]
-        ${EnableDigestEmails},
-        [Parameter(Position = 11, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
-        [System.Nullable[Boolean]]
-        ${EnableMarketingEmails},
-        [Parameter(Position = 12, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
-        [System.Nullable[Boolean]]
-        ${EnableLoginEmails},
-        [Parameter(Position = 13, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
-        [System.Nullable[Boolean]]
-        ${MessageContentInEmailNotifications},
-        [Parameter(Position = 14, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
-        [System.Nullable[Boolean]]
-        ${PmContentInDesktopNotifications},
-        [Parameter(Position = 15, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
-        [System.Nullable[Boolean]]
-        ${WildcardMentionsNotify},
-        [Parameter(Position = 16, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
-        [ValidateSet("1", "2", "3")]
-        [System.Nullable[Int32]]
-        ${DesktopIconCountDisplay},
-        [Parameter(Position = 17, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
-        [System.Nullable[Boolean]]
-        ${RealmNameInNotifications},
-        [Parameter(Position = 18, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
-        [System.Nullable[Boolean]]
-        ${PresenceEnabled},
-        [Switch]
-        $WithHttpInfo
-    )
-
-    Process {
-        'Calling method: Update-NotificationSettings' | Write-Debug
-        $PSBoundParameters | Out-DebugParameter | Write-Debug
-
-        $LocalVarAccepts = @()
-        $LocalVarContentTypes = @()
-        $LocalVarQueryParameters = @{}
-        $LocalVarHeaderParameters = @{}
-        $LocalVarFormParameters = @{}
-        $LocalVarPathParameters = @{}
-        $LocalVarCookieParameters = @{}
-        $LocalVarBodyParameter = $null
-
-        $Configuration = Get-Configuration
-        # HTTP header 'Accept' (if needed)
-        $LocalVarAccepts = @('application/json')
-
-        $LocalVarUri = '/settings/notifications'
-
         if ($EnableStreamDesktopNotifications) {
             $LocalVarQueryParameters['enable_stream_desktop_notifications'] = $EnableStreamDesktopNotifications
         }
@@ -1642,6 +1641,10 @@ function Update-NotificationSettings {
 
         if ($EnableSounds) {
             $LocalVarQueryParameters['enable_sounds'] = $EnableSounds
+        }
+
+        if ($EmailNotificationsBatchingPeriodSeconds) {
+            $LocalVarQueryParameters['email_notifications_batching_period_seconds'] = $EmailNotificationsBatchingPeriodSeconds
         }
 
         if ($EnableOfflineEmailNotifications) {
@@ -1692,6 +1695,10 @@ function Update-NotificationSettings {
             $LocalVarQueryParameters['presence_enabled'] = $PresenceEnabled
         }
 
+        if ($EnterSends) {
+            $LocalVarQueryParameters['enter_sends'] = $EnterSends
+        }
+
         $LocalVarResult = Invoke-ApiClient -Method 'PATCH' `
                                 -Uri $LocalVarUri `
                                 -Accepts $LocalVarAccepts `
@@ -1702,6 +1709,119 @@ function Update-NotificationSettings {
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters `
                                 -ReturnType "JsonSuccessBase" `
+                                -IsBodyNullable $false
+
+        if ($WithHttpInfo.IsPresent) {
+            return $LocalVarResult
+        } else {
+            return $LocalVarResult["Response"]
+        }
+    }
+}
+
+<#
+.SYNOPSIS
+
+Update your status
+
+.DESCRIPTION
+
+No description available.
+
+.PARAMETER StatusText
+The text content of the status message. Sending the empty string will clear the user's status.  **Note**: The limit on the size of the message is 60 characters. 
+
+.PARAMETER Away
+Whether the user should be marked as ""away"". 
+
+.PARAMETER EmojiName
+The name for the emoji to associate with this status. 
+
+.PARAMETER EmojiCode
+A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji. 
+
+.PARAMETER ReactionType
+One of the following values:  * `unicode_emoji`: Unicode emoji (`emoji_code` will be its Unicode   codepoint). * `realm_emoji`: [Custom emoji](/help/add-custom-emoji).   (`emoji_code` will be its ID). * `zulip_extra_emoji`: Special emoji included with Zulip.  Exists to   namespace the `zulip` emoji. 
+
+.PARAMETER WithHttpInfo
+
+A switch when turned on will return a hash table of Response, StatusCode and Headers instead of just the Response
+
+.OUTPUTS
+
+JsonSuccess
+#>
+function Update-Status {
+    [CmdletBinding()]
+    Param (
+        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [String]
+        ${StatusText},
+        [Parameter(Position = 1, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [System.Nullable[Boolean]]
+        ${Away},
+        [Parameter(Position = 2, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [String]
+        ${EmojiName},
+        [Parameter(Position = 3, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [String]
+        ${EmojiCode},
+        [Parameter(Position = 4, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [String]
+        ${ReactionType},
+        [Switch]
+        $WithHttpInfo
+    )
+
+    Process {
+        'Calling method: Update-Status' | Write-Debug
+        $PSBoundParameters | Out-DebugParameter | Write-Debug
+
+        $LocalVarAccepts = @()
+        $LocalVarContentTypes = @()
+        $LocalVarQueryParameters = @{}
+        $LocalVarHeaderParameters = @{}
+        $LocalVarFormParameters = @{}
+        $LocalVarPathParameters = @{}
+        $LocalVarCookieParameters = @{}
+        $LocalVarBodyParameter = $null
+
+        $Configuration = Get-Configuration
+        # HTTP header 'Accept' (if needed)
+        $LocalVarAccepts = @('application/json')
+
+        $LocalVarUri = '/users/me/status'
+
+        if ($StatusText) {
+            $LocalVarQueryParameters['status_text'] = $StatusText
+        }
+
+        if ($Away) {
+            $LocalVarQueryParameters['away'] = $Away
+        }
+
+        if ($EmojiName) {
+            $LocalVarQueryParameters['emoji_name'] = $EmojiName
+        }
+
+        if ($EmojiCode) {
+            $LocalVarQueryParameters['emoji_code'] = $EmojiCode
+        }
+
+        if ($ReactionType) {
+            $LocalVarQueryParameters['reaction_type'] = $ReactionType
+        }
+
+        $LocalVarResult = Invoke-ApiClient -Method 'POST' `
+                                -Uri $LocalVarUri `
+                                -Accepts $LocalVarAccepts `
+                                -ContentTypes $LocalVarContentTypes `
+                                -Body $LocalVarBodyParameter `
+                                -HeaderParameters $LocalVarHeaderParameters `
+                                -QueryParameters $LocalVarQueryParameters `
+                                -FormParameters $LocalVarFormParameters `
+                                -CookieParameters $LocalVarCookieParameters `
+                                -ReturnType "JsonSuccess" `
                                 -IsBodyNullable $false
 
         if ($WithHttpInfo.IsPresent) {

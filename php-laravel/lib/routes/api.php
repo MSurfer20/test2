@@ -36,6 +36,34 @@ Route::post('/api/v1/dev_fetch_api_key', 'AuthenticationController@devFetchApiKe
  */
 Route::post('/api/v1/fetch_api_key', 'AuthenticationController@fetchApiKey');
 /**
+ * post createDrafts
+ * Summary: Create drafts
+ * Notes: Create one or more drafts on the server. These drafts will be automatically synchronized to other clients via &#x60;drafts&#x60; events.  &#x60;POST {{ api_url }}/v1/drafts&#x60;
+ * Output-Formats: [application/json]
+ */
+Route::post('/api/v1/drafts', 'DraftsController@createDrafts');
+/**
+ * get getDrafts
+ * Summary: Get drafts
+ * Notes: Fetch all drafts for the current user.  &#x60;GET {{ api_url }}/v1/drafts&#x60;
+ * Output-Formats: [application/json]
+ */
+Route::get('/api/v1/drafts', 'DraftsController@getDrafts');
+/**
+ * delete deleteDraft
+ * Summary: Delete a draft
+ * Notes: Delete a single draft from the server. The deletion will be automatically synchronized to other clients via a &#x60;drafts&#x60; event.  &#x60;DELETE {{ api_url }}/v1/drafts/{draft_id}&#x60;
+ * Output-Formats: [application/json]
+ */
+Route::delete('/api/v1/drafts/{draft_id}', 'DraftsController@deleteDraft');
+/**
+ * patch editDraft
+ * Summary: Edit a draft
+ * Notes: Edit a draft on the server. The edit will be automatically synchronized to other clients via &#x60;drafts&#x60; events.  &#x60;PATCH {{ api_url }}/v1/drafts/{draft_id}&#x60;
+ * Output-Formats: [application/json]
+ */
+Route::patch('/api/v1/drafts/{draft_id}', 'DraftsController@editDraft');
+/**
  * post markAllAsRead
  * Summary: Mark all messages as read
  * Notes: Marks all of the current user&#39;s unread messages as read.  &#x60;POST {{ api_url }}/v1/mark_all_as_read&#x60;
@@ -302,6 +330,20 @@ Route::delete('/api/v1/streams/{stream_id}', 'StreamsController@archiveStream');
  */
 Route::patch('/api/v1/streams/{stream_id}', 'StreamsController@updateStream');
 /**
+ * post deleteTopic
+ * Summary: Delete a topic
+ * Notes: Delete all messages in a topic.  &#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip.
+ * Output-Formats: [application/json]
+ */
+Route::post('/api/v1/streams/{stream_id}/delete_topic', 'StreamsController@deleteTopic');
+/**
+ * get getSubscribers
+ * Summary: Get the subscribers of a stream
+ * Notes: Get all users subscribed to a stream.  &#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60;
+ * Output-Formats: [application/json]
+ */
+Route::get('/api/v1/streams/{stream_id}/members', 'StreamsController@getSubscribers');
+/**
  * get getSubscriptions
  * Summary: Get subscribed streams
  * Notes: Get all streams that the user is subscribed to.  &#x60;GET {{ api_url }}/v1/users/me/subscriptions&#x60;
@@ -365,19 +407,12 @@ Route::get('/api/v1/users/{user_id}/subscriptions/{stream_id}', 'StreamsControll
  */
 Route::get('/api/v1/attachments', 'UsersController@getAttachments');
 /**
- * patch updateDisplaySettings
- * Summary: Update display settings
- * Notes: This endpoint is used to edit the current user&#39;s user interface settings.  &#x60;PATCH {{ api_url }}/v1/settings/display&#x60;
+ * patch updateSettings
+ * Summary: Update settings
+ * Notes: This endpoint is used to edit the current user&#39;s settings.  &#x60;PATCH {{ api_url }}/v1/settings&#x60;  **Changes**: Prior to Zulip 5.0 (feature level 80), this endpoint only supported the &#x60;full_name&#x60;, &#x60;email&#x60;, &#x60;old_password&#x60;, and &#x60;new_password&#x60; parameters. Notification settings were managed by &#x60;PATCH /settings/notifications&#x60;, and all other settings by &#x60;PATCH /settings/display&#x60;. The feature level 80 migration to merge these endpoints did not change how request parameters are encoded. Note, however, that it did change the handling of any invalid parameters present in a request to change notification or display settings, since the merged endpoint uses the new response format that was introduced for &#x60;/settings&#x60; in Zulip 5.0 (feature level 78).  The &#x60;/settings/display&#x60; and &#x60;/settings/notifications&#x60; endpoints are now deprecated aliases for this endpoint for backwards-compatibility, and will be removed once clients have migrated to use this endpoint.
  * Output-Formats: [application/json]
  */
-Route::patch('/api/v1/settings/display', 'UsersController@updateDisplaySettings');
-/**
- * patch updateNotificationSettings
- * Summary: Update notification settings
- * Notes: This endpoint is used to edit the user&#39;s global notification settings. See [this endpoint](/api/update-subscription-settings) for per-stream notification settings.  &#x60;PATCH {{ api_url }}/v1/settings/notifications&#x60;
- * Output-Formats: [application/json]
- */
-Route::patch('/api/v1/settings/notifications', 'UsersController@updateNotificationSettings');
+Route::patch('/api/v1/settings', 'UsersController@updateSettings');
 /**
  * post setTypingStatus
  * Summary: Set \&quot;typing\&quot; status
@@ -462,6 +497,13 @@ Route::post('/api/v1/users/me/muted_users/{muted_user_id}', 'UsersController@mut
  * Output-Formats: [application/json]
  */
 Route::delete('/api/v1/users/me/muted_users/{muted_user_id}', 'UsersController@unmuteUser');
+/**
+ * post updateStatus
+ * Summary: Update your status
+ * Notes: Change your [status](/help/status-and-availability).  &#x60;POST {{ api_url }}/v1/users/me/status&#x60;  A request to this endpoint will only change the parameters passed. For example, passing just &#x60;status_text&#x60; requests a change in the status text, but will leave the status emoji unchanged.  Clients that wish to set the user&#39;s status to a specific value should pass all supported parameters.
+ * Output-Formats: [application/json]
+ */
+Route::post('/api/v1/users/me/status', 'UsersController@updateStatus');
 /**
  * get getUserByEmail
  * Summary: Get a user by email

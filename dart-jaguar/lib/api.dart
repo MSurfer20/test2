@@ -9,6 +9,7 @@ import 'package:openapi/auth/oauth.dart';
 import 'package:jaguar_mimetype/jaguar_mimetype.dart';
 
 import 'package:openapi/api/authentication_api.dart';
+import 'package:openapi/api/drafts_api.dart';
 import 'package:openapi/api/messages_api.dart';
 import 'package:openapi/api/real_time_events_api.dart';
 import 'package:openapi/api/server_and_organizations_api.dart';
@@ -38,10 +39,13 @@ import 'package:openapi/model/coded_error_base.dart';
 import 'package:openapi/model/coded_error_base_all_of.dart';
 import 'package:openapi/model/custom_profile_field.dart';
 import 'package:openapi/model/default_stream_group.dart';
+import 'package:openapi/model/draft.dart';
+import 'package:openapi/model/emoji_base.dart';
 import 'package:openapi/model/emoji_reaction.dart';
 import 'package:openapi/model/emoji_reaction_all_of.dart';
 import 'package:openapi/model/emoji_reaction_base.dart';
-import 'package:openapi/model/emoji_reaction_base_user.dart';
+import 'package:openapi/model/emoji_reaction_base_all_of.dart';
+import 'package:openapi/model/emoji_reaction_base_all_of_user.dart';
 import 'package:openapi/model/get_messages.dart';
 import 'package:openapi/model/get_messages_all_of.dart';
 import 'package:openapi/model/hotspot.dart';
@@ -105,10 +109,13 @@ final _jsonJaguarRepo = JsonRepo()
 ..add(CodedErrorBaseAllOfSerializer())
 ..add(CustomProfileFieldSerializer())
 ..add(DefaultStreamGroupSerializer())
+..add(DraftSerializer())
+..add(EmojiBaseSerializer())
 ..add(EmojiReactionSerializer())
 ..add(EmojiReactionAllOfSerializer())
 ..add(EmojiReactionBaseSerializer())
-..add(EmojiReactionBaseUserSerializer())
+..add(EmojiReactionBaseAllOfSerializer())
+..add(EmojiReactionBaseAllOfUserSerializer())
 ..add(GetMessagesSerializer())
 ..add(GetMessagesAllOfSerializer())
 ..add(HotspotSerializer())
@@ -207,6 +214,21 @@ class Openapi {
             converters = defaultConverters;
         }
         return AuthenticationApi(base: base, converters: converters, timeout: timeout);
+    }
+
+    
+    /**
+    * Get DraftsApi instance, base route and serializer can be overridden by a given but be careful,
+    * by doing that all interceptors will not be executed
+    */
+    DraftsApi getDraftsApi({Route base, Map<String, CodecRepo> converters}) {
+        if(base == null) {
+            base = _baseRoute;
+        }
+        if(converters == null) {
+            converters = defaultConverters;
+        }
+        return DraftsApi(base: base, converters: converters, timeout: timeout);
     }
 
     

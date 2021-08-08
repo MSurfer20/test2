@@ -7,7 +7,7 @@ model.instance <- EmojiReactionBase$new()
 
 test_that("emoji_code", {
   # tests for the property `emoji_code` (character)
-  # A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint. 
+  # A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint; for &#x60;realm_emoji&#x60;, it&#39;ll be the ID of the realm emoji. 
 
   # uncomment below to test the property 
   #expect_equal(model.instance$`emoji_code`, "EXPECTED_RESULT")
@@ -38,7 +38,7 @@ test_that("user_id", {
 })
 
 test_that("user", {
-  # tests for the property `user` (EmojiReactionBaseUser)
+  # tests for the property `user` (EmojiReactionBaseAllOfUser)
 
   # uncomment below to test the property 
   #expect_equal(model.instance$`user`, "EXPECTED_RESULT")

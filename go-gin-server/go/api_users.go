@@ -95,13 +95,13 @@ func UnmuteUser(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{})
 }
 
-// UpdateDisplaySettings - Update display settings
-func UpdateDisplaySettings(c *gin.Context) {
+// UpdateSettings - Update settings
+func UpdateSettings(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{})
 }
 
-// UpdateNotificationSettings - Update notification settings
-func UpdateNotificationSettings(c *gin.Context) {
+// UpdateStatus - Update your status
+func UpdateStatus(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{})
 }
 

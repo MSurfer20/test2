@@ -23,6 +23,18 @@ func main() {
     // FetchApiKey - Fetch an API key (production)
 	e.POST("/api/v1/fetch_api_key", c.FetchApiKey)
 
+    // CreateDrafts - Create drafts
+	e.POST("/api/v1/drafts", c.CreateDrafts)
+
+    // DeleteDraft - Delete a draft
+	e.DELETE("/api/v1/drafts/:draft_id", c.DeleteDraft)
+
+    // EditDraft - Edit a draft
+	e.PATCH("/api/v1/drafts/:draft_id", c.EditDraft)
+
+    // GetDrafts - Get drafts
+	e.GET("/api/v1/drafts", c.GetDrafts)
+
     // AddReaction - Add an emoji reaction
 	e.POST("/api/v1/messages/:message_id/reactions", c.AddReaction)
 
@@ -128,6 +140,9 @@ func main() {
     // CreateBigBlueButtonVideoCall - Create BigBlueButton video call
 	e.GET("/api/v1/calls/bigbluebutton/create", c.CreateBigBlueButtonVideoCall)
 
+    // DeleteTopic - Delete a topic
+	e.POST("/api/v1/streams/:stream_id/delete_topic", c.DeleteTopic)
+
     // GetStreamId - Get stream ID
 	e.GET("/api/v1/get_stream_id", c.GetStreamId)
 
@@ -136,6 +151,9 @@ func main() {
 
     // GetStreams - Get all streams
 	e.GET("/api/v1/streams", c.GetStreams)
+
+    // GetSubscribers - Get the subscribers of a stream
+	e.GET("/api/v1/streams/:stream_id/members", c.GetSubscribers)
 
     // GetSubscriptionStatus - Get subscription status
 	e.GET("/api/v1/users/:user_id/subscriptions/:stream_id", c.GetSubscriptionStatus)
@@ -209,11 +227,11 @@ func main() {
     // UnmuteUser - Unmute a user
 	e.DELETE("/api/v1/users/me/muted_users/:muted_user_id", c.UnmuteUser)
 
-    // UpdateDisplaySettings - Update display settings
-	e.PATCH("/api/v1/settings/display", c.UpdateDisplaySettings)
+    // UpdateSettings - Update settings
+	e.PATCH("/api/v1/settings", c.UpdateSettings)
 
-    // UpdateNotificationSettings - Update notification settings
-	e.PATCH("/api/v1/settings/notifications", c.UpdateNotificationSettings)
+    // UpdateStatus - Update your status
+	e.POST("/api/v1/users/me/status", c.UpdateStatus)
 
     // UpdateUser - Update a user
 	e.PATCH("/api/v1/users/:user_id", c.UpdateUser)

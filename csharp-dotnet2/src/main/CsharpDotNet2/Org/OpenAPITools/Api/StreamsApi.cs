@@ -23,6 +23,13 @@ namespace Org.OpenAPITools.Api
         /// <returns>JsonSuccessBase</returns>
         JsonSuccessBase CreateBigBlueButtonVideoCall ();
         /// <summary>
+        /// Delete a topic Delete all messages in a topic.  &#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+        /// </summary>
+        /// <param name="streamId">The ID of the stream to access. </param>
+        /// <param name="topicName">The name of the topic to delete. </param>
+        /// <returns>JsonSuccess</returns>
+        JsonSuccess DeleteTopic (int? streamId, string topicName);
+        /// <summary>
         /// Get stream ID Get the unique ID of a given stream.  &#x60;GET {{ api_url }}/v1/get_stream_id&#x60; 
         /// </summary>
         /// <param name="stream">The name of the stream to access. </param>
@@ -45,6 +52,12 @@ namespace Org.OpenAPITools.Api
         /// <param name="includeOwnerSubscribed">If the user is a bot, include all streams that the bot&#39;s owner is subscribed to. </param>
         /// <returns>JsonSuccessBase</returns>
         JsonSuccessBase GetStreams (bool? includePublic, bool? includeWebPublic, bool? includeSubscribed, bool? includeAllActive, bool? includeDefault, bool? includeOwnerSubscribed);
+        /// <summary>
+        /// Get the subscribers of a stream Get all users subscribed to a stream.  &#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60; 
+        /// </summary>
+        /// <param name="streamId">The ID of the stream to access. </param>
+        /// <returns>JsonSuccessBase</returns>
+        JsonSuccessBase GetSubscribers (int? streamId);
         /// <summary>
         /// Get subscription status Check whether a user is subscribed to a stream.  &#x60;GET {{ api_url }}/v1/users/{user_id}/subscriptions/{stream_id}&#x60;  **Changes**: New in Zulip 3.0 (feature level 11). 
         /// </summary>
@@ -238,6 +251,48 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// Delete a topic Delete all messages in a topic.  &#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+        /// </summary>
+        /// <param name="streamId">The ID of the stream to access. </param>
+        /// <param name="topicName">The name of the topic to delete. </param>
+        /// <returns>JsonSuccess</returns>
+        public JsonSuccess DeleteTopic (int? streamId, string topicName)
+        {
+            
+            // verify the required parameter 'streamId' is set
+            if (streamId == null) throw new ApiException(400, "Missing required parameter 'streamId' when calling DeleteTopic");
+            
+            // verify the required parameter 'topicName' is set
+            if (topicName == null) throw new ApiException(400, "Missing required parameter 'topicName' when calling DeleteTopic");
+            
+
+            var path = "/streams/{stream_id}/delete_topic";
+            path = path.Replace("{format}", "json");
+            path = path.Replace("{" + "stream_id" + "}", ApiClient.ParameterToString(streamId));
+
+            var queryParams = new Dictionary<String, String>();
+            var headerParams = new Dictionary<String, String>();
+            var formParams = new Dictionary<String, String>();
+            var fileParams = new Dictionary<String, FileParameter>();
+            String postBody = null;
+
+             if (topicName != null) queryParams.Add("topic_name", ApiClient.ParameterToString(topicName)); // query parameter
+                                    
+            // authentication setting, if any
+            String[] authSettings = new String[] {  };
+
+            // make the HTTP request
+            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.POST, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+
+            if (((int)response.StatusCode) >= 400)
+                throw new ApiException ((int)response.StatusCode, "Error calling DeleteTopic: " + response.Content, response.Content);
+            else if (((int)response.StatusCode) == 0)
+                throw new ApiException ((int)response.StatusCode, "Error calling DeleteTopic: " + response.ErrorMessage, response.ErrorMessage);
+
+            return (JsonSuccess) ApiClient.Deserialize(response.Content, typeof(JsonSuccess), response.Headers);
+        }
+
+        /// <summary>
         /// Get stream ID Get the unique ID of a given stream.  &#x60;GET {{ api_url }}/v1/get_stream_id&#x60; 
         /// </summary>
         /// <param name="stream">The name of the stream to access. </param>
@@ -351,6 +406,43 @@ namespace Org.OpenAPITools.Api
                 throw new ApiException ((int)response.StatusCode, "Error calling GetStreams: " + response.Content, response.Content);
             else if (((int)response.StatusCode) == 0)
                 throw new ApiException ((int)response.StatusCode, "Error calling GetStreams: " + response.ErrorMessage, response.ErrorMessage);
+
+            return (JsonSuccessBase) ApiClient.Deserialize(response.Content, typeof(JsonSuccessBase), response.Headers);
+        }
+
+        /// <summary>
+        /// Get the subscribers of a stream Get all users subscribed to a stream.  &#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60; 
+        /// </summary>
+        /// <param name="streamId">The ID of the stream to access. </param>
+        /// <returns>JsonSuccessBase</returns>
+        public JsonSuccessBase GetSubscribers (int? streamId)
+        {
+            
+            // verify the required parameter 'streamId' is set
+            if (streamId == null) throw new ApiException(400, "Missing required parameter 'streamId' when calling GetSubscribers");
+            
+
+            var path = "/streams/{stream_id}/members";
+            path = path.Replace("{format}", "json");
+            path = path.Replace("{" + "stream_id" + "}", ApiClient.ParameterToString(streamId));
+
+            var queryParams = new Dictionary<String, String>();
+            var headerParams = new Dictionary<String, String>();
+            var formParams = new Dictionary<String, String>();
+            var fileParams = new Dictionary<String, FileParameter>();
+            String postBody = null;
+
+                                                
+            // authentication setting, if any
+            String[] authSettings = new String[] {  };
+
+            // make the HTTP request
+            IRestResponse response = (IRestResponse) ApiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+
+            if (((int)response.StatusCode) >= 400)
+                throw new ApiException ((int)response.StatusCode, "Error calling GetSubscribers: " + response.Content, response.Content);
+            else if (((int)response.StatusCode) == 0)
+                throw new ApiException ((int)response.StatusCode, "Error calling GetSubscribers: " + response.ErrorMessage, response.ErrorMessage);
 
             return (JsonSuccessBase) ApiClient.Deserialize(response.Content, typeof(JsonSuccessBase), response.Headers);
         }

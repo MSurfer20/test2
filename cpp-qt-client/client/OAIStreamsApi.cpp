@@ -58,12 +58,16 @@ void OAIStreamsApi::initializeServerConfigs(){
     _serverIndices.insert("archiveStream", 0);
     _serverConfigs.insert("createBigBlueButtonVideoCall", defaultConf);
     _serverIndices.insert("createBigBlueButtonVideoCall", 0);
+    _serverConfigs.insert("deleteTopic", defaultConf);
+    _serverIndices.insert("deleteTopic", 0);
     _serverConfigs.insert("getStreamId", defaultConf);
     _serverIndices.insert("getStreamId", 0);
     _serverConfigs.insert("getStreamTopics", defaultConf);
     _serverIndices.insert("getStreamTopics", 0);
     _serverConfigs.insert("getStreams", defaultConf);
     _serverIndices.insert("getStreams", 0);
+    _serverConfigs.insert("getSubscribers", defaultConf);
+    _serverIndices.insert("getSubscribers", 0);
     _serverConfigs.insert("getSubscriptionStatus", defaultConf);
     _serverIndices.insert("getSubscriptionStatus", 0);
     _serverConfigs.insert("getSubscriptions", defaultConf);
@@ -352,6 +356,81 @@ void OAIStreamsApi::createBigBlueButtonVideoCallCallback(OAIHttpRequestWorker *w
     }
 }
 
+void OAIStreamsApi::deleteTopic(const qint32 &stream_id, const QString &topic_name) {
+    QString fullPath = QString(_serverConfigs["deleteTopic"][_serverIndices.value("deleteTopic")].URL()+"/streams/{stream_id}/delete_topic");
+    
+    
+    {
+        QString stream_idPathParam("{");
+        stream_idPathParam.append("stream_id").append("}");
+        QString pathPrefix, pathSuffix, pathDelimiter;
+        QString pathStyle = "simple";
+        if(pathStyle == "")
+            pathStyle = "simple";
+        pathPrefix = getParamStylePrefix(pathStyle);
+        pathSuffix = getParamStyleSuffix(pathStyle);
+        pathDelimiter = getParamStyleDelimiter(pathStyle, "stream_id", false);
+        QString paramString = (pathStyle == "matrix") ? pathPrefix+"stream_id"+pathSuffix : pathPrefix;
+        fullPath.replace(stream_idPathParam, paramString+QUrl::toPercentEncoding(::OpenAPI::toStringValue(stream_id)));
+    }
+    QString queryPrefix, querySuffix, queryDelimiter, queryStyle;
+    
+    {
+        queryStyle = "form";
+        if(queryStyle == "")
+            queryStyle = "form";
+        queryPrefix = getParamStylePrefix(queryStyle);
+        querySuffix = getParamStyleSuffix(queryStyle);
+        queryDelimiter = getParamStyleDelimiter(queryStyle, "topic_name", true);
+        if (fullPath.indexOf("?") > 0)
+            fullPath.append(queryPrefix);
+        else
+            fullPath.append("?");
+
+        fullPath.append(QUrl::toPercentEncoding("topic_name")).append(querySuffix).append(QUrl::toPercentEncoding(::OpenAPI::toStringValue(topic_name)));
+    }
+    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this, _manager);
+    worker->setTimeOut(_timeOut);
+    worker->setWorkingDirectory(_workingDirectory);
+    OAIHttpRequestInput input(fullPath, "POST");
+
+
+    foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
+
+    connect(worker, &OAIHttpRequestWorker::on_execution_finished, this, &OAIStreamsApi::deleteTopicCallback);
+    connect(this, &OAIStreamsApi::abortRequestsSignal, worker, &QObject::deleteLater);
+    connect(worker, &QObject::destroyed, [this](){
+        if(findChildren<OAIHttpRequestWorker*>().count() == 0){
+            emit allPendingRequestsCompleted();
+        }
+    });
+
+    worker->execute(&input);
+}
+
+void OAIStreamsApi::deleteTopicCallback(OAIHttpRequestWorker *worker) {
+    QString msg;
+    QString error_str = worker->error_str;
+    QNetworkReply::NetworkError error_type = worker->error_type;
+
+    if (worker->error_type == QNetworkReply::NoError) {
+        msg = QString("Success! %1 bytes").arg(worker->response.length());
+    } else {
+        msg = "Error: " + worker->error_str;
+        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
+    }
+    OAIJsonSuccess output(QString(worker->response));
+    worker->deleteLater();
+
+    if (worker->error_type == QNetworkReply::NoError) {
+        emit deleteTopicSignal(output);
+        emit deleteTopicSignalFull(worker, output);
+    } else {
+        emit deleteTopicSignalE(output, error_type, error_str);
+        emit deleteTopicSignalEFull(worker, error_type, error_str);
+    }
+}
+
 void OAIStreamsApi::getStreamId(const QString &stream) {
     QString fullPath = QString(_serverConfigs["getStreamId"][_serverIndices.value("getStreamId")].URL()+"/get_stream_id");
     
@@ -605,6 +684,65 @@ void OAIStreamsApi::getStreamsCallback(OAIHttpRequestWorker *worker) {
     } else {
         emit getStreamsSignalE(output, error_type, error_str);
         emit getStreamsSignalEFull(worker, error_type, error_str);
+    }
+}
+
+void OAIStreamsApi::getSubscribers(const qint32 &stream_id) {
+    QString fullPath = QString(_serverConfigs["getSubscribers"][_serverIndices.value("getSubscribers")].URL()+"/streams/{stream_id}/members");
+    
+    
+    {
+        QString stream_idPathParam("{");
+        stream_idPathParam.append("stream_id").append("}");
+        QString pathPrefix, pathSuffix, pathDelimiter;
+        QString pathStyle = "simple";
+        if(pathStyle == "")
+            pathStyle = "simple";
+        pathPrefix = getParamStylePrefix(pathStyle);
+        pathSuffix = getParamStyleSuffix(pathStyle);
+        pathDelimiter = getParamStyleDelimiter(pathStyle, "stream_id", false);
+        QString paramString = (pathStyle == "matrix") ? pathPrefix+"stream_id"+pathSuffix : pathPrefix;
+        fullPath.replace(stream_idPathParam, paramString+QUrl::toPercentEncoding(::OpenAPI::toStringValue(stream_id)));
+    }
+    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this, _manager);
+    worker->setTimeOut(_timeOut);
+    worker->setWorkingDirectory(_workingDirectory);
+    OAIHttpRequestInput input(fullPath, "GET");
+
+
+    foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
+
+    connect(worker, &OAIHttpRequestWorker::on_execution_finished, this, &OAIStreamsApi::getSubscribersCallback);
+    connect(this, &OAIStreamsApi::abortRequestsSignal, worker, &QObject::deleteLater);
+    connect(worker, &QObject::destroyed, [this](){
+        if(findChildren<OAIHttpRequestWorker*>().count() == 0){
+            emit allPendingRequestsCompleted();
+        }
+    });
+
+    worker->execute(&input);
+}
+
+void OAIStreamsApi::getSubscribersCallback(OAIHttpRequestWorker *worker) {
+    QString msg;
+    QString error_str = worker->error_str;
+    QNetworkReply::NetworkError error_type = worker->error_type;
+
+    if (worker->error_type == QNetworkReply::NoError) {
+        msg = QString("Success! %1 bytes").arg(worker->response.length());
+    } else {
+        msg = "Error: " + worker->error_str;
+        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
+    }
+    OAIJsonSuccessBase output(QString(worker->response));
+    worker->deleteLater();
+
+    if (worker->error_type == QNetworkReply::NoError) {
+        emit getSubscribersSignal(output);
+        emit getSubscribersSignalFull(worker, output);
+    } else {
+        emit getSubscribersSignalE(output, error_type, error_str);
+        emit getSubscribersSignalEFull(worker, error_type, error_str);
     }
 }
 

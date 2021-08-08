@@ -4,26 +4,26 @@ All URIs are relative to *https://example.zulipchat.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-**add_reaction**](messages_api.md#add_reaction) | **POST** /messages/{message_id}/reactions | Add an emoji reaction
-**check_messages_match_narrow**](messages_api.md#check_messages_match_narrow) | **GET** /messages/matches_narrow | Check if messages match a narrow
-**delete_message**](messages_api.md#delete_message) | **DELETE** /messages/{message_id} | Delete a message
-**get_file_temporary_url**](messages_api.md#get_file_temporary_url) | **GET** /user_uploads/{realm_id_str}/{filename} | Get public temporary URL
-**get_message_history**](messages_api.md#get_message_history) | **GET** /messages/{message_id}/history | Get a message's edit history
-**get_messages**](messages_api.md#get_messages) | **GET** /messages | Get messages
-**get_raw_message**](messages_api.md#get_raw_message) | **GET** /messages/{message_id} | Get a message's raw Markdown
-**mark_all_as_read**](messages_api.md#mark_all_as_read) | **POST** /mark_all_as_read | Mark all messages as read
-**mark_stream_as_read**](messages_api.md#mark_stream_as_read) | **POST** /mark_stream_as_read | Mark messages in a stream as read
-**mark_topic_as_read**](messages_api.md#mark_topic_as_read) | **POST** /mark_topic_as_read | Mark messages in a topic as read
-**remove_reaction**](messages_api.md#remove_reaction) | **DELETE** /messages/{message_id}/reactions | Remove an emoji reaction
-**render_message**](messages_api.md#render_message) | **POST** /messages/render | Render message
-**send_message**](messages_api.md#send_message) | **POST** /messages | Send a message
-**update_message**](messages_api.md#update_message) | **PATCH** /messages/{message_id} | Edit a message
-**update_message_flags**](messages_api.md#update_message_flags) | **POST** /messages/flags | Update personal message flags
-**upload_file**](messages_api.md#upload_file) | **POST** /user_uploads | Upload a file
+**add-reaction**](messages_api.md#add-reaction) | **POST** /messages/{message_id}/reactions | Add an emoji reaction
+**check-messages-match-narrow**](messages_api.md#check-messages-match-narrow) | **GET** /messages/matches_narrow | Check if messages match a narrow
+**delete-message**](messages_api.md#delete-message) | **DELETE** /messages/{message_id} | Delete a message
+**get-file-temporary-url**](messages_api.md#get-file-temporary-url) | **GET** /user_uploads/{realm_id_str}/{filename} | Get public temporary URL
+**get-message-history**](messages_api.md#get-message-history) | **GET** /messages/{message_id}/history | Get a message's edit history
+**get-messages**](messages_api.md#get-messages) | **GET** /messages | Get messages
+**get-raw-message**](messages_api.md#get-raw-message) | **GET** /messages/{message_id} | Get a message's raw Markdown
+**mark-all-as-read**](messages_api.md#mark-all-as-read) | **POST** /mark_all_as_read | Mark all messages as read
+**mark-stream-as-read**](messages_api.md#mark-stream-as-read) | **POST** /mark_stream_as_read | Mark messages in a stream as read
+**mark-topic-as-read**](messages_api.md#mark-topic-as-read) | **POST** /mark_topic_as_read | Mark messages in a topic as read
+**remove-reaction**](messages_api.md#remove-reaction) | **DELETE** /messages/{message_id}/reactions | Remove an emoji reaction
+**render-message**](messages_api.md#render-message) | **POST** /messages/render | Render message
+**send-message**](messages_api.md#send-message) | **POST** /messages | Send a message
+**update-message**](messages_api.md#update-message) | **PATCH** /messages/{message_id} | Edit a message
+**update-message-flags**](messages_api.md#update-message-flags) | **POST** /messages/flags | Update personal message flags
+**upload-file**](messages_api.md#upload-file) | **POST** /user_uploads | Upload a file
 
 
-# **add_reaction**
-> JsonSuccess add_reaction(message_id, emoji_name, optional)
+# **add-reaction**
+> JsonSuccess add-reaction(message_id, emoji_name, optional)
 Add an emoji reaction
 
 Add an [emoji reaction](/help/emoji-reactions) to a message.  `POST {{ api_url }}/v1/messages/{message_id}/reactions` 
@@ -61,8 +61,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **check_messages_match_narrow**
-> serde_json::Value check_messages_match_narrow(msg_ids, narrow)
+# **check-messages-match-narrow**
+> serde_json::Value check-messages-match-narrow(msg_ids, narrow)
 Check if messages match a narrow
 
 Check whether a set of messages match a [narrow](/api/construct-narrow).  `GET {{ api_url }}/v1/messages/matches_narrow`  For many common narrows (E.g. a topic), clients can write an efficient client-side check to determine whether a newly arrived message belongs in the view.  This endpoint is designed to allow clients to handle more complex narrows for which the client does not (or in the case of full-text search, cannot) implement this check.  The format of the `match_subject` and `match_content` objects is designed to match those of `GET /messages`, so that a client can splice these fields into a `message` object received from `GET /events` and end up with an extended message object identical to how a `GET /messages` for the current narrow would have returned the message. 
@@ -89,8 +89,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **delete_message**
-> JsonSuccess delete_message(message_id)
+# **delete-message**
+> JsonSuccess delete-message(message_id)
 Delete a message
 
 Permanently delete a message.  `DELETE {{ api_url }}/v1/messages/{msg_id}`  This API corresponds to the [delete a message completely][delete-completely] feature documented in the Zulip Help Center.  [delete-completely]: /help/edit-or-delete-a-message#delete-a-message-completely 
@@ -116,8 +116,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **get_file_temporary_url**
-> JsonSuccessBase get_file_temporary_url(realm_id_str, filename)
+# **get-file-temporary-url**
+> JsonSuccessBase get-file-temporary-url(realm_id_str, filename)
 Get public temporary URL
 
 Get a temporary URL for access to the file that doesn't require authentication. 
@@ -144,8 +144,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **get_message_history**
-> JsonSuccessBase get_message_history(message_id)
+# **get-message-history**
+> JsonSuccessBase get-message-history(message_id)
 Get a message's edit history
 
 Fetch the message edit history of a previously edited message.  `GET {{ api_url }}/v1/messages/{message_id}/history`  Note that edit history may be disabled in some organizations; see the [Zulip Help Center documentation on editing messages][edit-settings].  [edit-settings]: /help/view-a-messages-edit-history 
@@ -171,8 +171,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **get_messages**
-> JsonSuccessBase get_messages(num_before, num_after, optional)
+# **get-messages**
+> JsonSuccessBase get-messages(num_before, num_after, optional)
 Get messages
 
 Fetch message history from a Zulip server.  `GET {{ api_url }}/v1/messages`  This `GET /api/v1/messages` endpoint is the primary way to fetch message history from a Zulip server.  It is useful both for Zulip clients (e.g. the web, desktop, mobile, and terminal clients) as well as bots, API clients, backup scripts, etc.  By specifying a [narrow filter](/api/construct-narrow), you can use this endpoint to fetch the messages matching any search query that is supported by Zulip's powerful full-text search backend.  When a narrow is not specified, it can be used to fetch a user's message history. (We recommend paginating to 1000 messages at a time.)  In either case, you specify an `anchor` message (or ask the server to calculate the first unread message for you and use that as the anchor), as well as a number of messages before and after the anchor message.  The server returns those messages, sorted by message ID, as well as some metadata that makes it easy for a client to determine whether there are more messages matching the query that were not returned due to the `num_before` and `num_after` limits.  We recommend using `num_before <= 1000` and `num_after <= 1000` to avoid generating very large HTTP responses. A maximum of 5000 messages can be obtained per request; attempting to exceed this will result in an error. 
@@ -213,8 +213,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **get_raw_message**
-> JsonSuccessBase get_raw_message(message_id)
+# **get-raw-message**
+> JsonSuccessBase get-raw-message(message_id)
 Get a message's raw Markdown
 
 Get the raw content of a message.  `GET {{ api_url }}/v1/messages/{msg_id}`  This is a rarely-used endpoint relevant for clients that primarily work with HTML-rendered messages but might need to occasionally fetch the message's raw Markdown (e.g. for pre-filling a message-editing UI). 
@@ -240,8 +240,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **mark_all_as_read**
-> JsonSuccess mark_all_as_read()
+# **mark-all-as-read**
+> JsonSuccess mark-all-as-read()
 Mark all messages as read
 
 Marks all of the current user's unread messages as read.  `POST {{ api_url }}/v1/mark_all_as_read` 
@@ -264,8 +264,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **mark_stream_as_read**
-> JsonSuccess mark_stream_as_read(stream_id)
+# **mark-stream-as-read**
+> JsonSuccess mark-stream-as-read(stream_id)
 Mark messages in a stream as read
 
 Mark all the unread messages in a stream as read. 
@@ -291,8 +291,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **mark_topic_as_read**
-> JsonSuccess mark_topic_as_read(stream_id, topic_name)
+# **mark-topic-as-read**
+> JsonSuccess mark-topic-as-read(stream_id, topic_name)
 Mark messages in a topic as read
 
 Mark all the unread messages in a topic as read. 
@@ -319,8 +319,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **remove_reaction**
-> JsonSuccess remove_reaction(message_id, optional)
+# **remove-reaction**
+> JsonSuccess remove-reaction(message_id, optional)
 Remove an emoji reaction
 
 Remove an [emoji reaction](/help/emoji-reactions) from a message.  `DELETE {{ api_url }}/v1/messages/{message_id}/reactions` 
@@ -357,8 +357,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **render_message**
-> JsonSuccessBase render_message(content)
+# **render-message**
+> JsonSuccessBase render-message(content)
 Render message
 
 Render a message to HTML.  `POST {{ api_url }}/v1/messages/render` 
@@ -384,8 +384,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **send_message**
-> JsonSuccessBase send_message(type_, to, content, optional)
+# **send-message**
+> JsonSuccessBase send-message(type_, to, content, optional)
 Send a message
 
 Send a stream or a private message.  `POST {{ api_url }}/v1/messages` 
@@ -426,8 +426,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **update_message**
-> JsonSuccess update_message(message_id, optional)
+# **update-message**
+> JsonSuccess update-message(message_id, optional)
 Edit a message
 
 Edit/update the content or topic of a message.  `PATCH {{ api_url }}/v1/messages/{msg_id}`  `{msg_id}` in the above URL should be replaced with the ID of the message you wish you update.  You can [resolve topics](/help/resolve-a-topic) by editing the topic to `✔ {original_topic}`.  **Note**: See [configuring message editing][config-message-editing] for detailed documentation on when users are allowed to edit topics.  [config-message-editing]: /help/configure-message-editing-and-deletion 
@@ -467,8 +467,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **update_message_flags**
-> JsonSuccessBase update_message_flags(messages, op, flag)
+# **update-message-flags**
+> JsonSuccessBase update-message-flags(messages, op, flag)
 Update personal message flags
 
 Add or remove personal message flags like `read` and `starred` on a collection of message IDs.  `POST {{ api_url }}/v1/messages/flags`  For updating the `read` flag on common collections of messages, see also the [special endpoints for marking message as read in bulk](/api/mark-all-as-read). 
@@ -496,8 +496,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **upload_file**
-> JsonSuccessBase upload_file(optional)
+# **upload-file**
+> JsonSuccessBase upload-file(optional)
 Upload a file
 
 Upload a single file and get the corresponding URI.  `POST {{ api_url }}/v1/user_uploads`  Initially, only you will be able to access the link.  To share the uploaded file, you'll need to [send a message][send-message] containing the resulting link.  Users who can already access the link can reshare it with other users by sending additional Zulip messages containing the link.  [uploaded-files]: /help/manage-your-uploaded-files [send-message]: /api/send-message 

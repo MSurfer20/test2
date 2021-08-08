@@ -6,6 +6,29 @@
       <xs:element name="PostDev_fetch_api_key_ResponseMessage" type="schemas:PostDev_fetch_api_key_ResponseMessage" />
       <xs:element name="PostFetch_api_key_RequestMessage" type="schemas:PostFetch_api_key_RequestMessage" />
       <xs:element name="PostFetch_api_key_ResponseMessage" type="schemas:PostFetch_api_key_ResponseMessage" />
+      <xs:element name="PostDrafts_RequestMessage" type="schemas:PostDrafts_RequestMessage" />
+      <xs:element name="PostDrafts_ResponseMessage" type="schemas:PostDrafts_ResponseMessage" />
+      <xs:element name="PostDrafts_400" type="schemas:CodedError">
+        <xs:annotation>
+          <xs:documentation>Bad request.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="DeleteDraftsByDraft_id_RequestMessage" type="schemas:DeleteDraftsByDraft_id_RequestMessage" />
+      <xs:element name="DeleteDraftsByDraft_id_ResponseMessage" type="schemas:DeleteDraftsByDraft_id_ResponseMessage" />
+      <xs:element name="DeleteDraftsByDraft_id_404" type="schemas:JsonError">
+        <xs:annotation>
+          <xs:documentation>Not Found.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="PatchDraftsByDraft_id_RequestMessage" type="schemas:PatchDraftsByDraft_id_RequestMessage" />
+      <xs:element name="PatchDraftsByDraft_id_ResponseMessage" type="schemas:PatchDraftsByDraft_id_ResponseMessage" />
+      <xs:element name="PatchDraftsByDraft_id_404" type="schemas:JsonError">
+        <xs:annotation>
+          <xs:documentation>Not Found.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="GetDrafts_RequestMessage" type="schemas:GetDrafts_RequestMessage" />
+      <xs:element name="GetDrafts_ResponseMessage" type="schemas:GetDrafts_ResponseMessage" />
       <xs:element name="PostMessagesReactionsByMessage_id_RequestMessage" type="schemas:PostMessagesReactionsByMessage_id_RequestMessage" />
       <xs:element name="PostMessagesReactionsByMessage_id_ResponseMessage" type="schemas:PostMessagesReactionsByMessage_id_ResponseMessage" />
       <xs:element name="PostMessagesReactionsByMessage_id_400" type="schemas:CodedError">
@@ -141,6 +164,13 @@
       </xs:element>
       <xs:element name="GetCallsBigbluebuttonCreate_RequestMessage" type="schemas:GetCallsBigbluebuttonCreate_RequestMessage" />
       <xs:element name="GetCallsBigbluebuttonCreate_ResponseMessage" type="schemas:GetCallsBigbluebuttonCreate_ResponseMessage" />
+      <xs:element name="PostStreamsDelete_topicByStream_id_RequestMessage" type="schemas:PostStreamsDelete_topicByStream_id_RequestMessage" />
+      <xs:element name="PostStreamsDelete_topicByStream_id_ResponseMessage" type="schemas:PostStreamsDelete_topicByStream_id_ResponseMessage" />
+      <xs:element name="PostStreamsDelete_topicByStream_id_400" type="schemas:JsonError">
+        <xs:annotation>
+          <xs:documentation>Error.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
       <xs:element name="GetGet_stream_id_RequestMessage" type="schemas:GetGet_stream_id_RequestMessage" />
       <xs:element name="GetGet_stream_id_ResponseMessage" type="schemas:GetGet_stream_id_ResponseMessage" />
       <xs:element name="GetGet_stream_id_400" type="schemas:CodedError">
@@ -158,6 +188,13 @@
       <xs:element name="GetStreams_RequestMessage" type="schemas:GetStreams_RequestMessage" />
       <xs:element name="GetStreams_ResponseMessage" type="schemas:GetStreams_ResponseMessage" />
       <xs:element name="GetStreams_400" type="schemas:CodedError">
+        <xs:annotation>
+          <xs:documentation>Bad request.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="GetStreamsMembersByStream_id_RequestMessage" type="schemas:GetStreamsMembersByStream_id_RequestMessage" />
+      <xs:element name="GetStreamsMembersByStream_id_ResponseMessage" type="schemas:GetStreamsMembersByStream_id_ResponseMessage" />
+      <xs:element name="GetStreamsMembersByStream_id_400" type="schemas:JsonError">
         <xs:annotation>
           <xs:documentation>Bad request.</xs:documentation>
         </xs:annotation>
@@ -270,10 +307,15 @@
           <xs:documentation>Bad request.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="PatchSettingsDisplay_RequestMessage" type="schemas:PatchSettingsDisplay_RequestMessage" />
-      <xs:element name="PatchSettingsDisplay_ResponseMessage" type="schemas:PatchSettingsDisplay_ResponseMessage" />
-      <xs:element name="PatchSettingsNotifications_RequestMessage" type="schemas:PatchSettingsNotifications_RequestMessage" />
-      <xs:element name="PatchSettingsNotifications_ResponseMessage" type="schemas:PatchSettingsNotifications_ResponseMessage" />
+      <xs:element name="PatchSettings_RequestMessage" type="schemas:PatchSettings_RequestMessage" />
+      <xs:element name="PatchSettings_ResponseMessage" type="schemas:PatchSettings_ResponseMessage" />
+      <xs:element name="PostUsersMeStatus_RequestMessage" type="schemas:PostUsersMeStatus_RequestMessage" />
+      <xs:element name="PostUsersMeStatus_ResponseMessage" type="schemas:PostUsersMeStatus_ResponseMessage" />
+      <xs:element name="PostUsersMeStatus_400" type="schemas:oneOf&lt;object,object,object,object,object,object&gt;">
+        <xs:annotation>
+          <xs:documentation>Success.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
       <xs:element name="PatchUsersByUser_id_RequestMessage" type="schemas:PatchUsersByUser_id_RequestMessage" />
       <xs:element name="PatchUsersByUser_id_ResponseMessage" type="schemas:PatchUsersByUser_id_ResponseMessage" />
       <xs:element name="PatchUsersByUser_id_400" type="schemas:CodedError">
@@ -774,6 +816,62 @@
           </xs:element>
         </xs:sequence>
       </xs:complexType>
+      <xs:complexType name="Draft">
+        <xs:annotation>
+          <xs:documentation>A dictionary for representing a message draft. </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+          <xs:element minOccurs="0" name="id" type="xs:integer">
+            <xs:annotation>
+              <xs:documentation>The unique ID of the draft. It will only used whenever the drafts are fetched. This field should not be specified when the draft is being created or edited. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="1" name="type" type="schemas:Type">
+            <xs:annotation>
+              <xs:documentation>The type of the draft. Either unaddressed (empty string), \&quot;stream\&quot;, or \&quot;private\&quot; (for PMs and private group messages). </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="1" maxOccurs="unbounded" name="to" type="xs:integer">
+            <xs:annotation>
+              <xs:documentation>An array of the tentative target audience IDs. For \&quot;stream\&quot; messages, this should contain exactly 1 ID, the ID of the target stream. For private messages, this should be an array of target user IDs. For unaddressed drafts, this is ignored, and clients should send an empty array. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="1" name="topic" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>For stream message drafts, the tentative topic name. For private or unaddressed messages, this will be ignored and should ideally be the empty string. Should not contain null bytes. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="1" name="content" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>The body of the draft. Should not contain null bytes. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="timestamp" type="xs:double">
+            <xs:annotation>
+              <xs:documentation>A Unix timestamp (seconds only) representing when the draft was last edited. When creating a draft, this key need not be present and it will be filled in automatically by the server. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="EmojiBase">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="emoji_code" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint; for &#x60;realm_emoji&#x60;, it&#39;ll be the ID of the realm emoji. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="emoji_name" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>Name of the emoji. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="reaction_type" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>One of the following values:  * &#x60;unicode_emoji&#x60;: Unicode emoji (&#x60;emoji_code&#x60; will be its Unicode   codepoint). * &#x60;realm_emoji&#x60;: [Custom emoji](/help/add-custom-emoji).   (&#x60;emoji_code&#x60; will be its ID). * &#x60;zulip_extra_emoji&#x60;: Special emoji included with Zulip.  Exists to   namespace the &#x60;zulip&#x60; emoji. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
       <xs:complexType name="EmojiReaction">
         <xs:sequence>
           <xs:element minOccurs="0" name="emoji_code" type="xs:AnyType" />
@@ -796,7 +894,7 @@
         <xs:sequence>
           <xs:element minOccurs="0" name="emoji_code" type="xs:string">
             <xs:annotation>
-              <xs:documentation>A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint. </xs:documentation>
+              <xs:documentation>A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint; for &#x60;realm_emoji&#x60;, it&#39;ll be the ID of the realm emoji. </xs:documentation>
             </xs:annotation>
           </xs:element>
           <xs:element minOccurs="0" name="emoji_name" type="xs:string">
@@ -814,12 +912,22 @@
               <xs:documentation>The ID of the user who added the reaction.  **Changes**: New in Zulip 3.0 (feature level 2). The &#x60;user&#x60; object is deprecated and will be removed in the future. </xs:documentation>
             </xs:annotation>
           </xs:element>
-          <xs:element minOccurs="0" name="user" type="schemas:EmojiReactionBase_user" />
+          <xs:element minOccurs="0" name="user" type="schemas:EmojiReactionBase_allOf_user" />
         </xs:sequence>
       </xs:complexType>
-      <xs:complexType name="EmojiReactionBaseUser">
+      <xs:complexType name="EmojiReactionBaseAllOf">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="user_id" type="xs:integer">
+            <xs:annotation>
+              <xs:documentation>The ID of the user who added the reaction.  **Changes**: New in Zulip 3.0 (feature level 2). The &#x60;user&#x60; object is deprecated and will be removed in the future. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="user" type="schemas:EmojiReactionBase_allOf_user" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="EmojiReactionBaseAllOfUser">
         <xs:annotation>
-          <xs:documentation>Dictionary with data on the user who added the reaction, including the user ID as the &#x60;id&#x60; field.  **Note**: In the [events API](/api/get-events), this &#x60;user&#x60; dictionary confusing had the user ID in a field called &#x60;user_id&#x60; instead.  We recommend ignoring fields other than the user ID.  **Deprecated** and to be removed in a future release once core clients have migrated to use the &#x60;user_id&#x60; field. </xs:documentation>
+          <xs:documentation>Whether the user is a mirror dummy. Dictionary with data on the user who added the reaction, including the user ID as the &#x60;id&#x60; field.  **Note**: In the [events API](/api/get-events), this &#x60;user&#x60; dictionary confusing had the user ID in a field called &#x60;user_id&#x60; instead.  We recommend ignoring fields other than the user ID.  **Deprecated** and to be removed in a future release once core clients have migrated to use the &#x60;user_id&#x60; field. </xs:documentation>
         </xs:annotation>
         <xs:sequence>
           <xs:element minOccurs="0" name="id" type="xs:integer">
@@ -1752,6 +1860,16 @@
           <xs:element minOccurs="0" name="code" type="xs:AnyType" />
         </xs:sequence>
       </xs:complexType>
+      <xs:simpleType name="Type">
+        <xs:annotation>
+          <xs:documentation>The type of the draft. Either unaddressed (empty string), \&quot;stream\&quot;, or \&quot;private\&quot; (for PMs and private group messages). </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="" />
+          <xs:enumeration value="stream" />
+          <xs:enumeration value="private" />
+        </xs:restriction>
+      </xs:simpleType>
       <xs:simpleType name="Result">
         <xs:restriction base="xs:string">
           <xs:enumeration value="error" />
@@ -1887,6 +2005,75 @@
           <xs:element minOccurs="1" name="ApiKeyResponse" type="schemas:ApiKeyResponse">
             <xs:annotation>
               <xs:documentation>Valid credentials the client can use to access the Zulip API.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="PostDrafts_RequestMessage">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="drafts" type="xs:Draft">
+            <xs:annotation>
+              <xs:documentation>A JSON-encoded list of containing new draft objects. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="PostDrafts_ResponseMessage">
+        <xs:sequence>
+          <xs:element minOccurs="1" name="JsonSuccess" type="schemas:JsonSuccess">
+            <xs:annotation>
+              <xs:documentation>Success.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="DeleteDraftsByDraft_id_RequestMessage">
+        <xs:sequence>
+          <xs:element minOccurs="1" name="draftId" type="xs:integer">
+            <xs:annotation>
+              <xs:documentation>The ID of the draft you want to delete. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="DeleteDraftsByDraft_id_ResponseMessage">
+        <xs:sequence>
+          <xs:element minOccurs="1" name="JsonSuccess" type="schemas:JsonSuccess">
+            <xs:annotation>
+              <xs:documentation>Success.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="PatchDraftsByDraft_id_RequestMessage">
+        <xs:sequence>
+          <xs:element minOccurs="1" name="draftId" type="xs:integer">
+            <xs:annotation>
+              <xs:documentation>The ID of the draft to be edited. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="1" name="draft" type="schemas:Draft">
+            <xs:annotation>
+              <xs:documentation>A JSON-encoded object containing a replacement draft object for this ID. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="PatchDraftsByDraft_id_ResponseMessage">
+        <xs:sequence>
+          <xs:element minOccurs="1" name="JsonSuccess" type="schemas:JsonSuccess">
+            <xs:annotation>
+              <xs:documentation>Success.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="GetDrafts_RequestMessage" />
+      <xs:complexType name="GetDrafts_ResponseMessage">
+        <xs:sequence>
+          <xs:element minOccurs="1" name="JsonSuccess" type="schemas:JsonSuccess">
+            <xs:annotation>
+              <xs:documentation>Success.</xs:documentation>
             </xs:annotation>
           </xs:element>
         </xs:sequence>
@@ -2425,7 +2612,7 @@
           </xs:element>
           <xs:element minOccurs="0" name="clientCapabilities" type="xs:Object">
             <xs:annotation>
-              <xs:documentation>Dictionary containing details on features the client supports that are relevant to the format of responses sent by the server.  * &#x60;notification_settings_null&#x60;: Boolean for whether the   client can handle the current API with null values for   stream-level notification settings (which means the stream   is not customized and should inherit the user&#39;s global   notification settings for stream messages).  New in Zulip   2.1.0; in earlier Zulip releases, stream-level   notification settings were simple booleans.  * &#x60;bulk_message_deletion&#x60;: Boolean for whether the client&#39;s    handler for the &#x60;delete_message&#x60; event type has been    updated to process the new bulk format (with a    &#x60;message_ids&#x60;, rather than a singleton &#x60;message_id&#x60;).    Otherwise, the server will send &#x60;delete_message&#x60; events    in a loop.  New in Zulip 3.0 (feature level 13).  This    capability is for backwards-compatibility; it will be    required in a future server release.  * &#x60;user_avatar_url_field_optional&#x60;: Boolean for whether the    client required avatar URLs for all users, or supports    using &#x60;GET /avatar/{user_id}&#x60; to access user avatars.  If the    client has this capability, the server may skip sending a    &#x60;avatar_url&#x60; field in the &#x60;realm_user&#x60; at its sole discretion    to optimize network performance.  This is an important optimization    in organizations with 10,000s of users.    New in Zulip 3.0 (feature level 18).  * &#x60;stream_typing_notifications&#x60;: Boolean for whether the client   supports stream typing notifications.    New in Zulip 4.0 (feature level 58).  This capability is   for backwards-compatibility; it will be required in a   future server release. </xs:documentation>
+              <xs:documentation>Dictionary containing details on features the client supports that are relevant to the format of responses sent by the server.  * &#x60;notification_settings_null&#x60;: Boolean for whether the   client can handle the current API with null values for   stream-level notification settings (which means the stream   is not customized and should inherit the user&#39;s global   notification settings for stream messages).   &lt;br /&gt;   New in Zulip 2.1.0; in earlier Zulip releases, stream-level   notification settings were simple booleans.  * &#x60;bulk_message_deletion&#x60;: Boolean for whether the client&#39;s    handler for the &#x60;delete_message&#x60; event type has been    updated to process the new bulk format (with a    &#x60;message_ids&#x60;, rather than a singleton &#x60;message_id&#x60;).    Otherwise, the server will send &#x60;delete_message&#x60; events    in a loop.    &lt;br /&gt;    New in Zulip 3.0 (feature level 13).  This    capability is for backwards-compatibility; it will be    required in a future server release.  * &#x60;user_avatar_url_field_optional&#x60;: Boolean for whether the    client required avatar URLs for all users, or supports    using &#x60;GET /avatar/{user_id}&#x60; to access user avatars.  If the    client has this capability, the server may skip sending a    &#x60;avatar_url&#x60; field in the &#x60;realm_user&#x60; at its sole discretion    to optimize network performance.  This is an important optimization    in organizations with 10,000s of users.    &lt;br /&gt;    New in Zulip 3.0 (feature level 18).  * &#x60;stream_typing_notifications&#x60;: Boolean for whether the client   supports stream typing notifications.   &lt;br /&gt;   New in Zulip 4.0 (feature level 58).  This capability is   for backwards-compatibility; it will be required in a   future server release.  * &#x60;user_settings_object&#x60;: Boolean for whether the client supports the modern   &#x60;user_settings&#x60; event type. If False, the server will additionally send the   legacy &#x60;update_display_settings&#x60; and &#x60;update_global_notifications&#x60; event   types for backwards-compatibility with clients that predate this API migration.   &lt;br /&gt;   &lt;br /&gt;   Because the feature level 89 API changes were merged together, clients can   safely make a request with this client capability and requesting all of the   &#x60;user_settings&#x60;, &#x60;update_display_settings&#x60;, and   &#x60;update_global_notifications&#x60; event types, and get exactly one copy of   settings data on any server version. (And then use the &#x60;zulip_feature_level&#x60;   in the &#x60;/register&#x60; response or the presence/absence of a &#x60;user_settings&#x60; key   to determine where to look).   &lt;br /&gt;   New in Zulip 5.0 (feature level 89).  This capability is for   backwards-compatibility; it will be removed in a future server release. </xs:documentation>
             </xs:annotation>
           </xs:element>
           <xs:element minOccurs="0" maxOccurs="unbounded" name="fetchEventTypes" type="xs:string">
@@ -2703,6 +2890,29 @@
           </xs:element>
         </xs:sequence>
       </xs:complexType>
+      <xs:complexType name="PostStreamsDelete_topicByStream_id_RequestMessage">
+        <xs:sequence>
+          <xs:element minOccurs="1" name="streamId" type="xs:integer">
+            <xs:annotation>
+              <xs:documentation>The ID of the stream to access. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="1" name="topicName" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>The name of the topic to delete. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="PostStreamsDelete_topicByStream_id_ResponseMessage">
+        <xs:sequence>
+          <xs:element minOccurs="1" name="JsonSuccess" type="schemas:JsonSuccess">
+            <xs:annotation>
+              <xs:documentation>Success.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
       <xs:complexType name="GetGet_stream_id_RequestMessage">
         <xs:sequence>
           <xs:element minOccurs="1" name="stream" type="xs:string">
@@ -2774,6 +2984,24 @@
         </xs:sequence>
       </xs:complexType>
       <xs:complexType name="GetStreams_ResponseMessage">
+        <xs:sequence>
+          <xs:element minOccurs="1" name="JsonSuccessBase" type="schemas:JsonSuccessBase">
+            <xs:annotation>
+              <xs:documentation>Success.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="GetStreamsMembersByStream_id_RequestMessage">
+        <xs:sequence>
+          <xs:element minOccurs="1" name="streamId" type="xs:integer">
+            <xs:annotation>
+              <xs:documentation>The ID of the stream to access. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="GetStreamsMembersByStream_id_ResponseMessage">
         <xs:sequence>
           <xs:element minOccurs="1" name="JsonSuccessBase" type="schemas:JsonSuccessBase">
             <xs:annotation>
@@ -3342,76 +3570,206 @@
           </xs:element>
         </xs:sequence>
       </xs:complexType>
-      <xs:complexType name="PatchSettingsDisplay_RequestMessage">
+      <xs:complexType name="PatchSettings_RequestMessage">
         <xs:sequence>
+          <xs:element minOccurs="0" name="fullName" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>A new display name for the user. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="email" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>Asks the server to initiate a confirmation sequence to change the user&#39;s email address to the indicated value. The user will need to demonstrate control of the new email address by clicking a confirmation link sent to that address. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="oldPassword" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>The user&#39;s old Zulip password (or LDAP password, if LDAP authentication is in use).  Required only when sending the &#x60;new_password&#x60; parameter. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="newPassword" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>The user&#39;s new Zulip password (or LDAP password, if LDAP authentication is in use).  The &#x60;old_password&#x60; parameter must be included in the request. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
           <xs:element minOccurs="0" name="twentyFourHourTime" type="xs:boolean">
             <xs:annotation>
-              <xs:documentation>Whether time should be [displayed in 24-hour notation](/help/change-the-time-format). </xs:documentation>
+              <xs:documentation>Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. </xs:documentation>
             </xs:annotation>
           </xs:element>
           <xs:element minOccurs="0" name="denseMode" type="xs:boolean">
             <xs:annotation>
-              <xs:documentation>This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip. </xs:documentation>
+              <xs:documentation>This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. </xs:documentation>
             </xs:annotation>
           </xs:element>
           <xs:element minOccurs="0" name="starredMessageCounts" type="xs:boolean">
             <xs:annotation>
-              <xs:documentation>Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages). </xs:documentation>
+              <xs:documentation>Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. </xs:documentation>
             </xs:annotation>
           </xs:element>
           <xs:element minOccurs="0" name="fluidLayoutWidth" type="xs:boolean">
             <xs:annotation>
-              <xs:documentation>Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app&#39;s center panel (message feed, recent topics) on wide screens. </xs:documentation>
+              <xs:documentation>Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app&#39;s center panel (message feed, recent topics) on wide screens.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. </xs:documentation>
             </xs:annotation>
           </xs:element>
           <xs:element minOccurs="0" name="highContrastMode" type="xs:boolean">
             <xs:annotation>
-              <xs:documentation>This setting is reserved for use to control variations in Zulip&#39;s design to help visually impaired users. </xs:documentation>
+              <xs:documentation>This setting is reserved for use to control variations in Zulip&#39;s design to help visually impaired users.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. </xs:documentation>
             </xs:annotation>
           </xs:element>
           <xs:element minOccurs="0" name="colorScheme" type="schemas:Color_scheme">
             <xs:annotation>
-              <xs:documentation>Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard &#x60;prefers-color-scheme&#x60; media query. </xs:documentation>
+              <xs:documentation>Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard &#x60;prefers-color-scheme&#x60; media query.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="enableDraftsSynchronization" type="xs:boolean">
+            <xs:annotation>
+              <xs:documentation>A boolean parameter to control whether synchronizing drafts is enabled for the user. When synchronization is disabled, all drafts stored in the server will be automatically deleted from the server.  This does not do anything (like sending events) to delete local copies of drafts stored in clients.  **Changes**: New in Zulip 5.0 (feature level 87). </xs:documentation>
             </xs:annotation>
           </xs:element>
           <xs:element minOccurs="0" name="translateEmoticons" type="xs:boolean">
             <xs:annotation>
-              <xs:documentation>Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends. </xs:documentation>
+              <xs:documentation>Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. </xs:documentation>
             </xs:annotation>
           </xs:element>
           <xs:element minOccurs="0" name="defaultLanguage" type="xs:string">
             <xs:annotation>
-              <xs:documentation>What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, &#x60;\&quot;en\&quot;&#x60; for English or &#x60;\&quot;de\&quot;&#x60; for German.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63). </xs:documentation>
+              <xs:documentation>What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, &#x60;\&quot;en\&quot;&#x60; for English or &#x60;\&quot;de\&quot;&#x60; for German.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63). </xs:documentation>
             </xs:annotation>
           </xs:element>
           <xs:element minOccurs="0" name="defaultView" type="xs:string">
             <xs:annotation>
-              <xs:documentation>The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the &#x60;Esc&#x60; keyboard shortcut repeatedly.  * \&quot;recent_topics\&quot; - Recent topics view * \&quot;all_messages\&quot; - All messages view  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). </xs:documentation>
+              <xs:documentation>The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the &#x60;Esc&#x60; keyboard shortcut repeatedly.  * \&quot;recent_topics\&quot; - Recent topics view * \&quot;all_messages\&quot; - All messages view  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). </xs:documentation>
             </xs:annotation>
           </xs:element>
           <xs:element minOccurs="0" name="leftSideUserlist" type="xs:boolean">
             <xs:annotation>
-              <xs:documentation>Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked. </xs:documentation>
+              <xs:documentation>Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. </xs:documentation>
             </xs:annotation>
           </xs:element>
           <xs:element minOccurs="0" name="emojiset" type="xs:string">
             <xs:annotation>
-              <xs:documentation>The user&#39;s configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \&quot;google\&quot; - Google modern * \&quot;google-blob\&quot; - Google classic * \&quot;twitter\&quot; - Twitter * \&quot;text\&quot; - Plain text  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). </xs:documentation>
+              <xs:documentation>The user&#39;s configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \&quot;google\&quot; - Google modern * \&quot;google-blob\&quot; - Google classic * \&quot;twitter\&quot; - Twitter * \&quot;text\&quot; - Plain text  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). </xs:documentation>
             </xs:annotation>
           </xs:element>
           <xs:element minOccurs="0" name="demoteInactiveStreams" type="schemas:Demote_inactive_streams">
             <xs:annotation>
-              <xs:documentation>Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never </xs:documentation>
+              <xs:documentation>Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. </xs:documentation>
             </xs:annotation>
           </xs:element>
           <xs:element minOccurs="0" name="timezone" type="xs:string">
             <xs:annotation>
-              <xs:documentation>The user&#39;s [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). </xs:documentation>
+              <xs:documentation>The user&#39;s [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="enableStreamDesktopNotifications" type="xs:boolean">
+            <xs:annotation>
+              <xs:documentation>Enable visual desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="enableStreamEmailNotifications" type="xs:boolean">
+            <xs:annotation>
+              <xs:documentation>Enable email notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="enableStreamPushNotifications" type="xs:boolean">
+            <xs:annotation>
+              <xs:documentation>Enable mobile notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="enableStreamAudibleNotifications" type="xs:boolean">
+            <xs:annotation>
+              <xs:documentation>Enable audible desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="notificationSound" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>Notification sound name.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63). </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="enableDesktopNotifications" type="xs:boolean">
+            <xs:annotation>
+              <xs:documentation>Enable visual desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="enableSounds" type="xs:boolean">
+            <xs:annotation>
+              <xs:documentation>Enable audible desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="emailNotificationsBatchingPeriodSeconds" type="xs:integer">
+            <xs:annotation>
+              <xs:documentation>The duration (in seconds) for which the server should wait to batch email notifications before sending them.  **Changes**: New in Zulip 5.0 (feature level 82) </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="enableOfflineEmailNotifications" type="xs:boolean">
+            <xs:annotation>
+              <xs:documentation>Enable email notifications for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="enableOfflinePushNotifications" type="xs:boolean">
+            <xs:annotation>
+              <xs:documentation>Enable mobile notification for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="enableOnlinePushNotifications" type="xs:boolean">
+            <xs:annotation>
+              <xs:documentation>Enable mobile notification for private messages and @-mentions received when the user is online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="enableDigestEmails" type="xs:boolean">
+            <xs:annotation>
+              <xs:documentation>Enable digest emails when the user is away.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="enableMarketingEmails" type="xs:boolean">
+            <xs:annotation>
+              <xs:documentation>Enable marketing emails. Has no function outside Zulip Cloud.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="enableLoginEmails" type="xs:boolean">
+            <xs:annotation>
+              <xs:documentation>Enable email notifications for new logins to account.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="messageContentInEmailNotifications" type="xs:boolean">
+            <xs:annotation>
+              <xs:documentation>Include the message&#39;s content in email notifications for new messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="pmContentInDesktopNotifications" type="xs:boolean">
+            <xs:annotation>
+              <xs:documentation>Include content of private messages in desktop notifications.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="wildcardMentionsNotify" type="xs:boolean">
+            <xs:annotation>
+              <xs:documentation>Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="desktopIconCountDisplay" type="schemas:Desktop_icon_count_display">
+            <xs:annotation>
+              <xs:documentation>Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="realmNameInNotifications" type="xs:boolean">
+            <xs:annotation>
+              <xs:documentation>Include organization name in subject of message notification emails.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="presenceEnabled" type="xs:boolean">
+            <xs:annotation>
+              <xs:documentation>Display the presence status to other users when online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="enterSends" type="xs:boolean">
+            <xs:annotation>
+              <xs:documentation>Whether pressing Enter in the compose box sends a message (or saves a message edit).  **Changes**: Before Zulip 5.0 (feature level 81), this setting was managed by the &#x60;POST /users/me/enter-sends&#x60; endpoint, with the same parameter format. </xs:documentation>
             </xs:annotation>
           </xs:element>
         </xs:sequence>
       </xs:complexType>
-      <xs:complexType name="PatchSettingsDisplay_ResponseMessage">
+      <xs:complexType name="PatchSettings_ResponseMessage">
         <xs:sequence>
           <xs:element minOccurs="1" name="JsonSuccessBase" type="schemas:JsonSuccessBase">
             <xs:annotation>
@@ -3420,108 +3778,38 @@
           </xs:element>
         </xs:sequence>
       </xs:complexType>
-      <xs:complexType name="PatchSettingsNotifications_RequestMessage">
+      <xs:complexType name="PostUsersMeStatus_RequestMessage">
         <xs:sequence>
-          <xs:element minOccurs="0" name="enableStreamDesktopNotifications" type="xs:boolean">
+          <xs:element minOccurs="0" name="statusText" type="xs:string">
             <xs:annotation>
-              <xs:documentation>Enable visual desktop notifications for stream messages. </xs:documentation>
+              <xs:documentation>The text content of the status message. Sending the empty string will clear the user&#39;s status.  **Note**: The limit on the size of the message is 60 characters. </xs:documentation>
             </xs:annotation>
           </xs:element>
-          <xs:element minOccurs="0" name="enableStreamEmailNotifications" type="xs:boolean">
+          <xs:element minOccurs="0" name="away" type="xs:boolean">
             <xs:annotation>
-              <xs:documentation>Enable email notifications for stream messages. </xs:documentation>
+              <xs:documentation>Whether the user should be marked as \&quot;away\&quot;. </xs:documentation>
             </xs:annotation>
           </xs:element>
-          <xs:element minOccurs="0" name="enableStreamPushNotifications" type="xs:boolean">
+          <xs:element minOccurs="0" name="emojiName" type="xs:string">
             <xs:annotation>
-              <xs:documentation>Enable mobile notifications for stream messages. </xs:documentation>
+              <xs:documentation>The name for the emoji to associate with this status. </xs:documentation>
             </xs:annotation>
           </xs:element>
-          <xs:element minOccurs="0" name="enableStreamAudibleNotifications" type="xs:boolean">
+          <xs:element minOccurs="0" name="emojiCode" type="xs:string">
             <xs:annotation>
-              <xs:documentation>Enable audible desktop notifications for stream messages. </xs:documentation>
+              <xs:documentation>A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint; for &#x60;realm_emoji&#x60;, it&#39;ll be the ID of the realm emoji. </xs:documentation>
             </xs:annotation>
           </xs:element>
-          <xs:element minOccurs="0" name="notificationSound" type="xs:string">
+          <xs:element minOccurs="0" name="reactionType" type="xs:string">
             <xs:annotation>
-              <xs:documentation>Notification sound name.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63). </xs:documentation>
-            </xs:annotation>
-          </xs:element>
-          <xs:element minOccurs="0" name="enableDesktopNotifications" type="xs:boolean">
-            <xs:annotation>
-              <xs:documentation>Enable visual desktop notifications for private messages and @-mentions. </xs:documentation>
-            </xs:annotation>
-          </xs:element>
-          <xs:element minOccurs="0" name="enableSounds" type="xs:boolean">
-            <xs:annotation>
-              <xs:documentation>Enable audible desktop notifications for private messages and @-mentions. </xs:documentation>
-            </xs:annotation>
-          </xs:element>
-          <xs:element minOccurs="0" name="enableOfflineEmailNotifications" type="xs:boolean">
-            <xs:annotation>
-              <xs:documentation>Enable email notifications for private messages and @-mentions received when the user is offline. </xs:documentation>
-            </xs:annotation>
-          </xs:element>
-          <xs:element minOccurs="0" name="enableOfflinePushNotifications" type="xs:boolean">
-            <xs:annotation>
-              <xs:documentation>Enable mobile notification for private messages and @-mentions received when the user is offline. </xs:documentation>
-            </xs:annotation>
-          </xs:element>
-          <xs:element minOccurs="0" name="enableOnlinePushNotifications" type="xs:boolean">
-            <xs:annotation>
-              <xs:documentation>Enable mobile notification for private messages and @-mentions received when the user is online. </xs:documentation>
-            </xs:annotation>
-          </xs:element>
-          <xs:element minOccurs="0" name="enableDigestEmails" type="xs:boolean">
-            <xs:annotation>
-              <xs:documentation>Enable digest emails when the user is away. </xs:documentation>
-            </xs:annotation>
-          </xs:element>
-          <xs:element minOccurs="0" name="enableMarketingEmails" type="xs:boolean">
-            <xs:annotation>
-              <xs:documentation>Enable marketing emails. Has no function outside Zulip Cloud. </xs:documentation>
-            </xs:annotation>
-          </xs:element>
-          <xs:element minOccurs="0" name="enableLoginEmails" type="xs:boolean">
-            <xs:annotation>
-              <xs:documentation>Enable email notifications for new logins to account. </xs:documentation>
-            </xs:annotation>
-          </xs:element>
-          <xs:element minOccurs="0" name="messageContentInEmailNotifications" type="xs:boolean">
-            <xs:annotation>
-              <xs:documentation>Include the message&#39;s content in email notifications for new messages. </xs:documentation>
-            </xs:annotation>
-          </xs:element>
-          <xs:element minOccurs="0" name="pmContentInDesktopNotifications" type="xs:boolean">
-            <xs:annotation>
-              <xs:documentation>Include content of private messages in desktop notifications. </xs:documentation>
-            </xs:annotation>
-          </xs:element>
-          <xs:element minOccurs="0" name="wildcardMentionsNotify" type="xs:boolean">
-            <xs:annotation>
-              <xs:documentation>Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention. </xs:documentation>
-            </xs:annotation>
-          </xs:element>
-          <xs:element minOccurs="0" name="desktopIconCountDisplay" type="schemas:Desktop_icon_count_display">
-            <xs:annotation>
-              <xs:documentation>Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None </xs:documentation>
-            </xs:annotation>
-          </xs:element>
-          <xs:element minOccurs="0" name="realmNameInNotifications" type="xs:boolean">
-            <xs:annotation>
-              <xs:documentation>Include organization name in subject of message notification emails. </xs:documentation>
-            </xs:annotation>
-          </xs:element>
-          <xs:element minOccurs="0" name="presenceEnabled" type="xs:boolean">
-            <xs:annotation>
-              <xs:documentation>Display the presence status to other users when online. </xs:documentation>
+              <xs:documentation>One of the following values:  * &#x60;unicode_emoji&#x60;: Unicode emoji (&#x60;emoji_code&#x60; will be its Unicode   codepoint). * &#x60;realm_emoji&#x60;: [Custom emoji](/help/add-custom-emoji).   (&#x60;emoji_code&#x60; will be its ID). * &#x60;zulip_extra_emoji&#x60;: Special emoji included with Zulip.  Exists to   namespace the &#x60;zulip&#x60; emoji. </xs:documentation>
             </xs:annotation>
           </xs:element>
         </xs:sequence>
       </xs:complexType>
-      <xs:complexType name="PatchSettingsNotifications_ResponseMessage">
+      <xs:complexType name="PostUsersMeStatus_ResponseMessage">
         <xs:sequence>
-          <xs:element minOccurs="1" name="JsonSuccessBase" type="schemas:JsonSuccessBase">
+          <xs:element minOccurs="1" name="JsonSuccess" type="schemas:JsonSuccess">
             <xs:annotation>
               <xs:documentation>Success.</xs:documentation>
             </xs:annotation>
@@ -3640,6 +3928,39 @@
   </message>
   <message name="PostFetch_api_key_ResponseMessage">
     <part name="PostFetch_api_key_ResponseMessage" element="schemas:PostFetch_api_key_ResponseMessage" />
+  </message>
+  <message name="PostDrafts_RequestMessage">
+    <part name="PostDrafts_RequestMessage" element="schemas:PostDrafts_RequestMessage" />
+  </message>
+  <message name="PostDrafts_ResponseMessage">
+    <part name="PostDrafts_ResponseMessage" element="schemas:PostDrafts_ResponseMessage" />
+  </message>
+  <message name="PostDrafts_400">
+    <part name="PostDrafts_400" element="schemas:PostDrafts_400" />
+  </message>
+  <message name="DeleteDraftsByDraft_id_RequestMessage">
+    <part name="DeleteDraftsByDraft_id_RequestMessage" element="schemas:DeleteDraftsByDraft_id_RequestMessage" />
+  </message>
+  <message name="DeleteDraftsByDraft_id_ResponseMessage">
+    <part name="DeleteDraftsByDraft_id_ResponseMessage" element="schemas:DeleteDraftsByDraft_id_ResponseMessage" />
+  </message>
+  <message name="DeleteDraftsByDraft_id_404">
+    <part name="DeleteDraftsByDraft_id_404" element="schemas:DeleteDraftsByDraft_id_404" />
+  </message>
+  <message name="PatchDraftsByDraft_id_RequestMessage">
+    <part name="PatchDraftsByDraft_id_RequestMessage" element="schemas:PatchDraftsByDraft_id_RequestMessage" />
+  </message>
+  <message name="PatchDraftsByDraft_id_ResponseMessage">
+    <part name="PatchDraftsByDraft_id_ResponseMessage" element="schemas:PatchDraftsByDraft_id_ResponseMessage" />
+  </message>
+  <message name="PatchDraftsByDraft_id_404">
+    <part name="PatchDraftsByDraft_id_404" element="schemas:PatchDraftsByDraft_id_404" />
+  </message>
+  <message name="GetDrafts_RequestMessage">
+    <part name="GetDrafts_RequestMessage" element="schemas:GetDrafts_RequestMessage" />
+  </message>
+  <message name="GetDrafts_ResponseMessage">
+    <part name="GetDrafts_ResponseMessage" element="schemas:GetDrafts_ResponseMessage" />
   </message>
   <message name="PostMessagesReactionsByMessage_id_RequestMessage">
     <part name="PostMessagesReactionsByMessage_id_RequestMessage" element="schemas:PostMessagesReactionsByMessage_id_RequestMessage" />
@@ -3887,6 +4208,15 @@
   <message name="GetCallsBigbluebuttonCreate_ResponseMessage">
     <part name="GetCallsBigbluebuttonCreate_ResponseMessage" element="schemas:GetCallsBigbluebuttonCreate_ResponseMessage" />
   </message>
+  <message name="PostStreamsDelete_topicByStream_id_RequestMessage">
+    <part name="PostStreamsDelete_topicByStream_id_RequestMessage" element="schemas:PostStreamsDelete_topicByStream_id_RequestMessage" />
+  </message>
+  <message name="PostStreamsDelete_topicByStream_id_ResponseMessage">
+    <part name="PostStreamsDelete_topicByStream_id_ResponseMessage" element="schemas:PostStreamsDelete_topicByStream_id_ResponseMessage" />
+  </message>
+  <message name="PostStreamsDelete_topicByStream_id_400">
+    <part name="PostStreamsDelete_topicByStream_id_400" element="schemas:PostStreamsDelete_topicByStream_id_400" />
+  </message>
   <message name="GetGet_stream_id_RequestMessage">
     <part name="GetGet_stream_id_RequestMessage" element="schemas:GetGet_stream_id_RequestMessage" />
   </message>
@@ -3913,6 +4243,15 @@
   </message>
   <message name="GetStreams_400">
     <part name="GetStreams_400" element="schemas:GetStreams_400" />
+  </message>
+  <message name="GetStreamsMembersByStream_id_RequestMessage">
+    <part name="GetStreamsMembersByStream_id_RequestMessage" element="schemas:GetStreamsMembersByStream_id_RequestMessage" />
+  </message>
+  <message name="GetStreamsMembersByStream_id_ResponseMessage">
+    <part name="GetStreamsMembersByStream_id_ResponseMessage" element="schemas:GetStreamsMembersByStream_id_ResponseMessage" />
+  </message>
+  <message name="GetStreamsMembersByStream_id_400">
+    <part name="GetStreamsMembersByStream_id_400" element="schemas:GetStreamsMembersByStream_id_400" />
   </message>
   <message name="GetUsersSubscriptionsByUser_idAndStream_id_RequestMessage">
     <part name="GetUsersSubscriptionsByUser_idAndStream_id_RequestMessage" element="schemas:GetUsersSubscriptionsByUser_idAndStream_id_RequestMessage" />
@@ -4094,17 +4433,20 @@
   <message name="DeleteUsersMeMuted_usersByMuted_user_id_400">
     <part name="DeleteUsersMeMuted_usersByMuted_user_id_400" element="schemas:DeleteUsersMeMuted_usersByMuted_user_id_400" />
   </message>
-  <message name="PatchSettingsDisplay_RequestMessage">
-    <part name="PatchSettingsDisplay_RequestMessage" element="schemas:PatchSettingsDisplay_RequestMessage" />
+  <message name="PatchSettings_RequestMessage">
+    <part name="PatchSettings_RequestMessage" element="schemas:PatchSettings_RequestMessage" />
   </message>
-  <message name="PatchSettingsDisplay_ResponseMessage">
-    <part name="PatchSettingsDisplay_ResponseMessage" element="schemas:PatchSettingsDisplay_ResponseMessage" />
+  <message name="PatchSettings_ResponseMessage">
+    <part name="PatchSettings_ResponseMessage" element="schemas:PatchSettings_ResponseMessage" />
   </message>
-  <message name="PatchSettingsNotifications_RequestMessage">
-    <part name="PatchSettingsNotifications_RequestMessage" element="schemas:PatchSettingsNotifications_RequestMessage" />
+  <message name="PostUsersMeStatus_RequestMessage">
+    <part name="PostUsersMeStatus_RequestMessage" element="schemas:PostUsersMeStatus_RequestMessage" />
   </message>
-  <message name="PatchSettingsNotifications_ResponseMessage">
-    <part name="PatchSettingsNotifications_ResponseMessage" element="schemas:PatchSettingsNotifications_ResponseMessage" />
+  <message name="PostUsersMeStatus_ResponseMessage">
+    <part name="PostUsersMeStatus_ResponseMessage" element="schemas:PostUsersMeStatus_ResponseMessage" />
+  </message>
+  <message name="PostUsersMeStatus_400">
+    <part name="PostUsersMeStatus_400" element="schemas:PostUsersMeStatus_400" />
   </message>
   <message name="PatchUsersByUser_id_RequestMessage">
     <part name="PatchUsersByUser_id_RequestMessage" element="schemas:PatchUsersByUser_id_RequestMessage" />
@@ -4149,6 +4491,43 @@
       <input message="wsdl:PostFetch_api_key_RequestMessage" />
       <output message="wsdl:PostFetch_api_key_ResponseMessage">
         <documentation>Valid credentials the client can use to access the Zulip API.</documentation>
+      </output>
+    </operation>
+    <operation name="PostDrafts">
+      <documentation>Create one or more drafts on the server. These drafts will be automatically synchronized to other clients via &#x60;drafts&#x60; events.  &#x60;POST {{ api_url }}/v1/drafts&#x60; </documentation>
+      <input message="wsdl:PostDrafts_RequestMessage" />
+      <output message="wsdl:PostDrafts_ResponseMessage">
+        <documentation>Success.</documentation>
+      </output>
+      <fault name="PostDrafts_400" message="wsdl:PostDrafts_400">
+        <documentation>Bad request.</documentation>
+      </fault>
+    </operation>
+    <operation name="DeleteDraftsByDraft_id">
+      <documentation>Delete a single draft from the server. The deletion will be automatically synchronized to other clients via a &#x60;drafts&#x60; event.  &#x60;DELETE {{ api_url }}/v1/drafts/{draft_id}&#x60; </documentation>
+      <input message="wsdl:DeleteDraftsByDraft_id_RequestMessage" />
+      <output message="wsdl:DeleteDraftsByDraft_id_ResponseMessage">
+        <documentation>Success.</documentation>
+      </output>
+      <fault name="DeleteDraftsByDraft_id_404" message="wsdl:DeleteDraftsByDraft_id_404">
+        <documentation>Not Found.</documentation>
+      </fault>
+    </operation>
+    <operation name="PatchDraftsByDraft_id">
+      <documentation>Edit a draft on the server. The edit will be automatically synchronized to other clients via &#x60;drafts&#x60; events.  &#x60;PATCH {{ api_url }}/v1/drafts/{draft_id}&#x60; </documentation>
+      <input message="wsdl:PatchDraftsByDraft_id_RequestMessage" />
+      <output message="wsdl:PatchDraftsByDraft_id_ResponseMessage">
+        <documentation>Success.</documentation>
+      </output>
+      <fault name="PatchDraftsByDraft_id_404" message="wsdl:PatchDraftsByDraft_id_404">
+        <documentation>Not Found.</documentation>
+      </fault>
+    </operation>
+    <operation name="GetDrafts">
+      <documentation>Fetch all drafts for the current user.  &#x60;GET {{ api_url }}/v1/drafts&#x60; </documentation>
+      <input message="wsdl:GetDrafts_RequestMessage" />
+      <output message="wsdl:GetDrafts_ResponseMessage">
+        <documentation>Success.</documentation>
       </output>
     </operation>
     <operation name="PostMessagesReactionsByMessage_id">
@@ -4432,6 +4811,16 @@
         <documentation>Success.</documentation>
       </output>
     </operation>
+    <operation name="PostStreamsDelete_topicByStream_id">
+      <documentation>Delete all messages in a topic.  &#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. </documentation>
+      <input message="wsdl:PostStreamsDelete_topicByStream_id_RequestMessage" />
+      <output message="wsdl:PostStreamsDelete_topicByStream_id_ResponseMessage">
+        <documentation>Success.</documentation>
+      </output>
+      <fault name="PostStreamsDelete_topicByStream_id_400" message="wsdl:PostStreamsDelete_topicByStream_id_400">
+        <documentation>Error.</documentation>
+      </fault>
+    </operation>
     <operation name="GetGet_stream_id">
       <documentation>Get the unique ID of a given stream.  &#x60;GET {{ api_url }}/v1/get_stream_id&#x60; </documentation>
       <input message="wsdl:GetGet_stream_id_RequestMessage" />
@@ -4459,6 +4848,16 @@
         <documentation>Success.</documentation>
       </output>
       <fault name="GetStreams_400" message="wsdl:GetStreams_400">
+        <documentation>Bad request.</documentation>
+      </fault>
+    </operation>
+    <operation name="GetStreamsMembersByStream_id">
+      <documentation>Get all users subscribed to a stream.  &#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60; </documentation>
+      <input message="wsdl:GetStreamsMembersByStream_id_RequestMessage" />
+      <output message="wsdl:GetStreamsMembersByStream_id_ResponseMessage">
+        <documentation>Success.</documentation>
+      </output>
+      <fault name="GetStreamsMembersByStream_id_400" message="wsdl:GetStreamsMembersByStream_id_400">
         <documentation>Bad request.</documentation>
       </fault>
     </operation>
@@ -4666,19 +5065,22 @@
         <documentation>Bad request.</documentation>
       </fault>
     </operation>
-    <operation name="PatchSettingsDisplay">
-      <documentation>This endpoint is used to edit the current user&#39;s user interface settings.  &#x60;PATCH {{ api_url }}/v1/settings/display&#x60; </documentation>
-      <input message="wsdl:PatchSettingsDisplay_RequestMessage" />
-      <output message="wsdl:PatchSettingsDisplay_ResponseMessage">
+    <operation name="PatchSettings">
+      <documentation>This endpoint is used to edit the current user&#39;s settings.  &#x60;PATCH {{ api_url }}/v1/settings&#x60;  **Changes**: Prior to Zulip 5.0 (feature level 80), this endpoint only supported the &#x60;full_name&#x60;, &#x60;email&#x60;, &#x60;old_password&#x60;, and &#x60;new_password&#x60; parameters. Notification settings were managed by &#x60;PATCH /settings/notifications&#x60;, and all other settings by &#x60;PATCH /settings/display&#x60;. The feature level 80 migration to merge these endpoints did not change how request parameters are encoded. Note, however, that it did change the handling of any invalid parameters present in a request to change notification or display settings, since the merged endpoint uses the new response format that was introduced for &#x60;/settings&#x60; in Zulip 5.0 (feature level 78).  The &#x60;/settings/display&#x60; and &#x60;/settings/notifications&#x60; endpoints are now deprecated aliases for this endpoint for backwards-compatibility, and will be removed once clients have migrated to use this endpoint. </documentation>
+      <input message="wsdl:PatchSettings_RequestMessage" />
+      <output message="wsdl:PatchSettings_ResponseMessage">
         <documentation>Success</documentation>
       </output>
     </operation>
-    <operation name="PatchSettingsNotifications">
-      <documentation>This endpoint is used to edit the user&#39;s global notification settings. See [this endpoint](/api/update-subscription-settings) for per-stream notification settings.  &#x60;PATCH {{ api_url }}/v1/settings/notifications&#x60; </documentation>
-      <input message="wsdl:PatchSettingsNotifications_RequestMessage" />
-      <output message="wsdl:PatchSettingsNotifications_ResponseMessage">
+    <operation name="PostUsersMeStatus">
+      <documentation>Change your [status](/help/status-and-availability).  &#x60;POST {{ api_url }}/v1/users/me/status&#x60;  A request to this endpoint will only change the parameters passed. For example, passing just &#x60;status_text&#x60; requests a change in the status text, but will leave the status emoji unchanged.  Clients that wish to set the user&#39;s status to a specific value should pass all supported parameters. </documentation>
+      <input message="wsdl:PostUsersMeStatus_RequestMessage" />
+      <output message="wsdl:PostUsersMeStatus_ResponseMessage">
         <documentation>Success.</documentation>
       </output>
+      <fault name="PostUsersMeStatus_400" message="wsdl:PostUsersMeStatus_400">
+        <documentation>Success.</documentation>
+      </fault>
     </operation>
     <operation name="PatchUsersByUser_id">
       <documentation>Administrative endpoint to update the details of another user in the organization.  &#x60;PATCH {{ api_url }}/v1/users/{user_id}&#x60;  Supports everything an administrator can do to edit details of another user&#39;s account, including editing full name, [role](/help/roles-and-permissions), and [custom profile fields](/help/add-custom-profile-fields). </documentation>
@@ -4728,6 +5130,51 @@
     </operation>
     <operation name="PostFetch_api_key">
       <soap:operation soapAction="PostFetch_api_key" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input>
+        <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output>
+        <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="PostDrafts">
+      <soap:operation soapAction="PostDrafts" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input>
+        <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output>
+        <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+      <fault name="PostDrafts_400">
+        <soap:fault use="literal" name="PostDrafts_400" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </fault>
+    </operation>
+    <operation name="DeleteDraftsByDraft_id">
+      <soap:operation soapAction="DeleteDraftsByDraft_id" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input>
+        <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output>
+        <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+      <fault name="DeleteDraftsByDraft_id_404">
+        <soap:fault use="literal" name="DeleteDraftsByDraft_id_404" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </fault>
+    </operation>
+    <operation name="PatchDraftsByDraft_id">
+      <soap:operation soapAction="PatchDraftsByDraft_id" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input>
+        <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output>
+        <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+      <fault name="PatchDraftsByDraft_id_404">
+        <soap:fault use="literal" name="PatchDraftsByDraft_id_404" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </fault>
+    </operation>
+    <operation name="GetDrafts">
+      <soap:operation soapAction="GetDrafts" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
       <input>
         <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
       </input>
@@ -5086,6 +5533,18 @@
         <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
       </output>
     </operation>
+    <operation name="PostStreamsDelete_topicByStream_id">
+      <soap:operation soapAction="PostStreamsDelete_topicByStream_id" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input>
+        <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output>
+        <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+      <fault name="PostStreamsDelete_topicByStream_id_400">
+        <soap:fault use="literal" name="PostStreamsDelete_topicByStream_id_400" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </fault>
+    </operation>
     <operation name="GetGet_stream_id">
       <soap:operation soapAction="GetGet_stream_id" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
       <input>
@@ -5120,6 +5579,18 @@
       </output>
       <fault name="GetStreams_400">
         <soap:fault use="literal" name="GetStreams_400" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </fault>
+    </operation>
+    <operation name="GetStreamsMembersByStream_id">
+      <soap:operation soapAction="GetStreamsMembersByStream_id" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input>
+        <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output>
+        <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+      <fault name="GetStreamsMembersByStream_id_400">
+        <soap:fault use="literal" name="GetStreamsMembersByStream_id_400" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
       </fault>
     </operation>
     <operation name="GetUsersSubscriptionsByUser_idAndStream_id">
@@ -5374,8 +5845,8 @@
         <soap:fault use="literal" name="DeleteUsersMeMuted_usersByMuted_user_id_400" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
       </fault>
     </operation>
-    <operation name="PatchSettingsDisplay">
-      <soap:operation soapAction="PatchSettingsDisplay" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+    <operation name="PatchSettings">
+      <soap:operation soapAction="PatchSettings" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
       <input>
         <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
       </input>
@@ -5383,14 +5854,17 @@
         <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
       </output>
     </operation>
-    <operation name="PatchSettingsNotifications">
-      <soap:operation soapAction="PatchSettingsNotifications" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+    <operation name="PostUsersMeStatus">
+      <soap:operation soapAction="PostUsersMeStatus" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
       <input>
         <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
       </input>
       <output>
         <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
       </output>
+      <fault name="PostUsersMeStatus_400">
+        <soap:fault use="literal" name="PostUsersMeStatus_400" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </fault>
     </operation>
     <operation name="PatchUsersByUser_id">
       <soap:operation soapAction="PatchUsersByUser_id" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />

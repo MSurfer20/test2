@@ -305,6 +305,146 @@ public class StreamsApi {
     }
   }
   /**
+  * Delete a topic
+  * Delete all messages in a topic.  &#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+   * @param streamId The ID of the stream to access. 
+   * @param topicName The name of the topic to delete. 
+   * @return JsonSuccess
+  */
+  public JsonSuccess deleteTopic (Integer streamId, String topicName) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
+    Object postBody = null;
+    // verify the required parameter 'streamId' is set
+    if (streamId == null) {
+      VolleyError error = new VolleyError("Missing the required parameter 'streamId' when calling deleteTopic",
+        new ApiException(400, "Missing the required parameter 'streamId' when calling deleteTopic"));
+    }
+    // verify the required parameter 'topicName' is set
+    if (topicName == null) {
+      VolleyError error = new VolleyError("Missing the required parameter 'topicName' when calling deleteTopic",
+        new ApiException(400, "Missing the required parameter 'topicName' when calling deleteTopic"));
+    }
+
+    // create path and map variables
+    String path = "/streams/{stream_id}/delete_topic".replaceAll("\\{" + "stream_id" + "\\}", apiInvoker.escapeString(streamId.toString()));
+
+    // query params
+    List<Pair> queryParams = new ArrayList<Pair>();
+    // header params
+    Map<String, String> headerParams = new HashMap<String, String>();
+    // form params
+    Map<String, String> formParams = new HashMap<String, String>();
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "topic_name", topicName));
+    String[] contentTypes = {
+    };
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+    if (contentType.startsWith("multipart/form-data")) {
+      // file uploading
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
+      HttpEntity httpEntity = localVarBuilder.build();
+      postBody = httpEntity;
+    } else {
+      // normal form params
+    }
+
+    String[] authNames = new String[] {  };
+
+    try {
+      String localVarResponse = apiInvoker.invokeAPI (basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames);
+      if (localVarResponse != null) {
+         return (JsonSuccess) ApiInvoker.deserialize(localVarResponse, "", JsonSuccess.class);
+      } else {
+         return null;
+      }
+    } catch (ApiException ex) {
+       throw ex;
+    } catch (InterruptedException ex) {
+       throw ex;
+    } catch (ExecutionException ex) {
+      if (ex.getCause() instanceof VolleyError) {
+        VolleyError volleyError = (VolleyError)ex.getCause();
+        if (volleyError.networkResponse != null) {
+          throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+        }
+      }
+      throw ex;
+    } catch (TimeoutException ex) {
+      throw ex;
+    }
+  }
+
+      /**
+   * Delete a topic
+   * Delete all messages in a topic.  &#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+   * @param streamId The ID of the stream to access.    * @param topicName The name of the topic to delete. 
+  */
+  public void deleteTopic (Integer streamId, String topicName, final Response.Listener<JsonSuccess> responseListener, final Response.ErrorListener errorListener) {
+    Object postBody = null;
+
+    // verify the required parameter 'streamId' is set
+    if (streamId == null) {
+      VolleyError error = new VolleyError("Missing the required parameter 'streamId' when calling deleteTopic",
+        new ApiException(400, "Missing the required parameter 'streamId' when calling deleteTopic"));
+    }
+    // verify the required parameter 'topicName' is set
+    if (topicName == null) {
+      VolleyError error = new VolleyError("Missing the required parameter 'topicName' when calling deleteTopic",
+        new ApiException(400, "Missing the required parameter 'topicName' when calling deleteTopic"));
+    }
+
+    // create path and map variables
+    String path = "/streams/{stream_id}/delete_topic".replaceAll("\\{format\\}","json").replaceAll("\\{" + "stream_id" + "\\}", apiInvoker.escapeString(streamId.toString()));
+
+    // query params
+    List<Pair> queryParams = new ArrayList<Pair>();
+    // header params
+    Map<String, String> headerParams = new HashMap<String, String>();
+    // form params
+    Map<String, String> formParams = new HashMap<String, String>();
+
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "topic_name", topicName));
+
+
+    String[] contentTypes = {
+      
+    };
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+    if (contentType.startsWith("multipart/form-data")) {
+      // file uploading
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
+      
+
+      HttpEntity httpEntity = localVarBuilder.build();
+      postBody = httpEntity;
+    } else {
+      // normal form params
+          }
+
+    String[] authNames = new String[] {  };
+
+    try {
+      apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames,
+        new Response.Listener<String>() {
+          @Override
+          public void onResponse(String localVarResponse) {
+            try {
+              responseListener.onResponse((JsonSuccess) ApiInvoker.deserialize(localVarResponse,  "", JsonSuccess.class));
+            } catch (ApiException exception) {
+               errorListener.onErrorResponse(new VolleyError(exception));
+            }
+          }
+      }, new Response.ErrorListener() {
+          @Override
+          public void onErrorResponse(VolleyError error) {
+            errorListener.onErrorResponse(error);
+          }
+      });
+    } catch (ApiException ex) {
+      errorListener.onErrorResponse(new VolleyError(ex));
+    }
+  }
+  /**
   * Get stream ID
   * Get the unique ID of a given stream.  &#x60;GET {{ api_url }}/v1/get_stream_id&#x60; 
    * @param stream The name of the stream to access. 
@@ -653,6 +793,133 @@ public class StreamsApi {
     queryParams.addAll(ApiInvoker.parameterToPairs("", "include_all_active", includeAllActive));
     queryParams.addAll(ApiInvoker.parameterToPairs("", "include_default", includeDefault));
     queryParams.addAll(ApiInvoker.parameterToPairs("", "include_owner_subscribed", includeOwnerSubscribed));
+
+
+    String[] contentTypes = {
+      
+    };
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+    if (contentType.startsWith("multipart/form-data")) {
+      // file uploading
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
+      
+
+      HttpEntity httpEntity = localVarBuilder.build();
+      postBody = httpEntity;
+    } else {
+      // normal form params
+          }
+
+    String[] authNames = new String[] {  };
+
+    try {
+      apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames,
+        new Response.Listener<String>() {
+          @Override
+          public void onResponse(String localVarResponse) {
+            try {
+              responseListener.onResponse((JsonSuccessBase) ApiInvoker.deserialize(localVarResponse,  "", JsonSuccessBase.class));
+            } catch (ApiException exception) {
+               errorListener.onErrorResponse(new VolleyError(exception));
+            }
+          }
+      }, new Response.ErrorListener() {
+          @Override
+          public void onErrorResponse(VolleyError error) {
+            errorListener.onErrorResponse(error);
+          }
+      });
+    } catch (ApiException ex) {
+      errorListener.onErrorResponse(new VolleyError(ex));
+    }
+  }
+  /**
+  * Get the subscribers of a stream
+  * Get all users subscribed to a stream.  &#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60; 
+   * @param streamId The ID of the stream to access. 
+   * @return JsonSuccessBase
+  */
+  public JsonSuccessBase getSubscribers (Integer streamId) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
+    Object postBody = null;
+    // verify the required parameter 'streamId' is set
+    if (streamId == null) {
+      VolleyError error = new VolleyError("Missing the required parameter 'streamId' when calling getSubscribers",
+        new ApiException(400, "Missing the required parameter 'streamId' when calling getSubscribers"));
+    }
+
+    // create path and map variables
+    String path = "/streams/{stream_id}/members".replaceAll("\\{" + "stream_id" + "\\}", apiInvoker.escapeString(streamId.toString()));
+
+    // query params
+    List<Pair> queryParams = new ArrayList<Pair>();
+    // header params
+    Map<String, String> headerParams = new HashMap<String, String>();
+    // form params
+    Map<String, String> formParams = new HashMap<String, String>();
+    String[] contentTypes = {
+    };
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+
+    if (contentType.startsWith("multipart/form-data")) {
+      // file uploading
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
+      HttpEntity httpEntity = localVarBuilder.build();
+      postBody = httpEntity;
+    } else {
+      // normal form params
+    }
+
+    String[] authNames = new String[] {  };
+
+    try {
+      String localVarResponse = apiInvoker.invokeAPI (basePath, path, "GET", queryParams, postBody, headerParams, formParams, contentType, authNames);
+      if (localVarResponse != null) {
+         return (JsonSuccessBase) ApiInvoker.deserialize(localVarResponse, "", JsonSuccessBase.class);
+      } else {
+         return null;
+      }
+    } catch (ApiException ex) {
+       throw ex;
+    } catch (InterruptedException ex) {
+       throw ex;
+    } catch (ExecutionException ex) {
+      if (ex.getCause() instanceof VolleyError) {
+        VolleyError volleyError = (VolleyError)ex.getCause();
+        if (volleyError.networkResponse != null) {
+          throw new ApiException(volleyError.networkResponse.statusCode, volleyError.getMessage());
+        }
+      }
+      throw ex;
+    } catch (TimeoutException ex) {
+      throw ex;
+    }
+  }
+
+      /**
+   * Get the subscribers of a stream
+   * Get all users subscribed to a stream.  &#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60; 
+   * @param streamId The ID of the stream to access. 
+  */
+  public void getSubscribers (Integer streamId, final Response.Listener<JsonSuccessBase> responseListener, final Response.ErrorListener errorListener) {
+    Object postBody = null;
+
+    // verify the required parameter 'streamId' is set
+    if (streamId == null) {
+      VolleyError error = new VolleyError("Missing the required parameter 'streamId' when calling getSubscribers",
+        new ApiException(400, "Missing the required parameter 'streamId' when calling getSubscribers"));
+    }
+
+    // create path and map variables
+    String path = "/streams/{stream_id}/members".replaceAll("\\{format\\}","json").replaceAll("\\{" + "stream_id" + "\\}", apiInvoker.escapeString(streamId.toString()));
+
+    // query params
+    List<Pair> queryParams = new ArrayList<Pair>();
+    // header params
+    Map<String, String> headerParams = new HashMap<String, String>();
+    // form params
+    Map<String, String> formParams = new HashMap<String, String>();
+
 
 
     String[] contentTypes = {

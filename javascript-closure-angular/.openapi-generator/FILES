@@ -22,10 +22,14 @@ API/Client/CodedErrorBase.js
 API/Client/CodedErrorBaseAllOf.js
 API/Client/CustomProfileField.js
 API/Client/DefaultStreamGroup.js
+API/Client/Draft.js
+API/Client/DraftsApi.js
+API/Client/EmojiBase.js
 API/Client/EmojiReaction.js
 API/Client/EmojiReactionAllOf.js
 API/Client/EmojiReactionBase.js
-API/Client/EmojiReactionBaseUser.js
+API/Client/EmojiReactionBaseAllOf.js
+API/Client/EmojiReactionBaseAllOfUser.js
 API/Client/GetMessages.js
 API/Client/GetMessagesAllOf.js
 API/Client/Hotspot.js

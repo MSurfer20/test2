@@ -3,6 +3,7 @@
 git_push.sh
 openapiclient-1.0.0-1.rockspec
 openapiclient/api/authentication_api.lua
+openapiclient/api/drafts_api.lua
 openapiclient/api/messages_api.lua
 openapiclient/api/real_time_events_api.lua
 openapiclient/api/server_and_organizations_api.lua
@@ -31,10 +32,13 @@ openapiclient/model/coded_error_base.lua
 openapiclient/model/coded_error_base_all_of.lua
 openapiclient/model/custom_profile_field.lua
 openapiclient/model/default_stream_group.lua
+openapiclient/model/draft.lua
+openapiclient/model/emoji_base.lua
 openapiclient/model/emoji_reaction.lua
 openapiclient/model/emoji_reaction_all_of.lua
 openapiclient/model/emoji_reaction_base.lua
-openapiclient/model/emoji_reaction_base_user.lua
+openapiclient/model/emoji_reaction_base_all_of.lua
+openapiclient/model/emoji_reaction_base_all_of_user.lua
 openapiclient/model/get_messages.lua
 openapiclient/model/get_messages_all_of.lua
 openapiclient/model/hotspot.lua
@@ -95,9 +99,13 @@ spec/coded_error_base_spec.lua
 spec/coded_error_spec.lua
 spec/custom_profile_field_spec.lua
 spec/default_stream_group_spec.lua
+spec/draft_spec.lua
+spec/drafts_api_spec.lua
+spec/emoji_base_spec.lua
 spec/emoji_reaction_all_of_spec.lua
+spec/emoji_reaction_base_all_of_spec.lua
+spec/emoji_reaction_base_all_of_user_spec.lua
 spec/emoji_reaction_base_spec.lua
-spec/emoji_reaction_base_user_spec.lua
 spec/emoji_reaction_spec.lua
 spec/get_messages_all_of_spec.lua
 spec/get_messages_spec.lua

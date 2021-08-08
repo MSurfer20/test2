@@ -7,7 +7,7 @@ const Service = require('./Service');
 *
 * returns inline_response_200
 * */
-const zulip_outgoing_webhooks = () => new Promise(
+const zulipOutgoingWebhooks = () => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -22,5 +22,5 @@ const zulip_outgoing_webhooks = () => new Promise(
 );
 
 module.exports = {
-  zulip_outgoing_webhooks,
+  zulipOutgoingWebhooks,
 };

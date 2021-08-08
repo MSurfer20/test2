@@ -22,10 +22,13 @@ models/coded_error_base.proto
 models/coded_error_base_all_of.proto
 models/custom_profile_field.proto
 models/default_stream_group.proto
+models/draft.proto
+models/emoji_base.proto
 models/emoji_reaction.proto
 models/emoji_reaction_all_of.proto
 models/emoji_reaction_base.proto
-models/emoji_reaction_base_user.proto
+models/emoji_reaction_base_all_of.proto
+models/emoji_reaction_base_all_of_user.proto
 models/get_messages.proto
 models/get_messages_all_of.proto
 models/hotspot.proto
@@ -64,6 +67,7 @@ models/user_deactivated_error.proto
 models/user_group.proto
 models/user_not_authorized_error.proto
 services/authentication_service.proto
+services/drafts_service.proto
 services/messages_service.proto
 services/real_time_events_service.proto
 services/server_and_organizations_service.proto

@@ -45,6 +45,16 @@ void OAIStreamsApiHandler::createBigBlueButtonVideoCall() {
         reqObj->createBigBlueButtonVideoCallResponse(res);
     }    
 }
+void OAIStreamsApiHandler::deleteTopic(qint32 stream_id, QString topic_name) {
+    Q_UNUSED(stream_id);
+    Q_UNUSED(topic_name);
+    auto reqObj = qobject_cast<OAIStreamsApiRequest*>(sender());
+    if( reqObj != nullptr ) 
+    { 
+        OAIJsonSuccess res;
+        reqObj->deleteTopicResponse(res);
+    }    
+}
 void OAIStreamsApiHandler::getStreamId(QString stream) {
     Q_UNUSED(stream);
     auto reqObj = qobject_cast<OAIStreamsApiRequest*>(sender());
@@ -75,6 +85,15 @@ void OAIStreamsApiHandler::getStreams(bool include_public, bool include_web_publ
     { 
         OAIJsonSuccessBase res;
         reqObj->getStreamsResponse(res);
+    }    
+}
+void OAIStreamsApiHandler::getSubscribers(qint32 stream_id) {
+    Q_UNUSED(stream_id);
+    auto reqObj = qobject_cast<OAIStreamsApiRequest*>(sender());
+    if( reqObj != nullptr ) 
+    { 
+        OAIJsonSuccessBase res;
+        reqObj->getSubscribersResponse(res);
     }    
 }
 void OAIStreamsApiHandler::getSubscriptionStatus(qint32 user_id, qint32 stream_id) {

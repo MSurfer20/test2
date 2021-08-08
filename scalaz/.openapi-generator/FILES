@@ -25,10 +25,14 @@ src/main/scala/org/openapitools/client/api/CodedErrorBaseAllOf.scala
 src/main/scala/org/openapitools/client/api/CustomProfileField.scala
 src/main/scala/org/openapitools/client/api/DateTimeCodecs.scala
 src/main/scala/org/openapitools/client/api/DefaultStreamGroup.scala
+src/main/scala/org/openapitools/client/api/Draft.scala
+src/main/scala/org/openapitools/client/api/DraftsApi.scala
+src/main/scala/org/openapitools/client/api/EmojiBase.scala
 src/main/scala/org/openapitools/client/api/EmojiReaction.scala
 src/main/scala/org/openapitools/client/api/EmojiReactionAllOf.scala
 src/main/scala/org/openapitools/client/api/EmojiReactionBase.scala
-src/main/scala/org/openapitools/client/api/EmojiReactionBaseUser.scala
+src/main/scala/org/openapitools/client/api/EmojiReactionBaseAllOf.scala
+src/main/scala/org/openapitools/client/api/EmojiReactionBaseAllOfUser.scala
 src/main/scala/org/openapitools/client/api/GetMessages.scala
 src/main/scala/org/openapitools/client/api/GetMessagesAllOf.scala
 src/main/scala/org/openapitools/client/api/HelperCodecs.scala

@@ -12,7 +12,7 @@ import model.OneOfstringinteger
 /**
   * Provides a default implementation for [[StreamsApi]].
   */
-@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2021-08-08T20:45:49.166589Z[Etc/UTC]")
+@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2021-08-08T21:15:24.853051Z[Etc/UTC]")
 class StreamsApiImpl extends StreamsApi {
   /**
     * @inheritdoc
@@ -30,6 +30,15 @@ class StreamsApiImpl extends StreamsApi {
     // TODO: Implement better logic
 
     JsonSuccessBase("", "")
+  }
+
+  /**
+    * @inheritdoc
+    */
+  override def deleteTopic(streamId: Int, topicName: String): JsonSuccess = {
+    // TODO: Implement better logic
+
+    JsonSuccess(null, null)
   }
 
   /**
@@ -54,6 +63,15 @@ class StreamsApiImpl extends StreamsApi {
     * @inheritdoc
     */
   override def getStreams(includePublic: Option[Boolean], includeWebPublic: Option[Boolean], includeSubscribed: Option[Boolean], includeAllActive: Option[Boolean], includeDefault: Option[Boolean], includeOwnerSubscribed: Option[Boolean]): JsonSuccessBase = {
+    // TODO: Implement better logic
+
+    JsonSuccessBase("", "")
+  }
+
+  /**
+    * @inheritdoc
+    */
+  override def getSubscribers(streamId: Int): JsonSuccessBase = {
     // TODO: Implement better logic
 
     JsonSuccessBase("", "")

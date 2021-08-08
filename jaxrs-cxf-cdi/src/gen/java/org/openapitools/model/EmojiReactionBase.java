@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.openapitools.model.EmojiReactionBaseUser;
+import org.openapitools.model.EmojiBase;
+import org.openapitools.model.EmojiReactionBaseAllOf;
+import org.openapitools.model.EmojiReactionBaseAllOfUser;
 import javax.validation.constraints.*;
 
 
@@ -24,11 +26,11 @@ public class EmojiReactionBase   {
 
   private Integer userId;
 
-  private EmojiReactionBaseUser user;
+  private EmojiReactionBaseAllOfUser user;
 
 
   /**
-   * A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint. 
+   * A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint; for &#x60;realm_emoji&#x60;, it&#39;ll be the ID of the realm emoji. 
    **/
   public EmojiReactionBase emojiCode(String emojiCode) {
     this.emojiCode = emojiCode;
@@ -36,7 +38,7 @@ public class EmojiReactionBase   {
   }
 
   
-  @ApiModelProperty(value = "A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint. ")
+  @ApiModelProperty(value = "A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji. ")
   @JsonProperty("emoji_code")
   public String getEmojiCode() {
     return emojiCode;
@@ -105,7 +107,7 @@ public class EmojiReactionBase   {
 
   /**
    **/
-  public EmojiReactionBase user(EmojiReactionBaseUser user) {
+  public EmojiReactionBase user(EmojiReactionBaseAllOfUser user) {
     this.user = user;
     return this;
   }
@@ -113,10 +115,10 @@ public class EmojiReactionBase   {
   
   @ApiModelProperty(value = "")
   @JsonProperty("user")
-  public EmojiReactionBaseUser getUser() {
+  public EmojiReactionBaseAllOfUser getUser() {
     return user;
   }
-  public void setUser(EmojiReactionBaseUser user) {
+  public void setUser(EmojiReactionBaseAllOfUser user) {
     this.user = user;
   }
 

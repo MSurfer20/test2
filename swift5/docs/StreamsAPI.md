@@ -6,9 +6,11 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**archiveStream**](StreamsAPI.md#archivestream) | **DELETE** /streams/{stream_id} | Archive a stream
 [**createBigBlueButtonVideoCall**](StreamsAPI.md#createbigbluebuttonvideocall) | **GET** /calls/bigbluebutton/create | Create BigBlueButton video call
+[**deleteTopic**](StreamsAPI.md#deletetopic) | **POST** /streams/{stream_id}/delete_topic | Delete a topic
 [**getStreamId**](StreamsAPI.md#getstreamid) | **GET** /get_stream_id | Get stream ID
 [**getStreamTopics**](StreamsAPI.md#getstreamtopics) | **GET** /users/me/{stream_id}/topics | Get topics in a stream
 [**getStreams**](StreamsAPI.md#getstreams) | **GET** /streams | Get all streams
+[**getSubscribers**](StreamsAPI.md#getsubscribers) | **GET** /streams/{stream_id}/members | Get the subscribers of a stream
 [**getSubscriptionStatus**](StreamsAPI.md#getsubscriptionstatus) | **GET** /users/{user_id}/subscriptions/{stream_id} | Get subscription status
 [**getSubscriptions**](StreamsAPI.md#getsubscriptions) | **GET** /users/me/subscriptions | Get subscribed streams
 [**muteTopic**](StreamsAPI.md#mutetopic) | **PATCH** /users/me/subscriptions/muted_topics | Topic muting
@@ -103,6 +105,58 @@ This endpoint does not need any parameter.
 ### Return type
 
 [**JsonSuccessBase**](JsonSuccessBase.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **deleteTopic**
+```swift
+    open class func deleteTopic(streamId: Int, topicName: String, completion: @escaping (_ data: JsonSuccess?, _ error: Error?) -> Void)
+```
+
+Delete a topic
+
+Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+
+### Example 
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import OpenAPIClient
+
+let streamId = 987 // Int | The ID of the stream to access. 
+let topicName = "topicName_example" // String | The name of the topic to delete. 
+
+// Delete a topic
+StreamsAPI.deleteTopic(streamId: streamId, topicName: topicName) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **streamId** | **Int** | The ID of the stream to access.  | 
+ **topicName** | **String** | The name of the topic to delete.  | 
+
+### Return type
+
+[**JsonSuccess**](JsonSuccess.md)
 
 ### Authorization
 
@@ -259,6 +313,56 @@ Name | Type | Description  | Notes
  **includeAllActive** | **Bool** | Include all active streams. The user must have administrative privileges to use this parameter.  | [optional] [default to false]
  **includeDefault** | **Bool** | Include all default streams for the user&#39;s realm.  | [optional] [default to false]
  **includeOwnerSubscribed** | **Bool** | If the user is a bot, include all streams that the bot&#39;s owner is subscribed to.  | [optional] [default to false]
+
+### Return type
+
+[**JsonSuccessBase**](JsonSuccessBase.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **getSubscribers**
+```swift
+    open class func getSubscribers(streamId: Int, completion: @escaping (_ data: JsonSuccessBase?, _ error: Error?) -> Void)
+```
+
+Get the subscribers of a stream
+
+Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` 
+
+### Example 
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import OpenAPIClient
+
+let streamId = 987 // Int | The ID of the stream to access. 
+
+// Get the subscribers of a stream
+StreamsAPI.getSubscribers(streamId: streamId) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **streamId** | **Int** | The ID of the stream to access.  | 
 
 ### Return type
 

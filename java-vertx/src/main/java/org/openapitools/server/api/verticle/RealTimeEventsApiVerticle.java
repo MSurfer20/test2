@@ -22,11 +22,11 @@ import java.util.Map;
 public class RealTimeEventsApiVerticle extends AbstractVerticle {
     static final Logger LOGGER = LoggerFactory.getLogger(RealTimeEventsApiVerticle.class);
     
-    static final String DELETE_QUEUE_SERVICE_ID = "delete_queue";
-    static final String GET_EVENTS_SERVICE_ID = "get_events";
+    static final String DELETE-QUEUE_SERVICE_ID = "delete-queue";
+    static final String GET-EVENTS_SERVICE_ID = "get-events";
     static final String POST_REAL_TIME_SERVICE_ID = "POST_real_time";
-    static final String REGISTER_QUEUE_SERVICE_ID = "register_queue";
-    static final String REST_ERROR_HANDLING_SERVICE_ID = "rest_error_handling";
+    static final String REGISTER-QUEUE_SERVICE_ID = "register-queue";
+    static final String REST-ERROR-HANDLING_SERVICE_ID = "rest-error-handling";
     
     final RealTimeEventsApi service;
 
@@ -43,11 +43,11 @@ public class RealTimeEventsApiVerticle extends AbstractVerticle {
     @Override
     public void start() throws Exception {
         
-        //Consumer for delete_queue
-        vertx.eventBus().<JsonObject> consumer(DELETE_QUEUE_SERVICE_ID).handler(message -> {
+        //Consumer for delete-queue
+        vertx.eventBus().<JsonObject> consumer(DELETE-QUEUE_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "delete_queue";
+                String serviceId = "delete-queue";
                 String queueIdParam = message.body().getString("queue_id");
                 if(queueIdParam == null) {
                     manageError(message, new MainApiException(400, "queue_id is required"), serviceId);
@@ -59,20 +59,20 @@ public class RealTimeEventsApiVerticle extends AbstractVerticle {
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "delete_queue");
+                        manageError(message, cause, "delete-queue");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("delete_queue", e);
+                logUnexpectedError("delete-queue", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for get_events
-        vertx.eventBus().<JsonObject> consumer(GET_EVENTS_SERVICE_ID).handler(message -> {
+        //Consumer for get-events
+        vertx.eventBus().<JsonObject> consumer(GET-EVENTS_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "get_events";
+                String serviceId = "get-events";
                 String queueIdParam = message.body().getString("queue_id");
                 if(queueIdParam == null) {
                     manageError(message, new MainApiException(400, "queue_id is required"), serviceId);
@@ -88,11 +88,11 @@ public class RealTimeEventsApiVerticle extends AbstractVerticle {
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "get_events");
+                        manageError(message, cause, "get-events");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("get_events", e);
+                logUnexpectedError("get-events", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
@@ -124,11 +124,11 @@ public class RealTimeEventsApiVerticle extends AbstractVerticle {
             }
         });
         
-        //Consumer for register_queue
-        vertx.eventBus().<JsonObject> consumer(REGISTER_QUEUE_SERVICE_ID).handler(message -> {
+        //Consumer for register-queue
+        vertx.eventBus().<JsonObject> consumer(REGISTER-QUEUE_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "register_queue";
+                String serviceId = "register-queue";
                 String applyMarkdownParam = message.body().getString("apply_markdown");
                 Boolean applyMarkdown = (applyMarkdownParam == null) ? false : Json.mapper.readValue(applyMarkdownParam, Boolean.class);
                 String clientGravatarParam = message.body().getString("client_gravatar");
@@ -159,30 +159,30 @@ public class RealTimeEventsApiVerticle extends AbstractVerticle {
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "register_queue");
+                        manageError(message, cause, "register-queue");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("register_queue", e);
+                logUnexpectedError("register-queue", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for rest_error_handling
-        vertx.eventBus().<JsonObject> consumer(REST_ERROR_HANDLING_SERVICE_ID).handler(message -> {
+        //Consumer for rest-error-handling
+        vertx.eventBus().<JsonObject> consumer(REST-ERROR-HANDLING_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "rest_error_handling";
+                String serviceId = "rest-error-handling";
                 service.restErrorHandling(result -> {
                     if (result.succeeded())
                         message.reply(null);
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "rest_error_handling");
+                        manageError(message, cause, "rest-error-handling");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("rest_error_handling", e);
+                logUnexpectedError("rest-error-handling", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });

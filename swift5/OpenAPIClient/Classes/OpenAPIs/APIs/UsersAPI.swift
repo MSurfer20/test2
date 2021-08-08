@@ -787,7 +787,7 @@ open class UsersAPI {
     /**
      * enum for parameter colorScheme
      */
-    public enum ColorScheme_updateDisplaySettings: Int, CaseIterable {
+    public enum ColorScheme_updateSettings: Int, CaseIterable {
         case _1 = 1
         case _2 = 2
         case _3 = 3
@@ -796,33 +796,68 @@ open class UsersAPI {
     /**
      * enum for parameter demoteInactiveStreams
      */
-    public enum DemoteInactiveStreams_updateDisplaySettings: Int, CaseIterable {
+    public enum DemoteInactiveStreams_updateSettings: Int, CaseIterable {
         case _1 = 1
         case _2 = 2
         case _3 = 3
     }
 
     /**
-     Update display settings
+     * enum for parameter desktopIconCountDisplay
+     */
+    public enum DesktopIconCountDisplay_updateSettings: Int, CaseIterable {
+        case _1 = 1
+        case _2 = 2
+        case _3 = 3
+    }
+
+    /**
+     Update settings
      
-     - parameter twentyFourHourTime: (query) Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).  (optional)
-     - parameter denseMode: (query) This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip.  (optional)
-     - parameter starredMessageCounts: (query) Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages).  (optional)
-     - parameter fluidLayoutWidth: (query) Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app&#39;s center panel (message feed, recent topics) on wide screens.  (optional)
-     - parameter highContrastMode: (query) This setting is reserved for use to control variations in Zulip&#39;s design to help visually impaired users.  (optional)
-     - parameter colorScheme: (query) Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard &#x60;prefers-color-scheme&#x60; media query.  (optional)
-     - parameter translateEmoticons: (query) Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends.  (optional)
-     - parameter defaultLanguage: (query) What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, &#x60;\&quot;en\&quot;&#x60; for English or &#x60;\&quot;de\&quot;&#x60; for German.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63).  (optional)
-     - parameter defaultView: (query) The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the &#x60;Esc&#x60; keyboard shortcut repeatedly.  * \&quot;recent_topics\&quot; - Recent topics view * \&quot;all_messages\&quot; - All messages view  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64).  (optional)
-     - parameter leftSideUserlist: (query) Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.  (optional)
-     - parameter emojiset: (query) The user&#39;s configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \&quot;google\&quot; - Google modern * \&quot;google-blob\&quot; - Google classic * \&quot;twitter\&quot; - Twitter * \&quot;text\&quot; - Plain text  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64).  (optional)
-     - parameter demoteInactiveStreams: (query) Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never  (optional)
-     - parameter timezone: (query) The user&#39;s [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64).  (optional)
+     - parameter fullName: (query) A new display name for the user.  (optional)
+     - parameter email: (query) Asks the server to initiate a confirmation sequence to change the user&#39;s email address to the indicated value. The user will need to demonstrate control of the new email address by clicking a confirmation link sent to that address.  (optional)
+     - parameter oldPassword: (query) The user&#39;s old Zulip password (or LDAP password, if LDAP authentication is in use).  Required only when sending the &#x60;new_password&#x60; parameter.  (optional)
+     - parameter newPassword: (query) The user&#39;s new Zulip password (or LDAP password, if LDAP authentication is in use).  The &#x60;old_password&#x60; parameter must be included in the request.  (optional)
+     - parameter twentyFourHourTime: (query) Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional)
+     - parameter denseMode: (query) This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional)
+     - parameter starredMessageCounts: (query) Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional)
+     - parameter fluidLayoutWidth: (query) Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app&#39;s center panel (message feed, recent topics) on wide screens.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional)
+     - parameter highContrastMode: (query) This setting is reserved for use to control variations in Zulip&#39;s design to help visually impaired users.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional)
+     - parameter colorScheme: (query) Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard &#x60;prefers-color-scheme&#x60; media query.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional)
+     - parameter enableDraftsSynchronization: (query) A boolean parameter to control whether synchronizing drafts is enabled for the user. When synchronization is disabled, all drafts stored in the server will be automatically deleted from the server.  This does not do anything (like sending events) to delete local copies of drafts stored in clients.  **Changes**: New in Zulip 5.0 (feature level 87).  (optional)
+     - parameter translateEmoticons: (query) Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional)
+     - parameter defaultLanguage: (query) What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, &#x60;\&quot;en\&quot;&#x60; for English or &#x60;\&quot;de\&quot;&#x60; for German.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63).  (optional)
+     - parameter defaultView: (query) The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the &#x60;Esc&#x60; keyboard shortcut repeatedly.  * \&quot;recent_topics\&quot; - Recent topics view * \&quot;all_messages\&quot; - All messages view  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).  (optional)
+     - parameter leftSideUserlist: (query) Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional)
+     - parameter emojiset: (query) The user&#39;s configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \&quot;google\&quot; - Google modern * \&quot;google-blob\&quot; - Google classic * \&quot;twitter\&quot; - Twitter * \&quot;text\&quot; - Plain text  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).  (optional)
+     - parameter demoteInactiveStreams: (query) Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional)
+     - parameter timezone: (query) The user&#39;s [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).  (optional)
+     - parameter enableStreamDesktopNotifications: (query) Enable visual desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+     - parameter enableStreamEmailNotifications: (query) Enable email notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+     - parameter enableStreamPushNotifications: (query) Enable mobile notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+     - parameter enableStreamAudibleNotifications: (query) Enable audible desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+     - parameter notificationSound: (query) Notification sound name.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63).  (optional)
+     - parameter enableDesktopNotifications: (query) Enable visual desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+     - parameter enableSounds: (query) Enable audible desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+     - parameter emailNotificationsBatchingPeriodSeconds: (query) The duration (in seconds) for which the server should wait to batch email notifications before sending them.  **Changes**: New in Zulip 5.0 (feature level 82)  (optional)
+     - parameter enableOfflineEmailNotifications: (query) Enable email notifications for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+     - parameter enableOfflinePushNotifications: (query) Enable mobile notification for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+     - parameter enableOnlinePushNotifications: (query) Enable mobile notification for private messages and @-mentions received when the user is online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+     - parameter enableDigestEmails: (query) Enable digest emails when the user is away.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+     - parameter enableMarketingEmails: (query) Enable marketing emails. Has no function outside Zulip Cloud.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+     - parameter enableLoginEmails: (query) Enable email notifications for new logins to account.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+     - parameter messageContentInEmailNotifications: (query) Include the message&#39;s content in email notifications for new messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+     - parameter pmContentInDesktopNotifications: (query) Include content of private messages in desktop notifications.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+     - parameter wildcardMentionsNotify: (query) Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+     - parameter desktopIconCountDisplay: (query) Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+     - parameter realmNameInNotifications: (query) Include organization name in subject of message notification emails.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+     - parameter presenceEnabled: (query) Display the presence status to other users when online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+     - parameter enterSends: (query) Whether pressing Enter in the compose box sends a message (or saves a message edit).  **Changes**: Before Zulip 5.0 (feature level 81), this setting was managed by the &#x60;POST /users/me/enter-sends&#x60; endpoint, with the same parameter format.  (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateDisplaySettings(twentyFourHourTime: Bool? = nil, denseMode: Bool? = nil, starredMessageCounts: Bool? = nil, fluidLayoutWidth: Bool? = nil, highContrastMode: Bool? = nil, colorScheme: ColorScheme_updateDisplaySettings? = nil, translateEmoticons: Bool? = nil, defaultLanguage: String? = nil, defaultView: String? = nil, leftSideUserlist: Bool? = nil, emojiset: String? = nil, demoteInactiveStreams: DemoteInactiveStreams_updateDisplaySettings? = nil, timezone: String? = nil, apiResponseQueue: DispatchQueue = OpenAPIClient.apiResponseQueue, completion: @escaping ((_ data: JsonSuccessBase?, _ error: Error?) -> Void)) {
-        updateDisplaySettingsWithRequestBuilder(twentyFourHourTime: twentyFourHourTime, denseMode: denseMode, starredMessageCounts: starredMessageCounts, fluidLayoutWidth: fluidLayoutWidth, highContrastMode: highContrastMode, colorScheme: colorScheme, translateEmoticons: translateEmoticons, defaultLanguage: defaultLanguage, defaultView: defaultView, leftSideUserlist: leftSideUserlist, emojiset: emojiset, demoteInactiveStreams: demoteInactiveStreams, timezone: timezone).execute(apiResponseQueue) { result -> Void in
+    open class func updateSettings(fullName: String? = nil, email: String? = nil, oldPassword: String? = nil, newPassword: String? = nil, twentyFourHourTime: Bool? = nil, denseMode: Bool? = nil, starredMessageCounts: Bool? = nil, fluidLayoutWidth: Bool? = nil, highContrastMode: Bool? = nil, colorScheme: ColorScheme_updateSettings? = nil, enableDraftsSynchronization: Bool? = nil, translateEmoticons: Bool? = nil, defaultLanguage: String? = nil, defaultView: String? = nil, leftSideUserlist: Bool? = nil, emojiset: String? = nil, demoteInactiveStreams: DemoteInactiveStreams_updateSettings? = nil, timezone: String? = nil, enableStreamDesktopNotifications: Bool? = nil, enableStreamEmailNotifications: Bool? = nil, enableStreamPushNotifications: Bool? = nil, enableStreamAudibleNotifications: Bool? = nil, notificationSound: String? = nil, enableDesktopNotifications: Bool? = nil, enableSounds: Bool? = nil, emailNotificationsBatchingPeriodSeconds: Int? = nil, enableOfflineEmailNotifications: Bool? = nil, enableOfflinePushNotifications: Bool? = nil, enableOnlinePushNotifications: Bool? = nil, enableDigestEmails: Bool? = nil, enableMarketingEmails: Bool? = nil, enableLoginEmails: Bool? = nil, messageContentInEmailNotifications: Bool? = nil, pmContentInDesktopNotifications: Bool? = nil, wildcardMentionsNotify: Bool? = nil, desktopIconCountDisplay: DesktopIconCountDisplay_updateSettings? = nil, realmNameInNotifications: Bool? = nil, presenceEnabled: Bool? = nil, enterSends: Bool? = nil, apiResponseQueue: DispatchQueue = OpenAPIClient.apiResponseQueue, completion: @escaping ((_ data: JsonSuccessBase?, _ error: Error?) -> Void)) {
+        updateSettingsWithRequestBuilder(fullName: fullName, email: email, oldPassword: oldPassword, newPassword: newPassword, twentyFourHourTime: twentyFourHourTime, denseMode: denseMode, starredMessageCounts: starredMessageCounts, fluidLayoutWidth: fluidLayoutWidth, highContrastMode: highContrastMode, colorScheme: colorScheme, enableDraftsSynchronization: enableDraftsSynchronization, translateEmoticons: translateEmoticons, defaultLanguage: defaultLanguage, defaultView: defaultView, leftSideUserlist: leftSideUserlist, emojiset: emojiset, demoteInactiveStreams: demoteInactiveStreams, timezone: timezone, enableStreamDesktopNotifications: enableStreamDesktopNotifications, enableStreamEmailNotifications: enableStreamEmailNotifications, enableStreamPushNotifications: enableStreamPushNotifications, enableStreamAudibleNotifications: enableStreamAudibleNotifications, notificationSound: notificationSound, enableDesktopNotifications: enableDesktopNotifications, enableSounds: enableSounds, emailNotificationsBatchingPeriodSeconds: emailNotificationsBatchingPeriodSeconds, enableOfflineEmailNotifications: enableOfflineEmailNotifications, enableOfflinePushNotifications: enableOfflinePushNotifications, enableOnlinePushNotifications: enableOnlinePushNotifications, enableDigestEmails: enableDigestEmails, enableMarketingEmails: enableMarketingEmails, enableLoginEmails: enableLoginEmails, messageContentInEmailNotifications: messageContentInEmailNotifications, pmContentInDesktopNotifications: pmContentInDesktopNotifications, wildcardMentionsNotify: wildcardMentionsNotify, desktopIconCountDisplay: desktopIconCountDisplay, realmNameInNotifications: realmNameInNotifications, presenceEnabled: presenceEnabled, enterSends: enterSends).execute(apiResponseQueue) { result -> Void in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -833,37 +868,68 @@ open class UsersAPI {
     }
 
     /**
-     Update display settings
-     - PATCH /settings/display
-     - This endpoint is used to edit the current user's user interface settings.  `PATCH {{ api_url }}/v1/settings/display` 
-     - parameter twentyFourHourTime: (query) Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).  (optional)
-     - parameter denseMode: (query) This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip.  (optional)
-     - parameter starredMessageCounts: (query) Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages).  (optional)
-     - parameter fluidLayoutWidth: (query) Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app&#39;s center panel (message feed, recent topics) on wide screens.  (optional)
-     - parameter highContrastMode: (query) This setting is reserved for use to control variations in Zulip&#39;s design to help visually impaired users.  (optional)
-     - parameter colorScheme: (query) Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard &#x60;prefers-color-scheme&#x60; media query.  (optional)
-     - parameter translateEmoticons: (query) Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends.  (optional)
-     - parameter defaultLanguage: (query) What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, &#x60;\&quot;en\&quot;&#x60; for English or &#x60;\&quot;de\&quot;&#x60; for German.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63).  (optional)
-     - parameter defaultView: (query) The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the &#x60;Esc&#x60; keyboard shortcut repeatedly.  * \&quot;recent_topics\&quot; - Recent topics view * \&quot;all_messages\&quot; - All messages view  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64).  (optional)
-     - parameter leftSideUserlist: (query) Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.  (optional)
-     - parameter emojiset: (query) The user&#39;s configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \&quot;google\&quot; - Google modern * \&quot;google-blob\&quot; - Google classic * \&quot;twitter\&quot; - Twitter * \&quot;text\&quot; - Plain text  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64).  (optional)
-     - parameter demoteInactiveStreams: (query) Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never  (optional)
-     - parameter timezone: (query) The user&#39;s [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64).  (optional)
+     Update settings
+     - PATCH /settings
+     - This endpoint is used to edit the current user's settings.  `PATCH {{ api_url }}/v1/settings`  **Changes**: Prior to Zulip 5.0 (feature level 80), this endpoint only supported the `full_name`, `email`, `old_password`, and `new_password` parameters. Notification settings were managed by `PATCH /settings/notifications`, and all other settings by `PATCH /settings/display`. The feature level 80 migration to merge these endpoints did not change how request parameters are encoded. Note, however, that it did change the handling of any invalid parameters present in a request to change notification or display settings, since the merged endpoint uses the new response format that was introduced for `/settings` in Zulip 5.0 (feature level 78).  The `/settings/display` and `/settings/notifications` endpoints are now deprecated aliases for this endpoint for backwards-compatibility, and will be removed once clients have migrated to use this endpoint. 
+     - parameter fullName: (query) A new display name for the user.  (optional)
+     - parameter email: (query) Asks the server to initiate a confirmation sequence to change the user&#39;s email address to the indicated value. The user will need to demonstrate control of the new email address by clicking a confirmation link sent to that address.  (optional)
+     - parameter oldPassword: (query) The user&#39;s old Zulip password (or LDAP password, if LDAP authentication is in use).  Required only when sending the &#x60;new_password&#x60; parameter.  (optional)
+     - parameter newPassword: (query) The user&#39;s new Zulip password (or LDAP password, if LDAP authentication is in use).  The &#x60;old_password&#x60; parameter must be included in the request.  (optional)
+     - parameter twentyFourHourTime: (query) Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional)
+     - parameter denseMode: (query) This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional)
+     - parameter starredMessageCounts: (query) Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional)
+     - parameter fluidLayoutWidth: (query) Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app&#39;s center panel (message feed, recent topics) on wide screens.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional)
+     - parameter highContrastMode: (query) This setting is reserved for use to control variations in Zulip&#39;s design to help visually impaired users.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional)
+     - parameter colorScheme: (query) Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard &#x60;prefers-color-scheme&#x60; media query.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional)
+     - parameter enableDraftsSynchronization: (query) A boolean parameter to control whether synchronizing drafts is enabled for the user. When synchronization is disabled, all drafts stored in the server will be automatically deleted from the server.  This does not do anything (like sending events) to delete local copies of drafts stored in clients.  **Changes**: New in Zulip 5.0 (feature level 87).  (optional)
+     - parameter translateEmoticons: (query) Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional)
+     - parameter defaultLanguage: (query) What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, &#x60;\&quot;en\&quot;&#x60; for English or &#x60;\&quot;de\&quot;&#x60; for German.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63).  (optional)
+     - parameter defaultView: (query) The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the &#x60;Esc&#x60; keyboard shortcut repeatedly.  * \&quot;recent_topics\&quot; - Recent topics view * \&quot;all_messages\&quot; - All messages view  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).  (optional)
+     - parameter leftSideUserlist: (query) Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional)
+     - parameter emojiset: (query) The user&#39;s configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \&quot;google\&quot; - Google modern * \&quot;google-blob\&quot; - Google classic * \&quot;twitter\&quot; - Twitter * \&quot;text\&quot; - Plain text  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).  (optional)
+     - parameter demoteInactiveStreams: (query) Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional)
+     - parameter timezone: (query) The user&#39;s [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).  (optional)
+     - parameter enableStreamDesktopNotifications: (query) Enable visual desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+     - parameter enableStreamEmailNotifications: (query) Enable email notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+     - parameter enableStreamPushNotifications: (query) Enable mobile notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+     - parameter enableStreamAudibleNotifications: (query) Enable audible desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+     - parameter notificationSound: (query) Notification sound name.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63).  (optional)
+     - parameter enableDesktopNotifications: (query) Enable visual desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+     - parameter enableSounds: (query) Enable audible desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+     - parameter emailNotificationsBatchingPeriodSeconds: (query) The duration (in seconds) for which the server should wait to batch email notifications before sending them.  **Changes**: New in Zulip 5.0 (feature level 82)  (optional)
+     - parameter enableOfflineEmailNotifications: (query) Enable email notifications for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+     - parameter enableOfflinePushNotifications: (query) Enable mobile notification for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+     - parameter enableOnlinePushNotifications: (query) Enable mobile notification for private messages and @-mentions received when the user is online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+     - parameter enableDigestEmails: (query) Enable digest emails when the user is away.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+     - parameter enableMarketingEmails: (query) Enable marketing emails. Has no function outside Zulip Cloud.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+     - parameter enableLoginEmails: (query) Enable email notifications for new logins to account.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+     - parameter messageContentInEmailNotifications: (query) Include the message&#39;s content in email notifications for new messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+     - parameter pmContentInDesktopNotifications: (query) Include content of private messages in desktop notifications.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+     - parameter wildcardMentionsNotify: (query) Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+     - parameter desktopIconCountDisplay: (query) Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+     - parameter realmNameInNotifications: (query) Include organization name in subject of message notification emails.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+     - parameter presenceEnabled: (query) Display the presence status to other users when online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+     - parameter enterSends: (query) Whether pressing Enter in the compose box sends a message (or saves a message edit).  **Changes**: Before Zulip 5.0 (feature level 81), this setting was managed by the &#x60;POST /users/me/enter-sends&#x60; endpoint, with the same parameter format.  (optional)
      - returns: RequestBuilder<JsonSuccessBase> 
      */
-    open class func updateDisplaySettingsWithRequestBuilder(twentyFourHourTime: Bool? = nil, denseMode: Bool? = nil, starredMessageCounts: Bool? = nil, fluidLayoutWidth: Bool? = nil, highContrastMode: Bool? = nil, colorScheme: ColorScheme_updateDisplaySettings? = nil, translateEmoticons: Bool? = nil, defaultLanguage: String? = nil, defaultView: String? = nil, leftSideUserlist: Bool? = nil, emojiset: String? = nil, demoteInactiveStreams: DemoteInactiveStreams_updateDisplaySettings? = nil, timezone: String? = nil) -> RequestBuilder<JsonSuccessBase> {
-        let localVariablePath = "/settings/display"
+    open class func updateSettingsWithRequestBuilder(fullName: String? = nil, email: String? = nil, oldPassword: String? = nil, newPassword: String? = nil, twentyFourHourTime: Bool? = nil, denseMode: Bool? = nil, starredMessageCounts: Bool? = nil, fluidLayoutWidth: Bool? = nil, highContrastMode: Bool? = nil, colorScheme: ColorScheme_updateSettings? = nil, enableDraftsSynchronization: Bool? = nil, translateEmoticons: Bool? = nil, defaultLanguage: String? = nil, defaultView: String? = nil, leftSideUserlist: Bool? = nil, emojiset: String? = nil, demoteInactiveStreams: DemoteInactiveStreams_updateSettings? = nil, timezone: String? = nil, enableStreamDesktopNotifications: Bool? = nil, enableStreamEmailNotifications: Bool? = nil, enableStreamPushNotifications: Bool? = nil, enableStreamAudibleNotifications: Bool? = nil, notificationSound: String? = nil, enableDesktopNotifications: Bool? = nil, enableSounds: Bool? = nil, emailNotificationsBatchingPeriodSeconds: Int? = nil, enableOfflineEmailNotifications: Bool? = nil, enableOfflinePushNotifications: Bool? = nil, enableOnlinePushNotifications: Bool? = nil, enableDigestEmails: Bool? = nil, enableMarketingEmails: Bool? = nil, enableLoginEmails: Bool? = nil, messageContentInEmailNotifications: Bool? = nil, pmContentInDesktopNotifications: Bool? = nil, wildcardMentionsNotify: Bool? = nil, desktopIconCountDisplay: DesktopIconCountDisplay_updateSettings? = nil, realmNameInNotifications: Bool? = nil, presenceEnabled: Bool? = nil, enterSends: Bool? = nil) -> RequestBuilder<JsonSuccessBase> {
+        let localVariablePath = "/settings"
         let localVariableURLString = OpenAPIClient.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "full_name": fullName?.encodeToJSON(),
+            "email": email?.encodeToJSON(),
+            "old_password": oldPassword?.encodeToJSON(),
+            "new_password": newPassword?.encodeToJSON(),
             "twenty_four_hour_time": twentyFourHourTime?.encodeToJSON(),
             "dense_mode": denseMode?.encodeToJSON(),
             "starred_message_counts": starredMessageCounts?.encodeToJSON(),
             "fluid_layout_width": fluidLayoutWidth?.encodeToJSON(),
             "high_contrast_mode": highContrastMode?.encodeToJSON(),
             "color_scheme": colorScheme?.encodeToJSON(),
+            "enable_drafts_synchronization": enableDraftsSynchronization?.encodeToJSON(),
             "translate_emoticons": translateEmoticons?.encodeToJSON(),
             "default_language": defaultLanguage?.encodeToJSON(),
             "default_view": defaultView?.encodeToJSON(),
@@ -871,96 +937,6 @@ open class UsersAPI {
             "emojiset": emojiset?.encodeToJSON(),
             "demote_inactive_streams": demoteInactiveStreams?.encodeToJSON(),
             "timezone": timezone?.encodeToJSON(),
-        ])
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<JsonSuccessBase>.Type = OpenAPIClient.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
-    }
-
-    /**
-     * enum for parameter desktopIconCountDisplay
-     */
-    public enum DesktopIconCountDisplay_updateNotificationSettings: Int, CaseIterable {
-        case _1 = 1
-        case _2 = 2
-        case _3 = 3
-    }
-
-    /**
-     Update notification settings
-     
-     - parameter enableStreamDesktopNotifications: (query) Enable visual desktop notifications for stream messages.  (optional)
-     - parameter enableStreamEmailNotifications: (query) Enable email notifications for stream messages.  (optional)
-     - parameter enableStreamPushNotifications: (query) Enable mobile notifications for stream messages.  (optional)
-     - parameter enableStreamAudibleNotifications: (query) Enable audible desktop notifications for stream messages.  (optional)
-     - parameter notificationSound: (query) Notification sound name.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63).  (optional)
-     - parameter enableDesktopNotifications: (query) Enable visual desktop notifications for private messages and @-mentions.  (optional)
-     - parameter enableSounds: (query) Enable audible desktop notifications for private messages and @-mentions.  (optional)
-     - parameter enableOfflineEmailNotifications: (query) Enable email notifications for private messages and @-mentions received when the user is offline.  (optional)
-     - parameter enableOfflinePushNotifications: (query) Enable mobile notification for private messages and @-mentions received when the user is offline.  (optional)
-     - parameter enableOnlinePushNotifications: (query) Enable mobile notification for private messages and @-mentions received when the user is online.  (optional)
-     - parameter enableDigestEmails: (query) Enable digest emails when the user is away.  (optional)
-     - parameter enableMarketingEmails: (query) Enable marketing emails. Has no function outside Zulip Cloud.  (optional)
-     - parameter enableLoginEmails: (query) Enable email notifications for new logins to account.  (optional)
-     - parameter messageContentInEmailNotifications: (query) Include the message&#39;s content in email notifications for new messages.  (optional)
-     - parameter pmContentInDesktopNotifications: (query) Include content of private messages in desktop notifications.  (optional)
-     - parameter wildcardMentionsNotify: (query) Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention.  (optional)
-     - parameter desktopIconCountDisplay: (query) Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None  (optional)
-     - parameter realmNameInNotifications: (query) Include organization name in subject of message notification emails.  (optional)
-     - parameter presenceEnabled: (query) Display the presence status to other users when online.  (optional)
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func updateNotificationSettings(enableStreamDesktopNotifications: Bool? = nil, enableStreamEmailNotifications: Bool? = nil, enableStreamPushNotifications: Bool? = nil, enableStreamAudibleNotifications: Bool? = nil, notificationSound: String? = nil, enableDesktopNotifications: Bool? = nil, enableSounds: Bool? = nil, enableOfflineEmailNotifications: Bool? = nil, enableOfflinePushNotifications: Bool? = nil, enableOnlinePushNotifications: Bool? = nil, enableDigestEmails: Bool? = nil, enableMarketingEmails: Bool? = nil, enableLoginEmails: Bool? = nil, messageContentInEmailNotifications: Bool? = nil, pmContentInDesktopNotifications: Bool? = nil, wildcardMentionsNotify: Bool? = nil, desktopIconCountDisplay: DesktopIconCountDisplay_updateNotificationSettings? = nil, realmNameInNotifications: Bool? = nil, presenceEnabled: Bool? = nil, apiResponseQueue: DispatchQueue = OpenAPIClient.apiResponseQueue, completion: @escaping ((_ data: JsonSuccessBase?, _ error: Error?) -> Void)) {
-        updateNotificationSettingsWithRequestBuilder(enableStreamDesktopNotifications: enableStreamDesktopNotifications, enableStreamEmailNotifications: enableStreamEmailNotifications, enableStreamPushNotifications: enableStreamPushNotifications, enableStreamAudibleNotifications: enableStreamAudibleNotifications, notificationSound: notificationSound, enableDesktopNotifications: enableDesktopNotifications, enableSounds: enableSounds, enableOfflineEmailNotifications: enableOfflineEmailNotifications, enableOfflinePushNotifications: enableOfflinePushNotifications, enableOnlinePushNotifications: enableOnlinePushNotifications, enableDigestEmails: enableDigestEmails, enableMarketingEmails: enableMarketingEmails, enableLoginEmails: enableLoginEmails, messageContentInEmailNotifications: messageContentInEmailNotifications, pmContentInDesktopNotifications: pmContentInDesktopNotifications, wildcardMentionsNotify: wildcardMentionsNotify, desktopIconCountDisplay: desktopIconCountDisplay, realmNameInNotifications: realmNameInNotifications, presenceEnabled: presenceEnabled).execute(apiResponseQueue) { result -> Void in
-            switch result {
-            case let .success(response):
-                completion(response.body, nil)
-            case let .failure(error):
-                completion(nil, error)
-            }
-        }
-    }
-
-    /**
-     Update notification settings
-     - PATCH /settings/notifications
-     - This endpoint is used to edit the user's global notification settings. See [this endpoint](/api/update-subscription-settings) for per-stream notification settings.  `PATCH {{ api_url }}/v1/settings/notifications` 
-     - parameter enableStreamDesktopNotifications: (query) Enable visual desktop notifications for stream messages.  (optional)
-     - parameter enableStreamEmailNotifications: (query) Enable email notifications for stream messages.  (optional)
-     - parameter enableStreamPushNotifications: (query) Enable mobile notifications for stream messages.  (optional)
-     - parameter enableStreamAudibleNotifications: (query) Enable audible desktop notifications for stream messages.  (optional)
-     - parameter notificationSound: (query) Notification sound name.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63).  (optional)
-     - parameter enableDesktopNotifications: (query) Enable visual desktop notifications for private messages and @-mentions.  (optional)
-     - parameter enableSounds: (query) Enable audible desktop notifications for private messages and @-mentions.  (optional)
-     - parameter enableOfflineEmailNotifications: (query) Enable email notifications for private messages and @-mentions received when the user is offline.  (optional)
-     - parameter enableOfflinePushNotifications: (query) Enable mobile notification for private messages and @-mentions received when the user is offline.  (optional)
-     - parameter enableOnlinePushNotifications: (query) Enable mobile notification for private messages and @-mentions received when the user is online.  (optional)
-     - parameter enableDigestEmails: (query) Enable digest emails when the user is away.  (optional)
-     - parameter enableMarketingEmails: (query) Enable marketing emails. Has no function outside Zulip Cloud.  (optional)
-     - parameter enableLoginEmails: (query) Enable email notifications for new logins to account.  (optional)
-     - parameter messageContentInEmailNotifications: (query) Include the message&#39;s content in email notifications for new messages.  (optional)
-     - parameter pmContentInDesktopNotifications: (query) Include content of private messages in desktop notifications.  (optional)
-     - parameter wildcardMentionsNotify: (query) Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention.  (optional)
-     - parameter desktopIconCountDisplay: (query) Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None  (optional)
-     - parameter realmNameInNotifications: (query) Include organization name in subject of message notification emails.  (optional)
-     - parameter presenceEnabled: (query) Display the presence status to other users when online.  (optional)
-     - returns: RequestBuilder<JsonSuccessBase> 
-     */
-    open class func updateNotificationSettingsWithRequestBuilder(enableStreamDesktopNotifications: Bool? = nil, enableStreamEmailNotifications: Bool? = nil, enableStreamPushNotifications: Bool? = nil, enableStreamAudibleNotifications: Bool? = nil, notificationSound: String? = nil, enableDesktopNotifications: Bool? = nil, enableSounds: Bool? = nil, enableOfflineEmailNotifications: Bool? = nil, enableOfflinePushNotifications: Bool? = nil, enableOnlinePushNotifications: Bool? = nil, enableDigestEmails: Bool? = nil, enableMarketingEmails: Bool? = nil, enableLoginEmails: Bool? = nil, messageContentInEmailNotifications: Bool? = nil, pmContentInDesktopNotifications: Bool? = nil, wildcardMentionsNotify: Bool? = nil, desktopIconCountDisplay: DesktopIconCountDisplay_updateNotificationSettings? = nil, realmNameInNotifications: Bool? = nil, presenceEnabled: Bool? = nil) -> RequestBuilder<JsonSuccessBase> {
-        let localVariablePath = "/settings/notifications"
-        let localVariableURLString = OpenAPIClient.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
             "enable_stream_desktop_notifications": enableStreamDesktopNotifications?.encodeToJSON(),
             "enable_stream_email_notifications": enableStreamEmailNotifications?.encodeToJSON(),
             "enable_stream_push_notifications": enableStreamPushNotifications?.encodeToJSON(),
@@ -968,6 +944,7 @@ open class UsersAPI {
             "notification_sound": notificationSound?.encodeToJSON(),
             "enable_desktop_notifications": enableDesktopNotifications?.encodeToJSON(),
             "enable_sounds": enableSounds?.encodeToJSON(),
+            "email_notifications_batching_period_seconds": emailNotificationsBatchingPeriodSeconds?.encodeToJSON(),
             "enable_offline_email_notifications": enableOfflineEmailNotifications?.encodeToJSON(),
             "enable_offline_push_notifications": enableOfflinePushNotifications?.encodeToJSON(),
             "enable_online_push_notifications": enableOnlinePushNotifications?.encodeToJSON(),
@@ -980,6 +957,7 @@ open class UsersAPI {
             "desktop_icon_count_display": desktopIconCountDisplay?.encodeToJSON(),
             "realm_name_in_notifications": realmNameInNotifications?.encodeToJSON(),
             "presence_enabled": presenceEnabled?.encodeToJSON(),
+            "enter_sends": enterSends?.encodeToJSON(),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -991,6 +969,64 @@ open class UsersAPI {
         let localVariableRequestBuilder: RequestBuilder<JsonSuccessBase>.Type = OpenAPIClient.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+    }
+
+    /**
+     Update your status
+     
+     - parameter statusText: (query) The text content of the status message. Sending the empty string will clear the user&#39;s status.  **Note**: The limit on the size of the message is 60 characters.  (optional)
+     - parameter away: (query) Whether the user should be marked as \&quot;away\&quot;.  (optional)
+     - parameter emojiName: (query) The name for the emoji to associate with this status.  (optional)
+     - parameter emojiCode: (query) A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint; for &#x60;realm_emoji&#x60;, it&#39;ll be the ID of the realm emoji.  (optional)
+     - parameter reactionType: (query) One of the following values:  * &#x60;unicode_emoji&#x60;: Unicode emoji (&#x60;emoji_code&#x60; will be its Unicode   codepoint). * &#x60;realm_emoji&#x60;: [Custom emoji](/help/add-custom-emoji).   (&#x60;emoji_code&#x60; will be its ID). * &#x60;zulip_extra_emoji&#x60;: Special emoji included with Zulip.  Exists to   namespace the &#x60;zulip&#x60; emoji.  (optional)
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func updateStatus(statusText: String? = nil, away: Bool? = nil, emojiName: String? = nil, emojiCode: String? = nil, reactionType: String? = nil, apiResponseQueue: DispatchQueue = OpenAPIClient.apiResponseQueue, completion: @escaping ((_ data: JsonSuccess?, _ error: Error?) -> Void)) {
+        updateStatusWithRequestBuilder(statusText: statusText, away: away, emojiName: emojiName, emojiCode: emojiCode, reactionType: reactionType).execute(apiResponseQueue) { result -> Void in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Update your status
+     - POST /users/me/status
+     - Change your [status](/help/status-and-availability).  `POST {{ api_url }}/v1/users/me/status`  A request to this endpoint will only change the parameters passed. For example, passing just `status_text` requests a change in the status text, but will leave the status emoji unchanged.  Clients that wish to set the user's status to a specific value should pass all supported parameters. 
+     - parameter statusText: (query) The text content of the status message. Sending the empty string will clear the user&#39;s status.  **Note**: The limit on the size of the message is 60 characters.  (optional)
+     - parameter away: (query) Whether the user should be marked as \&quot;away\&quot;.  (optional)
+     - parameter emojiName: (query) The name for the emoji to associate with this status.  (optional)
+     - parameter emojiCode: (query) A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint; for &#x60;realm_emoji&#x60;, it&#39;ll be the ID of the realm emoji.  (optional)
+     - parameter reactionType: (query) One of the following values:  * &#x60;unicode_emoji&#x60;: Unicode emoji (&#x60;emoji_code&#x60; will be its Unicode   codepoint). * &#x60;realm_emoji&#x60;: [Custom emoji](/help/add-custom-emoji).   (&#x60;emoji_code&#x60; will be its ID). * &#x60;zulip_extra_emoji&#x60;: Special emoji included with Zulip.  Exists to   namespace the &#x60;zulip&#x60; emoji.  (optional)
+     - returns: RequestBuilder<JsonSuccess> 
+     */
+    open class func updateStatusWithRequestBuilder(statusText: String? = nil, away: Bool? = nil, emojiName: String? = nil, emojiCode: String? = nil, reactionType: String? = nil) -> RequestBuilder<JsonSuccess> {
+        let localVariablePath = "/users/me/status"
+        let localVariableURLString = OpenAPIClient.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "status_text": statusText?.encodeToJSON(),
+            "away": away?.encodeToJSON(),
+            "emoji_name": emojiName?.encodeToJSON(),
+            "emoji_code": emojiCode?.encodeToJSON(),
+            "reaction_type": reactionType?.encodeToJSON(),
+        ])
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<JsonSuccess>.Type = OpenAPIClient.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
 
     /**

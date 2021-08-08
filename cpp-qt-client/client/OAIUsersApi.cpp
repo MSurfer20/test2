@@ -86,10 +86,10 @@ void OAIUsersApi::initializeServerConfigs(){
     _serverIndices.insert("setTypingStatus", 0);
     _serverConfigs.insert("unmuteUser", defaultConf);
     _serverIndices.insert("unmuteUser", 0);
-    _serverConfigs.insert("updateDisplaySettings", defaultConf);
-    _serverIndices.insert("updateDisplaySettings", 0);
-    _serverConfigs.insert("updateNotificationSettings", defaultConf);
-    _serverIndices.insert("updateNotificationSettings", 0);
+    _serverConfigs.insert("updateSettings", defaultConf);
+    _serverIndices.insert("updateSettings", 0);
+    _serverConfigs.insert("updateStatus", defaultConf);
+    _serverIndices.insert("updateStatus", 0);
     _serverConfigs.insert("updateUser", defaultConf);
     _serverIndices.insert("updateUser", 0);
     _serverConfigs.insert("updateUserGroup", defaultConf);
@@ -1482,10 +1482,70 @@ void OAIUsersApi::unmuteUserCallback(OAIHttpRequestWorker *worker) {
     }
 }
 
-void OAIUsersApi::updateDisplaySettings(const ::OpenAPI::OptionalParam<bool> &twenty_four_hour_time, const ::OpenAPI::OptionalParam<bool> &dense_mode, const ::OpenAPI::OptionalParam<bool> &starred_message_counts, const ::OpenAPI::OptionalParam<bool> &fluid_layout_width, const ::OpenAPI::OptionalParam<bool> &high_contrast_mode, const ::OpenAPI::OptionalParam<qint32> &color_scheme, const ::OpenAPI::OptionalParam<bool> &translate_emoticons, const ::OpenAPI::OptionalParam<QString> &default_language, const ::OpenAPI::OptionalParam<QString> &default_view, const ::OpenAPI::OptionalParam<bool> &left_side_userlist, const ::OpenAPI::OptionalParam<QString> &emojiset, const ::OpenAPI::OptionalParam<qint32> &demote_inactive_streams, const ::OpenAPI::OptionalParam<QString> &timezone) {
-    QString fullPath = QString(_serverConfigs["updateDisplaySettings"][_serverIndices.value("updateDisplaySettings")].URL()+"/settings/display");
+void OAIUsersApi::updateSettings(const ::OpenAPI::OptionalParam<QString> &full_name, const ::OpenAPI::OptionalParam<QString> &email, const ::OpenAPI::OptionalParam<QString> &old_password, const ::OpenAPI::OptionalParam<QString> &new_password, const ::OpenAPI::OptionalParam<bool> &twenty_four_hour_time, const ::OpenAPI::OptionalParam<bool> &dense_mode, const ::OpenAPI::OptionalParam<bool> &starred_message_counts, const ::OpenAPI::OptionalParam<bool> &fluid_layout_width, const ::OpenAPI::OptionalParam<bool> &high_contrast_mode, const ::OpenAPI::OptionalParam<qint32> &color_scheme, const ::OpenAPI::OptionalParam<bool> &enable_drafts_synchronization, const ::OpenAPI::OptionalParam<bool> &translate_emoticons, const ::OpenAPI::OptionalParam<QString> &default_language, const ::OpenAPI::OptionalParam<QString> &default_view, const ::OpenAPI::OptionalParam<bool> &left_side_userlist, const ::OpenAPI::OptionalParam<QString> &emojiset, const ::OpenAPI::OptionalParam<qint32> &demote_inactive_streams, const ::OpenAPI::OptionalParam<QString> &timezone, const ::OpenAPI::OptionalParam<bool> &enable_stream_desktop_notifications, const ::OpenAPI::OptionalParam<bool> &enable_stream_email_notifications, const ::OpenAPI::OptionalParam<bool> &enable_stream_push_notifications, const ::OpenAPI::OptionalParam<bool> &enable_stream_audible_notifications, const ::OpenAPI::OptionalParam<QString> &notification_sound, const ::OpenAPI::OptionalParam<bool> &enable_desktop_notifications, const ::OpenAPI::OptionalParam<bool> &enable_sounds, const ::OpenAPI::OptionalParam<qint32> &email_notifications_batching_period_seconds, const ::OpenAPI::OptionalParam<bool> &enable_offline_email_notifications, const ::OpenAPI::OptionalParam<bool> &enable_offline_push_notifications, const ::OpenAPI::OptionalParam<bool> &enable_online_push_notifications, const ::OpenAPI::OptionalParam<bool> &enable_digest_emails, const ::OpenAPI::OptionalParam<bool> &enable_marketing_emails, const ::OpenAPI::OptionalParam<bool> &enable_login_emails, const ::OpenAPI::OptionalParam<bool> &message_content_in_email_notifications, const ::OpenAPI::OptionalParam<bool> &pm_content_in_desktop_notifications, const ::OpenAPI::OptionalParam<bool> &wildcard_mentions_notify, const ::OpenAPI::OptionalParam<qint32> &desktop_icon_count_display, const ::OpenAPI::OptionalParam<bool> &realm_name_in_notifications, const ::OpenAPI::OptionalParam<bool> &presence_enabled, const ::OpenAPI::OptionalParam<bool> &enter_sends) {
+    QString fullPath = QString(_serverConfigs["updateSettings"][_serverIndices.value("updateSettings")].URL()+"/settings");
     
     QString queryPrefix, querySuffix, queryDelimiter, queryStyle;
+    if(full_name.hasValue())
+    {
+        queryStyle = "form";
+        if(queryStyle == "")
+            queryStyle = "form";
+        queryPrefix = getParamStylePrefix(queryStyle);
+        querySuffix = getParamStyleSuffix(queryStyle);
+        queryDelimiter = getParamStyleDelimiter(queryStyle, "full_name", true);
+        if (fullPath.indexOf("?") > 0)
+            fullPath.append(queryPrefix);
+        else
+            fullPath.append("?");
+
+        fullPath.append(QUrl::toPercentEncoding("full_name")).append(querySuffix).append(QUrl::toPercentEncoding(::OpenAPI::toStringValue(full_name.value())));
+    }
+    if(email.hasValue())
+    {
+        queryStyle = "form";
+        if(queryStyle == "")
+            queryStyle = "form";
+        queryPrefix = getParamStylePrefix(queryStyle);
+        querySuffix = getParamStyleSuffix(queryStyle);
+        queryDelimiter = getParamStyleDelimiter(queryStyle, "email", true);
+        if (fullPath.indexOf("?") > 0)
+            fullPath.append(queryPrefix);
+        else
+            fullPath.append("?");
+
+        fullPath.append(QUrl::toPercentEncoding("email")).append(querySuffix).append(QUrl::toPercentEncoding(::OpenAPI::toStringValue(email.value())));
+    }
+    if(old_password.hasValue())
+    {
+        queryStyle = "form";
+        if(queryStyle == "")
+            queryStyle = "form";
+        queryPrefix = getParamStylePrefix(queryStyle);
+        querySuffix = getParamStyleSuffix(queryStyle);
+        queryDelimiter = getParamStyleDelimiter(queryStyle, "old_password", true);
+        if (fullPath.indexOf("?") > 0)
+            fullPath.append(queryPrefix);
+        else
+            fullPath.append("?");
+
+        fullPath.append(QUrl::toPercentEncoding("old_password")).append(querySuffix).append(QUrl::toPercentEncoding(::OpenAPI::toStringValue(old_password.value())));
+    }
+    if(new_password.hasValue())
+    {
+        queryStyle = "form";
+        if(queryStyle == "")
+            queryStyle = "form";
+        queryPrefix = getParamStylePrefix(queryStyle);
+        querySuffix = getParamStyleSuffix(queryStyle);
+        queryDelimiter = getParamStyleDelimiter(queryStyle, "new_password", true);
+        if (fullPath.indexOf("?") > 0)
+            fullPath.append(queryPrefix);
+        else
+            fullPath.append("?");
+
+        fullPath.append(QUrl::toPercentEncoding("new_password")).append(querySuffix).append(QUrl::toPercentEncoding(::OpenAPI::toStringValue(new_password.value())));
+    }
     if(twenty_four_hour_time.hasValue())
     {
         queryStyle = "form";
@@ -1575,6 +1635,21 @@ void OAIUsersApi::updateDisplaySettings(const ::OpenAPI::OptionalParam<bool> &tw
             fullPath.append("?");
 
         fullPath.append(QUrl::toPercentEncoding("color_scheme")).append(querySuffix).append(QUrl::toPercentEncoding(::OpenAPI::toStringValue(color_scheme.value())));
+    }
+    if(enable_drafts_synchronization.hasValue())
+    {
+        queryStyle = "form";
+        if(queryStyle == "")
+            queryStyle = "form";
+        queryPrefix = getParamStylePrefix(queryStyle);
+        querySuffix = getParamStyleSuffix(queryStyle);
+        queryDelimiter = getParamStyleDelimiter(queryStyle, "enable_drafts_synchronization", true);
+        if (fullPath.indexOf("?") > 0)
+            fullPath.append(queryPrefix);
+        else
+            fullPath.append("?");
+
+        fullPath.append(QUrl::toPercentEncoding("enable_drafts_synchronization")).append(querySuffix).append(QUrl::toPercentEncoding(::OpenAPI::toStringValue(enable_drafts_synchronization.value())));
     }
     if(translate_emoticons.hasValue())
     {
@@ -1681,52 +1756,6 @@ void OAIUsersApi::updateDisplaySettings(const ::OpenAPI::OptionalParam<bool> &tw
 
         fullPath.append(QUrl::toPercentEncoding("timezone")).append(querySuffix).append(QUrl::toPercentEncoding(::OpenAPI::toStringValue(timezone.value())));
     }
-    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this, _manager);
-    worker->setTimeOut(_timeOut);
-    worker->setWorkingDirectory(_workingDirectory);
-    OAIHttpRequestInput input(fullPath, "PATCH");
-
-
-    foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
-
-    connect(worker, &OAIHttpRequestWorker::on_execution_finished, this, &OAIUsersApi::updateDisplaySettingsCallback);
-    connect(this, &OAIUsersApi::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, [this](){
-        if(findChildren<OAIHttpRequestWorker*>().count() == 0){
-            emit allPendingRequestsCompleted();
-        }
-    });
-
-    worker->execute(&input);
-}
-
-void OAIUsersApi::updateDisplaySettingsCallback(OAIHttpRequestWorker *worker) {
-    QString msg;
-    QString error_str = worker->error_str;
-    QNetworkReply::NetworkError error_type = worker->error_type;
-
-    if (worker->error_type == QNetworkReply::NoError) {
-        msg = QString("Success! %1 bytes").arg(worker->response.length());
-    } else {
-        msg = "Error: " + worker->error_str;
-        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
-    }
-    OAIJsonSuccessBase output(QString(worker->response));
-    worker->deleteLater();
-
-    if (worker->error_type == QNetworkReply::NoError) {
-        emit updateDisplaySettingsSignal(output);
-        emit updateDisplaySettingsSignalFull(worker, output);
-    } else {
-        emit updateDisplaySettingsSignalE(output, error_type, error_str);
-        emit updateDisplaySettingsSignalEFull(worker, error_type, error_str);
-    }
-}
-
-void OAIUsersApi::updateNotificationSettings(const ::OpenAPI::OptionalParam<bool> &enable_stream_desktop_notifications, const ::OpenAPI::OptionalParam<bool> &enable_stream_email_notifications, const ::OpenAPI::OptionalParam<bool> &enable_stream_push_notifications, const ::OpenAPI::OptionalParam<bool> &enable_stream_audible_notifications, const ::OpenAPI::OptionalParam<QString> &notification_sound, const ::OpenAPI::OptionalParam<bool> &enable_desktop_notifications, const ::OpenAPI::OptionalParam<bool> &enable_sounds, const ::OpenAPI::OptionalParam<bool> &enable_offline_email_notifications, const ::OpenAPI::OptionalParam<bool> &enable_offline_push_notifications, const ::OpenAPI::OptionalParam<bool> &enable_online_push_notifications, const ::OpenAPI::OptionalParam<bool> &enable_digest_emails, const ::OpenAPI::OptionalParam<bool> &enable_marketing_emails, const ::OpenAPI::OptionalParam<bool> &enable_login_emails, const ::OpenAPI::OptionalParam<bool> &message_content_in_email_notifications, const ::OpenAPI::OptionalParam<bool> &pm_content_in_desktop_notifications, const ::OpenAPI::OptionalParam<bool> &wildcard_mentions_notify, const ::OpenAPI::OptionalParam<qint32> &desktop_icon_count_display, const ::OpenAPI::OptionalParam<bool> &realm_name_in_notifications, const ::OpenAPI::OptionalParam<bool> &presence_enabled) {
-    QString fullPath = QString(_serverConfigs["updateNotificationSettings"][_serverIndices.value("updateNotificationSettings")].URL()+"/settings/notifications");
-    
-    QString queryPrefix, querySuffix, queryDelimiter, queryStyle;
     if(enable_stream_desktop_notifications.hasValue())
     {
         queryStyle = "form";
@@ -1831,6 +1860,21 @@ void OAIUsersApi::updateNotificationSettings(const ::OpenAPI::OptionalParam<bool
             fullPath.append("?");
 
         fullPath.append(QUrl::toPercentEncoding("enable_sounds")).append(querySuffix).append(QUrl::toPercentEncoding(::OpenAPI::toStringValue(enable_sounds.value())));
+    }
+    if(email_notifications_batching_period_seconds.hasValue())
+    {
+        queryStyle = "form";
+        if(queryStyle == "")
+            queryStyle = "form";
+        queryPrefix = getParamStylePrefix(queryStyle);
+        querySuffix = getParamStyleSuffix(queryStyle);
+        queryDelimiter = getParamStyleDelimiter(queryStyle, "email_notifications_batching_period_seconds", true);
+        if (fullPath.indexOf("?") > 0)
+            fullPath.append(queryPrefix);
+        else
+            fullPath.append("?");
+
+        fullPath.append(QUrl::toPercentEncoding("email_notifications_batching_period_seconds")).append(querySuffix).append(QUrl::toPercentEncoding(::OpenAPI::toStringValue(email_notifications_batching_period_seconds.value())));
     }
     if(enable_offline_email_notifications.hasValue())
     {
@@ -2012,6 +2056,21 @@ void OAIUsersApi::updateNotificationSettings(const ::OpenAPI::OptionalParam<bool
 
         fullPath.append(QUrl::toPercentEncoding("presence_enabled")).append(querySuffix).append(QUrl::toPercentEncoding(::OpenAPI::toStringValue(presence_enabled.value())));
     }
+    if(enter_sends.hasValue())
+    {
+        queryStyle = "form";
+        if(queryStyle == "")
+            queryStyle = "form";
+        queryPrefix = getParamStylePrefix(queryStyle);
+        querySuffix = getParamStyleSuffix(queryStyle);
+        queryDelimiter = getParamStyleDelimiter(queryStyle, "enter_sends", true);
+        if (fullPath.indexOf("?") > 0)
+            fullPath.append(queryPrefix);
+        else
+            fullPath.append("?");
+
+        fullPath.append(QUrl::toPercentEncoding("enter_sends")).append(querySuffix).append(QUrl::toPercentEncoding(::OpenAPI::toStringValue(enter_sends.value())));
+    }
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
@@ -2020,7 +2079,7 @@ void OAIUsersApi::updateNotificationSettings(const ::OpenAPI::OptionalParam<bool
 
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
-    connect(worker, &OAIHttpRequestWorker::on_execution_finished, this, &OAIUsersApi::updateNotificationSettingsCallback);
+    connect(worker, &OAIHttpRequestWorker::on_execution_finished, this, &OAIUsersApi::updateSettingsCallback);
     connect(this, &OAIUsersApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, [this](){
         if(findChildren<OAIHttpRequestWorker*>().count() == 0){
@@ -2031,7 +2090,7 @@ void OAIUsersApi::updateNotificationSettings(const ::OpenAPI::OptionalParam<bool
     worker->execute(&input);
 }
 
-void OAIUsersApi::updateNotificationSettingsCallback(OAIHttpRequestWorker *worker) {
+void OAIUsersApi::updateSettingsCallback(OAIHttpRequestWorker *worker) {
     QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
@@ -2046,11 +2105,132 @@ void OAIUsersApi::updateNotificationSettingsCallback(OAIHttpRequestWorker *worke
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {
-        emit updateNotificationSettingsSignal(output);
-        emit updateNotificationSettingsSignalFull(worker, output);
+        emit updateSettingsSignal(output);
+        emit updateSettingsSignalFull(worker, output);
     } else {
-        emit updateNotificationSettingsSignalE(output, error_type, error_str);
-        emit updateNotificationSettingsSignalEFull(worker, error_type, error_str);
+        emit updateSettingsSignalE(output, error_type, error_str);
+        emit updateSettingsSignalEFull(worker, error_type, error_str);
+    }
+}
+
+void OAIUsersApi::updateStatus(const ::OpenAPI::OptionalParam<QString> &status_text, const ::OpenAPI::OptionalParam<bool> &away, const ::OpenAPI::OptionalParam<QString> &emoji_name, const ::OpenAPI::OptionalParam<QString> &emoji_code, const ::OpenAPI::OptionalParam<QString> &reaction_type) {
+    QString fullPath = QString(_serverConfigs["updateStatus"][_serverIndices.value("updateStatus")].URL()+"/users/me/status");
+    
+    QString queryPrefix, querySuffix, queryDelimiter, queryStyle;
+    if(status_text.hasValue())
+    {
+        queryStyle = "form";
+        if(queryStyle == "")
+            queryStyle = "form";
+        queryPrefix = getParamStylePrefix(queryStyle);
+        querySuffix = getParamStyleSuffix(queryStyle);
+        queryDelimiter = getParamStyleDelimiter(queryStyle, "status_text", true);
+        if (fullPath.indexOf("?") > 0)
+            fullPath.append(queryPrefix);
+        else
+            fullPath.append("?");
+
+        fullPath.append(QUrl::toPercentEncoding("status_text")).append(querySuffix).append(QUrl::toPercentEncoding(::OpenAPI::toStringValue(status_text.value())));
+    }
+    if(away.hasValue())
+    {
+        queryStyle = "form";
+        if(queryStyle == "")
+            queryStyle = "form";
+        queryPrefix = getParamStylePrefix(queryStyle);
+        querySuffix = getParamStyleSuffix(queryStyle);
+        queryDelimiter = getParamStyleDelimiter(queryStyle, "away", true);
+        if (fullPath.indexOf("?") > 0)
+            fullPath.append(queryPrefix);
+        else
+            fullPath.append("?");
+
+        fullPath.append(QUrl::toPercentEncoding("away")).append(querySuffix).append(QUrl::toPercentEncoding(::OpenAPI::toStringValue(away.value())));
+    }
+    if(emoji_name.hasValue())
+    {
+        queryStyle = "form";
+        if(queryStyle == "")
+            queryStyle = "form";
+        queryPrefix = getParamStylePrefix(queryStyle);
+        querySuffix = getParamStyleSuffix(queryStyle);
+        queryDelimiter = getParamStyleDelimiter(queryStyle, "emoji_name", true);
+        if (fullPath.indexOf("?") > 0)
+            fullPath.append(queryPrefix);
+        else
+            fullPath.append("?");
+
+        fullPath.append(QUrl::toPercentEncoding("emoji_name")).append(querySuffix).append(QUrl::toPercentEncoding(::OpenAPI::toStringValue(emoji_name.value())));
+    }
+    if(emoji_code.hasValue())
+    {
+        queryStyle = "form";
+        if(queryStyle == "")
+            queryStyle = "form";
+        queryPrefix = getParamStylePrefix(queryStyle);
+        querySuffix = getParamStyleSuffix(queryStyle);
+        queryDelimiter = getParamStyleDelimiter(queryStyle, "emoji_code", true);
+        if (fullPath.indexOf("?") > 0)
+            fullPath.append(queryPrefix);
+        else
+            fullPath.append("?");
+
+        fullPath.append(QUrl::toPercentEncoding("emoji_code")).append(querySuffix).append(QUrl::toPercentEncoding(::OpenAPI::toStringValue(emoji_code.value())));
+    }
+    if(reaction_type.hasValue())
+    {
+        queryStyle = "form";
+        if(queryStyle == "")
+            queryStyle = "form";
+        queryPrefix = getParamStylePrefix(queryStyle);
+        querySuffix = getParamStyleSuffix(queryStyle);
+        queryDelimiter = getParamStyleDelimiter(queryStyle, "reaction_type", true);
+        if (fullPath.indexOf("?") > 0)
+            fullPath.append(queryPrefix);
+        else
+            fullPath.append("?");
+
+        fullPath.append(QUrl::toPercentEncoding("reaction_type")).append(querySuffix).append(QUrl::toPercentEncoding(::OpenAPI::toStringValue(reaction_type.value())));
+    }
+    OAIHttpRequestWorker *worker = new OAIHttpRequestWorker(this, _manager);
+    worker->setTimeOut(_timeOut);
+    worker->setWorkingDirectory(_workingDirectory);
+    OAIHttpRequestInput input(fullPath, "POST");
+
+
+    foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
+
+    connect(worker, &OAIHttpRequestWorker::on_execution_finished, this, &OAIUsersApi::updateStatusCallback);
+    connect(this, &OAIUsersApi::abortRequestsSignal, worker, &QObject::deleteLater);
+    connect(worker, &QObject::destroyed, [this](){
+        if(findChildren<OAIHttpRequestWorker*>().count() == 0){
+            emit allPendingRequestsCompleted();
+        }
+    });
+
+    worker->execute(&input);
+}
+
+void OAIUsersApi::updateStatusCallback(OAIHttpRequestWorker *worker) {
+    QString msg;
+    QString error_str = worker->error_str;
+    QNetworkReply::NetworkError error_type = worker->error_type;
+
+    if (worker->error_type == QNetworkReply::NoError) {
+        msg = QString("Success! %1 bytes").arg(worker->response.length());
+    } else {
+        msg = "Error: " + worker->error_str;
+        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
+    }
+    OAIJsonSuccess output(QString(worker->response));
+    worker->deleteLater();
+
+    if (worker->error_type == QNetworkReply::NoError) {
+        emit updateStatusSignal(output);
+        emit updateStatusSignalFull(worker, output);
+    } else {
+        emit updateStatusSignalE(output, error_type, error_str);
+        emit updateStatusSignalEFull(worker, error_type, error_str);
     }
 }
 

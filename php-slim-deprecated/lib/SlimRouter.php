@@ -71,6 +71,50 @@ class SlimRouter
             ],
         ],
         [
+            'httpMethod' => 'POST',
+            'basePathWithoutHost' => '/api/v1',
+            'path' => '/drafts',
+            'apiPackage' => 'OpenAPIServer\Api',
+            'classname' => 'AbstractDraftsApi',
+            'userClassname' => 'DraftsApi',
+            'operationId' => 'createDrafts',
+            'authMethods' => [
+            ],
+        ],
+        [
+            'httpMethod' => 'GET',
+            'basePathWithoutHost' => '/api/v1',
+            'path' => '/drafts',
+            'apiPackage' => 'OpenAPIServer\Api',
+            'classname' => 'AbstractDraftsApi',
+            'userClassname' => 'DraftsApi',
+            'operationId' => 'getDrafts',
+            'authMethods' => [
+            ],
+        ],
+        [
+            'httpMethod' => 'DELETE',
+            'basePathWithoutHost' => '/api/v1',
+            'path' => '/drafts/{draft_id}',
+            'apiPackage' => 'OpenAPIServer\Api',
+            'classname' => 'AbstractDraftsApi',
+            'userClassname' => 'DraftsApi',
+            'operationId' => 'deleteDraft',
+            'authMethods' => [
+            ],
+        ],
+        [
+            'httpMethod' => 'PATCH',
+            'basePathWithoutHost' => '/api/v1',
+            'path' => '/drafts/{draft_id}',
+            'apiPackage' => 'OpenAPIServer\Api',
+            'classname' => 'AbstractDraftsApi',
+            'userClassname' => 'DraftsApi',
+            'operationId' => 'editDraft',
+            'authMethods' => [
+            ],
+        ],
+        [
             'httpMethod' => 'GET',
             'basePathWithoutHost' => '/api/v1',
             'path' => '/messages/matches_narrow',
@@ -544,6 +588,17 @@ class SlimRouter
             ],
         ],
         [
+            'httpMethod' => 'POST',
+            'basePathWithoutHost' => '/api/v1',
+            'path' => '/streams/{stream_id}/delete_topic',
+            'apiPackage' => 'OpenAPIServer\Api',
+            'classname' => 'AbstractStreamsApi',
+            'userClassname' => 'StreamsApi',
+            'operationId' => 'deleteTopic',
+            'authMethods' => [
+            ],
+        ],
+        [
             'httpMethod' => 'GET',
             'basePathWithoutHost' => '/api/v1',
             'path' => '/users/me/{stream_id}/topics',
@@ -551,6 +606,17 @@ class SlimRouter
             'classname' => 'AbstractStreamsApi',
             'userClassname' => 'StreamsApi',
             'operationId' => 'getStreamTopics',
+            'authMethods' => [
+            ],
+        ],
+        [
+            'httpMethod' => 'GET',
+            'basePathWithoutHost' => '/api/v1',
+            'path' => '/streams/{stream_id}/members',
+            'apiPackage' => 'OpenAPIServer\Api',
+            'classname' => 'AbstractStreamsApi',
+            'userClassname' => 'StreamsApi',
+            'operationId' => 'getSubscribers',
             'authMethods' => [
             ],
         ],
@@ -667,22 +733,22 @@ class SlimRouter
         [
             'httpMethod' => 'PATCH',
             'basePathWithoutHost' => '/api/v1',
-            'path' => '/settings/display',
+            'path' => '/settings',
             'apiPackage' => 'OpenAPIServer\Api',
             'classname' => 'AbstractUsersApi',
             'userClassname' => 'UsersApi',
-            'operationId' => 'updateDisplaySettings',
+            'operationId' => 'updateSettings',
             'authMethods' => [
             ],
         ],
         [
-            'httpMethod' => 'PATCH',
+            'httpMethod' => 'POST',
             'basePathWithoutHost' => '/api/v1',
-            'path' => '/settings/notifications',
+            'path' => '/users/me/status',
             'apiPackage' => 'OpenAPIServer\Api',
             'classname' => 'AbstractUsersApi',
             'userClassname' => 'UsersApi',
-            'operationId' => 'updateNotificationSettings',
+            'operationId' => 'updateStatus',
             'authMethods' => [
             ],
         ],

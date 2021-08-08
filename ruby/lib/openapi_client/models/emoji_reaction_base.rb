@@ -15,7 +15,7 @@ require 'time'
 
 module OpenapiClient
   class EmojiReactionBase
-    # A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint. 
+    # A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji. 
     attr_accessor :emoji_code
 
     # Name of the emoji. 
@@ -52,7 +52,7 @@ module OpenapiClient
         :'emoji_name' => :'String',
         :'reaction_type' => :'String',
         :'user_id' => :'Integer',
-        :'user' => :'EmojiReactionBaseUser'
+        :'user' => :'EmojiReactionBaseAllOfUser'
       }
     end
 
@@ -60,6 +60,14 @@ module OpenapiClient
     def self.openapi_nullable
       Set.new([
       ])
+    end
+
+    # List of class defined in allOf (OpenAPI v3)
+    def self.openapi_all_of
+      [
+      :'EmojiBase',
+      :'EmojiReactionBaseAllOf'
+      ]
     end
 
     # Initializes the object

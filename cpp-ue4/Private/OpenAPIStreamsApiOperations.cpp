@@ -120,6 +120,63 @@ bool OpenAPIStreamsApi::CreateBigBlueButtonVideoCallResponse::FromJson(const TSh
 	return TryGetJsonValue(JsonValue, Content);
 }
 
+FString OpenAPIStreamsApi::DeleteTopicRequest::ComputePath() const
+{
+	TMap<FString, FStringFormatArg> PathParams = { 
+	{ TEXT("stream_id"), ToStringFormatArg(StreamId) } };
+
+	FString Path = FString::Format(TEXT("/streams/{stream_id}/delete_topic"), PathParams);
+	
+	TArray<FString> QueryParams;
+	QueryParams.Add(FString(TEXT("topic_name=")) + ToUrlString(TopicName));
+	Path += TCHAR('?');
+	Path += FString::Join(QueryParams, TEXT("&"));
+
+	return Path;
+}
+
+void OpenAPIStreamsApi::DeleteTopicRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
+{
+	static const TArray<FString> Consumes = {  };
+	//static const TArray<FString> Produces = { TEXT("application/json") };
+
+	HttpRequest->SetVerb(TEXT("POST"));
+
+	// Default to Json Body request
+	if (Consumes.Num() == 0 || Consumes.Contains(TEXT("application/json")))
+	{
+	}
+	else if (Consumes.Contains(TEXT("multipart/form-data")))
+	{
+	}
+	else if (Consumes.Contains(TEXT("application/x-www-form-urlencoded")))
+	{
+	}
+	else
+	{
+		UE_LOG(LogOpenAPI, Error, TEXT("Request ContentType not supported (%s)"), *FString::Join(Consumes, TEXT(",")));
+	}
+}
+
+void OpenAPIStreamsApi::DeleteTopicResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
+{
+	Response::SetHttpResponseCode(InHttpResponseCode);
+	switch ((int)InHttpResponseCode)
+	{
+	case 200:
+		SetResponseString(TEXT("Success."));
+		break;
+	case 400:
+		SetResponseString(TEXT("Error."));
+		break;
+	}
+}
+
+bool OpenAPIStreamsApi::DeleteTopicResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
+{
+	return TryGetJsonValue(JsonValue, Content);
+}
+
 FString OpenAPIStreamsApi::GetStreamIdRequest::ComputePath() const
 {
 	FString Path(TEXT("/get_stream_id"));
@@ -297,6 +354,58 @@ void OpenAPIStreamsApi::GetStreamsResponse::SetHttpResponseCode(EHttpResponseCod
 }
 
 bool OpenAPIStreamsApi::GetStreamsResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
+{
+	return TryGetJsonValue(JsonValue, Content);
+}
+
+FString OpenAPIStreamsApi::GetSubscribersRequest::ComputePath() const
+{
+	TMap<FString, FStringFormatArg> PathParams = { 
+	{ TEXT("stream_id"), ToStringFormatArg(StreamId) } };
+
+	FString Path = FString::Format(TEXT("/streams/{stream_id}/members"), PathParams);
+	
+	return Path;
+}
+
+void OpenAPIStreamsApi::GetSubscribersRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
+{
+	static const TArray<FString> Consumes = {  };
+	//static const TArray<FString> Produces = { TEXT("application/json") };
+
+	HttpRequest->SetVerb(TEXT("GET"));
+
+	// Default to Json Body request
+	if (Consumes.Num() == 0 || Consumes.Contains(TEXT("application/json")))
+	{
+	}
+	else if (Consumes.Contains(TEXT("multipart/form-data")))
+	{
+	}
+	else if (Consumes.Contains(TEXT("application/x-www-form-urlencoded")))
+	{
+	}
+	else
+	{
+		UE_LOG(LogOpenAPI, Error, TEXT("Request ContentType not supported (%s)"), *FString::Join(Consumes, TEXT(",")));
+	}
+}
+
+void OpenAPIStreamsApi::GetSubscribersResponse::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
+{
+	Response::SetHttpResponseCode(InHttpResponseCode);
+	switch ((int)InHttpResponseCode)
+	{
+	case 200:
+		SetResponseString(TEXT("Success."));
+		break;
+	case 400:
+		SetResponseString(TEXT("Bad request."));
+		break;
+	}
+}
+
+bool OpenAPIStreamsApi::GetSubscribersResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
 {
 	return TryGetJsonValue(JsonValue, Content);
 }

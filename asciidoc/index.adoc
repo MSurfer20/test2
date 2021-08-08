@@ -205,6 +205,353 @@ ifdef::internal-generation[]
 endif::internal-generation[]
 
 
+[.Drafts]
+=== Drafts
+
+
+[.createDrafts]
+==== createDrafts
+    
+`POST /drafts`
+
+Create drafts
+
+===== Description 
+
+Create one or more drafts on the server. These drafts will be automatically synchronized to other clients via `drafts` events.  `POST {{ api_url }}/v1/drafts` 
+
+
+// markup not found, no include::{specDir}drafts/POST/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+
+
+
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| drafts 
+| A JSON-encoded list of containing new draft objects.  <<Draft>> 
+| - 
+| null 
+|  
+
+|===         
+
+
+===== Return Type
+
+<<JsonSuccess>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| Success.
+|  <<JsonSuccess>>
+
+
+| 400
+| Bad request.
+|  <<CodedError>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}drafts/POST/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}drafts/POST/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :drafts/POST/POST.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}drafts/POST/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.deleteDraft]
+==== deleteDraft
+    
+`DELETE /drafts/{draft_id}`
+
+Delete a draft
+
+===== Description 
+
+Delete a single draft from the server. The deletion will be automatically synchronized to other clients via a `drafts` event.  `DELETE {{ api_url }}/v1/drafts/{draft_id}` 
+
+
+// markup not found, no include::{specDir}drafts/\{draft_id\}/DELETE/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| draft_id 
+| The ID of the draft you want to delete.   
+| X 
+| null 
+|  
+
+|===         
+
+
+
+
+
+
+===== Return Type
+
+<<JsonSuccess>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| Success.
+|  <<JsonSuccess>>
+
+
+| 404
+| Not Found.
+|  <<JsonError>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}drafts/\{draft_id\}/DELETE/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}drafts/\{draft_id\}/DELETE/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :drafts/{draft_id}/DELETE/DELETE.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}drafts/\{draft_id\}/DELETE/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.editDraft]
+==== editDraft
+    
+`PATCH /drafts/{draft_id}`
+
+Edit a draft
+
+===== Description 
+
+Edit a draft on the server. The edit will be automatically synchronized to other clients via `drafts` events.  `PATCH {{ api_url }}/v1/drafts/{draft_id}` 
+
+
+// markup not found, no include::{specDir}drafts/\{draft_id\}/PATCH/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| draft_id 
+| The ID of the draft to be edited.   
+| X 
+| null 
+|  
+
+|===         
+
+
+
+
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| draft 
+| A JSON-encoded object containing a replacement draft object for this ID.   
+| X 
+| null 
+|  
+
+|===         
+
+
+===== Return Type
+
+<<JsonSuccess>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| Success.
+|  <<JsonSuccess>>
+
+
+| 404
+| Not Found.
+|  <<JsonError>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}drafts/\{draft_id\}/PATCH/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}drafts/\{draft_id\}/PATCH/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :drafts/{draft_id}/PATCH/PATCH.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}drafts/\{draft_id\}/PATCH/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getDrafts]
+==== getDrafts
+    
+`GET /drafts`
+
+Get drafts
+
+===== Description 
+
+Fetch all drafts for the current user.  `GET {{ api_url }}/v1/drafts` 
+
+
+// markup not found, no include::{specDir}drafts/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+
+
+
+
+
+===== Return Type
+
+<<JsonSuccess>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| Success.
+|  <<JsonSuccess>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}drafts/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}drafts/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :drafts/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}drafts/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
 [.Messages]
 === Messages
 
@@ -2080,7 +2427,7 @@ Register an event queue
 |  
 
 | client_capabilities 
-| Dictionary containing details on features the client supports that are relevant to the format of responses sent by the server.  * &#x60;notification_settings_null&#x60;: Boolean for whether the   client can handle the current API with null values for   stream-level notification settings (which means the stream   is not customized and should inherit the user&#39;s global   notification settings for stream messages).  New in Zulip   2.1.0; in earlier Zulip releases, stream-level   notification settings were simple booleans.  * &#x60;bulk_message_deletion&#x60;: Boolean for whether the client&#39;s    handler for the &#x60;delete_message&#x60; event type has been    updated to process the new bulk format (with a    &#x60;message_ids&#x60;, rather than a singleton &#x60;message_id&#x60;).    Otherwise, the server will send &#x60;delete_message&#x60; events    in a loop.  New in Zulip 3.0 (feature level 13).  This    capability is for backwards-compatibility; it will be    required in a future server release.  * &#x60;user_avatar_url_field_optional&#x60;: Boolean for whether the    client required avatar URLs for all users, or supports    using &#x60;GET /avatar/{user_id}&#x60; to access user avatars.  If the    client has this capability, the server may skip sending a    &#x60;avatar_url&#x60; field in the &#x60;realm_user&#x60; at its sole discretion    to optimize network performance.  This is an important optimization    in organizations with 10,000s of users.    New in Zulip 3.0 (feature level 18).  * &#x60;stream_typing_notifications&#x60;: Boolean for whether the client   supports stream typing notifications.    New in Zulip 4.0 (feature level 58).  This capability is   for backwards-compatibility; it will be required in a   future server release.   
+| Dictionary containing details on features the client supports that are relevant to the format of responses sent by the server.  * &#x60;notification_settings_null&#x60;: Boolean for whether the   client can handle the current API with null values for   stream-level notification settings (which means the stream   is not customized and should inherit the user&#39;s global   notification settings for stream messages).   &lt;br /&gt;   New in Zulip 2.1.0; in earlier Zulip releases, stream-level   notification settings were simple booleans.  * &#x60;bulk_message_deletion&#x60;: Boolean for whether the client&#39;s    handler for the &#x60;delete_message&#x60; event type has been    updated to process the new bulk format (with a    &#x60;message_ids&#x60;, rather than a singleton &#x60;message_id&#x60;).    Otherwise, the server will send &#x60;delete_message&#x60; events    in a loop.    &lt;br /&gt;    New in Zulip 3.0 (feature level 13).  This    capability is for backwards-compatibility; it will be    required in a future server release.  * &#x60;user_avatar_url_field_optional&#x60;: Boolean for whether the    client required avatar URLs for all users, or supports    using &#x60;GET /avatar/{user_id}&#x60; to access user avatars.  If the    client has this capability, the server may skip sending a    &#x60;avatar_url&#x60; field in the &#x60;realm_user&#x60; at its sole discretion    to optimize network performance.  This is an important optimization    in organizations with 10,000s of users.    &lt;br /&gt;    New in Zulip 3.0 (feature level 18).  * &#x60;stream_typing_notifications&#x60;: Boolean for whether the client   supports stream typing notifications.   &lt;br /&gt;   New in Zulip 4.0 (feature level 58).  This capability is   for backwards-compatibility; it will be required in a   future server release.  * &#x60;user_settings_object&#x60;: Boolean for whether the client supports the modern   &#x60;user_settings&#x60; event type. If False, the server will additionally send the   legacy &#x60;update_display_settings&#x60; and &#x60;update_global_notifications&#x60; event   types for backwards-compatibility with clients that predate this API migration.   &lt;br /&gt;   &lt;br /&gt;   Because the feature level 89 API changes were merged together, clients can   safely make a request with this client capability and requesting all of the   &#x60;user_settings&#x60;, &#x60;update_display_settings&#x60;, and   &#x60;update_global_notifications&#x60; event types, and get exactly one copy of   settings data on any server version. (And then use the &#x60;zulip_feature_level&#x60;   in the &#x60;/register&#x60; response or the presence/absence of a &#x60;user_settings&#x60; key   to determine where to look).   &lt;br /&gt;   New in Zulip 5.0 (feature level 89).  This capability is for   backwards-compatibility; it will be removed in a future server release.   
 | - 
 | null 
 |  
@@ -3389,6 +3736,106 @@ ifdef::internal-generation[]
 endif::internal-generation[]
 
 
+[.deleteTopic]
+==== deleteTopic
+    
+`POST /streams/{stream_id}/delete_topic`
+
+Delete a topic
+
+===== Description 
+
+Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+
+
+// markup not found, no include::{specDir}streams/\{stream_id\}/delete_topic/POST/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| stream_id 
+| The ID of the stream to access.   
+| X 
+| null 
+|  
+
+|===         
+
+
+
+
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| topic_name 
+| The name of the topic to delete.   
+| X 
+| null 
+|  
+
+|===         
+
+
+===== Return Type
+
+<<JsonSuccess>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| Success.
+|  <<JsonSuccess>>
+
+
+| 400
+| Error.
+|  <<JsonError>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}streams/\{stream_id\}/delete_topic/POST/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}streams/\{stream_id\}/delete_topic/POST/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :streams/{stream_id}/delete_topic/POST/POST.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}streams/\{stream_id\}/delete_topic/POST/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
 [.getStreamId]
 ==== getStreamId
     
@@ -3675,6 +4122,93 @@ ifdef::internal-generation[]
 ===== Implementation
 
 // markup not found, no include::{specDir}streams/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getSubscribers]
+==== getSubscribers
+    
+`GET /streams/{stream_id}/members`
+
+Get the subscribers of a stream
+
+===== Description 
+
+Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` 
+
+
+// markup not found, no include::{specDir}streams/\{stream_id\}/members/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| stream_id 
+| The ID of the stream to access.   
+| X 
+| null 
+|  
+
+|===         
+
+
+
+
+
+
+===== Return Type
+
+<<JsonSuccessBase>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| Success.
+|  <<JsonSuccessBase>>
+
+
+| 400
+| Bad request.
+|  <<JsonError>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}streams/\{stream_id\}/members/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}streams/\{stream_id\}/members/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :streams/{stream_id}/members/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}streams/\{stream_id\}/members/GET/implementation.adoc[opts=optional]
 
 
 endif::internal-generation[]
@@ -5875,19 +6409,19 @@ ifdef::internal-generation[]
 endif::internal-generation[]
 
 
-[.updateDisplaySettings]
-==== updateDisplaySettings
+[.updateSettings]
+==== updateSettings
     
-`PATCH /settings/display`
+`PATCH /settings`
 
-Update display settings
+Update settings
 
 ===== Description 
 
-This endpoint is used to edit the current user's user interface settings.  `PATCH {{ api_url }}/v1/settings/display` 
+This endpoint is used to edit the current user's settings.  `PATCH {{ api_url }}/v1/settings`  **Changes**: Prior to Zulip 5.0 (feature level 80), this endpoint only supported the `full_name`, `email`, `old_password`, and `new_password` parameters. Notification settings were managed by `PATCH /settings/notifications`, and all other settings by `PATCH /settings/display`. The feature level 80 migration to merge these endpoints did not change how request parameters are encoded. Note, however, that it did change the handling of any invalid parameters present in a request to change notification or display settings, since the merged endpoint uses the new response format that was introduced for `/settings` in Zulip 5.0 (feature level 78).  The `/settings/display` and `/settings/notifications` endpoints are now deprecated aliases for this endpoint for backwards-compatibility, and will be removed once clients have migrated to use this endpoint. 
 
 
-// markup not found, no include::{specDir}settings/display/PATCH/spec.adoc[opts=optional]
+// markup not found, no include::{specDir}settings/PATCH/spec.adoc[opts=optional]
 
 
 
@@ -5903,80 +6437,236 @@ This endpoint is used to edit the current user's user interface settings.  `PATC
 |===         
 |Name| Description| Required| Default| Pattern
 
+| full_name 
+| A new display name for the user.   
+| - 
+| null 
+|  
+
+| email 
+| Asks the server to initiate a confirmation sequence to change the user&#39;s email address to the indicated value. The user will need to demonstrate control of the new email address by clicking a confirmation link sent to that address.   
+| - 
+| null 
+|  
+
+| old_password 
+| The user&#39;s old Zulip password (or LDAP password, if LDAP authentication is in use).  Required only when sending the &#x60;new_password&#x60; parameter.   
+| - 
+| null 
+|  
+
+| new_password 
+| The user&#39;s new Zulip password (or LDAP password, if LDAP authentication is in use).  The &#x60;old_password&#x60; parameter must be included in the request.   
+| - 
+| null 
+|  
+
 | twenty_four_hour_time 
-| Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).   
+| Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.   
 | - 
 | null 
 |  
 
 | dense_mode 
-| This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip.   
+| This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.   
 | - 
 | null 
 |  
 
 | starred_message_counts 
-| Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages).   
+| Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.   
 | - 
 | null 
 |  
 
 | fluid_layout_width 
-| Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app&#39;s center panel (message feed, recent topics) on wide screens.   
+| Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app&#39;s center panel (message feed, recent topics) on wide screens.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.   
 | - 
 | null 
 |  
 
 | high_contrast_mode 
-| This setting is reserved for use to control variations in Zulip&#39;s design to help visually impaired users.   
+| This setting is reserved for use to control variations in Zulip&#39;s design to help visually impaired users.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.   
 | - 
 | null 
 |  
 
 | color_scheme 
-| Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard &#x60;prefers-color-scheme&#x60; media query.   
+| Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard &#x60;prefers-color-scheme&#x60; media query.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.   
+| - 
+| null 
+|  
+
+| enable_drafts_synchronization 
+| A boolean parameter to control whether synchronizing drafts is enabled for the user. When synchronization is disabled, all drafts stored in the server will be automatically deleted from the server.  This does not do anything (like sending events) to delete local copies of drafts stored in clients.  **Changes**: New in Zulip 5.0 (feature level 87).   
 | - 
 | null 
 |  
 
 | translate_emoticons 
-| Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends.   
+| Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.   
 | - 
 | null 
 |  
 
 | default_language 
-| What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, &#x60;\&quot;en\&quot;&#x60; for English or &#x60;\&quot;de\&quot;&#x60; for German.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63).   
+| What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, &#x60;\&quot;en\&quot;&#x60; for English or &#x60;\&quot;de\&quot;&#x60; for German.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63).   
 | - 
 | null 
 |  
 
 | default_view 
-| The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the &#x60;Esc&#x60; keyboard shortcut repeatedly.  * \&quot;recent_topics\&quot; - Recent topics view * \&quot;all_messages\&quot; - All messages view  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64).   
+| The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the &#x60;Esc&#x60; keyboard shortcut repeatedly.  * \&quot;recent_topics\&quot; - Recent topics view * \&quot;all_messages\&quot; - All messages view  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).   
 | - 
 | null 
 |  
 
 | left_side_userlist 
-| Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.   
+| Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.   
 | - 
 | null 
 |  
 
 | emojiset 
-| The user&#39;s configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \&quot;google\&quot; - Google modern * \&quot;google-blob\&quot; - Google classic * \&quot;twitter\&quot; - Twitter * \&quot;text\&quot; - Plain text  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64).   
+| The user&#39;s configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \&quot;google\&quot; - Google modern * \&quot;google-blob\&quot; - Google classic * \&quot;twitter\&quot; - Twitter * \&quot;text\&quot; - Plain text  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).   
 | - 
 | null 
 |  
 
 | demote_inactive_streams 
-| Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never   
+| Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.   
 | - 
 | null 
 |  
 
 | timezone 
-| The user&#39;s [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64).   
+| The user&#39;s [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).   
+| - 
+| null 
+|  
+
+| enable_stream_desktop_notifications 
+| Enable visual desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.   
+| - 
+| null 
+|  
+
+| enable_stream_email_notifications 
+| Enable email notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.   
+| - 
+| null 
+|  
+
+| enable_stream_push_notifications 
+| Enable mobile notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.   
+| - 
+| null 
+|  
+
+| enable_stream_audible_notifications 
+| Enable audible desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.   
+| - 
+| null 
+|  
+
+| notification_sound 
+| Notification sound name.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63).   
+| - 
+| null 
+|  
+
+| enable_desktop_notifications 
+| Enable visual desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.   
+| - 
+| null 
+|  
+
+| enable_sounds 
+| Enable audible desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.   
+| - 
+| null 
+|  
+
+| email_notifications_batching_period_seconds 
+| The duration (in seconds) for which the server should wait to batch email notifications before sending them.  **Changes**: New in Zulip 5.0 (feature level 82)   
+| - 
+| null 
+|  
+
+| enable_offline_email_notifications 
+| Enable email notifications for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.   
+| - 
+| null 
+|  
+
+| enable_offline_push_notifications 
+| Enable mobile notification for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.   
+| - 
+| null 
+|  
+
+| enable_online_push_notifications 
+| Enable mobile notification for private messages and @-mentions received when the user is online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.   
+| - 
+| null 
+|  
+
+| enable_digest_emails 
+| Enable digest emails when the user is away.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.   
+| - 
+| null 
+|  
+
+| enable_marketing_emails 
+| Enable marketing emails. Has no function outside Zulip Cloud.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.   
+| - 
+| null 
+|  
+
+| enable_login_emails 
+| Enable email notifications for new logins to account.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.   
+| - 
+| null 
+|  
+
+| message_content_in_email_notifications 
+| Include the message&#39;s content in email notifications for new messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.   
+| - 
+| null 
+|  
+
+| pm_content_in_desktop_notifications 
+| Include content of private messages in desktop notifications.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.   
+| - 
+| null 
+|  
+
+| wildcard_mentions_notify 
+| Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.   
+| - 
+| null 
+|  
+
+| desktop_icon_count_display 
+| Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.   
+| - 
+| null 
+|  
+
+| realm_name_in_notifications 
+| Include organization name in subject of message notification emails.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.   
+| - 
+| null 
+|  
+
+| presence_enabled 
+| Display the presence status to other users when online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.   
+| - 
+| null 
+|  
+
+| enter_sends 
+| Whether pressing Enter in the compose box sends a message (or saves a message edit).  **Changes**: Before Zulip 5.0 (feature level 81), this setting was managed by the &#x60;POST /users/me/enter-sends&#x60; endpoint, with the same parameter format.   
 | - 
 | null 
 |  
@@ -6010,38 +6700,38 @@ This endpoint is used to edit the current user's user interface settings.  `PATC
 ===== Samples
 
 
-// markup not found, no include::{snippetDir}settings/display/PATCH/http-request.adoc[opts=optional]
+// markup not found, no include::{snippetDir}settings/PATCH/http-request.adoc[opts=optional]
 
 
-// markup not found, no include::{snippetDir}settings/display/PATCH/http-response.adoc[opts=optional]
+// markup not found, no include::{snippetDir}settings/PATCH/http-response.adoc[opts=optional]
 
 
 
-// file not found, no * wiremock data link :settings/display/PATCH/PATCH.json[]
+// file not found, no * wiremock data link :settings/PATCH/PATCH.json[]
 
 
 ifdef::internal-generation[]
 ===== Implementation
 
-// markup not found, no include::{specDir}settings/display/PATCH/implementation.adoc[opts=optional]
+// markup not found, no include::{specDir}settings/PATCH/implementation.adoc[opts=optional]
 
 
 endif::internal-generation[]
 
 
-[.updateNotificationSettings]
-==== updateNotificationSettings
+[.updateStatus]
+==== updateStatus
     
-`PATCH /settings/notifications`
+`POST /users/me/status`
 
-Update notification settings
+Update your status
 
 ===== Description 
 
-This endpoint is used to edit the user's global notification settings. See [this endpoint](/api/update-subscription-settings) for per-stream notification settings.  `PATCH {{ api_url }}/v1/settings/notifications` 
+Change your [status](/help/status-and-availability).  `POST {{ api_url }}/v1/users/me/status`  A request to this endpoint will only change the parameters passed. For example, passing just `status_text` requests a change in the status text, but will leave the status emoji unchanged.  Clients that wish to set the user's status to a specific value should pass all supported parameters. 
 
 
-// markup not found, no include::{specDir}settings/notifications/PATCH/spec.adoc[opts=optional]
+// markup not found, no include::{specDir}users/me/status/POST/spec.adoc[opts=optional]
 
 
 
@@ -6057,116 +6747,32 @@ This endpoint is used to edit the user's global notification settings. See [this
 |===         
 |Name| Description| Required| Default| Pattern
 
-| enable_stream_desktop_notifications 
-| Enable visual desktop notifications for stream messages.   
+| status_text 
+| The text content of the status message. Sending the empty string will clear the user&#39;s status.  **Note**: The limit on the size of the message is 60 characters.   
 | - 
 | null 
 |  
 
-| enable_stream_email_notifications 
-| Enable email notifications for stream messages.   
+| away 
+| Whether the user should be marked as \&quot;away\&quot;.   
 | - 
 | null 
 |  
 
-| enable_stream_push_notifications 
-| Enable mobile notifications for stream messages.   
+| emoji_name 
+| The name for the emoji to associate with this status.   
 | - 
 | null 
 |  
 
-| enable_stream_audible_notifications 
-| Enable audible desktop notifications for stream messages.   
+| emoji_code 
+| A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint; for &#x60;realm_emoji&#x60;, it&#39;ll be the ID of the realm emoji.   
 | - 
 | null 
 |  
 
-| notification_sound 
-| Notification sound name.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63).   
-| - 
-| null 
-|  
-
-| enable_desktop_notifications 
-| Enable visual desktop notifications for private messages and @-mentions.   
-| - 
-| null 
-|  
-
-| enable_sounds 
-| Enable audible desktop notifications for private messages and @-mentions.   
-| - 
-| null 
-|  
-
-| enable_offline_email_notifications 
-| Enable email notifications for private messages and @-mentions received when the user is offline.   
-| - 
-| null 
-|  
-
-| enable_offline_push_notifications 
-| Enable mobile notification for private messages and @-mentions received when the user is offline.   
-| - 
-| null 
-|  
-
-| enable_online_push_notifications 
-| Enable mobile notification for private messages and @-mentions received when the user is online.   
-| - 
-| null 
-|  
-
-| enable_digest_emails 
-| Enable digest emails when the user is away.   
-| - 
-| null 
-|  
-
-| enable_marketing_emails 
-| Enable marketing emails. Has no function outside Zulip Cloud.   
-| - 
-| null 
-|  
-
-| enable_login_emails 
-| Enable email notifications for new logins to account.   
-| - 
-| null 
-|  
-
-| message_content_in_email_notifications 
-| Include the message&#39;s content in email notifications for new messages.   
-| - 
-| null 
-|  
-
-| pm_content_in_desktop_notifications 
-| Include content of private messages in desktop notifications.   
-| - 
-| null 
-|  
-
-| wildcard_mentions_notify 
-| Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention.   
-| - 
-| null 
-|  
-
-| desktop_icon_count_display 
-| Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None   
-| - 
-| null 
-|  
-
-| realm_name_in_notifications 
-| Include organization name in subject of message notification emails.   
-| - 
-| null 
-|  
-
-| presence_enabled 
-| Display the presence status to other users when online.   
+| reaction_type 
+| One of the following values:  * &#x60;unicode_emoji&#x60;: Unicode emoji (&#x60;emoji_code&#x60; will be its Unicode   codepoint). * &#x60;realm_emoji&#x60;: [Custom emoji](/help/add-custom-emoji).   (&#x60;emoji_code&#x60; will be its ID). * &#x60;zulip_extra_emoji&#x60;: Special emoji included with Zulip.  Exists to   namespace the &#x60;zulip&#x60; emoji.   
 | - 
 | null 
 |  
@@ -6176,7 +6782,7 @@ This endpoint is used to edit the user's global notification settings. See [this
 
 ===== Return Type
 
-<<JsonSuccessBase>>
+<<JsonSuccess>>
 
 
 ===== Content Type
@@ -6193,27 +6799,32 @@ This endpoint is used to edit the user's global notification settings. See [this
 
 | 200
 | Success.
-|  <<JsonSuccessBase>>
+|  <<JsonSuccess>>
+
+
+| 400
+| Success.
+|  <<oneOf&lt;object,object,object,object,object,object&gt;>>
 
 |===         
 
 ===== Samples
 
 
-// markup not found, no include::{snippetDir}settings/notifications/PATCH/http-request.adoc[opts=optional]
+// markup not found, no include::{snippetDir}users/me/status/POST/http-request.adoc[opts=optional]
 
 
-// markup not found, no include::{snippetDir}settings/notifications/PATCH/http-response.adoc[opts=optional]
+// markup not found, no include::{snippetDir}users/me/status/POST/http-response.adoc[opts=optional]
 
 
 
-// file not found, no * wiremock data link :settings/notifications/PATCH/PATCH.json[]
+// file not found, no * wiremock data link :users/me/status/POST/POST.json[]
 
 
 ifdef::internal-generation[]
 ===== Implementation
 
-// markup not found, no include::{specDir}settings/notifications/PATCH/implementation.adoc[opts=optional]
+// markup not found, no include::{specDir}users/me/status/POST/implementation.adoc[opts=optional]
 
 
 endif::internal-generation[]
@@ -7766,6 +8377,87 @@ group.
 |===
 
 
+[#Draft]
+=== _Draft_ 
+
+A dictionary for representing a message draft.
+
+
+[.fields-Draft]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| id 
+|  
+| Integer  
+| The unique ID of the draft. It will only used whenever the drafts are fetched. This field should not be specified when the draft is being created or edited. 
+|  
+
+| type 
+| X 
+| String  
+| The type of the draft. Either unaddressed (empty string), \&quot;stream\&quot;, or \&quot;private\&quot; (for PMs and private group messages). 
+|  _Enum:_ , stream, private, 
+
+| to 
+| X 
+| List  of <<integer>> 
+| An array of the tentative target audience IDs. For \&quot;stream\&quot; messages, this should contain exactly 1 ID, the ID of the target stream. For private messages, this should be an array of target user IDs. For unaddressed drafts, this is ignored, and clients should send an empty array. 
+|  
+
+| topic 
+| X 
+| String  
+| For stream message drafts, the tentative topic name. For private or unaddressed messages, this will be ignored and should ideally be the empty string. Should not contain null bytes. 
+|  
+
+| content 
+| X 
+| String  
+| The body of the draft. Should not contain null bytes. 
+|  
+
+| timestamp 
+|  
+| BigDecimal  
+| A Unix timestamp (seconds only) representing when the draft was last edited. When creating a draft, this key need not be present and it will be filled in automatically by the server. 
+|  
+
+|===
+
+
+[#EmojiBase]
+=== _EmojiBase_ 
+
+
+
+[.fields-EmojiBase]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| emoji_code 
+|  
+| String  
+| A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint; for &#x60;realm_emoji&#x60;, it&#39;ll be the ID of the realm emoji. 
+|  
+
+| emoji_name 
+|  
+| String  
+| Name of the emoji. 
+|  
+
+| reaction_type 
+|  
+| String  
+| One of the following values:  * &#x60;unicode_emoji&#x60;: Unicode emoji (&#x60;emoji_code&#x60; will be its Unicode   codepoint). * &#x60;realm_emoji&#x60;: [Custom emoji](/help/add-custom-emoji).   (&#x60;emoji_code&#x60; will be its ID). * &#x60;zulip_extra_emoji&#x60;: Special emoji included with Zulip.  Exists to   namespace the &#x60;zulip&#x60; emoji. 
+|  
+
+|===
+
+
 [#EmojiReaction]
 === _EmojiReaction_ 
 
@@ -7865,7 +8557,7 @@ group.
 | emoji_code 
 |  
 | String  
-| A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint. 
+| A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint; for &#x60;realm_emoji&#x60;, it&#39;ll be the ID of the realm emoji. 
 |  
 
 | emoji_name 
@@ -7888,16 +8580,42 @@ group.
 
 | user 
 |  
-| EmojiReactionBase_user  
+| EmojiReactionBase_allOf_user  
 | 
 |  
 
 |===
 
 
-[#EmojiReactionBaseUser]
-=== _EmojiReactionBaseUser_ 
+[#EmojiReactionBaseAllOf]
+=== _EmojiReactionBaseAllOf_ 
 
+
+
+[.fields-EmojiReactionBaseAllOf]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| user_id 
+|  
+| Integer  
+| The ID of the user who added the reaction.  **Changes**: New in Zulip 3.0 (feature level 2). The &#x60;user&#x60; object is deprecated and will be removed in the future. 
+|  
+
+| user 
+|  
+| EmojiReactionBase_allOf_user  
+| 
+|  
+
+|===
+
+
+[#EmojiReactionBaseAllOfUser]
+=== _EmojiReactionBaseAllOfUser_ 
+
+Whether the user is a mirror dummy.
 Dictionary with data on the user who added the reaction, including
 the user ID as the &#x60;id&#x60; field.  **Note**: In the [events
 API](/api/get-events), this &#x60;user&#x60; dictionary
@@ -7907,7 +8625,7 @@ ID.  **Deprecated** and to be removed in a future release
 once core clients have migrated to use the &#x60;user_id&#x60; field.
 
 
-[.fields-EmojiReactionBaseUser]
+[.fields-EmojiReactionBaseAllOfUser]
 [cols="2,1,2,4,1"]
 |===         
 | Field Name| Required| Type| Description| Format

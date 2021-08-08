@@ -360,6 +360,39 @@ CREATE TABLE IF NOT EXISTS `DefaultStreamGroupBasicStream` (
 
 
 -- --------------------------------------------------------------------------
+-- Table structure for table `Draft` generated from model 'draft'
+-- A dictionary for representing a message draft. 
+--
+
+CREATE TABLE IF NOT EXISTS `Draft` (
+  `type` text NOT NULL /*The type of the draft. Either unaddressed (empty string), \&quot;stream\&quot;, or \&quot;private\&quot; (for PMs and private group messages). */,
+  `topic` text NOT NULL /*For stream message drafts, the tentative topic name. For private or unaddressed messages, this will be ignored and should ideally be the empty string. Should not contain null bytes. */,
+  `content` text NOT NULL /*The body of the draft. Should not contain null bytes. */,
+  `id` int PRIMARY KEY AUTOINCREMENT /*The unique ID of the draft. It will only used whenever the drafts are fetched. This field should not be specified when the draft is being created or edited. */,
+  `timestamp` decimal /*A Unix timestamp (seconds only) representing when the draft was last edited. When creating a draft, this key need not be present and it will be filled in automatically by the server. */
+);  /*A dictionary for representing a message draft. */
+
+-- --------------------------------------------------------------------------
+-- Table structure for table `DraftTo` generated from model 'DraftTo'
+
+CREATE TABLE IF NOT EXISTS `DraftTo` (
+  `draft` long NOT NULL
+  `to` int NOT NULL
+);
+
+
+-- --------------------------------------------------------------------------
+-- Table structure for table `EmojiBase` generated from model 'emojiBase'
+--
+
+CREATE TABLE IF NOT EXISTS `EmojiBase` (
+  `emoji_code` text /*A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint; for &#x60;realm_emoji&#x60;, it&#39;ll be the ID of the realm emoji. */,
+  `emoji_name` text /*Name of the emoji. */,
+  `reaction_type` text /*One of the following values:  * &#x60;unicode_emoji&#x60;: Unicode emoji (&#x60;emoji_code&#x60; will be its Unicode   codepoint). * &#x60;realm_emoji&#x60;: [Custom emoji](/help/add-custom-emoji).   (&#x60;emoji_code&#x60; will be its ID). * &#x60;zulip_extra_emoji&#x60;: Special emoji included with Zulip.  Exists to   namespace the &#x60;zulip&#x60; emoji. */
+); 
+
+
+-- --------------------------------------------------------------------------
 -- Table structure for table `EmojiReaction` generated from model 'emojiReaction'
 --
 
@@ -390,7 +423,7 @@ CREATE TABLE IF NOT EXISTS `EmojiReaction_allOf` (
 --
 
 CREATE TABLE IF NOT EXISTS `EmojiReactionBase` (
-  `emoji_code` text /*A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint. */,
+  `emoji_code` text /*A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint; for &#x60;realm_emoji&#x60;, it&#39;ll be the ID of the realm emoji. */,
   `emoji_name` text /*Name of the emoji. */,
   `reaction_type` text /*One of the following values:  * &#x60;unicode_emoji&#x60;: Unicode emoji (&#x60;emoji_code&#x60; will be its Unicode   codepoint). * &#x60;realm_emoji&#x60;: [Custom emoji](/help/add-custom-emoji).   (&#x60;emoji_code&#x60; will be its ID). * &#x60;zulip_extra_emoji&#x60;: Special emoji included with Zulip.  Exists to   namespace the &#x60;zulip&#x60; emoji. */,
   `user_id` int /*The ID of the user who added the reaction.  **Changes**: New in Zulip 3.0 (feature level 2). The &#x60;user&#x60; object is deprecated and will be removed in the future. */,
@@ -399,16 +432,26 @@ CREATE TABLE IF NOT EXISTS `EmojiReactionBase` (
 
 
 -- --------------------------------------------------------------------------
--- Table structure for table `EmojiReactionBase_user` generated from model 'emojiReactionBaseUser'
--- Dictionary with data on the user who added the reaction, including the user ID as the &#x60;id&#x60; field.  **Note**: In the [events API](/api/get-events), this &#x60;user&#x60; dictionary confusing had the user ID in a field called &#x60;user_id&#x60; instead.  We recommend ignoring fields other than the user ID.  **Deprecated** and to be removed in a future release once core clients have migrated to use the &#x60;user_id&#x60; field. 
+-- Table structure for table `EmojiReactionBase_allOf` generated from model 'emojiReactionBaseAllOf'
 --
 
-CREATE TABLE IF NOT EXISTS `EmojiReactionBase_user` (
+CREATE TABLE IF NOT EXISTS `EmojiReactionBase_allOf` (
+  `user_id` int /*The ID of the user who added the reaction.  **Changes**: New in Zulip 3.0 (feature level 2). The &#x60;user&#x60; object is deprecated and will be removed in the future. */,
+  `user` long
+); 
+
+
+-- --------------------------------------------------------------------------
+-- Table structure for table `EmojiReactionBase_allOf_user` generated from model 'emojiReactionBaseAllOfUser'
+-- Whether the user is a mirror dummy. Dictionary with data on the user who added the reaction, including the user ID as the &#x60;id&#x60; field.  **Note**: In the [events API](/api/get-events), this &#x60;user&#x60; dictionary confusing had the user ID in a field called &#x60;user_id&#x60; instead.  We recommend ignoring fields other than the user ID.  **Deprecated** and to be removed in a future release once core clients have migrated to use the &#x60;user_id&#x60; field. 
+--
+
+CREATE TABLE IF NOT EXISTS `EmojiReactionBase_allOf_user` (
   `id` int PRIMARY KEY AUTOINCREMENT /*ID of the user. */,
   `email` text /*Email of the user. */,
   `full_name` text /*Full name of the user. */,
   `is_mirror_dummy` boolean /*Whether the user is a mirror dummy. */
-);  /*Dictionary with data on the user who added the reaction, including the user ID as the &#x60;id&#x60; field.  **Note**: In the [events API](/api/get-events), this &#x60;user&#x60; dictionary confusing had the user ID in a field called &#x60;user_id&#x60; instead.  We recommend ignoring fields other than the user ID.  **Deprecated** and to be removed in a future release once core clients have migrated to use the &#x60;user_id&#x60; field. */
+);  /*Whether the user is a mirror dummy. Dictionary with data on the user who added the reaction, including the user ID as the &#x60;id&#x60; field.  **Note**: In the [events API](/api/get-events), this &#x60;user&#x60; dictionary confusing had the user ID in a field called &#x60;user_id&#x60; instead.  We recommend ignoring fields other than the user ID.  **Deprecated** and to be removed in a future release once core clients have migrated to use the &#x60;user_id&#x60; field. */
 
 
 -- --------------------------------------------------------------------------

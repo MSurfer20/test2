@@ -1,5 +1,7 @@
 export * from './authenticationApi';
 import { AuthenticationApi } from './authenticationApi';
+export * from './draftsApi';
+import { DraftsApi } from './draftsApi';
 export * from './messagesApi';
 import { MessagesApi } from './messagesApi';
 export * from './realTimeEventsApi';
@@ -23,4 +25,4 @@ export class HttpError extends Error {
 
 export { RequestFile } from '../model/models';
 
-export const APIS = [AuthenticationApi, MessagesApi, RealTimeEventsApi, ServerAndOrganizationsApi, StreamsApi, UsersApi, WebhooksApi];
+export const APIS = [AuthenticationApi, DraftsApi, MessagesApi, RealTimeEventsApi, ServerAndOrganizationsApi, StreamsApi, UsersApi, WebhooksApi];

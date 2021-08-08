@@ -53,6 +53,18 @@ return ok(result);
 
     public abstract JsonSuccessBase createBigBlueButtonVideoCall(Http.Request request) throws Exception;
 
+    public Result deleteTopicHttp(Http.Request request, Integer streamId, @NotNull String topicName) throws Exception {
+        JsonSuccess obj = deleteTopic(request, streamId, topicName);
+    if (configuration.getBoolean("useOutputBeanValidation")) {
+            OpenAPIUtils.validate(obj);
+    }
+JsonNode result = mapper.valueToTree(obj);
+return ok(result);
+
+    }
+
+    public abstract JsonSuccess deleteTopic(Http.Request request, Integer streamId, @NotNull String topicName) throws Exception;
+
     public Result getStreamIdHttp(Http.Request request, @NotNull String stream) throws Exception {
         JsonSuccessBase obj = getStreamId(request, stream);
     if (configuration.getBoolean("useOutputBeanValidation")) {
@@ -88,6 +100,18 @@ return ok(result);
     }
 
     public abstract JsonSuccessBase getStreams(Http.Request request, Boolean includePublic, Boolean includeWebPublic, Boolean includeSubscribed, Boolean includeAllActive, Boolean includeDefault, Boolean includeOwnerSubscribed) throws Exception;
+
+    public Result getSubscribersHttp(Http.Request request, Integer streamId) throws Exception {
+        JsonSuccessBase obj = getSubscribers(request, streamId);
+    if (configuration.getBoolean("useOutputBeanValidation")) {
+            OpenAPIUtils.validate(obj);
+    }
+JsonNode result = mapper.valueToTree(obj);
+return ok(result);
+
+    }
+
+    public abstract JsonSuccessBase getSubscribers(Http.Request request, Integer streamId) throws Exception;
 
     public Result getSubscriptionStatusHttp(Http.Request request, Integer userId, Integer streamId) throws Exception {
         JsonSuccessBase obj = getSubscriptionStatus(request, userId, streamId);

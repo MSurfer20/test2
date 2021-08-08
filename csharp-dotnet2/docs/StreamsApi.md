@@ -6,9 +6,11 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**ArchiveStream**](StreamsApi.md#archivestream) | **DELETE** /streams/{stream_id} | Archive a stream
 [**CreateBigBlueButtonVideoCall**](StreamsApi.md#createbigbluebuttonvideocall) | **GET** /calls/bigbluebutton/create | Create BigBlueButton video call
+[**DeleteTopic**](StreamsApi.md#deletetopic) | **POST** /streams/{stream_id}/delete_topic | Delete a topic
 [**GetStreamId**](StreamsApi.md#getstreamid) | **GET** /get_stream_id | Get stream ID
 [**GetStreamTopics**](StreamsApi.md#getstreamtopics) | **GET** /users/me/{stream_id}/topics | Get topics in a stream
 [**GetStreams**](StreamsApi.md#getstreams) | **GET** /streams | Get all streams
+[**GetSubscribers**](StreamsApi.md#getsubscribers) | **GET** /streams/{stream_id}/members | Get the subscribers of a stream
 [**GetSubscriptionStatus**](StreamsApi.md#getsubscriptionstatus) | **GET** /users/{user_id}/subscriptions/{stream_id} | Get subscription status
 [**GetSubscriptions**](StreamsApi.md#getsubscriptions) | **GET** /users/me/subscriptions | Get subscribed streams
 [**MuteTopic**](StreamsApi.md#mutetopic) | **PATCH** /users/me/subscriptions/muted_topics | Topic muting
@@ -125,6 +127,69 @@ This endpoint does not need any parameter.
 ### Return type
 
 [**JsonSuccessBase**](JsonSuccessBase.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a name="deletetopic"></a>
+# **DeleteTopic**
+> JsonSuccess DeleteTopic (int? streamId, string topicName)
+
+Delete a topic
+
+Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+
+### Example
+```csharp
+using System;
+using System.Diagnostics;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
+
+namespace Example
+{
+    public class DeleteTopicExample
+    {
+        public void main()
+        {
+            var apiInstance = new StreamsApi();
+            var streamId = 1;  // int? | The ID of the stream to access. 
+            var topicName = new coffee machine;  // string | The name of the topic to delete. 
+
+            try
+            {
+                // Delete a topic
+                JsonSuccess result = apiInstance.DeleteTopic(streamId, topicName);
+                Debug.WriteLine(result);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling StreamsApi.DeleteTopic: " + e.Message );
+            }
+        }
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **streamId** | **int?**| The ID of the stream to access.  | 
+ **topicName** | **string**| The name of the topic to delete.  | 
+
+### Return type
+
+[**JsonSuccess**](JsonSuccess.md)
 
 ### Authorization
 
@@ -314,6 +379,67 @@ Name | Type | Description  | Notes
  **includeAllActive** | **bool?**| Include all active streams. The user must have administrative privileges to use this parameter.  | [optional] [default to false]
  **includeDefault** | **bool?**| Include all default streams for the user&#39;s realm.  | [optional] [default to false]
  **includeOwnerSubscribed** | **bool?**| If the user is a bot, include all streams that the bot&#39;s owner is subscribed to.  | [optional] [default to false]
+
+### Return type
+
+[**JsonSuccessBase**](JsonSuccessBase.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a name="getsubscribers"></a>
+# **GetSubscribers**
+> JsonSuccessBase GetSubscribers (int? streamId)
+
+Get the subscribers of a stream
+
+Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` 
+
+### Example
+```csharp
+using System;
+using System.Diagnostics;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
+
+namespace Example
+{
+    public class GetSubscribersExample
+    {
+        public void main()
+        {
+            var apiInstance = new StreamsApi();
+            var streamId = 1;  // int? | The ID of the stream to access. 
+
+            try
+            {
+                // Get the subscribers of a stream
+                JsonSuccessBase result = apiInstance.GetSubscribers(streamId);
+                Debug.WriteLine(result);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling StreamsApi.GetSubscribers: " + e.Message );
+            }
+        }
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **streamId** | **int?**| The ID of the stream to access.  | 
 
 ### Return type
 

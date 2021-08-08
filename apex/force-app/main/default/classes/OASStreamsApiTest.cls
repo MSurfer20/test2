@@ -51,6 +51,34 @@ private class OASStreamsApiTest {
     }
 
     /**
+     * Delete a topic
+     *
+     * Delete all messages in a topic.\n\n&#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;\n\nTopics are a field on messages (not an independent\ndata structure), so deleting all the messages in the topic\ndeletes the topic from Zulip.\n
+     */
+    @isTest
+    private static void deleteTopicTest() {
+        HttpResponse res = new HttpResponse();
+        res.setStatusCode(200);
+        res.setStatus('OK');
+        Test.setMock(HttpCalloutMock.class, new OASResponseMock(res));
+
+        Map<String, Object> params = new Map<String, Object>{
+            'streamId' => 1,
+            'topicName' => new coffee machine
+        };
+
+        OASClient client;
+        OASStreamsApi api;
+        OASJsonSuccess response;
+        OASJsonSuccess expectedResponse;
+        String js = '';
+
+        api = new OASStreamsApi(new OASClient());
+
+        api.deleteTopic(params);
+    }
+
+    /**
      * Get stream ID
      *
      * Get the unique ID of a given stream.\n\n&#x60;GET {{ api_url }}/v1/get_stream_id&#x60;\n
@@ -134,6 +162,33 @@ private class OASStreamsApiTest {
         api = new OASStreamsApi(new OASClient());
 
         api.getStreams(params);
+    }
+
+    /**
+     * Get the subscribers of a stream
+     *
+     * Get all users subscribed to a stream.\n\n&#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60;\n
+     */
+    @isTest
+    private static void getSubscribersTest() {
+        HttpResponse res = new HttpResponse();
+        res.setStatusCode(200);
+        res.setStatus('OK');
+        Test.setMock(HttpCalloutMock.class, new OASResponseMock(res));
+
+        Map<String, Object> params = new Map<String, Object>{
+            'streamId' => 1
+        };
+
+        OASClient client;
+        OASStreamsApi api;
+        OASJsonSuccessBase response;
+        OASJsonSuccessBase expectedResponse;
+        String js = '';
+
+        api = new OASStreamsApi(new OASClient());
+
+        api.getSubscribers(params);
     }
 
     /**

@@ -129,6 +129,72 @@ module
       return JsonSuccessBase.from_json(data), status_code, headers
     end
 
+    # Delete a topic
+    # Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+    # @param stream_id [Int32] The ID of the stream to access. 
+    # @param topic_name [String] The name of the topic to delete. 
+    # @return [JsonSuccess]
+    def delete_topic(stream_id : Int32, topic_name : String)
+      data, _status_code, _headers = delete_topic_with_http_info(stream_id, topic_name)
+      data
+    end
+
+    # Delete a topic
+    # Delete all messages in a topic.  &#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+    # @param stream_id [Int32] The ID of the stream to access. 
+    # @param topic_name [String] The name of the topic to delete. 
+    # @return [Array<(JsonSuccess, Integer, Hash)>] JsonSuccess data, response status code and response headers
+    def delete_topic_with_http_info(stream_id : Int32, topic_name : String)
+      if @api_client.config.debugging
+        Log.debug {"Calling API: StreamsApi.delete_topic ..."}
+      end
+      # verify the required parameter "stream_id" is set
+      if @api_client.config.client_side_validation && stream_id.nil?
+        raise ArgumentError.new("Missing the required parameter 'stream_id' when calling StreamsApi.delete_topic")
+      end
+      # verify the required parameter "topic_name" is set
+      if @api_client.config.client_side_validation && topic_name.nil?
+        raise ArgumentError.new("Missing the required parameter 'topic_name' when calling StreamsApi.delete_topic")
+      end
+      # resource path
+      local_var_path = "/streams/{stream_id}/delete_topic".sub("{" + "stream_id" + "}", URI.encode(stream_id.to_s))
+
+      # query parameters
+      query_params = Hash(String, String).new
+      query_params["topic_name"] = topic_name
+
+      # header parameters
+      header_params = Hash(String, String).new
+      # HTTP header "Accept" (if needed)
+      header_params["Accept"] = @api_client.select_header_accept(["application/json"])
+
+      # form parameters
+      form_params = Hash(Symbol, String).new
+
+      # http body (model)
+      post_body = nil
+
+      # return_type
+      return_type = "JsonSuccess"
+
+      # auth_names
+      auth_names = [] of String
+
+      data, status_code, headers = @api_client.call_api(:POST,
+                                                        local_var_path,
+                                                        :"StreamsApi.delete_topic",
+                                                        return_type,
+                                                        post_body,
+                                                        auth_names,
+                                                        header_params,
+                                                        query_params,
+                                                        form_params)
+      if @api_client.config.debugging
+        Log.debug {"API called: StreamsApi#delete_topic\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
+      end
+      return JsonSuccess.from_json(data), status_code, headers
+    end
+
     # Get stream ID
     # Get the unique ID of a given stream.  `GET {{ api_url }}/v1/get_stream_id` 
     # @param stream [String] The name of the stream to access. 
@@ -303,6 +369,65 @@ module
                                                         form_params)
       if @api_client.config.debugging
         Log.debug {"API called: StreamsApi#get_streams\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
+      end
+      return JsonSuccessBase.from_json(data), status_code, headers
+    end
+
+    # Get the subscribers of a stream
+    # Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` 
+    # @param stream_id [Int32] The ID of the stream to access. 
+    # @return [JsonSuccessBase]
+    def get_subscribers(stream_id : Int32)
+      data, _status_code, _headers = get_subscribers_with_http_info(stream_id)
+      data
+    end
+
+    # Get the subscribers of a stream
+    # Get all users subscribed to a stream.  &#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60; 
+    # @param stream_id [Int32] The ID of the stream to access. 
+    # @return [Array<(JsonSuccessBase, Integer, Hash)>] JsonSuccessBase data, response status code and response headers
+    def get_subscribers_with_http_info(stream_id : Int32)
+      if @api_client.config.debugging
+        Log.debug {"Calling API: StreamsApi.get_subscribers ..."}
+      end
+      # verify the required parameter "stream_id" is set
+      if @api_client.config.client_side_validation && stream_id.nil?
+        raise ArgumentError.new("Missing the required parameter 'stream_id' when calling StreamsApi.get_subscribers")
+      end
+      # resource path
+      local_var_path = "/streams/{stream_id}/members".sub("{" + "stream_id" + "}", URI.encode(stream_id.to_s))
+
+      # query parameters
+      query_params = Hash(String, String).new
+
+      # header parameters
+      header_params = Hash(String, String).new
+      # HTTP header "Accept" (if needed)
+      header_params["Accept"] = @api_client.select_header_accept(["application/json"])
+
+      # form parameters
+      form_params = Hash(Symbol, String).new
+
+      # http body (model)
+      post_body = nil
+
+      # return_type
+      return_type = "JsonSuccessBase"
+
+      # auth_names
+      auth_names = [] of String
+
+      data, status_code, headers = @api_client.call_api(:GET,
+                                                        local_var_path,
+                                                        :"StreamsApi.get_subscribers",
+                                                        return_type,
+                                                        post_body,
+                                                        auth_names,
+                                                        header_params,
+                                                        query_params,
+                                                        form_params)
+      if @api_client.config.debugging
+        Log.debug {"API called: StreamsApi#get_subscribers\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
       end
       return JsonSuccessBase.from_json(data), status_code, headers
     end

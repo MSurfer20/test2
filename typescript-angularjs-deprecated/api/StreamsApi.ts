@@ -78,6 +78,45 @@ export class StreamsApi {
         return this.$http(httpRequestParams);
     }
     /**
+     * Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+     * @summary Delete a topic
+     * @param streamId The ID of the stream to access. 
+     * @param topicName The name of the topic to delete. 
+     */
+    public deleteTopic (streamId: number, topicName: string, extraHttpRequestParams?: any ) : ng.IHttpPromise<models.models.JsonSuccess> {
+        const localVarPath = this.basePath + '/streams/{stream_id}/delete_topic'
+            .replace('{' + 'stream_id' + '}', encodeURIComponent(String(streamId)));
+
+        let queryParameters: any = {};
+        let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        // verify required parameter 'streamId' is not null or undefined
+        if (streamId === null || streamId === undefined) {
+            throw new Error('Required parameter streamId was null or undefined when calling deleteTopic.');
+        }
+
+        // verify required parameter 'topicName' is not null or undefined
+        if (topicName === null || topicName === undefined) {
+            throw new Error('Required parameter topicName was null or undefined when calling deleteTopic.');
+        }
+
+        if (topicName !== undefined) {
+            queryParameters['topic_name'] = topicName;
+        }
+
+        let httpRequestParams: ng.IRequestConfig = {
+            method: 'POST',
+            url: localVarPath,
+            params: queryParameters,
+            headers: headerParams
+        };
+
+        if (extraHttpRequestParams) {
+            httpRequestParams = (<any>Object).assign(httpRequestParams, extraHttpRequestParams);
+        }
+
+        return this.$http(httpRequestParams);
+    }
+    /**
      * Get the unique ID of a given stream.  `GET {{ api_url }}/v1/get_stream_id` 
      * @summary Get stream ID
      * @param stream The name of the stream to access. 
@@ -175,6 +214,35 @@ export class StreamsApi {
 
         if (includeOwnerSubscribed !== undefined) {
             queryParameters['include_owner_subscribed'] = includeOwnerSubscribed;
+        }
+
+        let httpRequestParams: ng.IRequestConfig = {
+            method: 'GET',
+            url: localVarPath,
+            params: queryParameters,
+            headers: headerParams
+        };
+
+        if (extraHttpRequestParams) {
+            httpRequestParams = (<any>Object).assign(httpRequestParams, extraHttpRequestParams);
+        }
+
+        return this.$http(httpRequestParams);
+    }
+    /**
+     * Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` 
+     * @summary Get the subscribers of a stream
+     * @param streamId The ID of the stream to access. 
+     */
+    public getSubscribers (streamId: number, extraHttpRequestParams?: any ) : ng.IHttpPromise<models.models.JsonSuccessBase & object> {
+        const localVarPath = this.basePath + '/streams/{stream_id}/members'
+            .replace('{' + 'stream_id' + '}', encodeURIComponent(String(streamId)));
+
+        let queryParameters: any = {};
+        let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        // verify required parameter 'streamId' is not null or undefined
+        if (streamId === null || streamId === undefined) {
+            throw new Error('Required parameter streamId was null or undefined when calling getSubscribers.');
         }
 
         let httpRequestParams: ng.IRequestConfig = {

@@ -44,28 +44,11 @@ class EmojiReactionBase extends BaseModel
      */
     protected const MODEL_SCHEMA = <<<'SCHEMA'
 {
-  "type" : "object",
-  "properties" : {
-    "emoji_code" : {
-      "type" : "string",
-      "description" : "A unique identifier, defining the specific emoji codepoint requested,\nwithin the namespace of the `reaction_type`.\n\nFor example, for `unicode_emoji`, this will be an encoding of the\nUnicode codepoint.\n"
-    },
-    "emoji_name" : {
-      "type" : "string",
-      "description" : "Name of the emoji.\n"
-    },
-    "reaction_type" : {
-      "type" : "string",
-      "description" : "One of the following values:\n\n* `unicode_emoji`: Unicode emoji (`emoji_code` will be its Unicode\n  codepoint).\n* `realm_emoji`: [Custom emoji](/help/add-custom-emoji).\n  (`emoji_code` will be its ID).\n* `zulip_extra_emoji`: Special emoji included with Zulip.  Exists to\n  namespace the `zulip` emoji.\n"
-    },
-    "user_id" : {
-      "type" : "integer",
-      "description" : "The ID of the user who added the reaction.\n\n**Changes**: New in Zulip 3.0 (feature level 2). The `user`\nobject is deprecated and will be removed in the future.\n"
-    },
-    "user" : {
-      "$ref" : "#/components/schemas/EmojiReactionBase_user"
-    }
-  }
+  "allOf" : [ {
+    "$ref" : "#/components/schemas/EmojiBase"
+  }, {
+    "$ref" : "#/components/schemas/EmojiReactionBase_allOf"
+  } ]
 }
 SCHEMA;
 }

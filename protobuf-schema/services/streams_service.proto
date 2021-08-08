@@ -27,11 +27,15 @@ service StreamsService {
 
   rpc CreateBigBlueButtonVideoCall (google.protobuf.Empty) returns (JsonSuccessBase);
 
+  rpc DeleteTopic (DeleteTopicRequest) returns (JsonSuccess);
+
   rpc GetStreamId (GetStreamIdRequest) returns (JsonSuccessBase);
 
   rpc GetStreamTopics (GetStreamTopicsRequest) returns (JsonSuccessBase);
 
   rpc GetStreams (GetStreamsRequest) returns (JsonSuccessBase);
+
+  rpc GetSubscribers (GetSubscribersRequest) returns (JsonSuccessBase);
 
   rpc GetSubscriptionStatus (GetSubscriptionStatusRequest) returns (JsonSuccessBase);
 
@@ -54,6 +58,14 @@ service StreamsService {
 message ArchiveStreamRequest {
   // The ID of the stream to access. 
   int32 streamId = 1;
+
+}
+
+message DeleteTopicRequest {
+  // The ID of the stream to access. 
+  int32 streamId = 1;
+  // The name of the topic to delete. 
+  string topicName = 2;
 
 }
 
@@ -82,6 +94,12 @@ message GetStreamsRequest {
   bool includeDefault = 5;
   // If the user is a bot, include all streams that the bot's owner is subscribed to. 
   bool includeOwnerSubscribed = 6;
+
+}
+
+message GetSubscribersRequest {
+  // The ID of the stream to access. 
+  int32 streamId = 1;
 
 }
 

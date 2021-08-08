@@ -4072,6 +4072,333 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 }
 
 
+/// A dictionary for representing a message draft. 
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct Draft {
+    /// The unique ID of the draft. It will only used whenever the drafts are fetched. This field should not be specified when the draft is being created or edited. 
+    #[serde(rename = "id")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub id: Option<isize>,
+
+    /// The type of the draft. Either unaddressed (empty string), \"stream\", or \"private\" (for PMs and private group messages). 
+    // Note: inline enums are not fully supported by openapi-generator
+    #[serde(rename = "type")]
+    pub type_: String,
+
+    /// An array of the tentative target audience IDs. For \"stream\" messages, this should contain exactly 1 ID, the ID of the target stream. For private messages, this should be an array of target user IDs. For unaddressed drafts, this is ignored, and clients should send an empty array. 
+    #[serde(rename = "to")]
+    pub to: Vec<i32>,
+
+    /// For stream message drafts, the tentative topic name. For private or unaddressed messages, this will be ignored and should ideally be the empty string. Should not contain null bytes. 
+    #[serde(rename = "topic")]
+    pub topic: String,
+
+    /// The body of the draft. Should not contain null bytes. 
+    #[serde(rename = "content")]
+    pub content: String,
+
+    /// A Unix timestamp (seconds only) representing when the draft was last edited. When creating a draft, this key need not be present and it will be filled in automatically by the server. 
+    #[serde(rename = "timestamp")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub timestamp: Option<f64>,
+
+}
+
+impl Draft {
+    pub fn new(type_: String, to: Vec<i32>, topic: String, content: String, ) -> Draft {
+        Draft {
+            id: None,
+            type_: type_,
+            to: to,
+            topic: topic,
+            content: content,
+            timestamp: None,
+        }
+    }
+}
+
+/// Converts the Draft value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl std::string::ToString for Draft {
+    fn to_string(&self) -> String {
+        let mut params: Vec<String> = vec![];
+
+        if let Some(ref id) = self.id {
+            params.push("id".to_string());
+            params.push(id.to_string());
+        }
+
+
+        params.push("type".to_string());
+        params.push(self.type_.to_string());
+
+
+        params.push("to".to_string());
+        params.push(self.to.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string());
+
+
+        params.push("topic".to_string());
+        params.push(self.topic.to_string());
+
+
+        params.push("content".to_string());
+        params.push(self.content.to_string());
+
+
+        if let Some(ref timestamp) = self.timestamp {
+            params.push("timestamp".to_string());
+            params.push(timestamp.to_string());
+        }
+
+        params.join(",").to_string()
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a Draft value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for Draft {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        #[derive(Default)]
+        // An intermediate representation of the struct to use for parsing.
+        struct IntermediateRep {
+            pub id: Vec<isize>,
+            pub type_: Vec<String>,
+            pub to: Vec<Vec<i32>>,
+            pub topic: Vec<String>,
+            pub content: Vec<String>,
+            pub timestamp: Vec<f64>,
+        }
+
+        let mut intermediate_rep = IntermediateRep::default();
+
+        // Parse into intermediate representation
+        let mut string_iter = s.split(',').into_iter();
+        let mut key_result = string_iter.next();
+
+        while key_result.is_some() {
+            let val = match string_iter.next() {
+                Some(x) => x,
+                None => return std::result::Result::Err("Missing value while parsing Draft".to_string())
+            };
+
+            if let Some(key) = key_result {
+                match key {
+                    "id" => intermediate_rep.id.push(<isize as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    "type" => intermediate_rep.type_.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    "to" => return std::result::Result::Err("Parsing a container in this style is not supported in Draft".to_string()),
+                    "topic" => intermediate_rep.topic.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    "content" => intermediate_rep.content.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    "timestamp" => intermediate_rep.timestamp.push(<f64 as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    _ => return std::result::Result::Err("Unexpected key while parsing Draft".to_string())
+                }
+            }
+
+            // Get the next key
+            key_result = string_iter.next();
+        }
+
+        // Use the intermediate representation to return the struct
+        std::result::Result::Ok(Draft {
+            id: intermediate_rep.id.into_iter().next(),
+            type_: intermediate_rep.type_.into_iter().next().ok_or("type missing in Draft".to_string())?,
+            to: intermediate_rep.to.into_iter().next().ok_or("to missing in Draft".to_string())?,
+            topic: intermediate_rep.topic.into_iter().next().ok_or("topic missing in Draft".to_string())?,
+            content: intermediate_rep.content.into_iter().next().ok_or("content missing in Draft".to_string())?,
+            timestamp: intermediate_rep.timestamp.into_iter().next(),
+        })
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<Draft> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<Draft>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<Draft>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for Draft - value: {} is invalid {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Draft> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <Draft as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into Draft - {}",
+                                value, err))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct EmojiBase {
+    /// A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji. 
+    #[serde(rename = "emoji_code")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub emoji_code: Option<String>,
+
+    /// Name of the emoji. 
+    #[serde(rename = "emoji_name")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub emoji_name: Option<String>,
+
+    /// One of the following values:  * `unicode_emoji`: Unicode emoji (`emoji_code` will be its Unicode   codepoint). * `realm_emoji`: [Custom emoji](/help/add-custom-emoji).   (`emoji_code` will be its ID). * `zulip_extra_emoji`: Special emoji included with Zulip.  Exists to   namespace the `zulip` emoji. 
+    #[serde(rename = "reaction_type")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub reaction_type: Option<String>,
+
+}
+
+impl EmojiBase {
+    pub fn new() -> EmojiBase {
+        EmojiBase {
+            emoji_code: None,
+            emoji_name: None,
+            reaction_type: None,
+        }
+    }
+}
+
+/// Converts the EmojiBase value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl std::string::ToString for EmojiBase {
+    fn to_string(&self) -> String {
+        let mut params: Vec<String> = vec![];
+
+        if let Some(ref emoji_code) = self.emoji_code {
+            params.push("emoji_code".to_string());
+            params.push(emoji_code.to_string());
+        }
+
+
+        if let Some(ref emoji_name) = self.emoji_name {
+            params.push("emoji_name".to_string());
+            params.push(emoji_name.to_string());
+        }
+
+
+        if let Some(ref reaction_type) = self.reaction_type {
+            params.push("reaction_type".to_string());
+            params.push(reaction_type.to_string());
+        }
+
+        params.join(",").to_string()
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a EmojiBase value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for EmojiBase {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        #[derive(Default)]
+        // An intermediate representation of the struct to use for parsing.
+        struct IntermediateRep {
+            pub emoji_code: Vec<String>,
+            pub emoji_name: Vec<String>,
+            pub reaction_type: Vec<String>,
+        }
+
+        let mut intermediate_rep = IntermediateRep::default();
+
+        // Parse into intermediate representation
+        let mut string_iter = s.split(',').into_iter();
+        let mut key_result = string_iter.next();
+
+        while key_result.is_some() {
+            let val = match string_iter.next() {
+                Some(x) => x,
+                None => return std::result::Result::Err("Missing value while parsing EmojiBase".to_string())
+            };
+
+            if let Some(key) = key_result {
+                match key {
+                    "emoji_code" => intermediate_rep.emoji_code.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    "emoji_name" => intermediate_rep.emoji_name.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    "reaction_type" => intermediate_rep.reaction_type.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    _ => return std::result::Result::Err("Unexpected key while parsing EmojiBase".to_string())
+                }
+            }
+
+            // Get the next key
+            key_result = string_iter.next();
+        }
+
+        // Use the intermediate representation to return the struct
+        std::result::Result::Ok(EmojiBase {
+            emoji_code: intermediate_rep.emoji_code.into_iter().next(),
+            emoji_name: intermediate_rep.emoji_name.into_iter().next(),
+            reaction_type: intermediate_rep.reaction_type.into_iter().next(),
+        })
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<EmojiBase> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<EmojiBase>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<EmojiBase>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for EmojiBase - value: {} is invalid {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<EmojiBase> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <EmojiBase as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into EmojiBase - {}",
+                                value, err))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct EmojiReaction {
@@ -4397,7 +4724,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct EmojiReactionBase {
-    /// A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint. 
+    /// A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji. 
     #[serde(rename = "emoji_code")]
     #[serde(skip_serializing_if="Option::is_none")]
     pub emoji_code: Option<String>,
@@ -4419,7 +4746,7 @@ pub struct EmojiReactionBase {
 
     #[serde(rename = "user")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub user: Option<models::EmojiReactionBaseUser>,
+    pub user: Option<models::EmojiReactionBaseAllOfUser>,
 
 }
 
@@ -4485,7 +4812,7 @@ impl std::str::FromStr for EmojiReactionBase {
             pub emoji_name: Vec<String>,
             pub reaction_type: Vec<String>,
             pub user_id: Vec<isize>,
-            pub user: Vec<models::EmojiReactionBaseUser>,
+            pub user: Vec<models::EmojiReactionBaseAllOfUser>,
         }
 
         let mut intermediate_rep = IntermediateRep::default();
@@ -4506,7 +4833,7 @@ impl std::str::FromStr for EmojiReactionBase {
                     "emoji_name" => intermediate_rep.emoji_name.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
                     "reaction_type" => intermediate_rep.reaction_type.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
                     "user_id" => intermediate_rep.user_id.push(<isize as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "user" => intermediate_rep.user.push(<models::EmojiReactionBaseUser as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    "user" => intermediate_rep.user.push(<models::EmojiReactionBaseAllOfUser as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
                     _ => return std::result::Result::Err("Unexpected key while parsing EmojiReactionBase".to_string())
                 }
             }
@@ -4565,10 +4892,136 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 }
 
 
-/// Dictionary with data on the user who added the reaction, including the user ID as the `id` field.  **Note**: In the [events API](/api/get-events), this `user` dictionary confusing had the user ID in a field called `user_id` instead.  We recommend ignoring fields other than the user ID.  **Deprecated** and to be removed in a future release once core clients have migrated to use the `user_id` field. 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct EmojiReactionBaseUser {
+pub struct EmojiReactionBaseAllOf {
+    /// The ID of the user who added the reaction.  **Changes**: New in Zulip 3.0 (feature level 2). The `user` object is deprecated and will be removed in the future. 
+    #[serde(rename = "user_id")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub user_id: Option<isize>,
+
+    #[serde(rename = "user")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub user: Option<models::EmojiReactionBaseAllOfUser>,
+
+}
+
+impl EmojiReactionBaseAllOf {
+    pub fn new() -> EmojiReactionBaseAllOf {
+        EmojiReactionBaseAllOf {
+            user_id: None,
+            user: None,
+        }
+    }
+}
+
+/// Converts the EmojiReactionBaseAllOf value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl std::string::ToString for EmojiReactionBaseAllOf {
+    fn to_string(&self) -> String {
+        let mut params: Vec<String> = vec![];
+
+        if let Some(ref user_id) = self.user_id {
+            params.push("user_id".to_string());
+            params.push(user_id.to_string());
+        }
+
+        // Skipping user in query parameter serialization
+
+        params.join(",").to_string()
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a EmojiReactionBaseAllOf value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for EmojiReactionBaseAllOf {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        #[derive(Default)]
+        // An intermediate representation of the struct to use for parsing.
+        struct IntermediateRep {
+            pub user_id: Vec<isize>,
+            pub user: Vec<models::EmojiReactionBaseAllOfUser>,
+        }
+
+        let mut intermediate_rep = IntermediateRep::default();
+
+        // Parse into intermediate representation
+        let mut string_iter = s.split(',').into_iter();
+        let mut key_result = string_iter.next();
+
+        while key_result.is_some() {
+            let val = match string_iter.next() {
+                Some(x) => x,
+                None => return std::result::Result::Err("Missing value while parsing EmojiReactionBaseAllOf".to_string())
+            };
+
+            if let Some(key) = key_result {
+                match key {
+                    "user_id" => intermediate_rep.user_id.push(<isize as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    "user" => intermediate_rep.user.push(<models::EmojiReactionBaseAllOfUser as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    _ => return std::result::Result::Err("Unexpected key while parsing EmojiReactionBaseAllOf".to_string())
+                }
+            }
+
+            // Get the next key
+            key_result = string_iter.next();
+        }
+
+        // Use the intermediate representation to return the struct
+        std::result::Result::Ok(EmojiReactionBaseAllOf {
+            user_id: intermediate_rep.user_id.into_iter().next(),
+            user: intermediate_rep.user.into_iter().next(),
+        })
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<EmojiReactionBaseAllOf> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<EmojiReactionBaseAllOf>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<EmojiReactionBaseAllOf>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for EmojiReactionBaseAllOf - value: {} is invalid {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<EmojiReactionBaseAllOf> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <EmojiReactionBaseAllOf as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into EmojiReactionBaseAllOf - {}",
+                                value, err))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+
+/// Whether the user is a mirror dummy. Dictionary with data on the user who added the reaction, including the user ID as the `id` field.  **Note**: In the [events API](/api/get-events), this `user` dictionary confusing had the user ID in a field called `user_id` instead.  We recommend ignoring fields other than the user ID.  **Deprecated** and to be removed in a future release once core clients have migrated to use the `user_id` field. 
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct EmojiReactionBaseAllOfUser {
     /// ID of the user. 
     #[serde(rename = "id")]
     #[serde(skip_serializing_if="Option::is_none")]
@@ -4591,9 +5044,9 @@ pub struct EmojiReactionBaseUser {
 
 }
 
-impl EmojiReactionBaseUser {
-    pub fn new() -> EmojiReactionBaseUser {
-        EmojiReactionBaseUser {
+impl EmojiReactionBaseAllOfUser {
+    pub fn new() -> EmojiReactionBaseAllOfUser {
+        EmojiReactionBaseAllOfUser {
             id: None,
             email: None,
             full_name: None,
@@ -4602,10 +5055,10 @@ impl EmojiReactionBaseUser {
     }
 }
 
-/// Converts the EmojiReactionBaseUser value to the Query Parameters representation (style=form, explode=false)
+/// Converts the EmojiReactionBaseAllOfUser value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl std::string::ToString for EmojiReactionBaseUser {
+impl std::string::ToString for EmojiReactionBaseAllOfUser {
     fn to_string(&self) -> String {
         let mut params: Vec<String> = vec![];
 
@@ -4636,10 +5089,10 @@ impl std::string::ToString for EmojiReactionBaseUser {
     }
 }
 
-/// Converts Query Parameters representation (style=form, explode=false) to a EmojiReactionBaseUser value
+/// Converts Query Parameters representation (style=form, explode=false) to a EmojiReactionBaseAllOfUser value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl std::str::FromStr for EmojiReactionBaseUser {
+impl std::str::FromStr for EmojiReactionBaseAllOfUser {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
@@ -4661,7 +5114,7 @@ impl std::str::FromStr for EmojiReactionBaseUser {
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return std::result::Result::Err("Missing value while parsing EmojiReactionBaseUser".to_string())
+                None => return std::result::Result::Err("Missing value while parsing EmojiReactionBaseAllOfUser".to_string())
             };
 
             if let Some(key) = key_result {
@@ -4670,7 +5123,7 @@ impl std::str::FromStr for EmojiReactionBaseUser {
                     "email" => intermediate_rep.email.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
                     "full_name" => intermediate_rep.full_name.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
                     "is_mirror_dummy" => intermediate_rep.is_mirror_dummy.push(<bool as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    _ => return std::result::Result::Err("Unexpected key while parsing EmojiReactionBaseUser".to_string())
+                    _ => return std::result::Result::Err("Unexpected key while parsing EmojiReactionBaseAllOfUser".to_string())
                 }
             }
 
@@ -4679,7 +5132,7 @@ impl std::str::FromStr for EmojiReactionBaseUser {
         }
 
         // Use the intermediate representation to return the struct
-        std::result::Result::Ok(EmojiReactionBaseUser {
+        std::result::Result::Ok(EmojiReactionBaseAllOfUser {
             id: intermediate_rep.id.into_iter().next(),
             email: intermediate_rep.email.into_iter().next(),
             full_name: intermediate_rep.full_name.into_iter().next(),
@@ -4688,34 +5141,34 @@ impl std::str::FromStr for EmojiReactionBaseUser {
     }
 }
 
-// Methods for converting between header::IntoHeaderValue<EmojiReactionBaseUser> and hyper::header::HeaderValue
+// Methods for converting between header::IntoHeaderValue<EmojiReactionBaseAllOfUser> and hyper::header::HeaderValue
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<header::IntoHeaderValue<EmojiReactionBaseUser>> for hyper::header::HeaderValue {
+impl std::convert::TryFrom<header::IntoHeaderValue<EmojiReactionBaseAllOfUser>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<EmojiReactionBaseUser>) -> std::result::Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<EmojiReactionBaseAllOfUser>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for EmojiReactionBaseUser - value: {} is invalid {}",
+                 format!("Invalid header value for EmojiReactionBaseAllOfUser - value: {} is invalid {}",
                      hdr_value, e))
         }
     }
 }
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<EmojiReactionBaseUser> {
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<EmojiReactionBaseAllOfUser> {
     type Error = String;
 
     fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
              std::result::Result::Ok(value) => {
-                    match <EmojiReactionBaseUser as std::str::FromStr>::from_str(value) {
+                    match <EmojiReactionBaseAllOfUser as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into EmojiReactionBaseUser - {}",
+                            format!("Unable to convert header value '{}' into EmojiReactionBaseAllOfUser - {}",
                                 value, err))
                     }
              },

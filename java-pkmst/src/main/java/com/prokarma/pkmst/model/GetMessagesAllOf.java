@@ -16,7 +16,7 @@ import java.util.List;
  * GetMessagesAllOf
  */
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPKMSTServerCodegen", date = "2021-08-08T20:41:48.646080Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPKMSTServerCodegen", date = "2021-08-08T21:11:40.512025Z[Etc/UTC]")
 public class GetMessagesAllOf   {
   @JsonProperty("avatar_url")
   private Object avatarUrl = null;

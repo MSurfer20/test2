@@ -39,6 +39,35 @@ MyApp.add_route('GET', '/api/v1/calls/bigbluebutton/create', {
 end
 
 
+MyApp.add_route('POST', '/api/v1/streams/{stream_id}/delete_topic', {
+  "resourcePath" => "/Streams",
+  "summary" => "Delete a topic",
+  "nickname" => "delete_topic", 
+  "responseClass" => "JsonSuccess",
+  "endpoint" => "/streams/{stream_id}/delete_topic", 
+  "notes" => "Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. ",
+  "parameters" => [
+    {
+      "name" => "topic_name",
+      "description" => "The name of the topic to delete. ",
+      "dataType" => "String",
+      "allowableValues" => "",
+      "paramType" => "query",
+    },
+    {
+      "name" => "stream_id",
+      "description" => "The ID of the stream to access. ",
+      "dataType" => "Integer",
+      "paramType" => "path",
+    },
+    ]}) do
+  cross_origin
+  # the guts live here
+
+  {"message" => "yes, it worked"}.to_json
+end
+
+
 MyApp.add_route('GET', '/api/v1/get_stream_id', {
   "resourcePath" => "/Streams",
   "summary" => "Get stream ID",
@@ -139,6 +168,28 @@ MyApp.add_route('GET', '/api/v1/streams', {
       "allowableValues" => "",
       "defaultValue" => "false",
       "paramType" => "query",
+    },
+    ]}) do
+  cross_origin
+  # the guts live here
+
+  {"message" => "yes, it worked"}.to_json
+end
+
+
+MyApp.add_route('GET', '/api/v1/streams/{stream_id}/members', {
+  "resourcePath" => "/Streams",
+  "summary" => "Get the subscribers of a stream",
+  "nickname" => "get_subscribers", 
+  "responseClass" => "JsonSuccessBase",
+  "endpoint" => "/streams/{stream_id}/members", 
+  "notes" => "Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` ",
+  "parameters" => [
+    {
+      "name" => "stream_id",
+      "description" => "The ID of the stream to access. ",
+      "dataType" => "Integer",
+      "paramType" => "path",
     },
     ]}) do
   cross_origin

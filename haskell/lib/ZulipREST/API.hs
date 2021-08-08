@@ -137,6 +137,10 @@ formatSeparatedQueryList char = T.intercalate (T.singleton char) . map toQueryPa
 type ZulipRESTAPI
     =    "dev_fetch_api_key" :> QueryParam "username" Text :> Verb 'POST 200 '[JSON] ApiKeyResponse -- 'devFetchApiKey' route
     :<|> "fetch_api_key" :> QueryParam "username" Text :> QueryParam "password" Text :> Verb 'POST 200 '[JSON] ApiKeyResponse -- 'fetchApiKey' route
+    :<|> "drafts" :> QueryParam "drafts" (QueryList 'MultiParamArray (Draft)) :> Verb 'POST 200 '[JSON] JsonSuccess -- 'createDrafts' route
+    :<|> "drafts" :> Capture "draft_id" Int :> Verb 'DELETE 200 '[JSON] JsonSuccess -- 'deleteDraft' route
+    :<|> "drafts" :> Capture "draft_id" Int :> QueryParam "draft" Draft :> Verb 'PATCH 200 '[JSON] JsonSuccess -- 'editDraft' route
+    :<|> "drafts" :> Verb 'GET 200 '[JSON] JsonSuccess -- 'getDrafts' route
     :<|> "messages" :> Capture "message_id" Int :> "reactions" :> QueryParam "emoji_name" Text :> QueryParam "emoji_code" Text :> QueryParam "reaction_type" Text :> Verb 'POST 200 '[JSON] JsonSuccess -- 'addReaction' route
     :<|> "messages" :> "matches_narrow" :> QueryParam "msg_ids" (QueryList 'MultiParamArray (Int)) :> QueryParam "narrow" (QueryList 'MultiParamArray (Value)) :> Verb 'GET 200 '[JSON] Value -- 'checkMessagesMatchNarrow' route
     :<|> "messages" :> Capture "message_id" Int :> Verb 'DELETE 200 '[JSON] JsonSuccess -- 'deleteMessage' route
@@ -172,9 +176,11 @@ type ZulipRESTAPI
     :<|> "realm" :> "emoji" :> Capture "emoji_name" Text :> ReqBody '[FormUrlEncoded] FormUploadCustomEmoji :> Verb 'POST 200 '[JSON] JsonSuccess -- 'uploadCustomEmoji' route
     :<|> "streams" :> Capture "stream_id" Int :> Verb 'DELETE 200 '[JSON] JsonSuccess -- 'archiveStream' route
     :<|> "calls" :> "bigbluebutton" :> "create" :> Verb 'GET 200 '[JSON] JsonSuccessBase -- 'createBigBlueButtonVideoCall' route
+    :<|> "streams" :> Capture "stream_id" Int :> "delete_topic" :> QueryParam "topic_name" Text :> Verb 'POST 200 '[JSON] JsonSuccess -- 'deleteTopic' route
     :<|> "get_stream_id" :> QueryParam "stream" Text :> Verb 'GET 200 '[JSON] JsonSuccessBase -- 'getStreamId' route
     :<|> "users" :> "me" :> Capture "stream_id" Int :> "topics" :> Verb 'GET 200 '[JSON] JsonSuccessBase -- 'getStreamTopics' route
     :<|> "streams" :> QueryParam "include_public" Bool :> QueryParam "include_web_public" Bool :> QueryParam "include_subscribed" Bool :> QueryParam "include_all_active" Bool :> QueryParam "include_default" Bool :> QueryParam "include_owner_subscribed" Bool :> Verb 'GET 200 '[JSON] JsonSuccessBase -- 'getStreams' route
+    :<|> "streams" :> Capture "stream_id" Int :> "members" :> Verb 'GET 200 '[JSON] JsonSuccessBase -- 'getSubscribers' route
     :<|> "users" :> Capture "user_id" Int :> "subscriptions" :> Capture "stream_id" Int :> Verb 'GET 200 '[JSON] JsonSuccessBase -- 'getSubscriptionStatus' route
     :<|> "users" :> "me" :> "subscriptions" :> QueryParam "include_subscribers" Bool :> Verb 'GET 200 '[JSON] JsonSuccessBase -- 'getSubscriptions' route
     :<|> "users" :> "me" :> "subscriptions" :> "muted_topics" :> QueryParam "stream" Text :> QueryParam "stream_id" Int :> QueryParam "topic" Text :> QueryParam "op" Text :> Verb 'PATCH 200 '[JSON] JsonSuccess -- 'muteTopic' route
@@ -199,8 +205,8 @@ type ZulipRESTAPI
     :<|> "user_groups" :> Capture "user_group_id" Int :> Verb 'DELETE 200 '[JSON] JsonSuccess -- 'removeUserGroup' route
     :<|> "typing" :> QueryParam "type" Text :> QueryParam "op" Text :> QueryParam "to" (QueryList 'MultiParamArray (Int)) :> QueryParam "topic" Text :> Verb 'POST 200 '[JSON] JsonSuccess -- 'setTypingStatus' route
     :<|> "users" :> "me" :> "muted_users" :> Capture "muted_user_id" Int :> Verb 'DELETE 200 '[JSON] JsonSuccess -- 'unmuteUser' route
-    :<|> "settings" :> "display" :> QueryParam "twenty_four_hour_time" Bool :> QueryParam "dense_mode" Bool :> QueryParam "starred_message_counts" Bool :> QueryParam "fluid_layout_width" Bool :> QueryParam "high_contrast_mode" Bool :> QueryParam "color_scheme" Int :> QueryParam "translate_emoticons" Bool :> QueryParam "default_language" Text :> QueryParam "default_view" Text :> QueryParam "left_side_userlist" Bool :> QueryParam "emojiset" Text :> QueryParam "demote_inactive_streams" Int :> QueryParam "timezone" Text :> Verb 'PATCH 200 '[JSON] JsonSuccessBase -- 'updateDisplaySettings' route
-    :<|> "settings" :> "notifications" :> QueryParam "enable_stream_desktop_notifications" Bool :> QueryParam "enable_stream_email_notifications" Bool :> QueryParam "enable_stream_push_notifications" Bool :> QueryParam "enable_stream_audible_notifications" Bool :> QueryParam "notification_sound" Text :> QueryParam "enable_desktop_notifications" Bool :> QueryParam "enable_sounds" Bool :> QueryParam "enable_offline_email_notifications" Bool :> QueryParam "enable_offline_push_notifications" Bool :> QueryParam "enable_online_push_notifications" Bool :> QueryParam "enable_digest_emails" Bool :> QueryParam "enable_marketing_emails" Bool :> QueryParam "enable_login_emails" Bool :> QueryParam "message_content_in_email_notifications" Bool :> QueryParam "pm_content_in_desktop_notifications" Bool :> QueryParam "wildcard_mentions_notify" Bool :> QueryParam "desktop_icon_count_display" Int :> QueryParam "realm_name_in_notifications" Bool :> QueryParam "presence_enabled" Bool :> Verb 'PATCH 200 '[JSON] JsonSuccessBase -- 'updateNotificationSettings' route
+    :<|> "settings" :> QueryParam "full_name" Text :> QueryParam "email" Text :> QueryParam "old_password" Text :> QueryParam "new_password" Text :> QueryParam "twenty_four_hour_time" Bool :> QueryParam "dense_mode" Bool :> QueryParam "starred_message_counts" Bool :> QueryParam "fluid_layout_width" Bool :> QueryParam "high_contrast_mode" Bool :> QueryParam "color_scheme" Int :> QueryParam "enable_drafts_synchronization" Bool :> QueryParam "translate_emoticons" Bool :> QueryParam "default_language" Text :> QueryParam "default_view" Text :> QueryParam "left_side_userlist" Bool :> QueryParam "emojiset" Text :> QueryParam "demote_inactive_streams" Int :> QueryParam "timezone" Text :> QueryParam "enable_stream_desktop_notifications" Bool :> QueryParam "enable_stream_email_notifications" Bool :> QueryParam "enable_stream_push_notifications" Bool :> QueryParam "enable_stream_audible_notifications" Bool :> QueryParam "notification_sound" Text :> QueryParam "enable_desktop_notifications" Bool :> QueryParam "enable_sounds" Bool :> QueryParam "email_notifications_batching_period_seconds" Int :> QueryParam "enable_offline_email_notifications" Bool :> QueryParam "enable_offline_push_notifications" Bool :> QueryParam "enable_online_push_notifications" Bool :> QueryParam "enable_digest_emails" Bool :> QueryParam "enable_marketing_emails" Bool :> QueryParam "enable_login_emails" Bool :> QueryParam "message_content_in_email_notifications" Bool :> QueryParam "pm_content_in_desktop_notifications" Bool :> QueryParam "wildcard_mentions_notify" Bool :> QueryParam "desktop_icon_count_display" Int :> QueryParam "realm_name_in_notifications" Bool :> QueryParam "presence_enabled" Bool :> QueryParam "enter_sends" Bool :> Verb 'PATCH 200 '[JSON] JsonSuccessBase -- 'updateSettings' route
+    :<|> "users" :> "me" :> "status" :> QueryParam "status_text" Text :> QueryParam "away" Bool :> QueryParam "emoji_name" Text :> QueryParam "emoji_code" Text :> QueryParam "reaction_type" Text :> Verb 'POST 200 '[JSON] JsonSuccess -- 'updateStatus' route
     :<|> "users" :> Capture "user_id" Int :> QueryParam "full_name" Text :> QueryParam "role" Int :> QueryParam "profile_data" (QueryList 'MultiParamArray (Value)) :> Verb 'PATCH 200 '[JSON] JsonSuccess -- 'updateUser' route
     :<|> "user_groups" :> Capture "user_group_id" Int :> QueryParam "name" Text :> QueryParam "description" Text :> Verb 'PATCH 200 '[JSON] JsonSuccess -- 'updateUserGroup' route
     :<|> "user_groups" :> Capture "user_group_id" Int :> "members" :> QueryParam "delete" (QueryList 'MultiParamArray (Int)) :> QueryParam "add" (QueryList 'MultiParamArray (Int)) :> Verb 'POST 200 '[JSON] JsonSuccess -- 'updateUserGroupMembers' route
@@ -227,6 +233,10 @@ newtype ZulipRESTClientError = ZulipRESTClientError ClientError
 data ZulipRESTBackend m = ZulipRESTBackend
   { devFetchApiKey :: Maybe Text -> m ApiKeyResponse{- ^ For easy testing of mobile apps and other clients and against Zulip development servers, we support fetching a Zulip API key for any user on the development server without authentication (so that they can implement analogues of the one-click login process available for Zulip development servers on the web).  **Note:** This endpoint is only available on Zulip development servers; for obvious security reasons it will always return an error in a Zulip production server.  `POST {{ api_url }}/v1/dev_fetch_api_key`  -}
   , fetchApiKey :: Maybe Text -> Maybe Text -> m ApiKeyResponse{- ^ This API endpoint is used by clients such as the Zulip mobile and terminal apps to implement password-based authentication.  Given the user's Zulip login credentials, it returns a Zulip API key that the client can use to make requests requests as the user.  This endpoint is only useful for Zulip servers/organizations with EmailAuthBackend or LDAPAuthBackend enabled.  The Zulip mobile apps also support SSO/social authentication (GitHub auth, Google auth, SAML, etc.) that does not use this endpoint.  Instead, the mobile apps reuse the web login flow passing the `mobile_flow_otp` in a webview, and the credentials are returned to the app (encrypted) via a redirect to a `zulip://` URL.  !!! warn \"\"     **Note:** If you signed up using passwordless authentication and     never had a password, you can [reset your password](/help/change-your-password).      See the [API keys](/api/api-keys) documentation for     more details on how to download API key manually.  In a [Zulip development environment](https://zulip.readthedocs.io/en/latest/development/overview.html), see also [the unauthenticated variant](/api/dev-fetch-api-key).  -}
+  , createDrafts :: Maybe [Draft] -> m JsonSuccess{- ^ Create one or more drafts on the server. These drafts will be automatically synchronized to other clients via `drafts` events.  `POST {{ api_url }}/v1/drafts`  -}
+  , deleteDraft :: Int -> m JsonSuccess{- ^ Delete a single draft from the server. The deletion will be automatically synchronized to other clients via a `drafts` event.  `DELETE {{ api_url }}/v1/drafts/{draft_id}`  -}
+  , editDraft :: Int -> Maybe Draft -> m JsonSuccess{- ^ Edit a draft on the server. The edit will be automatically synchronized to other clients via `drafts` events.  `PATCH {{ api_url }}/v1/drafts/{draft_id}`  -}
+  , getDrafts :: m JsonSuccess{- ^ Fetch all drafts for the current user.  `GET {{ api_url }}/v1/drafts`  -}
   , addReaction :: Int -> Maybe Text -> Maybe Text -> Maybe Text -> m JsonSuccess{- ^ Add an [emoji reaction](/help/emoji-reactions) to a message.  `POST {{ api_url }}/v1/messages/{message_id}/reactions`  -}
   , checkMessagesMatchNarrow :: Maybe [Int] -> Maybe [Value] -> m Value{- ^ Check whether a set of messages match a [narrow](/api/construct-narrow).  `GET {{ api_url }}/v1/messages/matches_narrow`  For many common narrows (E.g. a topic), clients can write an efficient client-side check to determine whether a newly arrived message belongs in the view.  This endpoint is designed to allow clients to handle more complex narrows for which the client does not (or in the case of full-text search, cannot) implement this check.  The format of the `match_subject` and `match_content` objects is designed to match those of `GET /messages`, so that a client can splice these fields into a `message` object received from `GET /events` and end up with an extended message object identical to how a `GET /messages` for the current narrow would have returned the message.  -}
   , deleteMessage :: Int -> m JsonSuccess{- ^ Permanently delete a message.  `DELETE {{ api_url }}/v1/messages/{msg_id}`  This API corresponds to the [delete a message completely][delete-completely] feature documented in the Zulip Help Center.  [delete-completely]: /help/edit-or-delete-a-message#delete-a-message-completely  -}
@@ -262,9 +272,11 @@ data ZulipRESTBackend m = ZulipRESTBackend
   , uploadCustomEmoji :: Text -> FormUploadCustomEmoji -> m JsonSuccess{- ^ This endpoint is used to upload a custom emoji for use in the user's organization.  Access to this endpoint depends on the [organization's configuration](https://zulip.com/help/only-allow-admins-to-add-emoji).  `POST {{ api_url }}/v1/realm/emoji/{emoji_name}`  -}
   , archiveStream :: Int -> m JsonSuccess{- ^ [Archive the stream](/help/archive-a-stream) with the ID `stream_id`.  `DELETE {{ api_url }}/v1/streams/{stream_id}`  -}
   , createBigBlueButtonVideoCall :: m JsonSuccessBase{- ^ Create a video call URL for a BigBlueButton video call. Requires BigBlueButton to be configured on the Zulip server.  -}
+  , deleteTopic :: Int -> Maybe Text -> m JsonSuccess{- ^ Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip.  -}
   , getStreamId :: Maybe Text -> m JsonSuccessBase{- ^ Get the unique ID of a given stream.  `GET {{ api_url }}/v1/get_stream_id`  -}
   , getStreamTopics :: Int -> m JsonSuccessBase{- ^ Get all the topics in a specific stream  `GET {{ api_url }}/v1/users/me/{stream_id}/topics`  -}
   , getStreams :: Maybe Bool -> Maybe Bool -> Maybe Bool -> Maybe Bool -> Maybe Bool -> Maybe Bool -> m JsonSuccessBase{- ^ Get all streams that the user has access to.  `GET {{ api_url }}/v1/streams`  -}
+  , getSubscribers :: Int -> m JsonSuccessBase{- ^ Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members`  -}
   , getSubscriptionStatus :: Int -> Int -> m JsonSuccessBase{- ^ Check whether a user is subscribed to a stream.  `GET {{ api_url }}/v1/users/{user_id}/subscriptions/{stream_id}`  **Changes**: New in Zulip 3.0 (feature level 11).  -}
   , getSubscriptions :: Maybe Bool -> m JsonSuccessBase{- ^ Get all streams that the user is subscribed to.  `GET {{ api_url }}/v1/users/me/subscriptions`  -}
   , muteTopic :: Maybe Text -> Maybe Int -> Maybe Text -> Maybe Text -> m JsonSuccess{- ^ This endpoint mutes/unmutes a topic within a stream that the current user is subscribed to.  Muted topics are displayed faded in the Zulip UI, and are not included in the user's unread count totals.  `PATCH {{ api_url }}/v1/users/me/subscriptions/muted_topics`  -}
@@ -289,8 +301,8 @@ data ZulipRESTBackend m = ZulipRESTBackend
   , removeUserGroup :: Int -> m JsonSuccess{- ^ Delete a [user group](/help/user-groups).  `DELETE {{ api_url }}/v1/user_groups/{user_group_id}`  -}
   , setTypingStatus :: Maybe Text -> Maybe Text -> Maybe [Int] -> Maybe Text -> m JsonSuccess{- ^ Notify other users whether the current user is typing a message.  `POST {{ api_url }}/v1/typing`  Clients implementing Zulip's typing notifications protocol should work as follows:  * Send a request to this endpoint with `op=\"start\"` when a user starts typing a message,   and also every `TYPING_STARTED_WAIT_PERIOD=10` seconds that the user continues to   actively type or otherwise interact with the compose UI (E.g. interacting with the   compose box emoji picker). * Send a request to this endpoint with `op=\"stop\"` when a user pauses using the   compose UI for at least `TYPING_STOPPED_WAIT_PERIOD=5` seconds or cancels   the compose action (if it had previously sent a \"start\" operation for that   compose action). * Start displaying \"Sender is typing\" for a given conversation when the client   receives an `op=\"start\"` event from the [events API](/api/get-events). * Continue displaying \"Sender is typing\" until they receive an `op=\"stop\"` event   from the [events API](/api/get-events) or `TYPING_STARTED_EXPIRY_PERIOD=15`   seconds have passed without a new `op=\"start\"` event for that conversation. * Clients that support displaying stream typing notifications (new in Zulip 4.0)   should indicate they support processing stream typing events via the   `stream_typing_notifications` in the `client_capabilities` parameter to `/register`.  This protocol is designed to allow the server-side typing notifications implementation to be stateless while being resilient; network failures cannot result in a user being incorrectly displayed as perpetually typing.  See [the typing notification docs](https://zulip.readthedocs.io/en/latest/subsystems/typing-indicators.html) for additional design details on Zulip's typing notifications protocol.  -}
   , unmuteUser :: Int -> m JsonSuccess{- ^ This endpoint unmutes a user.  `DELETE {{ api_url }}/v1/users/me/muted_users/{muted_user_id}`  **Changes**: New in Zulip 4.0 (feature level 48).  -}
-  , updateDisplaySettings :: Maybe Bool -> Maybe Bool -> Maybe Bool -> Maybe Bool -> Maybe Bool -> Maybe Int -> Maybe Bool -> Maybe Text -> Maybe Text -> Maybe Bool -> Maybe Text -> Maybe Int -> Maybe Text -> m JsonSuccessBase{- ^ This endpoint is used to edit the current user's user interface settings.  `PATCH {{ api_url }}/v1/settings/display`  -}
-  , updateNotificationSettings :: Maybe Bool -> Maybe Bool -> Maybe Bool -> Maybe Bool -> Maybe Text -> Maybe Bool -> Maybe Bool -> Maybe Bool -> Maybe Bool -> Maybe Bool -> Maybe Bool -> Maybe Bool -> Maybe Bool -> Maybe Bool -> Maybe Bool -> Maybe Bool -> Maybe Int -> Maybe Bool -> Maybe Bool -> m JsonSuccessBase{- ^ This endpoint is used to edit the user's global notification settings. See [this endpoint](/api/update-subscription-settings) for per-stream notification settings.  `PATCH {{ api_url }}/v1/settings/notifications`  -}
+  , updateSettings :: Maybe Text -> Maybe Text -> Maybe Text -> Maybe Text -> Maybe Bool -> Maybe Bool -> Maybe Bool -> Maybe Bool -> Maybe Bool -> Maybe Int -> Maybe Bool -> Maybe Bool -> Maybe Text -> Maybe Text -> Maybe Bool -> Maybe Text -> Maybe Int -> Maybe Text -> Maybe Bool -> Maybe Bool -> Maybe Bool -> Maybe Bool -> Maybe Text -> Maybe Bool -> Maybe Bool -> Maybe Int -> Maybe Bool -> Maybe Bool -> Maybe Bool -> Maybe Bool -> Maybe Bool -> Maybe Bool -> Maybe Bool -> Maybe Bool -> Maybe Bool -> Maybe Int -> Maybe Bool -> Maybe Bool -> Maybe Bool -> m JsonSuccessBase{- ^ This endpoint is used to edit the current user's settings.  `PATCH {{ api_url }}/v1/settings`  **Changes**: Prior to Zulip 5.0 (feature level 80), this endpoint only supported the `full_name`, `email`, `old_password`, and `new_password` parameters. Notification settings were managed by `PATCH /settings/notifications`, and all other settings by `PATCH /settings/display`. The feature level 80 migration to merge these endpoints did not change how request parameters are encoded. Note, however, that it did change the handling of any invalid parameters present in a request to change notification or display settings, since the merged endpoint uses the new response format that was introduced for `/settings` in Zulip 5.0 (feature level 78).  The `/settings/display` and `/settings/notifications` endpoints are now deprecated aliases for this endpoint for backwards-compatibility, and will be removed once clients have migrated to use this endpoint.  -}
+  , updateStatus :: Maybe Text -> Maybe Bool -> Maybe Text -> Maybe Text -> Maybe Text -> m JsonSuccess{- ^ Change your [status](/help/status-and-availability).  `POST {{ api_url }}/v1/users/me/status`  A request to this endpoint will only change the parameters passed. For example, passing just `status_text` requests a change in the status text, but will leave the status emoji unchanged.  Clients that wish to set the user's status to a specific value should pass all supported parameters.  -}
   , updateUser :: Int -> Maybe Text -> Maybe Int -> Maybe [Value] -> m JsonSuccess{- ^ Administrative endpoint to update the details of another user in the organization.  `PATCH {{ api_url }}/v1/users/{user_id}`  Supports everything an administrator can do to edit details of another user's account, including editing full name, [role](/help/roles-and-permissions), and [custom profile fields](/help/add-custom-profile-fields).  -}
   , updateUserGroup :: Int -> Maybe Text -> Maybe Text -> m JsonSuccess{- ^ Update the name or description of a [user group](/help/user-groups).  `PATCH {{ api_url }}/v1/user_groups/{user_group_id}`  -}
   , updateUserGroupMembers :: Int -> Maybe [Int] -> Maybe [Int] -> m JsonSuccess{- ^ Update the members of a [user group](/help/user-groups).  `POST {{ api_url }}/v1/user_groups/{user_group_id}/members`  -}
@@ -320,6 +332,10 @@ createZulipRESTClient = ZulipRESTBackend{..}
   where
     ((coerce -> devFetchApiKey) :<|>
      (coerce -> fetchApiKey) :<|>
+     (coerce -> createDrafts) :<|>
+     (coerce -> deleteDraft) :<|>
+     (coerce -> editDraft) :<|>
+     (coerce -> getDrafts) :<|>
      (coerce -> addReaction) :<|>
      (coerce -> checkMessagesMatchNarrow) :<|>
      (coerce -> deleteMessage) :<|>
@@ -355,9 +371,11 @@ createZulipRESTClient = ZulipRESTBackend{..}
      (coerce -> uploadCustomEmoji) :<|>
      (coerce -> archiveStream) :<|>
      (coerce -> createBigBlueButtonVideoCall) :<|>
+     (coerce -> deleteTopic) :<|>
      (coerce -> getStreamId) :<|>
      (coerce -> getStreamTopics) :<|>
      (coerce -> getStreams) :<|>
+     (coerce -> getSubscribers) :<|>
      (coerce -> getSubscriptionStatus) :<|>
      (coerce -> getSubscriptions) :<|>
      (coerce -> muteTopic) :<|>
@@ -382,8 +400,8 @@ createZulipRESTClient = ZulipRESTBackend{..}
      (coerce -> removeUserGroup) :<|>
      (coerce -> setTypingStatus) :<|>
      (coerce -> unmuteUser) :<|>
-     (coerce -> updateDisplaySettings) :<|>
-     (coerce -> updateNotificationSettings) :<|>
+     (coerce -> updateSettings) :<|>
+     (coerce -> updateStatus) :<|>
      (coerce -> updateUser) :<|>
      (coerce -> updateUserGroup) :<|>
      (coerce -> updateUserGroupMembers) :<|>
@@ -437,6 +455,10 @@ runZulipRESTMiddlewareServer Config{..} middleware backend = do
     serverFromBackend ZulipRESTBackend{..} =
       (coerce devFetchApiKey :<|>
        coerce fetchApiKey :<|>
+       coerce createDrafts :<|>
+       coerce deleteDraft :<|>
+       coerce editDraft :<|>
+       coerce getDrafts :<|>
        coerce addReaction :<|>
        coerce checkMessagesMatchNarrow :<|>
        coerce deleteMessage :<|>
@@ -472,9 +494,11 @@ runZulipRESTMiddlewareServer Config{..} middleware backend = do
        coerce uploadCustomEmoji :<|>
        coerce archiveStream :<|>
        coerce createBigBlueButtonVideoCall :<|>
+       coerce deleteTopic :<|>
        coerce getStreamId :<|>
        coerce getStreamTopics :<|>
        coerce getStreams :<|>
+       coerce getSubscribers :<|>
        coerce getSubscriptionStatus :<|>
        coerce getSubscriptions :<|>
        coerce muteTopic :<|>
@@ -499,8 +523,8 @@ runZulipRESTMiddlewareServer Config{..} middleware backend = do
        coerce removeUserGroup :<|>
        coerce setTypingStatus :<|>
        coerce unmuteUser :<|>
-       coerce updateDisplaySettings :<|>
-       coerce updateNotificationSettings :<|>
+       coerce updateSettings :<|>
+       coerce updateStatus :<|>
        coerce updateUser :<|>
        coerce updateUserGroup :<|>
        coerce updateUserGroupMembers :<|>

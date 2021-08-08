@@ -28,32 +28,10 @@ class TestEmojiReactionBase(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def make_instance(self, include_optional):
-        """Test EmojiReactionBase
-            include_option is a boolean, when False only required
-            params are included, when True both required and
-            optional params are included """
-        # model = openapi_client.models.emoji_reaction_base.EmojiReactionBase()  # noqa: E501
-        if include_optional :
-            return EmojiReactionBase(
-                emoji_code = '', 
-                emoji_name = '', 
-                reaction_type = '', 
-                user_id = 56, 
-                user = openapi_client.models.emoji_reaction_base_user.EmojiReactionBase_user(
-                    id = 56, 
-                    email = '', 
-                    full_name = '', 
-                    is_mirror_dummy = True, )
-            )
-        else :
-            return EmojiReactionBase(
-        )
-
     def testEmojiReactionBase(self):
         """Test EmojiReactionBase"""
-        inst_req_only = self.make_instance(include_optional=False)
-        inst_req_and_optional = self.make_instance(include_optional=True)
+        # inst_req_only = self.make_instance(include_optional=False)
+        # inst_req_and_optional = self.make_instance(include_optional=True)
 
 if __name__ == '__main__':
     unittest.main()

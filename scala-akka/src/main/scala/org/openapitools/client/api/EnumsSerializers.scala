@@ -18,6 +18,7 @@ import scala.reflect.ClassTag
 object EnumsSerializers {
 
   def all: Seq[Serializer[_]] = Seq[Serializer[_]]() :+
+    new EnumNameSerializer(DraftEnums.`Type`) :+
     new EnumNameSerializer(JsonErrorBaseEnums.Result) :+
     new EnumNameSerializer(JsonErrorBaseAllOfEnums.Result) :+
     new EnumNameSerializer(JsonSuccessBaseEnums.Result) :+

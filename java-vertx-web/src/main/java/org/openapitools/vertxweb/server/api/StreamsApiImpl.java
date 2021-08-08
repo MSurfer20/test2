@@ -28,6 +28,10 @@ public class StreamsApiImpl implements StreamsApi {
         return Future.failedFuture(new HttpStatusException(501));
     }
 
+    public Future<ApiResponse<JsonSuccess>> deleteTopic(Integer streamId, String topicName) {
+        return Future.failedFuture(new HttpStatusException(501));
+    }
+
     public Future<ApiResponse<JsonSuccessBase>> getStreamId(String stream) {
         return Future.failedFuture(new HttpStatusException(501));
     }
@@ -37,6 +41,10 @@ public class StreamsApiImpl implements StreamsApi {
     }
 
     public Future<ApiResponse<JsonSuccessBase>> getStreams(Boolean includePublic, Boolean includeWebPublic, Boolean includeSubscribed, Boolean includeAllActive, Boolean includeDefault, Boolean includeOwnerSubscribed) {
+        return Future.failedFuture(new HttpStatusException(501));
+    }
+
+    public Future<ApiResponse<JsonSuccessBase>> getSubscribers(Integer streamId) {
         return Future.failedFuture(new HttpStatusException(501));
     }
 

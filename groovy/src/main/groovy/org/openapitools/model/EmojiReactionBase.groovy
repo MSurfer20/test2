@@ -3,11 +3,13 @@ package org.openapitools.model;
 import groovy.transform.Canonical
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.openapitools.model.EmojiReactionBaseUser;
+import org.openapitools.model.EmojiBase;
+import org.openapitools.model.EmojiReactionBaseAllOf;
+import org.openapitools.model.EmojiReactionBaseAllOfUser;
 
 @Canonical
 class EmojiReactionBase {
-    /* A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint.  */
+    /* A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji.  */
     String emojiCode
     /* Name of the emoji.  */
     String emojiName
@@ -16,5 +18,5 @@ class EmojiReactionBase {
     /* The ID of the user who added the reaction.  **Changes**: New in Zulip 3.0 (feature level 2). The `user` object is deprecated and will be removed in the future.  */
     Integer userId
     
-    EmojiReactionBaseUser user
+    EmojiReactionBaseAllOfUser user
 }

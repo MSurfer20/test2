@@ -28,6 +28,10 @@ Module | Proc | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 api_authentication | devFetchApiKey | **POST** /dev_fetch_api_key | Fetch an API key (development only)
 api_authentication | fetchApiKey | **POST** /fetch_api_key | Fetch an API key (production)
+api_drafts | createDrafts | **POST** /drafts | Create drafts
+api_drafts | deleteDraft | **DELETE** /drafts/{draft_id} | Delete a draft
+api_drafts | editDraft | **PATCH** /drafts/{draft_id} | Edit a draft
+api_drafts | getDrafts | **GET** /drafts | Get drafts
 api_messages | addReaction | **POST** /messages/{message_id}/reactions | Add an emoji reaction
 api_messages | checkMessagesMatchNarrow | **GET** /messages/matches_narrow | Check if messages match a narrow
 api_messages | deleteMessage | **DELETE** /messages/{message_id} | Delete a message
@@ -63,9 +67,11 @@ api_server_and_organizations | updateLinkifier | **PATCH** /realm/filters/{filte
 api_server_and_organizations | uploadCustomEmoji | **POST** /realm/emoji/{emoji_name} | Upload custom emoji
 api_streams | archiveStream | **DELETE** /streams/{stream_id} | Archive a stream
 api_streams | createBigBlueButtonVideoCall | **GET** /calls/bigbluebutton/create | Create BigBlueButton video call
+api_streams | deleteTopic | **POST** /streams/{stream_id}/delete_topic | Delete a topic
 api_streams | getStreamId | **GET** /get_stream_id | Get stream ID
 api_streams | getStreamTopics | **GET** /users/me/{stream_id}/topics | Get topics in a stream
 api_streams | getStreams | **GET** /streams | Get all streams
+api_streams | getSubscribers | **GET** /streams/{stream_id}/members | Get the subscribers of a stream
 api_streams | getSubscriptionStatus | **GET** /users/{user_id}/subscriptions/{stream_id} | Get subscription status
 api_streams | getSubscriptions | **GET** /users/me/subscriptions | Get subscribed streams
 api_streams | muteTopic | **PATCH** /users/me/subscriptions/muted_topics | Topic muting
@@ -90,8 +96,8 @@ api_users | reactivateUser | **POST** /users/{user_id}/reactivate | Reactivate a
 api_users | removeUserGroup | **DELETE** /user_groups/{user_group_id} | Delete a user group
 api_users | setTypingStatus | **POST** /typing | Set \"typing\" status
 api_users | unmuteUser | **DELETE** /users/me/muted_users/{muted_user_id} | Unmute a user
-api_users | updateDisplaySettings | **PATCH** /settings/display | Update display settings
-api_users | updateNotificationSettings | **PATCH** /settings/notifications | Update notification settings
+api_users | updateSettings | **PATCH** /settings | Update settings
+api_users | updateStatus | **POST** /users/me/status | Update your status
 api_users | updateUser | **PATCH** /users/{user_id} | Update a user
 api_users | updateUserGroup | **PATCH** /user_groups/{user_group_id} | Update a user group
 api_users | updateUserGroupMembers | **POST** /user_groups/{user_group_id}/members | Update user group members

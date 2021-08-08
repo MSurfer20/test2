@@ -5,6 +5,7 @@ openapi_server/__init__.py
 openapi_server/__main__.py
 openapi_server/controllers/__init__.py
 openapi_server/controllers/authentication_controller.py
+openapi_server/controllers/drafts_controller.py
 openapi_server/controllers/messages_controller.py
 openapi_server/controllers/real_time_events_controller.py
 openapi_server/controllers/security_controller_.py
@@ -36,10 +37,13 @@ openapi_server/models/coded_error_base.py
 openapi_server/models/coded_error_base_all_of.py
 openapi_server/models/custom_profile_field.py
 openapi_server/models/default_stream_group.py
+openapi_server/models/draft.py
+openapi_server/models/emoji_base.py
 openapi_server/models/emoji_reaction.py
 openapi_server/models/emoji_reaction_all_of.py
 openapi_server/models/emoji_reaction_base.py
-openapi_server/models/emoji_reaction_base_user.py
+openapi_server/models/emoji_reaction_base_all_of.py
+openapi_server/models/emoji_reaction_base_all_of_user.py
 openapi_server/models/get_messages.py
 openapi_server/models/get_messages_all_of.py
 openapi_server/models/hotspot.py
@@ -86,6 +90,7 @@ test-requirements.txt
 tests/__init__.py
 tests/conftest.py
 tests/test_authentication_controller.py
+tests/test_drafts_controller.py
 tests/test_messages_controller.py
 tests/test_real_time_events_controller.py
 tests/test_server_and_organizations_controller.py

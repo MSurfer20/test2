@@ -15,19 +15,19 @@ import java.util.List;
 import java.util.Map;
 
 public interface RealTimeEventsApi  {
-    //delete_queue
+    //delete-queue
     void deleteQueue(String queueId, Handler<AsyncResult<JsonSuccess>> handler);
     
-    //get_events
+    //get-events
     void getEvents(String queueId, Integer lastEventId, Boolean dontBlock, Handler<AsyncResult<JsonSuccessBase>> handler);
     
     //POST_real_time
     void realTimePost(List<String> eventTypes, List<List<String>> narrow, Boolean allPublicStreams, Handler<AsyncResult<Void>> handler);
     
-    //register_queue
+    //register-queue
     void registerQueue(Boolean applyMarkdown, Boolean clientGravatar, Boolean slimPresence, List<String> eventTypes, Boolean allPublicStreams, Boolean includeSubscribers, Object clientCapabilities, List<String> fetchEventTypes, List<List<String>> narrow, Handler<AsyncResult<JsonSuccessBase>> handler);
     
-    //rest_error_handling
+    //rest-error-handling
     void restErrorHandling(Handler<AsyncResult<Void>> handler);
     
 }

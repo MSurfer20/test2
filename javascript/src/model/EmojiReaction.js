@@ -103,7 +103,7 @@ EmojiReaction.prototype['user'] = undefined;
 
 // Implement EmojiReactionBase interface:
 /**
- * A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint. 
+ * A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji. 
  * @member {String} emoji_code
  */
 EmojiReactionBase.prototype['emoji_code'] = undefined;
@@ -123,7 +123,7 @@ EmojiReactionBase.prototype['reaction_type'] = undefined;
  */
 EmojiReactionBase.prototype['user_id'] = undefined;
 /**
- * @member {module:model/EmojiReactionBaseUser} user
+ * @member {module:model/EmojiReactionBaseAllOfUser} user
  */
 EmojiReactionBase.prototype['user'] = undefined;
 // Implement EmojiReactionAllOf interface:

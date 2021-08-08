@@ -87,6 +87,41 @@ export class StreamsService {
 
 
     /**
+     * Delete a topic
+     * Delete all messages in a topic.  &#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+     * @param streamId The ID of the stream to access. 
+     * @param topicName The name of the topic to delete. 
+     
+     */
+    public deleteTopic(streamId: number, topicName: string, observe?: 'body', headers?: Headers): Observable<JsonSuccess>;
+    public deleteTopic(streamId: number, topicName: string, observe?: 'response', headers?: Headers): Observable<HttpResponse<JsonSuccess>>;
+    public deleteTopic(streamId: number, topicName: string, observe: any = 'body', headers: Headers = {}): Observable<any> {
+        if (streamId === null || streamId === undefined){
+            throw new Error('Required parameter streamId was null or undefined when calling deleteTopic.');
+        }
+
+        if (topicName === null || topicName === undefined){
+            throw new Error('Required parameter topicName was null or undefined when calling deleteTopic.');
+        }
+
+        let queryParameters: string[] = [];
+        if (topicName !== undefined) {
+            queryParameters.push('topicName='+encodeURIComponent(String(topicName)));
+        }
+
+        headers['Accept'] = 'application/json';
+
+        const response: Observable<HttpResponse<JsonSuccess>> = this.httpClient.post(`${this.basePath}/streams/${encodeURIComponent(String(streamId))}/delete_topic?${queryParameters.join('&')}`, headers);
+        if (observe === 'body') {
+               return response.pipe(
+                   map((httpResponse: HttpResponse) => <JsonSuccess>(httpResponse.response))
+               );
+        }
+        return response;
+    }
+
+
+    /**
      * Get stream ID
      * Get the unique ID of a given stream.  &#x60;GET {{ api_url }}/v1/get_stream_id&#x60; 
      * @param stream The name of the stream to access. 
@@ -178,6 +213,31 @@ export class StreamsService {
         headers['Accept'] = 'application/json';
 
         const response: Observable<HttpResponse<JsonSuccessBase & object>> = this.httpClient.get(`${this.basePath}/streams?${queryParameters.join('&')}`, headers);
+        if (observe === 'body') {
+               return response.pipe(
+                   map((httpResponse: HttpResponse) => <JsonSuccessBase & object>(httpResponse.response))
+               );
+        }
+        return response;
+    }
+
+
+    /**
+     * Get the subscribers of a stream
+     * Get all users subscribed to a stream.  &#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60; 
+     * @param streamId The ID of the stream to access. 
+     
+     */
+    public getSubscribers(streamId: number, observe?: 'body', headers?: Headers): Observable<JsonSuccessBase & object>;
+    public getSubscribers(streamId: number, observe?: 'response', headers?: Headers): Observable<HttpResponse<JsonSuccessBase & object>>;
+    public getSubscribers(streamId: number, observe: any = 'body', headers: Headers = {}): Observable<any> {
+        if (streamId === null || streamId === undefined){
+            throw new Error('Required parameter streamId was null or undefined when calling getSubscribers.');
+        }
+
+        headers['Accept'] = 'application/json';
+
+        const response: Observable<HttpResponse<JsonSuccessBase & object>> = this.httpClient.get(`${this.basePath}/streams/${encodeURIComponent(String(streamId))}/members`, headers);
         if (observe === 'body') {
                return response.pipe(
                    map((httpResponse: HttpResponse) => <JsonSuccessBase & object>(httpResponse.response))

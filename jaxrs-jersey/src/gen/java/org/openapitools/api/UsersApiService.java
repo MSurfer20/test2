@@ -12,6 +12,7 @@ import org.openapitools.model.JsonSuccessBase;
 import org.openapitools.model.NonExistingStreamError;
 import org.openapitools.model.OneOfobjectobject;
 import org.openapitools.model.OneOfobjectobjectobject;
+import org.openapitools.model.OneOfobjectobjectobjectobjectobjectobject;
 import org.openapitools.model.OneOfstringinteger;
 
 import java.util.List;
@@ -22,7 +23,7 @@ import java.io.InputStream;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.validation.constraints.*;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2021-08-08T20:42:23.370561Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2021-08-08T21:12:13.281187Z[Etc/UTC]")
 public abstract class UsersApiService {
     public abstract Response createUser( @NotNull String email, @NotNull String password, @NotNull String fullName,SecurityContext securityContext) throws NotFoundException;
     public abstract Response deactivateOwnUser(SecurityContext securityContext) throws NotFoundException;
@@ -41,6 +42,7 @@ public abstract class UsersApiService {
     public abstract Response subscribe( @NotNull List<Object> subscriptions,List<OneOfstringinteger> principals,Boolean authorizationErrorsFatal,Boolean announce,Boolean inviteOnly,Boolean historyPublicToSubscribers,Integer streamPostPolicy,OneOfstringinteger messageRetentionDays,SecurityContext securityContext) throws NotFoundException;
     public abstract Response unmuteUser(Integer mutedUserId,SecurityContext securityContext) throws NotFoundException;
     public abstract Response unsubscribe( @NotNull List<String> subscriptions,List<OneOfstringinteger> principals,SecurityContext securityContext) throws NotFoundException;
+    public abstract Response updateStatus(String statusText,Boolean away,String emojiName,String emojiCode,String reactionType,SecurityContext securityContext) throws NotFoundException;
     public abstract Response updateSubscriptionSettings( @NotNull List<Object> subscriptionData,SecurityContext securityContext) throws NotFoundException;
     public abstract Response updateSubscriptions(List<String> delete,List<Object> add,SecurityContext securityContext) throws NotFoundException;
     public abstract Response updateUser(Integer userId,String fullName,Integer role,List<Object> profileData,SecurityContext securityContext) throws NotFoundException;

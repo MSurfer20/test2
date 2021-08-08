@@ -127,15 +127,15 @@ describe("users_api", function()
     end)
   end)
 
-  -- unit tests for update_display_settings
-  describe("update_display_settings test", function()
+  -- unit tests for update_settings
+  describe("update_settings test", function()
     it("should work", function()
       -- TODO assertion here: http://olivinelabs.com/busted/#asserts
     end)
   end)
 
-  -- unit tests for update_notification_settings
-  describe("update_notification_settings test", function()
+  -- unit tests for update_status
+  describe("update_status test", function()
     it("should work", function()
       -- TODO assertion here: http://olivinelabs.com/busted/#asserts
     end)

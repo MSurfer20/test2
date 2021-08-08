@@ -184,18 +184,23 @@ feature -- Test routines
             assert ("not_implemented", False)
         end
     
-    test_update_display_settings
-            -- Update display settings
+    test_update_settings
+            -- Update settings
             -- 
-            -- This endpoint is used to edit the current user&#39;s user interface settings.  &#x60;PATCH {{ api_url }}/v1/settings/display&#x60;  
+            -- This endpoint is used to edit the current user&#39;s settings.  &#x60;PATCH {{ api_url }}/v1/settings&#x60;  **Changes**: Prior to Zulip 5.0 (feature level 80), this endpoint only supported the &#x60;full_name&#x60;, &#x60;email&#x60;, &#x60;old_password&#x60;, and &#x60;new_password&#x60; parameters. Notification settings were managed by &#x60;PATCH /settings/notifications&#x60;, and all other settings by &#x60;PATCH /settings/display&#x60;. The feature level 80 migration to merge these endpoints did not change how request parameters are encoded. Note, however, that it did change the handling of any invalid parameters present in a request to change notification or display settings, since the merged endpoint uses the new response format that was introduced for &#x60;/settings&#x60; in Zulip 5.0 (feature level 78).  The &#x60;/settings/display&#x60; and &#x60;/settings/notifications&#x60; endpoints are now deprecated aliases for this endpoint for backwards-compatibility, and will be removed once clients have migrated to use this endpoint.  
         local
             l_response: JSON_SUCCESS_BASE
+            l_full_name: STRING_32
+            l_email: STRING_32
+            l_old_password: STRING_32
+            l_new_password: STRING_32
             l_twenty_four_hour_time: BOOLEAN
             l_dense_mode: BOOLEAN
             l_starred_message_counts: BOOLEAN
             l_fluid_layout_width: BOOLEAN
             l_high_contrast_mode: BOOLEAN
             l_color_scheme: INTEGER_32
+            l_enable_drafts_synchronization: BOOLEAN
             l_translate_emoticons: BOOLEAN
             l_default_language: STRING_32
             l_default_view: STRING_32
@@ -203,19 +208,6 @@ feature -- Test routines
             l_emojiset: STRING_32
             l_demote_inactive_streams: INTEGER_32
             l_timezone: STRING_32
-        do
-            -- TODO: Initialize required params.
-                      
-            -- l_response := api.update_display_settings(l_twenty_four_hour_time, l_dense_mode, l_starred_message_counts, l_fluid_layout_width, l_high_contrast_mode, l_color_scheme, l_translate_emoticons, l_default_language, l_default_view, l_left_side_userlist, l_emojiset, l_demote_inactive_streams, l_timezone)
-            assert ("not_implemented", False)
-        end
-    
-    test_update_notification_settings
-            -- Update notification settings
-            -- 
-            -- This endpoint is used to edit the user&#39;s global notification settings. See [this endpoint](/api/update-subscription-settings) for per-stream notification settings.  &#x60;PATCH {{ api_url }}/v1/settings/notifications&#x60;  
-        local
-            l_response: JSON_SUCCESS_BASE
             l_enable_stream_desktop_notifications: BOOLEAN
             l_enable_stream_email_notifications: BOOLEAN
             l_enable_stream_push_notifications: BOOLEAN
@@ -223,6 +215,7 @@ feature -- Test routines
             l_notification_sound: STRING_32
             l_enable_desktop_notifications: BOOLEAN
             l_enable_sounds: BOOLEAN
+            l_email_notifications_batching_period_seconds: INTEGER_32
             l_enable_offline_email_notifications: BOOLEAN
             l_enable_offline_push_notifications: BOOLEAN
             l_enable_online_push_notifications: BOOLEAN
@@ -235,10 +228,29 @@ feature -- Test routines
             l_desktop_icon_count_display: INTEGER_32
             l_realm_name_in_notifications: BOOLEAN
             l_presence_enabled: BOOLEAN
+            l_enter_sends: BOOLEAN
         do
             -- TODO: Initialize required params.
                       
-            -- l_response := api.update_notification_settings(l_enable_stream_desktop_notifications, l_enable_stream_email_notifications, l_enable_stream_push_notifications, l_enable_stream_audible_notifications, l_notification_sound, l_enable_desktop_notifications, l_enable_sounds, l_enable_offline_email_notifications, l_enable_offline_push_notifications, l_enable_online_push_notifications, l_enable_digest_emails, l_enable_marketing_emails, l_enable_login_emails, l_message_content_in_email_notifications, l_pm_content_in_desktop_notifications, l_wildcard_mentions_notify, l_desktop_icon_count_display, l_realm_name_in_notifications, l_presence_enabled)
+            -- l_response := api.update_settings(l_full_name, l_email, l_old_password, l_new_password, l_twenty_four_hour_time, l_dense_mode, l_starred_message_counts, l_fluid_layout_width, l_high_contrast_mode, l_color_scheme, l_enable_drafts_synchronization, l_translate_emoticons, l_default_language, l_default_view, l_left_side_userlist, l_emojiset, l_demote_inactive_streams, l_timezone, l_enable_stream_desktop_notifications, l_enable_stream_email_notifications, l_enable_stream_push_notifications, l_enable_stream_audible_notifications, l_notification_sound, l_enable_desktop_notifications, l_enable_sounds, l_email_notifications_batching_period_seconds, l_enable_offline_email_notifications, l_enable_offline_push_notifications, l_enable_online_push_notifications, l_enable_digest_emails, l_enable_marketing_emails, l_enable_login_emails, l_message_content_in_email_notifications, l_pm_content_in_desktop_notifications, l_wildcard_mentions_notify, l_desktop_icon_count_display, l_realm_name_in_notifications, l_presence_enabled, l_enter_sends)
+            assert ("not_implemented", False)
+        end
+    
+    test_update_status
+            -- Update your status
+            -- 
+            -- Change your [status](/help/status-and-availability).  &#x60;POST {{ api_url }}/v1/users/me/status&#x60;  A request to this endpoint will only change the parameters passed. For example, passing just &#x60;status_text&#x60; requests a change in the status text, but will leave the status emoji unchanged.  Clients that wish to set the user&#39;s status to a specific value should pass all supported parameters.  
+        local
+            l_response: JSON_SUCCESS
+            l_status_text: STRING_32
+            l_away: BOOLEAN
+            l_emoji_name: STRING_32
+            l_emoji_code: STRING_32
+            l_reaction_type: STRING_32
+        do
+            -- TODO: Initialize required params.
+                      
+            -- l_response := api.update_status(l_status_text, l_away, l_emoji_name, l_emoji_code, l_reaction_type)
             assert ("not_implemented", False)
         end
     

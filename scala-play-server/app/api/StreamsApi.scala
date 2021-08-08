@@ -10,7 +10,7 @@ import model.NonExistingStreamError
 import model.OneOfobjectobject
 import model.OneOfstringinteger
 
-@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2021-08-08T20:45:49.166589Z[Etc/UTC]")
+@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2021-08-08T21:15:24.853051Z[Etc/UTC]")
 trait StreamsApi {
   /**
     * Archive a stream
@@ -24,6 +24,14 @@ trait StreamsApi {
     * Create a video call URL for a BigBlueButton video call. Requires BigBlueButton to be configured on the Zulip server. 
     */
   def createBigBlueButtonVideoCall(): JsonSuccessBase
+
+  /**
+    * Delete a topic
+    * Delete all messages in a topic.  &#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+    * @param streamId The ID of the stream to access. 
+    * @param topicName The name of the topic to delete. 
+    */
+  def deleteTopic(streamId: Int, topicName: String): JsonSuccess
 
   /**
     * Get stream ID
@@ -50,6 +58,13 @@ trait StreamsApi {
     * @param includeOwnerSubscribed If the user is a bot, include all streams that the bot&#39;s owner is subscribed to. 
     */
   def getStreams(includePublic: Option[Boolean], includeWebPublic: Option[Boolean], includeSubscribed: Option[Boolean], includeAllActive: Option[Boolean], includeDefault: Option[Boolean], includeOwnerSubscribed: Option[Boolean]): JsonSuccessBase
+
+  /**
+    * Get the subscribers of a stream
+    * Get all users subscribed to a stream.  &#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60; 
+    * @param streamId The ID of the stream to access. 
+    */
+  def getSubscribers(streamId: Int): JsonSuccessBase
 
   /**
     * Get subscription status

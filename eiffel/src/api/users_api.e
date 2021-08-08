@@ -432,35 +432,87 @@ feature -- API Access
 			end
 		end	
 
-	update_display_settings (twenty_four_hour_time: BOOLEAN; dense_mode: BOOLEAN; starred_message_counts: BOOLEAN; fluid_layout_width: BOOLEAN; high_contrast_mode: BOOLEAN; color_scheme: INTEGER_32; translate_emoticons: BOOLEAN; default_language: STRING_32; default_view: STRING_32; left_side_userlist: BOOLEAN; emojiset: STRING_32; demote_inactive_streams: INTEGER_32; timezone: STRING_32): detachable JSON_SUCCESS_BASE
-			-- Update display settings
-			-- This endpoint is used to edit the current user&#39;s user interface settings.  &#x60;PATCH {{ api_url }}/v1/settings/display&#x60; 
+	update_settings (full_name: STRING_32; email: STRING_32; old_password: STRING_32; new_password: STRING_32; twenty_four_hour_time: BOOLEAN; dense_mode: BOOLEAN; starred_message_counts: BOOLEAN; fluid_layout_width: BOOLEAN; high_contrast_mode: BOOLEAN; color_scheme: INTEGER_32; enable_drafts_synchronization: BOOLEAN; translate_emoticons: BOOLEAN; default_language: STRING_32; default_view: STRING_32; left_side_userlist: BOOLEAN; emojiset: STRING_32; demote_inactive_streams: INTEGER_32; timezone: STRING_32; enable_stream_desktop_notifications: BOOLEAN; enable_stream_email_notifications: BOOLEAN; enable_stream_push_notifications: BOOLEAN; enable_stream_audible_notifications: BOOLEAN; notification_sound: STRING_32; enable_desktop_notifications: BOOLEAN; enable_sounds: BOOLEAN; email_notifications_batching_period_seconds: INTEGER_32; enable_offline_email_notifications: BOOLEAN; enable_offline_push_notifications: BOOLEAN; enable_online_push_notifications: BOOLEAN; enable_digest_emails: BOOLEAN; enable_marketing_emails: BOOLEAN; enable_login_emails: BOOLEAN; message_content_in_email_notifications: BOOLEAN; pm_content_in_desktop_notifications: BOOLEAN; wildcard_mentions_notify: BOOLEAN; desktop_icon_count_display: INTEGER_32; realm_name_in_notifications: BOOLEAN; presence_enabled: BOOLEAN; enter_sends: BOOLEAN): detachable JSON_SUCCESS_BASE
+			-- Update settings
+			-- This endpoint is used to edit the current user&#39;s settings.  &#x60;PATCH {{ api_url }}/v1/settings&#x60;  **Changes**: Prior to Zulip 5.0 (feature level 80), this endpoint only supported the &#x60;full_name&#x60;, &#x60;email&#x60;, &#x60;old_password&#x60;, and &#x60;new_password&#x60; parameters. Notification settings were managed by &#x60;PATCH /settings/notifications&#x60;, and all other settings by &#x60;PATCH /settings/display&#x60;. The feature level 80 migration to merge these endpoints did not change how request parameters are encoded. Note, however, that it did change the handling of any invalid parameters present in a request to change notification or display settings, since the merged endpoint uses the new response format that was introduced for &#x60;/settings&#x60; in Zulip 5.0 (feature level 78).  The &#x60;/settings/display&#x60; and &#x60;/settings/notifications&#x60; endpoints are now deprecated aliases for this endpoint for backwards-compatibility, and will be removed once clients have migrated to use this endpoint. 
 			-- 
-			-- argument: twenty_four_hour_time Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).  (optional, default to null)
+			-- argument: full_name A new display name for the user.  (optional, default to null)
 			-- 
-			-- argument: dense_mode This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip.  (optional, default to null)
+			-- argument: email Asks the server to initiate a confirmation sequence to change the user&#39;s email address to the indicated value. The user will need to demonstrate control of the new email address by clicking a confirmation link sent to that address.  (optional, default to null)
 			-- 
-			-- argument: starred_message_counts Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages).  (optional, default to null)
+			-- argument: old_password The user&#39;s old Zulip password (or LDAP password, if LDAP authentication is in use).  Required only when sending the &#x60;new_password&#x60; parameter.  (optional, default to null)
 			-- 
-			-- argument: fluid_layout_width Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app&#39;s center panel (message feed, recent topics) on wide screens.  (optional, default to null)
+			-- argument: new_password The user&#39;s new Zulip password (or LDAP password, if LDAP authentication is in use).  The &#x60;old_password&#x60; parameter must be included in the request.  (optional, default to null)
 			-- 
-			-- argument: high_contrast_mode This setting is reserved for use to control variations in Zulip&#39;s design to help visually impaired users.  (optional, default to null)
+			-- argument: twenty_four_hour_time Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional, default to null)
 			-- 
-			-- argument: color_scheme Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard &#x60;prefers-color-scheme&#x60; media query.  (optional, default to null)
+			-- argument: dense_mode This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional, default to null)
 			-- 
-			-- argument: translate_emoticons Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends.  (optional, default to null)
+			-- argument: starred_message_counts Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional, default to null)
 			-- 
-			-- argument: default_language What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, &#x60;\&quot;en\&quot;&#x60; for English or &#x60;\&quot;de\&quot;&#x60; for German.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63).  (optional, default to null)
+			-- argument: fluid_layout_width Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app&#39;s center panel (message feed, recent topics) on wide screens.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional, default to null)
 			-- 
-			-- argument: default_view The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the &#x60;Esc&#x60; keyboard shortcut repeatedly.  * \&quot;recent_topics\&quot; - Recent topics view * \&quot;all_messages\&quot; - All messages view  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64).  (optional, default to null)
+			-- argument: high_contrast_mode This setting is reserved for use to control variations in Zulip&#39;s design to help visually impaired users.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional, default to null)
 			-- 
-			-- argument: left_side_userlist Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.  (optional, default to null)
+			-- argument: color_scheme Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard &#x60;prefers-color-scheme&#x60; media query.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional, default to null)
 			-- 
-			-- argument: emojiset The user&#39;s configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \&quot;google\&quot; - Google modern * \&quot;google-blob\&quot; - Google classic * \&quot;twitter\&quot; - Twitter * \&quot;text\&quot; - Plain text  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64).  (optional, default to null)
+			-- argument: enable_drafts_synchronization A boolean parameter to control whether synchronizing drafts is enabled for the user. When synchronization is disabled, all drafts stored in the server will be automatically deleted from the server.  This does not do anything (like sending events) to delete local copies of drafts stored in clients.  **Changes**: New in Zulip 5.0 (feature level 87).  (optional, default to null)
 			-- 
-			-- argument: demote_inactive_streams Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never  (optional, default to null)
+			-- argument: translate_emoticons Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional, default to null)
 			-- 
-			-- argument: timezone The user&#39;s [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64).  (optional, default to null)
+			-- argument: default_language What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, &#x60;\&quot;en\&quot;&#x60; for English or &#x60;\&quot;de\&quot;&#x60; for German.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63).  (optional, default to null)
+			-- 
+			-- argument: default_view The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the &#x60;Esc&#x60; keyboard shortcut repeatedly.  * \&quot;recent_topics\&quot; - Recent topics view * \&quot;all_messages\&quot; - All messages view  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).  (optional, default to null)
+			-- 
+			-- argument: left_side_userlist Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional, default to null)
+			-- 
+			-- argument: emojiset The user&#39;s configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \&quot;google\&quot; - Google modern * \&quot;google-blob\&quot; - Google classic * \&quot;twitter\&quot; - Twitter * \&quot;text\&quot; - Plain text  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).  (optional, default to null)
+			-- 
+			-- argument: demote_inactive_streams Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional, default to null)
+			-- 
+			-- argument: timezone The user&#39;s [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).  (optional, default to null)
+			-- 
+			-- argument: enable_stream_desktop_notifications Enable visual desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional, default to null)
+			-- 
+			-- argument: enable_stream_email_notifications Enable email notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional, default to null)
+			-- 
+			-- argument: enable_stream_push_notifications Enable mobile notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional, default to null)
+			-- 
+			-- argument: enable_stream_audible_notifications Enable audible desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional, default to null)
+			-- 
+			-- argument: notification_sound Notification sound name.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63).  (optional, default to null)
+			-- 
+			-- argument: enable_desktop_notifications Enable visual desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional, default to null)
+			-- 
+			-- argument: enable_sounds Enable audible desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional, default to null)
+			-- 
+			-- argument: email_notifications_batching_period_seconds The duration (in seconds) for which the server should wait to batch email notifications before sending them.  **Changes**: New in Zulip 5.0 (feature level 82)  (optional, default to null)
+			-- 
+			-- argument: enable_offline_email_notifications Enable email notifications for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional, default to null)
+			-- 
+			-- argument: enable_offline_push_notifications Enable mobile notification for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional, default to null)
+			-- 
+			-- argument: enable_online_push_notifications Enable mobile notification for private messages and @-mentions received when the user is online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional, default to null)
+			-- 
+			-- argument: enable_digest_emails Enable digest emails when the user is away.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional, default to null)
+			-- 
+			-- argument: enable_marketing_emails Enable marketing emails. Has no function outside Zulip Cloud.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional, default to null)
+			-- 
+			-- argument: enable_login_emails Enable email notifications for new logins to account.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional, default to null)
+			-- 
+			-- argument: message_content_in_email_notifications Include the message&#39;s content in email notifications for new messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional, default to null)
+			-- 
+			-- argument: pm_content_in_desktop_notifications Include content of private messages in desktop notifications.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional, default to null)
+			-- 
+			-- argument: wildcard_mentions_notify Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional, default to null)
+			-- 
+			-- argument: desktop_icon_count_display Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional, default to null)
+			-- 
+			-- argument: realm_name_in_notifications Include organization name in subject of message notification emails.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional, default to null)
+			-- 
+			-- argument: presence_enabled Display the presence status to other users when online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional, default to null)
+			-- 
+			-- argument: enter_sends Whether pressing Enter in the compose box sends a message (or saves a message edit).  **Changes**: Before Zulip 5.0 (feature level 81), this setting was managed by the &#x60;POST /users/me/enter-sends&#x60; endpoint, with the same parameter format.  (optional, default to null)
 			-- 
 			-- 
 			-- Result JSON_SUCCESS_BASE
@@ -473,13 +525,18 @@ feature -- API Access
 			reset_error
 			create l_request
 			
-			l_path := "/settings/display"
+			l_path := "/settings"
+			l_request.fill_query_params(api_client.parameter_to_tuple("", "full_name", full_name));
+			l_request.fill_query_params(api_client.parameter_to_tuple("", "email", email));
+			l_request.fill_query_params(api_client.parameter_to_tuple("", "old_password", old_password));
+			l_request.fill_query_params(api_client.parameter_to_tuple("", "new_password", new_password));
 			l_request.fill_query_params(api_client.parameter_to_tuple("", "twenty_four_hour_time", twenty_four_hour_time));
 			l_request.fill_query_params(api_client.parameter_to_tuple("", "dense_mode", dense_mode));
 			l_request.fill_query_params(api_client.parameter_to_tuple("", "starred_message_counts", starred_message_counts));
 			l_request.fill_query_params(api_client.parameter_to_tuple("", "fluid_layout_width", fluid_layout_width));
 			l_request.fill_query_params(api_client.parameter_to_tuple("", "high_contrast_mode", high_contrast_mode));
 			l_request.fill_query_params(api_client.parameter_to_tuple("", "color_scheme", color_scheme));
+			l_request.fill_query_params(api_client.parameter_to_tuple("", "enable_drafts_synchronization", enable_drafts_synchronization));
 			l_request.fill_query_params(api_client.parameter_to_tuple("", "translate_emoticons", translate_emoticons));
 			l_request.fill_query_params(api_client.parameter_to_tuple("", "default_language", default_language));
 			l_request.fill_query_params(api_client.parameter_to_tuple("", "default_view", default_view));
@@ -487,6 +544,27 @@ feature -- API Access
 			l_request.fill_query_params(api_client.parameter_to_tuple("", "emojiset", emojiset));
 			l_request.fill_query_params(api_client.parameter_to_tuple("", "demote_inactive_streams", demote_inactive_streams));
 			l_request.fill_query_params(api_client.parameter_to_tuple("", "timezone", timezone));
+			l_request.fill_query_params(api_client.parameter_to_tuple("", "enable_stream_desktop_notifications", enable_stream_desktop_notifications));
+			l_request.fill_query_params(api_client.parameter_to_tuple("", "enable_stream_email_notifications", enable_stream_email_notifications));
+			l_request.fill_query_params(api_client.parameter_to_tuple("", "enable_stream_push_notifications", enable_stream_push_notifications));
+			l_request.fill_query_params(api_client.parameter_to_tuple("", "enable_stream_audible_notifications", enable_stream_audible_notifications));
+			l_request.fill_query_params(api_client.parameter_to_tuple("", "notification_sound", notification_sound));
+			l_request.fill_query_params(api_client.parameter_to_tuple("", "enable_desktop_notifications", enable_desktop_notifications));
+			l_request.fill_query_params(api_client.parameter_to_tuple("", "enable_sounds", enable_sounds));
+			l_request.fill_query_params(api_client.parameter_to_tuple("", "email_notifications_batching_period_seconds", email_notifications_batching_period_seconds));
+			l_request.fill_query_params(api_client.parameter_to_tuple("", "enable_offline_email_notifications", enable_offline_email_notifications));
+			l_request.fill_query_params(api_client.parameter_to_tuple("", "enable_offline_push_notifications", enable_offline_push_notifications));
+			l_request.fill_query_params(api_client.parameter_to_tuple("", "enable_online_push_notifications", enable_online_push_notifications));
+			l_request.fill_query_params(api_client.parameter_to_tuple("", "enable_digest_emails", enable_digest_emails));
+			l_request.fill_query_params(api_client.parameter_to_tuple("", "enable_marketing_emails", enable_marketing_emails));
+			l_request.fill_query_params(api_client.parameter_to_tuple("", "enable_login_emails", enable_login_emails));
+			l_request.fill_query_params(api_client.parameter_to_tuple("", "message_content_in_email_notifications", message_content_in_email_notifications));
+			l_request.fill_query_params(api_client.parameter_to_tuple("", "pm_content_in_desktop_notifications", pm_content_in_desktop_notifications));
+			l_request.fill_query_params(api_client.parameter_to_tuple("", "wildcard_mentions_notify", wildcard_mentions_notify));
+			l_request.fill_query_params(api_client.parameter_to_tuple("", "desktop_icon_count_display", desktop_icon_count_display));
+			l_request.fill_query_params(api_client.parameter_to_tuple("", "realm_name_in_notifications", realm_name_in_notifications));
+			l_request.fill_query_params(api_client.parameter_to_tuple("", "presence_enabled", presence_enabled));
+			l_request.fill_query_params(api_client.parameter_to_tuple("", "enter_sends", enter_sends));
 
 
 			if attached {STRING} api_client.select_header_accept ({ARRAY [STRING]}<<"application/json">>)  as l_accept then
@@ -504,50 +582,22 @@ feature -- API Access
 			end
 		end	
 
-	update_notification_settings (enable_stream_desktop_notifications: BOOLEAN; enable_stream_email_notifications: BOOLEAN; enable_stream_push_notifications: BOOLEAN; enable_stream_audible_notifications: BOOLEAN; notification_sound: STRING_32; enable_desktop_notifications: BOOLEAN; enable_sounds: BOOLEAN; enable_offline_email_notifications: BOOLEAN; enable_offline_push_notifications: BOOLEAN; enable_online_push_notifications: BOOLEAN; enable_digest_emails: BOOLEAN; enable_marketing_emails: BOOLEAN; enable_login_emails: BOOLEAN; message_content_in_email_notifications: BOOLEAN; pm_content_in_desktop_notifications: BOOLEAN; wildcard_mentions_notify: BOOLEAN; desktop_icon_count_display: INTEGER_32; realm_name_in_notifications: BOOLEAN; presence_enabled: BOOLEAN): detachable JSON_SUCCESS_BASE
-			-- Update notification settings
-			-- This endpoint is used to edit the user&#39;s global notification settings. See [this endpoint](/api/update-subscription-settings) for per-stream notification settings.  &#x60;PATCH {{ api_url }}/v1/settings/notifications&#x60; 
+	update_status (status_text: STRING_32; away: BOOLEAN; emoji_name: STRING_32; emoji_code: STRING_32; reaction_type: STRING_32): detachable JSON_SUCCESS
+			-- Update your status
+			-- Change your [status](/help/status-and-availability).  &#x60;POST {{ api_url }}/v1/users/me/status&#x60;  A request to this endpoint will only change the parameters passed. For example, passing just &#x60;status_text&#x60; requests a change in the status text, but will leave the status emoji unchanged.  Clients that wish to set the user&#39;s status to a specific value should pass all supported parameters. 
 			-- 
-			-- argument: enable_stream_desktop_notifications Enable visual desktop notifications for stream messages.  (optional, default to null)
+			-- argument: status_text The text content of the status message. Sending the empty string will clear the user&#39;s status.  **Note**: The limit on the size of the message is 60 characters.  (optional, default to null)
 			-- 
-			-- argument: enable_stream_email_notifications Enable email notifications for stream messages.  (optional, default to null)
+			-- argument: away Whether the user should be marked as \&quot;away\&quot;.  (optional, default to null)
 			-- 
-			-- argument: enable_stream_push_notifications Enable mobile notifications for stream messages.  (optional, default to null)
+			-- argument: emoji_name The name for the emoji to associate with this status.  (optional, default to null)
 			-- 
-			-- argument: enable_stream_audible_notifications Enable audible desktop notifications for stream messages.  (optional, default to null)
+			-- argument: emoji_code A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint; for &#x60;realm_emoji&#x60;, it&#39;ll be the ID of the realm emoji.  (optional, default to null)
 			-- 
-			-- argument: notification_sound Notification sound name.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63).  (optional, default to null)
-			-- 
-			-- argument: enable_desktop_notifications Enable visual desktop notifications for private messages and @-mentions.  (optional, default to null)
-			-- 
-			-- argument: enable_sounds Enable audible desktop notifications for private messages and @-mentions.  (optional, default to null)
-			-- 
-			-- argument: enable_offline_email_notifications Enable email notifications for private messages and @-mentions received when the user is offline.  (optional, default to null)
-			-- 
-			-- argument: enable_offline_push_notifications Enable mobile notification for private messages and @-mentions received when the user is offline.  (optional, default to null)
-			-- 
-			-- argument: enable_online_push_notifications Enable mobile notification for private messages and @-mentions received when the user is online.  (optional, default to null)
-			-- 
-			-- argument: enable_digest_emails Enable digest emails when the user is away.  (optional, default to null)
-			-- 
-			-- argument: enable_marketing_emails Enable marketing emails. Has no function outside Zulip Cloud.  (optional, default to null)
-			-- 
-			-- argument: enable_login_emails Enable email notifications for new logins to account.  (optional, default to null)
-			-- 
-			-- argument: message_content_in_email_notifications Include the message&#39;s content in email notifications for new messages.  (optional, default to null)
-			-- 
-			-- argument: pm_content_in_desktop_notifications Include content of private messages in desktop notifications.  (optional, default to null)
-			-- 
-			-- argument: wildcard_mentions_notify Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention.  (optional, default to null)
-			-- 
-			-- argument: desktop_icon_count_display Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None  (optional, default to null)
-			-- 
-			-- argument: realm_name_in_notifications Include organization name in subject of message notification emails.  (optional, default to null)
-			-- 
-			-- argument: presence_enabled Display the presence status to other users when online.  (optional, default to null)
+			-- argument: reaction_type One of the following values:  * &#x60;unicode_emoji&#x60;: Unicode emoji (&#x60;emoji_code&#x60; will be its Unicode   codepoint). * &#x60;realm_emoji&#x60;: [Custom emoji](/help/add-custom-emoji).   (&#x60;emoji_code&#x60; will be its ID). * &#x60;zulip_extra_emoji&#x60;: Special emoji included with Zulip.  Exists to   namespace the &#x60;zulip&#x60; emoji.  (optional, default to null)
 			-- 
 			-- 
-			-- Result JSON_SUCCESS_BASE
+			-- Result JSON_SUCCESS
 		require
 		local
   			l_path: STRING
@@ -557,26 +607,12 @@ feature -- API Access
 			reset_error
 			create l_request
 			
-			l_path := "/settings/notifications"
-			l_request.fill_query_params(api_client.parameter_to_tuple("", "enable_stream_desktop_notifications", enable_stream_desktop_notifications));
-			l_request.fill_query_params(api_client.parameter_to_tuple("", "enable_stream_email_notifications", enable_stream_email_notifications));
-			l_request.fill_query_params(api_client.parameter_to_tuple("", "enable_stream_push_notifications", enable_stream_push_notifications));
-			l_request.fill_query_params(api_client.parameter_to_tuple("", "enable_stream_audible_notifications", enable_stream_audible_notifications));
-			l_request.fill_query_params(api_client.parameter_to_tuple("", "notification_sound", notification_sound));
-			l_request.fill_query_params(api_client.parameter_to_tuple("", "enable_desktop_notifications", enable_desktop_notifications));
-			l_request.fill_query_params(api_client.parameter_to_tuple("", "enable_sounds", enable_sounds));
-			l_request.fill_query_params(api_client.parameter_to_tuple("", "enable_offline_email_notifications", enable_offline_email_notifications));
-			l_request.fill_query_params(api_client.parameter_to_tuple("", "enable_offline_push_notifications", enable_offline_push_notifications));
-			l_request.fill_query_params(api_client.parameter_to_tuple("", "enable_online_push_notifications", enable_online_push_notifications));
-			l_request.fill_query_params(api_client.parameter_to_tuple("", "enable_digest_emails", enable_digest_emails));
-			l_request.fill_query_params(api_client.parameter_to_tuple("", "enable_marketing_emails", enable_marketing_emails));
-			l_request.fill_query_params(api_client.parameter_to_tuple("", "enable_login_emails", enable_login_emails));
-			l_request.fill_query_params(api_client.parameter_to_tuple("", "message_content_in_email_notifications", message_content_in_email_notifications));
-			l_request.fill_query_params(api_client.parameter_to_tuple("", "pm_content_in_desktop_notifications", pm_content_in_desktop_notifications));
-			l_request.fill_query_params(api_client.parameter_to_tuple("", "wildcard_mentions_notify", wildcard_mentions_notify));
-			l_request.fill_query_params(api_client.parameter_to_tuple("", "desktop_icon_count_display", desktop_icon_count_display));
-			l_request.fill_query_params(api_client.parameter_to_tuple("", "realm_name_in_notifications", realm_name_in_notifications));
-			l_request.fill_query_params(api_client.parameter_to_tuple("", "presence_enabled", presence_enabled));
+			l_path := "/users/me/status"
+			l_request.fill_query_params(api_client.parameter_to_tuple("", "status_text", status_text));
+			l_request.fill_query_params(api_client.parameter_to_tuple("", "away", away));
+			l_request.fill_query_params(api_client.parameter_to_tuple("", "emoji_name", emoji_name));
+			l_request.fill_query_params(api_client.parameter_to_tuple("", "emoji_code", emoji_code));
+			l_request.fill_query_params(api_client.parameter_to_tuple("", "reaction_type", reaction_type));
 
 
 			if attached {STRING} api_client.select_header_accept ({ARRAY [STRING]}<<"application/json">>)  as l_accept then
@@ -584,10 +620,10 @@ feature -- API Access
 			end
 			l_request.add_header(api_client.select_header_content_type ({ARRAY [STRING]}<<>>),"Content-Type")
 			l_request.set_auth_names ({ARRAY [STRING]}<<>>)
-			l_response := api_client.call_api (l_path, "Patch", l_request, Void, agent deserializer)
+			l_response := api_client.call_api (l_path, "Post", l_request, Void, agent deserializer)
 			if l_response.has_error then
 				last_error := l_response.error
-			elseif attached { JSON_SUCCESS_BASE } l_response.data ({ JSON_SUCCESS_BASE }) as l_data then
+			elseif attached { JSON_SUCCESS } l_response.data ({ JSON_SUCCESS }) as l_data then
 				Result := l_data
 			else
 				create last_error.make ("Unknown error: Status response [ " + l_response.status.out + "]")

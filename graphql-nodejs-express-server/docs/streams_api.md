@@ -6,9 +6,11 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**ArchiveStream**](streams_api.md#ArchiveStream) | **DELETE** /streams/{stream_id} | Archive a stream
 [**CreateBigBlueButtonVideoCall**](streams_api.md#CreateBigBlueButtonVideoCall) | **GET** /calls/bigbluebutton/create | Create BigBlueButton video call
+[**DeleteTopic**](streams_api.md#DeleteTopic) | **POST** /streams/{stream_id}/delete_topic | Delete a topic
 [**GetStreamId**](streams_api.md#GetStreamId) | **GET** /get_stream_id | Get stream ID
 [**GetStreamTopics**](streams_api.md#GetStreamTopics) | **GET** /users/me/{stream_id}/topics | Get topics in a stream
 [**GetStreams**](streams_api.md#GetStreams) | **GET** /streams | Get all streams
+[**GetSubscribers**](streams_api.md#GetSubscribers) | **GET** /streams/{stream_id}/members | Get the subscribers of a stream
 [**GetSubscriptionStatus**](streams_api.md#GetSubscriptionStatus) | **GET** /users/{user_id}/subscriptions/{stream_id} | Get subscription status
 [**GetSubscriptions**](streams_api.md#GetSubscriptions) | **GET** /users/me/subscriptions | Get subscribed streams
 [**MuteTopic**](streams_api.md#MuteTopic) | **PATCH** /users/me/subscriptions/muted_topics | Topic muting
@@ -33,6 +35,13 @@ Archive a stream
 Create BigBlueButton video call
 
 Create a video call URL for a BigBlueButton video call. Requires BigBlueButton to be configured on the Zulip server. 
+<a name="DeleteTopic"></a>
+# **DeleteTopic**
+> JsonSuccess DeleteTopic(streamId, topicName)
+
+Delete a topic
+
+Delete all messages in a topic.  &#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
 <a name="GetStreamId"></a>
 # **GetStreamId**
 > JsonSuccessBase GetStreamId(stream)
@@ -54,6 +63,13 @@ Get all the topics in a specific stream  &#x60;GET {{ api_url }}/v1/users/me/{st
 Get all streams
 
 Get all streams that the user has access to.  &#x60;GET {{ api_url }}/v1/streams&#x60; 
+<a name="GetSubscribers"></a>
+# **GetSubscribers**
+> JsonSuccessBase GetSubscribers(streamId)
+
+Get the subscribers of a stream
+
+Get all users subscribed to a stream.  &#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60; 
 <a name="GetSubscriptionStatus"></a>
 # **GetSubscriptionStatus**
 > JsonSuccessBase GetSubscriptionStatus(userId, streamId)

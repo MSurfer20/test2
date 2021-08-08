@@ -6,6 +6,9 @@ OpenAPI/build.sh
 OpenAPI/src/api/AuthenticationApiHandler.fs
 OpenAPI/src/api/AuthenticationApiHandlerParams.fs
 OpenAPI/src/api/AuthenticationApiServiceInterface.fs
+OpenAPI/src/api/DraftsApiHandler.fs
+OpenAPI/src/api/DraftsApiHandlerParams.fs
+OpenAPI/src/api/DraftsApiServiceInterface.fs
 OpenAPI/src/api/MessagesApiHandler.fs
 OpenAPI/src/api/MessagesApiHandlerParams.fs
 OpenAPI/src/api/MessagesApiServiceInterface.fs
@@ -25,6 +28,7 @@ OpenAPI/src/api/WebhooksApiHandler.fs
 OpenAPI/src/api/WebhooksApiHandlerParams.fs
 OpenAPI/src/api/WebhooksApiServiceInterface.fs
 OpenAPI/src/impl/AuthenticationApiService.fs
+OpenAPI/src/impl/DraftsApiService.fs
 OpenAPI/src/impl/MessagesApiService.fs
 OpenAPI/src/impl/RealTimeEventsApiService.fs
 OpenAPI/src/impl/ServerAndOrganizationsApiService.fs
@@ -53,10 +57,13 @@ OpenAPI/src/model/CodedErrorBase.fs
 OpenAPI/src/model/CodedErrorBaseAllOf.fs
 OpenAPI/src/model/CustomProfileField.fs
 OpenAPI/src/model/DefaultStreamGroup.fs
+OpenAPI/src/model/Draft.fs
+OpenAPI/src/model/EmojiBase.fs
 OpenAPI/src/model/EmojiReaction.fs
 OpenAPI/src/model/EmojiReactionAllOf.fs
 OpenAPI/src/model/EmojiReactionBase.fs
-OpenAPI/src/model/EmojiReactionBaseUser.fs
+OpenAPI/src/model/EmojiReactionBaseAllOf.fs
+OpenAPI/src/model/EmojiReactionBaseAllOfUser.fs
 OpenAPI/src/model/GetMessages.fs
 OpenAPI/src/model/GetMessagesAllOf.fs
 OpenAPI/src/model/Hotspot.fs

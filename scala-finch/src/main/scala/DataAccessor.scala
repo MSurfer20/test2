@@ -30,6 +30,30 @@ trait DataAccessor {
         * 
         * @return A JsonSuccess
         */
+        def Drafts_createDrafts(drafts: Seq[Draft]): Either[CommonError,JsonSuccess] = Left(TODO)
+
+        /**
+        * 
+        * @return A JsonSuccess
+        */
+        def Drafts_deleteDraft(draftId: Int): Either[CommonError,JsonSuccess] = Left(TODO)
+
+        /**
+        * 
+        * @return A JsonSuccess
+        */
+        def Drafts_editDraft(draftId: Int, draft: Draft): Either[CommonError,JsonSuccess] = Left(TODO)
+
+        /**
+        * 
+        * @return A JsonSuccess
+        */
+        def Drafts_getDrafts(): Either[CommonError,JsonSuccess] = Left(TODO)
+
+        /**
+        * 
+        * @return A JsonSuccess
+        */
         def Messages_addReaction(messageId: Int, emojiName: String, emojiCode: Option[String], reactionType: Option[String]): Either[CommonError,JsonSuccess] = Left(TODO)
 
         /**
@@ -238,6 +262,12 @@ trait DataAccessor {
 
         /**
         * 
+        * @return A JsonSuccess
+        */
+        def Streams_deleteTopic(streamId: Int, topicName: String): Either[CommonError,JsonSuccess] = Left(TODO)
+
+        /**
+        * 
         * @return A JsonSuccessBase
         */
         def Streams_getStreamId(stream: String): Either[CommonError,JsonSuccessBase] = Left(TODO)
@@ -253,6 +283,12 @@ trait DataAccessor {
         * @return A JsonSuccessBase
         */
         def Streams_getStreams(includePublic: Option[Boolean], includeWebPublic: Option[Boolean], includeSubscribed: Option[Boolean], includeAllActive: Option[Boolean], includeDefault: Option[Boolean], includeOwnerSubscribed: Option[Boolean]): Either[CommonError,JsonSuccessBase] = Left(TODO)
+
+        /**
+        * 
+        * @return A JsonSuccessBase
+        */
+        def Streams_getSubscribers(streamId: Int): Either[CommonError,JsonSuccessBase] = Left(TODO)
 
         /**
         * 
@@ -402,13 +438,13 @@ trait DataAccessor {
         * 
         * @return A JsonSuccessBase
         */
-        def Users_updateDisplaySettings(twentyFourHourTime: Option[Boolean], denseMode: Option[Boolean], starredMessageCounts: Option[Boolean], fluidLayoutWidth: Option[Boolean], highContrastMode: Option[Boolean], colorScheme: Option[Int], translateEmoticons: Option[Boolean], defaultLanguage: Option[String], defaultView: Option[String], leftSideUserlist: Option[Boolean], emojiset: Option[String], demoteInactiveStreams: Option[Int], timezone: Option[String]): Either[CommonError,JsonSuccessBase] = Left(TODO)
+        def Users_updateSettings(fullName: Option[String], email: Option[String], oldPassword: Option[String], newPassword: Option[String], twentyFourHourTime: Option[Boolean], denseMode: Option[Boolean], starredMessageCounts: Option[Boolean], fluidLayoutWidth: Option[Boolean], highContrastMode: Option[Boolean], colorScheme: Option[Int], enableDraftsSynchronization: Option[Boolean], translateEmoticons: Option[Boolean], defaultLanguage: Option[String], defaultView: Option[String], leftSideUserlist: Option[Boolean], emojiset: Option[String], demoteInactiveStreams: Option[Int], timezone: Option[String], enableStreamDesktopNotifications: Option[Boolean], enableStreamEmailNotifications: Option[Boolean], enableStreamPushNotifications: Option[Boolean], enableStreamAudibleNotifications: Option[Boolean], notificationSound: Option[String], enableDesktopNotifications: Option[Boolean], enableSounds: Option[Boolean], emailNotificationsBatchingPeriodSeconds: Option[Int], enableOfflineEmailNotifications: Option[Boolean], enableOfflinePushNotifications: Option[Boolean], enableOnlinePushNotifications: Option[Boolean], enableDigestEmails: Option[Boolean], enableMarketingEmails: Option[Boolean], enableLoginEmails: Option[Boolean], messageContentInEmailNotifications: Option[Boolean], pmContentInDesktopNotifications: Option[Boolean], wildcardMentionsNotify: Option[Boolean], desktopIconCountDisplay: Option[Int], realmNameInNotifications: Option[Boolean], presenceEnabled: Option[Boolean], enterSends: Option[Boolean]): Either[CommonError,JsonSuccessBase] = Left(TODO)
 
         /**
         * 
-        * @return A JsonSuccessBase
+        * @return A JsonSuccess
         */
-        def Users_updateNotificationSettings(enableStreamDesktopNotifications: Option[Boolean], enableStreamEmailNotifications: Option[Boolean], enableStreamPushNotifications: Option[Boolean], enableStreamAudibleNotifications: Option[Boolean], notificationSound: Option[String], enableDesktopNotifications: Option[Boolean], enableSounds: Option[Boolean], enableOfflineEmailNotifications: Option[Boolean], enableOfflinePushNotifications: Option[Boolean], enableOnlinePushNotifications: Option[Boolean], enableDigestEmails: Option[Boolean], enableMarketingEmails: Option[Boolean], enableLoginEmails: Option[Boolean], messageContentInEmailNotifications: Option[Boolean], pmContentInDesktopNotifications: Option[Boolean], wildcardMentionsNotify: Option[Boolean], desktopIconCountDisplay: Option[Int], realmNameInNotifications: Option[Boolean], presenceEnabled: Option[Boolean]): Either[CommonError,JsonSuccessBase] = Left(TODO)
+        def Users_updateStatus(statusText: Option[String], away: Option[Boolean], emojiName: Option[String], emojiCode: Option[String], reactionType: Option[String]): Either[CommonError,JsonSuccess] = Left(TODO)
 
         /**
         * 

@@ -19,6 +19,7 @@ import org.openapitools.model.JsonSuccess;
 import org.openapitools.model.JsonSuccessBase;
 import org.openapitools.model.OneOfobjectobject;
 import org.openapitools.model.OneOfobjectobjectobject;
+import org.openapitools.model.OneOfobjectobjectobjectobjectobjectobject;
 import org.junit.Test;
 import org.junit.Before;
 import static org.junit.Assert.*;
@@ -361,21 +362,26 @@ public class UsersApiTest {
     }
     
     /**
-     * Update display settings
+     * Update settings
      *
-     * This endpoint is used to edit the current user&#39;s user interface settings.  &#x60;PATCH {{ api_url }}/v1/settings/display&#x60; 
+     * This endpoint is used to edit the current user&#39;s settings.  &#x60;PATCH {{ api_url }}/v1/settings&#x60;  **Changes**: Prior to Zulip 5.0 (feature level 80), this endpoint only supported the &#x60;full_name&#x60;, &#x60;email&#x60;, &#x60;old_password&#x60;, and &#x60;new_password&#x60; parameters. Notification settings were managed by &#x60;PATCH /settings/notifications&#x60;, and all other settings by &#x60;PATCH /settings/display&#x60;. The feature level 80 migration to merge these endpoints did not change how request parameters are encoded. Note, however, that it did change the handling of any invalid parameters present in a request to change notification or display settings, since the merged endpoint uses the new response format that was introduced for &#x60;/settings&#x60; in Zulip 5.0 (feature level 78).  The &#x60;/settings/display&#x60; and &#x60;/settings/notifications&#x60; endpoints are now deprecated aliases for this endpoint for backwards-compatibility, and will be removed once clients have migrated to use this endpoint. 
      *
      * @throws ApiException
      *          if the Api call fails
      */
     @Test
-    public void updateDisplaySettingsTest() {
+    public void updateSettingsTest() {
+        String fullName = null;
+        String email = null;
+        String oldPassword = null;
+        String newPassword = null;
         Boolean twentyFourHourTime = null;
         Boolean denseMode = null;
         Boolean starredMessageCounts = null;
         Boolean fluidLayoutWidth = null;
         Boolean highContrastMode = null;
         Integer colorScheme = null;
+        Boolean enableDraftsSynchronization = null;
         Boolean translateEmoticons = null;
         String defaultLanguage = null;
         String defaultView = null;
@@ -383,23 +389,6 @@ public class UsersApiTest {
         String emojiset = null;
         Integer demoteInactiveStreams = null;
         String timezone = null;
-        //JsonSuccessBase response = api.updateDisplaySettings(twentyFourHourTime, denseMode, starredMessageCounts, fluidLayoutWidth, highContrastMode, colorScheme, translateEmoticons, defaultLanguage, defaultView, leftSideUserlist, emojiset, demoteInactiveStreams, timezone);
-        //assertNotNull(response);
-        // TODO: test validations
-        
-        
-    }
-    
-    /**
-     * Update notification settings
-     *
-     * This endpoint is used to edit the user&#39;s global notification settings. See [this endpoint](/api/update-subscription-settings) for per-stream notification settings.  &#x60;PATCH {{ api_url }}/v1/settings/notifications&#x60; 
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void updateNotificationSettingsTest() {
         Boolean enableStreamDesktopNotifications = null;
         Boolean enableStreamEmailNotifications = null;
         Boolean enableStreamPushNotifications = null;
@@ -407,6 +396,7 @@ public class UsersApiTest {
         String notificationSound = null;
         Boolean enableDesktopNotifications = null;
         Boolean enableSounds = null;
+        Integer emailNotificationsBatchingPeriodSeconds = null;
         Boolean enableOfflineEmailNotifications = null;
         Boolean enableOfflinePushNotifications = null;
         Boolean enableOnlinePushNotifications = null;
@@ -419,7 +409,30 @@ public class UsersApiTest {
         Integer desktopIconCountDisplay = null;
         Boolean realmNameInNotifications = null;
         Boolean presenceEnabled = null;
-        //JsonSuccessBase response = api.updateNotificationSettings(enableStreamDesktopNotifications, enableStreamEmailNotifications, enableStreamPushNotifications, enableStreamAudibleNotifications, notificationSound, enableDesktopNotifications, enableSounds, enableOfflineEmailNotifications, enableOfflinePushNotifications, enableOnlinePushNotifications, enableDigestEmails, enableMarketingEmails, enableLoginEmails, messageContentInEmailNotifications, pmContentInDesktopNotifications, wildcardMentionsNotify, desktopIconCountDisplay, realmNameInNotifications, presenceEnabled);
+        Boolean enterSends = null;
+        //JsonSuccessBase response = api.updateSettings(fullName, email, oldPassword, newPassword, twentyFourHourTime, denseMode, starredMessageCounts, fluidLayoutWidth, highContrastMode, colorScheme, enableDraftsSynchronization, translateEmoticons, defaultLanguage, defaultView, leftSideUserlist, emojiset, demoteInactiveStreams, timezone, enableStreamDesktopNotifications, enableStreamEmailNotifications, enableStreamPushNotifications, enableStreamAudibleNotifications, notificationSound, enableDesktopNotifications, enableSounds, emailNotificationsBatchingPeriodSeconds, enableOfflineEmailNotifications, enableOfflinePushNotifications, enableOnlinePushNotifications, enableDigestEmails, enableMarketingEmails, enableLoginEmails, messageContentInEmailNotifications, pmContentInDesktopNotifications, wildcardMentionsNotify, desktopIconCountDisplay, realmNameInNotifications, presenceEnabled, enterSends);
+        //assertNotNull(response);
+        // TODO: test validations
+        
+        
+    }
+    
+    /**
+     * Update your status
+     *
+     * Change your [status](/help/status-and-availability).  &#x60;POST {{ api_url }}/v1/users/me/status&#x60;  A request to this endpoint will only change the parameters passed. For example, passing just &#x60;status_text&#x60; requests a change in the status text, but will leave the status emoji unchanged.  Clients that wish to set the user&#39;s status to a specific value should pass all supported parameters. 
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void updateStatusTest() {
+        String statusText = null;
+        Boolean away = null;
+        String emojiName = null;
+        String emojiCode = null;
+        String reactionType = null;
+        //JsonSuccess response = api.updateStatus(statusText, away, emojiName, emojiCode, reactionType);
         //assertNotNull(response);
         // TODO: test validations
         

@@ -57,6 +57,13 @@ fun Route.StreamsApi() {
     }
 
 
+    route("/streams/{stream_id}/delete_topic") {
+        post {
+            call.respond(HttpStatusCode.NotImplemented)
+        }
+    }
+
+
     get<Paths.getStreamId> {  _: Paths.getStreamId ->
         call.respond(HttpStatusCode.NotImplemented)
     }
@@ -68,6 +75,11 @@ fun Route.StreamsApi() {
 
 
     get<Paths.getStreams> {  _: Paths.getStreams ->
+        call.respond(HttpStatusCode.NotImplemented)
+    }
+
+
+    get<Paths.getSubscribers> {  _: Paths.getSubscribers ->
         call.respond(HttpStatusCode.NotImplemented)
     }
 

@@ -6,6 +6,9 @@ src/main/java/org/openapitools/vertxweb/server/HttpServerVerticle.java
 src/main/java/org/openapitools/vertxweb/server/api/AuthenticationApi.java
 src/main/java/org/openapitools/vertxweb/server/api/AuthenticationApiHandler.java
 src/main/java/org/openapitools/vertxweb/server/api/AuthenticationApiImpl.java
+src/main/java/org/openapitools/vertxweb/server/api/DraftsApi.java
+src/main/java/org/openapitools/vertxweb/server/api/DraftsApiHandler.java
+src/main/java/org/openapitools/vertxweb/server/api/DraftsApiImpl.java
 src/main/java/org/openapitools/vertxweb/server/api/MessagesApi.java
 src/main/java/org/openapitools/vertxweb/server/api/MessagesApiHandler.java
 src/main/java/org/openapitools/vertxweb/server/api/MessagesApiImpl.java
@@ -46,10 +49,13 @@ src/main/java/org/openapitools/vertxweb/server/model/CodedErrorBase.java
 src/main/java/org/openapitools/vertxweb/server/model/CodedErrorBaseAllOf.java
 src/main/java/org/openapitools/vertxweb/server/model/CustomProfileField.java
 src/main/java/org/openapitools/vertxweb/server/model/DefaultStreamGroup.java
+src/main/java/org/openapitools/vertxweb/server/model/Draft.java
+src/main/java/org/openapitools/vertxweb/server/model/EmojiBase.java
 src/main/java/org/openapitools/vertxweb/server/model/EmojiReaction.java
 src/main/java/org/openapitools/vertxweb/server/model/EmojiReactionAllOf.java
 src/main/java/org/openapitools/vertxweb/server/model/EmojiReactionBase.java
-src/main/java/org/openapitools/vertxweb/server/model/EmojiReactionBaseUser.java
+src/main/java/org/openapitools/vertxweb/server/model/EmojiReactionBaseAllOf.java
+src/main/java/org/openapitools/vertxweb/server/model/EmojiReactionBaseAllOfUser.java
 src/main/java/org/openapitools/vertxweb/server/model/GetMessages.java
 src/main/java/org/openapitools/vertxweb/server/model/GetMessagesAllOf.java
 src/main/java/org/openapitools/vertxweb/server/model/Hotspot.java

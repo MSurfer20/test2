@@ -145,6 +145,14 @@ public class JsonUtil {
       return new TypeToken<List<DefaultStreamGroup>>(){}.getType();
     }
     
+    if ("Draft".equalsIgnoreCase(className)) {
+      return new TypeToken<List<Draft>>(){}.getType();
+    }
+    
+    if ("EmojiBase".equalsIgnoreCase(className)) {
+      return new TypeToken<List<EmojiBase>>(){}.getType();
+    }
+    
     if ("EmojiReaction".equalsIgnoreCase(className)) {
       return new TypeToken<List<EmojiReaction>>(){}.getType();
     }
@@ -157,8 +165,12 @@ public class JsonUtil {
       return new TypeToken<List<EmojiReactionBase>>(){}.getType();
     }
     
-    if ("EmojiReactionBaseUser".equalsIgnoreCase(className)) {
-      return new TypeToken<List<EmojiReactionBaseUser>>(){}.getType();
+    if ("EmojiReactionBaseAllOf".equalsIgnoreCase(className)) {
+      return new TypeToken<List<EmojiReactionBaseAllOf>>(){}.getType();
+    }
+    
+    if ("EmojiReactionBaseAllOfUser".equalsIgnoreCase(className)) {
+      return new TypeToken<List<EmojiReactionBaseAllOfUser>>(){}.getType();
     }
     
     if ("GetMessages".equalsIgnoreCase(className)) {
@@ -403,6 +415,14 @@ public class JsonUtil {
       return new TypeToken<DefaultStreamGroup>(){}.getType();
     }
     
+    if ("Draft".equalsIgnoreCase(className)) {
+      return new TypeToken<Draft>(){}.getType();
+    }
+    
+    if ("EmojiBase".equalsIgnoreCase(className)) {
+      return new TypeToken<EmojiBase>(){}.getType();
+    }
+    
     if ("EmojiReaction".equalsIgnoreCase(className)) {
       return new TypeToken<EmojiReaction>(){}.getType();
     }
@@ -415,8 +435,12 @@ public class JsonUtil {
       return new TypeToken<EmojiReactionBase>(){}.getType();
     }
     
-    if ("EmojiReactionBaseUser".equalsIgnoreCase(className)) {
-      return new TypeToken<EmojiReactionBaseUser>(){}.getType();
+    if ("EmojiReactionBaseAllOf".equalsIgnoreCase(className)) {
+      return new TypeToken<EmojiReactionBaseAllOf>(){}.getType();
+    }
+    
+    if ("EmojiReactionBaseAllOfUser".equalsIgnoreCase(className)) {
+      return new TypeToken<EmojiReactionBaseAllOfUser>(){}.getType();
     }
     
     if ("GetMessages".equalsIgnoreCase(className)) {

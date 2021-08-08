@@ -1,4 +1,5 @@
 const AuthenticationController = require('./AuthenticationController');
+const DraftsController = require('./DraftsController');
 const MessagesController = require('./MessagesController');
 const RealTimeEventsController = require('./RealTimeEventsController');
 const ServerAndOrganizationsController = require('./ServerAndOrganizationsController');
@@ -8,6 +9,7 @@ const WebhooksController = require('./WebhooksController');
 
 module.exports = {
   AuthenticationController,
+  DraftsController,
   MessagesController,
   RealTimeEventsController,
   ServerAndOrganizationsController,

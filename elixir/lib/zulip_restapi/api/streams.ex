@@ -64,6 +64,36 @@ defmodule ZulipRESTAPI.Api.Streams do
   end
 
   @doc """
+  Delete a topic
+  Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+
+  ## Parameters
+
+  - connection (ZulipRESTAPI.Connection): Connection to server
+  - stream_id (integer()): The ID of the stream to access. 
+  - topic_name (String.t): The name of the topic to delete. 
+  - opts (KeywordList): [optional] Optional parameters
+  ## Returns
+
+  {:ok, JsonSuccess} on success
+  {:error, Tesla.Env.t} on failure
+  """
+  @spec delete_topic(Tesla.Env.client, integer(), String.t, keyword()) :: {:ok, ZulipRESTAPI.Model.JsonError.t} | {:ok, ZulipRESTAPI.Model.JsonSuccess.t} | {:error, Tesla.Env.t}
+  def delete_topic(connection, stream_id, topic_name, _opts \\ []) do
+    %{}
+    |> method(:post)
+    |> url("/streams/#{stream_id}/delete_topic")
+    |> add_param(:query, :"topic_name", topic_name)
+    |> ensure_body()
+    |> Enum.into([])
+    |> (&Connection.request(connection, &1)).()
+    |> evaluate_response([
+      { 200, %ZulipRESTAPI.Model.JsonSuccess{}},
+      { 400, %ZulipRESTAPI.Model.JsonError{}}
+    ])
+  end
+
+  @doc """
   Get stream ID
   Get the unique ID of a given stream.  `GET {{ api_url }}/v1/get_stream_id` 
 
@@ -156,6 +186,33 @@ defmodule ZulipRESTAPI.Api.Streams do
     |> evaluate_response([
       { 200, %ZulipRESTAPI.Model.JsonSuccessBase{}},
       { 400, %ZulipRESTAPI.Model.CodedError{}}
+    ])
+  end
+
+  @doc """
+  Get the subscribers of a stream
+  Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` 
+
+  ## Parameters
+
+  - connection (ZulipRESTAPI.Connection): Connection to server
+  - stream_id (integer()): The ID of the stream to access. 
+  - opts (KeywordList): [optional] Optional parameters
+  ## Returns
+
+  {:ok, JsonSuccessBase} on success
+  {:error, Tesla.Env.t} on failure
+  """
+  @spec get_subscribers(Tesla.Env.client, integer(), keyword()) :: {:ok, ZulipRESTAPI.Model.JsonError.t} | {:ok, ZulipRESTAPI.Model.JsonSuccessBase.t} | {:error, Tesla.Env.t}
+  def get_subscribers(connection, stream_id, _opts \\ []) do
+    %{}
+    |> method(:get)
+    |> url("/streams/#{stream_id}/members")
+    |> Enum.into([])
+    |> (&Connection.request(connection, &1)).()
+    |> evaluate_response([
+      { 200, %ZulipRESTAPI.Model.JsonSuccessBase{}},
+      { 400, %ZulipRESTAPI.Model.JsonError{}}
     ])
   end
 

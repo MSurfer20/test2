@@ -12,40 +12,40 @@ import java.util.List;
 import java.util.Map;
 
 public interface ServerAndOrganizationsApi  {
-    //add_code_playground
+    //add-code-playground
     void addCodePlayground(String name, String pygmentsLanguage, String urlPrefix, Handler<AsyncResult<JsonSuccessBase>> handler);
     
-    //add_linkifier
+    //add-linkifier
     void addLinkifier(String pattern, String urlFormatString, Handler<AsyncResult<JsonSuccessBase>> handler);
     
-    //create_custom_profile_field
+    //create-custom-profile-field
     void createCustomProfileField(Integer fieldType, String name, String hint, Object fieldData, Handler<AsyncResult<JsonSuccessBase>> handler);
     
-    //get_custom_emoji
+    //get-custom-emoji
     void getCustomEmoji(Handler<AsyncResult<JsonSuccessBase>> handler);
     
-    //get_custom_profile_fields
+    //get-custom-profile-fields
     void getCustomProfileFields(Handler<AsyncResult<JsonSuccessBase>> handler);
     
-    //get_linkifiers
+    //get-linkifiers
     void getLinkifiers(Handler<AsyncResult<JsonSuccessBase>> handler);
     
-    //get_server_settings
+    //get-server-settings
     void getServerSettings(Handler<AsyncResult<JsonSuccessBase>> handler);
     
-    //remove_code_playground
+    //remove-code-playground
     void removeCodePlayground(Integer playgroundId, Handler<AsyncResult<JsonSuccess>> handler);
     
-    //remove_linkifier
+    //remove-linkifier
     void removeLinkifier(Integer filterId, Handler<AsyncResult<JsonSuccess>> handler);
     
-    //reorder_custom_profile_fields
+    //reorder-custom-profile-fields
     void reorderCustomProfileFields(List<Integer> order, Handler<AsyncResult<JsonSuccess>> handler);
     
-    //update_linkifier
+    //update-linkifier
     void updateLinkifier(Integer filterId, String pattern, String urlFormatString, Handler<AsyncResult<JsonSuccess>> handler);
     
-    //upload_custom_emoji
+    //upload-custom-emoji
     void uploadCustomEmoji(String emojiName, File filename, Handler<AsyncResult<JsonSuccess>> handler);
     
 }

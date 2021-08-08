@@ -93,6 +93,45 @@ feature -- API Access
 			end
 		end	
 
+	delete_topic (stream_id: INTEGER_32; topic_name: STRING_32): detachable JSON_SUCCESS
+			-- Delete a topic
+			-- Delete all messages in a topic.  &#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+			-- 
+			-- argument: stream_id The ID of the stream to access.  (required)
+			-- 
+			-- argument: topic_name The name of the topic to delete.  (required)
+			-- 
+			-- 
+			-- Result JSON_SUCCESS
+		require
+		local
+  			l_path: STRING
+  			l_request: API_CLIENT_REQUEST
+  			l_response: API_CLIENT_RESPONSE
+		do
+			reset_error
+			create l_request
+			
+			l_path := "/streams/{stream_id}/delete_topic"
+			l_path.replace_substring_all ("{"+"stream_id"+"}", api_client.url_encode (stream_id.out))
+			l_request.fill_query_params(api_client.parameter_to_tuple("", "topic_name", topic_name));
+
+
+			if attached {STRING} api_client.select_header_accept ({ARRAY [STRING]}<<"application/json">>)  as l_accept then
+				l_request.add_header(l_accept,"Accept");
+			end
+			l_request.add_header(api_client.select_header_content_type ({ARRAY [STRING]}<<>>),"Content-Type")
+			l_request.set_auth_names ({ARRAY [STRING]}<<>>)
+			l_response := api_client.call_api (l_path, "Post", l_request, Void, agent deserializer)
+			if l_response.has_error then
+				last_error := l_response.error
+			elseif attached { JSON_SUCCESS } l_response.data ({ JSON_SUCCESS }) as l_data then
+				Result := l_data
+			else
+				create last_error.make ("Unknown error: Status response [ " + l_response.status.out + "]")
+			end
+		end	
+
 	mute_topic (topic: STRING_32; op: STRING_32; stream: STRING_32; stream_id: INTEGER_32): detachable JSON_SUCCESS
 			-- Topic muting
 			-- This endpoint mutes/unmutes a topic within a stream that the current user is subscribed to.  Muted topics are displayed faded in the Zulip UI, and are not included in the user&#39;s unread count totals.  &#x60;PATCH {{ api_url }}/v1/users/me/subscriptions/muted_topics&#x60; 
@@ -312,6 +351,42 @@ feature -- API Access
 			if l_response.has_error then
 				last_error := l_response.error
 			elseif attached { ONE_OFOBJECTOBJECT } l_response.data ({ ONE_OFOBJECTOBJECT }) as l_data then
+				Result := l_data
+			else
+				create last_error.make ("Unknown error: Status response [ " + l_response.status.out + "]")
+			end
+		end	
+
+	subscribers (stream_id: INTEGER_32): detachable JSON_SUCCESS_BASE
+			-- Get the subscribers of a stream
+			-- Get all users subscribed to a stream.  &#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60; 
+			-- 
+			-- argument: stream_id The ID of the stream to access.  (required)
+			-- 
+			-- 
+			-- Result JSON_SUCCESS_BASE
+		require
+		local
+  			l_path: STRING
+  			l_request: API_CLIENT_REQUEST
+  			l_response: API_CLIENT_RESPONSE
+		do
+			reset_error
+			create l_request
+			
+			l_path := "/streams/{stream_id}/members"
+			l_path.replace_substring_all ("{"+"stream_id"+"}", api_client.url_encode (stream_id.out))
+
+
+			if attached {STRING} api_client.select_header_accept ({ARRAY [STRING]}<<"application/json">>)  as l_accept then
+				l_request.add_header(l_accept,"Accept");
+			end
+			l_request.add_header(api_client.select_header_content_type ({ARRAY [STRING]}<<>>),"Content-Type")
+			l_request.set_auth_names ({ARRAY [STRING]}<<>>)
+			l_response := api_client.call_api (l_path, "Get", l_request, Void, agent deserializer)
+			if l_response.has_error then
+				last_error := l_response.error
+			elseif attached { JSON_SUCCESS_BASE } l_response.data ({ JSON_SUCCESS_BASE }) as l_data then
 				Result := l_data
 			else
 				create last_error.make ("Unknown error: Status response [ " + l_response.status.out + "]")

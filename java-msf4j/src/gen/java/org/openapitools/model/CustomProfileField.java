@@ -10,7 +10,7 @@ import io.swagger.annotations.ApiModelProperty;
  * Dictionary containing the details of a custom profile field configured for this organization. 
  */
 @ApiModel(description = "Dictionary containing the details of a custom profile field configured for this organization. ")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", date = "2021-08-08T20:41:44.271935Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", date = "2021-08-08T21:11:36.575393Z[Etc/UTC]")
 public class CustomProfileField   {
   @JsonProperty("id")
   private Integer id;

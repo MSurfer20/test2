@@ -20,8 +20,8 @@ Method | HTTP request | Description
 [**RemoveUserGroup**](users_api.md#RemoveUserGroup) | **DELETE** /user_groups/{user_group_id} | Delete a user group
 [**SetTypingStatus**](users_api.md#SetTypingStatus) | **POST** /typing | Set \&quot;typing\&quot; status
 [**UnmuteUser**](users_api.md#UnmuteUser) | **DELETE** /users/me/muted_users/{muted_user_id} | Unmute a user
-[**UpdateDisplaySettings**](users_api.md#UpdateDisplaySettings) | **PATCH** /settings/display | Update display settings
-[**UpdateNotificationSettings**](users_api.md#UpdateNotificationSettings) | **PATCH** /settings/notifications | Update notification settings
+[**UpdateSettings**](users_api.md#UpdateSettings) | **PATCH** /settings | Update settings
+[**UpdateStatus**](users_api.md#UpdateStatus) | **POST** /users/me/status | Update your status
 [**UpdateUser**](users_api.md#UpdateUser) | **PATCH** /users/{user_id} | Update a user
 [**UpdateUserGroup**](users_api.md#UpdateUserGroup) | **PATCH** /user_groups/{user_group_id} | Update a user group
 [**UpdateUserGroupMembers**](users_api.md#UpdateUserGroupMembers) | **POST** /user_groups/{user_group_id}/members | Update user group members
@@ -139,20 +139,20 @@ Notify other users whether the current user is typing a message.  &#x60;POST {{ 
 Unmute a user
 
 This endpoint unmutes a user.  &#x60;DELETE {{ api_url }}/v1/users/me/muted_users/{muted_user_id}&#x60;  **Changes**: New in Zulip 4.0 (feature level 48). 
-<a name="UpdateDisplaySettings"></a>
-# **UpdateDisplaySettings**
-> JsonSuccessBase UpdateDisplaySettings(twentyFourHourTime, denseMode, starredMessageCounts, fluidLayoutWidth, highContrastMode, colorScheme, translateEmoticons, defaultLanguage, defaultView, leftSideUserlist, emojiset, demoteInactiveStreams, timezone)
+<a name="UpdateSettings"></a>
+# **UpdateSettings**
+> JsonSuccessBase UpdateSettings(fullName, email, oldPassword, newPassword, twentyFourHourTime, denseMode, starredMessageCounts, fluidLayoutWidth, highContrastMode, colorScheme, enableDraftsSynchronization, translateEmoticons, defaultLanguage, defaultView, leftSideUserlist, emojiset, demoteInactiveStreams, timezone, enableStreamDesktopNotifications, enableStreamEmailNotifications, enableStreamPushNotifications, enableStreamAudibleNotifications, notificationSound, enableDesktopNotifications, enableSounds, emailNotificationsBatchingPeriodSeconds, enableOfflineEmailNotifications, enableOfflinePushNotifications, enableOnlinePushNotifications, enableDigestEmails, enableMarketingEmails, enableLoginEmails, messageContentInEmailNotifications, pmContentInDesktopNotifications, wildcardMentionsNotify, desktopIconCountDisplay, realmNameInNotifications, presenceEnabled, enterSends)
 
-Update display settings
+Update settings
 
-This endpoint is used to edit the current user&#39;s user interface settings.  &#x60;PATCH {{ api_url }}/v1/settings/display&#x60; 
-<a name="UpdateNotificationSettings"></a>
-# **UpdateNotificationSettings**
-> JsonSuccessBase UpdateNotificationSettings(enableStreamDesktopNotifications, enableStreamEmailNotifications, enableStreamPushNotifications, enableStreamAudibleNotifications, notificationSound, enableDesktopNotifications, enableSounds, enableOfflineEmailNotifications, enableOfflinePushNotifications, enableOnlinePushNotifications, enableDigestEmails, enableMarketingEmails, enableLoginEmails, messageContentInEmailNotifications, pmContentInDesktopNotifications, wildcardMentionsNotify, desktopIconCountDisplay, realmNameInNotifications, presenceEnabled)
+This endpoint is used to edit the current user&#39;s settings.  &#x60;PATCH {{ api_url }}/v1/settings&#x60;  **Changes**: Prior to Zulip 5.0 (feature level 80), this endpoint only supported the &#x60;full_name&#x60;, &#x60;email&#x60;, &#x60;old_password&#x60;, and &#x60;new_password&#x60; parameters. Notification settings were managed by &#x60;PATCH /settings/notifications&#x60;, and all other settings by &#x60;PATCH /settings/display&#x60;. The feature level 80 migration to merge these endpoints did not change how request parameters are encoded. Note, however, that it did change the handling of any invalid parameters present in a request to change notification or display settings, since the merged endpoint uses the new response format that was introduced for &#x60;/settings&#x60; in Zulip 5.0 (feature level 78).  The &#x60;/settings/display&#x60; and &#x60;/settings/notifications&#x60; endpoints are now deprecated aliases for this endpoint for backwards-compatibility, and will be removed once clients have migrated to use this endpoint. 
+<a name="UpdateStatus"></a>
+# **UpdateStatus**
+> JsonSuccess UpdateStatus(statusText, away, emojiName, emojiCode, reactionType)
 
-Update notification settings
+Update your status
 
-This endpoint is used to edit the user&#39;s global notification settings. See [this endpoint](/api/update-subscription-settings) for per-stream notification settings.  &#x60;PATCH {{ api_url }}/v1/settings/notifications&#x60; 
+Change your [status](/help/status-and-availability).  &#x60;POST {{ api_url }}/v1/users/me/status&#x60;  A request to this endpoint will only change the parameters passed. For example, passing just &#x60;status_text&#x60; requests a change in the status text, but will leave the status emoji unchanged.  Clients that wish to set the user&#39;s status to a specific value should pass all supported parameters. 
 <a name="UpdateUser"></a>
 # **UpdateUser**
 > JsonSuccess UpdateUser(userId, fullName, role, profileData)

@@ -5,12 +5,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.openapitools.model.EmojiReactionBaseUser;
+import org.openapitools.model.EmojiBase;
+import org.openapitools.model.EmojiReactionBaseAllOf;
+import org.openapitools.model.EmojiReactionBaseAllOfUser;
 
 /**
  * EmojiReactionBase
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", date = "2021-08-08T20:41:44.271935Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", date = "2021-08-08T21:11:36.575393Z[Etc/UTC]")
 public class EmojiReactionBase   {
   @JsonProperty("emoji_code")
   private String emojiCode;
@@ -25,7 +27,7 @@ public class EmojiReactionBase   {
   private Integer userId;
 
   @JsonProperty("user")
-  private EmojiReactionBaseUser user;
+  private EmojiReactionBaseAllOfUser user;
 
   public EmojiReactionBase emojiCode(String emojiCode) {
     this.emojiCode = emojiCode;
@@ -33,10 +35,10 @@ public class EmojiReactionBase   {
   }
 
    /**
-   * A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint. 
+   * A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji. 
    * @return emojiCode
   **/
-  @ApiModelProperty(value = "A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint. ")
+  @ApiModelProperty(value = "A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji. ")
   public String getEmojiCode() {
     return emojiCode;
   }
@@ -99,7 +101,7 @@ public class EmojiReactionBase   {
     this.userId = userId;
   }
 
-  public EmojiReactionBase user(EmojiReactionBaseUser user) {
+  public EmojiReactionBase user(EmojiReactionBaseAllOfUser user) {
     this.user = user;
     return this;
   }
@@ -109,11 +111,11 @@ public class EmojiReactionBase   {
    * @return user
   **/
   @ApiModelProperty(value = "")
-  public EmojiReactionBaseUser getUser() {
+  public EmojiReactionBaseAllOfUser getUser() {
     return user;
   }
 
-  public void setUser(EmojiReactionBaseUser user) {
+  public void setUser(EmojiReactionBaseAllOfUser user) {
     this.user = user;
   }
 

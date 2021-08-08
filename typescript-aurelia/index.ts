@@ -13,6 +13,7 @@
 export { Api } from './Api';
 export { AuthStorage } from './AuthStorage';
 export { AuthenticationApi } from './AuthenticationApi';
+export { DraftsApi } from './DraftsApi';
 export { MessagesApi } from './MessagesApi';
 export { RealTimeEventsApi } from './RealTimeEventsApi';
 export { ServerAndOrganizationsApi } from './ServerAndOrganizationsApi';
@@ -42,10 +43,13 @@ export {
   CodedErrorBaseAllOf,
   CustomProfileField,
   DefaultStreamGroup,
+  Draft,
+  EmojiBase,
   EmojiReaction,
   EmojiReactionAllOf,
   EmojiReactionBase,
-  EmojiReactionBaseUser,
+  EmojiReactionBaseAllOf,
+  EmojiReactionBaseAllOfUser,
   GetMessages,
   GetMessagesAllOf,
   Hotspot,

@@ -75,6 +75,15 @@ public class MainApiVerticle extends AbstractVerticle {
             }
         });
         
+        vertx.deployVerticle("org.openapitools.server.api.verticle.DraftsApiVerticle", res -> {
+            if (res.succeeded()) {
+                LOGGER.info("DraftsApiVerticle : Deployed");
+            } else {
+                startFuture.fail(res.cause());
+                LOGGER.error("DraftsApiVerticle : Deployment failed");
+            }
+        });
+        
         vertx.deployVerticle("org.openapitools.server.api.verticle.MessagesApiVerticle", res -> {
             if (res.succeeded()) {
                 LOGGER.info("MessagesApiVerticle : Deployed");

@@ -13,7 +13,7 @@
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct EmojiReactionBase {
-    /// A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint. 
+    /// A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji. 
     #[serde(rename = "emoji_code", skip_serializing_if = "Option::is_none")]
     pub emoji_code: Option<String>,
     /// Name of the emoji. 
@@ -26,7 +26,7 @@ pub struct EmojiReactionBase {
     #[serde(rename = "user_id", skip_serializing_if = "Option::is_none")]
     pub user_id: Option<i32>,
     #[serde(rename = "user", skip_serializing_if = "Option::is_none")]
-    pub user: Option<Box<crate::models::EmojiReactionBaseUser>>,
+    pub user: Option<Box<crate::models::EmojiReactionBaseAllOfUser>>,
 }
 
 impl EmojiReactionBase {

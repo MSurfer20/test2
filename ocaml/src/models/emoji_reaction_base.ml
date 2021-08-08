@@ -6,7 +6,7 @@
  *)
 
 type t = {
-    (* A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint.  *)
+    (* A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji.  *)
     emoji_code: string option [@default None];
     (* Name of the emoji.  *)
     emoji_name: string option [@default None];
@@ -14,7 +14,7 @@ type t = {
     reaction_type: string option [@default None];
     (* The ID of the user who added the reaction.  **Changes**: New in Zulip 3.0 (feature level 2). The `user` object is deprecated and will be removed in the future.  *)
     user_id: int32 option [@default None];
-    user: Emoji_reaction_base_user.t option [@default None];
+    user: Emoji_reaction_base_all_of_user.t option [@default None];
 } [@@deriving yojson { strict = false }, show ];;
 
 let create () : t = {

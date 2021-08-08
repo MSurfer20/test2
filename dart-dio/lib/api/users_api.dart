@@ -17,6 +17,7 @@ import 'package:openapi/model/json_success.dart';
 import 'package:openapi/model/json_success_base.dart';
 import 'package:openapi/model/one_ofobjectobject.dart';
 import 'package:openapi/model/one_ofobjectobjectobject.dart';
+import 'package:openapi/model/one_ofobjectobjectobjectobjectobjectobject.dart';
 
 class UsersApi {
 
@@ -942,16 +943,21 @@ class UsersApi {
     );
   }
 
-  /// Update display settings
+  /// Update settings
   ///
-  /// This endpoint is used to edit the current user's user interface settings.  `PATCH {{ api_url }}/v1/settings/display` 
-  Future<Response<JsonSuccessBase>> updateDisplaySettings({ 
+  /// This endpoint is used to edit the current user's settings.  `PATCH {{ api_url }}/v1/settings`  **Changes**: Prior to Zulip 5.0 (feature level 80), this endpoint only supported the `full_name`, `email`, `old_password`, and `new_password` parameters. Notification settings were managed by `PATCH /settings/notifications`, and all other settings by `PATCH /settings/display`. The feature level 80 migration to merge these endpoints did not change how request parameters are encoded. Note, however, that it did change the handling of any invalid parameters present in a request to change notification or display settings, since the merged endpoint uses the new response format that was introduced for `/settings` in Zulip 5.0 (feature level 78).  The `/settings/display` and `/settings/notifications` endpoints are now deprecated aliases for this endpoint for backwards-compatibility, and will be removed once clients have migrated to use this endpoint. 
+  Future<Response<JsonSuccessBase>> updateSettings({ 
+    String fullName,
+    String email,
+    String oldPassword,
+    String newPassword,
     bool twentyFourHourTime,
     bool denseMode,
     bool starredMessageCounts,
     bool fluidLayoutWidth,
     bool highContrastMode,
     int colorScheme,
+    bool enableDraftsSynchronization,
     bool translateEmoticons,
     String defaultLanguage,
     String defaultView,
@@ -959,6 +965,27 @@ class UsersApi {
     String emojiset,
     int demoteInactiveStreams,
     String timezone,
+    bool enableStreamDesktopNotifications,
+    bool enableStreamEmailNotifications,
+    bool enableStreamPushNotifications,
+    bool enableStreamAudibleNotifications,
+    String notificationSound,
+    bool enableDesktopNotifications,
+    bool enableSounds,
+    int emailNotificationsBatchingPeriodSeconds,
+    bool enableOfflineEmailNotifications,
+    bool enableOfflinePushNotifications,
+    bool enableOnlinePushNotifications,
+    bool enableDigestEmails,
+    bool enableMarketingEmails,
+    bool enableLoginEmails,
+    bool messageContentInEmailNotifications,
+    bool pmContentInDesktopNotifications,
+    bool wildcardMentionsNotify,
+    int desktopIconCountDisplay,
+    bool realmNameInNotifications,
+    bool presenceEnabled,
+    bool enterSends,
     CancelToken cancelToken,
     Map<String, dynamic> headers,
     Map<String, dynamic> extra,
@@ -967,18 +994,23 @@ class UsersApi {
     ProgressCallback onReceiveProgress,
   }) async {
     final _request = RequestOptions(
-      path: r'/settings/display',
+      path: r'/settings',
       method: 'PATCH',
       headers: <String, dynamic>{
         ...?headers,
       },
       queryParameters: <String, dynamic>{
+        if (fullName != null) r'full_name': fullName,
+        if (email != null) r'email': email,
+        if (oldPassword != null) r'old_password': oldPassword,
+        if (newPassword != null) r'new_password': newPassword,
         if (twentyFourHourTime != null) r'twenty_four_hour_time': twentyFourHourTime,
         if (denseMode != null) r'dense_mode': denseMode,
         if (starredMessageCounts != null) r'starred_message_counts': starredMessageCounts,
         if (fluidLayoutWidth != null) r'fluid_layout_width': fluidLayoutWidth,
         if (highContrastMode != null) r'high_contrast_mode': highContrastMode,
         if (colorScheme != null) r'color_scheme': colorScheme,
+        if (enableDraftsSynchronization != null) r'enable_drafts_synchronization': enableDraftsSynchronization,
         if (translateEmoticons != null) r'translate_emoticons': translateEmoticons,
         if (defaultLanguage != null) r'default_language': defaultLanguage,
         if (defaultView != null) r'default_view': defaultView,
@@ -986,6 +1018,27 @@ class UsersApi {
         if (emojiset != null) r'emojiset': emojiset,
         if (demoteInactiveStreams != null) r'demote_inactive_streams': demoteInactiveStreams,
         if (timezone != null) r'timezone': timezone,
+        if (enableStreamDesktopNotifications != null) r'enable_stream_desktop_notifications': enableStreamDesktopNotifications,
+        if (enableStreamEmailNotifications != null) r'enable_stream_email_notifications': enableStreamEmailNotifications,
+        if (enableStreamPushNotifications != null) r'enable_stream_push_notifications': enableStreamPushNotifications,
+        if (enableStreamAudibleNotifications != null) r'enable_stream_audible_notifications': enableStreamAudibleNotifications,
+        if (notificationSound != null) r'notification_sound': notificationSound,
+        if (enableDesktopNotifications != null) r'enable_desktop_notifications': enableDesktopNotifications,
+        if (enableSounds != null) r'enable_sounds': enableSounds,
+        if (emailNotificationsBatchingPeriodSeconds != null) r'email_notifications_batching_period_seconds': emailNotificationsBatchingPeriodSeconds,
+        if (enableOfflineEmailNotifications != null) r'enable_offline_email_notifications': enableOfflineEmailNotifications,
+        if (enableOfflinePushNotifications != null) r'enable_offline_push_notifications': enableOfflinePushNotifications,
+        if (enableOnlinePushNotifications != null) r'enable_online_push_notifications': enableOnlinePushNotifications,
+        if (enableDigestEmails != null) r'enable_digest_emails': enableDigestEmails,
+        if (enableMarketingEmails != null) r'enable_marketing_emails': enableMarketingEmails,
+        if (enableLoginEmails != null) r'enable_login_emails': enableLoginEmails,
+        if (messageContentInEmailNotifications != null) r'message_content_in_email_notifications': messageContentInEmailNotifications,
+        if (pmContentInDesktopNotifications != null) r'pm_content_in_desktop_notifications': pmContentInDesktopNotifications,
+        if (wildcardMentionsNotify != null) r'wildcard_mentions_notify': wildcardMentionsNotify,
+        if (desktopIconCountDisplay != null) r'desktop_icon_count_display': desktopIconCountDisplay,
+        if (realmNameInNotifications != null) r'realm_name_in_notifications': realmNameInNotifications,
+        if (presenceEnabled != null) r'presence_enabled': presenceEnabled,
+        if (enterSends != null) r'enter_sends': enterSends,
       },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[],
@@ -1024,29 +1077,15 @@ class UsersApi {
     );
   }
 
-  /// Update notification settings
+  /// Update your status
   ///
-  /// This endpoint is used to edit the user's global notification settings. See [this endpoint](/api/update-subscription-settings) for per-stream notification settings.  `PATCH {{ api_url }}/v1/settings/notifications` 
-  Future<Response<JsonSuccessBase>> updateNotificationSettings({ 
-    bool enableStreamDesktopNotifications,
-    bool enableStreamEmailNotifications,
-    bool enableStreamPushNotifications,
-    bool enableStreamAudibleNotifications,
-    String notificationSound,
-    bool enableDesktopNotifications,
-    bool enableSounds,
-    bool enableOfflineEmailNotifications,
-    bool enableOfflinePushNotifications,
-    bool enableOnlinePushNotifications,
-    bool enableDigestEmails,
-    bool enableMarketingEmails,
-    bool enableLoginEmails,
-    bool messageContentInEmailNotifications,
-    bool pmContentInDesktopNotifications,
-    bool wildcardMentionsNotify,
-    int desktopIconCountDisplay,
-    bool realmNameInNotifications,
-    bool presenceEnabled,
+  /// Change your [status](/help/status-and-availability).  `POST {{ api_url }}/v1/users/me/status`  A request to this endpoint will only change the parameters passed. For example, passing just `status_text` requests a change in the status text, but will leave the status emoji unchanged.  Clients that wish to set the user's status to a specific value should pass all supported parameters. 
+  Future<Response<JsonSuccess>> updateStatus({ 
+    String statusText,
+    bool away,
+    String emojiName,
+    String emojiCode,
+    String reactionType,
     CancelToken cancelToken,
     Map<String, dynamic> headers,
     Map<String, dynamic> extra,
@@ -1055,31 +1094,17 @@ class UsersApi {
     ProgressCallback onReceiveProgress,
   }) async {
     final _request = RequestOptions(
-      path: r'/settings/notifications',
-      method: 'PATCH',
+      path: r'/users/me/status',
+      method: 'POST',
       headers: <String, dynamic>{
         ...?headers,
       },
       queryParameters: <String, dynamic>{
-        if (enableStreamDesktopNotifications != null) r'enable_stream_desktop_notifications': enableStreamDesktopNotifications,
-        if (enableStreamEmailNotifications != null) r'enable_stream_email_notifications': enableStreamEmailNotifications,
-        if (enableStreamPushNotifications != null) r'enable_stream_push_notifications': enableStreamPushNotifications,
-        if (enableStreamAudibleNotifications != null) r'enable_stream_audible_notifications': enableStreamAudibleNotifications,
-        if (notificationSound != null) r'notification_sound': notificationSound,
-        if (enableDesktopNotifications != null) r'enable_desktop_notifications': enableDesktopNotifications,
-        if (enableSounds != null) r'enable_sounds': enableSounds,
-        if (enableOfflineEmailNotifications != null) r'enable_offline_email_notifications': enableOfflineEmailNotifications,
-        if (enableOfflinePushNotifications != null) r'enable_offline_push_notifications': enableOfflinePushNotifications,
-        if (enableOnlinePushNotifications != null) r'enable_online_push_notifications': enableOnlinePushNotifications,
-        if (enableDigestEmails != null) r'enable_digest_emails': enableDigestEmails,
-        if (enableMarketingEmails != null) r'enable_marketing_emails': enableMarketingEmails,
-        if (enableLoginEmails != null) r'enable_login_emails': enableLoginEmails,
-        if (messageContentInEmailNotifications != null) r'message_content_in_email_notifications': messageContentInEmailNotifications,
-        if (pmContentInDesktopNotifications != null) r'pm_content_in_desktop_notifications': pmContentInDesktopNotifications,
-        if (wildcardMentionsNotify != null) r'wildcard_mentions_notify': wildcardMentionsNotify,
-        if (desktopIconCountDisplay != null) r'desktop_icon_count_display': desktopIconCountDisplay,
-        if (realmNameInNotifications != null) r'realm_name_in_notifications': realmNameInNotifications,
-        if (presenceEnabled != null) r'presence_enabled': presenceEnabled,
+        if (statusText != null) r'status_text': statusText,
+        if (away != null) r'away': away,
+        if (emojiName != null) r'emoji_name': emojiName,
+        if (emojiCode != null) r'emoji_code': emojiCode,
+        if (reactionType != null) r'reaction_type': reactionType,
       },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[],
@@ -1100,13 +1125,13 @@ class UsersApi {
       options: _request,
     );
 
-    const _responseType = FullType(JsonSuccessBase);
+    const _responseType = FullType(JsonSuccess);
     final _responseData = _serializers.deserialize(
       _response.data,
       specifiedType: _responseType,
-    ) as JsonSuccessBase;
+    ) as JsonSuccess;
 
-    return Response<JsonSuccessBase>(
+    return Response<JsonSuccess>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,

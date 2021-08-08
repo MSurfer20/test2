@@ -70,6 +70,50 @@ package .Skeletons is
        Result  : out .Models.ApiKeyResponse_Type;
        Context : in out Swagger.Servers.Context_Type) is abstract;
 
+   --  Create drafts
+   --  Create one or more drafts on the server. These drafts will be automatically
+   --  synchronized to other clients via `drafts` events.
+   --  
+   --  `POST {{ api_url }}/v1/drafts`
+   procedure Create_Drafts
+      (Server : in out Server_Type;
+       Drafts : in .Models.Draft_Type_Vectors.Vector;
+       Result  : out .Models.JsonSuccess_Type;
+       Context : in out Swagger.Servers.Context_Type) is abstract;
+
+   --  Delete a draft
+   --  Delete a single draft from the server. The deletion will be automatically
+   --  synchronized to other clients via a `drafts` event.
+   --  
+   --  `DELETE {{ api_url }}/v1/drafts/{draft_id}`
+   procedure Delete_Draft
+      (Server : in out Server_Type;
+       Draft_Id : in Integer;
+       Result  : out .Models.JsonSuccess_Type;
+       Context : in out Swagger.Servers.Context_Type) is abstract;
+
+   --  Edit a draft
+   --  Edit a draft on the server. The edit will be automatically
+   --  synchronized to other clients via `drafts` events.
+   --  
+   --  `PATCH {{ api_url }}/v1/drafts/{draft_id}`
+   procedure Edit_Draft
+      (Server : in out Server_Type;
+       Draft_Id : in Integer;
+       Draft : in .Models.Draft_Type;
+       Result  : out .Models.JsonSuccess_Type;
+       Context : in out Swagger.Servers.Context_Type) is abstract;
+
+   --  Get drafts
+   --  Fetch all drafts for the current user.
+   --  
+   --  `GET {{ api_url }}/v1/drafts`
+   procedure Get_Drafts
+      (Server : in out Server_Type
+       ;
+       Result  : out .Models.JsonSuccess_Type;
+       Context : in out Swagger.Servers.Context_Type) is abstract;
+
    --  Add an emoji reaction
    --  Add an [emoji reaction](/help/emoji-reactions) to a message.
    --  
@@ -624,6 +668,21 @@ package .Skeletons is
        Result  : out .Models.JsonSuccessBase_Type;
        Context : in out Swagger.Servers.Context_Type) is abstract;
 
+   --  Delete a topic
+   --  Delete all messages in a topic.
+   --  
+   --  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`
+   --  
+   --  Topics are a field on messages (not an independent
+   --  data structure), so deleting all the messages in the topic
+   --  deletes the topic from Zulip.
+   procedure Delete_Topic
+      (Server : in out Server_Type;
+       Stream_Id : in Integer;
+       Topic_Name : in Swagger.UString;
+       Result  : out .Models.JsonSuccess_Type;
+       Context : in out Swagger.Servers.Context_Type) is abstract;
+
    --  Get stream ID
    --  Get the unique ID of a given stream.
    --  
@@ -656,6 +715,16 @@ package .Skeletons is
        Include_All_Active : in Swagger.Nullable_Boolean;
        Include_Default : in Swagger.Nullable_Boolean;
        Include_Owner_Subscribed : in Swagger.Nullable_Boolean;
+       Result  : out .Models.JsonSuccessBase_Type;
+       Context : in out Swagger.Servers.Context_Type) is abstract;
+
+   --  Get the subscribers of a stream
+   --  Get all users subscribed to a stream.
+   --  
+   --  `Get {{ api_url }}/v1/streams/{stream_id}/members`
+   procedure Get_Subscribers
+      (Server : in out Server_Type;
+       Stream_Id : in Integer;
        Result  : out .Models.JsonSuccessBase_Type;
        Context : in out Swagger.Servers.Context_Type) is abstract;
 
@@ -1043,18 +1112,40 @@ package .Skeletons is
        Result  : out .Models.JsonSuccess_Type;
        Context : in out Swagger.Servers.Context_Type) is abstract;
 
-   --  Update display settings
-   --  This endpoint is used to edit the current user's user interface settings.
+   --  Update settings
+   --  This endpoint is used to edit the current user's settings.
    --  
-   --  `PATCH {{ api_url }}/v1/settings/display`
-   procedure Update_Display_Settings
+   --  `PATCH {{ api_url }}/v1/settings`
+   --  
+   --  **Changes**: Prior to Zulip 5.0 (feature level 80), this
+   --  endpoint only supported the `full_name`, `email`,
+   --  `old_password`, and `new_password` parameters. Notification
+   --  settings were managed by `PATCH /settings/notifications`, and
+   --  all other settings by `PATCH /settings/display`. The feature level
+   --  80 migration to merge these endpoints did not change how request
+   --  parameters are encoded. Note, however, that it did change the
+   --  handling of any invalid parameters present in a request to change
+   --  notification or display settings, since the merged endpoint uses
+   --  the new response format that was introduced for `/settings` in
+   --  Zulip 5.0 (feature level 78).
+   --  
+   --  The `/settings/display` and `/settings/notifications`
+   --  endpoints are now deprecated aliases for this endpoint for
+   --  backwards-compatibility, and will be removed once clients have
+   --  migrated to use this endpoint.
+   procedure Update_Settings
       (Server : in out Server_Type;
+       Full_Name : in Swagger.Nullable_UString;
+       Email : in Swagger.Nullable_UString;
+       Old_Password : in Swagger.Nullable_UString;
+       New_Password : in Swagger.Nullable_UString;
        Twenty_Four_Hour_Time : in Swagger.Nullable_Boolean;
        Dense_Mode : in Swagger.Nullable_Boolean;
        Starred_Message_Counts : in Swagger.Nullable_Boolean;
        Fluid_Layout_Width : in Swagger.Nullable_Boolean;
        High_Contrast_Mode : in Swagger.Nullable_Boolean;
        Color_Scheme : in Swagger.Nullable_Integer;
+       Enable_Drafts_Synchronization : in Swagger.Nullable_Boolean;
        Translate_Emoticons : in Swagger.Nullable_Boolean;
        Default_Language : in Swagger.Nullable_UString;
        Default_View : in Swagger.Nullable_UString;
@@ -1062,17 +1153,6 @@ package .Skeletons is
        Emojiset : in Swagger.Nullable_UString;
        Demote_Inactive_Streams : in Swagger.Nullable_Integer;
        Timezone : in Swagger.Nullable_UString;
-       Result  : out .Models.JsonSuccessBase_Type;
-       Context : in out Swagger.Servers.Context_Type) is abstract;
-
-   --  Update notification settings
-   --  This endpoint is used to edit the user's global notification settings.
-   --  See [this endpoint](/api/update-subscription-settings) for
-   --  per-stream notification settings.
-   --  
-   --  `PATCH {{ api_url }}/v1/settings/notifications`
-   procedure Update_Notification_Settings
-      (Server : in out Server_Type;
        Enable_Stream_Desktop_Notifications : in Swagger.Nullable_Boolean;
        Enable_Stream_Email_Notifications : in Swagger.Nullable_Boolean;
        Enable_Stream_Push_Notifications : in Swagger.Nullable_Boolean;
@@ -1080,6 +1160,7 @@ package .Skeletons is
        Notification_Sound : in Swagger.Nullable_UString;
        Enable_Desktop_Notifications : in Swagger.Nullable_Boolean;
        Enable_Sounds : in Swagger.Nullable_Boolean;
+       Email_Notifications_Batching_Period_Seconds : in Swagger.Nullable_Integer;
        Enable_Offline_Email_Notifications : in Swagger.Nullable_Boolean;
        Enable_Offline_Push_Notifications : in Swagger.Nullable_Boolean;
        Enable_Online_Push_Notifications : in Swagger.Nullable_Boolean;
@@ -1092,7 +1173,29 @@ package .Skeletons is
        Desktop_Icon_Count_Display : in Swagger.Nullable_Integer;
        Realm_Name_In_Notifications : in Swagger.Nullable_Boolean;
        Presence_Enabled : in Swagger.Nullable_Boolean;
+       Enter_Sends : in Swagger.Nullable_Boolean;
        Result  : out .Models.JsonSuccessBase_Type;
+       Context : in out Swagger.Servers.Context_Type) is abstract;
+
+   --  Update your status
+   --  Change your [status](/help/status-and-availability).
+   --  
+   --  `POST {{ api_url }}/v1/users/me/status`
+   --  
+   --  A request to this endpoint will only change the parameters passed.
+   --  For example, passing just `status_text` requests a change in the status
+   --  text, but will leave the status emoji unchanged.
+   --  
+   --  Clients that wish to set the user's status to a specific value should
+   --  pass all supported parameters.
+   procedure Update_Status
+      (Server : in out Server_Type;
+       Status_Text : in Swagger.Nullable_UString;
+       Away : in Swagger.Nullable_Boolean;
+       Emoji_Name : in Swagger.Nullable_UString;
+       Emoji_Code : in Swagger.Nullable_UString;
+       Reaction_Type : in Swagger.Nullable_UString;
+       Result  : out .Models.JsonSuccess_Type;
        Context : in out Swagger.Servers.Context_Type) is abstract;
 
    --  Update a user
@@ -1170,6 +1273,38 @@ package .Skeletons is
           Context : in out Swagger.Servers.Context_Type);
 
 
+      --  Create drafts
+      procedure Create_Drafts
+         (Req     : in out Swagger.Servers.Request'Class;
+          Reply   : in out Swagger.Servers.Response'Class;
+          Stream  : in out Swagger.Servers.Output_Stream'Class;
+          Context : in out Swagger.Servers.Context_Type);
+
+
+      --  Delete a draft
+      procedure Delete_Draft
+         (Req     : in out Swagger.Servers.Request'Class;
+          Reply   : in out Swagger.Servers.Response'Class;
+          Stream  : in out Swagger.Servers.Output_Stream'Class;
+          Context : in out Swagger.Servers.Context_Type);
+
+
+      --  Edit a draft
+      procedure Edit_Draft
+         (Req     : in out Swagger.Servers.Request'Class;
+          Reply   : in out Swagger.Servers.Response'Class;
+          Stream  : in out Swagger.Servers.Output_Stream'Class;
+          Context : in out Swagger.Servers.Context_Type);
+
+
+      --  Get drafts
+      procedure Get_Drafts
+         (Req     : in out Swagger.Servers.Request'Class;
+          Reply   : in out Swagger.Servers.Response'Class;
+          Stream  : in out Swagger.Servers.Output_Stream'Class;
+          Context : in out Swagger.Servers.Context_Type);
+
+
       --  Add an emoji reaction
       procedure Add_Reaction
          (Req     : in out Swagger.Servers.Request'Class;
@@ -1450,6 +1585,14 @@ package .Skeletons is
           Context : in out Swagger.Servers.Context_Type);
 
 
+      --  Delete a topic
+      procedure Delete_Topic
+         (Req     : in out Swagger.Servers.Request'Class;
+          Reply   : in out Swagger.Servers.Response'Class;
+          Stream  : in out Swagger.Servers.Output_Stream'Class;
+          Context : in out Swagger.Servers.Context_Type);
+
+
       --  Get stream ID
       procedure Get_Stream_Id
          (Req     : in out Swagger.Servers.Request'Class;
@@ -1468,6 +1611,14 @@ package .Skeletons is
 
       --  Get all streams
       procedure Get_Streams
+         (Req     : in out Swagger.Servers.Request'Class;
+          Reply   : in out Swagger.Servers.Response'Class;
+          Stream  : in out Swagger.Servers.Output_Stream'Class;
+          Context : in out Swagger.Servers.Context_Type);
+
+
+      --  Get the subscribers of a stream
+      procedure Get_Subscribers
          (Req     : in out Swagger.Servers.Request'Class;
           Reply   : in out Swagger.Servers.Response'Class;
           Stream  : in out Swagger.Servers.Output_Stream'Class;
@@ -1666,16 +1817,16 @@ package .Skeletons is
           Context : in out Swagger.Servers.Context_Type);
 
 
-      --  Update display settings
-      procedure Update_Display_Settings
+      --  Update settings
+      procedure Update_Settings
          (Req     : in out Swagger.Servers.Request'Class;
           Reply   : in out Swagger.Servers.Response'Class;
           Stream  : in out Swagger.Servers.Output_Stream'Class;
           Context : in out Swagger.Servers.Context_Type);
 
 
-      --  Update notification settings
-      procedure Update_Notification_Settings
+      --  Update your status
+      procedure Update_Status
          (Req     : in out Swagger.Servers.Request'Class;
           Reply   : in out Swagger.Servers.Response'Class;
           Stream  : in out Swagger.Servers.Output_Stream'Class;
@@ -1739,6 +1890,38 @@ package .Skeletons is
           Context : in out Swagger.Servers.Context_Type);
 
 
+      --  Create drafts
+      procedure Create_Drafts
+         (Req     : in out Swagger.Servers.Request'Class;
+          Reply   : in out Swagger.Servers.Response'Class;
+          Stream  : in out Swagger.Servers.Output_Stream'Class;
+          Context : in out Swagger.Servers.Context_Type);
+
+
+      --  Delete a draft
+      procedure Delete_Draft
+         (Req     : in out Swagger.Servers.Request'Class;
+          Reply   : in out Swagger.Servers.Response'Class;
+          Stream  : in out Swagger.Servers.Output_Stream'Class;
+          Context : in out Swagger.Servers.Context_Type);
+
+
+      --  Edit a draft
+      procedure Edit_Draft
+         (Req     : in out Swagger.Servers.Request'Class;
+          Reply   : in out Swagger.Servers.Response'Class;
+          Stream  : in out Swagger.Servers.Output_Stream'Class;
+          Context : in out Swagger.Servers.Context_Type);
+
+
+      --  Get drafts
+      procedure Get_Drafts
+         (Req     : in out Swagger.Servers.Request'Class;
+          Reply   : in out Swagger.Servers.Response'Class;
+          Stream  : in out Swagger.Servers.Output_Stream'Class;
+          Context : in out Swagger.Servers.Context_Type);
+
+
       --  Add an emoji reaction
       procedure Add_Reaction
          (Req     : in out Swagger.Servers.Request'Class;
@@ -2019,6 +2202,14 @@ package .Skeletons is
           Context : in out Swagger.Servers.Context_Type);
 
 
+      --  Delete a topic
+      procedure Delete_Topic
+         (Req     : in out Swagger.Servers.Request'Class;
+          Reply   : in out Swagger.Servers.Response'Class;
+          Stream  : in out Swagger.Servers.Output_Stream'Class;
+          Context : in out Swagger.Servers.Context_Type);
+
+
       --  Get stream ID
       procedure Get_Stream_Id
          (Req     : in out Swagger.Servers.Request'Class;
@@ -2037,6 +2228,14 @@ package .Skeletons is
 
       --  Get all streams
       procedure Get_Streams
+         (Req     : in out Swagger.Servers.Request'Class;
+          Reply   : in out Swagger.Servers.Response'Class;
+          Stream  : in out Swagger.Servers.Output_Stream'Class;
+          Context : in out Swagger.Servers.Context_Type);
+
+
+      --  Get the subscribers of a stream
+      procedure Get_Subscribers
          (Req     : in out Swagger.Servers.Request'Class;
           Reply   : in out Swagger.Servers.Response'Class;
           Stream  : in out Swagger.Servers.Output_Stream'Class;
@@ -2235,16 +2434,16 @@ package .Skeletons is
           Context : in out Swagger.Servers.Context_Type);
 
 
-      --  Update display settings
-      procedure Update_Display_Settings
+      --  Update settings
+      procedure Update_Settings
          (Req     : in out Swagger.Servers.Request'Class;
           Reply   : in out Swagger.Servers.Response'Class;
           Stream  : in out Swagger.Servers.Output_Stream'Class;
           Context : in out Swagger.Servers.Context_Type);
 
 
-      --  Update notification settings
-      procedure Update_Notification_Settings
+      --  Update your status
+      procedure Update_Status
          (Req     : in out Swagger.Servers.Request'Class;
           Reply   : in out Swagger.Servers.Response'Class;
           Stream  : in out Swagger.Servers.Output_Stream'Class;
@@ -2297,6 +2496,30 @@ package .Skeletons is
             (Username : in Swagger.UString;
              Password : in Swagger.UString;
              Result  : out .Models.ApiKeyResponse_Type;
+             Context : in out Swagger.Servers.Context_Type);
+
+         --  Create drafts
+         procedure Create_Drafts
+            (Drafts : in .Models.Draft_Type_Vectors.Vector;
+             Result  : out .Models.JsonSuccess_Type;
+             Context : in out Swagger.Servers.Context_Type);
+
+         --  Delete a draft
+         procedure Delete_Draft
+            (Draft_Id : in Integer;
+             Result  : out .Models.JsonSuccess_Type;
+             Context : in out Swagger.Servers.Context_Type);
+
+         --  Edit a draft
+         procedure Edit_Draft
+            (Draft_Id : in Integer;
+             Draft : in .Models.Draft_Type;
+             Result  : out .Models.JsonSuccess_Type;
+             Context : in out Swagger.Servers.Context_Type);
+
+         --  Get drafts
+         procedure Get_Drafts
+            (Result  : out .Models.JsonSuccess_Type;
              Context : in out Swagger.Servers.Context_Type);
 
          --  Add an emoji reaction
@@ -2548,6 +2771,13 @@ package .Skeletons is
             (Result  : out .Models.JsonSuccessBase_Type;
              Context : in out Swagger.Servers.Context_Type);
 
+         --  Delete a topic
+         procedure Delete_Topic
+            (Stream_Id : in Integer;
+             Topic_Name : in Swagger.UString;
+             Result  : out .Models.JsonSuccess_Type;
+             Context : in out Swagger.Servers.Context_Type);
+
          --  Get stream ID
          procedure Get_Stream_Id
             (Stream : in Swagger.UString;
@@ -2568,6 +2798,12 @@ package .Skeletons is
              Include_All_Active : in Swagger.Nullable_Boolean;
              Include_Default : in Swagger.Nullable_Boolean;
              Include_Owner_Subscribed : in Swagger.Nullable_Boolean;
+             Result  : out .Models.JsonSuccessBase_Type;
+             Context : in out Swagger.Servers.Context_Type);
+
+         --  Get the subscribers of a stream
+         procedure Get_Subscribers
+            (Stream_Id : in Integer;
              Result  : out .Models.JsonSuccessBase_Type;
              Context : in out Swagger.Servers.Context_Type);
 
@@ -2743,14 +2979,19 @@ package .Skeletons is
              Result  : out .Models.JsonSuccess_Type;
              Context : in out Swagger.Servers.Context_Type);
 
-         --  Update display settings
-         procedure Update_Display_Settings
-            (Twenty_Four_Hour_Time : in Swagger.Nullable_Boolean;
+         --  Update settings
+         procedure Update_Settings
+            (Full_Name : in Swagger.Nullable_UString;
+             Email : in Swagger.Nullable_UString;
+             Old_Password : in Swagger.Nullable_UString;
+             New_Password : in Swagger.Nullable_UString;
+             Twenty_Four_Hour_Time : in Swagger.Nullable_Boolean;
              Dense_Mode : in Swagger.Nullable_Boolean;
              Starred_Message_Counts : in Swagger.Nullable_Boolean;
              Fluid_Layout_Width : in Swagger.Nullable_Boolean;
              High_Contrast_Mode : in Swagger.Nullable_Boolean;
              Color_Scheme : in Swagger.Nullable_Integer;
+             Enable_Drafts_Synchronization : in Swagger.Nullable_Boolean;
              Translate_Emoticons : in Swagger.Nullable_Boolean;
              Default_Language : in Swagger.Nullable_UString;
              Default_View : in Swagger.Nullable_UString;
@@ -2758,18 +2999,14 @@ package .Skeletons is
              Emojiset : in Swagger.Nullable_UString;
              Demote_Inactive_Streams : in Swagger.Nullable_Integer;
              Timezone : in Swagger.Nullable_UString;
-             Result  : out .Models.JsonSuccessBase_Type;
-             Context : in out Swagger.Servers.Context_Type);
-
-         --  Update notification settings
-         procedure Update_Notification_Settings
-            (Enable_Stream_Desktop_Notifications : in Swagger.Nullable_Boolean;
+             Enable_Stream_Desktop_Notifications : in Swagger.Nullable_Boolean;
              Enable_Stream_Email_Notifications : in Swagger.Nullable_Boolean;
              Enable_Stream_Push_Notifications : in Swagger.Nullable_Boolean;
              Enable_Stream_Audible_Notifications : in Swagger.Nullable_Boolean;
              Notification_Sound : in Swagger.Nullable_UString;
              Enable_Desktop_Notifications : in Swagger.Nullable_Boolean;
              Enable_Sounds : in Swagger.Nullable_Boolean;
+             Email_Notifications_Batching_Period_Seconds : in Swagger.Nullable_Integer;
              Enable_Offline_Email_Notifications : in Swagger.Nullable_Boolean;
              Enable_Offline_Push_Notifications : in Swagger.Nullable_Boolean;
              Enable_Online_Push_Notifications : in Swagger.Nullable_Boolean;
@@ -2782,7 +3019,18 @@ package .Skeletons is
              Desktop_Icon_Count_Display : in Swagger.Nullable_Integer;
              Realm_Name_In_Notifications : in Swagger.Nullable_Boolean;
              Presence_Enabled : in Swagger.Nullable_Boolean;
+             Enter_Sends : in Swagger.Nullable_Boolean;
              Result  : out .Models.JsonSuccessBase_Type;
+             Context : in out Swagger.Servers.Context_Type);
+
+         --  Update your status
+         procedure Update_Status
+            (Status_Text : in Swagger.Nullable_UString;
+             Away : in Swagger.Nullable_Boolean;
+             Emoji_Name : in Swagger.Nullable_UString;
+             Emoji_Code : in Swagger.Nullable_UString;
+             Reaction_Type : in Swagger.Nullable_UString;
+             Result  : out .Models.JsonSuccess_Type;
              Context : in out Swagger.Servers.Context_Type);
 
          --  Update a user

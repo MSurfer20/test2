@@ -30,6 +30,14 @@ module StreamsApiServiceImplementation =
             let content = "Success." :> obj :?> JsonSuccessBase // this cast is obviously wrong, and is only intended to allow generated project to compile   
             CreateBigBlueButtonVideoCallStatusCode200 { content = content }
 
+        member this.DeleteTopic ctx args =
+          if true then 
+            let content = "Success." :> obj :?> JsonSuccess // this cast is obviously wrong, and is only intended to allow generated project to compile   
+            DeleteTopicStatusCode200 { content = content }
+          else
+            let content = "Error." :> obj :?> JsonError // this cast is obviously wrong, and is only intended to allow generated project to compile   
+            DeleteTopicStatusCode400 { content = content }
+
         member this.GetStreamId ctx args =
           if true then 
             let content = "Success." :> obj :?> JsonSuccessBase // this cast is obviously wrong, and is only intended to allow generated project to compile   
@@ -53,6 +61,14 @@ module StreamsApiServiceImplementation =
           else
             let content = "Bad request." :> obj :?> CodedError // this cast is obviously wrong, and is only intended to allow generated project to compile   
             GetStreamsStatusCode400 { content = content }
+
+        member this.GetSubscribers ctx args =
+          if true then 
+            let content = "Success." :> obj :?> JsonSuccessBase // this cast is obviously wrong, and is only intended to allow generated project to compile   
+            GetSubscribersStatusCode200 { content = content }
+          else
+            let content = "Bad request." :> obj :?> JsonError // this cast is obviously wrong, and is only intended to allow generated project to compile   
+            GetSubscribersStatusCode400 { content = content }
 
         member this.GetSubscriptionStatus ctx args =
             let content = "Success" :> obj :?> JsonSuccessBase // this cast is obviously wrong, and is only intended to allow generated project to compile   

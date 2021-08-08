@@ -28,6 +28,7 @@ import org.openapitools.server.infrastructure.ApiKeyCredential
 import org.openapitools.server.infrastructure.ApiPrincipal
 import org.openapitools.server.infrastructure.apiKeyAuth
 import org.openapitools.server.apis.AuthenticationApi
+import org.openapitools.server.apis.DraftsApi
 import org.openapitools.server.apis.MessagesApi
 import org.openapitools.server.apis.RealTimeEventsApi
 import org.openapitools.server.apis.ServerAndOrganizationsApi
@@ -76,6 +77,7 @@ fun Application.main() {
     }
     install(Routing) {
         AuthenticationApi()
+        DraftsApi()
         MessagesApi()
         RealTimeEventsApi()
         ServerAndOrganizationsApi()

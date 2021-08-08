@@ -22,6 +22,7 @@
 #include "OAIObject.h"
 #include "OAIOneOfobjectobject.h"
 #include "OAIOneOfobjectobjectobject.h"
+#include "OAIOneOfobjectobjectobjectobjectobjectobject.h"
 #include <QString>
 
 namespace OpenAPI {
@@ -52,8 +53,8 @@ public slots:
     virtual void removeUserGroup(qint32 user_group_id);
     virtual void setTypingStatus(QString op, QList<qint32> to, QString type, QString topic);
     virtual void unmuteUser(qint32 muted_user_id);
-    virtual void updateDisplaySettings(bool twenty_four_hour_time, bool dense_mode, bool starred_message_counts, bool fluid_layout_width, bool high_contrast_mode, qint32 color_scheme, bool translate_emoticons, QString default_language, QString default_view, bool left_side_userlist, QString emojiset, qint32 demote_inactive_streams, QString timezone);
-    virtual void updateNotificationSettings(bool enable_stream_desktop_notifications, bool enable_stream_email_notifications, bool enable_stream_push_notifications, bool enable_stream_audible_notifications, QString notification_sound, bool enable_desktop_notifications, bool enable_sounds, bool enable_offline_email_notifications, bool enable_offline_push_notifications, bool enable_online_push_notifications, bool enable_digest_emails, bool enable_marketing_emails, bool enable_login_emails, bool message_content_in_email_notifications, bool pm_content_in_desktop_notifications, bool wildcard_mentions_notify, qint32 desktop_icon_count_display, bool realm_name_in_notifications, bool presence_enabled);
+    virtual void updateSettings(QString full_name, QString email, QString old_password, QString new_password, bool twenty_four_hour_time, bool dense_mode, bool starred_message_counts, bool fluid_layout_width, bool high_contrast_mode, qint32 color_scheme, bool enable_drafts_synchronization, bool translate_emoticons, QString default_language, QString default_view, bool left_side_userlist, QString emojiset, qint32 demote_inactive_streams, QString timezone, bool enable_stream_desktop_notifications, bool enable_stream_email_notifications, bool enable_stream_push_notifications, bool enable_stream_audible_notifications, QString notification_sound, bool enable_desktop_notifications, bool enable_sounds, qint32 email_notifications_batching_period_seconds, bool enable_offline_email_notifications, bool enable_offline_push_notifications, bool enable_online_push_notifications, bool enable_digest_emails, bool enable_marketing_emails, bool enable_login_emails, bool message_content_in_email_notifications, bool pm_content_in_desktop_notifications, bool wildcard_mentions_notify, qint32 desktop_icon_count_display, bool realm_name_in_notifications, bool presence_enabled, bool enter_sends);
+    virtual void updateStatus(QString status_text, bool away, QString emoji_name, QString emoji_code, QString reaction_type);
     virtual void updateUser(qint32 user_id, QString full_name, qint32 role, QList<OAIObject> profile_data);
     virtual void updateUserGroup(qint32 user_group_id, QString name, QString description);
     virtual void updateUserGroupMembers(qint32 user_group_id, QList<qint32> r_delete, QList<qint32> add);

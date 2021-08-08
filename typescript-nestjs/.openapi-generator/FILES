@@ -4,6 +4,7 @@ README.md
 api.module.ts
 api/api.ts
 api/authentication.service.ts
+api/drafts.service.ts
 api/messages.service.ts
 api/realTimeEvents.service.ts
 api/serverAndOrganizations.service.ts
@@ -35,10 +36,13 @@ model/codedErrorBase.ts
 model/codedErrorBaseAllOf.ts
 model/customProfileField.ts
 model/defaultStreamGroup.ts
+model/draft.ts
+model/emojiBase.ts
 model/emojiReaction.ts
 model/emojiReactionAllOf.ts
 model/emojiReactionBase.ts
-model/emojiReactionBaseUser.ts
+model/emojiReactionBaseAllOf.ts
+model/emojiReactionBaseAllOfUser.ts
 model/getMessages.ts
 model/getMessagesAllOf.ts
 model/hotspot.ts

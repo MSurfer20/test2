@@ -6,6 +6,7 @@ import org.openapitools.model.JsonSuccess;
 import org.openapitools.model.JsonSuccessBase;
 import org.openapitools.model.OneOfobjectobject;
 import org.openapitools.model.OneOfobjectobjectobject;
+import org.openapitools.model.OneOfobjectobjectobjectobjectobjectobject;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -265,32 +266,33 @@ public interface UsersApi  {
     public JsonSuccess unmuteUser(@PathParam("muted_user_id") Integer mutedUserId);
 
     /**
-     * Update display settings
+     * Update settings
      *
-     * This endpoint is used to edit the current user&#39;s user interface settings.  &#x60;PATCH {{ api_url }}/v1/settings/display&#x60; 
+     * This endpoint is used to edit the current user&#39;s settings.  &#x60;PATCH {{ api_url }}/v1/settings&#x60;  **Changes**: Prior to Zulip 5.0 (feature level 80), this endpoint only supported the &#x60;full_name&#x60;, &#x60;email&#x60;, &#x60;old_password&#x60;, and &#x60;new_password&#x60; parameters. Notification settings were managed by &#x60;PATCH /settings/notifications&#x60;, and all other settings by &#x60;PATCH /settings/display&#x60;. The feature level 80 migration to merge these endpoints did not change how request parameters are encoded. Note, however, that it did change the handling of any invalid parameters present in a request to change notification or display settings, since the merged endpoint uses the new response format that was introduced for &#x60;/settings&#x60; in Zulip 5.0 (feature level 78).  The &#x60;/settings/display&#x60; and &#x60;/settings/notifications&#x60; endpoints are now deprecated aliases for this endpoint for backwards-compatibility, and will be removed once clients have migrated to use this endpoint. 
      *
      */
     @PATCH
-    @Path("/settings/display")
+    @Path("/settings")
     @Produces({ "application/json" })
-    @ApiOperation(value = "Update display settings", tags={  })
+    @ApiOperation(value = "Update settings", tags={  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Success", response = JsonSuccessBase.class) })
-    public JsonSuccessBase updateDisplaySettings(@QueryParam("twenty_four_hour_time") Boolean twentyFourHourTime, @QueryParam("dense_mode") Boolean denseMode, @QueryParam("starred_message_counts") Boolean starredMessageCounts, @QueryParam("fluid_layout_width") Boolean fluidLayoutWidth, @QueryParam("high_contrast_mode") Boolean highContrastMode, @QueryParam("color_scheme") Integer colorScheme, @QueryParam("translate_emoticons") Boolean translateEmoticons, @QueryParam("default_language") String defaultLanguage, @QueryParam("default_view") String defaultView, @QueryParam("left_side_userlist") Boolean leftSideUserlist, @QueryParam("emojiset") String emojiset, @QueryParam("demote_inactive_streams") Integer demoteInactiveStreams, @QueryParam("timezone") String timezone);
+    public JsonSuccessBase updateSettings(@QueryParam("full_name") String fullName, @QueryParam("email") String email, @QueryParam("old_password") String oldPassword, @QueryParam("new_password") String newPassword, @QueryParam("twenty_four_hour_time") Boolean twentyFourHourTime, @QueryParam("dense_mode") Boolean denseMode, @QueryParam("starred_message_counts") Boolean starredMessageCounts, @QueryParam("fluid_layout_width") Boolean fluidLayoutWidth, @QueryParam("high_contrast_mode") Boolean highContrastMode, @QueryParam("color_scheme") Integer colorScheme, @QueryParam("enable_drafts_synchronization") Boolean enableDraftsSynchronization, @QueryParam("translate_emoticons") Boolean translateEmoticons, @QueryParam("default_language") String defaultLanguage, @QueryParam("default_view") String defaultView, @QueryParam("left_side_userlist") Boolean leftSideUserlist, @QueryParam("emojiset") String emojiset, @QueryParam("demote_inactive_streams") Integer demoteInactiveStreams, @QueryParam("timezone") String timezone, @QueryParam("enable_stream_desktop_notifications") Boolean enableStreamDesktopNotifications, @QueryParam("enable_stream_email_notifications") Boolean enableStreamEmailNotifications, @QueryParam("enable_stream_push_notifications") Boolean enableStreamPushNotifications, @QueryParam("enable_stream_audible_notifications") Boolean enableStreamAudibleNotifications, @QueryParam("notification_sound") String notificationSound, @QueryParam("enable_desktop_notifications") Boolean enableDesktopNotifications, @QueryParam("enable_sounds") Boolean enableSounds, @QueryParam("email_notifications_batching_period_seconds") Integer emailNotificationsBatchingPeriodSeconds, @QueryParam("enable_offline_email_notifications") Boolean enableOfflineEmailNotifications, @QueryParam("enable_offline_push_notifications") Boolean enableOfflinePushNotifications, @QueryParam("enable_online_push_notifications") Boolean enableOnlinePushNotifications, @QueryParam("enable_digest_emails") Boolean enableDigestEmails, @QueryParam("enable_marketing_emails") Boolean enableMarketingEmails, @QueryParam("enable_login_emails") Boolean enableLoginEmails, @QueryParam("message_content_in_email_notifications") Boolean messageContentInEmailNotifications, @QueryParam("pm_content_in_desktop_notifications") Boolean pmContentInDesktopNotifications, @QueryParam("wildcard_mentions_notify") Boolean wildcardMentionsNotify, @QueryParam("desktop_icon_count_display") Integer desktopIconCountDisplay, @QueryParam("realm_name_in_notifications") Boolean realmNameInNotifications, @QueryParam("presence_enabled") Boolean presenceEnabled, @QueryParam("enter_sends") Boolean enterSends);
 
     /**
-     * Update notification settings
+     * Update your status
      *
-     * This endpoint is used to edit the user&#39;s global notification settings. See [this endpoint](/api/update-subscription-settings) for per-stream notification settings.  &#x60;PATCH {{ api_url }}/v1/settings/notifications&#x60; 
+     * Change your [status](/help/status-and-availability).  &#x60;POST {{ api_url }}/v1/users/me/status&#x60;  A request to this endpoint will only change the parameters passed. For example, passing just &#x60;status_text&#x60; requests a change in the status text, but will leave the status emoji unchanged.  Clients that wish to set the user&#39;s status to a specific value should pass all supported parameters. 
      *
      */
-    @PATCH
-    @Path("/settings/notifications")
+    @POST
+    @Path("/users/me/status")
     @Produces({ "application/json" })
-    @ApiOperation(value = "Update notification settings", tags={  })
+    @ApiOperation(value = "Update your status", tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Success.", response = JsonSuccessBase.class) })
-    public JsonSuccessBase updateNotificationSettings(@QueryParam("enable_stream_desktop_notifications") Boolean enableStreamDesktopNotifications, @QueryParam("enable_stream_email_notifications") Boolean enableStreamEmailNotifications, @QueryParam("enable_stream_push_notifications") Boolean enableStreamPushNotifications, @QueryParam("enable_stream_audible_notifications") Boolean enableStreamAudibleNotifications, @QueryParam("notification_sound") String notificationSound, @QueryParam("enable_desktop_notifications") Boolean enableDesktopNotifications, @QueryParam("enable_sounds") Boolean enableSounds, @QueryParam("enable_offline_email_notifications") Boolean enableOfflineEmailNotifications, @QueryParam("enable_offline_push_notifications") Boolean enableOfflinePushNotifications, @QueryParam("enable_online_push_notifications") Boolean enableOnlinePushNotifications, @QueryParam("enable_digest_emails") Boolean enableDigestEmails, @QueryParam("enable_marketing_emails") Boolean enableMarketingEmails, @QueryParam("enable_login_emails") Boolean enableLoginEmails, @QueryParam("message_content_in_email_notifications") Boolean messageContentInEmailNotifications, @QueryParam("pm_content_in_desktop_notifications") Boolean pmContentInDesktopNotifications, @QueryParam("wildcard_mentions_notify") Boolean wildcardMentionsNotify, @QueryParam("desktop_icon_count_display") Integer desktopIconCountDisplay, @QueryParam("realm_name_in_notifications") Boolean realmNameInNotifications, @QueryParam("presence_enabled") Boolean presenceEnabled);
+        @ApiResponse(code = 200, message = "Success.", response = JsonSuccess.class),
+        @ApiResponse(code = 400, message = "Success.", response = OneOfobjectobjectobjectobjectobjectobject.class) })
+    public JsonSuccess updateStatus(@QueryParam("status_text") String statusText, @QueryParam("away") Boolean away, @QueryParam("emoji_name") String emojiName, @QueryParam("emoji_code") String emojiCode, @QueryParam("reaction_type") String reactionType);
 
     /**
      * Update a user

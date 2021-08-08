@@ -6,9 +6,11 @@ All URIs are relative to *https://example.zulipchat.com/api/v1*
 | ------ | ------------ | ----------- |
 | [**archive_stream**](StreamsApi.md#archive_stream) | **DELETE** /streams/{stream_id} | Archive a stream |
 | [**create_big_blue_button_video_call**](StreamsApi.md#create_big_blue_button_video_call) | **GET** /calls/bigbluebutton/create | Create BigBlueButton video call |
+| [**delete_topic**](StreamsApi.md#delete_topic) | **POST** /streams/{stream_id}/delete_topic | Delete a topic |
 | [**get_stream_id**](StreamsApi.md#get_stream_id) | **GET** /get_stream_id | Get stream ID |
 | [**get_stream_topics**](StreamsApi.md#get_stream_topics) | **GET** /users/me/{stream_id}/topics | Get topics in a stream |
 | [**get_streams**](StreamsApi.md#get_streams) | **GET** /streams | Get all streams |
+| [**get_subscribers**](StreamsApi.md#get_subscribers) | **GET** /streams/{stream_id}/members | Get the subscribers of a stream |
 | [**get_subscription_status**](StreamsApi.md#get_subscription_status) | **GET** /users/{user_id}/subscriptions/{stream_id} | Get subscription status |
 | [**get_subscriptions**](StreamsApi.md#get_subscriptions) | **GET** /users/me/subscriptions | Get subscribed streams |
 | [**mute_topic**](StreamsApi.md#mute_topic) | **PATCH** /users/me/subscriptions/muted_topics | Topic muting |
@@ -133,6 +135,72 @@ This endpoint does not need any parameter.
 ### Return type
 
 [**JsonSuccessBase**](JsonSuccessBase.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+## delete_topic
+
+> <JsonSuccess> delete_topic(stream_id, topic_name)
+
+Delete a topic
+
+Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+
+### Examples
+
+```ruby
+require 'time'
+require 'openapi_client'
+
+api_instance = OpenapiClient::StreamsApi.new
+stream_id = 1 # Integer | The ID of the stream to access. 
+topic_name = 'new coffee machine' # String | The name of the topic to delete. 
+
+begin
+  # Delete a topic
+  result = api_instance.delete_topic(stream_id, topic_name)
+  p result
+rescue OpenapiClient::ApiError => e
+  puts "Error when calling StreamsApi->delete_topic: #{e}"
+end
+```
+
+#### Using the delete_topic_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(<JsonSuccess>, Integer, Hash)> delete_topic_with_http_info(stream_id, topic_name)
+
+```ruby
+begin
+  # Delete a topic
+  data, status_code, headers = api_instance.delete_topic_with_http_info(stream_id, topic_name)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => <JsonSuccess>
+rescue OpenapiClient::ApiError => e
+  puts "Error when calling StreamsApi->delete_topic_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **stream_id** | **Integer** | The ID of the stream to access.  |  |
+| **topic_name** | **String** | The name of the topic to delete.  |  |
+
+### Return type
+
+[**JsonSuccess**](JsonSuccess.md)
 
 ### Authorization
 
@@ -333,6 +401,70 @@ end
 | **include_all_active** | **Boolean** | Include all active streams. The user must have administrative privileges to use this parameter.  | [optional][default to false] |
 | **include_default** | **Boolean** | Include all default streams for the user&#39;s realm.  | [optional][default to false] |
 | **include_owner_subscribed** | **Boolean** | If the user is a bot, include all streams that the bot&#39;s owner is subscribed to.  | [optional][default to false] |
+
+### Return type
+
+[**JsonSuccessBase**](JsonSuccessBase.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+## get_subscribers
+
+> <JsonSuccessBase> get_subscribers(stream_id)
+
+Get the subscribers of a stream
+
+Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` 
+
+### Examples
+
+```ruby
+require 'time'
+require 'openapi_client'
+
+api_instance = OpenapiClient::StreamsApi.new
+stream_id = 1 # Integer | The ID of the stream to access. 
+
+begin
+  # Get the subscribers of a stream
+  result = api_instance.get_subscribers(stream_id)
+  p result
+rescue OpenapiClient::ApiError => e
+  puts "Error when calling StreamsApi->get_subscribers: #{e}"
+end
+```
+
+#### Using the get_subscribers_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(<JsonSuccessBase>, Integer, Hash)> get_subscribers_with_http_info(stream_id)
+
+```ruby
+begin
+  # Get the subscribers of a stream
+  data, status_code, headers = api_instance.get_subscribers_with_http_info(stream_id)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => <JsonSuccessBase>
+rescue OpenapiClient::ApiError => e
+  puts "Error when calling StreamsApi->get_subscribers_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **stream_id** | **Integer** | The ID of the stream to access.  |  |
 
 ### Return type
 

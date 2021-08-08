@@ -41,6 +41,10 @@ const ID_ENCODE_SET: &AsciiSet = &FRAGMENT_ENCODE_SET.add(b'|');
 use crate::{Api,
      DevFetchApiKeyResponse,
      FetchApiKeyResponse,
+     CreateDraftsResponse,
+     DeleteDraftResponse,
+     EditDraftResponse,
+     GetDraftsResponse,
      AddReactionResponse,
      CheckMessagesMatchNarrowResponse,
      DeleteMessageResponse,
@@ -76,9 +80,11 @@ use crate::{Api,
      UploadCustomEmojiResponse,
      ArchiveStreamResponse,
      CreateBigBlueButtonVideoCallResponse,
+     DeleteTopicResponse,
      GetStreamIdResponse,
      GetStreamTopicsResponse,
      GetStreamsResponse,
+     GetSubscribersResponse,
      GetSubscriptionStatusResponse,
      GetSubscriptionsResponse,
      MuteTopicResponse,
@@ -103,8 +109,8 @@ use crate::{Api,
      RemoveUserGroupResponse,
      SetTypingStatusResponse,
      UnmuteUserResponse,
-     UpdateDisplaySettingsResponse,
-     UpdateNotificationSettingsResponse,
+     UpdateSettingsResponse,
+     UpdateStatusResponse,
      UpdateUserResponse,
      UpdateUserGroupResponse,
      UpdateUserGroupMembersResponse,
@@ -588,6 +594,360 @@ impl<S, C> Api<C> for Client<S, C> where
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
                 let body = serde_json::from_str::<ApiKeyResponse>(body)?;
                 Ok(FetchApiKeyResponse::ValidCredentialsTheClientCanUseToAccessTheZulipAPI
+                    (body)
+                )
+            }
+            code => {
+                let headers = response.headers().clone();
+                let body = response.into_body()
+                       .take(100)
+                       .to_raw().await;
+                Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
+                    code,
+                    headers,
+                    match body {
+                        Ok(body) => match String::from_utf8(body) {
+                            Ok(body) => body,
+                            Err(e) => format!("<Body was not UTF8: {:?}>", e),
+                        },
+                        Err(e) => format!("<Failed to read body: {}>", e),
+                    }
+                )))
+            }
+        }
+    }
+
+    async fn create_drafts(
+        &self,
+        param_drafts: Option<&Vec<models::Draft>>,
+        context: &C) -> Result<CreateDraftsResponse, ApiError>
+    {
+        let mut client_service = self.client_service.clone();
+        let mut uri = format!(
+            "{}/api/v1/drafts",
+            self.base_path
+        );
+
+        // Query parameters
+        let query_string = {
+            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
+            if let Some(param_drafts) = param_drafts {
+                query_string.append_pair("drafts",
+                    &match serde_json::to_string(&param_drafts) {
+                        Ok(str) => str,
+                        Err(e) => return Err(ApiError(format!("Unable to serialize drafts to string: {}", e))),
+                    });
+            }
+            query_string.finish()
+        };
+        if !query_string.is_empty() {
+            uri += "?";
+            uri += &query_string;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Err(ApiError(format!("Unable to build URI: {}", err))),
+        };
+
+        let mut request = match Request::builder()
+            .method("POST")
+            .uri(uri)
+            .body(Body::empty()) {
+                Ok(req) => req,
+                Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
+        };
+
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
+            Ok(h) => h,
+            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
+        });
+
+        let mut response = client_service.call((request, context.clone()))
+            .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
+
+        match response.status().as_u16() {
+            200 => {
+                let body = response.into_body();
+                let body = body
+                        .to_raw()
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
+                let body = str::from_utf8(&body)
+                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
+                let body = serde_json::from_str::<JsonSuccess>(body)?;
+                Ok(CreateDraftsResponse::Success
+                    (body)
+                )
+            }
+            400 => {
+                let body = response.into_body();
+                let body = body
+                        .to_raw()
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
+                let body = str::from_utf8(&body)
+                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
+                let body = serde_json::from_str::<CodedError>(body)?;
+                Ok(CreateDraftsResponse::BadRequest
+                    (body)
+                )
+            }
+            code => {
+                let headers = response.headers().clone();
+                let body = response.into_body()
+                       .take(100)
+                       .to_raw().await;
+                Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
+                    code,
+                    headers,
+                    match body {
+                        Ok(body) => match String::from_utf8(body) {
+                            Ok(body) => body,
+                            Err(e) => format!("<Body was not UTF8: {:?}>", e),
+                        },
+                        Err(e) => format!("<Failed to read body: {}>", e),
+                    }
+                )))
+            }
+        }
+    }
+
+    async fn delete_draft(
+        &self,
+        param_draft_id: i32,
+        context: &C) -> Result<DeleteDraftResponse, ApiError>
+    {
+        let mut client_service = self.client_service.clone();
+        let mut uri = format!(
+            "{}/api/v1/drafts/{draft_id}",
+            self.base_path
+            ,draft_id=utf8_percent_encode(&param_draft_id.to_string(), ID_ENCODE_SET)
+        );
+
+        // Query parameters
+        let query_string = {
+            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
+            query_string.finish()
+        };
+        if !query_string.is_empty() {
+            uri += "?";
+            uri += &query_string;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Err(ApiError(format!("Unable to build URI: {}", err))),
+        };
+
+        let mut request = match Request::builder()
+            .method("DELETE")
+            .uri(uri)
+            .body(Body::empty()) {
+                Ok(req) => req,
+                Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
+        };
+
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
+            Ok(h) => h,
+            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
+        });
+
+        let mut response = client_service.call((request, context.clone()))
+            .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
+
+        match response.status().as_u16() {
+            200 => {
+                let body = response.into_body();
+                let body = body
+                        .to_raw()
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
+                let body = str::from_utf8(&body)
+                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
+                let body = serde_json::from_str::<JsonSuccess>(body)?;
+                Ok(DeleteDraftResponse::Success
+                    (body)
+                )
+            }
+            404 => {
+                let body = response.into_body();
+                let body = body
+                        .to_raw()
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
+                let body = str::from_utf8(&body)
+                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
+                let body = serde_json::from_str::<JsonError>(body)?;
+                Ok(DeleteDraftResponse::NotFound
+                    (body)
+                )
+            }
+            code => {
+                let headers = response.headers().clone();
+                let body = response.into_body()
+                       .take(100)
+                       .to_raw().await;
+                Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
+                    code,
+                    headers,
+                    match body {
+                        Ok(body) => match String::from_utf8(body) {
+                            Ok(body) => body,
+                            Err(e) => format!("<Body was not UTF8: {:?}>", e),
+                        },
+                        Err(e) => format!("<Failed to read body: {}>", e),
+                    }
+                )))
+            }
+        }
+    }
+
+    async fn edit_draft(
+        &self,
+        param_draft_id: i32,
+        param_draft: models::Draft,
+        context: &C) -> Result<EditDraftResponse, ApiError>
+    {
+        let mut client_service = self.client_service.clone();
+        let mut uri = format!(
+            "{}/api/v1/drafts/{draft_id}",
+            self.base_path
+            ,draft_id=utf8_percent_encode(&param_draft_id.to_string(), ID_ENCODE_SET)
+        );
+
+        // Query parameters
+        let query_string = {
+            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
+                query_string.append_pair("draft",
+                    &match serde_json::to_string(&param_draft) {
+                        Ok(str) => str,
+                        Err(e) => return Err(ApiError(format!("Unable to serialize draft to string: {}", e))),
+                    });
+            query_string.finish()
+        };
+        if !query_string.is_empty() {
+            uri += "?";
+            uri += &query_string;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Err(ApiError(format!("Unable to build URI: {}", err))),
+        };
+
+        let mut request = match Request::builder()
+            .method("PATCH")
+            .uri(uri)
+            .body(Body::empty()) {
+                Ok(req) => req,
+                Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
+        };
+
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
+            Ok(h) => h,
+            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
+        });
+
+        let mut response = client_service.call((request, context.clone()))
+            .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
+
+        match response.status().as_u16() {
+            200 => {
+                let body = response.into_body();
+                let body = body
+                        .to_raw()
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
+                let body = str::from_utf8(&body)
+                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
+                let body = serde_json::from_str::<JsonSuccess>(body)?;
+                Ok(EditDraftResponse::Success
+                    (body)
+                )
+            }
+            404 => {
+                let body = response.into_body();
+                let body = body
+                        .to_raw()
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
+                let body = str::from_utf8(&body)
+                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
+                let body = serde_json::from_str::<JsonError>(body)?;
+                Ok(EditDraftResponse::NotFound
+                    (body)
+                )
+            }
+            code => {
+                let headers = response.headers().clone();
+                let body = response.into_body()
+                       .take(100)
+                       .to_raw().await;
+                Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
+                    code,
+                    headers,
+                    match body {
+                        Ok(body) => match String::from_utf8(body) {
+                            Ok(body) => body,
+                            Err(e) => format!("<Body was not UTF8: {:?}>", e),
+                        },
+                        Err(e) => format!("<Failed to read body: {}>", e),
+                    }
+                )))
+            }
+        }
+    }
+
+    async fn get_drafts(
+        &self,
+        context: &C) -> Result<GetDraftsResponse, ApiError>
+    {
+        let mut client_service = self.client_service.clone();
+        let mut uri = format!(
+            "{}/api/v1/drafts",
+            self.base_path
+        );
+
+        // Query parameters
+        let query_string = {
+            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
+            query_string.finish()
+        };
+        if !query_string.is_empty() {
+            uri += "?";
+            uri += &query_string;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Err(ApiError(format!("Unable to build URI: {}", err))),
+        };
+
+        let mut request = match Request::builder()
+            .method("GET")
+            .uri(uri)
+            .body(Body::empty()) {
+                Ok(req) => req,
+                Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
+        };
+
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
+            Ok(h) => h,
+            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
+        });
+
+        let mut response = client_service.call((request, context.clone()))
+            .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
+
+        match response.status().as_u16() {
+            200 => {
+                let body = response.into_body();
+                let body = body
+                        .to_raw()
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
+                let body = str::from_utf8(&body)
+                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
+                let body = serde_json::from_str::<JsonSuccess>(body)?;
+                Ok(GetDraftsResponse::Success
                     (body)
                 )
             }
@@ -3785,6 +4145,98 @@ impl<S, C> Api<C> for Client<S, C> where
         }
     }
 
+    async fn delete_topic(
+        &self,
+        param_stream_id: i32,
+        param_topic_name: String,
+        context: &C) -> Result<DeleteTopicResponse, ApiError>
+    {
+        let mut client_service = self.client_service.clone();
+        let mut uri = format!(
+            "{}/api/v1/streams/{stream_id}/delete_topic",
+            self.base_path
+            ,stream_id=utf8_percent_encode(&param_stream_id.to_string(), ID_ENCODE_SET)
+        );
+
+        // Query parameters
+        let query_string = {
+            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
+                query_string.append_pair("topic_name",
+                    &param_topic_name.to_string());
+            query_string.finish()
+        };
+        if !query_string.is_empty() {
+            uri += "?";
+            uri += &query_string;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Err(ApiError(format!("Unable to build URI: {}", err))),
+        };
+
+        let mut request = match Request::builder()
+            .method("POST")
+            .uri(uri)
+            .body(Body::empty()) {
+                Ok(req) => req,
+                Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
+        };
+
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
+            Ok(h) => h,
+            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
+        });
+
+        let mut response = client_service.call((request, context.clone()))
+            .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
+
+        match response.status().as_u16() {
+            200 => {
+                let body = response.into_body();
+                let body = body
+                        .to_raw()
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
+                let body = str::from_utf8(&body)
+                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
+                let body = serde_json::from_str::<JsonSuccess>(body)?;
+                Ok(DeleteTopicResponse::Success
+                    (body)
+                )
+            }
+            400 => {
+                let body = response.into_body();
+                let body = body
+                        .to_raw()
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
+                let body = str::from_utf8(&body)
+                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
+                let body = serde_json::from_str::<JsonError>(body)?;
+                Ok(DeleteTopicResponse::Error
+                    (body)
+                )
+            }
+            code => {
+                let headers = response.headers().clone();
+                let body = response.into_body()
+                       .take(100)
+                       .to_raw().await;
+                Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
+                    code,
+                    headers,
+                    match body {
+                        Ok(body) => match String::from_utf8(body) {
+                            Ok(body) => body,
+                            Err(e) => format!("<Body was not UTF8: {:?}>", e),
+                        },
+                        Err(e) => format!("<Failed to read body: {}>", e),
+                    }
+                )))
+            }
+        }
+    }
+
     async fn get_stream_id(
         &self,
         param_stream: String,
@@ -4058,6 +4510,95 @@ impl<S, C> Api<C> for Client<S, C> where
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
                 let body = serde_json::from_str::<CodedError>(body)?;
                 Ok(GetStreamsResponse::BadRequest
+                    (body)
+                )
+            }
+            code => {
+                let headers = response.headers().clone();
+                let body = response.into_body()
+                       .take(100)
+                       .to_raw().await;
+                Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
+                    code,
+                    headers,
+                    match body {
+                        Ok(body) => match String::from_utf8(body) {
+                            Ok(body) => body,
+                            Err(e) => format!("<Body was not UTF8: {:?}>", e),
+                        },
+                        Err(e) => format!("<Failed to read body: {}>", e),
+                    }
+                )))
+            }
+        }
+    }
+
+    async fn get_subscribers(
+        &self,
+        param_stream_id: i32,
+        context: &C) -> Result<GetSubscribersResponse, ApiError>
+    {
+        let mut client_service = self.client_service.clone();
+        let mut uri = format!(
+            "{}/api/v1/streams/{stream_id}/members",
+            self.base_path
+            ,stream_id=utf8_percent_encode(&param_stream_id.to_string(), ID_ENCODE_SET)
+        );
+
+        // Query parameters
+        let query_string = {
+            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
+            query_string.finish()
+        };
+        if !query_string.is_empty() {
+            uri += "?";
+            uri += &query_string;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Err(ApiError(format!("Unable to build URI: {}", err))),
+        };
+
+        let mut request = match Request::builder()
+            .method("GET")
+            .uri(uri)
+            .body(Body::empty()) {
+                Ok(req) => req,
+                Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
+        };
+
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
+            Ok(h) => h,
+            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
+        });
+
+        let mut response = client_service.call((request, context.clone()))
+            .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
+
+        match response.status().as_u16() {
+            200 => {
+                let body = response.into_body();
+                let body = body
+                        .to_raw()
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
+                let body = str::from_utf8(&body)
+                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
+                let body = serde_json::from_str::<JsonSuccessBase>(body)?;
+                Ok(GetSubscribersResponse::Success
+                    (body)
+                )
+            }
+            400 => {
+                let body = response.into_body();
+                let body = body
+                        .to_raw()
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
+                let body = str::from_utf8(&body)
+                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
+                let body = serde_json::from_str::<JsonError>(body)?;
+                Ok(GetSubscribersResponse::BadRequest
                     (body)
                 )
             }
@@ -6253,14 +6794,19 @@ impl<S, C> Api<C> for Client<S, C> where
         }
     }
 
-    async fn update_display_settings(
+    async fn update_settings(
         &self,
+        param_full_name: Option<String>,
+        param_email: Option<String>,
+        param_old_password: Option<String>,
+        param_new_password: Option<String>,
         param_twenty_four_hour_time: Option<bool>,
         param_dense_mode: Option<bool>,
         param_starred_message_counts: Option<bool>,
         param_fluid_layout_width: Option<bool>,
         param_high_contrast_mode: Option<bool>,
         param_color_scheme: Option<i32>,
+        param_enable_drafts_synchronization: Option<bool>,
         param_translate_emoticons: Option<bool>,
         param_default_language: Option<String>,
         param_default_view: Option<String>,
@@ -6268,17 +6814,54 @@ impl<S, C> Api<C> for Client<S, C> where
         param_emojiset: Option<String>,
         param_demote_inactive_streams: Option<i32>,
         param_timezone: Option<String>,
-        context: &C) -> Result<UpdateDisplaySettingsResponse, ApiError>
+        param_enable_stream_desktop_notifications: Option<bool>,
+        param_enable_stream_email_notifications: Option<bool>,
+        param_enable_stream_push_notifications: Option<bool>,
+        param_enable_stream_audible_notifications: Option<bool>,
+        param_notification_sound: Option<String>,
+        param_enable_desktop_notifications: Option<bool>,
+        param_enable_sounds: Option<bool>,
+        param_email_notifications_batching_period_seconds: Option<i32>,
+        param_enable_offline_email_notifications: Option<bool>,
+        param_enable_offline_push_notifications: Option<bool>,
+        param_enable_online_push_notifications: Option<bool>,
+        param_enable_digest_emails: Option<bool>,
+        param_enable_marketing_emails: Option<bool>,
+        param_enable_login_emails: Option<bool>,
+        param_message_content_in_email_notifications: Option<bool>,
+        param_pm_content_in_desktop_notifications: Option<bool>,
+        param_wildcard_mentions_notify: Option<bool>,
+        param_desktop_icon_count_display: Option<i32>,
+        param_realm_name_in_notifications: Option<bool>,
+        param_presence_enabled: Option<bool>,
+        param_enter_sends: Option<bool>,
+        context: &C) -> Result<UpdateSettingsResponse, ApiError>
     {
         let mut client_service = self.client_service.clone();
         let mut uri = format!(
-            "{}/api/v1/settings/display",
+            "{}/api/v1/settings",
             self.base_path
         );
 
         // Query parameters
         let query_string = {
             let mut query_string = form_urlencoded::Serializer::new("".to_owned());
+            if let Some(param_full_name) = param_full_name {
+                query_string.append_pair("full_name",
+                    &param_full_name.to_string());
+            }
+            if let Some(param_email) = param_email {
+                query_string.append_pair("email",
+                    &param_email.to_string());
+            }
+            if let Some(param_old_password) = param_old_password {
+                query_string.append_pair("old_password",
+                    &param_old_password.to_string());
+            }
+            if let Some(param_new_password) = param_new_password {
+                query_string.append_pair("new_password",
+                    &param_new_password.to_string());
+            }
             if let Some(param_twenty_four_hour_time) = param_twenty_four_hour_time {
                 query_string.append_pair("twenty_four_hour_time",
                     &param_twenty_four_hour_time.to_string());
@@ -6305,6 +6888,10 @@ impl<S, C> Api<C> for Client<S, C> where
                         Ok(str) => str,
                         Err(e) => return Err(ApiError(format!("Unable to serialize color_scheme to string: {}", e))),
                     });
+            }
+            if let Some(param_enable_drafts_synchronization) = param_enable_drafts_synchronization {
+                query_string.append_pair("enable_drafts_synchronization",
+                    &param_enable_drafts_synchronization.to_string());
             }
             if let Some(param_translate_emoticons) = param_translate_emoticons {
                 query_string.append_pair("translate_emoticons",
@@ -6337,100 +6924,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 query_string.append_pair("timezone",
                     &param_timezone.to_string());
             }
-            query_string.finish()
-        };
-        if !query_string.is_empty() {
-            uri += "?";
-            uri += &query_string;
-        }
-
-        let uri = match Uri::from_str(&uri) {
-            Ok(uri) => uri,
-            Err(err) => return Err(ApiError(format!("Unable to build URI: {}", err))),
-        };
-
-        let mut request = match Request::builder()
-            .method("PATCH")
-            .uri(uri)
-            .body(Body::empty()) {
-                Ok(req) => req,
-                Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
-        };
-
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
-        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
-            Ok(h) => h,
-            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
-        });
-
-        let mut response = client_service.call((request, context.clone()))
-            .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
-
-        match response.status().as_u16() {
-            200 => {
-                let body = response.into_body();
-                let body = body
-                        .to_raw()
-                        .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
-                let body = str::from_utf8(&body)
-                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
-                let body = serde_json::from_str::<JsonSuccessBase>(body)?;
-                Ok(UpdateDisplaySettingsResponse::Success
-                    (body)
-                )
-            }
-            code => {
-                let headers = response.headers().clone();
-                let body = response.into_body()
-                       .take(100)
-                       .to_raw().await;
-                Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
-                    code,
-                    headers,
-                    match body {
-                        Ok(body) => match String::from_utf8(body) {
-                            Ok(body) => body,
-                            Err(e) => format!("<Body was not UTF8: {:?}>", e),
-                        },
-                        Err(e) => format!("<Failed to read body: {}>", e),
-                    }
-                )))
-            }
-        }
-    }
-
-    async fn update_notification_settings(
-        &self,
-        param_enable_stream_desktop_notifications: Option<bool>,
-        param_enable_stream_email_notifications: Option<bool>,
-        param_enable_stream_push_notifications: Option<bool>,
-        param_enable_stream_audible_notifications: Option<bool>,
-        param_notification_sound: Option<String>,
-        param_enable_desktop_notifications: Option<bool>,
-        param_enable_sounds: Option<bool>,
-        param_enable_offline_email_notifications: Option<bool>,
-        param_enable_offline_push_notifications: Option<bool>,
-        param_enable_online_push_notifications: Option<bool>,
-        param_enable_digest_emails: Option<bool>,
-        param_enable_marketing_emails: Option<bool>,
-        param_enable_login_emails: Option<bool>,
-        param_message_content_in_email_notifications: Option<bool>,
-        param_pm_content_in_desktop_notifications: Option<bool>,
-        param_wildcard_mentions_notify: Option<bool>,
-        param_desktop_icon_count_display: Option<i32>,
-        param_realm_name_in_notifications: Option<bool>,
-        param_presence_enabled: Option<bool>,
-        context: &C) -> Result<UpdateNotificationSettingsResponse, ApiError>
-    {
-        let mut client_service = self.client_service.clone();
-        let mut uri = format!(
-            "{}/api/v1/settings/notifications",
-            self.base_path
-        );
-
-        // Query parameters
-        let query_string = {
-            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
             if let Some(param_enable_stream_desktop_notifications) = param_enable_stream_desktop_notifications {
                 query_string.append_pair("enable_stream_desktop_notifications",
                     &param_enable_stream_desktop_notifications.to_string());
@@ -6458,6 +6951,10 @@ impl<S, C> Api<C> for Client<S, C> where
             if let Some(param_enable_sounds) = param_enable_sounds {
                 query_string.append_pair("enable_sounds",
                     &param_enable_sounds.to_string());
+            }
+            if let Some(param_email_notifications_batching_period_seconds) = param_email_notifications_batching_period_seconds {
+                query_string.append_pair("email_notifications_batching_period_seconds",
+                    &param_email_notifications_batching_period_seconds.to_string());
             }
             if let Some(param_enable_offline_email_notifications) = param_enable_offline_email_notifications {
                 query_string.append_pair("enable_offline_email_notifications",
@@ -6510,6 +7007,10 @@ impl<S, C> Api<C> for Client<S, C> where
                 query_string.append_pair("presence_enabled",
                     &param_presence_enabled.to_string());
             }
+            if let Some(param_enter_sends) = param_enter_sends {
+                query_string.append_pair("enter_sends",
+                    &param_enter_sends.to_string());
+            }
             query_string.finish()
         };
         if !query_string.is_empty() {
@@ -6548,7 +7049,119 @@ impl<S, C> Api<C> for Client<S, C> where
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
                 let body = serde_json::from_str::<JsonSuccessBase>(body)?;
-                Ok(UpdateNotificationSettingsResponse::Success
+                Ok(UpdateSettingsResponse::Success
+                    (body)
+                )
+            }
+            code => {
+                let headers = response.headers().clone();
+                let body = response.into_body()
+                       .take(100)
+                       .to_raw().await;
+                Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
+                    code,
+                    headers,
+                    match body {
+                        Ok(body) => match String::from_utf8(body) {
+                            Ok(body) => body,
+                            Err(e) => format!("<Body was not UTF8: {:?}>", e),
+                        },
+                        Err(e) => format!("<Failed to read body: {}>", e),
+                    }
+                )))
+            }
+        }
+    }
+
+    async fn update_status(
+        &self,
+        param_status_text: Option<String>,
+        param_away: Option<bool>,
+        param_emoji_name: Option<String>,
+        param_emoji_code: Option<String>,
+        param_reaction_type: Option<String>,
+        context: &C) -> Result<UpdateStatusResponse, ApiError>
+    {
+        let mut client_service = self.client_service.clone();
+        let mut uri = format!(
+            "{}/api/v1/users/me/status",
+            self.base_path
+        );
+
+        // Query parameters
+        let query_string = {
+            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
+            if let Some(param_status_text) = param_status_text {
+                query_string.append_pair("status_text",
+                    &param_status_text.to_string());
+            }
+            if let Some(param_away) = param_away {
+                query_string.append_pair("away",
+                    &param_away.to_string());
+            }
+            if let Some(param_emoji_name) = param_emoji_name {
+                query_string.append_pair("emoji_name",
+                    &param_emoji_name.to_string());
+            }
+            if let Some(param_emoji_code) = param_emoji_code {
+                query_string.append_pair("emoji_code",
+                    &param_emoji_code.to_string());
+            }
+            if let Some(param_reaction_type) = param_reaction_type {
+                query_string.append_pair("reaction_type",
+                    &param_reaction_type.to_string());
+            }
+            query_string.finish()
+        };
+        if !query_string.is_empty() {
+            uri += "?";
+            uri += &query_string;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Err(ApiError(format!("Unable to build URI: {}", err))),
+        };
+
+        let mut request = match Request::builder()
+            .method("POST")
+            .uri(uri)
+            .body(Body::empty()) {
+                Ok(req) => req,
+                Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
+        };
+
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
+            Ok(h) => h,
+            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
+        });
+
+        let mut response = client_service.call((request, context.clone()))
+            .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
+
+        match response.status().as_u16() {
+            200 => {
+                let body = response.into_body();
+                let body = body
+                        .to_raw()
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
+                let body = str::from_utf8(&body)
+                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
+                let body = serde_json::from_str::<JsonSuccess>(body)?;
+                Ok(UpdateStatusResponse::Success
+                    (body)
+                )
+            }
+            400 => {
+                let body = response.into_body();
+                let body = body
+                        .to_raw()
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
+                let body = str::from_utf8(&body)
+                    .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
+                let body = serde_json::from_str::<swagger::OneOf6<CodedError,CodedError,CodedError,CodedError,CodedError,CodedError>>(body)?;
+                Ok(UpdateStatusResponse::Success_2
                     (body)
                 )
             }

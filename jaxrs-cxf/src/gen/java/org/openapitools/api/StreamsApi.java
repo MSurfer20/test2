@@ -65,6 +65,21 @@ public interface StreamsApi  {
     public JsonSuccessBase createBigBlueButtonVideoCall();
 
     /**
+     * Delete a topic
+     *
+     * Delete all messages in a topic.  &#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+     *
+     */
+    @POST
+    @Path("/streams/{stream_id}/delete_topic")
+    @Produces({ "application/json" })
+    @ApiOperation(value = "Delete a topic", tags={ "streams" })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Success.", response = JsonSuccess.class),
+        @ApiResponse(code = 400, message = "Error.", response = JsonError.class) })
+    public JsonSuccess deleteTopic(@PathParam("stream_id") Integer streamId, @QueryParam("topic_name") @NotNull  String topicName);
+
+    /**
      * Get stream ID
      *
      * Get the unique ID of a given stream.  &#x60;GET {{ api_url }}/v1/get_stream_id&#x60; 
@@ -108,6 +123,21 @@ public interface StreamsApi  {
         @ApiResponse(code = 200, message = "Success.", response = JsonSuccessBase.class),
         @ApiResponse(code = 400, message = "Bad request.", response = CodedError.class) })
     public JsonSuccessBase getStreams(@QueryParam("include_public")  @DefaultValue("true")Boolean includePublic, @QueryParam("include_web_public")  @DefaultValue("false")Boolean includeWebPublic, @QueryParam("include_subscribed")  @DefaultValue("true")Boolean includeSubscribed, @QueryParam("include_all_active")  @DefaultValue("false")Boolean includeAllActive, @QueryParam("include_default")  @DefaultValue("false")Boolean includeDefault, @QueryParam("include_owner_subscribed")  @DefaultValue("false")Boolean includeOwnerSubscribed);
+
+    /**
+     * Get the subscribers of a stream
+     *
+     * Get all users subscribed to a stream.  &#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60; 
+     *
+     */
+    @GET
+    @Path("/streams/{stream_id}/members")
+    @Produces({ "application/json" })
+    @ApiOperation(value = "Get the subscribers of a stream", tags={ "streams" })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Success.", response = JsonSuccessBase.class),
+        @ApiResponse(code = 400, message = "Bad request.", response = JsonError.class) })
+    public JsonSuccessBase getSubscribers(@PathParam("stream_id") Integer streamId);
 
     /**
      * Get subscription status

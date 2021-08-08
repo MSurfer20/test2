@@ -72,21 +72,21 @@ class ServerAndOrganizationsApiSimulation extends Simulation {
     val scenarioBuilders: mutable.MutableList[PopulationBuilder] = new mutable.MutableList[PopulationBuilder]()
 
     // Set up CSV feeders
-    val add_code_playgroundQUERYFeeder = csv(userDataDirectory + File.separator + "addCodePlayground-queryParams.csv").random
-    val add_linkifierQUERYFeeder = csv(userDataDirectory + File.separator + "addLinkifier-queryParams.csv").random
-    val create_custom_profile_fieldQUERYFeeder = csv(userDataDirectory + File.separator + "createCustomProfileField-queryParams.csv").random
-    val remove_code_playgroundPATHFeeder = csv(userDataDirectory + File.separator + "removeCodePlayground-pathParams.csv").random
-    val remove_linkifierPATHFeeder = csv(userDataDirectory + File.separator + "removeLinkifier-pathParams.csv").random
-    val reorder_custom_profile_fieldsQUERYFeeder = csv(userDataDirectory + File.separator + "reorderCustomProfileFields-queryParams.csv").random
-    val update_linkifierQUERYFeeder = csv(userDataDirectory + File.separator + "updateLinkifier-queryParams.csv").random
-    val update_linkifierPATHFeeder = csv(userDataDirectory + File.separator + "updateLinkifier-pathParams.csv").random
-    val upload_custom_emojiPATHFeeder = csv(userDataDirectory + File.separator + "uploadCustomEmoji-pathParams.csv").random
+    val add-code-playgroundQUERYFeeder = csv(userDataDirectory + File.separator + "addCodePlayground-queryParams.csv").random
+    val add-linkifierQUERYFeeder = csv(userDataDirectory + File.separator + "addLinkifier-queryParams.csv").random
+    val create-custom-profile-fieldQUERYFeeder = csv(userDataDirectory + File.separator + "createCustomProfileField-queryParams.csv").random
+    val remove-code-playgroundPATHFeeder = csv(userDataDirectory + File.separator + "removeCodePlayground-pathParams.csv").random
+    val remove-linkifierPATHFeeder = csv(userDataDirectory + File.separator + "removeLinkifier-pathParams.csv").random
+    val reorder-custom-profile-fieldsQUERYFeeder = csv(userDataDirectory + File.separator + "reorderCustomProfileFields-queryParams.csv").random
+    val update-linkifierQUERYFeeder = csv(userDataDirectory + File.separator + "updateLinkifier-queryParams.csv").random
+    val update-linkifierPATHFeeder = csv(userDataDirectory + File.separator + "updateLinkifier-pathParams.csv").random
+    val upload-custom-emojiPATHFeeder = csv(userDataDirectory + File.separator + "uploadCustomEmoji-pathParams.csv").random
 
     // Setup all scenarios
 
     
     val scnaddCodePlayground = scenario("addCodePlaygroundSimulation")
-        .feed(add_code_playgroundQUERYFeeder)
+        .feed(add-code-playgroundQUERYFeeder)
         .exec(http("addCodePlayground")
         .httpRequest("POST","/realm/playgrounds")
         .queryParam("pygments_language","${pygments_language}")
@@ -103,7 +103,7 @@ class ServerAndOrganizationsApiSimulation extends Simulation {
 
     
     val scnaddLinkifier = scenario("addLinkifierSimulation")
-        .feed(add_linkifierQUERYFeeder)
+        .feed(add-linkifierQUERYFeeder)
         .exec(http("addLinkifier")
         .httpRequest("POST","/realm/filters")
         .queryParam("pattern","${pattern}")
@@ -119,7 +119,7 @@ class ServerAndOrganizationsApiSimulation extends Simulation {
 
     
     val scncreateCustomProfileField = scenario("createCustomProfileFieldSimulation")
-        .feed(create_custom_profile_fieldQUERYFeeder)
+        .feed(create-custom-profile-fieldQUERYFeeder)
         .exec(http("createCustomProfileField")
         .httpRequest("POST","/realm/profile_fields")
         .queryParam("field_type","${field_type}")
@@ -189,7 +189,7 @@ class ServerAndOrganizationsApiSimulation extends Simulation {
 
     
     val scnremoveCodePlayground = scenario("removeCodePlaygroundSimulation")
-        .feed(remove_code_playgroundPATHFeeder)
+        .feed(remove-code-playgroundPATHFeeder)
         .exec(http("removeCodePlayground")
         .httpRequest("DELETE","/realm/playgrounds/${playground_id}")
 )
@@ -203,7 +203,7 @@ class ServerAndOrganizationsApiSimulation extends Simulation {
 
     
     val scnremoveLinkifier = scenario("removeLinkifierSimulation")
-        .feed(remove_linkifierPATHFeeder)
+        .feed(remove-linkifierPATHFeeder)
         .exec(http("removeLinkifier")
         .httpRequest("DELETE","/realm/filters/${filter_id}")
 )
@@ -217,7 +217,7 @@ class ServerAndOrganizationsApiSimulation extends Simulation {
 
     
     val scnreorderCustomProfileFields = scenario("reorderCustomProfileFieldsSimulation")
-        .feed(reorder_custom_profile_fieldsQUERYFeeder)
+        .feed(reorder-custom-profile-fieldsQUERYFeeder)
         .exec(http("reorderCustomProfileFields")
         .httpRequest("PATCH","/realm/profile_fields")
         .queryParam("order","${order}")
@@ -232,8 +232,8 @@ class ServerAndOrganizationsApiSimulation extends Simulation {
 
     
     val scnupdateLinkifier = scenario("updateLinkifierSimulation")
-        .feed(update_linkifierQUERYFeeder)
-        .feed(update_linkifierPATHFeeder)
+        .feed(update-linkifierQUERYFeeder)
+        .feed(update-linkifierPATHFeeder)
         .exec(http("updateLinkifier")
         .httpRequest("PATCH","/realm/filters/${filter_id}")
         .queryParam("pattern","${pattern}")
@@ -249,7 +249,7 @@ class ServerAndOrganizationsApiSimulation extends Simulation {
 
     
     val scnuploadCustomEmoji = scenario("uploadCustomEmojiSimulation")
-        .feed(upload_custom_emojiPATHFeeder)
+        .feed(upload-custom-emojiPATHFeeder)
         .exec(http("uploadCustomEmoji")
         .httpRequest("POST","/realm/emoji/${emoji_name}")
 )

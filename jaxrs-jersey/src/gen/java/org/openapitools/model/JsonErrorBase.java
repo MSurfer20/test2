@@ -32,7 +32,7 @@ import javax.validation.Valid;
   JsonErrorBase.JSON_PROPERTY_RESULT,
   JsonErrorBase.JSON_PROPERTY_MSG
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2021-08-08T20:42:23.370561Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2021-08-08T21:12:13.281187Z[Etc/UTC]")
 public class JsonErrorBase   {
   /**
    * Gets or Sets result

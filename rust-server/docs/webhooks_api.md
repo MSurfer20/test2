@@ -4,11 +4,11 @@ All URIs are relative to *https://example.zulipchat.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-**zulip_outgoing_webhooks**](webhooks_api.md#zulip_outgoing_webhooks) | **POST** /zulip-outgoing-webhook | Outgoing webhooks
+**zulip-outgoing-webhooks**](webhooks_api.md#zulip-outgoing-webhooks) | **POST** /zulip-outgoing-webhook | Outgoing webhooks
 
 
-# **zulip_outgoing_webhooks**
-> models::InlineResponse200 zulip_outgoing_webhooks()
+# **zulip-outgoing-webhooks**
+> models::InlineResponse200 zulip-outgoing-webhooks()
 Outgoing webhooks
 
 Outgoing webhooks allows to build or set up Zulip integrations which are notified when certain types of messages are sent in Zulip. 

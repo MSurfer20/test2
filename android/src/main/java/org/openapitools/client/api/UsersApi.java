@@ -30,6 +30,7 @@ import org.openapitools.client.model.JsonSuccessBase;
 import org.openapitools.client.model.OasAnyTypeNotMapped;
 import org.openapitools.client.model.OneOfobjectobject;
 import org.openapitools.client.model.OneOfobjectobjectobject;
+import org.openapitools.client.model.OneOfobjectobjectobjectobjectobjectobject;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
@@ -2134,28 +2135,54 @@ public class UsersApi {
     }
   }
   /**
-  * Update display settings
-  * This endpoint is used to edit the current user&#39;s user interface settings.  &#x60;PATCH {{ api_url }}/v1/settings/display&#x60; 
-   * @param twentyFourHourTime Whether time should be [displayed in 24-hour notation](/help/change-the-time-format). 
-   * @param denseMode This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip. 
-   * @param starredMessageCounts Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages). 
-   * @param fluidLayoutWidth Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app&#39;s center panel (message feed, recent topics) on wide screens. 
-   * @param highContrastMode This setting is reserved for use to control variations in Zulip&#39;s design to help visually impaired users. 
-   * @param colorScheme Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard &#x60;prefers-color-scheme&#x60; media query. 
-   * @param translateEmoticons Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends. 
-   * @param defaultLanguage What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, &#x60;\&quot;en\&quot;&#x60; for English or &#x60;\&quot;de\&quot;&#x60; for German.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63). 
-   * @param defaultView The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the &#x60;Esc&#x60; keyboard shortcut repeatedly.  * \&quot;recent_topics\&quot; - Recent topics view * \&quot;all_messages\&quot; - All messages view  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). 
-   * @param leftSideUserlist Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked. 
-   * @param emojiset The user&#39;s configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \&quot;google\&quot; - Google modern * \&quot;google-blob\&quot; - Google classic * \&quot;twitter\&quot; - Twitter * \&quot;text\&quot; - Plain text  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). 
-   * @param demoteInactiveStreams Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never 
-   * @param timezone The user&#39;s [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). 
+  * Update settings
+  * This endpoint is used to edit the current user&#39;s settings.  &#x60;PATCH {{ api_url }}/v1/settings&#x60;  **Changes**: Prior to Zulip 5.0 (feature level 80), this endpoint only supported the &#x60;full_name&#x60;, &#x60;email&#x60;, &#x60;old_password&#x60;, and &#x60;new_password&#x60; parameters. Notification settings were managed by &#x60;PATCH /settings/notifications&#x60;, and all other settings by &#x60;PATCH /settings/display&#x60;. The feature level 80 migration to merge these endpoints did not change how request parameters are encoded. Note, however, that it did change the handling of any invalid parameters present in a request to change notification or display settings, since the merged endpoint uses the new response format that was introduced for &#x60;/settings&#x60; in Zulip 5.0 (feature level 78).  The &#x60;/settings/display&#x60; and &#x60;/settings/notifications&#x60; endpoints are now deprecated aliases for this endpoint for backwards-compatibility, and will be removed once clients have migrated to use this endpoint. 
+   * @param fullName A new display name for the user. 
+   * @param email Asks the server to initiate a confirmation sequence to change the user&#39;s email address to the indicated value. The user will need to demonstrate control of the new email address by clicking a confirmation link sent to that address. 
+   * @param oldPassword The user&#39;s old Zulip password (or LDAP password, if LDAP authentication is in use).  Required only when sending the &#x60;new_password&#x60; parameter. 
+   * @param newPassword The user&#39;s new Zulip password (or LDAP password, if LDAP authentication is in use).  The &#x60;old_password&#x60; parameter must be included in the request. 
+   * @param twentyFourHourTime Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. 
+   * @param denseMode This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. 
+   * @param starredMessageCounts Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. 
+   * @param fluidLayoutWidth Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app&#39;s center panel (message feed, recent topics) on wide screens.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. 
+   * @param highContrastMode This setting is reserved for use to control variations in Zulip&#39;s design to help visually impaired users.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. 
+   * @param colorScheme Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard &#x60;prefers-color-scheme&#x60; media query.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. 
+   * @param enableDraftsSynchronization A boolean parameter to control whether synchronizing drafts is enabled for the user. When synchronization is disabled, all drafts stored in the server will be automatically deleted from the server.  This does not do anything (like sending events) to delete local copies of drafts stored in clients.  **Changes**: New in Zulip 5.0 (feature level 87). 
+   * @param translateEmoticons Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. 
+   * @param defaultLanguage What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, &#x60;\&quot;en\&quot;&#x60; for English or &#x60;\&quot;de\&quot;&#x60; for German.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63). 
+   * @param defaultView The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the &#x60;Esc&#x60; keyboard shortcut repeatedly.  * \&quot;recent_topics\&quot; - Recent topics view * \&quot;all_messages\&quot; - All messages view  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). 
+   * @param leftSideUserlist Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. 
+   * @param emojiset The user&#39;s configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \&quot;google\&quot; - Google modern * \&quot;google-blob\&quot; - Google classic * \&quot;twitter\&quot; - Twitter * \&quot;text\&quot; - Plain text  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). 
+   * @param demoteInactiveStreams Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint. 
+   * @param timezone The user&#39;s [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). 
+   * @param enableStreamDesktopNotifications Enable visual desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+   * @param enableStreamEmailNotifications Enable email notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+   * @param enableStreamPushNotifications Enable mobile notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+   * @param enableStreamAudibleNotifications Enable audible desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+   * @param notificationSound Notification sound name.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63). 
+   * @param enableDesktopNotifications Enable visual desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+   * @param enableSounds Enable audible desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+   * @param emailNotificationsBatchingPeriodSeconds The duration (in seconds) for which the server should wait to batch email notifications before sending them.  **Changes**: New in Zulip 5.0 (feature level 82) 
+   * @param enableOfflineEmailNotifications Enable email notifications for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+   * @param enableOfflinePushNotifications Enable mobile notification for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+   * @param enableOnlinePushNotifications Enable mobile notification for private messages and @-mentions received when the user is online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+   * @param enableDigestEmails Enable digest emails when the user is away.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+   * @param enableMarketingEmails Enable marketing emails. Has no function outside Zulip Cloud.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+   * @param enableLoginEmails Enable email notifications for new logins to account.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+   * @param messageContentInEmailNotifications Include the message&#39;s content in email notifications for new messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+   * @param pmContentInDesktopNotifications Include content of private messages in desktop notifications.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+   * @param wildcardMentionsNotify Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+   * @param desktopIconCountDisplay Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+   * @param realmNameInNotifications Include organization name in subject of message notification emails.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+   * @param presenceEnabled Display the presence status to other users when online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint. 
+   * @param enterSends Whether pressing Enter in the compose box sends a message (or saves a message edit).  **Changes**: Before Zulip 5.0 (feature level 81), this setting was managed by the &#x60;POST /users/me/enter-sends&#x60; endpoint, with the same parameter format. 
    * @return JsonSuccessBase
   */
-  public JsonSuccessBase updateDisplaySettings (Boolean twentyFourHourTime, Boolean denseMode, Boolean starredMessageCounts, Boolean fluidLayoutWidth, Boolean highContrastMode, Integer colorScheme, Boolean translateEmoticons, String defaultLanguage, String defaultView, Boolean leftSideUserlist, String emojiset, Integer demoteInactiveStreams, String timezone) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
+  public JsonSuccessBase updateSettings (String fullName, String email, String oldPassword, String newPassword, Boolean twentyFourHourTime, Boolean denseMode, Boolean starredMessageCounts, Boolean fluidLayoutWidth, Boolean highContrastMode, Integer colorScheme, Boolean enableDraftsSynchronization, Boolean translateEmoticons, String defaultLanguage, String defaultView, Boolean leftSideUserlist, String emojiset, Integer demoteInactiveStreams, String timezone, Boolean enableStreamDesktopNotifications, Boolean enableStreamEmailNotifications, Boolean enableStreamPushNotifications, Boolean enableStreamAudibleNotifications, String notificationSound, Boolean enableDesktopNotifications, Boolean enableSounds, Integer emailNotificationsBatchingPeriodSeconds, Boolean enableOfflineEmailNotifications, Boolean enableOfflinePushNotifications, Boolean enableOnlinePushNotifications, Boolean enableDigestEmails, Boolean enableMarketingEmails, Boolean enableLoginEmails, Boolean messageContentInEmailNotifications, Boolean pmContentInDesktopNotifications, Boolean wildcardMentionsNotify, Integer desktopIconCountDisplay, Boolean realmNameInNotifications, Boolean presenceEnabled, Boolean enterSends) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
     Object postBody = null;
 
     // create path and map variables
-    String path = "/settings/display";
+    String path = "/settings";
 
     // query params
     List<Pair> queryParams = new ArrayList<Pair>();
@@ -2163,12 +2190,17 @@ public class UsersApi {
     Map<String, String> headerParams = new HashMap<String, String>();
     // form params
     Map<String, String> formParams = new HashMap<String, String>();
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "full_name", fullName));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "email", email));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "old_password", oldPassword));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "new_password", newPassword));
     queryParams.addAll(ApiInvoker.parameterToPairs("", "twenty_four_hour_time", twentyFourHourTime));
     queryParams.addAll(ApiInvoker.parameterToPairs("", "dense_mode", denseMode));
     queryParams.addAll(ApiInvoker.parameterToPairs("", "starred_message_counts", starredMessageCounts));
     queryParams.addAll(ApiInvoker.parameterToPairs("", "fluid_layout_width", fluidLayoutWidth));
     queryParams.addAll(ApiInvoker.parameterToPairs("", "high_contrast_mode", highContrastMode));
     queryParams.addAll(ApiInvoker.parameterToPairs("", "color_scheme", colorScheme));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "enable_drafts_synchronization", enableDraftsSynchronization));
     queryParams.addAll(ApiInvoker.parameterToPairs("", "translate_emoticons", translateEmoticons));
     queryParams.addAll(ApiInvoker.parameterToPairs("", "default_language", defaultLanguage));
     queryParams.addAll(ApiInvoker.parameterToPairs("", "default_view", defaultView));
@@ -2176,6 +2208,27 @@ public class UsersApi {
     queryParams.addAll(ApiInvoker.parameterToPairs("", "emojiset", emojiset));
     queryParams.addAll(ApiInvoker.parameterToPairs("", "demote_inactive_streams", demoteInactiveStreams));
     queryParams.addAll(ApiInvoker.parameterToPairs("", "timezone", timezone));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "enable_stream_desktop_notifications", enableStreamDesktopNotifications));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "enable_stream_email_notifications", enableStreamEmailNotifications));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "enable_stream_push_notifications", enableStreamPushNotifications));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "enable_stream_audible_notifications", enableStreamAudibleNotifications));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "notification_sound", notificationSound));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "enable_desktop_notifications", enableDesktopNotifications));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "enable_sounds", enableSounds));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "email_notifications_batching_period_seconds", emailNotificationsBatchingPeriodSeconds));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "enable_offline_email_notifications", enableOfflineEmailNotifications));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "enable_offline_push_notifications", enableOfflinePushNotifications));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "enable_online_push_notifications", enableOnlinePushNotifications));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "enable_digest_emails", enableDigestEmails));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "enable_marketing_emails", enableMarketingEmails));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "enable_login_emails", enableLoginEmails));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "message_content_in_email_notifications", messageContentInEmailNotifications));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "pm_content_in_desktop_notifications", pmContentInDesktopNotifications));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "wildcard_mentions_notify", wildcardMentionsNotify));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "desktop_icon_count_display", desktopIconCountDisplay));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "realm_name_in_notifications", realmNameInNotifications));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "presence_enabled", presenceEnabled));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "enter_sends", enterSends));
     String[] contentTypes = {
     };
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
@@ -2216,16 +2269,16 @@ public class UsersApi {
   }
 
       /**
-   * Update display settings
-   * This endpoint is used to edit the current user&#39;s user interface settings.  &#x60;PATCH {{ api_url }}/v1/settings/display&#x60; 
-   * @param twentyFourHourTime Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).    * @param denseMode This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip.    * @param starredMessageCounts Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages).    * @param fluidLayoutWidth Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app&#39;s center panel (message feed, recent topics) on wide screens.    * @param highContrastMode This setting is reserved for use to control variations in Zulip&#39;s design to help visually impaired users.    * @param colorScheme Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard &#x60;prefers-color-scheme&#x60; media query.    * @param translateEmoticons Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends.    * @param defaultLanguage What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, &#x60;\&quot;en\&quot;&#x60; for English or &#x60;\&quot;de\&quot;&#x60; for German.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63).    * @param defaultView The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the &#x60;Esc&#x60; keyboard shortcut repeatedly.  * \&quot;recent_topics\&quot; - Recent topics view * \&quot;all_messages\&quot; - All messages view  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64).    * @param leftSideUserlist Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.    * @param emojiset The user&#39;s configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \&quot;google\&quot; - Google modern * \&quot;google-blob\&quot; - Google classic * \&quot;twitter\&quot; - Twitter * \&quot;text\&quot; - Plain text  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64).    * @param demoteInactiveStreams Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never    * @param timezone The user&#39;s [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). 
+   * Update settings
+   * This endpoint is used to edit the current user&#39;s settings.  &#x60;PATCH {{ api_url }}/v1/settings&#x60;  **Changes**: Prior to Zulip 5.0 (feature level 80), this endpoint only supported the &#x60;full_name&#x60;, &#x60;email&#x60;, &#x60;old_password&#x60;, and &#x60;new_password&#x60; parameters. Notification settings were managed by &#x60;PATCH /settings/notifications&#x60;, and all other settings by &#x60;PATCH /settings/display&#x60;. The feature level 80 migration to merge these endpoints did not change how request parameters are encoded. Note, however, that it did change the handling of any invalid parameters present in a request to change notification or display settings, since the merged endpoint uses the new response format that was introduced for &#x60;/settings&#x60; in Zulip 5.0 (feature level 78).  The &#x60;/settings/display&#x60; and &#x60;/settings/notifications&#x60; endpoints are now deprecated aliases for this endpoint for backwards-compatibility, and will be removed once clients have migrated to use this endpoint. 
+   * @param fullName A new display name for the user.    * @param email Asks the server to initiate a confirmation sequence to change the user&#39;s email address to the indicated value. The user will need to demonstrate control of the new email address by clicking a confirmation link sent to that address.    * @param oldPassword The user&#39;s old Zulip password (or LDAP password, if LDAP authentication is in use).  Required only when sending the &#x60;new_password&#x60; parameter.    * @param newPassword The user&#39;s new Zulip password (or LDAP password, if LDAP authentication is in use).  The &#x60;old_password&#x60; parameter must be included in the request.    * @param twentyFourHourTime Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.    * @param denseMode This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.    * @param starredMessageCounts Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.    * @param fluidLayoutWidth Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app&#39;s center panel (message feed, recent topics) on wide screens.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.    * @param highContrastMode This setting is reserved for use to control variations in Zulip&#39;s design to help visually impaired users.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.    * @param colorScheme Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard &#x60;prefers-color-scheme&#x60; media query.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.    * @param enableDraftsSynchronization A boolean parameter to control whether synchronizing drafts is enabled for the user. When synchronization is disabled, all drafts stored in the server will be automatically deleted from the server.  This does not do anything (like sending events) to delete local copies of drafts stored in clients.  **Changes**: New in Zulip 5.0 (feature level 87).    * @param translateEmoticons Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.    * @param defaultLanguage What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, &#x60;\&quot;en\&quot;&#x60; for English or &#x60;\&quot;de\&quot;&#x60; for German.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63).    * @param defaultView The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the &#x60;Esc&#x60; keyboard shortcut repeatedly.  * \&quot;recent_topics\&quot; - Recent topics view * \&quot;all_messages\&quot; - All messages view  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).    * @param leftSideUserlist Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.    * @param emojiset The user&#39;s configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \&quot;google\&quot; - Google modern * \&quot;google-blob\&quot; - Google classic * \&quot;twitter\&quot; - Twitter * \&quot;text\&quot; - Plain text  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).    * @param demoteInactiveStreams Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.    * @param timezone The user&#39;s [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).    * @param enableStreamDesktopNotifications Enable visual desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.    * @param enableStreamEmailNotifications Enable email notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.    * @param enableStreamPushNotifications Enable mobile notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.    * @param enableStreamAudibleNotifications Enable audible desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.    * @param notificationSound Notification sound name.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63).    * @param enableDesktopNotifications Enable visual desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.    * @param enableSounds Enable audible desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.    * @param emailNotificationsBatchingPeriodSeconds The duration (in seconds) for which the server should wait to batch email notifications before sending them.  **Changes**: New in Zulip 5.0 (feature level 82)    * @param enableOfflineEmailNotifications Enable email notifications for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.    * @param enableOfflinePushNotifications Enable mobile notification for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.    * @param enableOnlinePushNotifications Enable mobile notification for private messages and @-mentions received when the user is online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.    * @param enableDigestEmails Enable digest emails when the user is away.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.    * @param enableMarketingEmails Enable marketing emails. Has no function outside Zulip Cloud.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.    * @param enableLoginEmails Enable email notifications for new logins to account.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.    * @param messageContentInEmailNotifications Include the message&#39;s content in email notifications for new messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.    * @param pmContentInDesktopNotifications Include content of private messages in desktop notifications.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.    * @param wildcardMentionsNotify Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.    * @param desktopIconCountDisplay Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.    * @param realmNameInNotifications Include organization name in subject of message notification emails.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.    * @param presenceEnabled Display the presence status to other users when online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.    * @param enterSends Whether pressing Enter in the compose box sends a message (or saves a message edit).  **Changes**: Before Zulip 5.0 (feature level 81), this setting was managed by the &#x60;POST /users/me/enter-sends&#x60; endpoint, with the same parameter format. 
   */
-  public void updateDisplaySettings (Boolean twentyFourHourTime, Boolean denseMode, Boolean starredMessageCounts, Boolean fluidLayoutWidth, Boolean highContrastMode, Integer colorScheme, Boolean translateEmoticons, String defaultLanguage, String defaultView, Boolean leftSideUserlist, String emojiset, Integer demoteInactiveStreams, String timezone, final Response.Listener<JsonSuccessBase> responseListener, final Response.ErrorListener errorListener) {
+  public void updateSettings (String fullName, String email, String oldPassword, String newPassword, Boolean twentyFourHourTime, Boolean denseMode, Boolean starredMessageCounts, Boolean fluidLayoutWidth, Boolean highContrastMode, Integer colorScheme, Boolean enableDraftsSynchronization, Boolean translateEmoticons, String defaultLanguage, String defaultView, Boolean leftSideUserlist, String emojiset, Integer demoteInactiveStreams, String timezone, Boolean enableStreamDesktopNotifications, Boolean enableStreamEmailNotifications, Boolean enableStreamPushNotifications, Boolean enableStreamAudibleNotifications, String notificationSound, Boolean enableDesktopNotifications, Boolean enableSounds, Integer emailNotificationsBatchingPeriodSeconds, Boolean enableOfflineEmailNotifications, Boolean enableOfflinePushNotifications, Boolean enableOnlinePushNotifications, Boolean enableDigestEmails, Boolean enableMarketingEmails, Boolean enableLoginEmails, Boolean messageContentInEmailNotifications, Boolean pmContentInDesktopNotifications, Boolean wildcardMentionsNotify, Integer desktopIconCountDisplay, Boolean realmNameInNotifications, Boolean presenceEnabled, Boolean enterSends, final Response.Listener<JsonSuccessBase> responseListener, final Response.ErrorListener errorListener) {
     Object postBody = null;
 
 
     // create path and map variables
-    String path = "/settings/display".replaceAll("\\{format\\}","json");
+    String path = "/settings".replaceAll("\\{format\\}","json");
 
     // query params
     List<Pair> queryParams = new ArrayList<Pair>();
@@ -2234,12 +2287,17 @@ public class UsersApi {
     // form params
     Map<String, String> formParams = new HashMap<String, String>();
 
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "full_name", fullName));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "email", email));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "old_password", oldPassword));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "new_password", newPassword));
     queryParams.addAll(ApiInvoker.parameterToPairs("", "twenty_four_hour_time", twentyFourHourTime));
     queryParams.addAll(ApiInvoker.parameterToPairs("", "dense_mode", denseMode));
     queryParams.addAll(ApiInvoker.parameterToPairs("", "starred_message_counts", starredMessageCounts));
     queryParams.addAll(ApiInvoker.parameterToPairs("", "fluid_layout_width", fluidLayoutWidth));
     queryParams.addAll(ApiInvoker.parameterToPairs("", "high_contrast_mode", highContrastMode));
     queryParams.addAll(ApiInvoker.parameterToPairs("", "color_scheme", colorScheme));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "enable_drafts_synchronization", enableDraftsSynchronization));
     queryParams.addAll(ApiInvoker.parameterToPairs("", "translate_emoticons", translateEmoticons));
     queryParams.addAll(ApiInvoker.parameterToPairs("", "default_language", defaultLanguage));
     queryParams.addAll(ApiInvoker.parameterToPairs("", "default_view", defaultView));
@@ -2247,6 +2305,27 @@ public class UsersApi {
     queryParams.addAll(ApiInvoker.parameterToPairs("", "emojiset", emojiset));
     queryParams.addAll(ApiInvoker.parameterToPairs("", "demote_inactive_streams", demoteInactiveStreams));
     queryParams.addAll(ApiInvoker.parameterToPairs("", "timezone", timezone));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "enable_stream_desktop_notifications", enableStreamDesktopNotifications));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "enable_stream_email_notifications", enableStreamEmailNotifications));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "enable_stream_push_notifications", enableStreamPushNotifications));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "enable_stream_audible_notifications", enableStreamAudibleNotifications));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "notification_sound", notificationSound));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "enable_desktop_notifications", enableDesktopNotifications));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "enable_sounds", enableSounds));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "email_notifications_batching_period_seconds", emailNotificationsBatchingPeriodSeconds));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "enable_offline_email_notifications", enableOfflineEmailNotifications));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "enable_offline_push_notifications", enableOfflinePushNotifications));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "enable_online_push_notifications", enableOnlinePushNotifications));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "enable_digest_emails", enableDigestEmails));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "enable_marketing_emails", enableMarketingEmails));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "enable_login_emails", enableLoginEmails));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "message_content_in_email_notifications", messageContentInEmailNotifications));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "pm_content_in_desktop_notifications", pmContentInDesktopNotifications));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "wildcard_mentions_notify", wildcardMentionsNotify));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "desktop_icon_count_display", desktopIconCountDisplay));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "realm_name_in_notifications", realmNameInNotifications));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "presence_enabled", presenceEnabled));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "enter_sends", enterSends));
 
 
     String[] contentTypes = {
@@ -2289,34 +2368,20 @@ public class UsersApi {
     }
   }
   /**
-  * Update notification settings
-  * This endpoint is used to edit the user&#39;s global notification settings. See [this endpoint](/api/update-subscription-settings) for per-stream notification settings.  &#x60;PATCH {{ api_url }}/v1/settings/notifications&#x60; 
-   * @param enableStreamDesktopNotifications Enable visual desktop notifications for stream messages. 
-   * @param enableStreamEmailNotifications Enable email notifications for stream messages. 
-   * @param enableStreamPushNotifications Enable mobile notifications for stream messages. 
-   * @param enableStreamAudibleNotifications Enable audible desktop notifications for stream messages. 
-   * @param notificationSound Notification sound name.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63). 
-   * @param enableDesktopNotifications Enable visual desktop notifications for private messages and @-mentions. 
-   * @param enableSounds Enable audible desktop notifications for private messages and @-mentions. 
-   * @param enableOfflineEmailNotifications Enable email notifications for private messages and @-mentions received when the user is offline. 
-   * @param enableOfflinePushNotifications Enable mobile notification for private messages and @-mentions received when the user is offline. 
-   * @param enableOnlinePushNotifications Enable mobile notification for private messages and @-mentions received when the user is online. 
-   * @param enableDigestEmails Enable digest emails when the user is away. 
-   * @param enableMarketingEmails Enable marketing emails. Has no function outside Zulip Cloud. 
-   * @param enableLoginEmails Enable email notifications for new logins to account. 
-   * @param messageContentInEmailNotifications Include the message&#39;s content in email notifications for new messages. 
-   * @param pmContentInDesktopNotifications Include content of private messages in desktop notifications. 
-   * @param wildcardMentionsNotify Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention. 
-   * @param desktopIconCountDisplay Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None 
-   * @param realmNameInNotifications Include organization name in subject of message notification emails. 
-   * @param presenceEnabled Display the presence status to other users when online. 
-   * @return JsonSuccessBase
+  * Update your status
+  * Change your [status](/help/status-and-availability).  &#x60;POST {{ api_url }}/v1/users/me/status&#x60;  A request to this endpoint will only change the parameters passed. For example, passing just &#x60;status_text&#x60; requests a change in the status text, but will leave the status emoji unchanged.  Clients that wish to set the user&#39;s status to a specific value should pass all supported parameters. 
+   * @param statusText The text content of the status message. Sending the empty string will clear the user&#39;s status.  **Note**: The limit on the size of the message is 60 characters. 
+   * @param away Whether the user should be marked as \&quot;away\&quot;. 
+   * @param emojiName The name for the emoji to associate with this status. 
+   * @param emojiCode A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint; for &#x60;realm_emoji&#x60;, it&#39;ll be the ID of the realm emoji. 
+   * @param reactionType One of the following values:  * &#x60;unicode_emoji&#x60;: Unicode emoji (&#x60;emoji_code&#x60; will be its Unicode   codepoint). * &#x60;realm_emoji&#x60;: [Custom emoji](/help/add-custom-emoji).   (&#x60;emoji_code&#x60; will be its ID). * &#x60;zulip_extra_emoji&#x60;: Special emoji included with Zulip.  Exists to   namespace the &#x60;zulip&#x60; emoji. 
+   * @return JsonSuccess
   */
-  public JsonSuccessBase updateNotificationSettings (Boolean enableStreamDesktopNotifications, Boolean enableStreamEmailNotifications, Boolean enableStreamPushNotifications, Boolean enableStreamAudibleNotifications, String notificationSound, Boolean enableDesktopNotifications, Boolean enableSounds, Boolean enableOfflineEmailNotifications, Boolean enableOfflinePushNotifications, Boolean enableOnlinePushNotifications, Boolean enableDigestEmails, Boolean enableMarketingEmails, Boolean enableLoginEmails, Boolean messageContentInEmailNotifications, Boolean pmContentInDesktopNotifications, Boolean wildcardMentionsNotify, Integer desktopIconCountDisplay, Boolean realmNameInNotifications, Boolean presenceEnabled) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
+  public JsonSuccess updateStatus (String statusText, Boolean away, String emojiName, String emojiCode, String reactionType) throws TimeoutException, ExecutionException, InterruptedException, ApiException {
     Object postBody = null;
 
     // create path and map variables
-    String path = "/settings/notifications";
+    String path = "/users/me/status";
 
     // query params
     List<Pair> queryParams = new ArrayList<Pair>();
@@ -2324,25 +2389,11 @@ public class UsersApi {
     Map<String, String> headerParams = new HashMap<String, String>();
     // form params
     Map<String, String> formParams = new HashMap<String, String>();
-    queryParams.addAll(ApiInvoker.parameterToPairs("", "enable_stream_desktop_notifications", enableStreamDesktopNotifications));
-    queryParams.addAll(ApiInvoker.parameterToPairs("", "enable_stream_email_notifications", enableStreamEmailNotifications));
-    queryParams.addAll(ApiInvoker.parameterToPairs("", "enable_stream_push_notifications", enableStreamPushNotifications));
-    queryParams.addAll(ApiInvoker.parameterToPairs("", "enable_stream_audible_notifications", enableStreamAudibleNotifications));
-    queryParams.addAll(ApiInvoker.parameterToPairs("", "notification_sound", notificationSound));
-    queryParams.addAll(ApiInvoker.parameterToPairs("", "enable_desktop_notifications", enableDesktopNotifications));
-    queryParams.addAll(ApiInvoker.parameterToPairs("", "enable_sounds", enableSounds));
-    queryParams.addAll(ApiInvoker.parameterToPairs("", "enable_offline_email_notifications", enableOfflineEmailNotifications));
-    queryParams.addAll(ApiInvoker.parameterToPairs("", "enable_offline_push_notifications", enableOfflinePushNotifications));
-    queryParams.addAll(ApiInvoker.parameterToPairs("", "enable_online_push_notifications", enableOnlinePushNotifications));
-    queryParams.addAll(ApiInvoker.parameterToPairs("", "enable_digest_emails", enableDigestEmails));
-    queryParams.addAll(ApiInvoker.parameterToPairs("", "enable_marketing_emails", enableMarketingEmails));
-    queryParams.addAll(ApiInvoker.parameterToPairs("", "enable_login_emails", enableLoginEmails));
-    queryParams.addAll(ApiInvoker.parameterToPairs("", "message_content_in_email_notifications", messageContentInEmailNotifications));
-    queryParams.addAll(ApiInvoker.parameterToPairs("", "pm_content_in_desktop_notifications", pmContentInDesktopNotifications));
-    queryParams.addAll(ApiInvoker.parameterToPairs("", "wildcard_mentions_notify", wildcardMentionsNotify));
-    queryParams.addAll(ApiInvoker.parameterToPairs("", "desktop_icon_count_display", desktopIconCountDisplay));
-    queryParams.addAll(ApiInvoker.parameterToPairs("", "realm_name_in_notifications", realmNameInNotifications));
-    queryParams.addAll(ApiInvoker.parameterToPairs("", "presence_enabled", presenceEnabled));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "status_text", statusText));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "away", away));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "emoji_name", emojiName));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "emoji_code", emojiCode));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "reaction_type", reactionType));
     String[] contentTypes = {
     };
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
@@ -2359,9 +2410,9 @@ public class UsersApi {
     String[] authNames = new String[] {  };
 
     try {
-      String localVarResponse = apiInvoker.invokeAPI (basePath, path, "PATCH", queryParams, postBody, headerParams, formParams, contentType, authNames);
+      String localVarResponse = apiInvoker.invokeAPI (basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames);
       if (localVarResponse != null) {
-         return (JsonSuccessBase) ApiInvoker.deserialize(localVarResponse, "", JsonSuccessBase.class);
+         return (JsonSuccess) ApiInvoker.deserialize(localVarResponse, "", JsonSuccess.class);
       } else {
          return null;
       }
@@ -2383,16 +2434,16 @@ public class UsersApi {
   }
 
       /**
-   * Update notification settings
-   * This endpoint is used to edit the user&#39;s global notification settings. See [this endpoint](/api/update-subscription-settings) for per-stream notification settings.  &#x60;PATCH {{ api_url }}/v1/settings/notifications&#x60; 
-   * @param enableStreamDesktopNotifications Enable visual desktop notifications for stream messages.    * @param enableStreamEmailNotifications Enable email notifications for stream messages.    * @param enableStreamPushNotifications Enable mobile notifications for stream messages.    * @param enableStreamAudibleNotifications Enable audible desktop notifications for stream messages.    * @param notificationSound Notification sound name.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63).    * @param enableDesktopNotifications Enable visual desktop notifications for private messages and @-mentions.    * @param enableSounds Enable audible desktop notifications for private messages and @-mentions.    * @param enableOfflineEmailNotifications Enable email notifications for private messages and @-mentions received when the user is offline.    * @param enableOfflinePushNotifications Enable mobile notification for private messages and @-mentions received when the user is offline.    * @param enableOnlinePushNotifications Enable mobile notification for private messages and @-mentions received when the user is online.    * @param enableDigestEmails Enable digest emails when the user is away.    * @param enableMarketingEmails Enable marketing emails. Has no function outside Zulip Cloud.    * @param enableLoginEmails Enable email notifications for new logins to account.    * @param messageContentInEmailNotifications Include the message&#39;s content in email notifications for new messages.    * @param pmContentInDesktopNotifications Include content of private messages in desktop notifications.    * @param wildcardMentionsNotify Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention.    * @param desktopIconCountDisplay Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None    * @param realmNameInNotifications Include organization name in subject of message notification emails.    * @param presenceEnabled Display the presence status to other users when online. 
+   * Update your status
+   * Change your [status](/help/status-and-availability).  &#x60;POST {{ api_url }}/v1/users/me/status&#x60;  A request to this endpoint will only change the parameters passed. For example, passing just &#x60;status_text&#x60; requests a change in the status text, but will leave the status emoji unchanged.  Clients that wish to set the user&#39;s status to a specific value should pass all supported parameters. 
+   * @param statusText The text content of the status message. Sending the empty string will clear the user&#39;s status.  **Note**: The limit on the size of the message is 60 characters.    * @param away Whether the user should be marked as \&quot;away\&quot;.    * @param emojiName The name for the emoji to associate with this status.    * @param emojiCode A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint; for &#x60;realm_emoji&#x60;, it&#39;ll be the ID of the realm emoji.    * @param reactionType One of the following values:  * &#x60;unicode_emoji&#x60;: Unicode emoji (&#x60;emoji_code&#x60; will be its Unicode   codepoint). * &#x60;realm_emoji&#x60;: [Custom emoji](/help/add-custom-emoji).   (&#x60;emoji_code&#x60; will be its ID). * &#x60;zulip_extra_emoji&#x60;: Special emoji included with Zulip.  Exists to   namespace the &#x60;zulip&#x60; emoji. 
   */
-  public void updateNotificationSettings (Boolean enableStreamDesktopNotifications, Boolean enableStreamEmailNotifications, Boolean enableStreamPushNotifications, Boolean enableStreamAudibleNotifications, String notificationSound, Boolean enableDesktopNotifications, Boolean enableSounds, Boolean enableOfflineEmailNotifications, Boolean enableOfflinePushNotifications, Boolean enableOnlinePushNotifications, Boolean enableDigestEmails, Boolean enableMarketingEmails, Boolean enableLoginEmails, Boolean messageContentInEmailNotifications, Boolean pmContentInDesktopNotifications, Boolean wildcardMentionsNotify, Integer desktopIconCountDisplay, Boolean realmNameInNotifications, Boolean presenceEnabled, final Response.Listener<JsonSuccessBase> responseListener, final Response.ErrorListener errorListener) {
+  public void updateStatus (String statusText, Boolean away, String emojiName, String emojiCode, String reactionType, final Response.Listener<JsonSuccess> responseListener, final Response.ErrorListener errorListener) {
     Object postBody = null;
 
 
     // create path and map variables
-    String path = "/settings/notifications".replaceAll("\\{format\\}","json");
+    String path = "/users/me/status".replaceAll("\\{format\\}","json");
 
     // query params
     List<Pair> queryParams = new ArrayList<Pair>();
@@ -2401,25 +2452,11 @@ public class UsersApi {
     // form params
     Map<String, String> formParams = new HashMap<String, String>();
 
-    queryParams.addAll(ApiInvoker.parameterToPairs("", "enable_stream_desktop_notifications", enableStreamDesktopNotifications));
-    queryParams.addAll(ApiInvoker.parameterToPairs("", "enable_stream_email_notifications", enableStreamEmailNotifications));
-    queryParams.addAll(ApiInvoker.parameterToPairs("", "enable_stream_push_notifications", enableStreamPushNotifications));
-    queryParams.addAll(ApiInvoker.parameterToPairs("", "enable_stream_audible_notifications", enableStreamAudibleNotifications));
-    queryParams.addAll(ApiInvoker.parameterToPairs("", "notification_sound", notificationSound));
-    queryParams.addAll(ApiInvoker.parameterToPairs("", "enable_desktop_notifications", enableDesktopNotifications));
-    queryParams.addAll(ApiInvoker.parameterToPairs("", "enable_sounds", enableSounds));
-    queryParams.addAll(ApiInvoker.parameterToPairs("", "enable_offline_email_notifications", enableOfflineEmailNotifications));
-    queryParams.addAll(ApiInvoker.parameterToPairs("", "enable_offline_push_notifications", enableOfflinePushNotifications));
-    queryParams.addAll(ApiInvoker.parameterToPairs("", "enable_online_push_notifications", enableOnlinePushNotifications));
-    queryParams.addAll(ApiInvoker.parameterToPairs("", "enable_digest_emails", enableDigestEmails));
-    queryParams.addAll(ApiInvoker.parameterToPairs("", "enable_marketing_emails", enableMarketingEmails));
-    queryParams.addAll(ApiInvoker.parameterToPairs("", "enable_login_emails", enableLoginEmails));
-    queryParams.addAll(ApiInvoker.parameterToPairs("", "message_content_in_email_notifications", messageContentInEmailNotifications));
-    queryParams.addAll(ApiInvoker.parameterToPairs("", "pm_content_in_desktop_notifications", pmContentInDesktopNotifications));
-    queryParams.addAll(ApiInvoker.parameterToPairs("", "wildcard_mentions_notify", wildcardMentionsNotify));
-    queryParams.addAll(ApiInvoker.parameterToPairs("", "desktop_icon_count_display", desktopIconCountDisplay));
-    queryParams.addAll(ApiInvoker.parameterToPairs("", "realm_name_in_notifications", realmNameInNotifications));
-    queryParams.addAll(ApiInvoker.parameterToPairs("", "presence_enabled", presenceEnabled));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "status_text", statusText));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "away", away));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "emoji_name", emojiName));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "emoji_code", emojiCode));
+    queryParams.addAll(ApiInvoker.parameterToPairs("", "reaction_type", reactionType));
 
 
     String[] contentTypes = {
@@ -2441,12 +2478,12 @@ public class UsersApi {
     String[] authNames = new String[] {  };
 
     try {
-      apiInvoker.invokeAPI(basePath, path, "PATCH", queryParams, postBody, headerParams, formParams, contentType, authNames,
+      apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, formParams, contentType, authNames,
         new Response.Listener<String>() {
           @Override
           public void onResponse(String localVarResponse) {
             try {
-              responseListener.onResponse((JsonSuccessBase) ApiInvoker.deserialize(localVarResponse,  "", JsonSuccessBase.class));
+              responseListener.onResponse((JsonSuccess) ApiInvoker.deserialize(localVarResponse,  "", JsonSuccess.class));
             } catch (ApiException exception) {
                errorListener.onErrorResponse(new VolleyError(exception));
             }

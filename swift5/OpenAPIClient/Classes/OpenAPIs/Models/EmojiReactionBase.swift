@@ -12,7 +12,7 @@ import AnyCodable
 
 public struct EmojiReactionBase: Codable, Hashable {
 
-    /** A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint.  */
+    /** A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji.  */
     public var emojiCode: String?
     /** Name of the emoji.  */
     public var emojiName: String?
@@ -21,9 +21,9 @@ public struct EmojiReactionBase: Codable, Hashable {
     /** The ID of the user who added the reaction.  **Changes**: New in Zulip 3.0 (feature level 2). The `user` object is deprecated and will be removed in the future.  */
     public var userId: Int?
     @available(*, deprecated, message: "This property is deprecated.")
-    public var user: EmojiReactionBaseUser?
+    public var user: EmojiReactionBaseAllOfUser?
 
-    public init(emojiCode: String? = nil, emojiName: String? = nil, reactionType: String? = nil, userId: Int? = nil, user: EmojiReactionBaseUser? = nil) {
+    public init(emojiCode: String? = nil, emojiName: String? = nil, reactionType: String? = nil, userId: Int? = nil, user: EmojiReactionBaseAllOfUser? = nil) {
         self.emojiCode = emojiCode
         self.emojiName = emojiName
         self.reactionType = reactionType

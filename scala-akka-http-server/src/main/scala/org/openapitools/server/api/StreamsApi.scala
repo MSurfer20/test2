@@ -35,6 +35,13 @@ class StreamsApi(
             streamsService.createBigBlueButtonVideoCall()
       }
     } ~
+    path("streams" / IntNumber / "delete_topic") { (streamId) => 
+      post { 
+        parameters("topic_name".as[String]) { (topicName) => 
+            streamsService.deleteTopic(streamId = streamId, topicName = topicName)
+        }
+      }
+    } ~
     path("get_stream_id") { 
       get { 
         parameters("stream".as[String]) { (stream) => 
@@ -52,6 +59,11 @@ class StreamsApi(
         parameters("include_public".as[Boolean].?(true), "include_web_public".as[Boolean].?(false), "include_subscribed".as[Boolean].?(true), "include_all_active".as[Boolean].?(false), "include_default".as[Boolean].?(false), "include_owner_subscribed".as[Boolean].?(false)) { (includePublic, includeWebPublic, includeSubscribed, includeAllActive, includeDefault, includeOwnerSubscribed) => 
             streamsService.getStreams(includePublic = includePublic, includeWebPublic = includeWebPublic, includeSubscribed = includeSubscribed, includeAllActive = includeAllActive, includeDefault = includeDefault, includeOwnerSubscribed = includeOwnerSubscribed)
         }
+      }
+    } ~
+    path("streams" / IntNumber / "members") { (streamId) => 
+      get {  
+            streamsService.getSubscribers(streamId = streamId)
       }
     } ~
     path("users" / IntNumber / "subscriptions" / IntNumber) { (userId, streamId) => 
@@ -132,6 +144,17 @@ trait StreamsApiService {
   def createBigBlueButtonVideoCall()
       (implicit toEntityMarshallerJsonSuccessBase: ToEntityMarshaller[JsonSuccessBase]): Route
 
+  def deleteTopic200(responseJsonSuccess: JsonSuccess)(implicit toEntityMarshallerJsonSuccess: ToEntityMarshaller[JsonSuccess]): Route =
+    complete((200, responseJsonSuccess))
+  def deleteTopic400(responseJsonError: JsonError)(implicit toEntityMarshallerJsonError: ToEntityMarshaller[JsonError]): Route =
+    complete((400, responseJsonError))
+  /**
+   * Code: 200, Message: Success., DataType: JsonSuccess
+   * Code: 400, Message: Error., DataType: JsonError
+   */
+  def deleteTopic(streamId: Int, topicName: String)
+      (implicit toEntityMarshallerJsonSuccess: ToEntityMarshaller[JsonSuccess], toEntityMarshallerJsonError: ToEntityMarshaller[JsonError]): Route
+
   def getStreamId200(responseJsonSuccessBase: JsonSuccessBase)(implicit toEntityMarshallerJsonSuccessBase: ToEntityMarshaller[JsonSuccessBase]): Route =
     complete((200, responseJsonSuccessBase))
   def getStreamId400(responseCodedError: CodedError)(implicit toEntityMarshallerCodedError: ToEntityMarshaller[CodedError]): Route =
@@ -164,6 +187,17 @@ trait StreamsApiService {
    */
   def getStreams(includePublic: Boolean, includeWebPublic: Boolean, includeSubscribed: Boolean, includeAllActive: Boolean, includeDefault: Boolean, includeOwnerSubscribed: Boolean)
       (implicit toEntityMarshallerCodedError: ToEntityMarshaller[CodedError], toEntityMarshallerJsonSuccessBase: ToEntityMarshaller[JsonSuccessBase]): Route
+
+  def getSubscribers200(responseJsonSuccessBase: JsonSuccessBase)(implicit toEntityMarshallerJsonSuccessBase: ToEntityMarshaller[JsonSuccessBase]): Route =
+    complete((200, responseJsonSuccessBase))
+  def getSubscribers400(responseJsonError: JsonError)(implicit toEntityMarshallerJsonError: ToEntityMarshaller[JsonError]): Route =
+    complete((400, responseJsonError))
+  /**
+   * Code: 200, Message: Success., DataType: JsonSuccessBase
+   * Code: 400, Message: Bad request., DataType: JsonError
+   */
+  def getSubscribers(streamId: Int)
+      (implicit toEntityMarshallerJsonSuccessBase: ToEntityMarshaller[JsonSuccessBase], toEntityMarshallerJsonError: ToEntityMarshaller[JsonError]): Route
 
   def getSubscriptionStatus200(responseJsonSuccessBase: JsonSuccessBase)(implicit toEntityMarshallerJsonSuccessBase: ToEntityMarshaller[JsonSuccessBase]): Route =
     complete((200, responseJsonSuccessBase))

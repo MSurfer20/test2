@@ -29,6 +29,7 @@
 #include "Object.h"
 #include "OneOfobjectobject.h"
 #include "OneOfobjectobjectobject.h"
+#include "OneOfobjectobjectobjectobjectobjectobject.h"
 #include <cpprest/details/basic_types.h>
 
 
@@ -228,65 +229,69 @@ public:
         int32_t mutedUserId
     ) const;
     /// <summary>
-    /// Update display settings
+    /// Update settings
     /// </summary>
     /// <remarks>
-    /// This endpoint is used to edit the current user&#39;s user interface settings.  &#x60;PATCH {{ api_url }}/v1/settings/display&#x60; 
+    /// This endpoint is used to edit the current user&#39;s settings.  &#x60;PATCH {{ api_url }}/v1/settings&#x60;  **Changes**: Prior to Zulip 5.0 (feature level 80), this endpoint only supported the &#x60;full_name&#x60;, &#x60;email&#x60;, &#x60;old_password&#x60;, and &#x60;new_password&#x60; parameters. Notification settings were managed by &#x60;PATCH /settings/notifications&#x60;, and all other settings by &#x60;PATCH /settings/display&#x60;. The feature level 80 migration to merge these endpoints did not change how request parameters are encoded. Note, however, that it did change the handling of any invalid parameters present in a request to change notification or display settings, since the merged endpoint uses the new response format that was introduced for &#x60;/settings&#x60; in Zulip 5.0 (feature level 78).  The &#x60;/settings/display&#x60; and &#x60;/settings/notifications&#x60; endpoints are now deprecated aliases for this endpoint for backwards-compatibility, and will be removed once clients have migrated to use this endpoint. 
     /// </remarks>
-    /// <param name="twentyFourHourTime">Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).  (optional, default to false)</param>
-    /// <param name="denseMode">This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip.  (optional, default to false)</param>
-    /// <param name="starredMessageCounts">Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages).  (optional, default to false)</param>
-    /// <param name="fluidLayoutWidth">Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app&#39;s center panel (message feed, recent topics) on wide screens.  (optional, default to false)</param>
-    /// <param name="highContrastMode">This setting is reserved for use to control variations in Zulip&#39;s design to help visually impaired users.  (optional, default to false)</param>
-    /// <param name="colorScheme">Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard &#x60;prefers-color-scheme&#x60; media query.  (optional, default to 0)</param>
-    /// <param name="translateEmoticons">Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends.  (optional, default to false)</param>
-    /// <param name="defaultLanguage">What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, &#x60;\&quot;en\&quot;&#x60; for English or &#x60;\&quot;de\&quot;&#x60; for German.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63).  (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
-    /// <param name="defaultView">The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the &#x60;Esc&#x60; keyboard shortcut repeatedly.  * \&quot;recent_topics\&quot; - Recent topics view * \&quot;all_messages\&quot; - All messages view  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64).  (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
-    /// <param name="leftSideUserlist">Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.  (optional, default to false)</param>
-    /// <param name="emojiset">The user&#39;s configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \&quot;google\&quot; - Google modern * \&quot;google-blob\&quot; - Google classic * \&quot;twitter\&quot; - Twitter * \&quot;text\&quot; - Plain text  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64).  (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
-    /// <param name="demoteInactiveStreams">Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never  (optional, default to 0)</param>
-    /// <param name="timezone">The user&#39;s [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64).  (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
-    pplx::task<std::shared_ptr<JsonSuccessBase>> updateDisplaySettings(
+    /// <param name="fullName">A new display name for the user.  (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
+    /// <param name="email">Asks the server to initiate a confirmation sequence to change the user&#39;s email address to the indicated value. The user will need to demonstrate control of the new email address by clicking a confirmation link sent to that address.  (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
+    /// <param name="oldPassword">The user&#39;s old Zulip password (or LDAP password, if LDAP authentication is in use).  Required only when sending the &#x60;new_password&#x60; parameter.  (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
+    /// <param name="newPassword">The user&#39;s new Zulip password (or LDAP password, if LDAP authentication is in use).  The &#x60;old_password&#x60; parameter must be included in the request.  (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
+    /// <param name="twentyFourHourTime">Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional, default to false)</param>
+    /// <param name="denseMode">This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional, default to false)</param>
+    /// <param name="starredMessageCounts">Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional, default to false)</param>
+    /// <param name="fluidLayoutWidth">Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app&#39;s center panel (message feed, recent topics) on wide screens.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional, default to false)</param>
+    /// <param name="highContrastMode">This setting is reserved for use to control variations in Zulip&#39;s design to help visually impaired users.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional, default to false)</param>
+    /// <param name="colorScheme">Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard &#x60;prefers-color-scheme&#x60; media query.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional, default to 0)</param>
+    /// <param name="enableDraftsSynchronization">A boolean parameter to control whether synchronizing drafts is enabled for the user. When synchronization is disabled, all drafts stored in the server will be automatically deleted from the server.  This does not do anything (like sending events) to delete local copies of drafts stored in clients.  **Changes**: New in Zulip 5.0 (feature level 87).  (optional, default to false)</param>
+    /// <param name="translateEmoticons">Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional, default to false)</param>
+    /// <param name="defaultLanguage">What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, &#x60;\&quot;en\&quot;&#x60; for English or &#x60;\&quot;de\&quot;&#x60; for German.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63).  (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
+    /// <param name="defaultView">The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the &#x60;Esc&#x60; keyboard shortcut repeatedly.  * \&quot;recent_topics\&quot; - Recent topics view * \&quot;all_messages\&quot; - All messages view  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).  (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
+    /// <param name="leftSideUserlist">Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional, default to false)</param>
+    /// <param name="emojiset">The user&#39;s configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \&quot;google\&quot; - Google modern * \&quot;google-blob\&quot; - Google classic * \&quot;twitter\&quot; - Twitter * \&quot;text\&quot; - Plain text  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).  (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
+    /// <param name="demoteInactiveStreams">Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional, default to 0)</param>
+    /// <param name="timezone">The user&#39;s [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).  (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
+    /// <param name="enableStreamDesktopNotifications">Enable visual desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional, default to false)</param>
+    /// <param name="enableStreamEmailNotifications">Enable email notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional, default to false)</param>
+    /// <param name="enableStreamPushNotifications">Enable mobile notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional, default to false)</param>
+    /// <param name="enableStreamAudibleNotifications">Enable audible desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional, default to false)</param>
+    /// <param name="notificationSound">Notification sound name.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63).  (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
+    /// <param name="enableDesktopNotifications">Enable visual desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional, default to false)</param>
+    /// <param name="enableSounds">Enable audible desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional, default to false)</param>
+    /// <param name="emailNotificationsBatchingPeriodSeconds">The duration (in seconds) for which the server should wait to batch email notifications before sending them.  **Changes**: New in Zulip 5.0 (feature level 82)  (optional, default to 0)</param>
+    /// <param name="enableOfflineEmailNotifications">Enable email notifications for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional, default to false)</param>
+    /// <param name="enableOfflinePushNotifications">Enable mobile notification for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional, default to false)</param>
+    /// <param name="enableOnlinePushNotifications">Enable mobile notification for private messages and @-mentions received when the user is online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional, default to false)</param>
+    /// <param name="enableDigestEmails">Enable digest emails when the user is away.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional, default to false)</param>
+    /// <param name="enableMarketingEmails">Enable marketing emails. Has no function outside Zulip Cloud.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional, default to false)</param>
+    /// <param name="enableLoginEmails">Enable email notifications for new logins to account.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional, default to false)</param>
+    /// <param name="messageContentInEmailNotifications">Include the message&#39;s content in email notifications for new messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional, default to false)</param>
+    /// <param name="pmContentInDesktopNotifications">Include content of private messages in desktop notifications.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional, default to false)</param>
+    /// <param name="wildcardMentionsNotify">Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional, default to false)</param>
+    /// <param name="desktopIconCountDisplay">Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional, default to 0)</param>
+    /// <param name="realmNameInNotifications">Include organization name in subject of message notification emails.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional, default to false)</param>
+    /// <param name="presenceEnabled">Display the presence status to other users when online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional, default to false)</param>
+    /// <param name="enterSends">Whether pressing Enter in the compose box sends a message (or saves a message edit).  **Changes**: Before Zulip 5.0 (feature level 81), this setting was managed by the &#x60;POST /users/me/enter-sends&#x60; endpoint, with the same parameter format.  (optional, default to false)</param>
+    pplx::task<std::shared_ptr<JsonSuccessBase>> updateSettings(
+        boost::optional<utility::string_t> fullName,
+        boost::optional<utility::string_t> email,
+        boost::optional<utility::string_t> oldPassword,
+        boost::optional<utility::string_t> newPassword,
         boost::optional<bool> twentyFourHourTime,
         boost::optional<bool> denseMode,
         boost::optional<bool> starredMessageCounts,
         boost::optional<bool> fluidLayoutWidth,
         boost::optional<bool> highContrastMode,
         boost::optional<int32_t> colorScheme,
+        boost::optional<bool> enableDraftsSynchronization,
         boost::optional<bool> translateEmoticons,
         boost::optional<utility::string_t> defaultLanguage,
         boost::optional<utility::string_t> defaultView,
         boost::optional<bool> leftSideUserlist,
         boost::optional<utility::string_t> emojiset,
         boost::optional<int32_t> demoteInactiveStreams,
-        boost::optional<utility::string_t> timezone
-    ) const;
-    /// <summary>
-    /// Update notification settings
-    /// </summary>
-    /// <remarks>
-    /// This endpoint is used to edit the user&#39;s global notification settings. See [this endpoint](/api/update-subscription-settings) for per-stream notification settings.  &#x60;PATCH {{ api_url }}/v1/settings/notifications&#x60; 
-    /// </remarks>
-    /// <param name="enableStreamDesktopNotifications">Enable visual desktop notifications for stream messages.  (optional, default to false)</param>
-    /// <param name="enableStreamEmailNotifications">Enable email notifications for stream messages.  (optional, default to false)</param>
-    /// <param name="enableStreamPushNotifications">Enable mobile notifications for stream messages.  (optional, default to false)</param>
-    /// <param name="enableStreamAudibleNotifications">Enable audible desktop notifications for stream messages.  (optional, default to false)</param>
-    /// <param name="notificationSound">Notification sound name.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63).  (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
-    /// <param name="enableDesktopNotifications">Enable visual desktop notifications for private messages and @-mentions.  (optional, default to false)</param>
-    /// <param name="enableSounds">Enable audible desktop notifications for private messages and @-mentions.  (optional, default to false)</param>
-    /// <param name="enableOfflineEmailNotifications">Enable email notifications for private messages and @-mentions received when the user is offline.  (optional, default to false)</param>
-    /// <param name="enableOfflinePushNotifications">Enable mobile notification for private messages and @-mentions received when the user is offline.  (optional, default to false)</param>
-    /// <param name="enableOnlinePushNotifications">Enable mobile notification for private messages and @-mentions received when the user is online.  (optional, default to false)</param>
-    /// <param name="enableDigestEmails">Enable digest emails when the user is away.  (optional, default to false)</param>
-    /// <param name="enableMarketingEmails">Enable marketing emails. Has no function outside Zulip Cloud.  (optional, default to false)</param>
-    /// <param name="enableLoginEmails">Enable email notifications for new logins to account.  (optional, default to false)</param>
-    /// <param name="messageContentInEmailNotifications">Include the message&#39;s content in email notifications for new messages.  (optional, default to false)</param>
-    /// <param name="pmContentInDesktopNotifications">Include content of private messages in desktop notifications.  (optional, default to false)</param>
-    /// <param name="wildcardMentionsNotify">Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention.  (optional, default to false)</param>
-    /// <param name="desktopIconCountDisplay">Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None  (optional, default to 0)</param>
-    /// <param name="realmNameInNotifications">Include organization name in subject of message notification emails.  (optional, default to false)</param>
-    /// <param name="presenceEnabled">Display the presence status to other users when online.  (optional, default to false)</param>
-    pplx::task<std::shared_ptr<JsonSuccessBase>> updateNotificationSettings(
+        boost::optional<utility::string_t> timezone,
         boost::optional<bool> enableStreamDesktopNotifications,
         boost::optional<bool> enableStreamEmailNotifications,
         boost::optional<bool> enableStreamPushNotifications,
@@ -294,6 +299,7 @@ public:
         boost::optional<utility::string_t> notificationSound,
         boost::optional<bool> enableDesktopNotifications,
         boost::optional<bool> enableSounds,
+        boost::optional<int32_t> emailNotificationsBatchingPeriodSeconds,
         boost::optional<bool> enableOfflineEmailNotifications,
         boost::optional<bool> enableOfflinePushNotifications,
         boost::optional<bool> enableOnlinePushNotifications,
@@ -305,7 +311,26 @@ public:
         boost::optional<bool> wildcardMentionsNotify,
         boost::optional<int32_t> desktopIconCountDisplay,
         boost::optional<bool> realmNameInNotifications,
-        boost::optional<bool> presenceEnabled
+        boost::optional<bool> presenceEnabled,
+        boost::optional<bool> enterSends
+    ) const;
+    /// <summary>
+    /// Update your status
+    /// </summary>
+    /// <remarks>
+    /// Change your [status](/help/status-and-availability).  &#x60;POST {{ api_url }}/v1/users/me/status&#x60;  A request to this endpoint will only change the parameters passed. For example, passing just &#x60;status_text&#x60; requests a change in the status text, but will leave the status emoji unchanged.  Clients that wish to set the user&#39;s status to a specific value should pass all supported parameters. 
+    /// </remarks>
+    /// <param name="statusText">The text content of the status message. Sending the empty string will clear the user&#39;s status.  **Note**: The limit on the size of the message is 60 characters.  (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
+    /// <param name="away">Whether the user should be marked as \&quot;away\&quot;.  (optional, default to false)</param>
+    /// <param name="emojiName">The name for the emoji to associate with this status.  (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
+    /// <param name="emojiCode">A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint; for &#x60;realm_emoji&#x60;, it&#39;ll be the ID of the realm emoji.  (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
+    /// <param name="reactionType">One of the following values:  * &#x60;unicode_emoji&#x60;: Unicode emoji (&#x60;emoji_code&#x60; will be its Unicode   codepoint). * &#x60;realm_emoji&#x60;: [Custom emoji](/help/add-custom-emoji).   (&#x60;emoji_code&#x60; will be its ID). * &#x60;zulip_extra_emoji&#x60;: Special emoji included with Zulip.  Exists to   namespace the &#x60;zulip&#x60; emoji.  (optional, default to utility::conversions::to_string_t(&quot;&quot;))</param>
+    pplx::task<std::shared_ptr<JsonSuccess>> updateStatus(
+        boost::optional<utility::string_t> statusText,
+        boost::optional<bool> away,
+        boost::optional<utility::string_t> emojiName,
+        boost::optional<utility::string_t> emojiCode,
+        boost::optional<utility::string_t> reactionType
     ) const;
     /// <summary>
     /// Update a user

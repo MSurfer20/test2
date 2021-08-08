@@ -7,5 +7,5 @@ export * from "./apis/exception";
 export * from "./servers";
 
 export { PromiseMiddleware as Middleware } from './middleware';
-export { PromiseAuthenticationApi as AuthenticationApi,  PromiseMessagesApi as MessagesApi,  PromiseRealTimeEventsApi as RealTimeEventsApi,  PromiseServerAndOrganizationsApi as ServerAndOrganizationsApi,  PromiseStreamsApi as StreamsApi,  PromiseUsersApi as UsersApi,  PromiseWebhooksApi as WebhooksApi } from './types/PromiseAPI';
+export { PromiseAuthenticationApi as AuthenticationApi,  PromiseDraftsApi as DraftsApi,  PromiseMessagesApi as MessagesApi,  PromiseRealTimeEventsApi as RealTimeEventsApi,  PromiseServerAndOrganizationsApi as ServerAndOrganizationsApi,  PromiseStreamsApi as StreamsApi,  PromiseUsersApi as UsersApi,  PromiseWebhooksApi as WebhooksApi } from './types/PromiseAPI';
 

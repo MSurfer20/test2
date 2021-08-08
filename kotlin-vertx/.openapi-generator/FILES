@@ -23,10 +23,13 @@ src/main/kotlin/org/openapitools/server/api/model/CodedErrorBase.kt
 src/main/kotlin/org/openapitools/server/api/model/CodedErrorBaseAllOf.kt
 src/main/kotlin/org/openapitools/server/api/model/CustomProfileField.kt
 src/main/kotlin/org/openapitools/server/api/model/DefaultStreamGroup.kt
+src/main/kotlin/org/openapitools/server/api/model/Draft.kt
+src/main/kotlin/org/openapitools/server/api/model/EmojiBase.kt
 src/main/kotlin/org/openapitools/server/api/model/EmojiReaction.kt
 src/main/kotlin/org/openapitools/server/api/model/EmojiReactionAllOf.kt
 src/main/kotlin/org/openapitools/server/api/model/EmojiReactionBase.kt
-src/main/kotlin/org/openapitools/server/api/model/EmojiReactionBaseUser.kt
+src/main/kotlin/org/openapitools/server/api/model/EmojiReactionBaseAllOf.kt
+src/main/kotlin/org/openapitools/server/api/model/EmojiReactionBaseAllOfUser.kt
 src/main/kotlin/org/openapitools/server/api/model/GetMessages.kt
 src/main/kotlin/org/openapitools/server/api/model/GetMessagesAllOf.kt
 src/main/kotlin/org/openapitools/server/api/model/Hotspot.kt
@@ -67,6 +70,9 @@ src/main/kotlin/org/openapitools/server/api/model/UserNotAuthorizedError.kt
 src/main/kotlin/org/openapitools/server/api/verticle/AuthenticationApi.kt
 src/main/kotlin/org/openapitools/server/api/verticle/AuthenticationApiVerticle.kt
 src/main/kotlin/org/openapitools/server/api/verticle/AuthenticationApiVertxProxyHandler.kt
+src/main/kotlin/org/openapitools/server/api/verticle/DraftsApi.kt
+src/main/kotlin/org/openapitools/server/api/verticle/DraftsApiVerticle.kt
+src/main/kotlin/org/openapitools/server/api/verticle/DraftsApiVertxProxyHandler.kt
 src/main/kotlin/org/openapitools/server/api/verticle/MessagesApi.kt
 src/main/kotlin/org/openapitools/server/api/verticle/MessagesApiVerticle.kt
 src/main/kotlin/org/openapitools/server/api/verticle/MessagesApiVertxProxyHandler.kt

@@ -5,6 +5,7 @@ README.md
 composer.json
 index.php
 lib/Api/AbstractAuthenticationApi.php
+lib/Api/AbstractDraftsApi.php
 lib/Api/AbstractMessagesApi.php
 lib/Api/AbstractRealTimeEventsApi.php
 lib/Api/AbstractServerAndOrganizationsApi.php
@@ -34,10 +35,13 @@ lib/Model/CodedErrorBase.php
 lib/Model/CodedErrorBaseAllOf.php
 lib/Model/CustomProfileField.php
 lib/Model/DefaultStreamGroup.php
+lib/Model/Draft.php
+lib/Model/EmojiBase.php
 lib/Model/EmojiReaction.php
 lib/Model/EmojiReactionAllOf.php
 lib/Model/EmojiReactionBase.php
-lib/Model/EmojiReactionBaseUser.php
+lib/Model/EmojiReactionBaseAllOf.php
+lib/Model/EmojiReactionBaseAllOfUser.php
 lib/Model/GetMessages.php
 lib/Model/GetMessagesAllOf.php
 lib/Model/Hotspot.php
@@ -79,6 +83,7 @@ lib/SlimRouter.php
 phpcs.xml.dist
 phpunit.xml.dist
 test/Api/AuthenticationApiTest.php
+test/Api/DraftsApiTest.php
 test/Api/MessagesApiTest.php
 test/Api/RealTimeEventsApiTest.php
 test/Api/ServerAndOrganizationsApiTest.php
@@ -107,9 +112,12 @@ test/Model/CodedErrorBaseTest.php
 test/Model/CodedErrorTest.php
 test/Model/CustomProfileFieldTest.php
 test/Model/DefaultStreamGroupTest.php
+test/Model/DraftTest.php
+test/Model/EmojiBaseTest.php
 test/Model/EmojiReactionAllOfTest.php
+test/Model/EmojiReactionBaseAllOfTest.php
+test/Model/EmojiReactionBaseAllOfUserTest.php
 test/Model/EmojiReactionBaseTest.php
-test/Model/EmojiReactionBaseUserTest.php
 test/Model/EmojiReactionTest.php
 test/Model/GetMessagesAllOfTest.php
 test/Model/GetMessagesTest.php

@@ -6,6 +6,7 @@ import org.openapitools.model.JsonError
 import org.openapitools.model.JsonSuccess
 import org.openapitools.model.JsonSuccessBase
 import org.openapitools.model.NonExistingStreamError
+import org.openapitools.model.OneOfLessThanObjectCommaObjectCommaObjectCommaObjectCommaObjectCommaObjectGreaterThan
 import org.openapitools.model.OneOfLessThanObjectCommaObjectCommaObjectGreaterThan
 import org.openapitools.model.OneOfLessThanObjectCommaObjectGreaterThan
 import org.openapitools.model.OneOfLessThanStringCommaIntegerGreaterThan
@@ -219,6 +220,20 @@ class UsersApiController() {
     fun unsubscribe(@NotNull  @RequestParam(value = "subscriptions", required = true) subscriptions: kotlin.collections.List<kotlin.String>
 , @RequestParam(value = "principals", required = false) principals: kotlin.collections.List<OneOfLessThanStringCommaIntegerGreaterThan>?
 ): ResponseEntity<JsonSuccessBase> {
+        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
+    }
+
+
+    @PostMapping(
+        value = ["/users/me/status"],
+        produces = ["application/json"]
+    )
+    fun updateStatus( @RequestParam(value = "status_text", required = false) statusText: kotlin.String?
+, @RequestParam(value = "away", required = false) away: kotlin.Boolean?
+, @RequestParam(value = "emoji_name", required = false) emojiName: kotlin.String?
+, @RequestParam(value = "emoji_code", required = false) emojiCode: kotlin.String?
+, @RequestParam(value = "reaction_type", required = false) reactionType: kotlin.String?
+): ResponseEntity<JsonSuccess> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 

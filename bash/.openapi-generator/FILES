@@ -27,10 +27,14 @@ docs/CodedErrorBase.md
 docs/CodedErrorBaseAllOf.md
 docs/CustomProfileField.md
 docs/DefaultStreamGroup.md
+docs/Draft.md
+docs/DraftsApi.md
+docs/EmojiBase.md
 docs/EmojiReaction.md
 docs/EmojiReactionAllOf.md
 docs/EmojiReactionBase.md
-docs/EmojiReactionBaseUser.md
+docs/EmojiReactionBaseAllOf.md
+docs/EmojiReactionBaseAllOfUser.md
 docs/GetMessages.md
 docs/GetMessagesAllOf.md
 docs/Hotspot.md

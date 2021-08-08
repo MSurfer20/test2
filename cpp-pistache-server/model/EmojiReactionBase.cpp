@@ -198,11 +198,11 @@ void EmojiReactionBase::unsetUser_id()
 {
     m_User_idIsSet = false;
 }
-EmojiReactionBase_user EmojiReactionBase::getUser() const
+EmojiReactionBase_allOf_user EmojiReactionBase::getUser() const
 {
     return m_User;
 }
-void EmojiReactionBase::setUser(EmojiReactionBase_user const& value)
+void EmojiReactionBase::setUser(EmojiReactionBase_allOf_user const& value)
 {
     m_User = value;
     m_UserIsSet = true;

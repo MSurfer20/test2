@@ -34,9 +34,11 @@ trait StreamsApi extends Service {
     named("StreamsApi").withCalls(
       restCall(Method.DELETE, "/streams/:stream_id", archiveStream _), 
       restCall(Method.GET, "/calls/bigbluebutton/create", createBigBlueButtonVideoCall _), 
+      restCall(Method.POST, "/streams/:stream_id/delete_topic?topicName", deleteTopic _), 
       restCall(Method.GET, "/get_stream_id?stream", getStreamId _), 
       restCall(Method.GET, "/users/me/:stream_id/topics", getStreamTopics _), 
       restCall(Method.GET, "/streams?includePublic&includeWebPublic&includeSubscribed&includeAllActive&includeDefault&includeOwnerSubscribed", getStreams _), 
+      restCall(Method.GET, "/streams/:stream_id/members", getSubscribers _), 
       restCall(Method.GET, "/users/:user_id/subscriptions/:stream_id", getSubscriptionStatus _), 
       restCall(Method.GET, "/users/me/subscriptions?includeSubscribers", getSubscriptions _), 
       restCall(Method.PATCH, "/users/me/subscriptions/muted_topics?stream&streamId&topic&op", muteTopic _), 
@@ -65,6 +67,16 @@ trait StreamsApi extends Service {
     * @return JsonSuccessBase
     */
   def createBigBlueButtonVideoCall(): ServiceCall[NotUsed ,JsonSuccessBase]
+        
+  /**
+    * Delete a topic
+    * Delete all messages in a topic.  &#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+    *  
+    * @param streamId The ID of the stream to access.   
+    * @param topicName The name of the topic to delete.  
+    * @return JsonSuccess
+    */
+  def deleteTopic(topicName:String          streamId: Int): ServiceCall[NotUsed ,JsonSuccess]
         
   /**
     * Get stream ID
@@ -97,6 +109,15 @@ trait StreamsApi extends Service {
     * @return JsonSuccessBase
     */
   def getStreams(includePublic:           Option[Boolean] /* = true*/,includeWebPublic:           Option[Boolean] /* = false*/,includeSubscribed:           Option[Boolean] /* = true*/,includeAllActive:           Option[Boolean] /* = false*/,includeDefault:           Option[Boolean] /* = false*/,includeOwnerSubscribed:           Option[Boolean] /* = false*/): ServiceCall[NotUsed ,JsonSuccessBase]
+  
+  /**
+    * Get the subscribers of a stream
+    * Get all users subscribed to a stream.  &#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60; 
+    *  
+    * @param streamId The ID of the stream to access.  
+    * @return JsonSuccessBase
+    */
+  def getSubscribers(streamId: Int): ServiceCall[NotUsed ,JsonSuccessBase]
   
   /**
     * Get subscription status

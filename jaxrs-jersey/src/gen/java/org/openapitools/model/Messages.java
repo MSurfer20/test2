@@ -48,7 +48,7 @@ import javax.validation.Valid;
   Messages.JSON_PROPERTY_TIMESTAMP,
   Messages.JSON_PROPERTY_TYPE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2021-08-08T20:42:23.370561Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2021-08-08T21:12:13.281187Z[Etc/UTC]")
 public class Messages   {
   public static final String JSON_PROPERTY_AVATAR_URL = "avatar_url";
   @JsonProperty(JSON_PROPERTY_AVATAR_URL)

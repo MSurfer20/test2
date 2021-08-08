@@ -25,8 +25,8 @@ Method | HTTP request | Description
 [**remove_user_group**](UsersApi.md#remove_user_group) | **DELETE** /user_groups/{user_group_id} | Delete a user group
 [**set_typing_status**](UsersApi.md#set_typing_status) | **POST** /typing | Set \&quot;typing\&quot; status
 [**unmute_user**](UsersApi.md#unmute_user) | **DELETE** /users/me/muted_users/{muted_user_id} | Unmute a user
-[**update_display_settings**](UsersApi.md#update_display_settings) | **PATCH** /settings/display | Update display settings
-[**update_notification_settings**](UsersApi.md#update_notification_settings) | **PATCH** /settings/notifications | Update notification settings
+[**update_settings**](UsersApi.md#update_settings) | **PATCH** /settings | Update settings
+[**update_status**](UsersApi.md#update_status) | **POST** /users/me/status | Update your status
 [**update_user**](UsersApi.md#update_user) | **PATCH** /users/{user_id} | Update a user
 [**update_user_group**](UsersApi.md#update_user_group) | **PATCH** /user_groups/{user_group_id} | Update a user group
 [**update_user_group_members**](UsersApi.md#update_user_group_members) | **POST** /user_groups/{user_group_id}/members | Update user group members
@@ -776,12 +776,12 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **update_display_settings**
-> JsonSuccessBase update_display_settings(twenty_four_hour_time => $twenty_four_hour_time, dense_mode => $dense_mode, starred_message_counts => $starred_message_counts, fluid_layout_width => $fluid_layout_width, high_contrast_mode => $high_contrast_mode, color_scheme => $color_scheme, translate_emoticons => $translate_emoticons, default_language => $default_language, default_view => $default_view, left_side_userlist => $left_side_userlist, emojiset => $emojiset, demote_inactive_streams => $demote_inactive_streams, timezone => $timezone)
+# **update_settings**
+> JsonSuccessBase update_settings(full_name => $full_name, email => $email, old_password => $old_password, new_password => $new_password, twenty_four_hour_time => $twenty_four_hour_time, dense_mode => $dense_mode, starred_message_counts => $starred_message_counts, fluid_layout_width => $fluid_layout_width, high_contrast_mode => $high_contrast_mode, color_scheme => $color_scheme, enable_drafts_synchronization => $enable_drafts_synchronization, translate_emoticons => $translate_emoticons, default_language => $default_language, default_view => $default_view, left_side_userlist => $left_side_userlist, emojiset => $emojiset, demote_inactive_streams => $demote_inactive_streams, timezone => $timezone, enable_stream_desktop_notifications => $enable_stream_desktop_notifications, enable_stream_email_notifications => $enable_stream_email_notifications, enable_stream_push_notifications => $enable_stream_push_notifications, enable_stream_audible_notifications => $enable_stream_audible_notifications, notification_sound => $notification_sound, enable_desktop_notifications => $enable_desktop_notifications, enable_sounds => $enable_sounds, email_notifications_batching_period_seconds => $email_notifications_batching_period_seconds, enable_offline_email_notifications => $enable_offline_email_notifications, enable_offline_push_notifications => $enable_offline_push_notifications, enable_online_push_notifications => $enable_online_push_notifications, enable_digest_emails => $enable_digest_emails, enable_marketing_emails => $enable_marketing_emails, enable_login_emails => $enable_login_emails, message_content_in_email_notifications => $message_content_in_email_notifications, pm_content_in_desktop_notifications => $pm_content_in_desktop_notifications, wildcard_mentions_notify => $wildcard_mentions_notify, desktop_icon_count_display => $desktop_icon_count_display, realm_name_in_notifications => $realm_name_in_notifications, presence_enabled => $presence_enabled, enter_sends => $enter_sends)
 
-Update display settings
+Update settings
 
-This endpoint is used to edit the current user's user interface settings.  `PATCH {{ api_url }}/v1/settings/display` 
+This endpoint is used to edit the current user's settings.  `PATCH {{ api_url }}/v1/settings`  **Changes**: Prior to Zulip 5.0 (feature level 80), this endpoint only supported the `full_name`, `email`, `old_password`, and `new_password` parameters. Notification settings were managed by `PATCH /settings/notifications`, and all other settings by `PATCH /settings/display`. The feature level 80 migration to merge these endpoints did not change how request parameters are encoded. Note, however, that it did change the handling of any invalid parameters present in a request to change notification or display settings, since the merged endpoint uses the new response format that was introduced for `/settings` in Zulip 5.0 (feature level 78).  The `/settings/display` and `/settings/notifications` endpoints are now deprecated aliases for this endpoint for backwards-compatibility, and will be removed once clients have migrated to use this endpoint. 
 
 ### Example 
 ```perl
@@ -790,26 +790,52 @@ use WWW::OpenAPIClient::UsersApi;
 my $api_instance = WWW::OpenAPIClient::UsersApi->new(
 );
 
-my $twenty_four_hour_time = true; # boolean | Whether time should be [displayed in 24-hour notation](/help/change-the-time-format). 
-my $dense_mode = true; # boolean | This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip. 
-my $starred_message_counts = true; # boolean | Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages). 
-my $fluid_layout_width = true; # boolean | Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app's center panel (message feed, recent topics) on wide screens. 
-my $high_contrast_mode = true; # boolean | This setting is reserved for use to control variations in Zulip's design to help visually impaired users. 
-my $color_scheme = 56; # int | Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard `prefers-color-scheme` media query. 
-my $translate_emoticons = true; # boolean | Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends. 
-my $default_language = en; # string | What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, `\"en\"` for English or `\"de\"` for German.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63). 
-my $default_view = all_messages; # string | The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the `Esc` keyboard shortcut repeatedly.  * \"recent_topics\" - Recent topics view * \"all_messages\" - All messages view  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). 
-my $left_side_userlist = true; # boolean | Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked. 
-my $emojiset = google; # string | The user's configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \"google\" - Google modern * \"google-blob\" - Google classic * \"twitter\" - Twitter * \"text\" - Plain text  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). 
-my $demote_inactive_streams = 56; # int | Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never 
-my $timezone = Asia/Kolkata; # string | The user's [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). 
+my $full_name = NewName; # string | A new display name for the user. 
+my $email = newname@example.com; # string | Asks the server to initiate a confirmation sequence to change the user's email address to the indicated value. The user will need to demonstrate control of the new email address by clicking a confirmation link sent to that address. 
+my $old_password = old12345; # string | The user's old Zulip password (or LDAP password, if LDAP authentication is in use).  Required only when sending the `new_password` parameter. 
+my $new_password = new12345; # string | The user's new Zulip password (or LDAP password, if LDAP authentication is in use).  The `old_password` parameter must be included in the request. 
+my $twenty_four_hour_time = true; # boolean | Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+my $dense_mode = true; # boolean | This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+my $starred_message_counts = true; # boolean | Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+my $fluid_layout_width = true; # boolean | Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app's center panel (message feed, recent topics) on wide screens.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+my $high_contrast_mode = true; # boolean | This setting is reserved for use to control variations in Zulip's design to help visually impaired users.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+my $color_scheme = 56; # int | Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard `prefers-color-scheme` media query.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+my $enable_drafts_synchronization = true; # boolean | A boolean parameter to control whether synchronizing drafts is enabled for the user. When synchronization is disabled, all drafts stored in the server will be automatically deleted from the server.  This does not do anything (like sending events) to delete local copies of drafts stored in clients.  **Changes**: New in Zulip 5.0 (feature level 87). 
+my $translate_emoticons = true; # boolean | Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+my $default_language = en; # string | What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, `\"en\"` for English or `\"de\"` for German.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63). 
+my $default_view = all_messages; # string | The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the `Esc` keyboard shortcut repeatedly.  * \"recent_topics\" - Recent topics view * \"all_messages\" - All messages view  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). 
+my $left_side_userlist = true; # boolean | Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+my $emojiset = google; # string | The user's configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \"google\" - Google modern * \"google-blob\" - Google classic * \"twitter\" - Twitter * \"text\" - Plain text  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). 
+my $demote_inactive_streams = 56; # int | Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+my $timezone = Asia/Kolkata; # string | The user's [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). 
+my $enable_stream_desktop_notifications = true; # boolean | Enable visual desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+my $enable_stream_email_notifications = true; # boolean | Enable email notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+my $enable_stream_push_notifications = true; # boolean | Enable mobile notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+my $enable_stream_audible_notifications = true; # boolean | Enable audible desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+my $notification_sound = ding; # string | Notification sound name.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63). 
+my $enable_desktop_notifications = true; # boolean | Enable visual desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+my $enable_sounds = true; # boolean | Enable audible desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+my $email_notifications_batching_period_seconds = 120; # int | The duration (in seconds) for which the server should wait to batch email notifications before sending them.  **Changes**: New in Zulip 5.0 (feature level 82) 
+my $enable_offline_email_notifications = true; # boolean | Enable email notifications for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+my $enable_offline_push_notifications = true; # boolean | Enable mobile notification for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+my $enable_online_push_notifications = true; # boolean | Enable mobile notification for private messages and @-mentions received when the user is online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+my $enable_digest_emails = true; # boolean | Enable digest emails when the user is away.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+my $enable_marketing_emails = true; # boolean | Enable marketing emails. Has no function outside Zulip Cloud.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+my $enable_login_emails = true; # boolean | Enable email notifications for new logins to account.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+my $message_content_in_email_notifications = true; # boolean | Include the message's content in email notifications for new messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+my $pm_content_in_desktop_notifications = true; # boolean | Include content of private messages in desktop notifications.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+my $wildcard_mentions_notify = true; # boolean | Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+my $desktop_icon_count_display = 56; # int | Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+my $realm_name_in_notifications = true; # boolean | Include organization name in subject of message notification emails.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+my $presence_enabled = true; # boolean | Display the presence status to other users when online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+my $enter_sends = true; # boolean | Whether pressing Enter in the compose box sends a message (or saves a message edit).  **Changes**: Before Zulip 5.0 (feature level 81), this setting was managed by the `POST /users/me/enter-sends` endpoint, with the same parameter format. 
 
 eval { 
-    my $result = $api_instance->update_display_settings(twenty_four_hour_time => $twenty_four_hour_time, dense_mode => $dense_mode, starred_message_counts => $starred_message_counts, fluid_layout_width => $fluid_layout_width, high_contrast_mode => $high_contrast_mode, color_scheme => $color_scheme, translate_emoticons => $translate_emoticons, default_language => $default_language, default_view => $default_view, left_side_userlist => $left_side_userlist, emojiset => $emojiset, demote_inactive_streams => $demote_inactive_streams, timezone => $timezone);
+    my $result = $api_instance->update_settings(full_name => $full_name, email => $email, old_password => $old_password, new_password => $new_password, twenty_four_hour_time => $twenty_four_hour_time, dense_mode => $dense_mode, starred_message_counts => $starred_message_counts, fluid_layout_width => $fluid_layout_width, high_contrast_mode => $high_contrast_mode, color_scheme => $color_scheme, enable_drafts_synchronization => $enable_drafts_synchronization, translate_emoticons => $translate_emoticons, default_language => $default_language, default_view => $default_view, left_side_userlist => $left_side_userlist, emojiset => $emojiset, demote_inactive_streams => $demote_inactive_streams, timezone => $timezone, enable_stream_desktop_notifications => $enable_stream_desktop_notifications, enable_stream_email_notifications => $enable_stream_email_notifications, enable_stream_push_notifications => $enable_stream_push_notifications, enable_stream_audible_notifications => $enable_stream_audible_notifications, notification_sound => $notification_sound, enable_desktop_notifications => $enable_desktop_notifications, enable_sounds => $enable_sounds, email_notifications_batching_period_seconds => $email_notifications_batching_period_seconds, enable_offline_email_notifications => $enable_offline_email_notifications, enable_offline_push_notifications => $enable_offline_push_notifications, enable_online_push_notifications => $enable_online_push_notifications, enable_digest_emails => $enable_digest_emails, enable_marketing_emails => $enable_marketing_emails, enable_login_emails => $enable_login_emails, message_content_in_email_notifications => $message_content_in_email_notifications, pm_content_in_desktop_notifications => $pm_content_in_desktop_notifications, wildcard_mentions_notify => $wildcard_mentions_notify, desktop_icon_count_display => $desktop_icon_count_display, realm_name_in_notifications => $realm_name_in_notifications, presence_enabled => $presence_enabled, enter_sends => $enter_sends);
     print Dumper($result);
 };
 if ($@) {
-    warn "Exception when calling UsersApi->update_display_settings: $@\n";
+    warn "Exception when calling UsersApi->update_settings: $@\n";
 }
 ```
 
@@ -817,19 +843,45 @@ if ($@) {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **twenty_four_hour_time** | **boolean**| Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).  | [optional] 
- **dense_mode** | **boolean**| This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip.  | [optional] 
- **starred_message_counts** | **boolean**| Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages).  | [optional] 
- **fluid_layout_width** | **boolean**| Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app&#39;s center panel (message feed, recent topics) on wide screens.  | [optional] 
- **high_contrast_mode** | **boolean**| This setting is reserved for use to control variations in Zulip&#39;s design to help visually impaired users.  | [optional] 
- **color_scheme** | **int**| Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard &#x60;prefers-color-scheme&#x60; media query.  | [optional] 
- **translate_emoticons** | **boolean**| Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends.  | [optional] 
- **default_language** | **string**| What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, &#x60;\&quot;en\&quot;&#x60; for English or &#x60;\&quot;de\&quot;&#x60; for German.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63).  | [optional] 
- **default_view** | **string**| The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the &#x60;Esc&#x60; keyboard shortcut repeatedly.  * \&quot;recent_topics\&quot; - Recent topics view * \&quot;all_messages\&quot; - All messages view  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64).  | [optional] 
- **left_side_userlist** | **boolean**| Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.  | [optional] 
- **emojiset** | **string**| The user&#39;s configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \&quot;google\&quot; - Google modern * \&quot;google-blob\&quot; - Google classic * \&quot;twitter\&quot; - Twitter * \&quot;text\&quot; - Plain text  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64).  | [optional] 
- **demote_inactive_streams** | **int**| Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never  | [optional] 
- **timezone** | **string**| The user&#39;s [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64).  | [optional] 
+ **full_name** | **string**| A new display name for the user.  | [optional] 
+ **email** | **string**| Asks the server to initiate a confirmation sequence to change the user&#39;s email address to the indicated value. The user will need to demonstrate control of the new email address by clicking a confirmation link sent to that address.  | [optional] 
+ **old_password** | **string**| The user&#39;s old Zulip password (or LDAP password, if LDAP authentication is in use).  Required only when sending the &#x60;new_password&#x60; parameter.  | [optional] 
+ **new_password** | **string**| The user&#39;s new Zulip password (or LDAP password, if LDAP authentication is in use).  The &#x60;old_password&#x60; parameter must be included in the request.  | [optional] 
+ **twenty_four_hour_time** | **boolean**| Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  | [optional] 
+ **dense_mode** | **boolean**| This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  | [optional] 
+ **starred_message_counts** | **boolean**| Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  | [optional] 
+ **fluid_layout_width** | **boolean**| Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app&#39;s center panel (message feed, recent topics) on wide screens.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  | [optional] 
+ **high_contrast_mode** | **boolean**| This setting is reserved for use to control variations in Zulip&#39;s design to help visually impaired users.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  | [optional] 
+ **color_scheme** | **int**| Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard &#x60;prefers-color-scheme&#x60; media query.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  | [optional] 
+ **enable_drafts_synchronization** | **boolean**| A boolean parameter to control whether synchronizing drafts is enabled for the user. When synchronization is disabled, all drafts stored in the server will be automatically deleted from the server.  This does not do anything (like sending events) to delete local copies of drafts stored in clients.  **Changes**: New in Zulip 5.0 (feature level 87).  | [optional] 
+ **translate_emoticons** | **boolean**| Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  | [optional] 
+ **default_language** | **string**| What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, &#x60;\&quot;en\&quot;&#x60; for English or &#x60;\&quot;de\&quot;&#x60; for German.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63).  | [optional] 
+ **default_view** | **string**| The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the &#x60;Esc&#x60; keyboard shortcut repeatedly.  * \&quot;recent_topics\&quot; - Recent topics view * \&quot;all_messages\&quot; - All messages view  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).  | [optional] 
+ **left_side_userlist** | **boolean**| Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  | [optional] 
+ **emojiset** | **string**| The user&#39;s configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \&quot;google\&quot; - Google modern * \&quot;google-blob\&quot; - Google classic * \&quot;twitter\&quot; - Twitter * \&quot;text\&quot; - Plain text  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).  | [optional] 
+ **demote_inactive_streams** | **int**| Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  | [optional] 
+ **timezone** | **string**| The user&#39;s [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).  | [optional] 
+ **enable_stream_desktop_notifications** | **boolean**| Enable visual desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  | [optional] 
+ **enable_stream_email_notifications** | **boolean**| Enable email notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  | [optional] 
+ **enable_stream_push_notifications** | **boolean**| Enable mobile notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  | [optional] 
+ **enable_stream_audible_notifications** | **boolean**| Enable audible desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  | [optional] 
+ **notification_sound** | **string**| Notification sound name.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63).  | [optional] 
+ **enable_desktop_notifications** | **boolean**| Enable visual desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  | [optional] 
+ **enable_sounds** | **boolean**| Enable audible desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  | [optional] 
+ **email_notifications_batching_period_seconds** | **int**| The duration (in seconds) for which the server should wait to batch email notifications before sending them.  **Changes**: New in Zulip 5.0 (feature level 82)  | [optional] 
+ **enable_offline_email_notifications** | **boolean**| Enable email notifications for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  | [optional] 
+ **enable_offline_push_notifications** | **boolean**| Enable mobile notification for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  | [optional] 
+ **enable_online_push_notifications** | **boolean**| Enable mobile notification for private messages and @-mentions received when the user is online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  | [optional] 
+ **enable_digest_emails** | **boolean**| Enable digest emails when the user is away.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  | [optional] 
+ **enable_marketing_emails** | **boolean**| Enable marketing emails. Has no function outside Zulip Cloud.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  | [optional] 
+ **enable_login_emails** | **boolean**| Enable email notifications for new logins to account.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  | [optional] 
+ **message_content_in_email_notifications** | **boolean**| Include the message&#39;s content in email notifications for new messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  | [optional] 
+ **pm_content_in_desktop_notifications** | **boolean**| Include content of private messages in desktop notifications.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  | [optional] 
+ **wildcard_mentions_notify** | **boolean**| Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  | [optional] 
+ **desktop_icon_count_display** | **int**| Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  | [optional] 
+ **realm_name_in_notifications** | **boolean**| Include organization name in subject of message notification emails.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  | [optional] 
+ **presence_enabled** | **boolean**| Display the presence status to other users when online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  | [optional] 
+ **enter_sends** | **boolean**| Whether pressing Enter in the compose box sends a message (or saves a message edit).  **Changes**: Before Zulip 5.0 (feature level 81), this setting was managed by the &#x60;POST /users/me/enter-sends&#x60; endpoint, with the same parameter format.  | [optional] 
 
 ### Return type
 
@@ -846,12 +898,12 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **update_notification_settings**
-> JsonSuccessBase update_notification_settings(enable_stream_desktop_notifications => $enable_stream_desktop_notifications, enable_stream_email_notifications => $enable_stream_email_notifications, enable_stream_push_notifications => $enable_stream_push_notifications, enable_stream_audible_notifications => $enable_stream_audible_notifications, notification_sound => $notification_sound, enable_desktop_notifications => $enable_desktop_notifications, enable_sounds => $enable_sounds, enable_offline_email_notifications => $enable_offline_email_notifications, enable_offline_push_notifications => $enable_offline_push_notifications, enable_online_push_notifications => $enable_online_push_notifications, enable_digest_emails => $enable_digest_emails, enable_marketing_emails => $enable_marketing_emails, enable_login_emails => $enable_login_emails, message_content_in_email_notifications => $message_content_in_email_notifications, pm_content_in_desktop_notifications => $pm_content_in_desktop_notifications, wildcard_mentions_notify => $wildcard_mentions_notify, desktop_icon_count_display => $desktop_icon_count_display, realm_name_in_notifications => $realm_name_in_notifications, presence_enabled => $presence_enabled)
+# **update_status**
+> JsonSuccess update_status(status_text => $status_text, away => $away, emoji_name => $emoji_name, emoji_code => $emoji_code, reaction_type => $reaction_type)
 
-Update notification settings
+Update your status
 
-This endpoint is used to edit the user's global notification settings. See [this endpoint](/api/update-subscription-settings) for per-stream notification settings.  `PATCH {{ api_url }}/v1/settings/notifications` 
+Change your [status](/help/status-and-availability).  `POST {{ api_url }}/v1/users/me/status`  A request to this endpoint will only change the parameters passed. For example, passing just `status_text` requests a change in the status text, but will leave the status emoji unchanged.  Clients that wish to set the user's status to a specific value should pass all supported parameters. 
 
 ### Example 
 ```perl
@@ -860,32 +912,18 @@ use WWW::OpenAPIClient::UsersApi;
 my $api_instance = WWW::OpenAPIClient::UsersApi->new(
 );
 
-my $enable_stream_desktop_notifications = true; # boolean | Enable visual desktop notifications for stream messages. 
-my $enable_stream_email_notifications = true; # boolean | Enable email notifications for stream messages. 
-my $enable_stream_push_notifications = true; # boolean | Enable mobile notifications for stream messages. 
-my $enable_stream_audible_notifications = true; # boolean | Enable audible desktop notifications for stream messages. 
-my $notification_sound = ding; # string | Notification sound name.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63). 
-my $enable_desktop_notifications = true; # boolean | Enable visual desktop notifications for private messages and @-mentions. 
-my $enable_sounds = true; # boolean | Enable audible desktop notifications for private messages and @-mentions. 
-my $enable_offline_email_notifications = true; # boolean | Enable email notifications for private messages and @-mentions received when the user is offline. 
-my $enable_offline_push_notifications = true; # boolean | Enable mobile notification for private messages and @-mentions received when the user is offline. 
-my $enable_online_push_notifications = true; # boolean | Enable mobile notification for private messages and @-mentions received when the user is online. 
-my $enable_digest_emails = true; # boolean | Enable digest emails when the user is away. 
-my $enable_marketing_emails = true; # boolean | Enable marketing emails. Has no function outside Zulip Cloud. 
-my $enable_login_emails = true; # boolean | Enable email notifications for new logins to account. 
-my $message_content_in_email_notifications = true; # boolean | Include the message's content in email notifications for new messages. 
-my $pm_content_in_desktop_notifications = true; # boolean | Include content of private messages in desktop notifications. 
-my $wildcard_mentions_notify = true; # boolean | Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention. 
-my $desktop_icon_count_display = 56; # int | Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None 
-my $realm_name_in_notifications = true; # boolean | Include organization name in subject of message notification emails. 
-my $presence_enabled = true; # boolean | Display the presence status to other users when online. 
+my $status_text = on vacation; # string | The text content of the status message. Sending the empty string will clear the user's status.  **Note**: The limit on the size of the message is 60 characters. 
+my $away = true; # boolean | Whether the user should be marked as \"away\". 
+my $emoji_name = car; # string | The name for the emoji to associate with this status. 
+my $emoji_code = 1f697; # string | A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji. 
+my $reaction_type = unicode_emoji; # string | One of the following values:  * `unicode_emoji`: Unicode emoji (`emoji_code` will be its Unicode   codepoint). * `realm_emoji`: [Custom emoji](/help/add-custom-emoji).   (`emoji_code` will be its ID). * `zulip_extra_emoji`: Special emoji included with Zulip.  Exists to   namespace the `zulip` emoji. 
 
 eval { 
-    my $result = $api_instance->update_notification_settings(enable_stream_desktop_notifications => $enable_stream_desktop_notifications, enable_stream_email_notifications => $enable_stream_email_notifications, enable_stream_push_notifications => $enable_stream_push_notifications, enable_stream_audible_notifications => $enable_stream_audible_notifications, notification_sound => $notification_sound, enable_desktop_notifications => $enable_desktop_notifications, enable_sounds => $enable_sounds, enable_offline_email_notifications => $enable_offline_email_notifications, enable_offline_push_notifications => $enable_offline_push_notifications, enable_online_push_notifications => $enable_online_push_notifications, enable_digest_emails => $enable_digest_emails, enable_marketing_emails => $enable_marketing_emails, enable_login_emails => $enable_login_emails, message_content_in_email_notifications => $message_content_in_email_notifications, pm_content_in_desktop_notifications => $pm_content_in_desktop_notifications, wildcard_mentions_notify => $wildcard_mentions_notify, desktop_icon_count_display => $desktop_icon_count_display, realm_name_in_notifications => $realm_name_in_notifications, presence_enabled => $presence_enabled);
+    my $result = $api_instance->update_status(status_text => $status_text, away => $away, emoji_name => $emoji_name, emoji_code => $emoji_code, reaction_type => $reaction_type);
     print Dumper($result);
 };
 if ($@) {
-    warn "Exception when calling UsersApi->update_notification_settings: $@\n";
+    warn "Exception when calling UsersApi->update_status: $@\n";
 }
 ```
 
@@ -893,29 +931,15 @@ if ($@) {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **enable_stream_desktop_notifications** | **boolean**| Enable visual desktop notifications for stream messages.  | [optional] 
- **enable_stream_email_notifications** | **boolean**| Enable email notifications for stream messages.  | [optional] 
- **enable_stream_push_notifications** | **boolean**| Enable mobile notifications for stream messages.  | [optional] 
- **enable_stream_audible_notifications** | **boolean**| Enable audible desktop notifications for stream messages.  | [optional] 
- **notification_sound** | **string**| Notification sound name.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63).  | [optional] 
- **enable_desktop_notifications** | **boolean**| Enable visual desktop notifications for private messages and @-mentions.  | [optional] 
- **enable_sounds** | **boolean**| Enable audible desktop notifications for private messages and @-mentions.  | [optional] 
- **enable_offline_email_notifications** | **boolean**| Enable email notifications for private messages and @-mentions received when the user is offline.  | [optional] 
- **enable_offline_push_notifications** | **boolean**| Enable mobile notification for private messages and @-mentions received when the user is offline.  | [optional] 
- **enable_online_push_notifications** | **boolean**| Enable mobile notification for private messages and @-mentions received when the user is online.  | [optional] 
- **enable_digest_emails** | **boolean**| Enable digest emails when the user is away.  | [optional] 
- **enable_marketing_emails** | **boolean**| Enable marketing emails. Has no function outside Zulip Cloud.  | [optional] 
- **enable_login_emails** | **boolean**| Enable email notifications for new logins to account.  | [optional] 
- **message_content_in_email_notifications** | **boolean**| Include the message&#39;s content in email notifications for new messages.  | [optional] 
- **pm_content_in_desktop_notifications** | **boolean**| Include content of private messages in desktop notifications.  | [optional] 
- **wildcard_mentions_notify** | **boolean**| Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention.  | [optional] 
- **desktop_icon_count_display** | **int**| Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None  | [optional] 
- **realm_name_in_notifications** | **boolean**| Include organization name in subject of message notification emails.  | [optional] 
- **presence_enabled** | **boolean**| Display the presence status to other users when online.  | [optional] 
+ **status_text** | **string**| The text content of the status message. Sending the empty string will clear the user&#39;s status.  **Note**: The limit on the size of the message is 60 characters.  | [optional] 
+ **away** | **boolean**| Whether the user should be marked as \&quot;away\&quot;.  | [optional] 
+ **emoji_name** | **string**| The name for the emoji to associate with this status.  | [optional] 
+ **emoji_code** | **string**| A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint; for &#x60;realm_emoji&#x60;, it&#39;ll be the ID of the realm emoji.  | [optional] 
+ **reaction_type** | **string**| One of the following values:  * &#x60;unicode_emoji&#x60;: Unicode emoji (&#x60;emoji_code&#x60; will be its Unicode   codepoint). * &#x60;realm_emoji&#x60;: [Custom emoji](/help/add-custom-emoji).   (&#x60;emoji_code&#x60; will be its ID). * &#x60;zulip_extra_emoji&#x60;: Special emoji included with Zulip.  Exists to   namespace the &#x60;zulip&#x60; emoji.  | [optional] 
 
 ### Return type
 
-[**JsonSuccessBase**](JsonSuccessBase.md)
+[**JsonSuccess**](JsonSuccess.md)
 
 ### Authorization
 

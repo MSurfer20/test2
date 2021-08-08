@@ -26,10 +26,13 @@ docs/CodedErrorBase.md
 docs/CodedErrorBaseAllOf.md
 docs/CustomProfileField.md
 docs/DefaultStreamGroup.md
+docs/Draft.md
+docs/EmojiBase.md
 docs/EmojiReaction.md
 docs/EmojiReactionAllOf.md
 docs/EmojiReactionBase.md
-docs/EmojiReactionBaseUser.md
+docs/EmojiReactionBaseAllOf.md
+docs/EmojiReactionBaseAllOfUser.md
 docs/EventIdSchema.md
 docs/EventTypeSchema.md
 docs/GetMessages.md
@@ -71,6 +74,7 @@ docs/UserDeactivatedError.md
 docs/UserGroup.md
 docs/UserNotAuthorizedError.md
 docs/authentication_api.md
+docs/drafts_api.md
 docs/messages_api.md
 docs/real_time_events_api.md
 docs/server_and_organizations_api.md

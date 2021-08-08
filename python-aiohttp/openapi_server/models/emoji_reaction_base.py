@@ -5,7 +5,9 @@ from datetime import date, datetime
 from typing import List, Dict, Type
 
 from openapi_server.models.base_model_ import Model
-from openapi_server.models.emoji_reaction_base_user import EmojiReactionBaseUser
+from openapi_server.models.emoji_base import EmojiBase
+from openapi_server.models.emoji_reaction_base_all_of import EmojiReactionBaseAllOf
+from openapi_server.models.emoji_reaction_base_all_of_user import EmojiReactionBaseAllOfUser
 from openapi_server import util
 
 
@@ -15,7 +17,7 @@ class EmojiReactionBase(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, emoji_code: str=None, emoji_name: str=None, reaction_type: str=None, user_id: int=None, user: EmojiReactionBaseUser=None):
+    def __init__(self, emoji_code: str=None, emoji_name: str=None, reaction_type: str=None, user_id: int=None, user: EmojiReactionBaseAllOfUser=None):
         """EmojiReactionBase - a model defined in OpenAPI
 
         :param emoji_code: The emoji_code of this EmojiReactionBase.
@@ -29,7 +31,7 @@ class EmojiReactionBase(Model):
             'emoji_name': str,
             'reaction_type': str,
             'user_id': int,
-            'user': EmojiReactionBaseUser
+            'user': EmojiReactionBaseAllOfUser
         }
 
         self.attribute_map = {
@@ -59,7 +61,7 @@ class EmojiReactionBase(Model):
     def emoji_code(self):
         """Gets the emoji_code of this EmojiReactionBase.
 
-        A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint. 
+        A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji. 
 
         :return: The emoji_code of this EmojiReactionBase.
         :rtype: str
@@ -70,7 +72,7 @@ class EmojiReactionBase(Model):
     def emoji_code(self, emoji_code):
         """Sets the emoji_code of this EmojiReactionBase.
 
-        A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint. 
+        A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji. 
 
         :param emoji_code: The emoji_code of this EmojiReactionBase.
         :type emoji_code: str
@@ -153,7 +155,7 @@ class EmojiReactionBase(Model):
 
 
         :return: The user of this EmojiReactionBase.
-        :rtype: EmojiReactionBaseUser
+        :rtype: EmojiReactionBaseAllOfUser
         """
         return self._user
 
@@ -163,7 +165,7 @@ class EmojiReactionBase(Model):
 
 
         :param user: The user of this EmojiReactionBase.
-        :type user: EmojiReactionBaseUser
+        :type user: EmojiReactionBaseAllOfUser
         """
 
         self._user = user

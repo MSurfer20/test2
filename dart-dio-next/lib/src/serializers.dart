@@ -34,10 +34,13 @@ import 'package:openapi/src/model/coded_error_base.dart';
 import 'package:openapi/src/model/coded_error_base_all_of.dart';
 import 'package:openapi/src/model/custom_profile_field.dart';
 import 'package:openapi/src/model/default_stream_group.dart';
+import 'package:openapi/src/model/draft.dart';
+import 'package:openapi/src/model/emoji_base.dart';
 import 'package:openapi/src/model/emoji_reaction.dart';
 import 'package:openapi/src/model/emoji_reaction_all_of.dart';
 import 'package:openapi/src/model/emoji_reaction_base.dart';
-import 'package:openapi/src/model/emoji_reaction_base_user.dart';
+import 'package:openapi/src/model/emoji_reaction_base_all_of.dart';
+import 'package:openapi/src/model/emoji_reaction_base_all_of_user.dart';
 import 'package:openapi/src/model/get_messages.dart';
 import 'package:openapi/src/model/get_messages_all_of.dart';
 import 'package:openapi/src/model/hotspot.dart';
@@ -101,10 +104,13 @@ part 'serializers.g.dart';
   CodedErrorBaseAllOf,
   CustomProfileField,
   DefaultStreamGroup,
+  Draft,
+  EmojiBase,
   EmojiReaction,
   EmojiReactionAllOf,
   EmojiReactionBase,
-  EmojiReactionBaseUser,
+  EmojiReactionBaseAllOf,
+  EmojiReactionBaseAllOfUser,
   GetMessages,
   GetMessagesAllOf,
   Hotspot,

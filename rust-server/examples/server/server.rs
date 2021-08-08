@@ -98,6 +98,10 @@ use openapi_client::{
     Api,
     DevFetchApiKeyResponse,
     FetchApiKeyResponse,
+    CreateDraftsResponse,
+    DeleteDraftResponse,
+    EditDraftResponse,
+    GetDraftsResponse,
     AddReactionResponse,
     CheckMessagesMatchNarrowResponse,
     DeleteMessageResponse,
@@ -133,9 +137,11 @@ use openapi_client::{
     UploadCustomEmojiResponse,
     ArchiveStreamResponse,
     CreateBigBlueButtonVideoCallResponse,
+    DeleteTopicResponse,
     GetStreamIdResponse,
     GetStreamTopicsResponse,
     GetStreamsResponse,
+    GetSubscribersResponse,
     GetSubscriptionStatusResponse,
     GetSubscriptionsResponse,
     MuteTopicResponse,
@@ -160,8 +166,8 @@ use openapi_client::{
     RemoveUserGroupResponse,
     SetTypingStatusResponse,
     UnmuteUserResponse,
-    UpdateDisplaySettingsResponse,
-    UpdateNotificationSettingsResponse,
+    UpdateSettingsResponse,
+    UpdateStatusResponse,
     UpdateUserResponse,
     UpdateUserGroupResponse,
     UpdateUserGroupMembersResponse,
@@ -194,6 +200,50 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("fetch_api_key(\"{}\", \"{}\") - X-Span-ID: {:?}", username, password, context.get().0.clone());
+        Err("Generic failuare".into())
+    }
+
+    /// Create drafts
+    async fn create_drafts(
+        &self,
+        drafts: Option<&Vec<models::Draft>>,
+        context: &C) -> Result<CreateDraftsResponse, ApiError>
+    {
+        let context = context.clone();
+        info!("create_drafts({:?}) - X-Span-ID: {:?}", drafts, context.get().0.clone());
+        Err("Generic failuare".into())
+    }
+
+    /// Delete a draft
+    async fn delete_draft(
+        &self,
+        draft_id: i32,
+        context: &C) -> Result<DeleteDraftResponse, ApiError>
+    {
+        let context = context.clone();
+        info!("delete_draft({}) - X-Span-ID: {:?}", draft_id, context.get().0.clone());
+        Err("Generic failuare".into())
+    }
+
+    /// Edit a draft
+    async fn edit_draft(
+        &self,
+        draft_id: i32,
+        draft: models::Draft,
+        context: &C) -> Result<EditDraftResponse, ApiError>
+    {
+        let context = context.clone();
+        info!("edit_draft({}, {:?}) - X-Span-ID: {:?}", draft_id, draft, context.get().0.clone());
+        Err("Generic failuare".into())
+    }
+
+    /// Get drafts
+    async fn get_drafts(
+        &self,
+        context: &C) -> Result<GetDraftsResponse, ApiError>
+    {
+        let context = context.clone();
+        info!("get_drafts() - X-Span-ID: {:?}", context.get().0.clone());
         Err("Generic failuare".into())
     }
 
@@ -623,6 +673,18 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         Err("Generic failuare".into())
     }
 
+    /// Delete a topic
+    async fn delete_topic(
+        &self,
+        stream_id: i32,
+        topic_name: String,
+        context: &C) -> Result<DeleteTopicResponse, ApiError>
+    {
+        let context = context.clone();
+        info!("delete_topic({}, \"{}\") - X-Span-ID: {:?}", stream_id, topic_name, context.get().0.clone());
+        Err("Generic failuare".into())
+    }
+
     /// Get stream ID
     async fn get_stream_id(
         &self,
@@ -658,6 +720,17 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("get_streams({:?}, {:?}, {:?}, {:?}, {:?}, {:?}) - X-Span-ID: {:?}", include_public, include_web_public, include_subscribed, include_all_active, include_default, include_owner_subscribed, context.get().0.clone());
+        Err("Generic failuare".into())
+    }
+
+    /// Get the subscribers of a stream
+    async fn get_subscribers(
+        &self,
+        stream_id: i32,
+        context: &C) -> Result<GetSubscribersResponse, ApiError>
+    {
+        let context = context.clone();
+        info!("get_subscribers({}) - X-Span-ID: {:?}", stream_id, context.get().0.clone());
         Err("Generic failuare".into())
     }
 
@@ -953,15 +1026,20 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         Err("Generic failuare".into())
     }
 
-    /// Update display settings
-    async fn update_display_settings(
+    /// Update settings
+    async fn update_settings(
         &self,
+        full_name: Option<String>,
+        email: Option<String>,
+        old_password: Option<String>,
+        new_password: Option<String>,
         twenty_four_hour_time: Option<bool>,
         dense_mode: Option<bool>,
         starred_message_counts: Option<bool>,
         fluid_layout_width: Option<bool>,
         high_contrast_mode: Option<bool>,
         color_scheme: Option<i32>,
+        enable_drafts_synchronization: Option<bool>,
         translate_emoticons: Option<bool>,
         default_language: Option<String>,
         default_view: Option<String>,
@@ -969,16 +1047,6 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         emojiset: Option<String>,
         demote_inactive_streams: Option<i32>,
         timezone: Option<String>,
-        context: &C) -> Result<UpdateDisplaySettingsResponse, ApiError>
-    {
-        let context = context.clone();
-        info!("update_display_settings({:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}) - X-Span-ID: {:?}", twenty_four_hour_time, dense_mode, starred_message_counts, fluid_layout_width, high_contrast_mode, color_scheme, translate_emoticons, default_language, default_view, left_side_userlist, emojiset, demote_inactive_streams, timezone, context.get().0.clone());
-        Err("Generic failuare".into())
-    }
-
-    /// Update notification settings
-    async fn update_notification_settings(
-        &self,
         enable_stream_desktop_notifications: Option<bool>,
         enable_stream_email_notifications: Option<bool>,
         enable_stream_push_notifications: Option<bool>,
@@ -986,6 +1054,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         notification_sound: Option<String>,
         enable_desktop_notifications: Option<bool>,
         enable_sounds: Option<bool>,
+        email_notifications_batching_period_seconds: Option<i32>,
         enable_offline_email_notifications: Option<bool>,
         enable_offline_push_notifications: Option<bool>,
         enable_online_push_notifications: Option<bool>,
@@ -998,10 +1067,26 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         desktop_icon_count_display: Option<i32>,
         realm_name_in_notifications: Option<bool>,
         presence_enabled: Option<bool>,
-        context: &C) -> Result<UpdateNotificationSettingsResponse, ApiError>
+        enter_sends: Option<bool>,
+        context: &C) -> Result<UpdateSettingsResponse, ApiError>
     {
         let context = context.clone();
-        info!("update_notification_settings({:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}) - X-Span-ID: {:?}", enable_stream_desktop_notifications, enable_stream_email_notifications, enable_stream_push_notifications, enable_stream_audible_notifications, notification_sound, enable_desktop_notifications, enable_sounds, enable_offline_email_notifications, enable_offline_push_notifications, enable_online_push_notifications, enable_digest_emails, enable_marketing_emails, enable_login_emails, message_content_in_email_notifications, pm_content_in_desktop_notifications, wildcard_mentions_notify, desktop_icon_count_display, realm_name_in_notifications, presence_enabled, context.get().0.clone());
+        info!("update_settings({:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}) - X-Span-ID: {:?}", full_name, email, old_password, new_password, twenty_four_hour_time, dense_mode, starred_message_counts, fluid_layout_width, high_contrast_mode, color_scheme, enable_drafts_synchronization, translate_emoticons, default_language, default_view, left_side_userlist, emojiset, demote_inactive_streams, timezone, enable_stream_desktop_notifications, enable_stream_email_notifications, enable_stream_push_notifications, enable_stream_audible_notifications, notification_sound, enable_desktop_notifications, enable_sounds, email_notifications_batching_period_seconds, enable_offline_email_notifications, enable_offline_push_notifications, enable_online_push_notifications, enable_digest_emails, enable_marketing_emails, enable_login_emails, message_content_in_email_notifications, pm_content_in_desktop_notifications, wildcard_mentions_notify, desktop_icon_count_display, realm_name_in_notifications, presence_enabled, enter_sends, context.get().0.clone());
+        Err("Generic failuare".into())
+    }
+
+    /// Update your status
+    async fn update_status(
+        &self,
+        status_text: Option<String>,
+        away: Option<bool>,
+        emoji_name: Option<String>,
+        emoji_code: Option<String>,
+        reaction_type: Option<String>,
+        context: &C) -> Result<UpdateStatusResponse, ApiError>
+    {
+        let context = context.clone();
+        info!("update_status({:?}, {:?}, {:?}, {:?}, {:?}) - X-Span-ID: {:?}", status_text, away, emoji_name, emoji_code, reaction_type, context.get().0.clone());
         Err("Generic failuare".into())
     }
 

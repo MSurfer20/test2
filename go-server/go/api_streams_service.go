@@ -51,6 +51,20 @@ func (s *StreamsApiService) CreateBigBlueButtonVideoCall(ctx context.Context) (I
 	return Response(http.StatusNotImplemented, nil), errors.New("CreateBigBlueButtonVideoCall method not implemented")
 }
 
+// DeleteTopic - Delete a topic
+func (s *StreamsApiService) DeleteTopic(ctx context.Context, streamId int32, topicName string) (ImplResponse, error) {
+	// TODO - update DeleteTopic with the required logic for this service method.
+	// Add api_streams_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
+
+	//TODO: Uncomment the next line to return response Response(200, JsonSuccess{}) or use other options such as http.Ok ...
+	//return Response(200, JsonSuccess{}), nil
+
+	//TODO: Uncomment the next line to return response Response(400, JsonError{}) or use other options such as http.Ok ...
+	//return Response(400, JsonError{}), nil
+
+	return Response(http.StatusNotImplemented, nil), errors.New("DeleteTopic method not implemented")
+}
+
 // GetStreamId - Get stream ID
 func (s *StreamsApiService) GetStreamId(ctx context.Context, stream string) (ImplResponse, error) {
 	// TODO - update GetStreamId with the required logic for this service method.
@@ -91,6 +105,20 @@ func (s *StreamsApiService) GetStreams(ctx context.Context, includePublic bool, 
 	//return Response(400, CodedError{}), nil
 
 	return Response(http.StatusNotImplemented, nil), errors.New("GetStreams method not implemented")
+}
+
+// GetSubscribers - Get the subscribers of a stream
+func (s *StreamsApiService) GetSubscribers(ctx context.Context, streamId int32) (ImplResponse, error) {
+	// TODO - update GetSubscribers with the required logic for this service method.
+	// Add api_streams_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
+
+	//TODO: Uncomment the next line to return response Response(200, JsonSuccessBase{}) or use other options such as http.Ok ...
+	//return Response(200, JsonSuccessBase{}), nil
+
+	//TODO: Uncomment the next line to return response Response(400, JsonError{}) or use other options such as http.Ok ...
+	//return Response(400, JsonError{}), nil
+
+	return Response(http.StatusNotImplemented, nil), errors.New("GetSubscribers method not implemented")
 }
 
 // GetSubscriptionStatus - Get subscription status

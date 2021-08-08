@@ -71,6 +71,12 @@ public:
     void createBigBlueButtonVideoCall();
 
     /**
+    * @param[in]  stream_id qint32 [required]
+    * @param[in]  topic_name QString [required]
+    */
+    void deleteTopic(const qint32 &stream_id, const QString &topic_name);
+
+    /**
     * @param[in]  stream QString [required]
     */
     void getStreamId(const QString &stream);
@@ -89,6 +95,11 @@ public:
     * @param[in]  include_owner_subscribed bool [optional]
     */
     void getStreams(const ::OpenAPI::OptionalParam<bool> &include_public = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<bool> &include_web_public = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<bool> &include_subscribed = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<bool> &include_all_active = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<bool> &include_default = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<bool> &include_owner_subscribed = ::OpenAPI::OptionalParam<bool>());
+
+    /**
+    * @param[in]  stream_id qint32 [required]
+    */
+    void getSubscribers(const qint32 &stream_id);
 
     /**
     * @param[in]  user_id qint32 [required]
@@ -167,9 +178,11 @@ private:
 
     void archiveStreamCallback(OAIHttpRequestWorker *worker);
     void createBigBlueButtonVideoCallCallback(OAIHttpRequestWorker *worker);
+    void deleteTopicCallback(OAIHttpRequestWorker *worker);
     void getStreamIdCallback(OAIHttpRequestWorker *worker);
     void getStreamTopicsCallback(OAIHttpRequestWorker *worker);
     void getStreamsCallback(OAIHttpRequestWorker *worker);
+    void getSubscribersCallback(OAIHttpRequestWorker *worker);
     void getSubscriptionStatusCallback(OAIHttpRequestWorker *worker);
     void getSubscriptionsCallback(OAIHttpRequestWorker *worker);
     void muteTopicCallback(OAIHttpRequestWorker *worker);
@@ -183,9 +196,11 @@ signals:
 
     void archiveStreamSignal(OAIJsonSuccess summary);
     void createBigBlueButtonVideoCallSignal(OAIJsonSuccessBase summary);
+    void deleteTopicSignal(OAIJsonSuccess summary);
     void getStreamIdSignal(OAIJsonSuccessBase summary);
     void getStreamTopicsSignal(OAIJsonSuccessBase summary);
     void getStreamsSignal(OAIJsonSuccessBase summary);
+    void getSubscribersSignal(OAIJsonSuccessBase summary);
     void getSubscriptionStatusSignal(OAIJsonSuccessBase summary);
     void getSubscriptionsSignal(OAIJsonSuccessBase summary);
     void muteTopicSignal(OAIJsonSuccess summary);
@@ -197,9 +212,11 @@ signals:
 
     void archiveStreamSignalFull(OAIHttpRequestWorker *worker, OAIJsonSuccess summary);
     void createBigBlueButtonVideoCallSignalFull(OAIHttpRequestWorker *worker, OAIJsonSuccessBase summary);
+    void deleteTopicSignalFull(OAIHttpRequestWorker *worker, OAIJsonSuccess summary);
     void getStreamIdSignalFull(OAIHttpRequestWorker *worker, OAIJsonSuccessBase summary);
     void getStreamTopicsSignalFull(OAIHttpRequestWorker *worker, OAIJsonSuccessBase summary);
     void getStreamsSignalFull(OAIHttpRequestWorker *worker, OAIJsonSuccessBase summary);
+    void getSubscribersSignalFull(OAIHttpRequestWorker *worker, OAIJsonSuccessBase summary);
     void getSubscriptionStatusSignalFull(OAIHttpRequestWorker *worker, OAIJsonSuccessBase summary);
     void getSubscriptionsSignalFull(OAIHttpRequestWorker *worker, OAIJsonSuccessBase summary);
     void muteTopicSignalFull(OAIHttpRequestWorker *worker, OAIJsonSuccess summary);
@@ -211,9 +228,11 @@ signals:
 
     void archiveStreamSignalE(OAIJsonSuccess summary, QNetworkReply::NetworkError error_type, QString error_str);
     void createBigBlueButtonVideoCallSignalE(OAIJsonSuccessBase summary, QNetworkReply::NetworkError error_type, QString error_str);
+    void deleteTopicSignalE(OAIJsonSuccess summary, QNetworkReply::NetworkError error_type, QString error_str);
     void getStreamIdSignalE(OAIJsonSuccessBase summary, QNetworkReply::NetworkError error_type, QString error_str);
     void getStreamTopicsSignalE(OAIJsonSuccessBase summary, QNetworkReply::NetworkError error_type, QString error_str);
     void getStreamsSignalE(OAIJsonSuccessBase summary, QNetworkReply::NetworkError error_type, QString error_str);
+    void getSubscribersSignalE(OAIJsonSuccessBase summary, QNetworkReply::NetworkError error_type, QString error_str);
     void getSubscriptionStatusSignalE(OAIJsonSuccessBase summary, QNetworkReply::NetworkError error_type, QString error_str);
     void getSubscriptionsSignalE(OAIJsonSuccessBase summary, QNetworkReply::NetworkError error_type, QString error_str);
     void muteTopicSignalE(OAIJsonSuccess summary, QNetworkReply::NetworkError error_type, QString error_str);
@@ -225,9 +244,11 @@ signals:
 
     void archiveStreamSignalEFull(OAIHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
     void createBigBlueButtonVideoCallSignalEFull(OAIHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
+    void deleteTopicSignalEFull(OAIHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
     void getStreamIdSignalEFull(OAIHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
     void getStreamTopicsSignalEFull(OAIHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
     void getStreamsSignalEFull(OAIHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
+    void getSubscribersSignalEFull(OAIHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
     void getSubscriptionStatusSignalEFull(OAIHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
     void getSubscriptionsSignalEFull(OAIHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
     void muteTopicSignalEFull(OAIHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);

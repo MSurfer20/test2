@@ -107,6 +107,48 @@ export default class StreamsApi extends ApiClient {
     }
 
     /**
+     * Delete a topic
+     * Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+     * @param {Number} streamId The ID of the stream to access. 
+     * @param {String} topicName The name of the topic to delete. 
+     * @return {Promise<JsonSuccess>}
+     */
+    async deleteTopic(streamId, topicName) {
+      let postBody = null;
+      // verify the required parameter 'streamId' is set
+      if (streamId === undefined || streamId === null) {
+        throw new Error("Missing the required parameter 'streamId' when calling deleteTopic");
+      }
+      // verify the required parameter 'topicName' is set
+      if (topicName === undefined || topicName === null) {
+        throw new Error("Missing the required parameter 'topicName' when calling deleteTopic");
+      }
+
+      let pathParams = {
+        'stream_id': streamId
+      };
+      let queryParams = {
+        'topic_name': topicName
+      };
+      let headerParams = {
+        'User-Agent': 'OpenAPI-Generator/1.0.0/Javascript',
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = [];
+      let accepts = ['application/json'];
+      let returnType = JsonSuccess;
+
+      return this.callApi(
+        '/streams/{stream_id}/delete_topic', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType
+      );
+    }
+
+    /**
      * Get stream ID
      * Get the unique ID of a given stream.  `GET {{ api_url }}/v1/get_stream_id` 
      * @param {String} stream The name of the stream to access. 
@@ -217,6 +259,42 @@ export default class StreamsApi extends ApiClient {
 
       return this.callApi(
         '/streams', 'GET',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType
+      );
+    }
+
+    /**
+     * Get the subscribers of a stream
+     * Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` 
+     * @param {Number} streamId The ID of the stream to access. 
+     * @return {Promise<JsonSuccessBase>}
+     */
+    async getSubscribers(streamId) {
+      let postBody = null;
+      // verify the required parameter 'streamId' is set
+      if (streamId === undefined || streamId === null) {
+        throw new Error("Missing the required parameter 'streamId' when calling getSubscribers");
+      }
+
+      let pathParams = {
+        'stream_id': streamId
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+        'User-Agent': 'OpenAPI-Generator/1.0.0/Javascript',
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = [];
+      let accepts = ['application/json'];
+      let returnType = JsonSuccessBase;
+
+      return this.callApi(
+        '/streams/{stream_id}/members', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType
       );

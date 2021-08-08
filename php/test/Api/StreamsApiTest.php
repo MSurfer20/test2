@@ -96,6 +96,18 @@ class StreamsApiTest extends TestCase
     }
 
     /**
+     * Test case for deleteTopic
+     *
+     * Delete a topic.
+     *
+     */
+    public function testDeleteTopic()
+    {
+        // TODO: implement
+        $this->markTestIncomplete('Not implemented');
+    }
+
+    /**
      * Test case for getStreamId
      *
      * Get stream ID.
@@ -126,6 +138,18 @@ class StreamsApiTest extends TestCase
      *
      */
     public function testGetStreams()
+    {
+        // TODO: implement
+        $this->markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test case for getSubscribers
+     *
+     * Get the subscribers of a stream.
+     *
+     */
+    public function testGetSubscribers()
     {
         // TODO: implement
         $this->markTestIncomplete('Not implemented');

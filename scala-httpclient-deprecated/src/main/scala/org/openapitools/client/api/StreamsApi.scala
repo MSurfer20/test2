@@ -131,6 +131,34 @@ class StreamsApi(
   }
 
   /**
+   * Delete a topic
+   * Delete all messages in a topic.  &#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+   *
+   * @param streamId The ID of the stream to access.  
+   * @param topicName The name of the topic to delete.  
+   * @return JsonSuccess
+   */
+  def deleteTopic(streamId: Integer, topicName: String): Option[JsonSuccess] = {
+    val await = Try(Await.result(deleteTopicAsync(streamId, topicName), Duration.Inf))
+    await match {
+      case Success(i) => Some(await.get)
+      case Failure(t) => None
+    }
+  }
+
+  /**
+   * Delete a topic asynchronously
+   * Delete all messages in a topic.  &#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+   *
+   * @param streamId The ID of the stream to access.  
+   * @param topicName The name of the topic to delete.  
+   * @return Future(JsonSuccess)
+   */
+  def deleteTopicAsync(streamId: Integer, topicName: String): Future[JsonSuccess] = {
+      helper.deleteTopic(streamId, topicName)
+  }
+
+  /**
    * Get stream ID
    * Get the unique ID of a given stream.  &#x60;GET {{ api_url }}/v1/get_stream_id&#x60; 
    *
@@ -216,6 +244,32 @@ class StreamsApi(
    */
   def getStreamsAsync(includePublic: Option[Boolean] = None, includeWebPublic: Option[Boolean] = None, includeSubscribed: Option[Boolean] = None, includeAllActive: Option[Boolean] = None, includeDefault: Option[Boolean] = None, includeOwnerSubscribed: Option[Boolean] = None): Future[JsonSuccessBase] = {
       helper.getStreams(includePublic, includeWebPublic, includeSubscribed, includeAllActive, includeDefault, includeOwnerSubscribed)
+  }
+
+  /**
+   * Get the subscribers of a stream
+   * Get all users subscribed to a stream.  &#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60; 
+   *
+   * @param streamId The ID of the stream to access.  
+   * @return JsonSuccessBase
+   */
+  def getSubscribers(streamId: Integer): Option[JsonSuccessBase] = {
+    val await = Try(Await.result(getSubscribersAsync(streamId), Duration.Inf))
+    await match {
+      case Success(i) => Some(await.get)
+      case Failure(t) => None
+    }
+  }
+
+  /**
+   * Get the subscribers of a stream asynchronously
+   * Get all users subscribed to a stream.  &#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60; 
+   *
+   * @param streamId The ID of the stream to access.  
+   * @return Future(JsonSuccessBase)
+   */
+  def getSubscribersAsync(streamId: Integer): Future[JsonSuccessBase] = {
+      helper.getSubscribers(streamId)
   }
 
   /**
@@ -509,6 +563,30 @@ class StreamsApiAsyncHelper(client: TransportClient, config: SwaggerConfig) exte
     }
   }
 
+  def deleteTopic(streamId: Integer,
+    topicName: String)(implicit reader: ClientResponseReader[JsonSuccess]): Future[JsonSuccess] = {
+    // create path and map variables
+    val path = (addFmt("/streams/{stream_id}/delete_topic")
+      replaceAll("\\{" + "stream_id" + "\\}", streamId.toString))
+
+    // query params
+    val queryParams = new mutable.HashMap[String, String]
+    val headerParams = new mutable.HashMap[String, String]
+
+    if (topicName == null) throw new Exception("Missing required parameter 'topicName' when calling StreamsApi->deleteTopic")
+
+    queryParams += "topic_name" -> topicName.toString
+
+    val resFuture = client.submit("POST", path, queryParams.toMap, headerParams.toMap, "")
+    resFuture flatMap { resp =>
+      val status = Response.Status.fromStatusCode(resp.statusCode)
+      status.getFamily match {
+        case Family.SUCCESSFUL | Family.REDIRECTION | Family.INFORMATIONAL => process(reader.read(resp))
+        case _ => throw new ApiException(resp.statusCode, resp.statusText)
+      }
+    }
+  }
+
   def getStreamId(stream: String)(implicit reader: ClientResponseReader[JsonSuccessBase]): Future[JsonSuccessBase] = {
     // create path and map variables
     val path = (addFmt("/get_stream_id"))
@@ -589,6 +667,26 @@ class StreamsApiAsyncHelper(client: TransportClient, config: SwaggerConfig) exte
       case Some(param) => queryParams += "include_owner_subscribed" -> param.toString
       case _ => queryParams
     }
+
+    val resFuture = client.submit("GET", path, queryParams.toMap, headerParams.toMap, "")
+    resFuture flatMap { resp =>
+      val status = Response.Status.fromStatusCode(resp.statusCode)
+      status.getFamily match {
+        case Family.SUCCESSFUL | Family.REDIRECTION | Family.INFORMATIONAL => process(reader.read(resp))
+        case _ => throw new ApiException(resp.statusCode, resp.statusText)
+      }
+    }
+  }
+
+  def getSubscribers(streamId: Integer)(implicit reader: ClientResponseReader[JsonSuccessBase]): Future[JsonSuccessBase] = {
+    // create path and map variables
+    val path = (addFmt("/streams/{stream_id}/members")
+      replaceAll("\\{" + "stream_id" + "\\}", streamId.toString))
+
+    // query params
+    val queryParams = new mutable.HashMap[String, String]
+    val headerParams = new mutable.HashMap[String, String]
+
 
     val resFuture = client.submit("GET", path, queryParams.toMap, headerParams.toMap, "")
     resFuture flatMap { resp =>

@@ -25,10 +25,13 @@ from openapi_server.models.coded_error_base import CodedErrorBase
 from openapi_server.models.coded_error_base_all_of import CodedErrorBaseAllOf
 from openapi_server.models.custom_profile_field import CustomProfileField
 from openapi_server.models.default_stream_group import DefaultStreamGroup
+from openapi_server.models.draft import Draft
+from openapi_server.models.emoji_base import EmojiBase
 from openapi_server.models.emoji_reaction import EmojiReaction
 from openapi_server.models.emoji_reaction_all_of import EmojiReactionAllOf
 from openapi_server.models.emoji_reaction_base import EmojiReactionBase
-from openapi_server.models.emoji_reaction_base_user import EmojiReactionBaseUser
+from openapi_server.models.emoji_reaction_base_all_of import EmojiReactionBaseAllOf
+from openapi_server.models.emoji_reaction_base_all_of_user import EmojiReactionBaseAllOfUser
 from openapi_server.models.get_messages import GetMessages
 from openapi_server.models.get_messages_all_of import GetMessagesAllOf
 from openapi_server.models.hotspot import Hotspot

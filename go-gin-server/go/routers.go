@@ -79,6 +79,34 @@ var routes = Routes{
 	},
 
 	{
+		"CreateDrafts",
+		http.MethodPost,
+		"/api/v1/drafts",
+		CreateDrafts,
+	},
+
+	{
+		"DeleteDraft",
+		http.MethodDelete,
+		"/api/v1/drafts/:draft_id",
+		DeleteDraft,
+	},
+
+	{
+		"EditDraft",
+		http.MethodPatch,
+		"/api/v1/drafts/:draft_id",
+		EditDraft,
+	},
+
+	{
+		"GetDrafts",
+		http.MethodGet,
+		"/api/v1/drafts",
+		GetDrafts,
+	},
+
+	{
 		"AddReaction",
 		http.MethodPost,
 		"/api/v1/messages/:message_id/reactions",
@@ -324,6 +352,13 @@ var routes = Routes{
 	},
 
 	{
+		"DeleteTopic",
+		http.MethodPost,
+		"/api/v1/streams/:stream_id/delete_topic",
+		DeleteTopic,
+	},
+
+	{
 		"GetStreamId",
 		http.MethodGet,
 		"/api/v1/get_stream_id",
@@ -342,6 +377,13 @@ var routes = Routes{
 		http.MethodGet,
 		"/api/v1/streams",
 		GetStreams,
+	},
+
+	{
+		"GetSubscribers",
+		http.MethodGet,
+		"/api/v1/streams/:stream_id/members",
+		GetSubscribers,
 	},
 
 	{
@@ -513,17 +555,17 @@ var routes = Routes{
 	},
 
 	{
-		"UpdateDisplaySettings",
+		"UpdateSettings",
 		http.MethodPatch,
-		"/api/v1/settings/display",
-		UpdateDisplaySettings,
+		"/api/v1/settings",
+		UpdateSettings,
 	},
 
 	{
-		"UpdateNotificationSettings",
-		http.MethodPatch,
-		"/api/v1/settings/notifications",
-		UpdateNotificationSettings,
+		"UpdateStatus",
+		http.MethodPost,
+		"/api/v1/users/me/status",
+		UpdateStatus,
 	},
 
 	{

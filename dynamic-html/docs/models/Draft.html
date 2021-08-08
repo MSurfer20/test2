@@ -1,0 +1,39 @@
+
+<h2>Draft</h2>
+<ul class="parameter">
+  <li class="param-required-false">id : Integer
+    <br/>The unique ID of the draft. It will only used whenever the drafts are fetched. This field should not be specified when the draft is being created or edited. 
+  </li>
+</ul>
+<ul class="parameter">
+  <li class="param-required-true">type : String
+    <br/>The type of the draft. Either unaddressed (empty string), \&quot;stream\&quot;, or \&quot;private\&quot; (for PMs and private group messages). 
+      <dl class="param-enum">
+        <dt>Enum:
+            <dd></dd>
+            <dd>stream</dd>
+            <dd>private</dd>
+        </dt>
+      </dl>
+  </li>
+</ul>
+<ul class="parameter">
+  <li class="param-required-true">to : List
+    <br/>An array of the tentative target audience IDs. For \&quot;stream\&quot; messages, this should contain exactly 1 ID, the ID of the target stream. For private messages, this should be an array of target user IDs. For unaddressed drafts, this is ignored, and clients should send an empty array. 
+  </li>
+</ul>
+<ul class="parameter">
+  <li class="param-required-true">topic : String
+    <br/>For stream message drafts, the tentative topic name. For private or unaddressed messages, this will be ignored and should ideally be the empty string. Should not contain null bytes. 
+  </li>
+</ul>
+<ul class="parameter">
+  <li class="param-required-true">content : String
+    <br/>The body of the draft. Should not contain null bytes. 
+  </li>
+</ul>
+<ul class="parameter">
+  <li class="param-required-false">timestamp : BigDecimal
+    <br/>A Unix timestamp (seconds only) representing when the draft was last edited. When creating a draft, this key need not be present and it will be filled in automatically by the server. 
+  </li>
+</ul>

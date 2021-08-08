@@ -6,6 +6,7 @@ import org.openapitools.vertxweb.server.model.JsonSuccess;
 import org.openapitools.vertxweb.server.model.JsonSuccessBase;
 import org.openapitools.vertxweb.server.model.OneOfobjectobject;
 import org.openapitools.vertxweb.server.model.OneOfobjectobjectobject;
+import org.openapitools.vertxweb.server.model.OneOfobjectobjectobjectobjectobjectobject;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import io.vertx.core.json.jackson.DatabindCodec;
@@ -53,8 +54,8 @@ public class UsersApiHandler {
         builder.operation("removeUserGroup").handler(this::removeUserGroup);
         builder.operation("setTypingStatus").handler(this::setTypingStatus);
         builder.operation("unmuteUser").handler(this::unmuteUser);
-        builder.operation("updateDisplaySettings").handler(this::updateDisplaySettings);
-        builder.operation("updateNotificationSettings").handler(this::updateNotificationSettings);
+        builder.operation("updateSettings").handler(this::updateSettings);
+        builder.operation("updateStatus").handler(this::updateStatus);
         builder.operation("updateUser").handler(this::updateUser);
         builder.operation("updateUserGroup").handler(this::updateUserGroup);
         builder.operation("updateUserGroupMembers").handler(this::updateUserGroupMembers);
@@ -428,18 +429,23 @@ public class UsersApiHandler {
             .onFailure(routingContext::fail);
     }
 
-    private void updateDisplaySettings(RoutingContext routingContext) {
-        logger.info("updateDisplaySettings()");
+    private void updateSettings(RoutingContext routingContext) {
+        logger.info("updateSettings()");
 
         // Param extraction
         RequestParameters requestParameters = routingContext.get(ValidationHandler.REQUEST_CONTEXT_KEY);
 
+        String fullName = requestParameters.queryParameter("full_name") != null ? requestParameters.queryParameter("full_name").getString() : null;
+        String email = requestParameters.queryParameter("email") != null ? requestParameters.queryParameter("email").getString() : null;
+        String oldPassword = requestParameters.queryParameter("old_password") != null ? requestParameters.queryParameter("old_password").getString() : null;
+        String newPassword = requestParameters.queryParameter("new_password") != null ? requestParameters.queryParameter("new_password").getString() : null;
         Boolean twentyFourHourTime = requestParameters.queryParameter("twenty_four_hour_time") != null ? requestParameters.queryParameter("twenty_four_hour_time").getBoolean() : null;
         Boolean denseMode = requestParameters.queryParameter("dense_mode") != null ? requestParameters.queryParameter("dense_mode").getBoolean() : null;
         Boolean starredMessageCounts = requestParameters.queryParameter("starred_message_counts") != null ? requestParameters.queryParameter("starred_message_counts").getBoolean() : null;
         Boolean fluidLayoutWidth = requestParameters.queryParameter("fluid_layout_width") != null ? requestParameters.queryParameter("fluid_layout_width").getBoolean() : null;
         Boolean highContrastMode = requestParameters.queryParameter("high_contrast_mode") != null ? requestParameters.queryParameter("high_contrast_mode").getBoolean() : null;
         Integer colorScheme = requestParameters.queryParameter("color_scheme") != null ? requestParameters.queryParameter("color_scheme").getInteger() : null;
+        Boolean enableDraftsSynchronization = requestParameters.queryParameter("enable_drafts_synchronization") != null ? requestParameters.queryParameter("enable_drafts_synchronization").getBoolean() : null;
         Boolean translateEmoticons = requestParameters.queryParameter("translate_emoticons") != null ? requestParameters.queryParameter("translate_emoticons").getBoolean() : null;
         String defaultLanguage = requestParameters.queryParameter("default_language") != null ? requestParameters.queryParameter("default_language").getString() : null;
         String defaultView = requestParameters.queryParameter("default_view") != null ? requestParameters.queryParameter("default_view").getString() : null;
@@ -447,39 +453,6 @@ public class UsersApiHandler {
         String emojiset = requestParameters.queryParameter("emojiset") != null ? requestParameters.queryParameter("emojiset").getString() : null;
         Integer demoteInactiveStreams = requestParameters.queryParameter("demote_inactive_streams") != null ? requestParameters.queryParameter("demote_inactive_streams").getInteger() : null;
         String timezone = requestParameters.queryParameter("timezone") != null ? requestParameters.queryParameter("timezone").getString() : null;
-
-        logger.debug("Parameter twentyFourHourTime is {}", twentyFourHourTime);
-        logger.debug("Parameter denseMode is {}", denseMode);
-        logger.debug("Parameter starredMessageCounts is {}", starredMessageCounts);
-        logger.debug("Parameter fluidLayoutWidth is {}", fluidLayoutWidth);
-        logger.debug("Parameter highContrastMode is {}", highContrastMode);
-        logger.debug("Parameter colorScheme is {}", colorScheme);
-        logger.debug("Parameter translateEmoticons is {}", translateEmoticons);
-        logger.debug("Parameter defaultLanguage is {}", defaultLanguage);
-        logger.debug("Parameter defaultView is {}", defaultView);
-        logger.debug("Parameter leftSideUserlist is {}", leftSideUserlist);
-        logger.debug("Parameter emojiset is {}", emojiset);
-        logger.debug("Parameter demoteInactiveStreams is {}", demoteInactiveStreams);
-        logger.debug("Parameter timezone is {}", timezone);
-
-        api.updateDisplaySettings(twentyFourHourTime, denseMode, starredMessageCounts, fluidLayoutWidth, highContrastMode, colorScheme, translateEmoticons, defaultLanguage, defaultView, leftSideUserlist, emojiset, demoteInactiveStreams, timezone)
-            .onSuccess(apiResponse -> {
-                routingContext.response().setStatusCode(apiResponse.getStatusCode());
-                if (apiResponse.hasData()) {
-                    routingContext.json(apiResponse.getData());
-                } else {
-                    routingContext.response().end();
-                }
-            })
-            .onFailure(routingContext::fail);
-    }
-
-    private void updateNotificationSettings(RoutingContext routingContext) {
-        logger.info("updateNotificationSettings()");
-
-        // Param extraction
-        RequestParameters requestParameters = routingContext.get(ValidationHandler.REQUEST_CONTEXT_KEY);
-
         Boolean enableStreamDesktopNotifications = requestParameters.queryParameter("enable_stream_desktop_notifications") != null ? requestParameters.queryParameter("enable_stream_desktop_notifications").getBoolean() : null;
         Boolean enableStreamEmailNotifications = requestParameters.queryParameter("enable_stream_email_notifications") != null ? requestParameters.queryParameter("enable_stream_email_notifications").getBoolean() : null;
         Boolean enableStreamPushNotifications = requestParameters.queryParameter("enable_stream_push_notifications") != null ? requestParameters.queryParameter("enable_stream_push_notifications").getBoolean() : null;
@@ -487,6 +460,7 @@ public class UsersApiHandler {
         String notificationSound = requestParameters.queryParameter("notification_sound") != null ? requestParameters.queryParameter("notification_sound").getString() : null;
         Boolean enableDesktopNotifications = requestParameters.queryParameter("enable_desktop_notifications") != null ? requestParameters.queryParameter("enable_desktop_notifications").getBoolean() : null;
         Boolean enableSounds = requestParameters.queryParameter("enable_sounds") != null ? requestParameters.queryParameter("enable_sounds").getBoolean() : null;
+        Integer emailNotificationsBatchingPeriodSeconds = requestParameters.queryParameter("email_notifications_batching_period_seconds") != null ? requestParameters.queryParameter("email_notifications_batching_period_seconds").getInteger() : null;
         Boolean enableOfflineEmailNotifications = requestParameters.queryParameter("enable_offline_email_notifications") != null ? requestParameters.queryParameter("enable_offline_email_notifications").getBoolean() : null;
         Boolean enableOfflinePushNotifications = requestParameters.queryParameter("enable_offline_push_notifications") != null ? requestParameters.queryParameter("enable_offline_push_notifications").getBoolean() : null;
         Boolean enableOnlinePushNotifications = requestParameters.queryParameter("enable_online_push_notifications") != null ? requestParameters.queryParameter("enable_online_push_notifications").getBoolean() : null;
@@ -499,7 +473,26 @@ public class UsersApiHandler {
         Integer desktopIconCountDisplay = requestParameters.queryParameter("desktop_icon_count_display") != null ? requestParameters.queryParameter("desktop_icon_count_display").getInteger() : null;
         Boolean realmNameInNotifications = requestParameters.queryParameter("realm_name_in_notifications") != null ? requestParameters.queryParameter("realm_name_in_notifications").getBoolean() : null;
         Boolean presenceEnabled = requestParameters.queryParameter("presence_enabled") != null ? requestParameters.queryParameter("presence_enabled").getBoolean() : null;
+        Boolean enterSends = requestParameters.queryParameter("enter_sends") != null ? requestParameters.queryParameter("enter_sends").getBoolean() : null;
 
+        logger.debug("Parameter fullName is {}", fullName);
+        logger.debug("Parameter email is {}", email);
+        logger.debug("Parameter oldPassword is {}", oldPassword);
+        logger.debug("Parameter newPassword is {}", newPassword);
+        logger.debug("Parameter twentyFourHourTime is {}", twentyFourHourTime);
+        logger.debug("Parameter denseMode is {}", denseMode);
+        logger.debug("Parameter starredMessageCounts is {}", starredMessageCounts);
+        logger.debug("Parameter fluidLayoutWidth is {}", fluidLayoutWidth);
+        logger.debug("Parameter highContrastMode is {}", highContrastMode);
+        logger.debug("Parameter colorScheme is {}", colorScheme);
+        logger.debug("Parameter enableDraftsSynchronization is {}", enableDraftsSynchronization);
+        logger.debug("Parameter translateEmoticons is {}", translateEmoticons);
+        logger.debug("Parameter defaultLanguage is {}", defaultLanguage);
+        logger.debug("Parameter defaultView is {}", defaultView);
+        logger.debug("Parameter leftSideUserlist is {}", leftSideUserlist);
+        logger.debug("Parameter emojiset is {}", emojiset);
+        logger.debug("Parameter demoteInactiveStreams is {}", demoteInactiveStreams);
+        logger.debug("Parameter timezone is {}", timezone);
         logger.debug("Parameter enableStreamDesktopNotifications is {}", enableStreamDesktopNotifications);
         logger.debug("Parameter enableStreamEmailNotifications is {}", enableStreamEmailNotifications);
         logger.debug("Parameter enableStreamPushNotifications is {}", enableStreamPushNotifications);
@@ -507,6 +500,7 @@ public class UsersApiHandler {
         logger.debug("Parameter notificationSound is {}", notificationSound);
         logger.debug("Parameter enableDesktopNotifications is {}", enableDesktopNotifications);
         logger.debug("Parameter enableSounds is {}", enableSounds);
+        logger.debug("Parameter emailNotificationsBatchingPeriodSeconds is {}", emailNotificationsBatchingPeriodSeconds);
         logger.debug("Parameter enableOfflineEmailNotifications is {}", enableOfflineEmailNotifications);
         logger.debug("Parameter enableOfflinePushNotifications is {}", enableOfflinePushNotifications);
         logger.debug("Parameter enableOnlinePushNotifications is {}", enableOnlinePushNotifications);
@@ -519,8 +513,39 @@ public class UsersApiHandler {
         logger.debug("Parameter desktopIconCountDisplay is {}", desktopIconCountDisplay);
         logger.debug("Parameter realmNameInNotifications is {}", realmNameInNotifications);
         logger.debug("Parameter presenceEnabled is {}", presenceEnabled);
+        logger.debug("Parameter enterSends is {}", enterSends);
 
-        api.updateNotificationSettings(enableStreamDesktopNotifications, enableStreamEmailNotifications, enableStreamPushNotifications, enableStreamAudibleNotifications, notificationSound, enableDesktopNotifications, enableSounds, enableOfflineEmailNotifications, enableOfflinePushNotifications, enableOnlinePushNotifications, enableDigestEmails, enableMarketingEmails, enableLoginEmails, messageContentInEmailNotifications, pmContentInDesktopNotifications, wildcardMentionsNotify, desktopIconCountDisplay, realmNameInNotifications, presenceEnabled)
+        api.updateSettings(fullName, email, oldPassword, newPassword, twentyFourHourTime, denseMode, starredMessageCounts, fluidLayoutWidth, highContrastMode, colorScheme, enableDraftsSynchronization, translateEmoticons, defaultLanguage, defaultView, leftSideUserlist, emojiset, demoteInactiveStreams, timezone, enableStreamDesktopNotifications, enableStreamEmailNotifications, enableStreamPushNotifications, enableStreamAudibleNotifications, notificationSound, enableDesktopNotifications, enableSounds, emailNotificationsBatchingPeriodSeconds, enableOfflineEmailNotifications, enableOfflinePushNotifications, enableOnlinePushNotifications, enableDigestEmails, enableMarketingEmails, enableLoginEmails, messageContentInEmailNotifications, pmContentInDesktopNotifications, wildcardMentionsNotify, desktopIconCountDisplay, realmNameInNotifications, presenceEnabled, enterSends)
+            .onSuccess(apiResponse -> {
+                routingContext.response().setStatusCode(apiResponse.getStatusCode());
+                if (apiResponse.hasData()) {
+                    routingContext.json(apiResponse.getData());
+                } else {
+                    routingContext.response().end();
+                }
+            })
+            .onFailure(routingContext::fail);
+    }
+
+    private void updateStatus(RoutingContext routingContext) {
+        logger.info("updateStatus()");
+
+        // Param extraction
+        RequestParameters requestParameters = routingContext.get(ValidationHandler.REQUEST_CONTEXT_KEY);
+
+        String statusText = requestParameters.queryParameter("status_text") != null ? requestParameters.queryParameter("status_text").getString() : null;
+        Boolean away = requestParameters.queryParameter("away") != null ? requestParameters.queryParameter("away").getBoolean() : null;
+        String emojiName = requestParameters.queryParameter("emoji_name") != null ? requestParameters.queryParameter("emoji_name").getString() : null;
+        String emojiCode = requestParameters.queryParameter("emoji_code") != null ? requestParameters.queryParameter("emoji_code").getString() : null;
+        String reactionType = requestParameters.queryParameter("reaction_type") != null ? requestParameters.queryParameter("reaction_type").getString() : null;
+
+        logger.debug("Parameter statusText is {}", statusText);
+        logger.debug("Parameter away is {}", away);
+        logger.debug("Parameter emojiName is {}", emojiName);
+        logger.debug("Parameter emojiCode is {}", emojiCode);
+        logger.debug("Parameter reactionType is {}", reactionType);
+
+        api.updateStatus(statusText, away, emojiName, emojiCode, reactionType)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
                 if (apiResponse.hasData()) {

@@ -13,6 +13,7 @@ import org.openapitools.model.JsonSuccessBase;
 import org.openapitools.model.NonExistingStreamError;
 import org.openapitools.model.OneOfobjectobject;
 import org.openapitools.model.OneOfobjectobjectobject;
+import org.openapitools.model.OneOfobjectobjectobjectobjectobjectobject;
 import org.openapitools.model.OneOfstringinteger;
 
 import java.util.List;
@@ -23,7 +24,7 @@ import java.io.InputStream;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", date = "2021-08-08T20:41:44.271935Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", date = "2021-08-08T21:11:36.575393Z[Etc/UTC]")
 public abstract class UsersApiService {
     public abstract Response createUser(String email
  ,String password
@@ -75,6 +76,12 @@ public abstract class UsersApiService {
  ) throws NotFoundException;
     public abstract Response unsubscribe(List<String> subscriptions
  ,List<OneOfstringinteger> principals
+ ) throws NotFoundException;
+    public abstract Response updateStatus(String statusText
+ ,Boolean away
+ ,String emojiName
+ ,String emojiCode
+ ,String reactionType
  ) throws NotFoundException;
     public abstract Response updateSubscriptionSettings(List<Object> subscriptionData
  ) throws NotFoundException;

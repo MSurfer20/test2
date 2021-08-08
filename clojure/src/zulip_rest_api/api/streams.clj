@@ -13,10 +13,12 @@
             [zulip-rest-api.specs.json-success-base :refer :all]
             [zulip-rest-api.specs.user-not-authorized-error :refer :all]
             [zulip-rest-api.specs.basic-bot :refer :all]
+            [zulip-rest-api.specs.emoji-base :refer :all]
             [zulip-rest-api.specs.get-messages :refer :all]
             [zulip-rest-api.specs.json-success-base-all-of :refer :all]
             [zulip-rest-api.specs.add-subscriptions-response-all-of :refer :all]
             [zulip-rest-api.specs.realm-domain :refer :all]
+            [zulip-rest-api.specs.draft :refer :all]
             [zulip-rest-api.specs.emoji-reaction-all-of :refer :all]
             [zulip-rest-api.specs.rate-limited-error :refer :all]
             [zulip-rest-api.specs.presence :refer :all]
@@ -51,11 +53,12 @@
             [zulip-rest-api.specs.inline-response-200 :refer :all]
             [zulip-rest-api.specs.attachments-messages :refer :all]
             [zulip-rest-api.specs.coded-error-base :refer :all]
+            [zulip-rest-api.specs.emoji-reaction-base-all-of-user :refer :all]
             [zulip-rest-api.specs.realm-emoji :refer :all]
             [zulip-rest-api.specs.json-response-base :refer :all]
             [zulip-rest-api.specs.basic-bot-base :refer :all]
             [zulip-rest-api.specs.user-base :refer :all]
-            [zulip-rest-api.specs.emoji-reaction-base-user :refer :all]
+            [zulip-rest-api.specs.emoji-reaction-base-all-of :refer :all]
             [zulip-rest-api.specs.basic-stream :refer :all]
             [zulip-rest-api.specs.get-messages-all-of :refer :all]
             [zulip-rest-api.specs.json-error-base :refer :all]
@@ -123,6 +126,42 @@ Requires BigBlueButton to be configured on the Zulip server."
   (let [res (:data (create-big-blue-button-video-call-with-http-info))]
     (if (:decode-models *api-context*)
        (st/decode json-success-base-spec res st/string-transformer)
+       res)))
+
+
+(defn-spec delete-topic-with-http-info any?
+  "Delete a topic
+  Delete all messages in a topic.
+
+`POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`
+
+Topics are a field on messages (not an independent
+data structure), so deleting all the messages in the topic
+deletes the topic from Zulip."
+  [stream_id int?, topic_name string?]
+  (check-required-params stream_id topic_name)
+  (call-api "/streams/{stream_id}/delete_topic" :post
+            {:path-params   {"stream_id" stream_id }
+             :header-params {}
+             :query-params  {"topic_name" topic_name }
+             :form-params   {}
+             :content-types []
+             :accepts       ["application/json"]
+             :auth-names    []}))
+
+(defn-spec delete-topic json-success-spec
+  "Delete a topic
+  Delete all messages in a topic.
+
+`POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`
+
+Topics are a field on messages (not an independent
+data structure), so deleting all the messages in the topic
+deletes the topic from Zulip."
+  [stream_id int?, topic_name string?]
+  (let [res (:data (delete-topic-with-http-info stream_id topic_name))]
+    (if (:decode-models *api-context*)
+       (st/decode json-success-spec res st/string-transformer)
        res)))
 
 
@@ -209,6 +248,34 @@ Requires BigBlueButton to be configured on the Zulip server."
      (if (:decode-models *api-context*)
         (st/decode json-success-base-spec res st/string-transformer)
         res))))
+
+
+(defn-spec get-subscribers-with-http-info any?
+  "Get the subscribers of a stream
+  Get all users subscribed to a stream.
+
+`Get {{ api_url }}/v1/streams/{stream_id}/members`"
+  [stream_id int?]
+  (check-required-params stream_id)
+  (call-api "/streams/{stream_id}/members" :get
+            {:path-params   {"stream_id" stream_id }
+             :header-params {}
+             :query-params  {}
+             :form-params   {}
+             :content-types []
+             :accepts       ["application/json"]
+             :auth-names    []}))
+
+(defn-spec get-subscribers json-success-base-spec
+  "Get the subscribers of a stream
+  Get all users subscribed to a stream.
+
+`Get {{ api_url }}/v1/streams/{stream_id}/members`"
+  [stream_id int?]
+  (let [res (:data (get-subscribers-with-http-info stream_id))]
+    (if (:decode-models *api-context*)
+       (st/decode json-success-base-spec res st/string-transformer)
+       res)))
 
 
 (defn-spec get-subscription-status-with-http-info any?

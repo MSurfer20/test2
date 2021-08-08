@@ -9,7 +9,7 @@
        'emoji_name' => binary(),
        'reaction_type' => binary(),
        'user_id' => integer(),
-       'user' => openapi_emoji_reaction_base_user:openapi_emoji_reaction_base_user()
+       'user' => openapi_emoji_reaction_base_all_of_user:openapi_emoji_reaction_base_all_of_user()
      }.
 
 encode(#{ 'emoji_code' := EmojiCode,

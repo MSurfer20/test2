@@ -16,28 +16,34 @@ import java.util.List;
 import java.util.Map;
 
 public interface StreamsApi  {
-    //archive_stream
+    //archive-stream
     void archiveStream(Integer streamId, Handler<AsyncResult<JsonSuccess>> handler);
     
-    //create_big_blue_button_video_call
+    //create-big-blue-button-video-call
     void createBigBlueButtonVideoCall(Handler<AsyncResult<JsonSuccessBase>> handler);
     
-    //get_stream_id
+    //delete-topic
+    void deleteTopic(Integer streamId, String topicName, Handler<AsyncResult<JsonSuccess>> handler);
+    
+    //get-stream-id
     void getStreamId(String stream, Handler<AsyncResult<JsonSuccessBase>> handler);
     
-    //get_stream_topics
+    //get-stream-topics
     void getStreamTopics(Integer streamId, Handler<AsyncResult<JsonSuccessBase>> handler);
     
-    //get_streams
+    //get-streams
     void getStreams(Boolean includePublic, Boolean includeWebPublic, Boolean includeSubscribed, Boolean includeAllActive, Boolean includeDefault, Boolean includeOwnerSubscribed, Handler<AsyncResult<JsonSuccessBase>> handler);
     
-    //get_subscription_status
+    //get-subscribers
+    void getSubscribers(Integer streamId, Handler<AsyncResult<JsonSuccessBase>> handler);
+    
+    //get-subscription-status
     void getSubscriptionStatus(Integer userId, Integer streamId, Handler<AsyncResult<JsonSuccessBase>> handler);
     
-    //get_subscriptions
+    //get-subscriptions
     void getSubscriptions(Boolean includeSubscribers, Handler<AsyncResult<JsonSuccessBase>> handler);
     
-    //mute_topic
+    //mute-topic
     void muteTopic(String topic, String op, String stream, Integer streamId, Handler<AsyncResult<JsonSuccess>> handler);
     
     //subscribe
@@ -46,13 +52,13 @@ public interface StreamsApi  {
     //unsubscribe
     void unsubscribe(List<String> subscriptions, List<OneOfstringinteger> principals, Handler<AsyncResult<JsonSuccessBase>> handler);
     
-    //update_stream
+    //update-stream
     void updateStream(Integer streamId, String description, String newName, Boolean isPrivate, Boolean isAnnouncementOnly, Integer streamPostPolicy, Boolean historyPublicToSubscribers, OneOfstringinteger messageRetentionDays, Handler<AsyncResult<JsonSuccess>> handler);
     
-    //update_subscription_settings
+    //update-subscription-settings
     void updateSubscriptionSettings(List<Object> subscriptionData, Handler<AsyncResult<JsonSuccessBase>> handler);
     
-    //update_subscriptions
+    //update-subscriptions
     void updateSubscriptions(List<String> delete, List<Object> add, Handler<AsyncResult<JsonSuccessBase>> handler);
     
 }

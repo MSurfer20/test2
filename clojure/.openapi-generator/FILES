@@ -3,6 +3,7 @@
 git_push.sh
 project.clj
 src/zulip_rest_api/api/authentication.clj
+src/zulip_rest_api/api/drafts.clj
 src/zulip_rest_api/api/messages.clj
 src/zulip_rest_api/api/real_time_events.clj
 src/zulip_rest_api/api/server_and_organizations.clj
@@ -32,10 +33,13 @@ src/zulip_rest_api/specs/coded_error_base.clj
 src/zulip_rest_api/specs/coded_error_base_all_of.clj
 src/zulip_rest_api/specs/custom_profile_field.clj
 src/zulip_rest_api/specs/default_stream_group.clj
+src/zulip_rest_api/specs/draft.clj
+src/zulip_rest_api/specs/emoji_base.clj
 src/zulip_rest_api/specs/emoji_reaction.clj
 src/zulip_rest_api/specs/emoji_reaction_all_of.clj
 src/zulip_rest_api/specs/emoji_reaction_base.clj
-src/zulip_rest_api/specs/emoji_reaction_base_user.clj
+src/zulip_rest_api/specs/emoji_reaction_base_all_of.clj
+src/zulip_rest_api/specs/emoji_reaction_base_all_of_user.clj
 src/zulip_rest_api/specs/get_messages.clj
 src/zulip_rest_api/specs/get_messages_all_of.clj
 src/zulip_rest_api/specs/hotspot.clj

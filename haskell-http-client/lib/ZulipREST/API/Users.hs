@@ -409,200 +409,260 @@ data UnmuteUser
 instance Produces UnmuteUser MimeJSON
 
 
--- *** updateDisplaySettings
+-- *** updateSettings
 
--- | @PATCH \/settings\/display@
+-- | @PATCH \/settings@
 -- 
--- Update display settings
+-- Update settings
 -- 
--- This endpoint is used to edit the current user's user interface settings.  `PATCH {{ api_url }}/v1/settings/display` 
+-- This endpoint is used to edit the current user's settings.  `PATCH {{ api_url }}/v1/settings`  **Changes**: Prior to Zulip 5.0 (feature level 80), this endpoint only supported the `full_name`, `email`, `old_password`, and `new_password` parameters. Notification settings were managed by `PATCH /settings/notifications`, and all other settings by `PATCH /settings/display`. The feature level 80 migration to merge these endpoints did not change how request parameters are encoded. Note, however, that it did change the handling of any invalid parameters present in a request to change notification or display settings, since the merged endpoint uses the new response format that was introduced for `/settings` in Zulip 5.0 (feature level 78).  The `/settings/display` and `/settings/notifications` endpoints are now deprecated aliases for this endpoint for backwards-compatibility, and will be removed once clients have migrated to use this endpoint. 
 -- 
-updateDisplaySettings 
-  :: ZulipRESTRequest UpdateDisplaySettings MimeNoContent JsonSuccessBase MimeJSON
-updateDisplaySettings =
-  _mkRequest "PATCH" ["/settings/display"]
+updateSettings 
+  :: ZulipRESTRequest UpdateSettings MimeNoContent JsonSuccessBase MimeJSON
+updateSettings =
+  _mkRequest "PATCH" ["/settings"]
 
-data UpdateDisplaySettings  
+data UpdateSettings  
 
--- | /Optional Param/ "twenty_four_hour_time" - Whether time should be [displayed in 24-hour notation](/help/change-the-time-format). 
-instance HasOptionalParam UpdateDisplaySettings TwentyFourHourTime where
+-- | /Optional Param/ "full_name" - A new display name for the user. 
+instance HasOptionalParam UpdateSettings FullName where
+  applyOptionalParam req (FullName xs) =
+    req `addQuery` toQuery ("full_name", Just xs)
+
+-- | /Optional Param/ "email" - Asks the server to initiate a confirmation sequence to change the user's email address to the indicated value. The user will need to demonstrate control of the new email address by clicking a confirmation link sent to that address. 
+instance HasOptionalParam UpdateSettings Email where
+  applyOptionalParam req (Email xs) =
+    req `addQuery` toQuery ("email", Just xs)
+
+-- | /Optional Param/ "old_password" - The user's old Zulip password (or LDAP password, if LDAP authentication is in use).  Required only when sending the `new_password` parameter. 
+instance HasOptionalParam UpdateSettings OldPassword where
+  applyOptionalParam req (OldPassword xs) =
+    req `addQuery` toQuery ("old_password", Just xs)
+
+-- | /Optional Param/ "new_password" - The user's new Zulip password (or LDAP password, if LDAP authentication is in use).  The `old_password` parameter must be included in the request. 
+instance HasOptionalParam UpdateSettings NewPassword where
+  applyOptionalParam req (NewPassword xs) =
+    req `addQuery` toQuery ("new_password", Just xs)
+
+-- | /Optional Param/ "twenty_four_hour_time" - Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+instance HasOptionalParam UpdateSettings TwentyFourHourTime where
   applyOptionalParam req (TwentyFourHourTime xs) =
     req `addQuery` toQuery ("twenty_four_hour_time", Just xs)
 
--- | /Optional Param/ "dense_mode" - This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip. 
-instance HasOptionalParam UpdateDisplaySettings DenseMode where
+-- | /Optional Param/ "dense_mode" - This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+instance HasOptionalParam UpdateSettings DenseMode where
   applyOptionalParam req (DenseMode xs) =
     req `addQuery` toQuery ("dense_mode", Just xs)
 
--- | /Optional Param/ "starred_message_counts" - Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages). 
-instance HasOptionalParam UpdateDisplaySettings StarredMessageCounts where
+-- | /Optional Param/ "starred_message_counts" - Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+instance HasOptionalParam UpdateSettings StarredMessageCounts where
   applyOptionalParam req (StarredMessageCounts xs) =
     req `addQuery` toQuery ("starred_message_counts", Just xs)
 
--- | /Optional Param/ "fluid_layout_width" - Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app's center panel (message feed, recent topics) on wide screens. 
-instance HasOptionalParam UpdateDisplaySettings FluidLayoutWidth where
+-- | /Optional Param/ "fluid_layout_width" - Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app's center panel (message feed, recent topics) on wide screens.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+instance HasOptionalParam UpdateSettings FluidLayoutWidth where
   applyOptionalParam req (FluidLayoutWidth xs) =
     req `addQuery` toQuery ("fluid_layout_width", Just xs)
 
--- | /Optional Param/ "high_contrast_mode" - This setting is reserved for use to control variations in Zulip's design to help visually impaired users. 
-instance HasOptionalParam UpdateDisplaySettings HighContrastMode where
+-- | /Optional Param/ "high_contrast_mode" - This setting is reserved for use to control variations in Zulip's design to help visually impaired users.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+instance HasOptionalParam UpdateSettings HighContrastMode where
   applyOptionalParam req (HighContrastMode xs) =
     req `addQuery` toQuery ("high_contrast_mode", Just xs)
 
--- | /Optional Param/ "color_scheme" - Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard `prefers-color-scheme` media query. 
-instance HasOptionalParam UpdateDisplaySettings ColorScheme where
+-- | /Optional Param/ "color_scheme" - Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard `prefers-color-scheme` media query.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+instance HasOptionalParam UpdateSettings ColorScheme where
   applyOptionalParam req (ColorScheme xs) =
     req `addQuery` toQuery ("color_scheme", Just xs)
 
--- | /Optional Param/ "translate_emoticons" - Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends. 
-instance HasOptionalParam UpdateDisplaySettings TranslateEmoticons where
+-- | /Optional Param/ "enable_drafts_synchronization" - A boolean parameter to control whether synchronizing drafts is enabled for the user. When synchronization is disabled, all drafts stored in the server will be automatically deleted from the server.  This does not do anything (like sending events) to delete local copies of drafts stored in clients.  **Changes**: New in Zulip 5.0 (feature level 87). 
+instance HasOptionalParam UpdateSettings EnableDraftsSynchronization where
+  applyOptionalParam req (EnableDraftsSynchronization xs) =
+    req `addQuery` toQuery ("enable_drafts_synchronization", Just xs)
+
+-- | /Optional Param/ "translate_emoticons" - Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+instance HasOptionalParam UpdateSettings TranslateEmoticons where
   applyOptionalParam req (TranslateEmoticons xs) =
     req `addQuery` toQuery ("translate_emoticons", Just xs)
 
--- | /Optional Param/ "default_language" - What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, `\"en\"` for English or `\"de\"` for German.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63). 
-instance HasOptionalParam UpdateDisplaySettings DefaultLanguage where
+-- | /Optional Param/ "default_language" - What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, `\"en\"` for English or `\"de\"` for German.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63). 
+instance HasOptionalParam UpdateSettings DefaultLanguage where
   applyOptionalParam req (DefaultLanguage xs) =
     req `addQuery` toQuery ("default_language", Just xs)
 
--- | /Optional Param/ "default_view" - The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the `Esc` keyboard shortcut repeatedly.  * \"recent_topics\" - Recent topics view * \"all_messages\" - All messages view  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). 
-instance HasOptionalParam UpdateDisplaySettings DefaultView where
+-- | /Optional Param/ "default_view" - The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the `Esc` keyboard shortcut repeatedly.  * \"recent_topics\" - Recent topics view * \"all_messages\" - All messages view  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). 
+instance HasOptionalParam UpdateSettings DefaultView where
   applyOptionalParam req (DefaultView xs) =
     req `addQuery` toQuery ("default_view", Just xs)
 
--- | /Optional Param/ "left_side_userlist" - Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked. 
-instance HasOptionalParam UpdateDisplaySettings LeftSideUserlist where
+-- | /Optional Param/ "left_side_userlist" - Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+instance HasOptionalParam UpdateSettings LeftSideUserlist where
   applyOptionalParam req (LeftSideUserlist xs) =
     req `addQuery` toQuery ("left_side_userlist", Just xs)
 
--- | /Optional Param/ "emojiset" - The user's configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \"google\" - Google modern * \"google-blob\" - Google classic * \"twitter\" - Twitter * \"text\" - Plain text  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). 
-instance HasOptionalParam UpdateDisplaySettings Emojiset where
+-- | /Optional Param/ "emojiset" - The user's configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \"google\" - Google modern * \"google-blob\" - Google classic * \"twitter\" - Twitter * \"text\" - Plain text  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). 
+instance HasOptionalParam UpdateSettings Emojiset where
   applyOptionalParam req (Emojiset xs) =
     req `addQuery` toQuery ("emojiset", Just xs)
 
--- | /Optional Param/ "demote_inactive_streams" - Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never 
-instance HasOptionalParam UpdateDisplaySettings DemoteInactiveStreams where
+-- | /Optional Param/ "demote_inactive_streams" - Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+instance HasOptionalParam UpdateSettings DemoteInactiveStreams where
   applyOptionalParam req (DemoteInactiveStreams xs) =
     req `addQuery` toQuery ("demote_inactive_streams", Just xs)
 
--- | /Optional Param/ "timezone" - The user's [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). 
-instance HasOptionalParam UpdateDisplaySettings Timezone where
+-- | /Optional Param/ "timezone" - The user's [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). 
+instance HasOptionalParam UpdateSettings Timezone where
   applyOptionalParam req (Timezone xs) =
     req `addQuery` toQuery ("timezone", Just xs)
--- | @application/json@
-instance Produces UpdateDisplaySettings MimeJSON
 
-
--- *** updateNotificationSettings
-
--- | @PATCH \/settings\/notifications@
--- 
--- Update notification settings
--- 
--- This endpoint is used to edit the user's global notification settings. See [this endpoint](/api/update-subscription-settings) for per-stream notification settings.  `PATCH {{ api_url }}/v1/settings/notifications` 
--- 
-updateNotificationSettings 
-  :: ZulipRESTRequest UpdateNotificationSettings MimeNoContent JsonSuccessBase MimeJSON
-updateNotificationSettings =
-  _mkRequest "PATCH" ["/settings/notifications"]
-
-data UpdateNotificationSettings  
-
--- | /Optional Param/ "enable_stream_desktop_notifications" - Enable visual desktop notifications for stream messages. 
-instance HasOptionalParam UpdateNotificationSettings EnableStreamDesktopNotifications where
+-- | /Optional Param/ "enable_stream_desktop_notifications" - Enable visual desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+instance HasOptionalParam UpdateSettings EnableStreamDesktopNotifications where
   applyOptionalParam req (EnableStreamDesktopNotifications xs) =
     req `addQuery` toQuery ("enable_stream_desktop_notifications", Just xs)
 
--- | /Optional Param/ "enable_stream_email_notifications" - Enable email notifications for stream messages. 
-instance HasOptionalParam UpdateNotificationSettings EnableStreamEmailNotifications where
+-- | /Optional Param/ "enable_stream_email_notifications" - Enable email notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+instance HasOptionalParam UpdateSettings EnableStreamEmailNotifications where
   applyOptionalParam req (EnableStreamEmailNotifications xs) =
     req `addQuery` toQuery ("enable_stream_email_notifications", Just xs)
 
--- | /Optional Param/ "enable_stream_push_notifications" - Enable mobile notifications for stream messages. 
-instance HasOptionalParam UpdateNotificationSettings EnableStreamPushNotifications where
+-- | /Optional Param/ "enable_stream_push_notifications" - Enable mobile notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+instance HasOptionalParam UpdateSettings EnableStreamPushNotifications where
   applyOptionalParam req (EnableStreamPushNotifications xs) =
     req `addQuery` toQuery ("enable_stream_push_notifications", Just xs)
 
--- | /Optional Param/ "enable_stream_audible_notifications" - Enable audible desktop notifications for stream messages. 
-instance HasOptionalParam UpdateNotificationSettings EnableStreamAudibleNotifications where
+-- | /Optional Param/ "enable_stream_audible_notifications" - Enable audible desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+instance HasOptionalParam UpdateSettings EnableStreamAudibleNotifications where
   applyOptionalParam req (EnableStreamAudibleNotifications xs) =
     req `addQuery` toQuery ("enable_stream_audible_notifications", Just xs)
 
--- | /Optional Param/ "notification_sound" - Notification sound name.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63). 
-instance HasOptionalParam UpdateNotificationSettings NotificationSound where
+-- | /Optional Param/ "notification_sound" - Notification sound name.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63). 
+instance HasOptionalParam UpdateSettings NotificationSound where
   applyOptionalParam req (NotificationSound xs) =
     req `addQuery` toQuery ("notification_sound", Just xs)
 
--- | /Optional Param/ "enable_desktop_notifications" - Enable visual desktop notifications for private messages and @-mentions. 
-instance HasOptionalParam UpdateNotificationSettings EnableDesktopNotifications where
+-- | /Optional Param/ "enable_desktop_notifications" - Enable visual desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+instance HasOptionalParam UpdateSettings EnableDesktopNotifications where
   applyOptionalParam req (EnableDesktopNotifications xs) =
     req `addQuery` toQuery ("enable_desktop_notifications", Just xs)
 
--- | /Optional Param/ "enable_sounds" - Enable audible desktop notifications for private messages and @-mentions. 
-instance HasOptionalParam UpdateNotificationSettings EnableSounds where
+-- | /Optional Param/ "enable_sounds" - Enable audible desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+instance HasOptionalParam UpdateSettings EnableSounds where
   applyOptionalParam req (EnableSounds xs) =
     req `addQuery` toQuery ("enable_sounds", Just xs)
 
--- | /Optional Param/ "enable_offline_email_notifications" - Enable email notifications for private messages and @-mentions received when the user is offline. 
-instance HasOptionalParam UpdateNotificationSettings EnableOfflineEmailNotifications where
+-- | /Optional Param/ "email_notifications_batching_period_seconds" - The duration (in seconds) for which the server should wait to batch email notifications before sending them.  **Changes**: New in Zulip 5.0 (feature level 82) 
+instance HasOptionalParam UpdateSettings EmailNotificationsBatchingPeriodSeconds where
+  applyOptionalParam req (EmailNotificationsBatchingPeriodSeconds xs) =
+    req `addQuery` toQuery ("email_notifications_batching_period_seconds", Just xs)
+
+-- | /Optional Param/ "enable_offline_email_notifications" - Enable email notifications for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+instance HasOptionalParam UpdateSettings EnableOfflineEmailNotifications where
   applyOptionalParam req (EnableOfflineEmailNotifications xs) =
     req `addQuery` toQuery ("enable_offline_email_notifications", Just xs)
 
--- | /Optional Param/ "enable_offline_push_notifications" - Enable mobile notification for private messages and @-mentions received when the user is offline. 
-instance HasOptionalParam UpdateNotificationSettings EnableOfflinePushNotifications where
+-- | /Optional Param/ "enable_offline_push_notifications" - Enable mobile notification for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+instance HasOptionalParam UpdateSettings EnableOfflinePushNotifications where
   applyOptionalParam req (EnableOfflinePushNotifications xs) =
     req `addQuery` toQuery ("enable_offline_push_notifications", Just xs)
 
--- | /Optional Param/ "enable_online_push_notifications" - Enable mobile notification for private messages and @-mentions received when the user is online. 
-instance HasOptionalParam UpdateNotificationSettings EnableOnlinePushNotifications where
+-- | /Optional Param/ "enable_online_push_notifications" - Enable mobile notification for private messages and @-mentions received when the user is online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+instance HasOptionalParam UpdateSettings EnableOnlinePushNotifications where
   applyOptionalParam req (EnableOnlinePushNotifications xs) =
     req `addQuery` toQuery ("enable_online_push_notifications", Just xs)
 
--- | /Optional Param/ "enable_digest_emails" - Enable digest emails when the user is away. 
-instance HasOptionalParam UpdateNotificationSettings EnableDigestEmails where
+-- | /Optional Param/ "enable_digest_emails" - Enable digest emails when the user is away.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+instance HasOptionalParam UpdateSettings EnableDigestEmails where
   applyOptionalParam req (EnableDigestEmails xs) =
     req `addQuery` toQuery ("enable_digest_emails", Just xs)
 
--- | /Optional Param/ "enable_marketing_emails" - Enable marketing emails. Has no function outside Zulip Cloud. 
-instance HasOptionalParam UpdateNotificationSettings EnableMarketingEmails where
+-- | /Optional Param/ "enable_marketing_emails" - Enable marketing emails. Has no function outside Zulip Cloud.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+instance HasOptionalParam UpdateSettings EnableMarketingEmails where
   applyOptionalParam req (EnableMarketingEmails xs) =
     req `addQuery` toQuery ("enable_marketing_emails", Just xs)
 
--- | /Optional Param/ "enable_login_emails" - Enable email notifications for new logins to account. 
-instance HasOptionalParam UpdateNotificationSettings EnableLoginEmails where
+-- | /Optional Param/ "enable_login_emails" - Enable email notifications for new logins to account.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+instance HasOptionalParam UpdateSettings EnableLoginEmails where
   applyOptionalParam req (EnableLoginEmails xs) =
     req `addQuery` toQuery ("enable_login_emails", Just xs)
 
--- | /Optional Param/ "message_content_in_email_notifications" - Include the message's content in email notifications for new messages. 
-instance HasOptionalParam UpdateNotificationSettings MessageContentInEmailNotifications where
+-- | /Optional Param/ "message_content_in_email_notifications" - Include the message's content in email notifications for new messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+instance HasOptionalParam UpdateSettings MessageContentInEmailNotifications where
   applyOptionalParam req (MessageContentInEmailNotifications xs) =
     req `addQuery` toQuery ("message_content_in_email_notifications", Just xs)
 
--- | /Optional Param/ "pm_content_in_desktop_notifications" - Include content of private messages in desktop notifications. 
-instance HasOptionalParam UpdateNotificationSettings PmContentInDesktopNotifications where
+-- | /Optional Param/ "pm_content_in_desktop_notifications" - Include content of private messages in desktop notifications.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+instance HasOptionalParam UpdateSettings PmContentInDesktopNotifications where
   applyOptionalParam req (PmContentInDesktopNotifications xs) =
     req `addQuery` toQuery ("pm_content_in_desktop_notifications", Just xs)
 
--- | /Optional Param/ "wildcard_mentions_notify" - Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention. 
-instance HasOptionalParam UpdateNotificationSettings WildcardMentionsNotify where
+-- | /Optional Param/ "wildcard_mentions_notify" - Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+instance HasOptionalParam UpdateSettings WildcardMentionsNotify where
   applyOptionalParam req (WildcardMentionsNotify xs) =
     req `addQuery` toQuery ("wildcard_mentions_notify", Just xs)
 
--- | /Optional Param/ "desktop_icon_count_display" - Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None 
-instance HasOptionalParam UpdateNotificationSettings DesktopIconCountDisplay where
+-- | /Optional Param/ "desktop_icon_count_display" - Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+instance HasOptionalParam UpdateSettings DesktopIconCountDisplay where
   applyOptionalParam req (DesktopIconCountDisplay xs) =
     req `addQuery` toQuery ("desktop_icon_count_display", Just xs)
 
--- | /Optional Param/ "realm_name_in_notifications" - Include organization name in subject of message notification emails. 
-instance HasOptionalParam UpdateNotificationSettings RealmNameInNotifications where
+-- | /Optional Param/ "realm_name_in_notifications" - Include organization name in subject of message notification emails.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+instance HasOptionalParam UpdateSettings RealmNameInNotifications where
   applyOptionalParam req (RealmNameInNotifications xs) =
     req `addQuery` toQuery ("realm_name_in_notifications", Just xs)
 
--- | /Optional Param/ "presence_enabled" - Display the presence status to other users when online. 
-instance HasOptionalParam UpdateNotificationSettings PresenceEnabled where
+-- | /Optional Param/ "presence_enabled" - Display the presence status to other users when online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+instance HasOptionalParam UpdateSettings PresenceEnabled where
   applyOptionalParam req (PresenceEnabled xs) =
     req `addQuery` toQuery ("presence_enabled", Just xs)
+
+-- | /Optional Param/ "enter_sends" - Whether pressing Enter in the compose box sends a message (or saves a message edit).  **Changes**: Before Zulip 5.0 (feature level 81), this setting was managed by the `POST /users/me/enter-sends` endpoint, with the same parameter format. 
+instance HasOptionalParam UpdateSettings EnterSends where
+  applyOptionalParam req (EnterSends xs) =
+    req `addQuery` toQuery ("enter_sends", Just xs)
 -- | @application/json@
-instance Produces UpdateNotificationSettings MimeJSON
+instance Produces UpdateSettings MimeJSON
+
+
+-- *** updateStatus
+
+-- | @POST \/users\/me\/status@
+-- 
+-- Update your status
+-- 
+-- Change your [status](/help/status-and-availability).  `POST {{ api_url }}/v1/users/me/status`  A request to this endpoint will only change the parameters passed. For example, passing just `status_text` requests a change in the status text, but will leave the status emoji unchanged.  Clients that wish to set the user's status to a specific value should pass all supported parameters. 
+-- 
+updateStatus 
+  :: ZulipRESTRequest UpdateStatus MimeNoContent JsonSuccess MimeJSON
+updateStatus =
+  _mkRequest "POST" ["/users/me/status"]
+
+data UpdateStatus  
+
+-- | /Optional Param/ "status_text" - The text content of the status message. Sending the empty string will clear the user's status.  **Note**: The limit on the size of the message is 60 characters. 
+instance HasOptionalParam UpdateStatus StatusText where
+  applyOptionalParam req (StatusText xs) =
+    req `addQuery` toQuery ("status_text", Just xs)
+
+-- | /Optional Param/ "away" - Whether the user should be marked as \"away\". 
+instance HasOptionalParam UpdateStatus Away where
+  applyOptionalParam req (Away xs) =
+    req `addQuery` toQuery ("away", Just xs)
+
+-- | /Optional Param/ "emoji_name" - The name for the emoji to associate with this status. 
+instance HasOptionalParam UpdateStatus EmojiName where
+  applyOptionalParam req (EmojiName xs) =
+    req `addQuery` toQuery ("emoji_name", Just xs)
+
+-- | /Optional Param/ "emoji_code" - A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji. 
+instance HasOptionalParam UpdateStatus EmojiCode where
+  applyOptionalParam req (EmojiCode xs) =
+    req `addQuery` toQuery ("emoji_code", Just xs)
+
+-- | /Optional Param/ "reaction_type" - One of the following values:  * `unicode_emoji`: Unicode emoji (`emoji_code` will be its Unicode   codepoint). * `realm_emoji`: [Custom emoji](/help/add-custom-emoji).   (`emoji_code` will be its ID). * `zulip_extra_emoji`: Special emoji included with Zulip.  Exists to   namespace the `zulip` emoji. 
+instance HasOptionalParam UpdateStatus ReactionType where
+  applyOptionalParam req (ReactionType xs) =
+    req `addQuery` toQuery ("reaction_type", Just xs)
+-- | @application/json@
+instance Produces UpdateStatus MimeJSON
 
 
 -- *** updateUser

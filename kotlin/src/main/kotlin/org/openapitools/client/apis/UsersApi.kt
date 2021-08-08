@@ -16,6 +16,7 @@ import org.openapitools.client.models.CodedError
 import org.openapitools.client.models.JsonError
 import org.openapitools.client.models.JsonSuccess
 import org.openapitools.client.models.JsonSuccessBase
+import org.openapitools.client.models.OneOfLessThanObjectCommaObjectCommaObjectCommaObjectCommaObjectCommaObjectGreaterThan
 import org.openapitools.client.models.OneOfLessThanObjectCommaObjectCommaObjectGreaterThan
 import org.openapitools.client.models.OneOfLessThanObjectCommaObjectGreaterThan
 
@@ -948,21 +949,47 @@ class UsersApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
     }
 
     /**
-    * Update display settings
-    * This endpoint is used to edit the current user&#39;s user interface settings.  &#x60;PATCH {{ api_url }}/v1/settings/display&#x60; 
-    * @param twentyFourHourTime Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).  (optional)
-    * @param denseMode This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip.  (optional)
-    * @param starredMessageCounts Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages).  (optional)
-    * @param fluidLayoutWidth Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app&#39;s center panel (message feed, recent topics) on wide screens.  (optional)
-    * @param highContrastMode This setting is reserved for use to control variations in Zulip&#39;s design to help visually impaired users.  (optional)
-    * @param colorScheme Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard &#x60;prefers-color-scheme&#x60; media query.  (optional)
-    * @param translateEmoticons Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends.  (optional)
-    * @param defaultLanguage What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, &#x60;\&quot;en\&quot;&#x60; for English or &#x60;\&quot;de\&quot;&#x60; for German.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63).  (optional)
-    * @param defaultView The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the &#x60;Esc&#x60; keyboard shortcut repeatedly.  * \&quot;recent_topics\&quot; - Recent topics view * \&quot;all_messages\&quot; - All messages view  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64).  (optional)
-    * @param leftSideUserlist Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.  (optional)
-    * @param emojiset The user&#39;s configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \&quot;google\&quot; - Google modern * \&quot;google-blob\&quot; - Google classic * \&quot;twitter\&quot; - Twitter * \&quot;text\&quot; - Plain text  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64).  (optional)
-    * @param demoteInactiveStreams Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never  (optional)
-    * @param timezone The user&#39;s [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64).  (optional)
+    * Update settings
+    * This endpoint is used to edit the current user&#39;s settings.  &#x60;PATCH {{ api_url }}/v1/settings&#x60;  **Changes**: Prior to Zulip 5.0 (feature level 80), this endpoint only supported the &#x60;full_name&#x60;, &#x60;email&#x60;, &#x60;old_password&#x60;, and &#x60;new_password&#x60; parameters. Notification settings were managed by &#x60;PATCH /settings/notifications&#x60;, and all other settings by &#x60;PATCH /settings/display&#x60;. The feature level 80 migration to merge these endpoints did not change how request parameters are encoded. Note, however, that it did change the handling of any invalid parameters present in a request to change notification or display settings, since the merged endpoint uses the new response format that was introduced for &#x60;/settings&#x60; in Zulip 5.0 (feature level 78).  The &#x60;/settings/display&#x60; and &#x60;/settings/notifications&#x60; endpoints are now deprecated aliases for this endpoint for backwards-compatibility, and will be removed once clients have migrated to use this endpoint. 
+    * @param fullName A new display name for the user.  (optional)
+    * @param email Asks the server to initiate a confirmation sequence to change the user&#39;s email address to the indicated value. The user will need to demonstrate control of the new email address by clicking a confirmation link sent to that address.  (optional)
+    * @param oldPassword The user&#39;s old Zulip password (or LDAP password, if LDAP authentication is in use).  Required only when sending the &#x60;new_password&#x60; parameter.  (optional)
+    * @param newPassword The user&#39;s new Zulip password (or LDAP password, if LDAP authentication is in use).  The &#x60;old_password&#x60; parameter must be included in the request.  (optional)
+    * @param twentyFourHourTime Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional)
+    * @param denseMode This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional)
+    * @param starredMessageCounts Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional)
+    * @param fluidLayoutWidth Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app&#39;s center panel (message feed, recent topics) on wide screens.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional)
+    * @param highContrastMode This setting is reserved for use to control variations in Zulip&#39;s design to help visually impaired users.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional)
+    * @param colorScheme Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard &#x60;prefers-color-scheme&#x60; media query.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional)
+    * @param enableDraftsSynchronization A boolean parameter to control whether synchronizing drafts is enabled for the user. When synchronization is disabled, all drafts stored in the server will be automatically deleted from the server.  This does not do anything (like sending events) to delete local copies of drafts stored in clients.  **Changes**: New in Zulip 5.0 (feature level 87).  (optional)
+    * @param translateEmoticons Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional)
+    * @param defaultLanguage What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, &#x60;\&quot;en\&quot;&#x60; for English or &#x60;\&quot;de\&quot;&#x60; for German.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63).  (optional)
+    * @param defaultView The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the &#x60;Esc&#x60; keyboard shortcut repeatedly.  * \&quot;recent_topics\&quot; - Recent topics view * \&quot;all_messages\&quot; - All messages view  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).  (optional)
+    * @param leftSideUserlist Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional)
+    * @param emojiset The user&#39;s configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \&quot;google\&quot; - Google modern * \&quot;google-blob\&quot; - Google classic * \&quot;twitter\&quot; - Twitter * \&quot;text\&quot; - Plain text  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).  (optional)
+    * @param demoteInactiveStreams Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional)
+    * @param timezone The user&#39;s [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).  (optional)
+    * @param enableStreamDesktopNotifications Enable visual desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+    * @param enableStreamEmailNotifications Enable email notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+    * @param enableStreamPushNotifications Enable mobile notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+    * @param enableStreamAudibleNotifications Enable audible desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+    * @param notificationSound Notification sound name.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63).  (optional)
+    * @param enableDesktopNotifications Enable visual desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+    * @param enableSounds Enable audible desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+    * @param emailNotificationsBatchingPeriodSeconds The duration (in seconds) for which the server should wait to batch email notifications before sending them.  **Changes**: New in Zulip 5.0 (feature level 82)  (optional)
+    * @param enableOfflineEmailNotifications Enable email notifications for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+    * @param enableOfflinePushNotifications Enable mobile notification for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+    * @param enableOnlinePushNotifications Enable mobile notification for private messages and @-mentions received when the user is online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+    * @param enableDigestEmails Enable digest emails when the user is away.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+    * @param enableMarketingEmails Enable marketing emails. Has no function outside Zulip Cloud.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+    * @param enableLoginEmails Enable email notifications for new logins to account.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+    * @param messageContentInEmailNotifications Include the message&#39;s content in email notifications for new messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+    * @param pmContentInDesktopNotifications Include content of private messages in desktop notifications.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+    * @param wildcardMentionsNotify Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+    * @param desktopIconCountDisplay Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+    * @param realmNameInNotifications Include organization name in subject of message notification emails.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+    * @param presenceEnabled Display the presence status to other users when online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+    * @param enterSends Whether pressing Enter in the compose box sends a message (or saves a message edit).  **Changes**: Before Zulip 5.0 (feature level 81), this setting was managed by the &#x60;POST /users/me/enter-sends&#x60; endpoint, with the same parameter format.  (optional)
     * @return JsonSuccessBase
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
@@ -970,8 +997,8 @@ class UsersApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun updateDisplaySettings(twentyFourHourTime: kotlin.Boolean?, denseMode: kotlin.Boolean?, starredMessageCounts: kotlin.Boolean?, fluidLayoutWidth: kotlin.Boolean?, highContrastMode: kotlin.Boolean?, colorScheme: kotlin.Int?, translateEmoticons: kotlin.Boolean?, defaultLanguage: kotlin.String?, defaultView: kotlin.String?, leftSideUserlist: kotlin.Boolean?, emojiset: kotlin.String?, demoteInactiveStreams: kotlin.Int?, timezone: kotlin.String?) : JsonSuccessBase {
-        val localVariableConfig = updateDisplaySettingsRequestConfig(twentyFourHourTime = twentyFourHourTime, denseMode = denseMode, starredMessageCounts = starredMessageCounts, fluidLayoutWidth = fluidLayoutWidth, highContrastMode = highContrastMode, colorScheme = colorScheme, translateEmoticons = translateEmoticons, defaultLanguage = defaultLanguage, defaultView = defaultView, leftSideUserlist = leftSideUserlist, emojiset = emojiset, demoteInactiveStreams = demoteInactiveStreams, timezone = timezone)
+    fun updateSettings(fullName: kotlin.String?, email: kotlin.String?, oldPassword: kotlin.String?, newPassword: kotlin.String?, twentyFourHourTime: kotlin.Boolean?, denseMode: kotlin.Boolean?, starredMessageCounts: kotlin.Boolean?, fluidLayoutWidth: kotlin.Boolean?, highContrastMode: kotlin.Boolean?, colorScheme: kotlin.Int?, enableDraftsSynchronization: kotlin.Boolean?, translateEmoticons: kotlin.Boolean?, defaultLanguage: kotlin.String?, defaultView: kotlin.String?, leftSideUserlist: kotlin.Boolean?, emojiset: kotlin.String?, demoteInactiveStreams: kotlin.Int?, timezone: kotlin.String?, enableStreamDesktopNotifications: kotlin.Boolean?, enableStreamEmailNotifications: kotlin.Boolean?, enableStreamPushNotifications: kotlin.Boolean?, enableStreamAudibleNotifications: kotlin.Boolean?, notificationSound: kotlin.String?, enableDesktopNotifications: kotlin.Boolean?, enableSounds: kotlin.Boolean?, emailNotificationsBatchingPeriodSeconds: kotlin.Int?, enableOfflineEmailNotifications: kotlin.Boolean?, enableOfflinePushNotifications: kotlin.Boolean?, enableOnlinePushNotifications: kotlin.Boolean?, enableDigestEmails: kotlin.Boolean?, enableMarketingEmails: kotlin.Boolean?, enableLoginEmails: kotlin.Boolean?, messageContentInEmailNotifications: kotlin.Boolean?, pmContentInDesktopNotifications: kotlin.Boolean?, wildcardMentionsNotify: kotlin.Boolean?, desktopIconCountDisplay: kotlin.Int?, realmNameInNotifications: kotlin.Boolean?, presenceEnabled: kotlin.Boolean?, enterSends: kotlin.Boolean?) : JsonSuccessBase {
+        val localVariableConfig = updateSettingsRequestConfig(fullName = fullName, email = email, oldPassword = oldPassword, newPassword = newPassword, twentyFourHourTime = twentyFourHourTime, denseMode = denseMode, starredMessageCounts = starredMessageCounts, fluidLayoutWidth = fluidLayoutWidth, highContrastMode = highContrastMode, colorScheme = colorScheme, enableDraftsSynchronization = enableDraftsSynchronization, translateEmoticons = translateEmoticons, defaultLanguage = defaultLanguage, defaultView = defaultView, leftSideUserlist = leftSideUserlist, emojiset = emojiset, demoteInactiveStreams = demoteInactiveStreams, timezone = timezone, enableStreamDesktopNotifications = enableStreamDesktopNotifications, enableStreamEmailNotifications = enableStreamEmailNotifications, enableStreamPushNotifications = enableStreamPushNotifications, enableStreamAudibleNotifications = enableStreamAudibleNotifications, notificationSound = notificationSound, enableDesktopNotifications = enableDesktopNotifications, enableSounds = enableSounds, emailNotificationsBatchingPeriodSeconds = emailNotificationsBatchingPeriodSeconds, enableOfflineEmailNotifications = enableOfflineEmailNotifications, enableOfflinePushNotifications = enableOfflinePushNotifications, enableOnlinePushNotifications = enableOnlinePushNotifications, enableDigestEmails = enableDigestEmails, enableMarketingEmails = enableMarketingEmails, enableLoginEmails = enableLoginEmails, messageContentInEmailNotifications = messageContentInEmailNotifications, pmContentInDesktopNotifications = pmContentInDesktopNotifications, wildcardMentionsNotify = wildcardMentionsNotify, desktopIconCountDisplay = desktopIconCountDisplay, realmNameInNotifications = realmNameInNotifications, presenceEnabled = presenceEnabled, enterSends = enterSends)
 
         val localVarResponse = request<Unit, JsonSuccessBase>(
             localVariableConfig
@@ -993,27 +1020,65 @@ class UsersApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
     }
 
     /**
-    * To obtain the request config of the operation updateDisplaySettings
+    * To obtain the request config of the operation updateSettings
     *
-    * @param twentyFourHourTime Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).  (optional)
-    * @param denseMode This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip.  (optional)
-    * @param starredMessageCounts Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages).  (optional)
-    * @param fluidLayoutWidth Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app&#39;s center panel (message feed, recent topics) on wide screens.  (optional)
-    * @param highContrastMode This setting is reserved for use to control variations in Zulip&#39;s design to help visually impaired users.  (optional)
-    * @param colorScheme Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard &#x60;prefers-color-scheme&#x60; media query.  (optional)
-    * @param translateEmoticons Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends.  (optional)
-    * @param defaultLanguage What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, &#x60;\&quot;en\&quot;&#x60; for English or &#x60;\&quot;de\&quot;&#x60; for German.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63).  (optional)
-    * @param defaultView The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the &#x60;Esc&#x60; keyboard shortcut repeatedly.  * \&quot;recent_topics\&quot; - Recent topics view * \&quot;all_messages\&quot; - All messages view  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64).  (optional)
-    * @param leftSideUserlist Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.  (optional)
-    * @param emojiset The user&#39;s configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \&quot;google\&quot; - Google modern * \&quot;google-blob\&quot; - Google classic * \&quot;twitter\&quot; - Twitter * \&quot;text\&quot; - Plain text  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64).  (optional)
-    * @param demoteInactiveStreams Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never  (optional)
-    * @param timezone The user&#39;s [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64).  (optional)
+    * @param fullName A new display name for the user.  (optional)
+    * @param email Asks the server to initiate a confirmation sequence to change the user&#39;s email address to the indicated value. The user will need to demonstrate control of the new email address by clicking a confirmation link sent to that address.  (optional)
+    * @param oldPassword The user&#39;s old Zulip password (or LDAP password, if LDAP authentication is in use).  Required only when sending the &#x60;new_password&#x60; parameter.  (optional)
+    * @param newPassword The user&#39;s new Zulip password (or LDAP password, if LDAP authentication is in use).  The &#x60;old_password&#x60; parameter must be included in the request.  (optional)
+    * @param twentyFourHourTime Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional)
+    * @param denseMode This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional)
+    * @param starredMessageCounts Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional)
+    * @param fluidLayoutWidth Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app&#39;s center panel (message feed, recent topics) on wide screens.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional)
+    * @param highContrastMode This setting is reserved for use to control variations in Zulip&#39;s design to help visually impaired users.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional)
+    * @param colorScheme Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard &#x60;prefers-color-scheme&#x60; media query.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional)
+    * @param enableDraftsSynchronization A boolean parameter to control whether synchronizing drafts is enabled for the user. When synchronization is disabled, all drafts stored in the server will be automatically deleted from the server.  This does not do anything (like sending events) to delete local copies of drafts stored in clients.  **Changes**: New in Zulip 5.0 (feature level 87).  (optional)
+    * @param translateEmoticons Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional)
+    * @param defaultLanguage What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, &#x60;\&quot;en\&quot;&#x60; for English or &#x60;\&quot;de\&quot;&#x60; for German.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63).  (optional)
+    * @param defaultView The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the &#x60;Esc&#x60; keyboard shortcut repeatedly.  * \&quot;recent_topics\&quot; - Recent topics view * \&quot;all_messages\&quot; - All messages view  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).  (optional)
+    * @param leftSideUserlist Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional)
+    * @param emojiset The user&#39;s configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \&quot;google\&quot; - Google modern * \&quot;google-blob\&quot; - Google classic * \&quot;twitter\&quot; - Twitter * \&quot;text\&quot; - Plain text  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).  (optional)
+    * @param demoteInactiveStreams Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  (optional)
+    * @param timezone The user&#39;s [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).  (optional)
+    * @param enableStreamDesktopNotifications Enable visual desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+    * @param enableStreamEmailNotifications Enable email notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+    * @param enableStreamPushNotifications Enable mobile notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+    * @param enableStreamAudibleNotifications Enable audible desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+    * @param notificationSound Notification sound name.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63).  (optional)
+    * @param enableDesktopNotifications Enable visual desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+    * @param enableSounds Enable audible desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+    * @param emailNotificationsBatchingPeriodSeconds The duration (in seconds) for which the server should wait to batch email notifications before sending them.  **Changes**: New in Zulip 5.0 (feature level 82)  (optional)
+    * @param enableOfflineEmailNotifications Enable email notifications for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+    * @param enableOfflinePushNotifications Enable mobile notification for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+    * @param enableOnlinePushNotifications Enable mobile notification for private messages and @-mentions received when the user is online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+    * @param enableDigestEmails Enable digest emails when the user is away.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+    * @param enableMarketingEmails Enable marketing emails. Has no function outside Zulip Cloud.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+    * @param enableLoginEmails Enable email notifications for new logins to account.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+    * @param messageContentInEmailNotifications Include the message&#39;s content in email notifications for new messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+    * @param pmContentInDesktopNotifications Include content of private messages in desktop notifications.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+    * @param wildcardMentionsNotify Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+    * @param desktopIconCountDisplay Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+    * @param realmNameInNotifications Include organization name in subject of message notification emails.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+    * @param presenceEnabled Display the presence status to other users when online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  (optional)
+    * @param enterSends Whether pressing Enter in the compose box sends a message (or saves a message edit).  **Changes**: Before Zulip 5.0 (feature level 81), this setting was managed by the &#x60;POST /users/me/enter-sends&#x60; endpoint, with the same parameter format.  (optional)
     * @return RequestConfig
     */
-    fun updateDisplaySettingsRequestConfig(twentyFourHourTime: kotlin.Boolean?, denseMode: kotlin.Boolean?, starredMessageCounts: kotlin.Boolean?, fluidLayoutWidth: kotlin.Boolean?, highContrastMode: kotlin.Boolean?, colorScheme: kotlin.Int?, translateEmoticons: kotlin.Boolean?, defaultLanguage: kotlin.String?, defaultView: kotlin.String?, leftSideUserlist: kotlin.Boolean?, emojiset: kotlin.String?, demoteInactiveStreams: kotlin.Int?, timezone: kotlin.String?) : RequestConfig<Unit> {
+    fun updateSettingsRequestConfig(fullName: kotlin.String?, email: kotlin.String?, oldPassword: kotlin.String?, newPassword: kotlin.String?, twentyFourHourTime: kotlin.Boolean?, denseMode: kotlin.Boolean?, starredMessageCounts: kotlin.Boolean?, fluidLayoutWidth: kotlin.Boolean?, highContrastMode: kotlin.Boolean?, colorScheme: kotlin.Int?, enableDraftsSynchronization: kotlin.Boolean?, translateEmoticons: kotlin.Boolean?, defaultLanguage: kotlin.String?, defaultView: kotlin.String?, leftSideUserlist: kotlin.Boolean?, emojiset: kotlin.String?, demoteInactiveStreams: kotlin.Int?, timezone: kotlin.String?, enableStreamDesktopNotifications: kotlin.Boolean?, enableStreamEmailNotifications: kotlin.Boolean?, enableStreamPushNotifications: kotlin.Boolean?, enableStreamAudibleNotifications: kotlin.Boolean?, notificationSound: kotlin.String?, enableDesktopNotifications: kotlin.Boolean?, enableSounds: kotlin.Boolean?, emailNotificationsBatchingPeriodSeconds: kotlin.Int?, enableOfflineEmailNotifications: kotlin.Boolean?, enableOfflinePushNotifications: kotlin.Boolean?, enableOnlinePushNotifications: kotlin.Boolean?, enableDigestEmails: kotlin.Boolean?, enableMarketingEmails: kotlin.Boolean?, enableLoginEmails: kotlin.Boolean?, messageContentInEmailNotifications: kotlin.Boolean?, pmContentInDesktopNotifications: kotlin.Boolean?, wildcardMentionsNotify: kotlin.Boolean?, desktopIconCountDisplay: kotlin.Int?, realmNameInNotifications: kotlin.Boolean?, presenceEnabled: kotlin.Boolean?, enterSends: kotlin.Boolean?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, List<kotlin.String>>()
             .apply {
+                if (fullName != null) {
+                    put("full_name", listOf(fullName.toString()))
+                }
+                if (email != null) {
+                    put("email", listOf(email.toString()))
+                }
+                if (oldPassword != null) {
+                    put("old_password", listOf(oldPassword.toString()))
+                }
+                if (newPassword != null) {
+                    put("new_password", listOf(newPassword.toString()))
+                }
                 if (twentyFourHourTime != null) {
                     put("twenty_four_hour_time", listOf(twentyFourHourTime.toString()))
                 }
@@ -1031,6 +1096,9 @@ class UsersApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
                 }
                 if (colorScheme != null) {
                     put("color_scheme", listOf(colorScheme.toString()))
+                }
+                if (enableDraftsSynchronization != null) {
+                    put("enable_drafts_synchronization", listOf(enableDraftsSynchronization.toString()))
                 }
                 if (translateEmoticons != null) {
                     put("translate_emoticons", listOf(translateEmoticons.toString()))
@@ -1053,97 +1121,6 @@ class UsersApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
                 if (timezone != null) {
                     put("timezone", listOf(timezone.toString()))
                 }
-            }
-        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-
-        return RequestConfig(
-            method = RequestMethod.PATCH,
-            path = "/settings/display",
-            query = localVariableQuery,
-            headers = localVariableHeaders,
-            body = localVariableBody
-        )
-    }
-
-    /**
-    * Update notification settings
-    * This endpoint is used to edit the user&#39;s global notification settings. See [this endpoint](/api/update-subscription-settings) for per-stream notification settings.  &#x60;PATCH {{ api_url }}/v1/settings/notifications&#x60; 
-    * @param enableStreamDesktopNotifications Enable visual desktop notifications for stream messages.  (optional)
-    * @param enableStreamEmailNotifications Enable email notifications for stream messages.  (optional)
-    * @param enableStreamPushNotifications Enable mobile notifications for stream messages.  (optional)
-    * @param enableStreamAudibleNotifications Enable audible desktop notifications for stream messages.  (optional)
-    * @param notificationSound Notification sound name.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63).  (optional)
-    * @param enableDesktopNotifications Enable visual desktop notifications for private messages and @-mentions.  (optional)
-    * @param enableSounds Enable audible desktop notifications for private messages and @-mentions.  (optional)
-    * @param enableOfflineEmailNotifications Enable email notifications for private messages and @-mentions received when the user is offline.  (optional)
-    * @param enableOfflinePushNotifications Enable mobile notification for private messages and @-mentions received when the user is offline.  (optional)
-    * @param enableOnlinePushNotifications Enable mobile notification for private messages and @-mentions received when the user is online.  (optional)
-    * @param enableDigestEmails Enable digest emails when the user is away.  (optional)
-    * @param enableMarketingEmails Enable marketing emails. Has no function outside Zulip Cloud.  (optional)
-    * @param enableLoginEmails Enable email notifications for new logins to account.  (optional)
-    * @param messageContentInEmailNotifications Include the message&#39;s content in email notifications for new messages.  (optional)
-    * @param pmContentInDesktopNotifications Include content of private messages in desktop notifications.  (optional)
-    * @param wildcardMentionsNotify Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention.  (optional)
-    * @param desktopIconCountDisplay Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None  (optional)
-    * @param realmNameInNotifications Include organization name in subject of message notification emails.  (optional)
-    * @param presenceEnabled Display the presence status to other users when online.  (optional)
-    * @return JsonSuccessBase
-    * @throws UnsupportedOperationException If the API returns an informational or redirection response
-    * @throws ClientException If the API returns a client error response
-    * @throws ServerException If the API returns a server error response
-    */
-    @Suppress("UNCHECKED_CAST")
-    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun updateNotificationSettings(enableStreamDesktopNotifications: kotlin.Boolean?, enableStreamEmailNotifications: kotlin.Boolean?, enableStreamPushNotifications: kotlin.Boolean?, enableStreamAudibleNotifications: kotlin.Boolean?, notificationSound: kotlin.String?, enableDesktopNotifications: kotlin.Boolean?, enableSounds: kotlin.Boolean?, enableOfflineEmailNotifications: kotlin.Boolean?, enableOfflinePushNotifications: kotlin.Boolean?, enableOnlinePushNotifications: kotlin.Boolean?, enableDigestEmails: kotlin.Boolean?, enableMarketingEmails: kotlin.Boolean?, enableLoginEmails: kotlin.Boolean?, messageContentInEmailNotifications: kotlin.Boolean?, pmContentInDesktopNotifications: kotlin.Boolean?, wildcardMentionsNotify: kotlin.Boolean?, desktopIconCountDisplay: kotlin.Int?, realmNameInNotifications: kotlin.Boolean?, presenceEnabled: kotlin.Boolean?) : JsonSuccessBase {
-        val localVariableConfig = updateNotificationSettingsRequestConfig(enableStreamDesktopNotifications = enableStreamDesktopNotifications, enableStreamEmailNotifications = enableStreamEmailNotifications, enableStreamPushNotifications = enableStreamPushNotifications, enableStreamAudibleNotifications = enableStreamAudibleNotifications, notificationSound = notificationSound, enableDesktopNotifications = enableDesktopNotifications, enableSounds = enableSounds, enableOfflineEmailNotifications = enableOfflineEmailNotifications, enableOfflinePushNotifications = enableOfflinePushNotifications, enableOnlinePushNotifications = enableOnlinePushNotifications, enableDigestEmails = enableDigestEmails, enableMarketingEmails = enableMarketingEmails, enableLoginEmails = enableLoginEmails, messageContentInEmailNotifications = messageContentInEmailNotifications, pmContentInDesktopNotifications = pmContentInDesktopNotifications, wildcardMentionsNotify = wildcardMentionsNotify, desktopIconCountDisplay = desktopIconCountDisplay, realmNameInNotifications = realmNameInNotifications, presenceEnabled = presenceEnabled)
-
-        val localVarResponse = request<Unit, JsonSuccessBase>(
-            localVariableConfig
-        )
-
-        return when (localVarResponse.responseType) {
-            ResponseType.Success -> (localVarResponse as Success<*>).data as JsonSuccessBase
-            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
-            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
-            ResponseType.ClientError -> {
-                val localVarError = localVarResponse as ClientError<*>
-                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
-            }
-            ResponseType.ServerError -> {
-                val localVarError = localVarResponse as ServerError<*>
-                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
-            }
-        }
-    }
-
-    /**
-    * To obtain the request config of the operation updateNotificationSettings
-    *
-    * @param enableStreamDesktopNotifications Enable visual desktop notifications for stream messages.  (optional)
-    * @param enableStreamEmailNotifications Enable email notifications for stream messages.  (optional)
-    * @param enableStreamPushNotifications Enable mobile notifications for stream messages.  (optional)
-    * @param enableStreamAudibleNotifications Enable audible desktop notifications for stream messages.  (optional)
-    * @param notificationSound Notification sound name.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63).  (optional)
-    * @param enableDesktopNotifications Enable visual desktop notifications for private messages and @-mentions.  (optional)
-    * @param enableSounds Enable audible desktop notifications for private messages and @-mentions.  (optional)
-    * @param enableOfflineEmailNotifications Enable email notifications for private messages and @-mentions received when the user is offline.  (optional)
-    * @param enableOfflinePushNotifications Enable mobile notification for private messages and @-mentions received when the user is offline.  (optional)
-    * @param enableOnlinePushNotifications Enable mobile notification for private messages and @-mentions received when the user is online.  (optional)
-    * @param enableDigestEmails Enable digest emails when the user is away.  (optional)
-    * @param enableMarketingEmails Enable marketing emails. Has no function outside Zulip Cloud.  (optional)
-    * @param enableLoginEmails Enable email notifications for new logins to account.  (optional)
-    * @param messageContentInEmailNotifications Include the message&#39;s content in email notifications for new messages.  (optional)
-    * @param pmContentInDesktopNotifications Include content of private messages in desktop notifications.  (optional)
-    * @param wildcardMentionsNotify Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention.  (optional)
-    * @param desktopIconCountDisplay Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None  (optional)
-    * @param realmNameInNotifications Include organization name in subject of message notification emails.  (optional)
-    * @param presenceEnabled Display the presence status to other users when online.  (optional)
-    * @return RequestConfig
-    */
-    fun updateNotificationSettingsRequestConfig(enableStreamDesktopNotifications: kotlin.Boolean?, enableStreamEmailNotifications: kotlin.Boolean?, enableStreamPushNotifications: kotlin.Boolean?, enableStreamAudibleNotifications: kotlin.Boolean?, notificationSound: kotlin.String?, enableDesktopNotifications: kotlin.Boolean?, enableSounds: kotlin.Boolean?, enableOfflineEmailNotifications: kotlin.Boolean?, enableOfflinePushNotifications: kotlin.Boolean?, enableOnlinePushNotifications: kotlin.Boolean?, enableDigestEmails: kotlin.Boolean?, enableMarketingEmails: kotlin.Boolean?, enableLoginEmails: kotlin.Boolean?, messageContentInEmailNotifications: kotlin.Boolean?, pmContentInDesktopNotifications: kotlin.Boolean?, wildcardMentionsNotify: kotlin.Boolean?, desktopIconCountDisplay: kotlin.Int?, realmNameInNotifications: kotlin.Boolean?, presenceEnabled: kotlin.Boolean?) : RequestConfig<Unit> {
-        val localVariableBody = null
-        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, List<kotlin.String>>()
-            .apply {
                 if (enableStreamDesktopNotifications != null) {
                     put("enable_stream_desktop_notifications", listOf(enableStreamDesktopNotifications.toString()))
                 }
@@ -1164,6 +1141,9 @@ class UsersApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
                 }
                 if (enableSounds != null) {
                     put("enable_sounds", listOf(enableSounds.toString()))
+                }
+                if (emailNotificationsBatchingPeriodSeconds != null) {
+                    put("email_notifications_batching_period_seconds", listOf(emailNotificationsBatchingPeriodSeconds.toString()))
                 }
                 if (enableOfflineEmailNotifications != null) {
                     put("enable_offline_email_notifications", listOf(enableOfflineEmailNotifications.toString()))
@@ -1201,12 +1181,93 @@ class UsersApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
                 if (presenceEnabled != null) {
                     put("presence_enabled", listOf(presenceEnabled.toString()))
                 }
+                if (enterSends != null) {
+                    put("enter_sends", listOf(enterSends.toString()))
+                }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
 
         return RequestConfig(
             method = RequestMethod.PATCH,
-            path = "/settings/notifications",
+            path = "/settings",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            body = localVariableBody
+        )
+    }
+
+    /**
+    * Update your status
+    * Change your [status](/help/status-and-availability).  &#x60;POST {{ api_url }}/v1/users/me/status&#x60;  A request to this endpoint will only change the parameters passed. For example, passing just &#x60;status_text&#x60; requests a change in the status text, but will leave the status emoji unchanged.  Clients that wish to set the user&#39;s status to a specific value should pass all supported parameters. 
+    * @param statusText The text content of the status message. Sending the empty string will clear the user&#39;s status.  **Note**: The limit on the size of the message is 60 characters.  (optional)
+    * @param away Whether the user should be marked as \&quot;away\&quot;.  (optional)
+    * @param emojiName The name for the emoji to associate with this status.  (optional)
+    * @param emojiCode A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint; for &#x60;realm_emoji&#x60;, it&#39;ll be the ID of the realm emoji.  (optional)
+    * @param reactionType One of the following values:  * &#x60;unicode_emoji&#x60;: Unicode emoji (&#x60;emoji_code&#x60; will be its Unicode   codepoint). * &#x60;realm_emoji&#x60;: [Custom emoji](/help/add-custom-emoji).   (&#x60;emoji_code&#x60; will be its ID). * &#x60;zulip_extra_emoji&#x60;: Special emoji included with Zulip.  Exists to   namespace the &#x60;zulip&#x60; emoji.  (optional)
+    * @return JsonSuccess
+    * @throws UnsupportedOperationException If the API returns an informational or redirection response
+    * @throws ClientException If the API returns a client error response
+    * @throws ServerException If the API returns a server error response
+    */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun updateStatus(statusText: kotlin.String?, away: kotlin.Boolean?, emojiName: kotlin.String?, emojiCode: kotlin.String?, reactionType: kotlin.String?) : JsonSuccess {
+        val localVariableConfig = updateStatusRequestConfig(statusText = statusText, away = away, emojiName = emojiName, emojiCode = emojiCode, reactionType = reactionType)
+
+        val localVarResponse = request<Unit, JsonSuccess>(
+            localVariableConfig
+        )
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as JsonSuccess
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+    * To obtain the request config of the operation updateStatus
+    *
+    * @param statusText The text content of the status message. Sending the empty string will clear the user&#39;s status.  **Note**: The limit on the size of the message is 60 characters.  (optional)
+    * @param away Whether the user should be marked as \&quot;away\&quot;.  (optional)
+    * @param emojiName The name for the emoji to associate with this status.  (optional)
+    * @param emojiCode A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint; for &#x60;realm_emoji&#x60;, it&#39;ll be the ID of the realm emoji.  (optional)
+    * @param reactionType One of the following values:  * &#x60;unicode_emoji&#x60;: Unicode emoji (&#x60;emoji_code&#x60; will be its Unicode   codepoint). * &#x60;realm_emoji&#x60;: [Custom emoji](/help/add-custom-emoji).   (&#x60;emoji_code&#x60; will be its ID). * &#x60;zulip_extra_emoji&#x60;: Special emoji included with Zulip.  Exists to   namespace the &#x60;zulip&#x60; emoji.  (optional)
+    * @return RequestConfig
+    */
+    fun updateStatusRequestConfig(statusText: kotlin.String?, away: kotlin.Boolean?, emojiName: kotlin.String?, emojiCode: kotlin.String?, reactionType: kotlin.String?) : RequestConfig<Unit> {
+        val localVariableBody = null
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, List<kotlin.String>>()
+            .apply {
+                if (statusText != null) {
+                    put("status_text", listOf(statusText.toString()))
+                }
+                if (away != null) {
+                    put("away", listOf(away.toString()))
+                }
+                if (emojiName != null) {
+                    put("emoji_name", listOf(emojiName.toString()))
+                }
+                if (emojiCode != null) {
+                    put("emoji_code", listOf(emojiCode.toString()))
+                }
+                if (reactionType != null) {
+                    put("reaction_type", listOf(reactionType.toString()))
+                }
+            }
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+
+        return RequestConfig(
+            method = RequestMethod.POST,
+            path = "/users/me/status",
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody

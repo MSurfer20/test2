@@ -16,7 +16,7 @@ import org.openapitools.model.JsonSuccess;
 import org.openapitools.model.JsonSuccessBase;
 import org.openapitools.model.OneOfstringinteger;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen", date = "2021-08-08T20:41:39.775381Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen", date = "2021-08-08T21:11:32.310747Z[Etc/UTC]")
 public class StreamsController  {
   /** 
    * Uncomment and implement as you see fit.  These operations will map
@@ -31,7 +31,19 @@ public class StreamsController  {
   */
 
   /*
+    public ResponseContext deleteTopic(RequestContext request , Integer streamId, String topicName) {
+        return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
+    }
+  */
+
+  /*
     public ResponseContext getStreams(RequestContext request , Boolean includePublic, Boolean includeWebPublic, Boolean includeSubscribed, Boolean includeAllActive, Boolean includeDefault, Boolean includeOwnerSubscribed) {
+        return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
+    }
+  */
+
+  /*
+    public ResponseContext getSubscribers(RequestContext request , Integer streamId) {
         return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
     }
   */

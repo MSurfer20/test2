@@ -6,6 +6,7 @@ import org.openapitools.model.JsonError
 import org.openapitools.model.JsonSuccess
 import org.openapitools.model.JsonSuccessBase
 import org.openapitools.model.NonExistingStreamError
+import org.openapitools.model.OneOfLessThanObjectCommaObjectCommaObjectCommaObjectCommaObjectCommaObjectGreaterThan
 import org.openapitools.model.OneOfLessThanObjectCommaObjectCommaObjectGreaterThan
 import org.openapitools.model.OneOfLessThanObjectCommaObjectGreaterThan
 import org.openapitools.model.OneOfLessThanStringCommaIntegerGreaterThan
@@ -304,6 +305,26 @@ class UsersApiTest {
         val subscriptions:kotlin.collections.List<kotlin.String>? = null
         val principals:kotlin.collections.List<OneOfLessThanStringCommaIntegerGreaterThan>? = null
         val response: ResponseEntity<JsonSuccessBase> = api.unsubscribe(subscriptions!!, principals!!)
+
+        // TODO: test validations
+    }
+    
+    /**
+    * Update your status
+    *
+    * Change your [status](/help/status-and-availability).  &#x60;POST {{ api_url }}/v1/users/me/status&#x60;  A request to this endpoint will only change the parameters passed. For example, passing just &#x60;status_text&#x60; requests a change in the status text, but will leave the status emoji unchanged.  Clients that wish to set the user&#39;s status to a specific value should pass all supported parameters. 
+    *
+    * @throws ApiException
+    *          if the Api call fails
+    */
+    @Test
+    fun updateStatusTest() {
+        val statusText:kotlin.String? = null
+        val away:kotlin.Boolean? = null
+        val emojiName:kotlin.String? = null
+        val emojiCode:kotlin.String? = null
+        val reactionType:kotlin.String? = null
+        val response: ResponseEntity<JsonSuccess> = api.updateStatus(statusText!!, away!!, emojiName!!, emojiCode!!, reactionType!!)
 
         // TODO: test validations
     }

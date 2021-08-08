@@ -35,6 +35,7 @@
 #include "Object.h"
 #include "OneOfobjectobject.h"
 #include "OneOfobjectobjectobject.h"
+#include "OneOfobjectobjectobjectobjectobjectobject.h"
 #include <string>
 
 namespace org {
@@ -444,37 +445,42 @@ private:
 };
 
 /// <summary>
-/// Update display settings
+/// Update settings
 /// </summary>
 /// <remarks>
-/// This endpoint is used to edit the current user&#39;s user interface settings.  &#x60;PATCH {{ api_url }}/v1/settings/display&#x60; 
+/// This endpoint is used to edit the current user&#39;s settings.  &#x60;PATCH {{ api_url }}/v1/settings&#x60;  **Changes**: Prior to Zulip 5.0 (feature level 80), this endpoint only supported the &#x60;full_name&#x60;, &#x60;email&#x60;, &#x60;old_password&#x60;, and &#x60;new_password&#x60; parameters. Notification settings were managed by &#x60;PATCH /settings/notifications&#x60;, and all other settings by &#x60;PATCH /settings/display&#x60;. The feature level 80 migration to merge these endpoints did not change how request parameters are encoded. Note, however, that it did change the handling of any invalid parameters present in a request to change notification or display settings, since the merged endpoint uses the new response format that was introduced for &#x60;/settings&#x60; in Zulip 5.0 (feature level 78).  The &#x60;/settings/display&#x60; and &#x60;/settings/notifications&#x60; endpoints are now deprecated aliases for this endpoint for backwards-compatibility, and will be removed once clients have migrated to use this endpoint. 
 /// </remarks>
-class  UsersApiSettingsDisplayResource: public restbed::Resource
+class  UsersApiSettingsResource: public restbed::Resource
 {
 public:
-	UsersApiSettingsDisplayResource();
-    virtual ~UsersApiSettingsDisplayResource();
+	UsersApiSettingsResource();
+    virtual ~UsersApiSettingsResource();
     void PATCH_method_handler(const std::shared_ptr<restbed::Session> session);
 
 	void set_handler_PATCH(
 		std::function<std::pair<int, std::string>(
-			bool const &, bool const &, bool const &, bool const &, bool const &, int32_t const &, bool const &, std::string const &, std::string const &, bool const &, std::string const &, int32_t const &, std::string const &
+			std::string const &, std::string const &, std::string const &, std::string const &, bool const &, bool const &, bool const &, bool const &, bool const &, int32_t const &, bool const &, bool const &, std::string const &, std::string const &, bool const &, std::string const &, int32_t const &, std::string const &, bool const &, bool const &, bool const &, bool const &, std::string const &, bool const &, bool const &, int32_t const &, bool const &, bool const &, bool const &, bool const &, bool const &, bool const &, bool const &, bool const &, bool const &, int32_t const &, bool const &, bool const &, bool const &
 		)> handler
 	);
 
 
 private:
 	std::function<std::pair<int, std::string>(
-		bool const &, bool const &, bool const &, bool const &, bool const &, int32_t const &, bool const &, std::string const &, std::string const &, bool const &, std::string const &, int32_t const &, std::string const &
+		std::string const &, std::string const &, std::string const &, std::string const &, bool const &, bool const &, bool const &, bool const &, bool const &, int32_t const &, bool const &, bool const &, std::string const &, std::string const &, bool const &, std::string const &, int32_t const &, std::string const &, bool const &, bool const &, bool const &, bool const &, std::string const &, bool const &, bool const &, int32_t const &, bool const &, bool const &, bool const &, bool const &, bool const &, bool const &, bool const &, bool const &, bool const &, int32_t const &, bool const &, bool const &, bool const &
 	)> handler_PATCH_;
 
 
+	std::string fullName{};
+	std::string email{};
+	std::string oldPassword{};
+	std::string newPassword{};
 	bool twentyFourHourTime{};
 	bool denseMode{};
 	bool starredMessageCounts{};
 	bool fluidLayoutWidth{};
 	bool highContrastMode{};
 	int32_t colorScheme{};
+	bool enableDraftsSynchronization{};
 	bool translateEmoticons{};
 	std::string defaultLanguage{};
 	std::string defaultView{};
@@ -482,34 +488,6 @@ private:
 	std::string emojiset{};
 	int32_t demoteInactiveStreams{};
 	std::string timezone{};
-};
-
-/// <summary>
-/// Update notification settings
-/// </summary>
-/// <remarks>
-/// This endpoint is used to edit the user&#39;s global notification settings. See [this endpoint](/api/update-subscription-settings) for per-stream notification settings.  &#x60;PATCH {{ api_url }}/v1/settings/notifications&#x60; 
-/// </remarks>
-class  UsersApiSettingsNotificationsResource: public restbed::Resource
-{
-public:
-	UsersApiSettingsNotificationsResource();
-    virtual ~UsersApiSettingsNotificationsResource();
-    void PATCH_method_handler(const std::shared_ptr<restbed::Session> session);
-
-	void set_handler_PATCH(
-		std::function<std::pair<int, std::string>(
-			bool const &, bool const &, bool const &, bool const &, std::string const &, bool const &, bool const &, bool const &, bool const &, bool const &, bool const &, bool const &, bool const &, bool const &, bool const &, bool const &, int32_t const &, bool const &, bool const &
-		)> handler
-	);
-
-
-private:
-	std::function<std::pair<int, std::string>(
-		bool const &, bool const &, bool const &, bool const &, std::string const &, bool const &, bool const &, bool const &, bool const &, bool const &, bool const &, bool const &, bool const &, bool const &, bool const &, bool const &, int32_t const &, bool const &, bool const &
-	)> handler_PATCH_;
-
-
 	bool enableStreamDesktopNotifications{};
 	bool enableStreamEmailNotifications{};
 	bool enableStreamPushNotifications{};
@@ -517,6 +495,7 @@ private:
 	std::string notificationSound{};
 	bool enableDesktopNotifications{};
 	bool enableSounds{};
+	int32_t emailNotificationsBatchingPeriodSeconds{};
 	bool enableOfflineEmailNotifications{};
 	bool enableOfflinePushNotifications{};
 	bool enableOnlinePushNotifications{};
@@ -529,6 +508,40 @@ private:
 	int32_t desktopIconCountDisplay{};
 	bool realmNameInNotifications{};
 	bool presenceEnabled{};
+	bool enterSends{};
+};
+
+/// <summary>
+/// Update your status
+/// </summary>
+/// <remarks>
+/// Change your [status](/help/status-and-availability).  &#x60;POST {{ api_url }}/v1/users/me/status&#x60;  A request to this endpoint will only change the parameters passed. For example, passing just &#x60;status_text&#x60; requests a change in the status text, but will leave the status emoji unchanged.  Clients that wish to set the user&#39;s status to a specific value should pass all supported parameters. 
+/// </remarks>
+class  UsersApiUsersMeStatusResource: public restbed::Resource
+{
+public:
+	UsersApiUsersMeStatusResource();
+    virtual ~UsersApiUsersMeStatusResource();
+    void POST_method_handler(const std::shared_ptr<restbed::Session> session);
+
+	void set_handler_POST(
+		std::function<std::pair<int, std::string>(
+			std::string const &, bool const &, std::string const &, std::string const &, std::string const &
+		)> handler
+	);
+
+
+private:
+	std::function<std::pair<int, std::string>(
+		std::string const &, bool const &, std::string const &, std::string const &, std::string const &
+	)> handler_POST_;
+
+
+	std::string statusText{};
+	bool away{};
+	std::string emojiName{};
+	std::string emojiCode{};
+	std::string reactionType{};
 };
 
 /// <summary>
@@ -587,8 +600,8 @@ protected:
 	std::shared_ptr<UsersApiUsersUser_idReactivateResource> m_spUsersApiUsersUser_idReactivateResource;
 	std::shared_ptr<UsersApiUser_groupsUser_group_idResource> m_spUsersApiUser_groupsUser_group_idResource;
 	std::shared_ptr<UsersApiTypingResource> m_spUsersApiTypingResource;
-	std::shared_ptr<UsersApiSettingsDisplayResource> m_spUsersApiSettingsDisplayResource;
-	std::shared_ptr<UsersApiSettingsNotificationsResource> m_spUsersApiSettingsNotificationsResource;
+	std::shared_ptr<UsersApiSettingsResource> m_spUsersApiSettingsResource;
+	std::shared_ptr<UsersApiUsersMeStatusResource> m_spUsersApiUsersMeStatusResource;
 	std::shared_ptr<UsersApiUser_groupsUser_group_idMembersResource> m_spUsersApiUser_groupsUser_group_idMembersResource;
 };
 

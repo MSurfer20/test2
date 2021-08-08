@@ -5,6 +5,7 @@
 .travis.yml
 Api/ApiServer.php
 Api/AuthenticationApiInterface.php
+Api/DraftsApiInterface.php
 Api/MessagesApiInterface.php
 Api/RealTimeEventsApiInterface.php
 Api/ServerAndOrganizationsApiInterface.php
@@ -13,6 +14,7 @@ Api/UsersApiInterface.php
 Api/WebhooksApiInterface.php
 Controller/AuthenticationController.php
 Controller/Controller.php
+Controller/DraftsController.php
 Controller/MessagesController.php
 Controller/RealTimeEventsController.php
 Controller/ServerAndOrganizationsController.php
@@ -43,10 +45,13 @@ Model/CodedErrorBase.php
 Model/CodedErrorBaseAllOf.php
 Model/CustomProfileField.php
 Model/DefaultStreamGroup.php
+Model/Draft.php
+Model/EmojiBase.php
 Model/EmojiReaction.php
 Model/EmojiReactionAllOf.php
 Model/EmojiReactionBase.php
-Model/EmojiReactionBaseUser.php
+Model/EmojiReactionBaseAllOf.php
+Model/EmojiReactionBaseAllOfUser.php
 Model/GetMessages.php
 Model/GetMessagesAllOf.php
 Model/Hotspot.php
@@ -89,6 +94,7 @@ README.md
 Resources/config/routing.yml
 Resources/config/services.yml
 Resources/docs/Api/AuthenticationApiInterface.md
+Resources/docs/Api/DraftsApiInterface.md
 Resources/docs/Api/MessagesApiInterface.md
 Resources/docs/Api/RealTimeEventsApiInterface.md
 Resources/docs/Api/ServerAndOrganizationsApiInterface.md
@@ -117,10 +123,13 @@ Resources/docs/Model/CodedErrorBase.md
 Resources/docs/Model/CodedErrorBaseAllOf.md
 Resources/docs/Model/CustomProfileField.md
 Resources/docs/Model/DefaultStreamGroup.md
+Resources/docs/Model/Draft.md
+Resources/docs/Model/EmojiBase.md
 Resources/docs/Model/EmojiReaction.md
 Resources/docs/Model/EmojiReactionAllOf.md
 Resources/docs/Model/EmojiReactionBase.md
-Resources/docs/Model/EmojiReactionBaseUser.md
+Resources/docs/Model/EmojiReactionBaseAllOf.md
+Resources/docs/Model/EmojiReactionBaseAllOfUser.md
 Resources/docs/Model/GetMessages.md
 Resources/docs/Model/GetMessagesAllOf.md
 Resources/docs/Model/Hotspot.md
@@ -165,6 +174,7 @@ Service/SymfonyValidator.php
 Service/TypeMismatchException.php
 Service/ValidatorInterface.php
 Tests/Api/AuthenticationApiInterfaceTest.php
+Tests/Api/DraftsApiInterfaceTest.php
 Tests/Api/MessagesApiInterfaceTest.php
 Tests/Api/RealTimeEventsApiInterfaceTest.php
 Tests/Api/ServerAndOrganizationsApiInterfaceTest.php
@@ -195,9 +205,12 @@ Tests/Model/CodedErrorBaseTest.php
 Tests/Model/CodedErrorTest.php
 Tests/Model/CustomProfileFieldTest.php
 Tests/Model/DefaultStreamGroupTest.php
+Tests/Model/DraftTest.php
+Tests/Model/EmojiBaseTest.php
 Tests/Model/EmojiReactionAllOfTest.php
+Tests/Model/EmojiReactionBaseAllOfTest.php
+Tests/Model/EmojiReactionBaseAllOfUserTest.php
 Tests/Model/EmojiReactionBaseTest.php
-Tests/Model/EmojiReactionBaseUserTest.php
 Tests/Model/EmojiReactionTest.php
 Tests/Model/GetMessagesAllOfTest.php
 Tests/Model/GetMessagesTest.php

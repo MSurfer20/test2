@@ -5,6 +5,7 @@ import 'package:jaguar_mimetype/jaguar_mimetype.dart';
 import 'dart:async';
 
 import 'package:openapi/model/json_success_base.dart';
+import 'package:openapi/model/one_ofobjectobjectobjectobjectobjectobject.dart';
 import 'package:openapi/model/json_success.dart';
 import 'package:openapi/model/one_ofobjectobject.dart';
 import 'package:openapi/model/json_error.dart';
@@ -277,11 +278,19 @@ class UsersApi extends ApiClient with _$UsersApiClient {
         ).timeout(timeout);
     }
 
-    /// Update display settings
+    /// Update settings
     ///
-    /// This endpoint is used to edit the current user&#39;s user interface settings.  &#x60;PATCH {{ api_url }}/v1/settings/display&#x60; 
-    @PatchReq(path: "/settings/display")
-    Future<JsonSuccessBase> updateDisplaySettings(
+    /// This endpoint is used to edit the current user&#39;s settings.  &#x60;PATCH {{ api_url }}/v1/settings&#x60;  **Changes**: Prior to Zulip 5.0 (feature level 80), this endpoint only supported the &#x60;full_name&#x60;, &#x60;email&#x60;, &#x60;old_password&#x60;, and &#x60;new_password&#x60; parameters. Notification settings were managed by &#x60;PATCH /settings/notifications&#x60;, and all other settings by &#x60;PATCH /settings/display&#x60;. The feature level 80 migration to merge these endpoints did not change how request parameters are encoded. Note, however, that it did change the handling of any invalid parameters present in a request to change notification or display settings, since the merged endpoint uses the new response format that was introduced for &#x60;/settings&#x60; in Zulip 5.0 (feature level 78).  The &#x60;/settings/display&#x60; and &#x60;/settings/notifications&#x60; endpoints are now deprecated aliases for this endpoint for backwards-compatibility, and will be removed once clients have migrated to use this endpoint. 
+    @PatchReq(path: "/settings")
+    Future<JsonSuccessBase> updateSettings(
+        
+            @QueryParam("full_name") String fullName, 
+        
+            @QueryParam("email") String email, 
+        
+            @QueryParam("old_password") String oldPassword, 
+        
+            @QueryParam("new_password") String newPassword, 
         
             @QueryParam("twenty_four_hour_time") bool twentyFourHourTime, 
         
@@ -295,6 +304,8 @@ class UsersApi extends ApiClient with _$UsersApiClient {
         
             @QueryParam("color_scheme") int colorScheme, 
         
+            @QueryParam("enable_drafts_synchronization") bool enableDraftsSynchronization, 
+        
             @QueryParam("translate_emoticons") bool translateEmoticons, 
         
             @QueryParam("default_language") String defaultLanguage, 
@@ -307,44 +318,7 @@ class UsersApi extends ApiClient with _$UsersApiClient {
         
             @QueryParam("demote_inactive_streams") int demoteInactiveStreams, 
         
-            @QueryParam("timezone") String timezone
-        ) {
-        return super.updateDisplaySettings(
-        
-        twentyFourHourTime, 
-        
-        denseMode, 
-        
-        starredMessageCounts, 
-        
-        fluidLayoutWidth, 
-        
-        highContrastMode, 
-        
-        colorScheme, 
-        
-        translateEmoticons, 
-        
-        defaultLanguage, 
-        
-        defaultView, 
-        
-        leftSideUserlist, 
-        
-        emojiset, 
-        
-        demoteInactiveStreams, 
-        
-        timezone
-
-        ).timeout(timeout);
-    }
-
-    /// Update notification settings
-    ///
-    /// This endpoint is used to edit the user&#39;s global notification settings. See [this endpoint](/api/update-subscription-settings) for per-stream notification settings.  &#x60;PATCH {{ api_url }}/v1/settings/notifications&#x60; 
-    @PatchReq(path: "/settings/notifications")
-    Future<JsonSuccessBase> updateNotificationSettings(
+            @QueryParam("timezone") String timezone, 
         
             @QueryParam("enable_stream_desktop_notifications") bool enableStreamDesktopNotifications, 
         
@@ -359,6 +333,8 @@ class UsersApi extends ApiClient with _$UsersApiClient {
             @QueryParam("enable_desktop_notifications") bool enableDesktopNotifications, 
         
             @QueryParam("enable_sounds") bool enableSounds, 
+        
+            @QueryParam("email_notifications_batching_period_seconds") int emailNotificationsBatchingPeriodSeconds, 
         
             @QueryParam("enable_offline_email_notifications") bool enableOfflineEmailNotifications, 
         
@@ -382,9 +358,47 @@ class UsersApi extends ApiClient with _$UsersApiClient {
         
             @QueryParam("realm_name_in_notifications") bool realmNameInNotifications, 
         
-            @QueryParam("presence_enabled") bool presenceEnabled
+            @QueryParam("presence_enabled") bool presenceEnabled, 
+        
+            @QueryParam("enter_sends") bool enterSends
         ) {
-        return super.updateNotificationSettings(
+        return super.updateSettings(
+        
+        fullName, 
+        
+        email, 
+        
+        oldPassword, 
+        
+        newPassword, 
+        
+        twentyFourHourTime, 
+        
+        denseMode, 
+        
+        starredMessageCounts, 
+        
+        fluidLayoutWidth, 
+        
+        highContrastMode, 
+        
+        colorScheme, 
+        
+        enableDraftsSynchronization, 
+        
+        translateEmoticons, 
+        
+        defaultLanguage, 
+        
+        defaultView, 
+        
+        leftSideUserlist, 
+        
+        emojiset, 
+        
+        demoteInactiveStreams, 
+        
+        timezone, 
         
         enableStreamDesktopNotifications, 
         
@@ -399,6 +413,8 @@ class UsersApi extends ApiClient with _$UsersApiClient {
         enableDesktopNotifications, 
         
         enableSounds, 
+        
+        emailNotificationsBatchingPeriodSeconds, 
         
         enableOfflineEmailNotifications, 
         
@@ -422,7 +438,40 @@ class UsersApi extends ApiClient with _$UsersApiClient {
         
         realmNameInNotifications, 
         
-        presenceEnabled
+        presenceEnabled, 
+        
+        enterSends
+
+        ).timeout(timeout);
+    }
+
+    /// Update your status
+    ///
+    /// Change your [status](/help/status-and-availability).  &#x60;POST {{ api_url }}/v1/users/me/status&#x60;  A request to this endpoint will only change the parameters passed. For example, passing just &#x60;status_text&#x60; requests a change in the status text, but will leave the status emoji unchanged.  Clients that wish to set the user&#39;s status to a specific value should pass all supported parameters. 
+    @PostReq(path: "/users/me/status")
+    Future<JsonSuccess> updateStatus(
+        
+            @QueryParam("status_text") String statusText, 
+        
+            @QueryParam("away") bool away, 
+        
+            @QueryParam("emoji_name") String emojiName, 
+        
+            @QueryParam("emoji_code") String emojiCode, 
+        
+            @QueryParam("reaction_type") String reactionType
+        ) {
+        return super.updateStatus(
+        
+        statusText, 
+        
+        away, 
+        
+        emojiName, 
+        
+        emojiCode, 
+        
+        reactionType
 
         ).timeout(timeout);
     }

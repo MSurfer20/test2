@@ -43,11 +43,17 @@
 
 #include "DefaultStreamGroupTest.cpp"
 
+#include "DraftTest.cpp"
+
+#include "EmojiBaseTest.cpp"
+
 #include "EmojiReactionTest.cpp"
 
 #include "EmojiReactionBaseTest.cpp"
 
-#include "EmojiReactionBase_userTest.cpp"
+#include "EmojiReactionBase_allOfTest.cpp"
+
+#include "EmojiReactionBase_allOf_userTest.cpp"
 
 #include "EmojiReaction_allOfTest.cpp"
 
@@ -399,6 +405,33 @@ void runTests(){
     
     
     
+    RUN_TEST(test_Draft_id_is_assigned_from_json);
+    
+    
+    RUN_TEST(test_Draft_type_is_assigned_from_json);
+    
+    
+    
+    RUN_TEST(test_Draft_topic_is_assigned_from_json);
+    
+    
+    RUN_TEST(test_Draft_content_is_assigned_from_json);
+    
+    
+    RUN_TEST(test_Draft_timestamp_is_assigned_from_json);
+    
+    
+    
+    RUN_TEST(test_EmojiBase_emoji_code_is_assigned_from_json);
+    
+    
+    RUN_TEST(test_EmojiBase_emoji_name_is_assigned_from_json);
+    
+    
+    RUN_TEST(test_EmojiBase_reaction_type_is_assigned_from_json);
+    
+    
+    
     
     
     
@@ -419,16 +452,21 @@ void runTests(){
     
     
     
-    RUN_TEST(test_EmojiReactionBase_user_id_is_assigned_from_json);
+    RUN_TEST(test_EmojiReactionBase_allOf_user_id_is_assigned_from_json);
     
     
-    RUN_TEST(test_EmojiReactionBase_user_email_is_assigned_from_json);
     
     
-    RUN_TEST(test_EmojiReactionBase_user_full_name_is_assigned_from_json);
+    RUN_TEST(test_EmojiReactionBase_allOf_user_id_is_assigned_from_json);
     
     
-    RUN_TEST(test_EmojiReactionBase_user_is_mirror_dummy_is_assigned_from_json);
+    RUN_TEST(test_EmojiReactionBase_allOf_user_email_is_assigned_from_json);
+    
+    
+    RUN_TEST(test_EmojiReactionBase_allOf_user_full_name_is_assigned_from_json);
+    
+    
+    RUN_TEST(test_EmojiReactionBase_allOf_user_is_mirror_dummy_is_assigned_from_json);
     
     
     
@@ -1239,6 +1277,33 @@ void runTests(){
     
     
     
+    RUN_TEST(test_Draft_id_is_converted_to_json);
+    
+    
+    RUN_TEST(test_Draft_type_is_converted_to_json);
+    
+    
+    
+    RUN_TEST(test_Draft_topic_is_converted_to_json);
+    
+    
+    RUN_TEST(test_Draft_content_is_converted_to_json);
+    
+    
+    RUN_TEST(test_Draft_timestamp_is_converted_to_json);
+    
+    
+    
+    RUN_TEST(test_EmojiBase_emoji_code_is_converted_to_json);
+    
+    
+    RUN_TEST(test_EmojiBase_emoji_name_is_converted_to_json);
+    
+    
+    RUN_TEST(test_EmojiBase_reaction_type_is_converted_to_json);
+    
+    
+    
     
     
     
@@ -1259,16 +1324,21 @@ void runTests(){
     
     
     
-    RUN_TEST(test_EmojiReactionBase_user_id_is_converted_to_json);
+    RUN_TEST(test_EmojiReactionBase_allOf_user_id_is_converted_to_json);
     
     
-    RUN_TEST(test_EmojiReactionBase_user_email_is_converted_to_json);
     
     
-    RUN_TEST(test_EmojiReactionBase_user_full_name_is_converted_to_json);
+    RUN_TEST(test_EmojiReactionBase_allOf_user_id_is_converted_to_json);
     
     
-    RUN_TEST(test_EmojiReactionBase_user_is_mirror_dummy_is_converted_to_json);
+    RUN_TEST(test_EmojiReactionBase_allOf_user_email_is_converted_to_json);
+    
+    
+    RUN_TEST(test_EmojiReactionBase_allOf_user_full_name_is_converted_to_json);
+    
+    
+    RUN_TEST(test_EmojiReactionBase_allOf_user_is_mirror_dummy_is_converted_to_json);
     
     
     

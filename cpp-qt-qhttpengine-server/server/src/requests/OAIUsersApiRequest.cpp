@@ -321,10 +321,30 @@ void OAIUsersApiRequest::unmuteUserRequest(const QString& muted_user_idstr){
 }
 
 
-void OAIUsersApiRequest::updateDisplaySettingsRequest(){
-    qDebug() << "/api/v1/settings/display";
-    connect(this, &OAIUsersApiRequest::updateDisplaySettings, handler.data(), &OAIUsersApiHandler::updateDisplaySettings);
+void OAIUsersApiRequest::updateSettingsRequest(){
+    qDebug() << "/api/v1/settings";
+    connect(this, &OAIUsersApiRequest::updateSettings, handler.data(), &OAIUsersApiHandler::updateSettings);
 
+    
+    QString full_name;
+    if(socket->queryString().keys().contains("full_name")){
+        fromStringValue(socket->queryString().value("full_name"), full_name);
+    }
+    
+    QString email;
+    if(socket->queryString().keys().contains("email")){
+        fromStringValue(socket->queryString().value("email"), email);
+    }
+    
+    QString old_password;
+    if(socket->queryString().keys().contains("old_password")){
+        fromStringValue(socket->queryString().value("old_password"), old_password);
+    }
+    
+    QString new_password;
+    if(socket->queryString().keys().contains("new_password")){
+        fromStringValue(socket->queryString().value("new_password"), new_password);
+    }
     
     bool twenty_four_hour_time;
     if(socket->queryString().keys().contains("twenty_four_hour_time")){
@@ -354,6 +374,11 @@ void OAIUsersApiRequest::updateDisplaySettingsRequest(){
     qint32 color_scheme;
     if(socket->queryString().keys().contains("color_scheme")){
         fromStringValue(socket->queryString().value("color_scheme"), color_scheme);
+    }
+    
+    bool enable_drafts_synchronization;
+    if(socket->queryString().keys().contains("enable_drafts_synchronization")){
+        fromStringValue(socket->queryString().value("enable_drafts_synchronization"), enable_drafts_synchronization);
     }
     
     bool translate_emoticons;
@@ -391,17 +416,6 @@ void OAIUsersApiRequest::updateDisplaySettingsRequest(){
         fromStringValue(socket->queryString().value("timezone"), timezone);
     }
     
-
-
-    emit updateDisplaySettings(twenty_four_hour_time, dense_mode, starred_message_counts, fluid_layout_width, high_contrast_mode, color_scheme, translate_emoticons, default_language, default_view, left_side_userlist, emojiset, demote_inactive_streams, timezone);
-}
-
-
-void OAIUsersApiRequest::updateNotificationSettingsRequest(){
-    qDebug() << "/api/v1/settings/notifications";
-    connect(this, &OAIUsersApiRequest::updateNotificationSettings, handler.data(), &OAIUsersApiHandler::updateNotificationSettings);
-
-    
     bool enable_stream_desktop_notifications;
     if(socket->queryString().keys().contains("enable_stream_desktop_notifications")){
         fromStringValue(socket->queryString().value("enable_stream_desktop_notifications"), enable_stream_desktop_notifications);
@@ -435,6 +449,11 @@ void OAIUsersApiRequest::updateNotificationSettingsRequest(){
     bool enable_sounds;
     if(socket->queryString().keys().contains("enable_sounds")){
         fromStringValue(socket->queryString().value("enable_sounds"), enable_sounds);
+    }
+    
+    qint32 email_notifications_batching_period_seconds;
+    if(socket->queryString().keys().contains("email_notifications_batching_period_seconds")){
+        fromStringValue(socket->queryString().value("email_notifications_batching_period_seconds"), email_notifications_batching_period_seconds);
     }
     
     bool enable_offline_email_notifications;
@@ -497,9 +516,50 @@ void OAIUsersApiRequest::updateNotificationSettingsRequest(){
         fromStringValue(socket->queryString().value("presence_enabled"), presence_enabled);
     }
     
+    bool enter_sends;
+    if(socket->queryString().keys().contains("enter_sends")){
+        fromStringValue(socket->queryString().value("enter_sends"), enter_sends);
+    }
+    
 
 
-    emit updateNotificationSettings(enable_stream_desktop_notifications, enable_stream_email_notifications, enable_stream_push_notifications, enable_stream_audible_notifications, notification_sound, enable_desktop_notifications, enable_sounds, enable_offline_email_notifications, enable_offline_push_notifications, enable_online_push_notifications, enable_digest_emails, enable_marketing_emails, enable_login_emails, message_content_in_email_notifications, pm_content_in_desktop_notifications, wildcard_mentions_notify, desktop_icon_count_display, realm_name_in_notifications, presence_enabled);
+    emit updateSettings(full_name, email, old_password, new_password, twenty_four_hour_time, dense_mode, starred_message_counts, fluid_layout_width, high_contrast_mode, color_scheme, enable_drafts_synchronization, translate_emoticons, default_language, default_view, left_side_userlist, emojiset, demote_inactive_streams, timezone, enable_stream_desktop_notifications, enable_stream_email_notifications, enable_stream_push_notifications, enable_stream_audible_notifications, notification_sound, enable_desktop_notifications, enable_sounds, email_notifications_batching_period_seconds, enable_offline_email_notifications, enable_offline_push_notifications, enable_online_push_notifications, enable_digest_emails, enable_marketing_emails, enable_login_emails, message_content_in_email_notifications, pm_content_in_desktop_notifications, wildcard_mentions_notify, desktop_icon_count_display, realm_name_in_notifications, presence_enabled, enter_sends);
+}
+
+
+void OAIUsersApiRequest::updateStatusRequest(){
+    qDebug() << "/api/v1/users/me/status";
+    connect(this, &OAIUsersApiRequest::updateStatus, handler.data(), &OAIUsersApiHandler::updateStatus);
+
+    
+    QString status_text;
+    if(socket->queryString().keys().contains("status_text")){
+        fromStringValue(socket->queryString().value("status_text"), status_text);
+    }
+    
+    bool away;
+    if(socket->queryString().keys().contains("away")){
+        fromStringValue(socket->queryString().value("away"), away);
+    }
+    
+    QString emoji_name;
+    if(socket->queryString().keys().contains("emoji_name")){
+        fromStringValue(socket->queryString().value("emoji_name"), emoji_name);
+    }
+    
+    QString emoji_code;
+    if(socket->queryString().keys().contains("emoji_code")){
+        fromStringValue(socket->queryString().value("emoji_code"), emoji_code);
+    }
+    
+    QString reaction_type;
+    if(socket->queryString().keys().contains("reaction_type")){
+        fromStringValue(socket->queryString().value("reaction_type"), reaction_type);
+    }
+    
+
+
+    emit updateStatus(status_text, away, emoji_name, emoji_code, reaction_type);
 }
 
 
@@ -722,7 +782,7 @@ void OAIUsersApiRequest::unmuteUserResponse(const OAIJsonSuccess& res){
     }
 }
 
-void OAIUsersApiRequest::updateDisplaySettingsResponse(const OAIJsonSuccessBase& res){
+void OAIUsersApiRequest::updateSettingsResponse(const OAIJsonSuccessBase& res){
     setSocketResponseHeaders();
     QJsonDocument resDoc(::OpenAPI::toJsonValue(res).toObject());
     socket->writeJson(resDoc);
@@ -731,7 +791,7 @@ void OAIUsersApiRequest::updateDisplaySettingsResponse(const OAIJsonSuccessBase&
     }
 }
 
-void OAIUsersApiRequest::updateNotificationSettingsResponse(const OAIJsonSuccessBase& res){
+void OAIUsersApiRequest::updateStatusResponse(const OAIJsonSuccess& res){
     setSocketResponseHeaders();
     QJsonDocument resDoc(::OpenAPI::toJsonValue(res).toObject());
     socket->writeJson(resDoc);
@@ -944,7 +1004,7 @@ void OAIUsersApiRequest::unmuteUserError(const OAIJsonSuccess& res, QNetworkRepl
     }
 }
 
-void OAIUsersApiRequest::updateDisplaySettingsError(const OAIJsonSuccessBase& res, QNetworkReply::NetworkError error_type, QString& error_str){
+void OAIUsersApiRequest::updateSettingsError(const OAIJsonSuccessBase& res, QNetworkReply::NetworkError error_type, QString& error_str){
     Q_UNUSED(error_type); // TODO: Remap error_type to QHttpEngine::Socket errors
     setSocketResponseHeaders();
     Q_UNUSED(error_str);  // response will be used instead of error string
@@ -955,7 +1015,7 @@ void OAIUsersApiRequest::updateDisplaySettingsError(const OAIJsonSuccessBase& re
     }
 }
 
-void OAIUsersApiRequest::updateNotificationSettingsError(const OAIJsonSuccessBase& res, QNetworkReply::NetworkError error_type, QString& error_str){
+void OAIUsersApiRequest::updateStatusError(const OAIJsonSuccess& res, QNetworkReply::NetworkError error_type, QString& error_str){
     Q_UNUSED(error_type); // TODO: Remap error_type to QHttpEngine::Socket errors
     setSocketResponseHeaders();
     Q_UNUSED(error_str);  // response will be used instead of error string

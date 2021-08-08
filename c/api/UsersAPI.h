@@ -13,6 +13,7 @@
 #include "../model/object.h"
 #include "../model/one_ofobjectobject.h"
 #include "../model/one_ofobjectobjectobject.h"
+#include "../model/one_ofobjectobjectobjectobjectobjectobject.h"
 
 // Enum OP for UsersAPI_setTypingStatus
 typedef enum  { zulip_rest_api_setTypingStatus_OP_NULL = 0, zulip_rest_api_setTypingStatus_OP_start, zulip_rest_api_setTypingStatus_OP_stop } zulip_rest_api_setTypingStatus_op_e;
@@ -20,14 +21,14 @@ typedef enum  { zulip_rest_api_setTypingStatus_OP_NULL = 0, zulip_rest_api_setTy
 // Enum TYPE for UsersAPI_setTypingStatus
 typedef enum  { zulip_rest_api_setTypingStatus_TYPE_NULL = 0, zulip_rest_api_setTypingStatus_TYPE__private, zulip_rest_api_setTypingStatus_TYPE_stream } zulip_rest_api_setTypingStatus_type_e;
 
-// Enum COLORSCHEME for UsersAPI_updateDisplaySettings
-typedef enum  { zulip_rest_api_updateDisplaySettings_COLORSCHEME_NULL = 0, zulip_rest_api_updateDisplaySettings_COLORSCHEME__1, zulip_rest_api_updateDisplaySettings_COLORSCHEME__2, zulip_rest_api_updateDisplaySettings_COLORSCHEME__3 } zulip_rest_api_updateDisplaySettings_color_scheme_e;
+// Enum COLORSCHEME for UsersAPI_updateSettings
+typedef enum  { zulip_rest_api_updateSettings_COLORSCHEME_NULL = 0, zulip_rest_api_updateSettings_COLORSCHEME__1, zulip_rest_api_updateSettings_COLORSCHEME__2, zulip_rest_api_updateSettings_COLORSCHEME__3 } zulip_rest_api_updateSettings_color_scheme_e;
 
-// Enum DEMOTEINACTIVESTREAMS for UsersAPI_updateDisplaySettings
-typedef enum  { zulip_rest_api_updateDisplaySettings_DEMOTEINACTIVESTREAMS_NULL = 0, zulip_rest_api_updateDisplaySettings_DEMOTEINACTIVESTREAMS__1, zulip_rest_api_updateDisplaySettings_DEMOTEINACTIVESTREAMS__2, zulip_rest_api_updateDisplaySettings_DEMOTEINACTIVESTREAMS__3 } zulip_rest_api_updateDisplaySettings_demote_inactive_streams_e;
+// Enum DEMOTEINACTIVESTREAMS for UsersAPI_updateSettings
+typedef enum  { zulip_rest_api_updateSettings_DEMOTEINACTIVESTREAMS_NULL = 0, zulip_rest_api_updateSettings_DEMOTEINACTIVESTREAMS__1, zulip_rest_api_updateSettings_DEMOTEINACTIVESTREAMS__2, zulip_rest_api_updateSettings_DEMOTEINACTIVESTREAMS__3 } zulip_rest_api_updateSettings_demote_inactive_streams_e;
 
-// Enum DESKTOPICONCOUNTDISPLAY for UsersAPI_updateNotificationSettings
-typedef enum  { zulip_rest_api_updateNotificationSettings_DESKTOPICONCOUNTDISPLAY_NULL = 0, zulip_rest_api_updateNotificationSettings_DESKTOPICONCOUNTDISPLAY__1, zulip_rest_api_updateNotificationSettings_DESKTOPICONCOUNTDISPLAY__2, zulip_rest_api_updateNotificationSettings_DESKTOPICONCOUNTDISPLAY__3 } zulip_rest_api_updateNotificationSettings_desktop_icon_count_display_e;
+// Enum DESKTOPICONCOUNTDISPLAY for UsersAPI_updateSettings
+typedef enum  { zulip_rest_api_updateSettings_DESKTOPICONCOUNTDISPLAY_NULL = 0, zulip_rest_api_updateSettings_DESKTOPICONCOUNTDISPLAY__1, zulip_rest_api_updateSettings_DESKTOPICONCOUNTDISPLAY__2, zulip_rest_api_updateSettings_DESKTOPICONCOUNTDISPLAY__3 } zulip_rest_api_updateSettings_desktop_icon_count_display_e;
 
 
 // Create a user
@@ -158,20 +159,20 @@ json_success_t*
 UsersAPI_unmuteUser(apiClient_t *apiClient, int muted_user_id );
 
 
-// Update display settings
+// Update settings
 //
-// This endpoint is used to edit the current user's user interface settings.  `PATCH {{ api_url }}/v1/settings/display` 
-//
-json_success_base_t*
-UsersAPI_updateDisplaySettings(apiClient_t *apiClient, int twenty_four_hour_time , int dense_mode , int starred_message_counts , int fluid_layout_width , int high_contrast_mode , int color_scheme , int translate_emoticons , char * default_language , char * default_view , int left_side_userlist , char * emojiset , int demote_inactive_streams , char * timezone );
-
-
-// Update notification settings
-//
-// This endpoint is used to edit the user's global notification settings. See [this endpoint](/api/update-subscription-settings) for per-stream notification settings.  `PATCH {{ api_url }}/v1/settings/notifications` 
+// This endpoint is used to edit the current user's settings.  `PATCH {{ api_url }}/v1/settings`  **Changes**: Prior to Zulip 5.0 (feature level 80), this endpoint only supported the `full_name`, `email`, `old_password`, and `new_password` parameters. Notification settings were managed by `PATCH /settings/notifications`, and all other settings by `PATCH /settings/display`. The feature level 80 migration to merge these endpoints did not change how request parameters are encoded. Note, however, that it did change the handling of any invalid parameters present in a request to change notification or display settings, since the merged endpoint uses the new response format that was introduced for `/settings` in Zulip 5.0 (feature level 78).  The `/settings/display` and `/settings/notifications` endpoints are now deprecated aliases for this endpoint for backwards-compatibility, and will be removed once clients have migrated to use this endpoint. 
 //
 json_success_base_t*
-UsersAPI_updateNotificationSettings(apiClient_t *apiClient, int enable_stream_desktop_notifications , int enable_stream_email_notifications , int enable_stream_push_notifications , int enable_stream_audible_notifications , char * notification_sound , int enable_desktop_notifications , int enable_sounds , int enable_offline_email_notifications , int enable_offline_push_notifications , int enable_online_push_notifications , int enable_digest_emails , int enable_marketing_emails , int enable_login_emails , int message_content_in_email_notifications , int pm_content_in_desktop_notifications , int wildcard_mentions_notify , int desktop_icon_count_display , int realm_name_in_notifications , int presence_enabled );
+UsersAPI_updateSettings(apiClient_t *apiClient, char * full_name , char * email , char * old_password , char * new_password , int twenty_four_hour_time , int dense_mode , int starred_message_counts , int fluid_layout_width , int high_contrast_mode , int color_scheme , int enable_drafts_synchronization , int translate_emoticons , char * default_language , char * default_view , int left_side_userlist , char * emojiset , int demote_inactive_streams , char * timezone , int enable_stream_desktop_notifications , int enable_stream_email_notifications , int enable_stream_push_notifications , int enable_stream_audible_notifications , char * notification_sound , int enable_desktop_notifications , int enable_sounds , int email_notifications_batching_period_seconds , int enable_offline_email_notifications , int enable_offline_push_notifications , int enable_online_push_notifications , int enable_digest_emails , int enable_marketing_emails , int enable_login_emails , int message_content_in_email_notifications , int pm_content_in_desktop_notifications , int wildcard_mentions_notify , int desktop_icon_count_display , int realm_name_in_notifications , int presence_enabled , int enter_sends );
+
+
+// Update your status
+//
+// Change your [status](/help/status-and-availability).  `POST {{ api_url }}/v1/users/me/status`  A request to this endpoint will only change the parameters passed. For example, passing just `status_text` requests a change in the status text, but will leave the status emoji unchanged.  Clients that wish to set the user's status to a specific value should pass all supported parameters. 
+//
+json_success_t*
+UsersAPI_updateStatus(apiClient_t *apiClient, char * status_text , int away , char * emoji_name , char * emoji_code , char * reaction_type );
 
 
 // Update a user

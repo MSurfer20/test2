@@ -65,6 +65,14 @@ allowed_methods(
 allowed_methods(
     Req,
     State = #state{
+        operation_id = 'DeleteTopic'
+    }
+) ->
+    {[<<"POST">>], Req, State};
+
+allowed_methods(
+    Req,
+    State = #state{
         operation_id = 'GetStreamId'
     }
 ) ->
@@ -82,6 +90,14 @@ allowed_methods(
     Req,
     State = #state{
         operation_id = 'GetStreams'
+    }
+) ->
+    {[<<"GET">>], Req, State};
+
+allowed_methods(
+    Req,
+    State = #state{
+        operation_id = 'GetSubscribers'
     }
 ) ->
     {[<<"GET">>], Req, State};
@@ -200,6 +216,16 @@ valid_content_headers(
 valid_content_headers(
     Req0,
     State = #state{
+        operation_id = 'DeleteTopic'
+    }
+) ->
+    Headers = [],
+    {Result, Req} = validate_headers(Headers, Req0),
+    {Result, Req, State};
+
+valid_content_headers(
+    Req0,
+    State = #state{
         operation_id = 'GetStreamId'
     }
 ) ->
@@ -221,6 +247,16 @@ valid_content_headers(
     Req0,
     State = #state{
         operation_id = 'GetStreams'
+    }
+) ->
+    Headers = [],
+    {Result, Req} = validate_headers(Headers, Req0),
+    {Result, Req, State};
+
+valid_content_headers(
+    Req0,
+    State = #state{
+        operation_id = 'GetSubscribers'
     }
 ) ->
     Headers = [],

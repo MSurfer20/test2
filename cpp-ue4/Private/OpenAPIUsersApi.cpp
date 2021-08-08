@@ -564,7 +564,7 @@ void OpenAPIUsersApi::OnUnmuteUserResponse(FHttpRequestPtr HttpRequest, FHttpRes
 	Delegate.ExecuteIfBound(Response);
 }
 
-FHttpRequestPtr OpenAPIUsersApi::UpdateDisplaySettings(const UpdateDisplaySettingsRequest& Request, const FUpdateDisplaySettingsDelegate& Delegate /*= FUpdateDisplaySettingsDelegate()*/) const
+FHttpRequestPtr OpenAPIUsersApi::UpdateSettings(const UpdateSettingsRequest& Request, const FUpdateSettingsDelegate& Delegate /*= FUpdateSettingsDelegate()*/) const
 {
 	if (!IsValid())
 		return nullptr;
@@ -579,19 +579,19 @@ FHttpRequestPtr OpenAPIUsersApi::UpdateDisplaySettings(const UpdateDisplaySettin
 
 	Request.SetupHttpRequest(HttpRequest);
 	
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIUsersApi::OnUpdateDisplaySettingsResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIUsersApi::OnUpdateSettingsResponse, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
 }
 
-void OpenAPIUsersApi::OnUpdateDisplaySettingsResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateDisplaySettingsDelegate Delegate) const
+void OpenAPIUsersApi::OnUpdateSettingsResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateSettingsDelegate Delegate) const
 {
-	UpdateDisplaySettingsResponse Response;
+	UpdateSettingsResponse Response;
 	HandleResponse(HttpResponse, bSucceeded, Response);
 	Delegate.ExecuteIfBound(Response);
 }
 
-FHttpRequestPtr OpenAPIUsersApi::UpdateNotificationSettings(const UpdateNotificationSettingsRequest& Request, const FUpdateNotificationSettingsDelegate& Delegate /*= FUpdateNotificationSettingsDelegate()*/) const
+FHttpRequestPtr OpenAPIUsersApi::UpdateStatus(const UpdateStatusRequest& Request, const FUpdateStatusDelegate& Delegate /*= FUpdateStatusDelegate()*/) const
 {
 	if (!IsValid())
 		return nullptr;
@@ -606,14 +606,14 @@ FHttpRequestPtr OpenAPIUsersApi::UpdateNotificationSettings(const UpdateNotifica
 
 	Request.SetupHttpRequest(HttpRequest);
 	
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIUsersApi::OnUpdateNotificationSettingsResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIUsersApi::OnUpdateStatusResponse, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
 }
 
-void OpenAPIUsersApi::OnUpdateNotificationSettingsResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateNotificationSettingsDelegate Delegate) const
+void OpenAPIUsersApi::OnUpdateStatusResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateStatusDelegate Delegate) const
 {
-	UpdateNotificationSettingsResponse Response;
+	UpdateStatusResponse Response;
 	HandleResponse(HttpResponse, bSucceeded, Response);
 	Delegate.ExecuteIfBound(Response);
 }

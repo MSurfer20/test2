@@ -3,6 +3,7 @@ README.md
 config.nim
 openapiclient.nim
 openapiclient/apis/api_authentication.nim
+openapiclient/apis/api_drafts.nim
 openapiclient/apis/api_messages.nim
 openapiclient/apis/api_real_time_events.nim
 openapiclient/apis/api_server_and_organizations.nim
@@ -31,10 +32,13 @@ openapiclient/models/model_coded_error_base.nim
 openapiclient/models/model_coded_error_base_all_of.nim
 openapiclient/models/model_custom_profile_field.nim
 openapiclient/models/model_default_stream_group.nim
+openapiclient/models/model_draft.nim
+openapiclient/models/model_emoji_base.nim
 openapiclient/models/model_emoji_reaction.nim
 openapiclient/models/model_emoji_reaction_all_of.nim
 openapiclient/models/model_emoji_reaction_base.nim
-openapiclient/models/model_emoji_reaction_base_user.nim
+openapiclient/models/model_emoji_reaction_base_all_of.nim
+openapiclient/models/model_emoji_reaction_base_all_of_user.nim
 openapiclient/models/model_get_messages.nim
 openapiclient/models/model_get_messages_all_of.nim
 openapiclient/models/model_hotspot.nim

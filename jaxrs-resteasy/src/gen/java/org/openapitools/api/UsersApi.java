@@ -13,6 +13,7 @@ import org.openapitools.model.JsonSuccessBase;
 import org.openapitools.model.NonExistingStreamError;
 import org.openapitools.model.OneOfobjectobject;
 import org.openapitools.model.OneOfobjectobjectobject;
+import org.openapitools.model.OneOfobjectobjectobjectobjectobjectobject;
 import org.openapitools.model.OneOfstringinteger;
 
 import java.util.Map;
@@ -34,7 +35,7 @@ import javax.validation.Valid;
 
 
 @io.swagger.annotations.Api(description = "the users API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyServerCodegen", date = "2021-08-08T20:42:27.763537Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyServerCodegen", date = "2021-08-08T21:12:17.400215Z[Etc/UTC]")
 public class UsersApi  {
 
     @Inject UsersApiService service;
@@ -243,6 +244,19 @@ public class UsersApi  {
     public Response unsubscribe( @NotNull  @QueryParam("subscriptions") List<String> subscriptions,  @QueryParam("principals") List<OneOfstringinteger> principals,@Context SecurityContext securityContext)
     throws NotFoundException {
         return service.unsubscribe(subscriptions,principals,securityContext);
+    }
+    @POST
+    @Path("/me/status")
+    
+    @Produces({ "application/json" })
+    @io.swagger.annotations.ApiOperation(value = "Update your status", notes = "Change your [status](/help/status-and-availability).  `POST {{ api_url }}/v1/users/me/status`  A request to this endpoint will only change the parameters passed. For example, passing just `status_text` requests a change in the status text, but will leave the status emoji unchanged.  Clients that wish to set the user's status to a specific value should pass all supported parameters. ", response = JsonSuccess.class, tags={ "users", })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "Success.", response = JsonSuccess.class),
+        
+        @io.swagger.annotations.ApiResponse(code = 400, message = "Success.", response = OneOfobjectobjectobjectobjectobjectobject.class) })
+    public Response updateStatus(  @QueryParam("status_text") String statusText,  @QueryParam("away") Boolean away,  @QueryParam("emoji_name") String emojiName,  @QueryParam("emoji_code") String emojiCode,  @QueryParam("reaction_type") String reactionType,@Context SecurityContext securityContext)
+    throws NotFoundException {
+        return service.updateStatus(statusText,away,emojiName,emojiCode,reactionType,securityContext);
     }
     @POST
     @Path("/me/subscriptions/properties")

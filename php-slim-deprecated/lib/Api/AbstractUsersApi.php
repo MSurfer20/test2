@@ -422,9 +422,9 @@ abstract class AbstractUsersApi
     }
 
     /**
-     * PATCH updateDisplaySettings
-     * Summary: Update display settings
-     * Notes: This endpoint is used to edit the current user&#39;s user interface settings.  &#x60;PATCH {{ api_url }}/v1/settings/display&#x60;
+     * PATCH updateSettings
+     * Summary: Update settings
+     * Notes: This endpoint is used to edit the current user&#39;s settings.  &#x60;PATCH {{ api_url }}/v1/settings&#x60;  **Changes**: Prior to Zulip 5.0 (feature level 80), this endpoint only supported the &#x60;full_name&#x60;, &#x60;email&#x60;, &#x60;old_password&#x60;, and &#x60;new_password&#x60; parameters. Notification settings were managed by &#x60;PATCH /settings/notifications&#x60;, and all other settings by &#x60;PATCH /settings/display&#x60;. The feature level 80 migration to merge these endpoints did not change how request parameters are encoded. Note, however, that it did change the handling of any invalid parameters present in a request to change notification or display settings, since the merged endpoint uses the new response format that was introduced for &#x60;/settings&#x60; in Zulip 5.0 (feature level 78).  The &#x60;/settings/display&#x60; and &#x60;/settings/notifications&#x60; endpoints are now deprecated aliases for this endpoint for backwards-compatibility, and will be removed once clients have migrated to use this endpoint.
      * Output-Formats: [application/json]
      *
      * @param ServerRequestInterface $request  Request
@@ -434,15 +434,20 @@ abstract class AbstractUsersApi
      * @return ResponseInterface
      * @throws Exception to force implementation class to override this method
      */
-    public function updateDisplaySettings(ServerRequestInterface $request, ResponseInterface $response, array $args)
+    public function updateSettings(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         $queryParams = $request->getQueryParams();
+        $fullName = $request->getQueryParam('full_name');
+        $email = $request->getQueryParam('email');
+        $oldPassword = $request->getQueryParam('old_password');
+        $newPassword = $request->getQueryParam('new_password');
         $twentyFourHourTime = $request->getQueryParam('twenty_four_hour_time');
         $denseMode = $request->getQueryParam('dense_mode');
         $starredMessageCounts = $request->getQueryParam('starred_message_counts');
         $fluidLayoutWidth = $request->getQueryParam('fluid_layout_width');
         $highContrastMode = $request->getQueryParam('high_contrast_mode');
         $colorScheme = $request->getQueryParam('color_scheme');
+        $enableDraftsSynchronization = $request->getQueryParam('enable_drafts_synchronization');
         $translateEmoticons = $request->getQueryParam('translate_emoticons');
         $defaultLanguage = $request->getQueryParam('default_language');
         $defaultView = $request->getQueryParam('default_view');
@@ -450,28 +455,6 @@ abstract class AbstractUsersApi
         $emojiset = $request->getQueryParam('emojiset');
         $demoteInactiveStreams = $request->getQueryParam('demote_inactive_streams');
         $timezone = $request->getQueryParam('timezone');
-        $message = "How about implementing updateDisplaySettings as a PATCH method in OpenAPIServer\Api\UsersApi class?";
-        throw new Exception($message);
-
-        return $response->write($message)->withStatus(501);
-    }
-
-    /**
-     * PATCH updateNotificationSettings
-     * Summary: Update notification settings
-     * Notes: This endpoint is used to edit the user&#39;s global notification settings. See [this endpoint](/api/update-subscription-settings) for per-stream notification settings.  &#x60;PATCH {{ api_url }}/v1/settings/notifications&#x60;
-     * Output-Formats: [application/json]
-     *
-     * @param ServerRequestInterface $request  Request
-     * @param ResponseInterface      $response Response
-     * @param array|null             $args     Path arguments
-     *
-     * @return ResponseInterface
-     * @throws Exception to force implementation class to override this method
-     */
-    public function updateNotificationSettings(ServerRequestInterface $request, ResponseInterface $response, array $args)
-    {
-        $queryParams = $request->getQueryParams();
         $enableStreamDesktopNotifications = $request->getQueryParam('enable_stream_desktop_notifications');
         $enableStreamEmailNotifications = $request->getQueryParam('enable_stream_email_notifications');
         $enableStreamPushNotifications = $request->getQueryParam('enable_stream_push_notifications');
@@ -479,6 +462,7 @@ abstract class AbstractUsersApi
         $notificationSound = $request->getQueryParam('notification_sound');
         $enableDesktopNotifications = $request->getQueryParam('enable_desktop_notifications');
         $enableSounds = $request->getQueryParam('enable_sounds');
+        $emailNotificationsBatchingPeriodSeconds = $request->getQueryParam('email_notifications_batching_period_seconds');
         $enableOfflineEmailNotifications = $request->getQueryParam('enable_offline_email_notifications');
         $enableOfflinePushNotifications = $request->getQueryParam('enable_offline_push_notifications');
         $enableOnlinePushNotifications = $request->getQueryParam('enable_online_push_notifications');
@@ -491,7 +475,35 @@ abstract class AbstractUsersApi
         $desktopIconCountDisplay = $request->getQueryParam('desktop_icon_count_display');
         $realmNameInNotifications = $request->getQueryParam('realm_name_in_notifications');
         $presenceEnabled = $request->getQueryParam('presence_enabled');
-        $message = "How about implementing updateNotificationSettings as a PATCH method in OpenAPIServer\Api\UsersApi class?";
+        $enterSends = $request->getQueryParam('enter_sends');
+        $message = "How about implementing updateSettings as a PATCH method in OpenAPIServer\Api\UsersApi class?";
+        throw new Exception($message);
+
+        return $response->write($message)->withStatus(501);
+    }
+
+    /**
+     * POST updateStatus
+     * Summary: Update your status
+     * Notes: Change your [status](/help/status-and-availability).  &#x60;POST {{ api_url }}/v1/users/me/status&#x60;  A request to this endpoint will only change the parameters passed. For example, passing just &#x60;status_text&#x60; requests a change in the status text, but will leave the status emoji unchanged.  Clients that wish to set the user&#39;s status to a specific value should pass all supported parameters.
+     * Output-Formats: [application/json]
+     *
+     * @param ServerRequestInterface $request  Request
+     * @param ResponseInterface      $response Response
+     * @param array|null             $args     Path arguments
+     *
+     * @return ResponseInterface
+     * @throws Exception to force implementation class to override this method
+     */
+    public function updateStatus(ServerRequestInterface $request, ResponseInterface $response, array $args)
+    {
+        $queryParams = $request->getQueryParams();
+        $statusText = $request->getQueryParam('status_text');
+        $away = $request->getQueryParam('away');
+        $emojiName = $request->getQueryParam('emoji_name');
+        $emojiCode = $request->getQueryParam('emoji_code');
+        $reactionType = $request->getQueryParam('reaction_type');
+        $message = "How about implementing updateStatus as a POST method in OpenAPIServer\Api\UsersApi class?";
         throw new Exception($message);
 
         return $response->write($message)->withStatus(501);

@@ -45,6 +45,24 @@ async def test_create_big_blue_button_video_call(client):
     assert response.status == 200, 'Response body is : ' + (await response.read()).decode('utf-8')
 
 
+async def test_delete_topic(client):
+    """Test case for delete_topic
+
+    Delete a topic
+    """
+    params = [('topic_name', 'new coffee machine')]
+    headers = { 
+        'Accept': 'application/json',
+    }
+    response = await client.request(
+        method='POST',
+        path='/api/v1/streams/{stream_id}/delete_topic'.format(stream_id=1),
+        headers=headers,
+        params=params,
+        )
+    assert response.status == 200, 'Response body is : ' + (await response.read()).decode('utf-8')
+
+
 async def test_get_stream_id(client):
     """Test case for get_stream_id
 
@@ -98,6 +116,22 @@ async def test_get_streams(client):
         path='/api/v1/streams',
         headers=headers,
         params=params,
+        )
+    assert response.status == 200, 'Response body is : ' + (await response.read()).decode('utf-8')
+
+
+async def test_get_subscribers(client):
+    """Test case for get_subscribers
+
+    Get the subscribers of a stream
+    """
+    headers = { 
+        'Accept': 'application/json',
+    }
+    response = await client.request(
+        method='GET',
+        path='/api/v1/streams/{stream_id}/members'.format(stream_id=1),
+        headers=headers,
         )
     assert response.status == 200, 'Response body is : ' + (await response.read()).decode('utf-8')
 

@@ -43,6 +43,14 @@ isa_ok($api, 'WWW::OpenAPIClient::StreamsApi');
 #my $create_big_blue_button_video_call_result = $api->create_big_blue_button_video_call();
 
 #
+# delete_topic test
+#
+# uncomment below and update the test
+#my $delete_topic_stream_id = undef; # replace NULL with a proper value
+#my $delete_topic_topic_name = undef; # replace NULL with a proper value
+#my $delete_topic_result = $api->delete_topic(stream_id => $delete_topic_stream_id, topic_name => $delete_topic_topic_name);
+
+#
 # get_stream_id test
 #
 # uncomment below and update the test
@@ -67,6 +75,13 @@ isa_ok($api, 'WWW::OpenAPIClient::StreamsApi');
 #my $get_streams_include_default = undef; # replace NULL with a proper value
 #my $get_streams_include_owner_subscribed = undef; # replace NULL with a proper value
 #my $get_streams_result = $api->get_streams(include_public => $get_streams_include_public, include_web_public => $get_streams_include_web_public, include_subscribed => $get_streams_include_subscribed, include_all_active => $get_streams_include_all_active, include_default => $get_streams_include_default, include_owner_subscribed => $get_streams_include_owner_subscribed);
+
+#
+# get_subscribers test
+#
+# uncomment below and update the test
+#my $get_subscribers_stream_id = undef; # replace NULL with a proper value
+#my $get_subscribers_result = $api->get_subscribers(stream_id => $get_subscribers_stream_id);
 
 #
 # get_subscription_status test

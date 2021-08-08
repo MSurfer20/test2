@@ -12,7 +12,9 @@
 
 package org.openapitools.client.model;
 
-import org.openapitools.client.model.EmojiReactionBaseUser;
+import org.openapitools.client.model.EmojiBase;
+import org.openapitools.client.model.EmojiReactionBaseAllOf;
+import org.openapitools.client.model.EmojiReactionBaseAllOfUser;
 import io.swagger.annotations.*;
 import com.google.gson.annotations.SerializedName;
 
@@ -28,12 +30,12 @@ public class EmojiReactionBase {
   @SerializedName("user_id")
   private Integer userId = null;
   @SerializedName("user")
-  private EmojiReactionBaseUser user = null;
+  private EmojiReactionBaseAllOfUser user = null;
 
   /**
-   * A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint. 
+   * A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji. 
    **/
-  @ApiModelProperty(value = "A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint. ")
+  @ApiModelProperty(value = "A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji. ")
   public String getEmojiCode() {
     return emojiCode;
   }
@@ -77,10 +79,10 @@ public class EmojiReactionBase {
   /**
    **/
   @ApiModelProperty(value = "")
-  public EmojiReactionBaseUser getUser() {
+  public EmojiReactionBaseAllOfUser getUser() {
     return user;
   }
-  public void setUser(EmojiReactionBaseUser user) {
+  public void setUser(EmojiReactionBaseAllOfUser user) {
     this.user = user;
   }
 

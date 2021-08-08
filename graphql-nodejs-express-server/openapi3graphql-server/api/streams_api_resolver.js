@@ -51,6 +51,13 @@ export default {
         },
 
         // @return JsonSuccessBase
+        GetSubscribers: ($streamId) => {
+            return {
+                "streamId": "1"
+            };
+        },
+
+        // @return JsonSuccessBase
         GetSubscriptionStatus: ($userId, $streamId) => {
             return {
                 "userId": "12",
@@ -73,6 +80,14 @@ export default {
         ArchiveStream: ($streamId) => {
             return {
                 "streamId": "1"
+            };
+        },
+
+        // @return JsonSuccess
+        DeleteTopic: ($streamId, $topicName) => {
+            return {
+                "streamId": "1",
+                "topicName": "new coffee machine"
             };
         },
 

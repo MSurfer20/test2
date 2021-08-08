@@ -127,6 +127,81 @@ class StreamsApi {
     return Future<JsonSuccessBase>.value(null);
   }
 
+  /// Delete a topic
+  ///
+  /// Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [int] streamId (required):
+  ///   The ID of the stream to access. 
+  ///
+  /// * [String] topicName (required):
+  ///   The name of the topic to delete. 
+  Future<Response> deleteTopicWithHttpInfo(int streamId, String topicName) async {
+    // Verify required params are set.
+    if (streamId == null) {
+     throw ApiException(HttpStatus.badRequest, 'Missing required param: streamId');
+    }
+    if (topicName == null) {
+     throw ApiException(HttpStatus.badRequest, 'Missing required param: topicName');
+    }
+
+    final path = r'/streams/{stream_id}/delete_topic'
+      .replaceAll('{' + 'stream_id' + '}', streamId.toString());
+
+    Object postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+      queryParams.addAll(_convertParametersForCollectionFormat('', 'topic_name', topicName));
+
+    final contentTypes = <String>[];
+    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    final authNames = <String>[];
+
+
+    return await apiClient.invokeAPI(
+      path,
+      'POST',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
+  }
+
+  /// Delete a topic
+  ///
+  /// Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+  ///
+  /// Parameters:
+  ///
+  /// * [int] streamId (required):
+  ///   The ID of the stream to access. 
+  ///
+  /// * [String] topicName (required):
+  ///   The name of the topic to delete. 
+  Future<JsonSuccess> deleteTopic(int streamId, String topicName) async {
+    final response = await deleteTopicWithHttpInfo(streamId, topicName);
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body != null && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'JsonSuccess',) as JsonSuccess;
+        }
+    return Future<JsonSuccess>.value(null);
+  }
+
   /// Get stream ID
   ///
   /// Get the unique ID of a given stream.  `GET {{ api_url }}/v1/get_stream_id` 
@@ -353,6 +428,70 @@ class StreamsApi {
   ///   If the user is a bot, include all streams that the bot's owner is subscribed to. 
   Future<JsonSuccessBase> getStreams({ bool includePublic, bool includeWebPublic, bool includeSubscribed, bool includeAllActive, bool includeDefault, bool includeOwnerSubscribed }) async {
     final response = await getStreamsWithHttpInfo( includePublic: includePublic, includeWebPublic: includeWebPublic, includeSubscribed: includeSubscribed, includeAllActive: includeAllActive, includeDefault: includeDefault, includeOwnerSubscribed: includeOwnerSubscribed );
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body != null && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'JsonSuccessBase',) as JsonSuccessBase;
+        }
+    return Future<JsonSuccessBase>.value(null);
+  }
+
+  /// Get the subscribers of a stream
+  ///
+  /// Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` 
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [int] streamId (required):
+  ///   The ID of the stream to access. 
+  Future<Response> getSubscribersWithHttpInfo(int streamId) async {
+    // Verify required params are set.
+    if (streamId == null) {
+     throw ApiException(HttpStatus.badRequest, 'Missing required param: streamId');
+    }
+
+    final path = r'/streams/{stream_id}/members'
+      .replaceAll('{' + 'stream_id' + '}', streamId.toString());
+
+    Object postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    final contentTypes = <String>[];
+    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    final authNames = <String>[];
+
+
+    return await apiClient.invokeAPI(
+      path,
+      'GET',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
+  }
+
+  /// Get the subscribers of a stream
+  ///
+  /// Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` 
+  ///
+  /// Parameters:
+  ///
+  /// * [int] streamId (required):
+  ///   The ID of the stream to access. 
+  Future<JsonSuccessBase> getSubscribers(int streamId) async {
+    final response = await getSubscribersWithHttpInfo(streamId);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

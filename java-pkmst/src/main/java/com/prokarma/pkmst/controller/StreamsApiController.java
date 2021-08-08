@@ -29,7 +29,7 @@ import java.io.IOException;
  * @author pkmst
  *
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPKMSTServerCodegen", date = "2021-08-08T20:41:48.646080Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPKMSTServerCodegen", date = "2021-08-08T21:11:40.512025Z[Etc/UTC]")
 @Controller
 public class StreamsApiController implements StreamsApi {
     private final ObjectMapper objectMapper;
@@ -47,6 +47,13 @@ public class StreamsApiController implements StreamsApi {
     public ResponseEntity<JsonSuccessBase> createBigBlueButtonVideoCall(@RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
         return new ResponseEntity<JsonSuccessBase>(HttpStatus.OK);
+    }
+
+    public ResponseEntity<JsonSuccess> deleteTopic(@ApiParam(value = "The ID of the stream to access. ",required=true ) @PathVariable("stream_id") Integer streamId,
+        @ApiParam(value = "The name of the topic to delete. ", required = true)  @RequestParam(value = "topic_name", required = true) String topicName,
+        @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
+        // do some magic!
+        return new ResponseEntity<JsonSuccess>(HttpStatus.OK);
     }
 
     public ResponseEntity<JsonSuccessBase> getStreamId(@ApiParam(value = "The name of the stream to access. ", required = true)  @RequestParam(value = "stream", required = true) String stream,
@@ -67,6 +74,12 @@ public class StreamsApiController implements StreamsApi {
         @ApiParam(value = "Include all active streams. The user must have administrative privileges to use this parameter. ", defaultValue = "false")  @RequestParam(value = "include_all_active", required = false, defaultValue="false") Boolean includeAllActive,
         @ApiParam(value = "Include all default streams for the user's realm. ", defaultValue = "false")  @RequestParam(value = "include_default", required = false, defaultValue="false") Boolean includeDefault,
         @ApiParam(value = "If the user is a bot, include all streams that the bot's owner is subscribed to. ", defaultValue = "false")  @RequestParam(value = "include_owner_subscribed", required = false, defaultValue="false") Boolean includeOwnerSubscribed,
+        @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
+        // do some magic!
+        return new ResponseEntity<JsonSuccessBase>(HttpStatus.OK);
+    }
+
+    public ResponseEntity<JsonSuccessBase> getSubscribers(@ApiParam(value = "The ID of the stream to access. ",required=true ) @PathVariable("stream_id") Integer streamId,
         @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
         return new ResponseEntity<JsonSuccessBase>(HttpStatus.OK);

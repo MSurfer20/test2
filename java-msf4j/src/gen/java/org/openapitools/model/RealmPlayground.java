@@ -10,7 +10,7 @@ import io.swagger.annotations.ApiModelProperty;
  * Object containing details about a realm playground. 
  */
 @ApiModel(description = "Object containing details about a realm playground. ")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", date = "2021-08-08T20:41:44.271935Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", date = "2021-08-08T21:11:36.575393Z[Etc/UTC]")
 public class RealmPlayground   {
   @JsonProperty("id")
   private Integer id;

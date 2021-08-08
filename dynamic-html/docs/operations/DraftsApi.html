@@ -1,0 +1,101 @@
+<div class="main-content">
+  <h2><a name=""></a></h2>
+  <p>This is the  API</p>
+
+  <h2><a name="createDrafts"></a>createDrafts</h2>
+  <hr>
+  <p></p>
+  <p>Create one or more drafts on the server. These drafts will be automatically synchronized to other clients via &#x60;drafts&#x60; events.  &#x60;POST {{ api_url }}/v1/drafts&#x60; </p>
+  <h3 class="section">URL</h3>
+  <code>https://example.zulipchat.com/api/v1/drafts</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>POST</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" data-model="JsonSuccess"><a href="">JsonSuccess</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+	  <li class="parameter">
+      
+      <span class="param-in">Query: </span>
+      
+      
+      
+      <span class="param-name">drafts</span>
+      <span class="param-type">List(Draft)</span>
+      
+      <p class="param-description">A JSON-encoded list of containing new draft objects. </p>
+	  </li>
+  </ul>
+  <h2><a name="deleteDraft"></a>deleteDraft</h2>
+  <hr>
+  <p></p>
+  <p>Delete a single draft from the server. The deletion will be automatically synchronized to other clients via a &#x60;drafts&#x60; event.  &#x60;DELETE {{ api_url }}/v1/drafts/{draft_id}&#x60; </p>
+  <h3 class="section">URL</h3>
+  <code>https://example.zulipchat.com/api/v1/drafts/{draft_id}</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>DELETE</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" data-model="JsonSuccess"><a href="">JsonSuccess</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+	  <li class="parameter">
+      
+      
+      <span class="param-in">Path: </span>
+      
+      
+      <span class="param-name">draft_id</span>
+      <span class="param-type">Integer</span>
+      
+      <p class="param-description">The ID of the draft you want to delete. </p>
+	  </li>
+  </ul>
+  <h2><a name="editDraft"></a>editDraft</h2>
+  <hr>
+  <p></p>
+  <p>Edit a draft on the server. The edit will be automatically synchronized to other clients via &#x60;drafts&#x60; events.  &#x60;PATCH {{ api_url }}/v1/drafts/{draft_id}&#x60; </p>
+  <h3 class="section">URL</h3>
+  <code>https://example.zulipchat.com/api/v1/drafts/{draft_id}</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>PATCH</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" data-model="JsonSuccess"><a href="">JsonSuccess</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+	  <li class="parameter">
+      
+      
+      <span class="param-in">Path: </span>
+      
+      
+      <span class="param-name">draft_id</span>
+      <span class="param-type">Integer</span>
+      
+      <p class="param-description">The ID of the draft to be edited. </p>
+	  </li>
+	  <li class="parameter">
+      
+      <span class="param-in">Query: </span>
+      
+      
+      
+      <span class="param-name">draft</span>
+      <span class="param-type">Draft</span>
+      
+      <p class="param-description">A JSON-encoded object containing a replacement draft object for this ID. </p>
+	  </li>
+  </ul>
+  <h2><a name="getDrafts"></a>getDrafts</h2>
+  <hr>
+  <p></p>
+  <p>Fetch all drafts for the current user.  &#x60;GET {{ api_url }}/v1/drafts&#x60; </p>
+  <h3 class="section">URL</h3>
+  <code>https://example.zulipchat.com/api/v1/drafts</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>GET</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" data-model="JsonSuccess"><a href="">JsonSuccess</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+  </ul>
+</div>

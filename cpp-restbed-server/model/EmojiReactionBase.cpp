@@ -78,7 +78,7 @@ void EmojiReactionBase::fromPropertyTree(ptree const &pt)
 	m_Reaction_type = pt.get("reaction_type", "");
 	m_User_id = pt.get("user_id", 0);
 	if (pt.get_child_optional("user")) {
-		m_User = std::make_shared<EmojiReactionBase_user>();
+		m_User = std::make_shared<EmojiReactionBase_allOf_user>();
 		m_User->fromPropertyTree(pt.get_child("user"));
 	}
 }
@@ -115,11 +115,11 @@ void EmojiReactionBase::setUserId(int32_t value)
 {
 	m_User_id = value;
 }
-std::shared_ptr<EmojiReactionBase_user> EmojiReactionBase::getUser() const
+std::shared_ptr<EmojiReactionBase_allOf_user> EmojiReactionBase::getUser() const
 {
     return m_User;
 }
-void EmojiReactionBase::setUser(std::shared_ptr<EmojiReactionBase_user> value)
+void EmojiReactionBase::setUser(std::shared_ptr<EmojiReactionBase_allOf_user> value)
 {
 	m_User = value;
 }

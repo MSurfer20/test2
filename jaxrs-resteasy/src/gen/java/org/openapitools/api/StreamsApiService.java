@@ -18,11 +18,15 @@ import java.io.InputStream;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyServerCodegen", date = "2021-08-08T20:42:27.763537Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyServerCodegen", date = "2021-08-08T21:12:17.400215Z[Etc/UTC]")
 public interface StreamsApiService {
       Response archiveStream(Integer streamId,SecurityContext securityContext)
       throws NotFoundException;
+      Response deleteTopic(Integer streamId,String topicName,SecurityContext securityContext)
+      throws NotFoundException;
       Response getStreams(Boolean includePublic,Boolean includeWebPublic,Boolean includeSubscribed,Boolean includeAllActive,Boolean includeDefault,Boolean includeOwnerSubscribed,SecurityContext securityContext)
+      throws NotFoundException;
+      Response getSubscribers(Integer streamId,SecurityContext securityContext)
       throws NotFoundException;
       Response updateStream(Integer streamId,String description,String newName,Boolean isPrivate,Boolean isAnnouncementOnly,Integer streamPostPolicy,Boolean historyPublicToSubscribers,OneOfstringinteger messageRetentionDays,SecurityContext securityContext)
       throws NotFoundException;

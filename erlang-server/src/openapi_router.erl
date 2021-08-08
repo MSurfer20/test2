@@ -65,6 +65,26 @@ get_operations() ->
             method => <<"POST">>,
             handler => 'openapi_authentication_handler'
         },
+        'CreateDrafts' => #{
+            path => "/api/v1/drafts",
+            method => <<"POST">>,
+            handler => 'openapi_drafts_handler'
+        },
+        'DeleteDraft' => #{
+            path => "/api/v1/drafts/:draft_id",
+            method => <<"DELETE">>,
+            handler => 'openapi_drafts_handler'
+        },
+        'EditDraft' => #{
+            path => "/api/v1/drafts/:draft_id",
+            method => <<"PATCH">>,
+            handler => 'openapi_drafts_handler'
+        },
+        'GetDrafts' => #{
+            path => "/api/v1/drafts",
+            method => <<"GET">>,
+            handler => 'openapi_drafts_handler'
+        },
         'AddReaction' => #{
             path => "/api/v1/messages/:message_id/reactions",
             method => <<"POST">>,
@@ -240,6 +260,11 @@ get_operations() ->
             method => <<"GET">>,
             handler => 'openapi_streams_handler'
         },
+        'DeleteTopic' => #{
+            path => "/api/v1/streams/:stream_id/delete_topic",
+            method => <<"POST">>,
+            handler => 'openapi_streams_handler'
+        },
         'GetStreamId' => #{
             path => "/api/v1/get_stream_id",
             method => <<"GET">>,
@@ -252,6 +277,11 @@ get_operations() ->
         },
         'GetStreams' => #{
             path => "/api/v1/streams",
+            method => <<"GET">>,
+            handler => 'openapi_streams_handler'
+        },
+        'GetSubscribers' => #{
+            path => "/api/v1/streams/:stream_id/members",
             method => <<"GET">>,
             handler => 'openapi_streams_handler'
         },
@@ -375,14 +405,14 @@ get_operations() ->
             method => <<"DELETE">>,
             handler => 'openapi_users_handler'
         },
-        'UpdateDisplaySettings' => #{
-            path => "/api/v1/settings/display",
+        'UpdateSettings' => #{
+            path => "/api/v1/settings",
             method => <<"PATCH">>,
             handler => 'openapi_users_handler'
         },
-        'UpdateNotificationSettings' => #{
-            path => "/api/v1/settings/notifications",
-            method => <<"PATCH">>,
+        'UpdateStatus' => #{
+            path => "/api/v1/users/me/status",
+            method => <<"POST">>,
             handler => 'openapi_users_handler'
         },
         'UpdateUser' => #{

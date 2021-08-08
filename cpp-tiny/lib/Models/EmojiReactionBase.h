@@ -12,7 +12,9 @@
 #include <string>
 #include "bourne/json.hpp"
 #include "Helpers.h"
-#include "EmojiReactionBase_user.h"
+#include "EmojiBase.h"
+#include "EmojiReactionBase_allOf.h"
+#include "EmojiReactionBase_allOf_user.h"
 
 namespace Tiny {
 
@@ -46,11 +48,11 @@ public:
 	 */
     void fromJson(std::string jsonObj);
 
-	/*! \brief Get A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint. 
+	/*! \brief Get A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji. 
 	 */
 	std::string getEmojiCode();
 
-	/*! \brief Set A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint. 
+	/*! \brief Set A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji. 
 	 */
 	void setEmojiCode(std::string  emoji_code);
 	/*! \brief Get Name of the emoji. 
@@ -76,11 +78,11 @@ public:
 	void setUserId(int  user_id);
 	/*! \brief Get 
 	 */
-	EmojiReactionBase_user getUser();
+	EmojiReactionBase_allOf_user getUser();
 
 	/*! \brief Set 
 	 */
-	void setUser(EmojiReactionBase_user  user);
+	void setUser(EmojiReactionBase_allOf_user  user);
 
 
     private:
@@ -88,7 +90,7 @@ public:
     std::string emoji_name{};
     std::string reaction_type{};
     int user_id{};
-    EmojiReactionBase_user user;
+    EmojiReactionBase_allOf_user user;
 };
 }
 

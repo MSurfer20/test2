@@ -6,11 +6,13 @@ Feature | HTTP request | Description
 ------------- | ------------- | -------------
 [**archive_stream**](STREAMS_API.md#archive_stream) | **Delete** /streams/{stream_id} | Archive a stream
 [**create_big_blue_button_video_call**](STREAMS_API.md#create_big_blue_button_video_call) | **Get** /calls/bigbluebutton/create | Create BigBlueButton video call
+[**delete_topic**](STREAMS_API.md#delete_topic) | **Post** /streams/{stream_id}/delete_topic | Delete a topic
 [**mute_topic**](STREAMS_API.md#mute_topic) | **Patch** /users/me/subscriptions/muted_topics | Topic muting
 [**stream_id**](STREAMS_API.md#stream_id) | **Get** /get_stream_id | Get stream ID
 [**stream_topics**](STREAMS_API.md#stream_topics) | **Get** /users/me/{stream_id}/topics | Get topics in a stream
 [**streams**](STREAMS_API.md#streams) | **Get** /streams | Get all streams
 [**subscribe**](STREAMS_API.md#subscribe) | **Post** /users/me/subscriptions | Subscribe to a stream
+[**subscribers**](STREAMS_API.md#subscribers) | **Get** /streams/{stream_id}/members | Get the subscribers of a stream
 [**subscription_status**](STREAMS_API.md#subscription_status) | **Get** /users/{user_id}/subscriptions/{stream_id} | Get subscription status
 [**subscriptions**](STREAMS_API.md#subscriptions) | **Get** /users/me/subscriptions | Get subscribed streams
 [**unsubscribe**](STREAMS_API.md#unsubscribe) | **Delete** /users/me/subscriptions | Unsubscribe from a stream
@@ -64,6 +66,37 @@ This endpoint does not need any parameter.
 ### Return type
 
 [**JSON_SUCCESS_BASE**](JsonSuccessBase.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **delete_topic**
+> delete_topic (stream_id: INTEGER_32 ; topic_name: STRING_32 ): detachable JSON_SUCCESS
+	
+
+Delete a topic
+
+Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **stream_id** | **INTEGER_32**| The ID of the stream to access.  | [default to null]
+ **topic_name** | **STRING_32**| The name of the topic to delete.  | [default to null]
+
+### Return type
+
+[**JSON_SUCCESS**](JsonSuccess.md)
 
 ### Authorization
 
@@ -229,6 +262,36 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**ONE_OFOBJECTOBJECT**](oneOf&lt;object,object&gt;.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **subscribers**
+> subscribers (stream_id: INTEGER_32 ): detachable JSON_SUCCESS_BASE
+	
+
+Get the subscribers of a stream
+
+Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` 
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **stream_id** | **INTEGER_32**| The ID of the stream to access.  | [default to null]
+
+### Return type
+
+[**JSON_SUCCESS_BASE**](JsonSuccessBase.md)
 
 ### Authorization
 

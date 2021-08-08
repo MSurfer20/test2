@@ -13,7 +13,7 @@ namespace Org.OpenAPITools._api_v1.Models
     public sealed class EmojiReactionBase:  IEquatable<EmojiReactionBase>
     { 
         /// <summary>
-        /// A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint. 
+        /// A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint; for &#x60;realm_emoji&#x60;, it&#39;ll be the ID of the realm emoji. 
         /// </summary>
         public string EmojiCode { get; private set; }
 
@@ -35,7 +35,7 @@ namespace Org.OpenAPITools._api_v1.Models
         /// <summary>
         /// User
         /// </summary>
-        public EmojiReactionBaseUser User { get; private set; }
+        public EmojiReactionBaseAllOfUser User { get; private set; }
 
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace Org.OpenAPITools._api_v1.Models
         {
         }
 
-        private EmojiReactionBase(string EmojiCode, string EmojiName, string ReactionType, int? UserId, EmojiReactionBaseUser User)
+        private EmojiReactionBase(string EmojiCode, string EmojiName, string ReactionType, int? UserId, EmojiReactionBaseAllOfUser User)
         {
             
             this.EmojiCode = EmojiCode;
@@ -137,7 +137,7 @@ namespace Org.OpenAPITools._api_v1.Models
             private string _EmojiName;
             private string _ReactionType;
             private int? _UserId;
-            private EmojiReactionBaseUser _User;
+            private EmojiReactionBaseAllOfUser _User;
 
             internal EmojiReactionBaseBuilder()
             {
@@ -151,7 +151,7 @@ namespace Org.OpenAPITools._api_v1.Models
             /// <summary>
             /// Sets value for EmojiReactionBase.EmojiCode property.
             /// </summary>
-            /// <param name="value">A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint. </param>
+            /// <param name="value">A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint; for &#x60;realm_emoji&#x60;, it&#39;ll be the ID of the realm emoji. </param>
             public EmojiReactionBaseBuilder EmojiCode(string value)
             {
                 _EmojiCode = value;
@@ -192,7 +192,7 @@ namespace Org.OpenAPITools._api_v1.Models
             /// Sets value for EmojiReactionBase.User property.
             /// </summary>
             /// <param name="value">User</param>
-            public EmojiReactionBaseBuilder User(EmojiReactionBaseUser value)
+            public EmojiReactionBaseBuilder User(EmojiReactionBaseAllOfUser value)
             {
                 _User = value;
                 return this;

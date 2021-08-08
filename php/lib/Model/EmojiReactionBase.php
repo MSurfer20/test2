@@ -63,7 +63,7 @@ class EmojiReactionBase implements ModelInterface, ArrayAccess, \JsonSerializabl
         'emoji_name' => 'string',
         'reaction_type' => 'string',
         'user_id' => 'int',
-        'user' => '\OpenAPI\Client\Model\EmojiReactionBaseUser'
+        'user' => '\OpenAPI\Client\Model\EmojiReactionBaseAllOfUser'
     ];
 
     /**
@@ -242,7 +242,7 @@ class EmojiReactionBase implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Sets emoji_code
      *
-     * @param string|null $emoji_code A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint.
+     * @param string|null $emoji_code A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji.
      *
      * @return self
      */
@@ -328,7 +328,7 @@ class EmojiReactionBase implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Gets user
      *
-     * @return \OpenAPI\Client\Model\EmojiReactionBaseUser|null
+     * @return \OpenAPI\Client\Model\EmojiReactionBaseAllOfUser|null
      */
     public function getUser()
     {
@@ -338,7 +338,7 @@ class EmojiReactionBase implements ModelInterface, ArrayAccess, \JsonSerializabl
     /**
      * Sets user
      *
-     * @param \OpenAPI\Client\Model\EmojiReactionBaseUser|null $user user
+     * @param \OpenAPI\Client\Model\EmojiReactionBaseAllOfUser|null $user user
      *
      * @return self
      */

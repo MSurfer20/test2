@@ -37,9 +37,12 @@ add_library(${PROJECT_NAME}
     OAICodedError_allOf.cpp
     OAICustomProfileField.cpp
     OAIDefaultStreamGroup.cpp
+    OAIDraft.cpp
+    OAIEmojiBase.cpp
     OAIEmojiReaction.cpp
     OAIEmojiReactionBase.cpp
-    OAIEmojiReactionBase_user.cpp
+    OAIEmojiReactionBase_allOf.cpp
+    OAIEmojiReactionBase_allOf_user.cpp
     OAIEmojiReaction_allOf.cpp
     OAIGetMessages.cpp
     OAIGetMessages_allOf.cpp
@@ -79,6 +82,7 @@ add_library(${PROJECT_NAME}
     OAIUserNotAuthorizedError.cpp
     OAIUser_allOf.cpp
     OAIAuthenticationApi.cpp
+    OAIDraftsApi.cpp
     OAIMessagesApi.cpp
     OAIRealTimeEventsApi.cpp
     OAIServerAndOrganizationsApi.cpp

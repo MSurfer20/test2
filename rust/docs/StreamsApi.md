@@ -6,9 +6,11 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**archive_stream**](StreamsApi.md#archive_stream) | **DELETE** /streams/{stream_id} | Archive a stream
 [**create_big_blue_button_video_call**](StreamsApi.md#create_big_blue_button_video_call) | **GET** /calls/bigbluebutton/create | Create BigBlueButton video call
+[**delete_topic**](StreamsApi.md#delete_topic) | **POST** /streams/{stream_id}/delete_topic | Delete a topic
 [**get_stream_id**](StreamsApi.md#get_stream_id) | **GET** /get_stream_id | Get stream ID
 [**get_stream_topics**](StreamsApi.md#get_stream_topics) | **GET** /users/me/{stream_id}/topics | Get topics in a stream
 [**get_streams**](StreamsApi.md#get_streams) | **GET** /streams | Get all streams
+[**get_subscribers**](StreamsApi.md#get_subscribers) | **GET** /streams/{stream_id}/members | Get the subscribers of a stream
 [**get_subscription_status**](StreamsApi.md#get_subscription_status) | **GET** /users/{user_id}/subscriptions/{stream_id} | Get subscription status
 [**get_subscriptions**](StreamsApi.md#get_subscriptions) | **GET** /users/me/subscriptions | Get subscribed streams
 [**mute_topic**](StreamsApi.md#mute_topic) | **PATCH** /users/me/subscriptions/muted_topics | Topic muting
@@ -64,6 +66,37 @@ This endpoint does not need any parameter.
 ### Return type
 
 [**crate::models::JsonSuccessBase**](JsonSuccessBase.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+
+## delete_topic
+
+> crate::models::JsonSuccess delete_topic(stream_id, topic_name)
+Delete a topic
+
+Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+
+### Parameters
+
+
+Name | Type | Description  | Required | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+**stream_id** | **i32** | The ID of the stream to access.  | [required] |
+**topic_name** | **String** | The name of the topic to delete.  | [required] |
+
+### Return type
+
+[**crate::models::JsonSuccess**](JsonSuccess.md)
 
 ### Authorization
 
@@ -155,6 +188,36 @@ Name | Type | Description  | Required | Notes
 **include_all_active** | Option<**bool**> | Include all active streams. The user must have administrative privileges to use this parameter.  |  |[default to false]
 **include_default** | Option<**bool**> | Include all default streams for the user's realm.  |  |[default to false]
 **include_owner_subscribed** | Option<**bool**> | If the user is a bot, include all streams that the bot's owner is subscribed to.  |  |[default to false]
+
+### Return type
+
+[**crate::models::JsonSuccessBase**](JsonSuccessBase.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+
+## get_subscribers
+
+> crate::models::JsonSuccessBase get_subscribers(stream_id)
+Get the subscribers of a stream
+
+Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` 
+
+### Parameters
+
+
+Name | Type | Description  | Required | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+**stream_id** | **i32** | The ID of the stream to access.  | [required] |
 
 ### Return type
 

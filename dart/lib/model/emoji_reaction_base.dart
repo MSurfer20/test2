@@ -19,7 +19,7 @@ class EmojiReactionBase {
     this.user,
   });
 
-  /// A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint. 
+  /// A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji. 
   String emojiCode;
 
   /// Name of the emoji. 
@@ -31,7 +31,7 @@ class EmojiReactionBase {
   /// The ID of the user who added the reaction.  **Changes**: New in Zulip 3.0 (feature level 2). The `user` object is deprecated and will be removed in the future. 
   int userId;
 
-  EmojiReactionBaseUser user;
+  EmojiReactionBaseAllOfUser user;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is EmojiReactionBase &&
@@ -81,7 +81,7 @@ class EmojiReactionBase {
         emojiName: json[r'emoji_name'],
         reactionType: json[r'reaction_type'],
         userId: json[r'user_id'],
-        user: EmojiReactionBaseUser.fromJson(json[r'user']),
+        user: EmojiReactionBaseAllOfUser.fromJson(json[r'user']),
     );
 
   static List<EmojiReactionBase> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

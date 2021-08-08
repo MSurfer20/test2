@@ -142,6 +142,46 @@ class StreamsApi extends Controller
         return response('How about implementing updateStream as a patch method ?');
     }
     /**
+     * Operation deleteTopic
+     *
+     * Delete a topic.
+     *
+     * @param int $stream_id The ID of the stream to access. (required)
+     *
+     * @return Http response
+     */
+    public function deleteTopic($stream_id)
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+
+        return response('How about implementing deleteTopic as a post method ?');
+    }
+    /**
+     * Operation getSubscribers
+     *
+     * Get the subscribers of a stream.
+     *
+     * @param int $stream_id The ID of the stream to access. (required)
+     *
+     * @return Http response
+     */
+    public function getSubscribers($stream_id)
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+
+        return response('How about implementing getSubscribers as a get method ?');
+    }
+    /**
      * Operation getSubscriptions
      *
      * Get subscribed streams.

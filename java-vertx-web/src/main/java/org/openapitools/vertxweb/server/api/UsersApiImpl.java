@@ -6,6 +6,7 @@ import org.openapitools.vertxweb.server.model.JsonSuccess;
 import org.openapitools.vertxweb.server.model.JsonSuccessBase;
 import org.openapitools.vertxweb.server.model.OneOfobjectobject;
 import org.openapitools.vertxweb.server.model.OneOfobjectobjectobject;
+import org.openapitools.vertxweb.server.model.OneOfobjectobjectobjectobjectobjectobject;
 
 import org.openapitools.vertxweb.server.ApiResponse;
 
@@ -83,11 +84,11 @@ public class UsersApiImpl implements UsersApi {
         return Future.failedFuture(new HttpStatusException(501));
     }
 
-    public Future<ApiResponse<JsonSuccessBase>> updateDisplaySettings(Boolean twentyFourHourTime, Boolean denseMode, Boolean starredMessageCounts, Boolean fluidLayoutWidth, Boolean highContrastMode, Integer colorScheme, Boolean translateEmoticons, String defaultLanguage, String defaultView, Boolean leftSideUserlist, String emojiset, Integer demoteInactiveStreams, String timezone) {
+    public Future<ApiResponse<JsonSuccessBase>> updateSettings(String fullName, String email, String oldPassword, String newPassword, Boolean twentyFourHourTime, Boolean denseMode, Boolean starredMessageCounts, Boolean fluidLayoutWidth, Boolean highContrastMode, Integer colorScheme, Boolean enableDraftsSynchronization, Boolean translateEmoticons, String defaultLanguage, String defaultView, Boolean leftSideUserlist, String emojiset, Integer demoteInactiveStreams, String timezone, Boolean enableStreamDesktopNotifications, Boolean enableStreamEmailNotifications, Boolean enableStreamPushNotifications, Boolean enableStreamAudibleNotifications, String notificationSound, Boolean enableDesktopNotifications, Boolean enableSounds, Integer emailNotificationsBatchingPeriodSeconds, Boolean enableOfflineEmailNotifications, Boolean enableOfflinePushNotifications, Boolean enableOnlinePushNotifications, Boolean enableDigestEmails, Boolean enableMarketingEmails, Boolean enableLoginEmails, Boolean messageContentInEmailNotifications, Boolean pmContentInDesktopNotifications, Boolean wildcardMentionsNotify, Integer desktopIconCountDisplay, Boolean realmNameInNotifications, Boolean presenceEnabled, Boolean enterSends) {
         return Future.failedFuture(new HttpStatusException(501));
     }
 
-    public Future<ApiResponse<JsonSuccessBase>> updateNotificationSettings(Boolean enableStreamDesktopNotifications, Boolean enableStreamEmailNotifications, Boolean enableStreamPushNotifications, Boolean enableStreamAudibleNotifications, String notificationSound, Boolean enableDesktopNotifications, Boolean enableSounds, Boolean enableOfflineEmailNotifications, Boolean enableOfflinePushNotifications, Boolean enableOnlinePushNotifications, Boolean enableDigestEmails, Boolean enableMarketingEmails, Boolean enableLoginEmails, Boolean messageContentInEmailNotifications, Boolean pmContentInDesktopNotifications, Boolean wildcardMentionsNotify, Integer desktopIconCountDisplay, Boolean realmNameInNotifications, Boolean presenceEnabled) {
+    public Future<ApiResponse<JsonSuccess>> updateStatus(String statusText, Boolean away, String emojiName, String emojiCode, String reactionType) {
         return Future.failedFuture(new HttpStatusException(501));
     }
 

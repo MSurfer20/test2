@@ -9,6 +9,7 @@ from openapi_server.models.json_success import JsonSuccess  # noqa: F401
 from openapi_server.models.json_success_base import JsonSuccessBase  # noqa: F401
 from openapi_server.models.one_ofobjectobject import OneOfobjectobject  # noqa: F401
 from openapi_server.models.one_ofobjectobjectobject import OneOfobjectobjectobject  # noqa: F401
+from openapi_server.models.one_ofobjectobjectobjectobjectobjectobject import OneOfobjectobjectobjectobjectobjectobject  # noqa: F401
 
 
 def test_create_user(client: TestClient):
@@ -305,17 +306,17 @@ def test_unmute_user(client: TestClient):
     #assert response.status_code == 200
 
 
-def test_update_display_settings(client: TestClient):
-    """Test case for update_display_settings
+def test_update_settings(client: TestClient):
+    """Test case for update_settings
 
-    Update display settings
+    Update settings
     """
-    params = [("twenty_four_hour_time", true),     ("dense_mode", true),     ("starred_message_counts", true),     ("fluid_layout_width", true),     ("high_contrast_mode", true),     ("color_scheme", 56),     ("translate_emoticons", true),     ("default_language", 'en'),     ("default_view", 'all_messages'),     ("left_side_userlist", true),     ("emojiset", 'google'),     ("demote_inactive_streams", 56),     ("timezone", 'Asia/Kolkata')]
+    params = [("full_name", 'NewName'),     ("email", 'newname@example.com'),     ("old_password", 'old12345'),     ("new_password", 'new12345'),     ("twenty_four_hour_time", true),     ("dense_mode", true),     ("starred_message_counts", true),     ("fluid_layout_width", true),     ("high_contrast_mode", true),     ("color_scheme", 56),     ("enable_drafts_synchronization", true),     ("translate_emoticons", true),     ("default_language", 'en'),     ("default_view", 'all_messages'),     ("left_side_userlist", true),     ("emojiset", 'google'),     ("demote_inactive_streams", 56),     ("timezone", 'Asia/Kolkata'),     ("enable_stream_desktop_notifications", true),     ("enable_stream_email_notifications", true),     ("enable_stream_push_notifications", true),     ("enable_stream_audible_notifications", true),     ("notification_sound", 'ding'),     ("enable_desktop_notifications", true),     ("enable_sounds", true),     ("email_notifications_batching_period_seconds", 120),     ("enable_offline_email_notifications", true),     ("enable_offline_push_notifications", true),     ("enable_online_push_notifications", true),     ("enable_digest_emails", true),     ("enable_marketing_emails", true),     ("enable_login_emails", true),     ("message_content_in_email_notifications", true),     ("pm_content_in_desktop_notifications", true),     ("wildcard_mentions_notify", true),     ("desktop_icon_count_display", 56),     ("realm_name_in_notifications", true),     ("presence_enabled", true),     ("enter_sends", true)]
     headers = {
     }
     response = client.request(
         "PATCH",
-        "/settings/display",
+        "/settings",
         headers=headers,
         params=params,
     )
@@ -324,17 +325,17 @@ def test_update_display_settings(client: TestClient):
     #assert response.status_code == 200
 
 
-def test_update_notification_settings(client: TestClient):
-    """Test case for update_notification_settings
+def test_update_status(client: TestClient):
+    """Test case for update_status
 
-    Update notification settings
+    Update your status
     """
-    params = [("enable_stream_desktop_notifications", true),     ("enable_stream_email_notifications", true),     ("enable_stream_push_notifications", true),     ("enable_stream_audible_notifications", true),     ("notification_sound", 'ding'),     ("enable_desktop_notifications", true),     ("enable_sounds", true),     ("enable_offline_email_notifications", true),     ("enable_offline_push_notifications", true),     ("enable_online_push_notifications", true),     ("enable_digest_emails", true),     ("enable_marketing_emails", true),     ("enable_login_emails", true),     ("message_content_in_email_notifications", true),     ("pm_content_in_desktop_notifications", true),     ("wildcard_mentions_notify", true),     ("desktop_icon_count_display", 56),     ("realm_name_in_notifications", true),     ("presence_enabled", true)]
+    params = [("status_text", 'on vacation'),     ("away", true),     ("emoji_name", 'car'),     ("emoji_code", '1f697'),     ("reaction_type", 'unicode_emoji')]
     headers = {
     }
     response = client.request(
-        "PATCH",
-        "/settings/notifications",
+        "POST",
+        "/users/me/status",
         headers=headers,
         params=params,
     )

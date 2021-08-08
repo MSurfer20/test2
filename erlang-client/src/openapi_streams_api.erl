@@ -2,9 +2,11 @@
 
 -export([archive_stream/2, archive_stream/3,
          create_big_blue_button_video_call/1, create_big_blue_button_video_call/2,
+         delete_topic/3, delete_topic/4,
          get_stream_id/2, get_stream_id/3,
          get_stream_topics/2, get_stream_topics/3,
          get_streams/1, get_streams/2,
+         get_subscribers/2, get_subscribers/3,
          get_subscription_status/3, get_subscription_status/4,
          get_subscriptions/1, get_subscriptions/2,
          mute_topic/3, mute_topic/4,
@@ -51,6 +53,27 @@ create_big_blue_button_video_call(Ctx, Optional) ->
     Method = get,
     Path = [<<"/calls/bigbluebutton/create">>],
     QS = [],
+    Headers = [],
+    Body1 = [],
+    ContentTypeHeader = openapi_utils:select_header_content_type([]),
+    Opts = maps:get(hackney_opts, Optional, []),
+
+    openapi_utils:request(Ctx, Method, [?BASE_URL, Path], QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
+
+%% @doc Delete a topic
+%% Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+-spec delete_topic(ctx:ctx(), integer(), binary()) -> {ok, openapi_json_success:openapi_json_success(), openapi_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), openapi_utils:response_info()}.
+delete_topic(Ctx, StreamId, TopicName) ->
+    delete_topic(Ctx, StreamId, TopicName, #{}).
+
+-spec delete_topic(ctx:ctx(), integer(), binary(), maps:map()) -> {ok, openapi_json_success:openapi_json_success(), openapi_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), openapi_utils:response_info()}.
+delete_topic(Ctx, StreamId, TopicName, Optional) ->
+    _OptionalParams = maps:get(params, Optional, #{}),
+    Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
+
+    Method = post,
+    Path = [<<"/streams/", StreamId, "/delete_topic">>],
+    QS = lists:flatten([{<<"topic_name">>, TopicName}])++openapi_utils:optional_params([], _OptionalParams),
     Headers = [],
     Body1 = [],
     ContentTypeHeader = openapi_utils:select_header_content_type([]),
@@ -114,6 +137,27 @@ get_streams(Ctx, Optional) ->
     Method = get,
     Path = [<<"/streams">>],
     QS = lists:flatten([])++openapi_utils:optional_params(['include_public', 'include_web_public', 'include_subscribed', 'include_all_active', 'include_default', 'include_owner_subscribed'], _OptionalParams),
+    Headers = [],
+    Body1 = [],
+    ContentTypeHeader = openapi_utils:select_header_content_type([]),
+    Opts = maps:get(hackney_opts, Optional, []),
+
+    openapi_utils:request(Ctx, Method, [?BASE_URL, Path], QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
+
+%% @doc Get the subscribers of a stream
+%% Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` 
+-spec get_subscribers(ctx:ctx(), integer()) -> {ok, openapi_json_success_base:openapi_json_success_base(), openapi_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), openapi_utils:response_info()}.
+get_subscribers(Ctx, StreamId) ->
+    get_subscribers(Ctx, StreamId, #{}).
+
+-spec get_subscribers(ctx:ctx(), integer(), maps:map()) -> {ok, openapi_json_success_base:openapi_json_success_base(), openapi_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), openapi_utils:response_info()}.
+get_subscribers(Ctx, StreamId, Optional) ->
+    _OptionalParams = maps:get(params, Optional, #{}),
+    Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
+
+    Method = get,
+    Path = [<<"/streams/", StreamId, "/members">>],
+    QS = [],
     Headers = [],
     Body1 = [],
     ContentTypeHeader = openapi_utils:select_header_content_type([]),

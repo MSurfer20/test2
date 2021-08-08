@@ -19,6 +19,7 @@ import JsonSuccess from '../model/JsonSuccess';
 import JsonSuccessBase from '../model/JsonSuccessBase';
 import OneOfobjectobject from '../model/OneOfobjectobject';
 import OneOfobjectobjectobject from '../model/OneOfobjectobjectobject';
+import OneOfobjectobjectobjectobjectobjectobject from '../model/OneOfobjectobjectobjectobjectobjectobject';
 
 /**
 * Users service.
@@ -752,111 +753,84 @@ export default class UsersApi {
     }
 
     /**
-     * Callback function to receive the result of the updateDisplaySettings operation.
-     * @callback module:api/UsersApi~updateDisplaySettingsCallback
+     * Callback function to receive the result of the updateSettings operation.
+     * @callback module:api/UsersApi~updateSettingsCallback
      * @param {String} error Error message, if any.
      * @param {module:model/JsonSuccessBase} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
      */
 
     /**
-     * Update display settings
-     * This endpoint is used to edit the current user's user interface settings.  `PATCH {{ api_url }}/v1/settings/display` 
+     * Update settings
+     * This endpoint is used to edit the current user's settings.  `PATCH {{ api_url }}/v1/settings`  **Changes**: Prior to Zulip 5.0 (feature level 80), this endpoint only supported the `full_name`, `email`, `old_password`, and `new_password` parameters. Notification settings were managed by `PATCH /settings/notifications`, and all other settings by `PATCH /settings/display`. The feature level 80 migration to merge these endpoints did not change how request parameters are encoded. Note, however, that it did change the handling of any invalid parameters present in a request to change notification or display settings, since the merged endpoint uses the new response format that was introduced for `/settings` in Zulip 5.0 (feature level 78).  The `/settings/display` and `/settings/notifications` endpoints are now deprecated aliases for this endpoint for backwards-compatibility, and will be removed once clients have migrated to use this endpoint. 
      * @param {Object} opts Optional parameters
-     * @param {Boolean} opts.twentyFourHourTime Whether time should be [displayed in 24-hour notation](/help/change-the-time-format). 
-     * @param {Boolean} opts.denseMode This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip. 
-     * @param {Boolean} opts.starredMessageCounts Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages). 
-     * @param {Boolean} opts.fluidLayoutWidth Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app's center panel (message feed, recent topics) on wide screens. 
-     * @param {Boolean} opts.highContrastMode This setting is reserved for use to control variations in Zulip's design to help visually impaired users. 
-     * @param {module:model/Number} opts.colorScheme Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard `prefers-color-scheme` media query. 
-     * @param {Boolean} opts.translateEmoticons Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends. 
-     * @param {String} opts.defaultLanguage What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, `\"en\"` for English or `\"de\"` for German.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63). 
-     * @param {String} opts.defaultView The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the `Esc` keyboard shortcut repeatedly.  * \"recent_topics\" - Recent topics view * \"all_messages\" - All messages view  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). 
-     * @param {Boolean} opts.leftSideUserlist Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked. 
-     * @param {String} opts.emojiset The user's configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \"google\" - Google modern * \"google-blob\" - Google classic * \"twitter\" - Twitter * \"text\" - Plain text  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). 
-     * @param {module:model/Number} opts.demoteInactiveStreams Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never 
-     * @param {String} opts.timezone The user's [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). 
-     * @param {module:api/UsersApi~updateDisplaySettingsCallback} callback The callback function, accepting three arguments: error, data, response
+     * @param {String} opts.fullName A new display name for the user. 
+     * @param {String} opts.email Asks the server to initiate a confirmation sequence to change the user's email address to the indicated value. The user will need to demonstrate control of the new email address by clicking a confirmation link sent to that address. 
+     * @param {String} opts.oldPassword The user's old Zulip password (or LDAP password, if LDAP authentication is in use).  Required only when sending the `new_password` parameter. 
+     * @param {String} opts.newPassword The user's new Zulip password (or LDAP password, if LDAP authentication is in use).  The `old_password` parameter must be included in the request. 
+     * @param {Boolean} opts.twentyFourHourTime Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+     * @param {Boolean} opts.denseMode This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+     * @param {Boolean} opts.starredMessageCounts Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+     * @param {Boolean} opts.fluidLayoutWidth Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app's center panel (message feed, recent topics) on wide screens.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+     * @param {Boolean} opts.highContrastMode This setting is reserved for use to control variations in Zulip's design to help visually impaired users.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+     * @param {module:model/Number} opts.colorScheme Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard `prefers-color-scheme` media query.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+     * @param {Boolean} opts.enableDraftsSynchronization A boolean parameter to control whether synchronizing drafts is enabled for the user. When synchronization is disabled, all drafts stored in the server will be automatically deleted from the server.  This does not do anything (like sending events) to delete local copies of drafts stored in clients.  **Changes**: New in Zulip 5.0 (feature level 87). 
+     * @param {Boolean} opts.translateEmoticons Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+     * @param {String} opts.defaultLanguage What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, `\"en\"` for English or `\"de\"` for German.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63). 
+     * @param {String} opts.defaultView The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the `Esc` keyboard shortcut repeatedly.  * \"recent_topics\" - Recent topics view * \"all_messages\" - All messages view  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). 
+     * @param {Boolean} opts.leftSideUserlist Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+     * @param {String} opts.emojiset The user's configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \"google\" - Google modern * \"google-blob\" - Google classic * \"twitter\" - Twitter * \"text\" - Plain text  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). 
+     * @param {module:model/Number} opts.demoteInactiveStreams Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+     * @param {String} opts.timezone The user's [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). 
+     * @param {Boolean} opts.enableStreamDesktopNotifications Enable visual desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+     * @param {Boolean} opts.enableStreamEmailNotifications Enable email notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+     * @param {Boolean} opts.enableStreamPushNotifications Enable mobile notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+     * @param {Boolean} opts.enableStreamAudibleNotifications Enable audible desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+     * @param {String} opts.notificationSound Notification sound name.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63). 
+     * @param {Boolean} opts.enableDesktopNotifications Enable visual desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+     * @param {Boolean} opts.enableSounds Enable audible desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+     * @param {Number} opts.emailNotificationsBatchingPeriodSeconds The duration (in seconds) for which the server should wait to batch email notifications before sending them.  **Changes**: New in Zulip 5.0 (feature level 82) 
+     * @param {Boolean} opts.enableOfflineEmailNotifications Enable email notifications for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+     * @param {Boolean} opts.enableOfflinePushNotifications Enable mobile notification for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+     * @param {Boolean} opts.enableOnlinePushNotifications Enable mobile notification for private messages and @-mentions received when the user is online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+     * @param {Boolean} opts.enableDigestEmails Enable digest emails when the user is away.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+     * @param {Boolean} opts.enableMarketingEmails Enable marketing emails. Has no function outside Zulip Cloud.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+     * @param {Boolean} opts.enableLoginEmails Enable email notifications for new logins to account.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+     * @param {Boolean} opts.messageContentInEmailNotifications Include the message's content in email notifications for new messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+     * @param {Boolean} opts.pmContentInDesktopNotifications Include content of private messages in desktop notifications.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+     * @param {Boolean} opts.wildcardMentionsNotify Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+     * @param {module:model/Number} opts.desktopIconCountDisplay Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+     * @param {Boolean} opts.realmNameInNotifications Include organization name in subject of message notification emails.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+     * @param {Boolean} opts.presenceEnabled Display the presence status to other users when online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+     * @param {Boolean} opts.enterSends Whether pressing Enter in the compose box sends a message (or saves a message edit).  **Changes**: Before Zulip 5.0 (feature level 81), this setting was managed by the `POST /users/me/enter-sends` endpoint, with the same parameter format. 
+     * @param {module:api/UsersApi~updateSettingsCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/JsonSuccessBase}
      */
-    updateDisplaySettings(opts, callback) {
+    updateSettings(opts, callback) {
       opts = opts || {};
       let postBody = null;
 
       let pathParams = {
       };
       let queryParams = {
+        'full_name': opts['fullName'],
+        'email': opts['email'],
+        'old_password': opts['oldPassword'],
+        'new_password': opts['newPassword'],
         'twenty_four_hour_time': opts['twentyFourHourTime'],
         'dense_mode': opts['denseMode'],
         'starred_message_counts': opts['starredMessageCounts'],
         'fluid_layout_width': opts['fluidLayoutWidth'],
         'high_contrast_mode': opts['highContrastMode'],
         'color_scheme': opts['colorScheme'],
+        'enable_drafts_synchronization': opts['enableDraftsSynchronization'],
         'translate_emoticons': opts['translateEmoticons'],
         'default_language': opts['defaultLanguage'],
         'default_view': opts['defaultView'],
         'left_side_userlist': opts['leftSideUserlist'],
         'emojiset': opts['emojiset'],
         'demote_inactive_streams': opts['demoteInactiveStreams'],
-        'timezone': opts['timezone']
-      };
-      let headerParams = {
-      };
-      let formParams = {
-      };
-
-      let authNames = [];
-      let contentTypes = [];
-      let accepts = ['application/json'];
-      let returnType = JsonSuccessBase;
-      return this.apiClient.callApi(
-        '/settings/display', 'PATCH',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, null, callback
-      );
-    }
-
-    /**
-     * Callback function to receive the result of the updateNotificationSettings operation.
-     * @callback module:api/UsersApi~updateNotificationSettingsCallback
-     * @param {String} error Error message, if any.
-     * @param {module:model/JsonSuccessBase} data The data returned by the service call.
-     * @param {String} response The complete HTTP response.
-     */
-
-    /**
-     * Update notification settings
-     * This endpoint is used to edit the user's global notification settings. See [this endpoint](/api/update-subscription-settings) for per-stream notification settings.  `PATCH {{ api_url }}/v1/settings/notifications` 
-     * @param {Object} opts Optional parameters
-     * @param {Boolean} opts.enableStreamDesktopNotifications Enable visual desktop notifications for stream messages. 
-     * @param {Boolean} opts.enableStreamEmailNotifications Enable email notifications for stream messages. 
-     * @param {Boolean} opts.enableStreamPushNotifications Enable mobile notifications for stream messages. 
-     * @param {Boolean} opts.enableStreamAudibleNotifications Enable audible desktop notifications for stream messages. 
-     * @param {String} opts.notificationSound Notification sound name.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63). 
-     * @param {Boolean} opts.enableDesktopNotifications Enable visual desktop notifications for private messages and @-mentions. 
-     * @param {Boolean} opts.enableSounds Enable audible desktop notifications for private messages and @-mentions. 
-     * @param {Boolean} opts.enableOfflineEmailNotifications Enable email notifications for private messages and @-mentions received when the user is offline. 
-     * @param {Boolean} opts.enableOfflinePushNotifications Enable mobile notification for private messages and @-mentions received when the user is offline. 
-     * @param {Boolean} opts.enableOnlinePushNotifications Enable mobile notification for private messages and @-mentions received when the user is online. 
-     * @param {Boolean} opts.enableDigestEmails Enable digest emails when the user is away. 
-     * @param {Boolean} opts.enableMarketingEmails Enable marketing emails. Has no function outside Zulip Cloud. 
-     * @param {Boolean} opts.enableLoginEmails Enable email notifications for new logins to account. 
-     * @param {Boolean} opts.messageContentInEmailNotifications Include the message's content in email notifications for new messages. 
-     * @param {Boolean} opts.pmContentInDesktopNotifications Include content of private messages in desktop notifications. 
-     * @param {Boolean} opts.wildcardMentionsNotify Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention. 
-     * @param {module:model/Number} opts.desktopIconCountDisplay Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None 
-     * @param {Boolean} opts.realmNameInNotifications Include organization name in subject of message notification emails. 
-     * @param {Boolean} opts.presenceEnabled Display the presence status to other users when online. 
-     * @param {module:api/UsersApi~updateNotificationSettingsCallback} callback The callback function, accepting three arguments: error, data, response
-     * data is of type: {@link module:model/JsonSuccessBase}
-     */
-    updateNotificationSettings(opts, callback) {
-      opts = opts || {};
-      let postBody = null;
-
-      let pathParams = {
-      };
-      let queryParams = {
+        'timezone': opts['timezone'],
         'enable_stream_desktop_notifications': opts['enableStreamDesktopNotifications'],
         'enable_stream_email_notifications': opts['enableStreamEmailNotifications'],
         'enable_stream_push_notifications': opts['enableStreamPushNotifications'],
@@ -864,6 +838,7 @@ export default class UsersApi {
         'notification_sound': opts['notificationSound'],
         'enable_desktop_notifications': opts['enableDesktopNotifications'],
         'enable_sounds': opts['enableSounds'],
+        'email_notifications_batching_period_seconds': opts['emailNotificationsBatchingPeriodSeconds'],
         'enable_offline_email_notifications': opts['enableOfflineEmailNotifications'],
         'enable_offline_push_notifications': opts['enableOfflinePushNotifications'],
         'enable_online_push_notifications': opts['enableOnlinePushNotifications'],
@@ -875,7 +850,8 @@ export default class UsersApi {
         'wildcard_mentions_notify': opts['wildcardMentionsNotify'],
         'desktop_icon_count_display': opts['desktopIconCountDisplay'],
         'realm_name_in_notifications': opts['realmNameInNotifications'],
-        'presence_enabled': opts['presenceEnabled']
+        'presence_enabled': opts['presenceEnabled'],
+        'enter_sends': opts['enterSends']
       };
       let headerParams = {
       };
@@ -887,7 +863,56 @@ export default class UsersApi {
       let accepts = ['application/json'];
       let returnType = JsonSuccessBase;
       return this.apiClient.callApi(
-        '/settings/notifications', 'PATCH',
+        '/settings', 'PATCH',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null, callback
+      );
+    }
+
+    /**
+     * Callback function to receive the result of the updateStatus operation.
+     * @callback module:api/UsersApi~updateStatusCallback
+     * @param {String} error Error message, if any.
+     * @param {module:model/JsonSuccess} data The data returned by the service call.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * Update your status
+     * Change your [status](/help/status-and-availability).  `POST {{ api_url }}/v1/users/me/status`  A request to this endpoint will only change the parameters passed. For example, passing just `status_text` requests a change in the status text, but will leave the status emoji unchanged.  Clients that wish to set the user's status to a specific value should pass all supported parameters. 
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.statusText The text content of the status message. Sending the empty string will clear the user's status.  **Note**: The limit on the size of the message is 60 characters. 
+     * @param {Boolean} opts.away Whether the user should be marked as \"away\". 
+     * @param {String} opts.emojiName The name for the emoji to associate with this status. 
+     * @param {String} opts.emojiCode A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji. 
+     * @param {String} opts.reactionType One of the following values:  * `unicode_emoji`: Unicode emoji (`emoji_code` will be its Unicode   codepoint). * `realm_emoji`: [Custom emoji](/help/add-custom-emoji).   (`emoji_code` will be its ID). * `zulip_extra_emoji`: Special emoji included with Zulip.  Exists to   namespace the `zulip` emoji. 
+     * @param {module:api/UsersApi~updateStatusCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {@link module:model/JsonSuccess}
+     */
+    updateStatus(opts, callback) {
+      opts = opts || {};
+      let postBody = null;
+
+      let pathParams = {
+      };
+      let queryParams = {
+        'status_text': opts['statusText'],
+        'away': opts['away'],
+        'emoji_name': opts['emojiName'],
+        'emoji_code': opts['emojiCode'],
+        'reaction_type': opts['reactionType']
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = [];
+      let accepts = ['application/json'];
+      let returnType = JsonSuccess;
+      return this.apiClient.callApi(
+        '/users/me/status', 'POST',
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, null, callback
       );

@@ -24,10 +24,13 @@ app/apimodels/CodedErrorBase.java
 app/apimodels/CodedErrorBaseAllOf.java
 app/apimodels/CustomProfileField.java
 app/apimodels/DefaultStreamGroup.java
+app/apimodels/Draft.java
+app/apimodels/EmojiBase.java
 app/apimodels/EmojiReaction.java
 app/apimodels/EmojiReactionAllOf.java
 app/apimodels/EmojiReactionBase.java
-app/apimodels/EmojiReactionBaseUser.java
+app/apimodels/EmojiReactionBaseAllOf.java
+app/apimodels/EmojiReactionBaseAllOfUser.java
 app/apimodels/GetMessages.java
 app/apimodels/GetMessagesAllOf.java
 app/apimodels/Hotspot.java
@@ -69,6 +72,9 @@ app/controllers/ApiDocController.java
 app/controllers/AuthenticationApiController.java
 app/controllers/AuthenticationApiControllerImp.java
 app/controllers/AuthenticationApiControllerImpInterface.java
+app/controllers/DraftsApiController.java
+app/controllers/DraftsApiControllerImp.java
+app/controllers/DraftsApiControllerImpInterface.java
 app/controllers/MessagesApiController.java
 app/controllers/MessagesApiControllerImp.java
 app/controllers/MessagesApiControllerImpInterface.java

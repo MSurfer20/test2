@@ -8,66 +8,66 @@
 
 const Controller = require('./Controller');
 const service = require('../services/ServerAndOrganizationsService');
-const add_code_playground = async (request, response) => {
-  await Controller.handleRequest(request, response, service.add_code_playground);
+const addCodePlayground = async (request, response) => {
+  await Controller.handleRequest(request, response, service.addCodePlayground);
 };
 
-const add_linkifier = async (request, response) => {
-  await Controller.handleRequest(request, response, service.add_linkifier);
+const addLinkifier = async (request, response) => {
+  await Controller.handleRequest(request, response, service.addLinkifier);
 };
 
-const create_custom_profile_field = async (request, response) => {
-  await Controller.handleRequest(request, response, service.create_custom_profile_field);
+const createCustomProfileField = async (request, response) => {
+  await Controller.handleRequest(request, response, service.createCustomProfileField);
 };
 
-const get_custom_emoji = async (request, response) => {
-  await Controller.handleRequest(request, response, service.get_custom_emoji);
+const getCustomEmoji = async (request, response) => {
+  await Controller.handleRequest(request, response, service.getCustomEmoji);
 };
 
-const get_custom_profile_fields = async (request, response) => {
-  await Controller.handleRequest(request, response, service.get_custom_profile_fields);
+const getCustomProfileFields = async (request, response) => {
+  await Controller.handleRequest(request, response, service.getCustomProfileFields);
 };
 
-const get_linkifiers = async (request, response) => {
-  await Controller.handleRequest(request, response, service.get_linkifiers);
+const getLinkifiers = async (request, response) => {
+  await Controller.handleRequest(request, response, service.getLinkifiers);
 };
 
-const get_server_settings = async (request, response) => {
-  await Controller.handleRequest(request, response, service.get_server_settings);
+const getServerSettings = async (request, response) => {
+  await Controller.handleRequest(request, response, service.getServerSettings);
 };
 
-const remove_code_playground = async (request, response) => {
-  await Controller.handleRequest(request, response, service.remove_code_playground);
+const removeCodePlayground = async (request, response) => {
+  await Controller.handleRequest(request, response, service.removeCodePlayground);
 };
 
-const remove_linkifier = async (request, response) => {
-  await Controller.handleRequest(request, response, service.remove_linkifier);
+const removeLinkifier = async (request, response) => {
+  await Controller.handleRequest(request, response, service.removeLinkifier);
 };
 
-const reorder_custom_profile_fields = async (request, response) => {
-  await Controller.handleRequest(request, response, service.reorder_custom_profile_fields);
+const reorderCustomProfileFields = async (request, response) => {
+  await Controller.handleRequest(request, response, service.reorderCustomProfileFields);
 };
 
-const update_linkifier = async (request, response) => {
-  await Controller.handleRequest(request, response, service.update_linkifier);
+const updateLinkifier = async (request, response) => {
+  await Controller.handleRequest(request, response, service.updateLinkifier);
 };
 
-const upload_custom_emoji = async (request, response) => {
-  await Controller.handleRequest(request, response, service.upload_custom_emoji);
+const uploadCustomEmoji = async (request, response) => {
+  await Controller.handleRequest(request, response, service.uploadCustomEmoji);
 };
 
 
 module.exports = {
-  add_code_playground,
-  add_linkifier,
-  create_custom_profile_field,
-  get_custom_emoji,
-  get_custom_profile_fields,
-  get_linkifiers,
-  get_server_settings,
-  remove_code_playground,
-  remove_linkifier,
-  reorder_custom_profile_fields,
-  update_linkifier,
-  upload_custom_emoji,
+  addCodePlayground,
+  addLinkifier,
+  createCustomProfileField,
+  getCustomEmoji,
+  getCustomProfileFields,
+  getLinkifiers,
+  getServerSettings,
+  removeCodePlayground,
+  removeLinkifier,
+  reorderCustomProfileFields,
+  updateLinkifier,
+  uploadCustomEmoji,
 };

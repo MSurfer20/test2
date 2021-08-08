@@ -15,6 +15,7 @@ import org.openapitools.server.api.model.JsonSuccessBase;
 import org.openapitools.server.api.MainApiException;
 import org.openapitools.server.api.model.OneOfobjectobject;
 import org.openapitools.server.api.model.OneOfobjectobjectobject;
+import org.openapitools.server.api.model.OneOfobjectobjectobjectobjectobjectobject;
 
 import java.util.List;
 import java.util.Map;
@@ -22,27 +23,27 @@ import java.util.Map;
 public class UsersApiVerticle extends AbstractVerticle {
     static final Logger LOGGER = LoggerFactory.getLogger(UsersApiVerticle.class);
     
-    static final String CREATE_USER_SERVICE_ID = "create_user";
-    static final String CREATE_USER_GROUP_SERVICE_ID = "create_user_group";
-    static final String DEACTIVATE_OWN_USER_SERVICE_ID = "deactivate_own_user";
-    static final String DEACTIVATE_USER_SERVICE_ID = "deactivate_user";
-    static final String GET_ATTACHMENTS_SERVICE_ID = "get_attachments";
-    static final String GET_OWN_USER_SERVICE_ID = "get_own_user";
-    static final String GET_USER_SERVICE_ID = "get_user";
-    static final String GET_USER_BY_EMAIL_SERVICE_ID = "get_user_by_email";
-    static final String GET_USER_GROUPS_SERVICE_ID = "get_user_groups";
-    static final String GET_USER_PRESENCE_SERVICE_ID = "get_user_presence";
-    static final String GET_USERS_SERVICE_ID = "get_users";
-    static final String MUTE_USER_SERVICE_ID = "mute_user";
-    static final String REACTIVATE_USER_SERVICE_ID = "reactivate_user";
-    static final String REMOVE_USER_GROUP_SERVICE_ID = "remove_user_group";
-    static final String SET_TYPING_STATUS_SERVICE_ID = "set_typing_status";
-    static final String UNMUTE_USER_SERVICE_ID = "unmute_user";
-    static final String UPDATE_DISPLAY_SETTINGS_SERVICE_ID = "update_display_settings";
-    static final String UPDATE_NOTIFICATION_SETTINGS_SERVICE_ID = "update_notification_settings";
-    static final String UPDATE_USER_SERVICE_ID = "update_user";
-    static final String UPDATE_USER_GROUP_SERVICE_ID = "update_user_group";
-    static final String UPDATE_USER_GROUP_MEMBERS_SERVICE_ID = "update_user_group_members";
+    static final String CREATE-USER_SERVICE_ID = "create-user";
+    static final String CREATE-USER-GROUP_SERVICE_ID = "create-user-group";
+    static final String DEACTIVATE-OWN-USER_SERVICE_ID = "deactivate-own-user";
+    static final String DEACTIVATE-USER_SERVICE_ID = "deactivate-user";
+    static final String GET-ATTACHMENTS_SERVICE_ID = "get-attachments";
+    static final String GET-OWN-USER_SERVICE_ID = "get-own-user";
+    static final String GET-USER_SERVICE_ID = "get-user";
+    static final String GET-USER-BY-EMAIL_SERVICE_ID = "get-user-by-email";
+    static final String GET-USER-GROUPS_SERVICE_ID = "get-user-groups";
+    static final String GET-USER-PRESENCE_SERVICE_ID = "get-user-presence";
+    static final String GET-USERS_SERVICE_ID = "get-users";
+    static final String MUTE-USER_SERVICE_ID = "mute-user";
+    static final String REACTIVATE-USER_SERVICE_ID = "reactivate-user";
+    static final String REMOVE-USER-GROUP_SERVICE_ID = "remove-user-group";
+    static final String SET-TYPING-STATUS_SERVICE_ID = "set-typing-status";
+    static final String UNMUTE-USER_SERVICE_ID = "unmute-user";
+    static final String UPDATE-SETTINGS_SERVICE_ID = "update-settings";
+    static final String UPDATE-STATUS_SERVICE_ID = "update-status";
+    static final String UPDATE-USER_SERVICE_ID = "update-user";
+    static final String UPDATE-USER-GROUP_SERVICE_ID = "update-user-group";
+    static final String UPDATE-USER-GROUP-MEMBERS_SERVICE_ID = "update-user-group-members";
     
     final UsersApi service;
 
@@ -59,11 +60,11 @@ public class UsersApiVerticle extends AbstractVerticle {
     @Override
     public void start() throws Exception {
         
-        //Consumer for create_user
-        vertx.eventBus().<JsonObject> consumer(CREATE_USER_SERVICE_ID).handler(message -> {
+        //Consumer for create-user
+        vertx.eventBus().<JsonObject> consumer(CREATE-USER_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "create_user";
+                String serviceId = "create-user";
                 String emailParam = message.body().getString("email");
                 if(emailParam == null) {
                     manageError(message, new MainApiException(400, "email is required"), serviceId);
@@ -87,20 +88,20 @@ public class UsersApiVerticle extends AbstractVerticle {
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "create_user");
+                        manageError(message, cause, "create-user");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("create_user", e);
+                logUnexpectedError("create-user", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for create_user_group
-        vertx.eventBus().<JsonObject> consumer(CREATE_USER_GROUP_SERVICE_ID).handler(message -> {
+        //Consumer for create-user-group
+        vertx.eventBus().<JsonObject> consumer(CREATE-USER-GROUP_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "create_user_group";
+                String serviceId = "create-user-group";
                 String nameParam = message.body().getString("name");
                 if(nameParam == null) {
                     manageError(message, new MainApiException(400, "name is required"), serviceId);
@@ -125,39 +126,39 @@ public class UsersApiVerticle extends AbstractVerticle {
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "create_user_group");
+                        manageError(message, cause, "create-user-group");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("create_user_group", e);
+                logUnexpectedError("create-user-group", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for deactivate_own_user
-        vertx.eventBus().<JsonObject> consumer(DEACTIVATE_OWN_USER_SERVICE_ID).handler(message -> {
+        //Consumer for deactivate-own-user
+        vertx.eventBus().<JsonObject> consumer(DEACTIVATE-OWN-USER_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "deactivate_own_user";
+                String serviceId = "deactivate-own-user";
                 service.deactivateOwnUser(result -> {
                     if (result.succeeded())
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "deactivate_own_user");
+                        manageError(message, cause, "deactivate-own-user");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("deactivate_own_user", e);
+                logUnexpectedError("deactivate-own-user", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for deactivate_user
-        vertx.eventBus().<JsonObject> consumer(DEACTIVATE_USER_SERVICE_ID).handler(message -> {
+        //Consumer for deactivate-user
+        vertx.eventBus().<JsonObject> consumer(DEACTIVATE-USER_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "deactivate_user";
+                String serviceId = "deactivate-user";
                 String userIdParam = message.body().getString("user_id");
                 if(userIdParam == null) {
                     manageError(message, new MainApiException(400, "user_id is required"), serviceId);
@@ -169,58 +170,58 @@ public class UsersApiVerticle extends AbstractVerticle {
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "deactivate_user");
+                        manageError(message, cause, "deactivate-user");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("deactivate_user", e);
+                logUnexpectedError("deactivate-user", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for get_attachments
-        vertx.eventBus().<JsonObject> consumer(GET_ATTACHMENTS_SERVICE_ID).handler(message -> {
+        //Consumer for get-attachments
+        vertx.eventBus().<JsonObject> consumer(GET-ATTACHMENTS_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "get_attachments";
+                String serviceId = "get-attachments";
                 service.getAttachments(result -> {
                     if (result.succeeded())
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "get_attachments");
+                        manageError(message, cause, "get-attachments");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("get_attachments", e);
+                logUnexpectedError("get-attachments", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for get_own_user
-        vertx.eventBus().<JsonObject> consumer(GET_OWN_USER_SERVICE_ID).handler(message -> {
+        //Consumer for get-own-user
+        vertx.eventBus().<JsonObject> consumer(GET-OWN-USER_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "get_own_user";
+                String serviceId = "get-own-user";
                 service.getOwnUser(result -> {
                     if (result.succeeded())
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "get_own_user");
+                        manageError(message, cause, "get-own-user");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("get_own_user", e);
+                logUnexpectedError("get-own-user", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for get_user
-        vertx.eventBus().<JsonObject> consumer(GET_USER_SERVICE_ID).handler(message -> {
+        //Consumer for get-user
+        vertx.eventBus().<JsonObject> consumer(GET-USER_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "get_user";
+                String serviceId = "get-user";
                 String userIdParam = message.body().getString("user_id");
                 if(userIdParam == null) {
                     manageError(message, new MainApiException(400, "user_id is required"), serviceId);
@@ -236,20 +237,20 @@ public class UsersApiVerticle extends AbstractVerticle {
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "get_user");
+                        manageError(message, cause, "get-user");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("get_user", e);
+                logUnexpectedError("get-user", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for get_user_by_email
-        vertx.eventBus().<JsonObject> consumer(GET_USER_BY_EMAIL_SERVICE_ID).handler(message -> {
+        //Consumer for get-user-by-email
+        vertx.eventBus().<JsonObject> consumer(GET-USER-BY-EMAIL_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "get_user_by_email";
+                String serviceId = "get-user-by-email";
                 String emailParam = message.body().getString("email");
                 if(emailParam == null) {
                     manageError(message, new MainApiException(400, "email is required"), serviceId);
@@ -265,39 +266,39 @@ public class UsersApiVerticle extends AbstractVerticle {
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "get_user_by_email");
+                        manageError(message, cause, "get-user-by-email");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("get_user_by_email", e);
+                logUnexpectedError("get-user-by-email", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for get_user_groups
-        vertx.eventBus().<JsonObject> consumer(GET_USER_GROUPS_SERVICE_ID).handler(message -> {
+        //Consumer for get-user-groups
+        vertx.eventBus().<JsonObject> consumer(GET-USER-GROUPS_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "get_user_groups";
+                String serviceId = "get-user-groups";
                 service.getUserGroups(result -> {
                     if (result.succeeded())
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "get_user_groups");
+                        manageError(message, cause, "get-user-groups");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("get_user_groups", e);
+                logUnexpectedError("get-user-groups", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for get_user_presence
-        vertx.eventBus().<JsonObject> consumer(GET_USER_PRESENCE_SERVICE_ID).handler(message -> {
+        //Consumer for get-user-presence
+        vertx.eventBus().<JsonObject> consumer(GET-USER-PRESENCE_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "get_user_presence";
+                String serviceId = "get-user-presence";
                 String userIdOrEmailParam = message.body().getString("user_id_or_email");
                 if(userIdOrEmailParam == null) {
                     manageError(message, new MainApiException(400, "user_id_or_email is required"), serviceId);
@@ -309,20 +310,20 @@ public class UsersApiVerticle extends AbstractVerticle {
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "get_user_presence");
+                        manageError(message, cause, "get-user-presence");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("get_user_presence", e);
+                logUnexpectedError("get-user-presence", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for get_users
-        vertx.eventBus().<JsonObject> consumer(GET_USERS_SERVICE_ID).handler(message -> {
+        //Consumer for get-users
+        vertx.eventBus().<JsonObject> consumer(GET-USERS_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "get_users";
+                String serviceId = "get-users";
                 String clientGravatarParam = message.body().getString("client_gravatar");
                 Boolean clientGravatar = (clientGravatarParam == null) ? false : Json.mapper.readValue(clientGravatarParam, Boolean.class);
                 String includeCustomProfileFieldsParam = message.body().getString("include_custom_profile_fields");
@@ -332,20 +333,20 @@ public class UsersApiVerticle extends AbstractVerticle {
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "get_users");
+                        manageError(message, cause, "get-users");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("get_users", e);
+                logUnexpectedError("get-users", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for mute_user
-        vertx.eventBus().<JsonObject> consumer(MUTE_USER_SERVICE_ID).handler(message -> {
+        //Consumer for mute-user
+        vertx.eventBus().<JsonObject> consumer(MUTE-USER_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "mute_user";
+                String serviceId = "mute-user";
                 String mutedUserIdParam = message.body().getString("muted_user_id");
                 if(mutedUserIdParam == null) {
                     manageError(message, new MainApiException(400, "muted_user_id is required"), serviceId);
@@ -357,20 +358,20 @@ public class UsersApiVerticle extends AbstractVerticle {
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "mute_user");
+                        manageError(message, cause, "mute-user");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("mute_user", e);
+                logUnexpectedError("mute-user", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for reactivate_user
-        vertx.eventBus().<JsonObject> consumer(REACTIVATE_USER_SERVICE_ID).handler(message -> {
+        //Consumer for reactivate-user
+        vertx.eventBus().<JsonObject> consumer(REACTIVATE-USER_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "reactivate_user";
+                String serviceId = "reactivate-user";
                 String userIdParam = message.body().getString("user_id");
                 if(userIdParam == null) {
                     manageError(message, new MainApiException(400, "user_id is required"), serviceId);
@@ -382,20 +383,20 @@ public class UsersApiVerticle extends AbstractVerticle {
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "reactivate_user");
+                        manageError(message, cause, "reactivate-user");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("reactivate_user", e);
+                logUnexpectedError("reactivate-user", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for remove_user_group
-        vertx.eventBus().<JsonObject> consumer(REMOVE_USER_GROUP_SERVICE_ID).handler(message -> {
+        //Consumer for remove-user-group
+        vertx.eventBus().<JsonObject> consumer(REMOVE-USER-GROUP_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "remove_user_group";
+                String serviceId = "remove-user-group";
                 String userGroupIdParam = message.body().getString("user_group_id");
                 if(userGroupIdParam == null) {
                     manageError(message, new MainApiException(400, "user_group_id is required"), serviceId);
@@ -407,20 +408,20 @@ public class UsersApiVerticle extends AbstractVerticle {
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "remove_user_group");
+                        manageError(message, cause, "remove-user-group");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("remove_user_group", e);
+                logUnexpectedError("remove-user-group", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for set_typing_status
-        vertx.eventBus().<JsonObject> consumer(SET_TYPING_STATUS_SERVICE_ID).handler(message -> {
+        //Consumer for set-typing-status
+        vertx.eventBus().<JsonObject> consumer(SET-TYPING-STATUS_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "set_typing_status";
+                String serviceId = "set-typing-status";
                 String opParam = message.body().getString("op");
                 if(opParam == null) {
                     manageError(message, new MainApiException(400, "op is required"), serviceId);
@@ -443,20 +444,20 @@ public class UsersApiVerticle extends AbstractVerticle {
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "set_typing_status");
+                        manageError(message, cause, "set-typing-status");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("set_typing_status", e);
+                logUnexpectedError("set-typing-status", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for unmute_user
-        vertx.eventBus().<JsonObject> consumer(UNMUTE_USER_SERVICE_ID).handler(message -> {
+        //Consumer for unmute-user
+        vertx.eventBus().<JsonObject> consumer(UNMUTE-USER_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "unmute_user";
+                String serviceId = "unmute-user";
                 String mutedUserIdParam = message.body().getString("muted_user_id");
                 if(mutedUserIdParam == null) {
                     manageError(message, new MainApiException(400, "muted_user_id is required"), serviceId);
@@ -468,20 +469,28 @@ public class UsersApiVerticle extends AbstractVerticle {
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "unmute_user");
+                        manageError(message, cause, "unmute-user");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("unmute_user", e);
+                logUnexpectedError("unmute-user", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for update_display_settings
-        vertx.eventBus().<JsonObject> consumer(UPDATE_DISPLAY_SETTINGS_SERVICE_ID).handler(message -> {
+        //Consumer for update-settings
+        vertx.eventBus().<JsonObject> consumer(UPDATE-SETTINGS_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "update_display_settings";
+                String serviceId = "update-settings";
+                String fullNameParam = message.body().getString("full_name");
+                String fullName = (fullNameParam == null) ? null : fullNameParam;
+                String emailParam = message.body().getString("email");
+                String email = (emailParam == null) ? null : emailParam;
+                String oldPasswordParam = message.body().getString("old_password");
+                String oldPassword = (oldPasswordParam == null) ? null : oldPasswordParam;
+                String newPasswordParam = message.body().getString("new_password");
+                String newPassword = (newPasswordParam == null) ? null : newPasswordParam;
                 String twentyFourHourTimeParam = message.body().getString("twenty_four_hour_time");
                 Boolean twentyFourHourTime = (twentyFourHourTimeParam == null) ? null : Json.mapper.readValue(twentyFourHourTimeParam, Boolean.class);
                 String denseModeParam = message.body().getString("dense_mode");
@@ -494,6 +503,8 @@ public class UsersApiVerticle extends AbstractVerticle {
                 Boolean highContrastMode = (highContrastModeParam == null) ? null : Json.mapper.readValue(highContrastModeParam, Boolean.class);
                 String colorSchemeParam = message.body().getString("color_scheme");
                 Integer colorScheme = (colorSchemeParam == null) ? null : Json.mapper.readValue(colorSchemeParam, Integer.class);
+                String enableDraftsSynchronizationParam = message.body().getString("enable_drafts_synchronization");
+                Boolean enableDraftsSynchronization = (enableDraftsSynchronizationParam == null) ? null : Json.mapper.readValue(enableDraftsSynchronizationParam, Boolean.class);
                 String translateEmoticonsParam = message.body().getString("translate_emoticons");
                 Boolean translateEmoticons = (translateEmoticonsParam == null) ? null : Json.mapper.readValue(translateEmoticonsParam, Boolean.class);
                 String defaultLanguageParam = message.body().getString("default_language");
@@ -508,25 +519,6 @@ public class UsersApiVerticle extends AbstractVerticle {
                 Integer demoteInactiveStreams = (demoteInactiveStreamsParam == null) ? null : Json.mapper.readValue(demoteInactiveStreamsParam, Integer.class);
                 String timezoneParam = message.body().getString("timezone");
                 String timezone = (timezoneParam == null) ? null : timezoneParam;
-                service.updateDisplaySettings(twentyFourHourTime, denseMode, starredMessageCounts, fluidLayoutWidth, highContrastMode, colorScheme, translateEmoticons, defaultLanguage, defaultView, leftSideUserlist, emojiset, demoteInactiveStreams, timezone, result -> {
-                    if (result.succeeded())
-                        message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
-                    else {
-                        Throwable cause = result.cause();
-                        manageError(message, cause, "update_display_settings");
-                    }
-                });
-            } catch (Exception e) {
-                logUnexpectedError("update_display_settings", e);
-                message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
-            }
-        });
-        
-        //Consumer for update_notification_settings
-        vertx.eventBus().<JsonObject> consumer(UPDATE_NOTIFICATION_SETTINGS_SERVICE_ID).handler(message -> {
-            try {
-                // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "update_notification_settings";
                 String enableStreamDesktopNotificationsParam = message.body().getString("enable_stream_desktop_notifications");
                 Boolean enableStreamDesktopNotifications = (enableStreamDesktopNotificationsParam == null) ? null : Json.mapper.readValue(enableStreamDesktopNotificationsParam, Boolean.class);
                 String enableStreamEmailNotificationsParam = message.body().getString("enable_stream_email_notifications");
@@ -541,6 +533,8 @@ public class UsersApiVerticle extends AbstractVerticle {
                 Boolean enableDesktopNotifications = (enableDesktopNotificationsParam == null) ? null : Json.mapper.readValue(enableDesktopNotificationsParam, Boolean.class);
                 String enableSoundsParam = message.body().getString("enable_sounds");
                 Boolean enableSounds = (enableSoundsParam == null) ? null : Json.mapper.readValue(enableSoundsParam, Boolean.class);
+                String emailNotificationsBatchingPeriodSecondsParam = message.body().getString("email_notifications_batching_period_seconds");
+                Integer emailNotificationsBatchingPeriodSeconds = (emailNotificationsBatchingPeriodSecondsParam == null) ? null : Json.mapper.readValue(emailNotificationsBatchingPeriodSecondsParam, Integer.class);
                 String enableOfflineEmailNotificationsParam = message.body().getString("enable_offline_email_notifications");
                 Boolean enableOfflineEmailNotifications = (enableOfflineEmailNotificationsParam == null) ? null : Json.mapper.readValue(enableOfflineEmailNotificationsParam, Boolean.class);
                 String enableOfflinePushNotificationsParam = message.body().getString("enable_offline_push_notifications");
@@ -565,25 +559,56 @@ public class UsersApiVerticle extends AbstractVerticle {
                 Boolean realmNameInNotifications = (realmNameInNotificationsParam == null) ? null : Json.mapper.readValue(realmNameInNotificationsParam, Boolean.class);
                 String presenceEnabledParam = message.body().getString("presence_enabled");
                 Boolean presenceEnabled = (presenceEnabledParam == null) ? null : Json.mapper.readValue(presenceEnabledParam, Boolean.class);
-                service.updateNotificationSettings(enableStreamDesktopNotifications, enableStreamEmailNotifications, enableStreamPushNotifications, enableStreamAudibleNotifications, notificationSound, enableDesktopNotifications, enableSounds, enableOfflineEmailNotifications, enableOfflinePushNotifications, enableOnlinePushNotifications, enableDigestEmails, enableMarketingEmails, enableLoginEmails, messageContentInEmailNotifications, pmContentInDesktopNotifications, wildcardMentionsNotify, desktopIconCountDisplay, realmNameInNotifications, presenceEnabled, result -> {
+                String enterSendsParam = message.body().getString("enter_sends");
+                Boolean enterSends = (enterSendsParam == null) ? null : Json.mapper.readValue(enterSendsParam, Boolean.class);
+                service.updateSettings(fullName, email, oldPassword, newPassword, twentyFourHourTime, denseMode, starredMessageCounts, fluidLayoutWidth, highContrastMode, colorScheme, enableDraftsSynchronization, translateEmoticons, defaultLanguage, defaultView, leftSideUserlist, emojiset, demoteInactiveStreams, timezone, enableStreamDesktopNotifications, enableStreamEmailNotifications, enableStreamPushNotifications, enableStreamAudibleNotifications, notificationSound, enableDesktopNotifications, enableSounds, emailNotificationsBatchingPeriodSeconds, enableOfflineEmailNotifications, enableOfflinePushNotifications, enableOnlinePushNotifications, enableDigestEmails, enableMarketingEmails, enableLoginEmails, messageContentInEmailNotifications, pmContentInDesktopNotifications, wildcardMentionsNotify, desktopIconCountDisplay, realmNameInNotifications, presenceEnabled, enterSends, result -> {
                     if (result.succeeded())
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "update_notification_settings");
+                        manageError(message, cause, "update-settings");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("update_notification_settings", e);
+                logUnexpectedError("update-settings", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for update_user
-        vertx.eventBus().<JsonObject> consumer(UPDATE_USER_SERVICE_ID).handler(message -> {
+        //Consumer for update-status
+        vertx.eventBus().<JsonObject> consumer(UPDATE-STATUS_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "update_user";
+                String serviceId = "update-status";
+                String statusTextParam = message.body().getString("status_text");
+                String statusText = (statusTextParam == null) ? null : statusTextParam;
+                String awayParam = message.body().getString("away");
+                Boolean away = (awayParam == null) ? null : Json.mapper.readValue(awayParam, Boolean.class);
+                String emojiNameParam = message.body().getString("emoji_name");
+                String emojiName = (emojiNameParam == null) ? null : emojiNameParam;
+                String emojiCodeParam = message.body().getString("emoji_code");
+                String emojiCode = (emojiCodeParam == null) ? null : emojiCodeParam;
+                String reactionTypeParam = message.body().getString("reaction_type");
+                String reactionType = (reactionTypeParam == null) ? null : reactionTypeParam;
+                service.updateStatus(statusText, away, emojiName, emojiCode, reactionType, result -> {
+                    if (result.succeeded())
+                        message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
+                    else {
+                        Throwable cause = result.cause();
+                        manageError(message, cause, "update-status");
+                    }
+                });
+            } catch (Exception e) {
+                logUnexpectedError("update-status", e);
+                message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
+            }
+        });
+        
+        //Consumer for update-user
+        vertx.eventBus().<JsonObject> consumer(UPDATE-USER_SERVICE_ID).handler(message -> {
+            try {
+                // Workaround for #allParams section clearing the vendorExtensions map
+                String serviceId = "update-user";
                 String userIdParam = message.body().getString("user_id");
                 if(userIdParam == null) {
                     manageError(message, new MainApiException(400, "user_id is required"), serviceId);
@@ -602,20 +627,20 @@ public class UsersApiVerticle extends AbstractVerticle {
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "update_user");
+                        manageError(message, cause, "update-user");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("update_user", e);
+                logUnexpectedError("update-user", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for update_user_group
-        vertx.eventBus().<JsonObject> consumer(UPDATE_USER_GROUP_SERVICE_ID).handler(message -> {
+        //Consumer for update-user-group
+        vertx.eventBus().<JsonObject> consumer(UPDATE-USER-GROUP_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "update_user_group";
+                String serviceId = "update-user-group";
                 String userGroupIdParam = message.body().getString("user_group_id");
                 if(userGroupIdParam == null) {
                     manageError(message, new MainApiException(400, "user_group_id is required"), serviceId);
@@ -639,20 +664,20 @@ public class UsersApiVerticle extends AbstractVerticle {
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "update_user_group");
+                        manageError(message, cause, "update-user-group");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("update_user_group", e);
+                logUnexpectedError("update-user-group", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });
         
-        //Consumer for update_user_group_members
-        vertx.eventBus().<JsonObject> consumer(UPDATE_USER_GROUP_MEMBERS_SERVICE_ID).handler(message -> {
+        //Consumer for update-user-group-members
+        vertx.eventBus().<JsonObject> consumer(UPDATE-USER-GROUP-MEMBERS_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "update_user_group_members";
+                String serviceId = "update-user-group-members";
                 String userGroupIdParam = message.body().getString("user_group_id");
                 if(userGroupIdParam == null) {
                     manageError(message, new MainApiException(400, "user_group_id is required"), serviceId);
@@ -670,11 +695,11 @@ public class UsersApiVerticle extends AbstractVerticle {
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "update_user_group_members");
+                        manageError(message, cause, "update-user-group-members");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("update_user_group_members", e);
+                logUnexpectedError("update-user-group-members", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });

@@ -143,6 +143,52 @@ function streams_api:create_big_blue_button_video_call()
 	end
 end
 
+function streams_api:delete_topic(stream_id, topic_name)
+	local req = http_request.new_from_uri({
+		scheme = self.default_scheme;
+		host = self.host;
+		port = self.port;
+		path = string.format("%s/streams/%s/delete_topic?topic_name=%s",
+			self.basePath, stream_id, http_util.encodeURIComponent(topic_name));
+	})
+
+	-- set HTTP verb
+	req.headers:upsert(":method", "POST")
+	-- TODO: create a function to select proper content-type
+	--local var_accept = { "application/json" }
+	req.headers:upsert("content-type", "application/json")
+
+
+	-- make the HTTP call
+	local headers, stream, errno = req:go()
+	if not headers then
+		return nil, stream, errno
+	end
+	local http_status = headers:get(":status")
+	if http_status:sub(1,1) == "2" then
+		local body, err, errno2 = stream:get_body_as_string()
+		-- exception when getting the HTTP body
+		if not body then
+			return nil, err, errno2
+		end
+		stream:shutdown()
+		local result, _, err3 = dkjson.decode(body)
+		-- exception when decoding the HTTP body
+		if result == nil then
+			return nil, err3
+		end
+		return openapiclient_json_success.cast(result), headers
+	else
+		local body, err, errno2 = stream:get_body_as_string()
+		if not body then
+			return nil, err, errno2
+		end
+		stream:shutdown()
+		-- return the error message (http body)
+		return nil, http_status, body
+	end
+end
+
 function streams_api:get_stream_id(stream)
 	local req = http_request.new_from_uri({
 		scheme = self.default_scheme;
@@ -242,6 +288,52 @@ function streams_api:get_streams(include_public, include_web_public, include_sub
 		port = self.port;
 		path = string.format("%s/streams?include_public=%s&include_web_public=%s&include_subscribed=%s&include_all_active=%s&include_default=%s&include_owner_subscribed=%s",
 			self.basePath, http_util.encodeURIComponent(include_public), http_util.encodeURIComponent(include_web_public), http_util.encodeURIComponent(include_subscribed), http_util.encodeURIComponent(include_all_active), http_util.encodeURIComponent(include_default), http_util.encodeURIComponent(include_owner_subscribed));
+	})
+
+	-- set HTTP verb
+	req.headers:upsert(":method", "GET")
+	-- TODO: create a function to select proper content-type
+	--local var_accept = { "application/json" }
+	req.headers:upsert("content-type", "application/json")
+
+
+	-- make the HTTP call
+	local headers, stream, errno = req:go()
+	if not headers then
+		return nil, stream, errno
+	end
+	local http_status = headers:get(":status")
+	if http_status:sub(1,1) == "2" then
+		local body, err, errno2 = stream:get_body_as_string()
+		-- exception when getting the HTTP body
+		if not body then
+			return nil, err, errno2
+		end
+		stream:shutdown()
+		local result, _, err3 = dkjson.decode(body)
+		-- exception when decoding the HTTP body
+		if result == nil then
+			return nil, err3
+		end
+		return openapiclient_json_success_base.cast(result), headers
+	else
+		local body, err, errno2 = stream:get_body_as_string()
+		if not body then
+			return nil, err, errno2
+		end
+		stream:shutdown()
+		-- return the error message (http body)
+		return nil, http_status, body
+	end
+end
+
+function streams_api:get_subscribers(stream_id)
+	local req = http_request.new_from_uri({
+		scheme = self.default_scheme;
+		host = self.host;
+		port = self.port;
+		path = string.format("%s/streams/%s/members",
+			self.basePath, stream_id);
 	})
 
 	-- set HTTP verb

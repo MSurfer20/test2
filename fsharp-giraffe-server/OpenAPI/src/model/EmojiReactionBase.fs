@@ -2,7 +2,9 @@ namespace OpenAPI.Model
 
 open System
 open System.Collections.Generic
-open OpenAPI.Model.EmojiReactionBaseUser
+open OpenAPI.Model.EmojiBase
+open OpenAPI.Model.EmojiReactionBaseAllOf
+open OpenAPI.Model.EmojiReactionBaseAllOfUser
 
 module EmojiReactionBase = 
 
@@ -14,7 +16,7 @@ module EmojiReactionBase =
     EmojiName : string;
     ReactionType : string;
     UserId : int;
-    User : EmojiReactionBaseUser;
+    User : EmojiReactionBaseAllOfUser;
   }
   //#endregion
   

@@ -11,9 +11,11 @@ module StreamsApiServiceInterface =
     type IStreamsApiService = 
       abstract member ArchiveStream:HttpContext -> ArchiveStreamArgs->ArchiveStreamResult
       abstract member CreateBigBlueButtonVideoCall:HttpContext ->CreateBigBlueButtonVideoCallResult
+      abstract member DeleteTopic:HttpContext -> DeleteTopicArgs->DeleteTopicResult
       abstract member GetStreamId:HttpContext -> GetStreamIdArgs->GetStreamIdResult
       abstract member GetStreamTopics:HttpContext -> GetStreamTopicsArgs->GetStreamTopicsResult
       abstract member GetStreams:HttpContext -> GetStreamsArgs->GetStreamsResult
+      abstract member GetSubscribers:HttpContext -> GetSubscribersArgs->GetSubscribersResult
       abstract member GetSubscriptionStatus:HttpContext -> GetSubscriptionStatusArgs->GetSubscriptionStatusResult
       abstract member GetSubscriptions:HttpContext -> GetSubscriptionsArgs->GetSubscriptionsResult
       abstract member MuteTopic:HttpContext -> MuteTopicArgs->MuteTopicResult

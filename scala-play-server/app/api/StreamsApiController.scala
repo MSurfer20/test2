@@ -13,7 +13,7 @@ import model.NonExistingStreamError
 import model.OneOfobjectobject
 import model.OneOfstringinteger
 
-@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2021-08-08T20:45:49.166589Z[Etc/UTC]")
+@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2021-08-08T21:15:24.853051Z[Etc/UTC]")
 @Singleton
 class StreamsApiController @Inject()(cc: ControllerComponents, api: StreamsApi) extends AbstractController(cc) {
   /**
@@ -36,6 +36,24 @@ class StreamsApiController @Inject()(cc: ControllerComponents, api: StreamsApi) 
   def createBigBlueButtonVideoCall(): Action[AnyContent] = Action { request =>
     def executeApi(): JsonSuccessBase = {
       api.createBigBlueButtonVideoCall()
+    }
+
+    val result = executeApi()
+    val json = Json.toJson(result)
+    Ok(json)
+  }
+
+  /**
+    * POST /api/v1/streams/:streamId/delete_topic?topicName=[value]
+    * @param streamId The ID of the stream to access. 
+    */
+  def deleteTopic(streamId: Int): Action[AnyContent] = Action { request =>
+    def executeApi(): JsonSuccess = {
+      val topicName = request.getQueryString("topic_name")
+        .getOrElse {
+          throw new OpenApiExceptions.MissingRequiredParameterException("topic_name", "query string")
+        }
+      api.deleteTopic(streamId, topicName)
     }
 
     val result = executeApi()
@@ -92,6 +110,20 @@ class StreamsApiController @Inject()(cc: ControllerComponents, api: StreamsApi) 
       val includeOwnerSubscribed = request.getQueryString("include_owner_subscribed")
         .map(value => value.toBoolean)
       api.getStreams(includePublic, includeWebPublic, includeSubscribed, includeAllActive, includeDefault, includeOwnerSubscribed)
+    }
+
+    val result = executeApi()
+    val json = Json.toJson(result)
+    Ok(json)
+  }
+
+  /**
+    * GET /api/v1/streams/:streamId/members
+    * @param streamId The ID of the stream to access. 
+    */
+  def getSubscribers(streamId: Int): Action[AnyContent] = Action { request =>
+    def executeApi(): JsonSuccessBase = {
+      api.getSubscribers(streamId)
     }
 
     val result = executeApi()

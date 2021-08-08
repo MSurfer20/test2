@@ -25,8 +25,8 @@ module UsersApiServiceInterface =
       abstract member RemoveUserGroup:HttpContext -> RemoveUserGroupArgs->RemoveUserGroupResult
       abstract member SetTypingStatus:HttpContext -> SetTypingStatusArgs->SetTypingStatusResult
       abstract member UnmuteUser:HttpContext -> UnmuteUserArgs->UnmuteUserResult
-      abstract member UpdateDisplaySettings:HttpContext -> UpdateDisplaySettingsArgs->UpdateDisplaySettingsResult
-      abstract member UpdateNotificationSettings:HttpContext -> UpdateNotificationSettingsArgs->UpdateNotificationSettingsResult
+      abstract member UpdateSettings:HttpContext -> UpdateSettingsArgs->UpdateSettingsResult
+      abstract member UpdateStatus:HttpContext -> UpdateStatusArgs->UpdateStatusResult
       abstract member UpdateUser:HttpContext -> UpdateUserArgs->UpdateUserResult
       abstract member UpdateUserGroup:HttpContext -> UpdateUserGroupArgs->UpdateUserGroupResult
       abstract member UpdateUserGroupMembers:HttpContext -> UpdateUserGroupMembersArgs->UpdateUserGroupMembersResult

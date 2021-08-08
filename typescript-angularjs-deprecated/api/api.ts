@@ -1,5 +1,7 @@
 export * from './AuthenticationApi';
 import { AuthenticationApi } from './AuthenticationApi';
+export * from './DraftsApi';
+import { DraftsApi } from './DraftsApi';
 export * from './MessagesApi';
 import { MessagesApi } from './MessagesApi';
 export * from './RealTimeEventsApi';
@@ -12,4 +14,4 @@ export * from './UsersApi';
 import { UsersApi } from './UsersApi';
 export * from './WebhooksApi';
 import { WebhooksApi } from './WebhooksApi';
-export const APIS = [AuthenticationApi, MessagesApi, RealTimeEventsApi, ServerAndOrganizationsApi, StreamsApi, UsersApi, WebhooksApi];
+export const APIS = [AuthenticationApi, DraftsApi, MessagesApi, RealTimeEventsApi, ServerAndOrganizationsApi, StreamsApi, UsersApi, WebhooksApi];

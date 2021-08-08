@@ -15,7 +15,7 @@ void main() {
   final instance = EmojiReactionBase();
 
   group('test EmojiReactionBase', () {
-    // A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint. 
+    // A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji. 
     // String emojiCode
     test('to test the property `emojiCode`', () async {
       // TODO
@@ -39,7 +39,7 @@ void main() {
       // TODO
     });
 
-    // EmojiReactionBaseUser user
+    // EmojiReactionBaseAllOfUser user
     test('to test the property `user`', () async {
       // TODO
     });

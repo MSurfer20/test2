@@ -82,6 +82,40 @@ module StreamsApiHandlerTests =
       }
 
   [<Fact>]
+  let ``DeleteTopic - Delete a topic returns 200 where Success.`` () =
+    task {
+      use server = new TestServer(createHost())
+      use client = server.CreateClient()
+
+      // add your setup code here
+
+      let path = "/api/v1/streams/{stream_id}/delete_topic".Replace("streamId", "ADDME") + "?topicName=ADDME"
+
+      HttpPost client path
+        |> isStatus (enum<HttpStatusCode>(200))
+        |> readText
+        |> shouldEqual "TESTME"
+        |> ignore
+      }
+
+  [<Fact>]
+  let ``DeleteTopic - Delete a topic returns 400 where Error.`` () =
+    task {
+      use server = new TestServer(createHost())
+      use client = server.CreateClient()
+
+      // add your setup code here
+
+      let path = "/api/v1/streams/{stream_id}/delete_topic".Replace("streamId", "ADDME") + "?topicName=ADDME"
+
+      HttpPost client path
+        |> isStatus (enum<HttpStatusCode>(400))
+        |> readText
+        |> shouldEqual "TESTME"
+        |> ignore
+      }
+
+  [<Fact>]
   let ``GetStreamId - Get stream ID returns 200 where Success.`` () =
     task {
       use server = new TestServer(createHost())
@@ -175,6 +209,40 @@ module StreamsApiHandlerTests =
       // add your setup code here
 
       let path = "/api/v1/streams" + "?includePublic=ADDME&includeWebPublic=ADDME&includeSubscribed=ADDME&includeAllActive=ADDME&includeDefault=ADDME&includeOwnerSubscribed=ADDME"
+
+      HttpGet client path
+        |> isStatus (enum<HttpStatusCode>(400))
+        |> readText
+        |> shouldEqual "TESTME"
+        |> ignore
+      }
+
+  [<Fact>]
+  let ``GetSubscribers - Get the subscribers of a stream returns 200 where Success.`` () =
+    task {
+      use server = new TestServer(createHost())
+      use client = server.CreateClient()
+
+      // add your setup code here
+
+      let path = "/api/v1/streams/{stream_id}/members".Replace("streamId", "ADDME")
+
+      HttpGet client path
+        |> isStatus (enum<HttpStatusCode>(200))
+        |> readText
+        |> shouldEqual "TESTME"
+        |> ignore
+      }
+
+  [<Fact>]
+  let ``GetSubscribers - Get the subscribers of a stream returns 400 where Bad request.`` () =
+    task {
+      use server = new TestServer(createHost())
+      use client = server.CreateClient()
+
+      // add your setup code here
+
+      let path = "/api/v1/streams/{stream_id}/members".Replace("streamId", "ADDME")
 
       HttpGet client path
         |> isStatus (enum<HttpStatusCode>(400))

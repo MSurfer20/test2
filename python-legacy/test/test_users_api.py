@@ -140,17 +140,17 @@ class TestUsersApi(unittest.TestCase):
         """
         pass
 
-    def test_update_display_settings(self):
-        """Test case for update_display_settings
+    def test_update_settings(self):
+        """Test case for update_settings
 
-        Update display settings  # noqa: E501
+        Update settings  # noqa: E501
         """
         pass
 
-    def test_update_notification_settings(self):
-        """Test case for update_notification_settings
+    def test_update_status(self):
+        """Test case for update_status
 
-        Update notification settings  # noqa: E501
+        Update your status  # noqa: E501
         """
         pass
 

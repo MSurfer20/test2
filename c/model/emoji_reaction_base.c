@@ -10,7 +10,7 @@ emoji_reaction_base_t *emoji_reaction_base_create(
     char *emoji_name,
     char *reaction_type,
     int user_id,
-    emoji_reaction_base_user_t *user
+    emoji_reaction_base_all_of_user_t *user
     ) {
     emoji_reaction_base_t *emoji_reaction_base_local_var = malloc(sizeof(emoji_reaction_base_t));
     if (!emoji_reaction_base_local_var) {
@@ -44,7 +44,7 @@ void emoji_reaction_base_free(emoji_reaction_base_t *emoji_reaction_base) {
         emoji_reaction_base->reaction_type = NULL;
     }
     if (emoji_reaction_base->user) {
-        emoji_reaction_base_user_free(emoji_reaction_base->user);
+        emoji_reaction_base_all_of_user_free(emoji_reaction_base->user);
         emoji_reaction_base->user = NULL;
     }
     free(emoji_reaction_base);
@@ -87,7 +87,7 @@ cJSON *emoji_reaction_base_convertToJSON(emoji_reaction_base_t *emoji_reaction_b
 
     // emoji_reaction_base->user
     if(emoji_reaction_base->user) { 
-    cJSON *user_local_JSON = emoji_reaction_base_user_convertToJSON(emoji_reaction_base->user);
+    cJSON *user_local_JSON = emoji_reaction_base_all_of_user_convertToJSON(emoji_reaction_base->user);
     if(user_local_JSON == NULL) {
     goto fail; //model
     }
@@ -147,9 +147,9 @@ emoji_reaction_base_t *emoji_reaction_base_parseFromJSON(cJSON *emoji_reaction_b
 
     // emoji_reaction_base->user
     cJSON *user = cJSON_GetObjectItemCaseSensitive(emoji_reaction_baseJSON, "user");
-    emoji_reaction_base_user_t *user_local_nonprim = NULL;
+    emoji_reaction_base_all_of_user_t *user_local_nonprim = NULL;
     if (user) { 
-    user_local_nonprim = emoji_reaction_base_user_parseFromJSON(user); //nonprimitive
+    user_local_nonprim = emoji_reaction_base_all_of_user_parseFromJSON(user); //nonprimitive
     }
 
 
@@ -164,7 +164,7 @@ emoji_reaction_base_t *emoji_reaction_base_parseFromJSON(cJSON *emoji_reaction_b
     return emoji_reaction_base_local_var;
 end:
     if (user_local_nonprim) {
-        emoji_reaction_base_user_free(user_local_nonprim);
+        emoji_reaction_base_all_of_user_free(user_local_nonprim);
         user_local_nonprim = NULL;
     }
     return NULL;

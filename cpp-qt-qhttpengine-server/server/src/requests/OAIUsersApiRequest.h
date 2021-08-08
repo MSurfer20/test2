@@ -27,6 +27,7 @@
 #include "OAIObject.h"
 #include "OAIOneOfobjectobject.h"
 #include "OAIOneOfobjectobjectobject.h"
+#include "OAIOneOfobjectobjectobjectobjectobjectobject.h"
 #include <QString>
 #include "OAIUsersApiHandler.h"
 
@@ -56,8 +57,8 @@ public:
     void removeUserGroupRequest(const QString& user_group_id);
     void setTypingStatusRequest();
     void unmuteUserRequest(const QString& muted_user_id);
-    void updateDisplaySettingsRequest();
-    void updateNotificationSettingsRequest();
+    void updateSettingsRequest();
+    void updateStatusRequest();
     void updateUserRequest(const QString& user_id);
     void updateUserGroupRequest(const QString& user_group_id);
     void updateUserGroupMembersRequest(const QString& user_group_id);
@@ -79,8 +80,8 @@ public:
     void removeUserGroupResponse(const OAIJsonSuccess& res);
     void setTypingStatusResponse(const OAIJsonSuccess& res);
     void unmuteUserResponse(const OAIJsonSuccess& res);
-    void updateDisplaySettingsResponse(const OAIJsonSuccessBase& res);
-    void updateNotificationSettingsResponse(const OAIJsonSuccessBase& res);
+    void updateSettingsResponse(const OAIJsonSuccessBase& res);
+    void updateStatusResponse(const OAIJsonSuccess& res);
     void updateUserResponse(const OAIJsonSuccess& res);
     void updateUserGroupResponse(const OAIJsonSuccess& res);
     void updateUserGroupMembersResponse(const OAIJsonSuccess& res);
@@ -102,8 +103,8 @@ public:
     void removeUserGroupError(const OAIJsonSuccess& res, QNetworkReply::NetworkError error_type, QString& error_str);
     void setTypingStatusError(const OAIJsonSuccess& res, QNetworkReply::NetworkError error_type, QString& error_str);
     void unmuteUserError(const OAIJsonSuccess& res, QNetworkReply::NetworkError error_type, QString& error_str);
-    void updateDisplaySettingsError(const OAIJsonSuccessBase& res, QNetworkReply::NetworkError error_type, QString& error_str);
-    void updateNotificationSettingsError(const OAIJsonSuccessBase& res, QNetworkReply::NetworkError error_type, QString& error_str);
+    void updateSettingsError(const OAIJsonSuccessBase& res, QNetworkReply::NetworkError error_type, QString& error_str);
+    void updateStatusError(const OAIJsonSuccess& res, QNetworkReply::NetworkError error_type, QString& error_str);
     void updateUserError(const OAIJsonSuccess& res, QNetworkReply::NetworkError error_type, QString& error_str);
     void updateUserGroupError(const OAIJsonSuccess& res, QNetworkReply::NetworkError error_type, QString& error_str);
     void updateUserGroupMembersError(const OAIJsonSuccess& res, QNetworkReply::NetworkError error_type, QString& error_str);
@@ -136,8 +137,8 @@ signals:
     void removeUserGroup(qint32 user_group_id);
     void setTypingStatus(QString op, QList<qint32> to, QString type, QString topic);
     void unmuteUser(qint32 muted_user_id);
-    void updateDisplaySettings(bool twenty_four_hour_time, bool dense_mode, bool starred_message_counts, bool fluid_layout_width, bool high_contrast_mode, qint32 color_scheme, bool translate_emoticons, QString default_language, QString default_view, bool left_side_userlist, QString emojiset, qint32 demote_inactive_streams, QString timezone);
-    void updateNotificationSettings(bool enable_stream_desktop_notifications, bool enable_stream_email_notifications, bool enable_stream_push_notifications, bool enable_stream_audible_notifications, QString notification_sound, bool enable_desktop_notifications, bool enable_sounds, bool enable_offline_email_notifications, bool enable_offline_push_notifications, bool enable_online_push_notifications, bool enable_digest_emails, bool enable_marketing_emails, bool enable_login_emails, bool message_content_in_email_notifications, bool pm_content_in_desktop_notifications, bool wildcard_mentions_notify, qint32 desktop_icon_count_display, bool realm_name_in_notifications, bool presence_enabled);
+    void updateSettings(QString full_name, QString email, QString old_password, QString new_password, bool twenty_four_hour_time, bool dense_mode, bool starred_message_counts, bool fluid_layout_width, bool high_contrast_mode, qint32 color_scheme, bool enable_drafts_synchronization, bool translate_emoticons, QString default_language, QString default_view, bool left_side_userlist, QString emojiset, qint32 demote_inactive_streams, QString timezone, bool enable_stream_desktop_notifications, bool enable_stream_email_notifications, bool enable_stream_push_notifications, bool enable_stream_audible_notifications, QString notification_sound, bool enable_desktop_notifications, bool enable_sounds, qint32 email_notifications_batching_period_seconds, bool enable_offline_email_notifications, bool enable_offline_push_notifications, bool enable_online_push_notifications, bool enable_digest_emails, bool enable_marketing_emails, bool enable_login_emails, bool message_content_in_email_notifications, bool pm_content_in_desktop_notifications, bool wildcard_mentions_notify, qint32 desktop_icon_count_display, bool realm_name_in_notifications, bool presence_enabled, bool enter_sends);
+    void updateStatus(QString status_text, bool away, QString emoji_name, QString emoji_code, QString reaction_type);
     void updateUser(qint32 user_id, QString full_name, qint32 role, QList<OAIObject> profile_data);
     void updateUserGroup(qint32 user_group_id, QString name, QString description);
     void updateUserGroupMembers(qint32 user_group_id, QList<qint32> r_delete, QList<qint32> add);

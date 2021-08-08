@@ -7,6 +7,7 @@ src/Org.OpenAPITools/.gitignore
 src/Org.OpenAPITools/Attributes/ValidateModelStateAttribute.cs
 src/Org.OpenAPITools/Authentication/ApiAuthentication.cs
 src/Org.OpenAPITools/Controllers/AuthenticationApi.cs
+src/Org.OpenAPITools/Controllers/DraftsApi.cs
 src/Org.OpenAPITools/Controllers/MessagesApi.cs
 src/Org.OpenAPITools/Controllers/RealTimeEventsApi.cs
 src/Org.OpenAPITools/Controllers/ServerAndOrganizationsApi.cs
@@ -40,10 +41,13 @@ src/Org.OpenAPITools/Models/CodedErrorBase.cs
 src/Org.OpenAPITools/Models/CodedErrorBaseAllOf.cs
 src/Org.OpenAPITools/Models/CustomProfileField.cs
 src/Org.OpenAPITools/Models/DefaultStreamGroup.cs
+src/Org.OpenAPITools/Models/Draft.cs
+src/Org.OpenAPITools/Models/EmojiBase.cs
 src/Org.OpenAPITools/Models/EmojiReaction.cs
 src/Org.OpenAPITools/Models/EmojiReactionAllOf.cs
 src/Org.OpenAPITools/Models/EmojiReactionBase.cs
-src/Org.OpenAPITools/Models/EmojiReactionBaseUser.cs
+src/Org.OpenAPITools/Models/EmojiReactionBaseAllOf.cs
+src/Org.OpenAPITools/Models/EmojiReactionBaseAllOfUser.cs
 src/Org.OpenAPITools/Models/GetMessages.cs
 src/Org.OpenAPITools/Models/GetMessagesAllOf.cs
 src/Org.OpenAPITools/Models/Hotspot.cs

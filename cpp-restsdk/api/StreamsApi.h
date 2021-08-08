@@ -70,6 +70,18 @@ public:
     pplx::task<std::shared_ptr<JsonSuccessBase>> createBigBlueButtonVideoCall(
     ) const;
     /// <summary>
+    /// Delete a topic
+    /// </summary>
+    /// <remarks>
+    /// Delete all messages in a topic.  &#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+    /// </remarks>
+    /// <param name="streamId">The ID of the stream to access. </param>
+    /// <param name="topicName">The name of the topic to delete. </param>
+    pplx::task<std::shared_ptr<JsonSuccess>> deleteTopic(
+        int32_t streamId,
+        utility::string_t topicName
+    ) const;
+    /// <summary>
     /// Get stream ID
     /// </summary>
     /// <remarks>
@@ -108,6 +120,16 @@ public:
         boost::optional<bool> includeAllActive,
         boost::optional<bool> includeDefault,
         boost::optional<bool> includeOwnerSubscribed
+    ) const;
+    /// <summary>
+    /// Get the subscribers of a stream
+    /// </summary>
+    /// <remarks>
+    /// Get all users subscribed to a stream.  &#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60; 
+    /// </remarks>
+    /// <param name="streamId">The ID of the stream to access. </param>
+    pplx::task<std::shared_ptr<JsonSuccessBase>> getSubscribers(
+        int32_t streamId
     ) const;
     /// <summary>
     /// Get subscription status

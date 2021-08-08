@@ -7,7 +7,9 @@ import re  # noqa: F401
 from typing import Any, Dict, List, Optional  # noqa: F401
 
 from pydantic import AnyUrl, BaseModel, EmailStr, validator  # noqa: F401
-from openapi_server.models.emoji_reaction_base_user import EmojiReactionBaseUser
+from openapi_server.models.emoji_base import EmojiBase
+from openapi_server.models.emoji_reaction_base_all_of import EmojiReactionBaseAllOf
+from openapi_server.models.emoji_reaction_base_all_of_user import EmojiReactionBaseAllOfUser
 
 
 class EmojiReactionBase(BaseModel):
@@ -28,6 +30,6 @@ class EmojiReactionBase(BaseModel):
     emoji_name: Optional[str] = None
     reaction_type: Optional[str] = None
     user_id: Optional[int] = None
-    user: Optional[EmojiReactionBaseUser] = None
+    user: Optional[EmojiReactionBaseAllOfUser] = None
 
 EmojiReactionBase.update_forward_refs()

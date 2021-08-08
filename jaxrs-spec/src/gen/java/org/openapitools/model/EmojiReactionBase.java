@@ -2,7 +2,9 @@ package org.openapitools.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.openapitools.model.EmojiReactionBaseUser;
+import org.openapitools.model.EmojiBase;
+import org.openapitools.model.EmojiReactionBaseAllOf;
+import org.openapitools.model.EmojiReactionBaseAllOfUser;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -14,16 +16,16 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-08T20:42:36.410808Z[Etc/UTC]")public class EmojiReactionBase   {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-08T21:12:25.585041Z[Etc/UTC]")public class EmojiReactionBase   {
   
   private @Valid String emojiCode;
   private @Valid String emojiName;
   private @Valid String reactionType;
   private @Valid Integer userId;
-  private @Valid EmojiReactionBaseUser user;
+  private @Valid EmojiReactionBaseAllOfUser user;
 
   /**
-   * A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint. 
+   * A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint; for &#x60;realm_emoji&#x60;, it&#39;ll be the ID of the realm emoji. 
    **/
   public EmojiReactionBase emojiCode(String emojiCode) {
     this.emojiCode = emojiCode;
@@ -33,7 +35,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
 
   
-  @ApiModelProperty(value = "A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint. ")
+  @ApiModelProperty(value = "A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji. ")
   @JsonProperty("emoji_code")
   public String getEmojiCode() {
     return emojiCode;
@@ -108,7 +110,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
    **/
-  public EmojiReactionBase user(EmojiReactionBaseUser user) {
+  public EmojiReactionBase user(EmojiReactionBaseAllOfUser user) {
     this.user = user;
     return this;
   }
@@ -118,11 +120,11 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   @ApiModelProperty(value = "")
   @JsonProperty("user")
-  public EmojiReactionBaseUser getUser() {
+  public EmojiReactionBaseAllOfUser getUser() {
     return user;
   }
 
-  public void setUser(EmojiReactionBaseUser user) {
+  public void setUser(EmojiReactionBaseAllOfUser user) {
     this.user = user;
   }
 

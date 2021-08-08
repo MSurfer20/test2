@@ -839,6 +839,59 @@ defaultStreamGroupStreamsL f DefaultStreamGroup{..} = (\defaultStreamGroupStream
 
 
 
+-- * Draft
+
+-- | 'draftId' Lens
+draftIdL :: Lens_' Draft (Maybe Int)
+draftIdL f Draft{..} = (\draftId -> Draft { draftId, ..} ) <$> f draftId
+{-# INLINE draftIdL #-}
+
+-- | 'draftType' Lens
+draftTypeL :: Lens_' Draft (E'Type)
+draftTypeL f Draft{..} = (\draftType -> Draft { draftType, ..} ) <$> f draftType
+{-# INLINE draftTypeL #-}
+
+-- | 'draftTo' Lens
+draftToL :: Lens_' Draft ([Int])
+draftToL f Draft{..} = (\draftTo -> Draft { draftTo, ..} ) <$> f draftTo
+{-# INLINE draftToL #-}
+
+-- | 'draftTopic' Lens
+draftTopicL :: Lens_' Draft (Text)
+draftTopicL f Draft{..} = (\draftTopic -> Draft { draftTopic, ..} ) <$> f draftTopic
+{-# INLINE draftTopicL #-}
+
+-- | 'draftContent' Lens
+draftContentL :: Lens_' Draft (Text)
+draftContentL f Draft{..} = (\draftContent -> Draft { draftContent, ..} ) <$> f draftContent
+{-# INLINE draftContentL #-}
+
+-- | 'draftTimestamp' Lens
+draftTimestampL :: Lens_' Draft (Maybe Double)
+draftTimestampL f Draft{..} = (\draftTimestamp -> Draft { draftTimestamp, ..} ) <$> f draftTimestamp
+{-# INLINE draftTimestampL #-}
+
+
+
+-- * EmojiBase
+
+-- | 'emojiBaseEmojiCode' Lens
+emojiBaseEmojiCodeL :: Lens_' EmojiBase (Maybe Text)
+emojiBaseEmojiCodeL f EmojiBase{..} = (\emojiBaseEmojiCode -> EmojiBase { emojiBaseEmojiCode, ..} ) <$> f emojiBaseEmojiCode
+{-# INLINE emojiBaseEmojiCodeL #-}
+
+-- | 'emojiBaseEmojiName' Lens
+emojiBaseEmojiNameL :: Lens_' EmojiBase (Maybe Text)
+emojiBaseEmojiNameL f EmojiBase{..} = (\emojiBaseEmojiName -> EmojiBase { emojiBaseEmojiName, ..} ) <$> f emojiBaseEmojiName
+{-# INLINE emojiBaseEmojiNameL #-}
+
+-- | 'emojiBaseReactionType' Lens
+emojiBaseReactionTypeL :: Lens_' EmojiBase (Maybe Text)
+emojiBaseReactionTypeL f EmojiBase{..} = (\emojiBaseReactionType -> EmojiBase { emojiBaseReactionType, ..} ) <$> f emojiBaseReactionType
+{-# INLINE emojiBaseReactionTypeL #-}
+
+
+
 -- * EmojiReaction
 
 -- | 'emojiReactionEmojiCode' Lens
@@ -920,33 +973,47 @@ emojiReactionBaseUserIdL f EmojiReactionBase{..} = (\emojiReactionBaseUserId -> 
 {-# INLINE emojiReactionBaseUserIdL #-}
 
 -- | 'emojiReactionBaseUser' Lens
-emojiReactionBaseUserL :: Lens_' EmojiReactionBase (Maybe EmojiReactionBaseUser)
+emojiReactionBaseUserL :: Lens_' EmojiReactionBase (Maybe EmojiReactionBaseAllOfUser)
 emojiReactionBaseUserL f EmojiReactionBase{..} = (\emojiReactionBaseUser -> EmojiReactionBase { emojiReactionBaseUser, ..} ) <$> f emojiReactionBaseUser
 {-# INLINE emojiReactionBaseUserL #-}
 
 
 
--- * EmojiReactionBaseUser
+-- * EmojiReactionBaseAllOf
 
--- | 'emojiReactionBaseUserId' Lens
-emojiReactionBaseUserIdL :: Lens_' EmojiReactionBaseUser (Maybe Int)
-emojiReactionBaseUserIdL f EmojiReactionBaseUser{..} = (\emojiReactionBaseUserId -> EmojiReactionBaseUser { emojiReactionBaseUserId, ..} ) <$> f emojiReactionBaseUserId
-{-# INLINE emojiReactionBaseUserIdL #-}
+-- | 'emojiReactionBaseAllOfUserId' Lens
+emojiReactionBaseAllOfUserIdL :: Lens_' EmojiReactionBaseAllOf (Maybe Int)
+emojiReactionBaseAllOfUserIdL f EmojiReactionBaseAllOf{..} = (\emojiReactionBaseAllOfUserId -> EmojiReactionBaseAllOf { emojiReactionBaseAllOfUserId, ..} ) <$> f emojiReactionBaseAllOfUserId
+{-# INLINE emojiReactionBaseAllOfUserIdL #-}
 
--- | 'emojiReactionBaseUserEmail' Lens
-emojiReactionBaseUserEmailL :: Lens_' EmojiReactionBaseUser (Maybe Text)
-emojiReactionBaseUserEmailL f EmojiReactionBaseUser{..} = (\emojiReactionBaseUserEmail -> EmojiReactionBaseUser { emojiReactionBaseUserEmail, ..} ) <$> f emojiReactionBaseUserEmail
-{-# INLINE emojiReactionBaseUserEmailL #-}
+-- | 'emojiReactionBaseAllOfUser' Lens
+emojiReactionBaseAllOfUserL :: Lens_' EmojiReactionBaseAllOf (Maybe EmojiReactionBaseAllOfUser)
+emojiReactionBaseAllOfUserL f EmojiReactionBaseAllOf{..} = (\emojiReactionBaseAllOfUser -> EmojiReactionBaseAllOf { emojiReactionBaseAllOfUser, ..} ) <$> f emojiReactionBaseAllOfUser
+{-# INLINE emojiReactionBaseAllOfUserL #-}
 
--- | 'emojiReactionBaseUserFullName' Lens
-emojiReactionBaseUserFullNameL :: Lens_' EmojiReactionBaseUser (Maybe Text)
-emojiReactionBaseUserFullNameL f EmojiReactionBaseUser{..} = (\emojiReactionBaseUserFullName -> EmojiReactionBaseUser { emojiReactionBaseUserFullName, ..} ) <$> f emojiReactionBaseUserFullName
-{-# INLINE emojiReactionBaseUserFullNameL #-}
 
--- | 'emojiReactionBaseUserIsMirrorDummy' Lens
-emojiReactionBaseUserIsMirrorDummyL :: Lens_' EmojiReactionBaseUser (Maybe Bool)
-emojiReactionBaseUserIsMirrorDummyL f EmojiReactionBaseUser{..} = (\emojiReactionBaseUserIsMirrorDummy -> EmojiReactionBaseUser { emojiReactionBaseUserIsMirrorDummy, ..} ) <$> f emojiReactionBaseUserIsMirrorDummy
-{-# INLINE emojiReactionBaseUserIsMirrorDummyL #-}
+
+-- * EmojiReactionBaseAllOfUser
+
+-- | 'emojiReactionBaseAllOfUserId' Lens
+emojiReactionBaseAllOfUserIdL :: Lens_' EmojiReactionBaseAllOfUser (Maybe Int)
+emojiReactionBaseAllOfUserIdL f EmojiReactionBaseAllOfUser{..} = (\emojiReactionBaseAllOfUserId -> EmojiReactionBaseAllOfUser { emojiReactionBaseAllOfUserId, ..} ) <$> f emojiReactionBaseAllOfUserId
+{-# INLINE emojiReactionBaseAllOfUserIdL #-}
+
+-- | 'emojiReactionBaseAllOfUserEmail' Lens
+emojiReactionBaseAllOfUserEmailL :: Lens_' EmojiReactionBaseAllOfUser (Maybe Text)
+emojiReactionBaseAllOfUserEmailL f EmojiReactionBaseAllOfUser{..} = (\emojiReactionBaseAllOfUserEmail -> EmojiReactionBaseAllOfUser { emojiReactionBaseAllOfUserEmail, ..} ) <$> f emojiReactionBaseAllOfUserEmail
+{-# INLINE emojiReactionBaseAllOfUserEmailL #-}
+
+-- | 'emojiReactionBaseAllOfUserFullName' Lens
+emojiReactionBaseAllOfUserFullNameL :: Lens_' EmojiReactionBaseAllOfUser (Maybe Text)
+emojiReactionBaseAllOfUserFullNameL f EmojiReactionBaseAllOfUser{..} = (\emojiReactionBaseAllOfUserFullName -> EmojiReactionBaseAllOfUser { emojiReactionBaseAllOfUserFullName, ..} ) <$> f emojiReactionBaseAllOfUserFullName
+{-# INLINE emojiReactionBaseAllOfUserFullNameL #-}
+
+-- | 'emojiReactionBaseAllOfUserIsMirrorDummy' Lens
+emojiReactionBaseAllOfUserIsMirrorDummyL :: Lens_' EmojiReactionBaseAllOfUser (Maybe Bool)
+emojiReactionBaseAllOfUserIsMirrorDummyL f EmojiReactionBaseAllOfUser{..} = (\emojiReactionBaseAllOfUserIsMirrorDummy -> EmojiReactionBaseAllOfUser { emojiReactionBaseAllOfUserIsMirrorDummy, ..} ) <$> f emojiReactionBaseAllOfUserIsMirrorDummy
+{-# INLINE emojiReactionBaseAllOfUserIsMirrorDummyL #-}
 
 
 

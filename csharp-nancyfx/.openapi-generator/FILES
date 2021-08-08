@@ -23,10 +23,13 @@ src/Org.OpenAPITools/Models/CodedErrorBase.cs
 src/Org.OpenAPITools/Models/CodedErrorBaseAllOf.cs
 src/Org.OpenAPITools/Models/CustomProfileField.cs
 src/Org.OpenAPITools/Models/DefaultStreamGroup.cs
+src/Org.OpenAPITools/Models/Draft.cs
+src/Org.OpenAPITools/Models/EmojiBase.cs
 src/Org.OpenAPITools/Models/EmojiReaction.cs
 src/Org.OpenAPITools/Models/EmojiReactionAllOf.cs
 src/Org.OpenAPITools/Models/EmojiReactionBase.cs
-src/Org.OpenAPITools/Models/EmojiReactionBaseUser.cs
+src/Org.OpenAPITools/Models/EmojiReactionBaseAllOf.cs
+src/Org.OpenAPITools/Models/EmojiReactionBaseAllOfUser.cs
 src/Org.OpenAPITools/Models/GetMessages.cs
 src/Org.OpenAPITools/Models/GetMessagesAllOf.cs
 src/Org.OpenAPITools/Models/Hotspot.cs
@@ -65,6 +68,7 @@ src/Org.OpenAPITools/Models/UserDeactivatedError.cs
 src/Org.OpenAPITools/Models/UserGroup.cs
 src/Org.OpenAPITools/Models/UserNotAuthorizedError.cs
 src/Org.OpenAPITools/Modules/AuthenticationModule.cs
+src/Org.OpenAPITools/Modules/DraftsModule.cs
 src/Org.OpenAPITools/Modules/MessagesModule.cs
 src/Org.OpenAPITools/Modules/RealTimeEventsModule.cs
 src/Org.OpenAPITools/Modules/ServerAndOrganizationsModule.cs

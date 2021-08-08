@@ -35,6 +35,14 @@ export interface ICreateBigBlueButtonVideoCallParams {
 }
 
 /**
+ * deleteTopic - parameters interface
+ */
+export interface IDeleteTopicParams {
+  streamId: number;
+  topicName: string;
+}
+
+/**
  * getStreamId - parameters interface
  */
 export interface IGetStreamIdParams {
@@ -58,6 +66,13 @@ export interface IGetStreamsParams {
   includeAllActive?: boolean;
   includeDefault?: boolean;
   includeOwnerSubscribed?: boolean;
+}
+
+/**
+ * getSubscribers - parameters interface
+ */
+export interface IGetSubscribersParams {
+  streamId: number;
 }
 
 /**
@@ -206,6 +221,40 @@ export class StreamsApi extends Api {
   }
 
   /**
+   * Delete a topic
+   * Delete all messages in a topic.  &#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+   * @param params.streamId The ID of the stream to access. 
+   * @param params.topicName The name of the topic to delete. 
+   */
+  async deleteTopic(params: IDeleteTopicParams): Promise<JsonSuccess> {
+    // Verify required parameters are set
+    this.ensureParamIsSet('deleteTopic', params, 'streamId');
+    this.ensureParamIsSet('deleteTopic', params, 'topicName');
+
+    // Create URL to call
+    const url = `${this.basePath}/streams/{stream_id}/delete_topic`
+      .replace(`{${'stream_id'}}`, encodeURIComponent(`${params['streamId']}`));
+
+    const response = await this.httpClient.createRequest(url)
+      // Set HTTP method
+      .asPost()
+      // Set query parameters
+      .withParams({ 
+        'topic_name': params['topicName'],
+      })
+
+      // Send the request
+      .send();
+
+    if (response.statusCode < 200 || response.statusCode >= 300) {
+      throw new Error(response.content);
+    }
+
+    // Extract the content
+    return response.content;
+  }
+
+  /**
    * Get stream ID
    * Get the unique ID of a given stream.  &#x60;GET {{ api_url }}/v1/get_stream_id&#x60; 
    * @param params.stream The name of the stream to access. 
@@ -292,6 +341,34 @@ export class StreamsApi extends Api {
         'include_default': params['includeDefault'],
         'include_owner_subscribed': params['includeOwnerSubscribed'],
       })
+
+      // Send the request
+      .send();
+
+    if (response.statusCode < 200 || response.statusCode >= 300) {
+      throw new Error(response.content);
+    }
+
+    // Extract the content
+    return response.content;
+  }
+
+  /**
+   * Get the subscribers of a stream
+   * Get all users subscribed to a stream.  &#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60; 
+   * @param params.streamId The ID of the stream to access. 
+   */
+  async getSubscribers(params: IGetSubscribersParams): Promise<JsonSuccessBase & object> {
+    // Verify required parameters are set
+    this.ensureParamIsSet('getSubscribers', params, 'streamId');
+
+    // Create URL to call
+    const url = `${this.basePath}/streams/{stream_id}/members`
+      .replace(`{${'stream_id'}}`, encodeURIComponent(`${params['streamId']}`));
+
+    const response = await this.httpClient.createRequest(url)
+      // Set HTTP method
+      .asGet()
 
       // Send the request
       .send();

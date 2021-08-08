@@ -25,7 +25,7 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-08-08T20:46:01.944060Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-08-08T21:15:36.024879Z[Etc/UTC]")
 @Validated
 @Api(value = "streams", description = "the streams API")
 public interface StreamsApi {
@@ -57,6 +57,29 @@ public interface StreamsApi {
 
 
     /**
+     * POST /streams/{stream_id}/delete_topic : Delete a topic
+     * Delete all messages in a topic.  &#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+     *
+     * @param streamId The ID of the stream to access.  (required)
+     * @param topicName The name of the topic to delete.  (required)
+     * @return Success. (status code 200)
+     *         or Error. (status code 400)
+     */
+    @ApiOperation(value = "Delete a topic", nickname = "deleteTopic", notes = "Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. ", response = JsonSuccess.class, tags={ "streams", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Success.", response = JsonSuccess.class),
+        @ApiResponse(code = 400, message = "Error.", response = JsonError.class) })
+    @PostMapping(
+        value = "/streams/{stream_id}/delete_topic",
+        produces = { "application/json" }
+    )
+    default ResponseEntity<JsonSuccess> deleteTopic(@ApiParam(value = "The ID of the stream to access. ",required=true) @PathVariable("stream_id") Integer streamId,@NotNull @ApiParam(value = "The name of the topic to delete. ", required = true) @Valid @RequestParam(value = "topic_name", required = true) String topicName) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+
+    /**
      * GET /streams : Get all streams
      * Get all streams that the user has access to.  &#x60;GET {{ api_url }}/v1/streams&#x60; 
      *
@@ -78,6 +101,28 @@ public interface StreamsApi {
         produces = { "application/json" }
     )
     default ResponseEntity<JsonSuccessBase> getStreams(@ApiParam(value = "Include all public streams. ", defaultValue = "true") @Valid @RequestParam(value = "include_public", required = false, defaultValue="true") Boolean includePublic,@ApiParam(value = "Include all web public streams. ", defaultValue = "false") @Valid @RequestParam(value = "include_web_public", required = false, defaultValue="false") Boolean includeWebPublic,@ApiParam(value = "Include all streams that the user is subscribed to. ", defaultValue = "true") @Valid @RequestParam(value = "include_subscribed", required = false, defaultValue="true") Boolean includeSubscribed,@ApiParam(value = "Include all active streams. The user must have administrative privileges to use this parameter. ", defaultValue = "false") @Valid @RequestParam(value = "include_all_active", required = false, defaultValue="false") Boolean includeAllActive,@ApiParam(value = "Include all default streams for the user's realm. ", defaultValue = "false") @Valid @RequestParam(value = "include_default", required = false, defaultValue="false") Boolean includeDefault,@ApiParam(value = "If the user is a bot, include all streams that the bot's owner is subscribed to. ", defaultValue = "false") @Valid @RequestParam(value = "include_owner_subscribed", required = false, defaultValue="false") Boolean includeOwnerSubscribed) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+
+    /**
+     * GET /streams/{stream_id}/members : Get the subscribers of a stream
+     * Get all users subscribed to a stream.  &#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60; 
+     *
+     * @param streamId The ID of the stream to access.  (required)
+     * @return Success. (status code 200)
+     *         or Bad request. (status code 400)
+     */
+    @ApiOperation(value = "Get the subscribers of a stream", nickname = "getSubscribers", notes = "Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` ", response = JsonSuccessBase.class, tags={ "streams", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Success.", response = JsonSuccessBase.class),
+        @ApiResponse(code = 400, message = "Bad request.", response = JsonError.class) })
+    @GetMapping(
+        value = "/streams/{stream_id}/members",
+        produces = { "application/json" }
+    )
+    default ResponseEntity<JsonSuccessBase> getSubscribers(@ApiParam(value = "The ID of the stream to access. ",required=true) @PathVariable("stream_id") Integer streamId) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }

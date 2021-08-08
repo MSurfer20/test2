@@ -50,6 +50,26 @@ module StreamsApiHandlers =
           let responseContentType = "application/json"
           ContentResult(Content = content, ContentType = responseContentType, StatusCode = System.Nullable(200)) 
 
+    //#region DeleteTopic
+    /// <summary>
+    /// Delete a topic
+    /// </summary>
+   [<FunctionName("DeleteTopic")>]
+    let DeleteTopic
+        ([<HttpTrigger(Extensions.Http.AuthorizationLevel.Anonymous, "POST", Route = "/api/v1/streams/{stream_id}/delete_topic")>]
+        req:HttpRequest ) =
+      
+      let result = StreamsApiService.DeleteTopic ()
+      match result with 
+      | DeleteTopicStatusCode200 resolved ->
+          let content = JsonConvert.SerializeObject resolved.content
+          let responseContentType = "application/json"
+          ContentResult(Content = content, ContentType = responseContentType, StatusCode = System.Nullable(200)) 
+      | DeleteTopicStatusCode400 resolved ->
+          let content = JsonConvert.SerializeObject resolved.content
+          let responseContentType = "application/json"
+          ContentResult(Content = content, ContentType = responseContentType, StatusCode = System.Nullable(400)) 
+
     //#region GetStreamId
     /// <summary>
     /// Get stream ID
@@ -106,6 +126,26 @@ module StreamsApiHandlers =
           let responseContentType = "application/json"
           ContentResult(Content = content, ContentType = responseContentType, StatusCode = System.Nullable(200)) 
       | GetStreamsStatusCode400 resolved ->
+          let content = JsonConvert.SerializeObject resolved.content
+          let responseContentType = "application/json"
+          ContentResult(Content = content, ContentType = responseContentType, StatusCode = System.Nullable(400)) 
+
+    //#region GetSubscribers
+    /// <summary>
+    /// Get the subscribers of a stream
+    /// </summary>
+   [<FunctionName("GetSubscribers")>]
+    let GetSubscribers
+        ([<HttpTrigger(Extensions.Http.AuthorizationLevel.Anonymous, "GET", Route = "/api/v1/streams/{stream_id}/members")>]
+        req:HttpRequest ) =
+      
+      let result = StreamsApiService.GetSubscribers ()
+      match result with 
+      | GetSubscribersStatusCode200 resolved ->
+          let content = JsonConvert.SerializeObject resolved.content
+          let responseContentType = "application/json"
+          ContentResult(Content = content, ContentType = responseContentType, StatusCode = System.Nullable(200)) 
+      | GetSubscribersStatusCode400 resolved ->
           let content = JsonConvert.SerializeObject resolved.content
           let responseContentType = "application/json"
           ContentResult(Content = content, ContentType = responseContentType, StatusCode = System.Nullable(400)) 

@@ -12,7 +12,9 @@
  */
 
 import ApiClient from '../ApiClient';
-import EmojiReactionBaseUser from './EmojiReactionBaseUser';
+import EmojiBase from './EmojiBase';
+import EmojiReactionBaseAllOf from './EmojiReactionBaseAllOf';
+import EmojiReactionBaseAllOfUser from './EmojiReactionBaseAllOfUser';
 
 /**
  * The EmojiReactionBase model module.
@@ -23,9 +25,11 @@ class EmojiReactionBase {
     /**
      * Constructs a new <code>EmojiReactionBase</code>.
      * @alias module:model/EmojiReactionBase
+     * @implements module:model/EmojiBase
+     * @implements module:model/EmojiReactionBaseAllOf
      */
     constructor() { 
-        
+        EmojiBase.initialize(this);EmojiReactionBaseAllOf.initialize(this);
         EmojiReactionBase.initialize(this);
     }
 
@@ -47,6 +51,8 @@ class EmojiReactionBase {
     static constructFromObject(data, obj) {
         if (data) {
             obj = obj || new EmojiReactionBase();
+            EmojiBase.constructFromObject(data, obj);
+            EmojiReactionBaseAllOf.constructFromObject(data, obj);
 
             if (data.hasOwnProperty('emoji_code')) {
                 obj['emoji_code'] = ApiClient.convertToType(data['emoji_code'], 'String');
@@ -61,7 +67,7 @@ class EmojiReactionBase {
                 obj['user_id'] = ApiClient.convertToType(data['user_id'], 'Number');
             }
             if (data.hasOwnProperty('user')) {
-                obj['user'] = EmojiReactionBaseUser.constructFromObject(data['user']);
+                obj['user'] = EmojiReactionBaseAllOfUser.constructFromObject(data['user']);
             }
         }
         return obj;
@@ -71,7 +77,7 @@ class EmojiReactionBase {
 }
 
 /**
- * A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint. 
+ * A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji. 
  * @member {String} emoji_code
  */
 EmojiReactionBase.prototype['emoji_code'] = undefined;
@@ -95,11 +101,37 @@ EmojiReactionBase.prototype['reaction_type'] = undefined;
 EmojiReactionBase.prototype['user_id'] = undefined;
 
 /**
- * @member {module:model/EmojiReactionBaseUser} user
+ * @member {module:model/EmojiReactionBaseAllOfUser} user
  */
 EmojiReactionBase.prototype['user'] = undefined;
 
 
+// Implement EmojiBase interface:
+/**
+ * A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji. 
+ * @member {String} emoji_code
+ */
+EmojiBase.prototype['emoji_code'] = undefined;
+/**
+ * Name of the emoji. 
+ * @member {String} emoji_name
+ */
+EmojiBase.prototype['emoji_name'] = undefined;
+/**
+ * One of the following values:  * `unicode_emoji`: Unicode emoji (`emoji_code` will be its Unicode   codepoint). * `realm_emoji`: [Custom emoji](/help/add-custom-emoji).   (`emoji_code` will be its ID). * `zulip_extra_emoji`: Special emoji included with Zulip.  Exists to   namespace the `zulip` emoji. 
+ * @member {String} reaction_type
+ */
+EmojiBase.prototype['reaction_type'] = undefined;
+// Implement EmojiReactionBaseAllOf interface:
+/**
+ * The ID of the user who added the reaction.  **Changes**: New in Zulip 3.0 (feature level 2). The `user` object is deprecated and will be removed in the future. 
+ * @member {Number} user_id
+ */
+EmojiReactionBaseAllOf.prototype['user_id'] = undefined;
+/**
+ * @member {module:model/EmojiReactionBaseAllOfUser} user
+ */
+EmojiReactionBaseAllOf.prototype['user'] = undefined;
 
 
 

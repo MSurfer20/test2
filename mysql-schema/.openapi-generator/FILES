@@ -21,10 +21,13 @@ Model/CodedErrorBase.sql
 Model/CodedErrorBaseAllOf.sql
 Model/CustomProfileField.sql
 Model/DefaultStreamGroup.sql
+Model/Draft.sql
+Model/EmojiBase.sql
 Model/EmojiReaction.sql
 Model/EmojiReactionAllOf.sql
 Model/EmojiReactionBase.sql
-Model/EmojiReactionBaseUser.sql
+Model/EmojiReactionBaseAllOf.sql
+Model/EmojiReactionBaseAllOfUser.sql
 Model/GetMessages.sql
 Model/GetMessagesAllOf.sql
 Model/Hotspot.sql

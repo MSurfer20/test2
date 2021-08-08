@@ -21,10 +21,13 @@ docs/CodedErrorBase.md
 docs/CodedErrorBaseAllOf.md
 docs/CustomProfileField.md
 docs/DefaultStreamGroup.md
+docs/Draft.md
+docs/EmojiBase.md
 docs/EmojiReaction.md
 docs/EmojiReactionAllOf.md
 docs/EmojiReactionBase.md
-docs/EmojiReactionBaseUser.md
+docs/EmojiReactionBaseAllOf.md
+docs/EmojiReactionBaseAllOfUser.md
 docs/GetMessages.md
 docs/GetMessagesAllOf.md
 docs/Hotspot.md
@@ -63,6 +66,7 @@ docs/UserDeactivatedError.md
 docs/UserGroup.md
 docs/UserNotAuthorizedError.md
 docs/authentication_api.md
+docs/drafts_api.md
 docs/messages_api.md
 docs/real_time_events_api.md
 docs/server_and_organizations_api.md
@@ -73,6 +77,8 @@ openapi3graphql-server/.gitignore
 openapi3graphql-server/README.md
 openapi3graphql-server/api/authentication_api.graphql
 openapi3graphql-server/api/authentication_api_resolver.js
+openapi3graphql-server/api/drafts_api.graphql
+openapi3graphql-server/api/drafts_api_resolver.js
 openapi3graphql-server/api/messages_api.graphql
 openapi3graphql-server/api/messages_api_resolver.js
 openapi3graphql-server/api/real_time_events_api.graphql
@@ -107,10 +113,13 @@ openapi3graphql-server/model/coded_error_base.graphql
 openapi3graphql-server/model/coded_error_base_all_of.graphql
 openapi3graphql-server/model/custom_profile_field.graphql
 openapi3graphql-server/model/default_stream_group.graphql
+openapi3graphql-server/model/draft.graphql
+openapi3graphql-server/model/emoji_base.graphql
 openapi3graphql-server/model/emoji_reaction.graphql
 openapi3graphql-server/model/emoji_reaction_all_of.graphql
 openapi3graphql-server/model/emoji_reaction_base.graphql
-openapi3graphql-server/model/emoji_reaction_base_user.graphql
+openapi3graphql-server/model/emoji_reaction_base_all_of.graphql
+openapi3graphql-server/model/emoji_reaction_base_all_of_user.graphql
 openapi3graphql-server/model/get_messages.graphql
 openapi3graphql-server/model/get_messages_all_of.graphql
 openapi3graphql-server/model/hotspot.graphql

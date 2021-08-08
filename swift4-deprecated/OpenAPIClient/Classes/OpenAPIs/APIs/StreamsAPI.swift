@@ -74,6 +74,45 @@ open class StreamsAPI {
     }
 
     /**
+     Delete a topic
+     
+     - parameter streamId: (path) The ID of the stream to access.  
+     - parameter topicName: (query) The name of the topic to delete.  
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func deleteTopic(streamId: Int, topicName: String, completion: @escaping ((_ data: JsonSuccess?,_ error: Error?) -> Void)) {
+        deleteTopicWithRequestBuilder(streamId: streamId, topicName: topicName).execute { (response, error) -> Void in
+            completion(response?.body, error)
+        }
+    }
+
+    /**
+     Delete a topic
+     - POST /streams/{stream_id}/delete_topic
+     - Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+     - parameter streamId: (path) The ID of the stream to access.  
+     - parameter topicName: (query) The name of the topic to delete.  
+     - returns: RequestBuilder<JsonSuccess> 
+     */
+    open class func deleteTopicWithRequestBuilder(streamId: Int, topicName: String) -> RequestBuilder<JsonSuccess> {
+        var path = "/streams/{stream_id}/delete_topic"
+        let streamIdPreEscape = "\(APIHelper.mapValueToPathItem(streamId))"
+        let streamIdPostEscape = streamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        path = path.replacingOccurrences(of: "{stream_id}", with: streamIdPostEscape, options: .literal, range: nil)
+        let URLString = OpenAPIClientAPI.basePath + path
+        let parameters: [String:Any]? = nil
+        
+        var url = URLComponents(string: URLString)
+        url?.queryItems = APIHelper.mapValuesToQueryItems([
+            "topic_name": topicName.encodeToJSON()
+        ])
+
+        let requestBuilder: RequestBuilder<JsonSuccess>.Type = OpenAPIClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+    }
+
+    /**
      Get stream ID
      
      - parameter stream: (query) The name of the stream to access.  
@@ -184,6 +223,40 @@ open class StreamsAPI {
             "include_default": includeDefault?.encodeToJSON(), 
             "include_owner_subscribed": includeOwnerSubscribed?.encodeToJSON()
         ])
+
+        let requestBuilder: RequestBuilder<JsonSuccessBase>.Type = OpenAPIClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+    }
+
+    /**
+     Get the subscribers of a stream
+     
+     - parameter streamId: (path) The ID of the stream to access.  
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func getSubscribers(streamId: Int, completion: @escaping ((_ data: JsonSuccessBase?,_ error: Error?) -> Void)) {
+        getSubscribersWithRequestBuilder(streamId: streamId).execute { (response, error) -> Void in
+            completion(response?.body, error)
+        }
+    }
+
+    /**
+     Get the subscribers of a stream
+     - GET /streams/{stream_id}/members
+     - Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` 
+     - parameter streamId: (path) The ID of the stream to access.  
+     - returns: RequestBuilder<JsonSuccessBase> 
+     */
+    open class func getSubscribersWithRequestBuilder(streamId: Int) -> RequestBuilder<JsonSuccessBase> {
+        var path = "/streams/{stream_id}/members"
+        let streamIdPreEscape = "\(APIHelper.mapValueToPathItem(streamId))"
+        let streamIdPostEscape = streamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        path = path.replacingOccurrences(of: "{stream_id}", with: streamIdPostEscape, options: .literal, range: nil)
+        let URLString = OpenAPIClientAPI.basePath + path
+        let parameters: [String:Any]? = nil
+        
+        let url = URLComponents(string: URLString)
 
         let requestBuilder: RequestBuilder<JsonSuccessBase>.Type = OpenAPIClientAPI.requestBuilderFactory.getBuilder()
 

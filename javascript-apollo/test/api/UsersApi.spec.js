@@ -199,20 +199,20 @@ describe('UsersApi', function() {
         done();
       });
     });
-    describe('updateDisplaySettings', function() {
-      it('should call updateDisplaySettings successfully', function(done) {
-        //uncomment below and update the code to test updateDisplaySettings
-        //instance.updateDisplaySettings(function(error) {
+    describe('updateSettings', function() {
+      it('should call updateSettings successfully', function(done) {
+        //uncomment below and update the code to test updateSettings
+        //instance.updateSettings(function(error) {
         //  if (error) throw error;
         //expect().to.be();
         //});
         done();
       });
     });
-    describe('updateNotificationSettings', function() {
-      it('should call updateNotificationSettings successfully', function(done) {
-        //uncomment below and update the code to test updateNotificationSettings
-        //instance.updateNotificationSettings(function(error) {
+    describe('updateStatus', function() {
+      it('should call updateStatus successfully', function(done) {
+        //uncomment below and update the code to test updateStatus
+        //instance.updateStatus(function(error) {
         //  if (error) throw error;
         //expect().to.be();
         //});

@@ -98,6 +98,10 @@ declare -A operation_parameters_minimum_occurrences
 operation_parameters_minimum_occurrences["devFetchApiKey:::username"]=1
 operation_parameters_minimum_occurrences["fetchApiKey:::username"]=1
 operation_parameters_minimum_occurrences["fetchApiKey:::password"]=1
+operation_parameters_minimum_occurrences["createDrafts:::drafts"]=0
+operation_parameters_minimum_occurrences["deleteDraft:::draft_id"]=1
+operation_parameters_minimum_occurrences["editDraft:::draft_id"]=1
+operation_parameters_minimum_occurrences["editDraft:::draft"]=1
 operation_parameters_minimum_occurrences["addReaction:::message_id"]=1
 operation_parameters_minimum_occurrences["addReaction:::emoji_name"]=1
 operation_parameters_minimum_occurrences["addReaction:::emoji_code"]=0
@@ -175,6 +179,8 @@ operation_parameters_minimum_occurrences["updateLinkifier:::url_format_string"]=
 operation_parameters_minimum_occurrences["uploadCustomEmoji:::emoji_name"]=1
 operation_parameters_minimum_occurrences["uploadCustomEmoji:::filename"]=0
 operation_parameters_minimum_occurrences["archiveStream:::stream_id"]=1
+operation_parameters_minimum_occurrences["deleteTopic:::stream_id"]=1
+operation_parameters_minimum_occurrences["deleteTopic:::topic_name"]=1
 operation_parameters_minimum_occurrences["getStreamId:::stream"]=1
 operation_parameters_minimum_occurrences["getStreamTopics:::stream_id"]=1
 operation_parameters_minimum_occurrences["getStreams:::include_public"]=0
@@ -183,6 +189,7 @@ operation_parameters_minimum_occurrences["getStreams:::include_subscribed"]=0
 operation_parameters_minimum_occurrences["getStreams:::include_all_active"]=0
 operation_parameters_minimum_occurrences["getStreams:::include_default"]=0
 operation_parameters_minimum_occurrences["getStreams:::include_owner_subscribed"]=0
+operation_parameters_minimum_occurrences["getSubscribers:::stream_id"]=1
 operation_parameters_minimum_occurrences["getSubscriptionStatus:::user_id"]=1
 operation_parameters_minimum_occurrences["getSubscriptionStatus:::stream_id"]=1
 operation_parameters_minimum_occurrences["getSubscriptions:::include_subscribers"]=0
@@ -235,38 +242,50 @@ operation_parameters_minimum_occurrences["setTypingStatus:::to"]=1
 operation_parameters_minimum_occurrences["setTypingStatus:::type"]=0
 operation_parameters_minimum_occurrences["setTypingStatus:::topic"]=0
 operation_parameters_minimum_occurrences["unmuteUser:::muted_user_id"]=1
-operation_parameters_minimum_occurrences["updateDisplaySettings:::twenty_four_hour_time"]=0
-operation_parameters_minimum_occurrences["updateDisplaySettings:::dense_mode"]=0
-operation_parameters_minimum_occurrences["updateDisplaySettings:::starred_message_counts"]=0
-operation_parameters_minimum_occurrences["updateDisplaySettings:::fluid_layout_width"]=0
-operation_parameters_minimum_occurrences["updateDisplaySettings:::high_contrast_mode"]=0
-operation_parameters_minimum_occurrences["updateDisplaySettings:::color_scheme"]=0
-operation_parameters_minimum_occurrences["updateDisplaySettings:::translate_emoticons"]=0
-operation_parameters_minimum_occurrences["updateDisplaySettings:::default_language"]=0
-operation_parameters_minimum_occurrences["updateDisplaySettings:::default_view"]=0
-operation_parameters_minimum_occurrences["updateDisplaySettings:::left_side_userlist"]=0
-operation_parameters_minimum_occurrences["updateDisplaySettings:::emojiset"]=0
-operation_parameters_minimum_occurrences["updateDisplaySettings:::demote_inactive_streams"]=0
-operation_parameters_minimum_occurrences["updateDisplaySettings:::timezone"]=0
-operation_parameters_minimum_occurrences["updateNotificationSettings:::enable_stream_desktop_notifications"]=0
-operation_parameters_minimum_occurrences["updateNotificationSettings:::enable_stream_email_notifications"]=0
-operation_parameters_minimum_occurrences["updateNotificationSettings:::enable_stream_push_notifications"]=0
-operation_parameters_minimum_occurrences["updateNotificationSettings:::enable_stream_audible_notifications"]=0
-operation_parameters_minimum_occurrences["updateNotificationSettings:::notification_sound"]=0
-operation_parameters_minimum_occurrences["updateNotificationSettings:::enable_desktop_notifications"]=0
-operation_parameters_minimum_occurrences["updateNotificationSettings:::enable_sounds"]=0
-operation_parameters_minimum_occurrences["updateNotificationSettings:::enable_offline_email_notifications"]=0
-operation_parameters_minimum_occurrences["updateNotificationSettings:::enable_offline_push_notifications"]=0
-operation_parameters_minimum_occurrences["updateNotificationSettings:::enable_online_push_notifications"]=0
-operation_parameters_minimum_occurrences["updateNotificationSettings:::enable_digest_emails"]=0
-operation_parameters_minimum_occurrences["updateNotificationSettings:::enable_marketing_emails"]=0
-operation_parameters_minimum_occurrences["updateNotificationSettings:::enable_login_emails"]=0
-operation_parameters_minimum_occurrences["updateNotificationSettings:::message_content_in_email_notifications"]=0
-operation_parameters_minimum_occurrences["updateNotificationSettings:::pm_content_in_desktop_notifications"]=0
-operation_parameters_minimum_occurrences["updateNotificationSettings:::wildcard_mentions_notify"]=0
-operation_parameters_minimum_occurrences["updateNotificationSettings:::desktop_icon_count_display"]=0
-operation_parameters_minimum_occurrences["updateNotificationSettings:::realm_name_in_notifications"]=0
-operation_parameters_minimum_occurrences["updateNotificationSettings:::presence_enabled"]=0
+operation_parameters_minimum_occurrences["updateSettings:::full_name"]=0
+operation_parameters_minimum_occurrences["updateSettings:::email"]=0
+operation_parameters_minimum_occurrences["updateSettings:::old_password"]=0
+operation_parameters_minimum_occurrences["updateSettings:::new_password"]=0
+operation_parameters_minimum_occurrences["updateSettings:::twenty_four_hour_time"]=0
+operation_parameters_minimum_occurrences["updateSettings:::dense_mode"]=0
+operation_parameters_minimum_occurrences["updateSettings:::starred_message_counts"]=0
+operation_parameters_minimum_occurrences["updateSettings:::fluid_layout_width"]=0
+operation_parameters_minimum_occurrences["updateSettings:::high_contrast_mode"]=0
+operation_parameters_minimum_occurrences["updateSettings:::color_scheme"]=0
+operation_parameters_minimum_occurrences["updateSettings:::enable_drafts_synchronization"]=0
+operation_parameters_minimum_occurrences["updateSettings:::translate_emoticons"]=0
+operation_parameters_minimum_occurrences["updateSettings:::default_language"]=0
+operation_parameters_minimum_occurrences["updateSettings:::default_view"]=0
+operation_parameters_minimum_occurrences["updateSettings:::left_side_userlist"]=0
+operation_parameters_minimum_occurrences["updateSettings:::emojiset"]=0
+operation_parameters_minimum_occurrences["updateSettings:::demote_inactive_streams"]=0
+operation_parameters_minimum_occurrences["updateSettings:::timezone"]=0
+operation_parameters_minimum_occurrences["updateSettings:::enable_stream_desktop_notifications"]=0
+operation_parameters_minimum_occurrences["updateSettings:::enable_stream_email_notifications"]=0
+operation_parameters_minimum_occurrences["updateSettings:::enable_stream_push_notifications"]=0
+operation_parameters_minimum_occurrences["updateSettings:::enable_stream_audible_notifications"]=0
+operation_parameters_minimum_occurrences["updateSettings:::notification_sound"]=0
+operation_parameters_minimum_occurrences["updateSettings:::enable_desktop_notifications"]=0
+operation_parameters_minimum_occurrences["updateSettings:::enable_sounds"]=0
+operation_parameters_minimum_occurrences["updateSettings:::email_notifications_batching_period_seconds"]=0
+operation_parameters_minimum_occurrences["updateSettings:::enable_offline_email_notifications"]=0
+operation_parameters_minimum_occurrences["updateSettings:::enable_offline_push_notifications"]=0
+operation_parameters_minimum_occurrences["updateSettings:::enable_online_push_notifications"]=0
+operation_parameters_minimum_occurrences["updateSettings:::enable_digest_emails"]=0
+operation_parameters_minimum_occurrences["updateSettings:::enable_marketing_emails"]=0
+operation_parameters_minimum_occurrences["updateSettings:::enable_login_emails"]=0
+operation_parameters_minimum_occurrences["updateSettings:::message_content_in_email_notifications"]=0
+operation_parameters_minimum_occurrences["updateSettings:::pm_content_in_desktop_notifications"]=0
+operation_parameters_minimum_occurrences["updateSettings:::wildcard_mentions_notify"]=0
+operation_parameters_minimum_occurrences["updateSettings:::desktop_icon_count_display"]=0
+operation_parameters_minimum_occurrences["updateSettings:::realm_name_in_notifications"]=0
+operation_parameters_minimum_occurrences["updateSettings:::presence_enabled"]=0
+operation_parameters_minimum_occurrences["updateSettings:::enter_sends"]=0
+operation_parameters_minimum_occurrences["updateStatus:::status_text"]=0
+operation_parameters_minimum_occurrences["updateStatus:::away"]=0
+operation_parameters_minimum_occurrences["updateStatus:::emoji_name"]=0
+operation_parameters_minimum_occurrences["updateStatus:::emoji_code"]=0
+operation_parameters_minimum_occurrences["updateStatus:::reaction_type"]=0
 operation_parameters_minimum_occurrences["updateUser:::user_id"]=1
 operation_parameters_minimum_occurrences["updateUser:::full_name"]=0
 operation_parameters_minimum_occurrences["updateUser:::role"]=0
@@ -288,6 +307,10 @@ declare -A operation_parameters_maximum_occurrences
 operation_parameters_maximum_occurrences["devFetchApiKey:::username"]=0
 operation_parameters_maximum_occurrences["fetchApiKey:::username"]=0
 operation_parameters_maximum_occurrences["fetchApiKey:::password"]=0
+operation_parameters_maximum_occurrences["createDrafts:::drafts"]=0
+operation_parameters_maximum_occurrences["deleteDraft:::draft_id"]=0
+operation_parameters_maximum_occurrences["editDraft:::draft_id"]=0
+operation_parameters_maximum_occurrences["editDraft:::draft"]=0
 operation_parameters_maximum_occurrences["addReaction:::message_id"]=0
 operation_parameters_maximum_occurrences["addReaction:::emoji_name"]=0
 operation_parameters_maximum_occurrences["addReaction:::emoji_code"]=0
@@ -365,6 +388,8 @@ operation_parameters_maximum_occurrences["updateLinkifier:::url_format_string"]=
 operation_parameters_maximum_occurrences["uploadCustomEmoji:::emoji_name"]=0
 operation_parameters_maximum_occurrences["uploadCustomEmoji:::filename"]=0
 operation_parameters_maximum_occurrences["archiveStream:::stream_id"]=0
+operation_parameters_maximum_occurrences["deleteTopic:::stream_id"]=0
+operation_parameters_maximum_occurrences["deleteTopic:::topic_name"]=0
 operation_parameters_maximum_occurrences["getStreamId:::stream"]=0
 operation_parameters_maximum_occurrences["getStreamTopics:::stream_id"]=0
 operation_parameters_maximum_occurrences["getStreams:::include_public"]=0
@@ -373,6 +398,7 @@ operation_parameters_maximum_occurrences["getStreams:::include_subscribed"]=0
 operation_parameters_maximum_occurrences["getStreams:::include_all_active"]=0
 operation_parameters_maximum_occurrences["getStreams:::include_default"]=0
 operation_parameters_maximum_occurrences["getStreams:::include_owner_subscribed"]=0
+operation_parameters_maximum_occurrences["getSubscribers:::stream_id"]=0
 operation_parameters_maximum_occurrences["getSubscriptionStatus:::user_id"]=0
 operation_parameters_maximum_occurrences["getSubscriptionStatus:::stream_id"]=0
 operation_parameters_maximum_occurrences["getSubscriptions:::include_subscribers"]=0
@@ -425,38 +451,50 @@ operation_parameters_maximum_occurrences["setTypingStatus:::to"]=0
 operation_parameters_maximum_occurrences["setTypingStatus:::type"]=0
 operation_parameters_maximum_occurrences["setTypingStatus:::topic"]=0
 operation_parameters_maximum_occurrences["unmuteUser:::muted_user_id"]=0
-operation_parameters_maximum_occurrences["updateDisplaySettings:::twenty_four_hour_time"]=0
-operation_parameters_maximum_occurrences["updateDisplaySettings:::dense_mode"]=0
-operation_parameters_maximum_occurrences["updateDisplaySettings:::starred_message_counts"]=0
-operation_parameters_maximum_occurrences["updateDisplaySettings:::fluid_layout_width"]=0
-operation_parameters_maximum_occurrences["updateDisplaySettings:::high_contrast_mode"]=0
-operation_parameters_maximum_occurrences["updateDisplaySettings:::color_scheme"]=0
-operation_parameters_maximum_occurrences["updateDisplaySettings:::translate_emoticons"]=0
-operation_parameters_maximum_occurrences["updateDisplaySettings:::default_language"]=0
-operation_parameters_maximum_occurrences["updateDisplaySettings:::default_view"]=0
-operation_parameters_maximum_occurrences["updateDisplaySettings:::left_side_userlist"]=0
-operation_parameters_maximum_occurrences["updateDisplaySettings:::emojiset"]=0
-operation_parameters_maximum_occurrences["updateDisplaySettings:::demote_inactive_streams"]=0
-operation_parameters_maximum_occurrences["updateDisplaySettings:::timezone"]=0
-operation_parameters_maximum_occurrences["updateNotificationSettings:::enable_stream_desktop_notifications"]=0
-operation_parameters_maximum_occurrences["updateNotificationSettings:::enable_stream_email_notifications"]=0
-operation_parameters_maximum_occurrences["updateNotificationSettings:::enable_stream_push_notifications"]=0
-operation_parameters_maximum_occurrences["updateNotificationSettings:::enable_stream_audible_notifications"]=0
-operation_parameters_maximum_occurrences["updateNotificationSettings:::notification_sound"]=0
-operation_parameters_maximum_occurrences["updateNotificationSettings:::enable_desktop_notifications"]=0
-operation_parameters_maximum_occurrences["updateNotificationSettings:::enable_sounds"]=0
-operation_parameters_maximum_occurrences["updateNotificationSettings:::enable_offline_email_notifications"]=0
-operation_parameters_maximum_occurrences["updateNotificationSettings:::enable_offline_push_notifications"]=0
-operation_parameters_maximum_occurrences["updateNotificationSettings:::enable_online_push_notifications"]=0
-operation_parameters_maximum_occurrences["updateNotificationSettings:::enable_digest_emails"]=0
-operation_parameters_maximum_occurrences["updateNotificationSettings:::enable_marketing_emails"]=0
-operation_parameters_maximum_occurrences["updateNotificationSettings:::enable_login_emails"]=0
-operation_parameters_maximum_occurrences["updateNotificationSettings:::message_content_in_email_notifications"]=0
-operation_parameters_maximum_occurrences["updateNotificationSettings:::pm_content_in_desktop_notifications"]=0
-operation_parameters_maximum_occurrences["updateNotificationSettings:::wildcard_mentions_notify"]=0
-operation_parameters_maximum_occurrences["updateNotificationSettings:::desktop_icon_count_display"]=0
-operation_parameters_maximum_occurrences["updateNotificationSettings:::realm_name_in_notifications"]=0
-operation_parameters_maximum_occurrences["updateNotificationSettings:::presence_enabled"]=0
+operation_parameters_maximum_occurrences["updateSettings:::full_name"]=0
+operation_parameters_maximum_occurrences["updateSettings:::email"]=0
+operation_parameters_maximum_occurrences["updateSettings:::old_password"]=0
+operation_parameters_maximum_occurrences["updateSettings:::new_password"]=0
+operation_parameters_maximum_occurrences["updateSettings:::twenty_four_hour_time"]=0
+operation_parameters_maximum_occurrences["updateSettings:::dense_mode"]=0
+operation_parameters_maximum_occurrences["updateSettings:::starred_message_counts"]=0
+operation_parameters_maximum_occurrences["updateSettings:::fluid_layout_width"]=0
+operation_parameters_maximum_occurrences["updateSettings:::high_contrast_mode"]=0
+operation_parameters_maximum_occurrences["updateSettings:::color_scheme"]=0
+operation_parameters_maximum_occurrences["updateSettings:::enable_drafts_synchronization"]=0
+operation_parameters_maximum_occurrences["updateSettings:::translate_emoticons"]=0
+operation_parameters_maximum_occurrences["updateSettings:::default_language"]=0
+operation_parameters_maximum_occurrences["updateSettings:::default_view"]=0
+operation_parameters_maximum_occurrences["updateSettings:::left_side_userlist"]=0
+operation_parameters_maximum_occurrences["updateSettings:::emojiset"]=0
+operation_parameters_maximum_occurrences["updateSettings:::demote_inactive_streams"]=0
+operation_parameters_maximum_occurrences["updateSettings:::timezone"]=0
+operation_parameters_maximum_occurrences["updateSettings:::enable_stream_desktop_notifications"]=0
+operation_parameters_maximum_occurrences["updateSettings:::enable_stream_email_notifications"]=0
+operation_parameters_maximum_occurrences["updateSettings:::enable_stream_push_notifications"]=0
+operation_parameters_maximum_occurrences["updateSettings:::enable_stream_audible_notifications"]=0
+operation_parameters_maximum_occurrences["updateSettings:::notification_sound"]=0
+operation_parameters_maximum_occurrences["updateSettings:::enable_desktop_notifications"]=0
+operation_parameters_maximum_occurrences["updateSettings:::enable_sounds"]=0
+operation_parameters_maximum_occurrences["updateSettings:::email_notifications_batching_period_seconds"]=0
+operation_parameters_maximum_occurrences["updateSettings:::enable_offline_email_notifications"]=0
+operation_parameters_maximum_occurrences["updateSettings:::enable_offline_push_notifications"]=0
+operation_parameters_maximum_occurrences["updateSettings:::enable_online_push_notifications"]=0
+operation_parameters_maximum_occurrences["updateSettings:::enable_digest_emails"]=0
+operation_parameters_maximum_occurrences["updateSettings:::enable_marketing_emails"]=0
+operation_parameters_maximum_occurrences["updateSettings:::enable_login_emails"]=0
+operation_parameters_maximum_occurrences["updateSettings:::message_content_in_email_notifications"]=0
+operation_parameters_maximum_occurrences["updateSettings:::pm_content_in_desktop_notifications"]=0
+operation_parameters_maximum_occurrences["updateSettings:::wildcard_mentions_notify"]=0
+operation_parameters_maximum_occurrences["updateSettings:::desktop_icon_count_display"]=0
+operation_parameters_maximum_occurrences["updateSettings:::realm_name_in_notifications"]=0
+operation_parameters_maximum_occurrences["updateSettings:::presence_enabled"]=0
+operation_parameters_maximum_occurrences["updateSettings:::enter_sends"]=0
+operation_parameters_maximum_occurrences["updateStatus:::status_text"]=0
+operation_parameters_maximum_occurrences["updateStatus:::away"]=0
+operation_parameters_maximum_occurrences["updateStatus:::emoji_name"]=0
+operation_parameters_maximum_occurrences["updateStatus:::emoji_code"]=0
+operation_parameters_maximum_occurrences["updateStatus:::reaction_type"]=0
 operation_parameters_maximum_occurrences["updateUser:::user_id"]=0
 operation_parameters_maximum_occurrences["updateUser:::full_name"]=0
 operation_parameters_maximum_occurrences["updateUser:::role"]=0
@@ -475,6 +513,10 @@ declare -A operation_parameters_collection_type
 operation_parameters_collection_type["devFetchApiKey:::username"]=""
 operation_parameters_collection_type["fetchApiKey:::username"]=""
 operation_parameters_collection_type["fetchApiKey:::password"]=""
+operation_parameters_collection_type["createDrafts:::drafts"]="multi"
+operation_parameters_collection_type["deleteDraft:::draft_id"]=""
+operation_parameters_collection_type["editDraft:::draft_id"]=""
+operation_parameters_collection_type["editDraft:::draft"]=""
 operation_parameters_collection_type["addReaction:::message_id"]=""
 operation_parameters_collection_type["addReaction:::emoji_name"]=""
 operation_parameters_collection_type["addReaction:::emoji_code"]=""
@@ -552,6 +594,8 @@ operation_parameters_collection_type["updateLinkifier:::url_format_string"]=""
 operation_parameters_collection_type["uploadCustomEmoji:::emoji_name"]=""
 operation_parameters_collection_type["uploadCustomEmoji:::filename"]=""
 operation_parameters_collection_type["archiveStream:::stream_id"]=""
+operation_parameters_collection_type["deleteTopic:::stream_id"]=""
+operation_parameters_collection_type["deleteTopic:::topic_name"]=""
 operation_parameters_collection_type["getStreamId:::stream"]=""
 operation_parameters_collection_type["getStreamTopics:::stream_id"]=""
 operation_parameters_collection_type["getStreams:::include_public"]=""
@@ -560,6 +604,7 @@ operation_parameters_collection_type["getStreams:::include_subscribed"]=""
 operation_parameters_collection_type["getStreams:::include_all_active"]=""
 operation_parameters_collection_type["getStreams:::include_default"]=""
 operation_parameters_collection_type["getStreams:::include_owner_subscribed"]=""
+operation_parameters_collection_type["getSubscribers:::stream_id"]=""
 operation_parameters_collection_type["getSubscriptionStatus:::user_id"]=""
 operation_parameters_collection_type["getSubscriptionStatus:::stream_id"]=""
 operation_parameters_collection_type["getSubscriptions:::include_subscribers"]=""
@@ -612,38 +657,50 @@ operation_parameters_collection_type["setTypingStatus:::to"]="multi"
 operation_parameters_collection_type["setTypingStatus:::type"]=""
 operation_parameters_collection_type["setTypingStatus:::topic"]=""
 operation_parameters_collection_type["unmuteUser:::muted_user_id"]=""
-operation_parameters_collection_type["updateDisplaySettings:::twenty_four_hour_time"]=""
-operation_parameters_collection_type["updateDisplaySettings:::dense_mode"]=""
-operation_parameters_collection_type["updateDisplaySettings:::starred_message_counts"]=""
-operation_parameters_collection_type["updateDisplaySettings:::fluid_layout_width"]=""
-operation_parameters_collection_type["updateDisplaySettings:::high_contrast_mode"]=""
-operation_parameters_collection_type["updateDisplaySettings:::color_scheme"]=""
-operation_parameters_collection_type["updateDisplaySettings:::translate_emoticons"]=""
-operation_parameters_collection_type["updateDisplaySettings:::default_language"]=""
-operation_parameters_collection_type["updateDisplaySettings:::default_view"]=""
-operation_parameters_collection_type["updateDisplaySettings:::left_side_userlist"]=""
-operation_parameters_collection_type["updateDisplaySettings:::emojiset"]=""
-operation_parameters_collection_type["updateDisplaySettings:::demote_inactive_streams"]=""
-operation_parameters_collection_type["updateDisplaySettings:::timezone"]=""
-operation_parameters_collection_type["updateNotificationSettings:::enable_stream_desktop_notifications"]=""
-operation_parameters_collection_type["updateNotificationSettings:::enable_stream_email_notifications"]=""
-operation_parameters_collection_type["updateNotificationSettings:::enable_stream_push_notifications"]=""
-operation_parameters_collection_type["updateNotificationSettings:::enable_stream_audible_notifications"]=""
-operation_parameters_collection_type["updateNotificationSettings:::notification_sound"]=""
-operation_parameters_collection_type["updateNotificationSettings:::enable_desktop_notifications"]=""
-operation_parameters_collection_type["updateNotificationSettings:::enable_sounds"]=""
-operation_parameters_collection_type["updateNotificationSettings:::enable_offline_email_notifications"]=""
-operation_parameters_collection_type["updateNotificationSettings:::enable_offline_push_notifications"]=""
-operation_parameters_collection_type["updateNotificationSettings:::enable_online_push_notifications"]=""
-operation_parameters_collection_type["updateNotificationSettings:::enable_digest_emails"]=""
-operation_parameters_collection_type["updateNotificationSettings:::enable_marketing_emails"]=""
-operation_parameters_collection_type["updateNotificationSettings:::enable_login_emails"]=""
-operation_parameters_collection_type["updateNotificationSettings:::message_content_in_email_notifications"]=""
-operation_parameters_collection_type["updateNotificationSettings:::pm_content_in_desktop_notifications"]=""
-operation_parameters_collection_type["updateNotificationSettings:::wildcard_mentions_notify"]=""
-operation_parameters_collection_type["updateNotificationSettings:::desktop_icon_count_display"]=""
-operation_parameters_collection_type["updateNotificationSettings:::realm_name_in_notifications"]=""
-operation_parameters_collection_type["updateNotificationSettings:::presence_enabled"]=""
+operation_parameters_collection_type["updateSettings:::full_name"]=""
+operation_parameters_collection_type["updateSettings:::email"]=""
+operation_parameters_collection_type["updateSettings:::old_password"]=""
+operation_parameters_collection_type["updateSettings:::new_password"]=""
+operation_parameters_collection_type["updateSettings:::twenty_four_hour_time"]=""
+operation_parameters_collection_type["updateSettings:::dense_mode"]=""
+operation_parameters_collection_type["updateSettings:::starred_message_counts"]=""
+operation_parameters_collection_type["updateSettings:::fluid_layout_width"]=""
+operation_parameters_collection_type["updateSettings:::high_contrast_mode"]=""
+operation_parameters_collection_type["updateSettings:::color_scheme"]=""
+operation_parameters_collection_type["updateSettings:::enable_drafts_synchronization"]=""
+operation_parameters_collection_type["updateSettings:::translate_emoticons"]=""
+operation_parameters_collection_type["updateSettings:::default_language"]=""
+operation_parameters_collection_type["updateSettings:::default_view"]=""
+operation_parameters_collection_type["updateSettings:::left_side_userlist"]=""
+operation_parameters_collection_type["updateSettings:::emojiset"]=""
+operation_parameters_collection_type["updateSettings:::demote_inactive_streams"]=""
+operation_parameters_collection_type["updateSettings:::timezone"]=""
+operation_parameters_collection_type["updateSettings:::enable_stream_desktop_notifications"]=""
+operation_parameters_collection_type["updateSettings:::enable_stream_email_notifications"]=""
+operation_parameters_collection_type["updateSettings:::enable_stream_push_notifications"]=""
+operation_parameters_collection_type["updateSettings:::enable_stream_audible_notifications"]=""
+operation_parameters_collection_type["updateSettings:::notification_sound"]=""
+operation_parameters_collection_type["updateSettings:::enable_desktop_notifications"]=""
+operation_parameters_collection_type["updateSettings:::enable_sounds"]=""
+operation_parameters_collection_type["updateSettings:::email_notifications_batching_period_seconds"]=""
+operation_parameters_collection_type["updateSettings:::enable_offline_email_notifications"]=""
+operation_parameters_collection_type["updateSettings:::enable_offline_push_notifications"]=""
+operation_parameters_collection_type["updateSettings:::enable_online_push_notifications"]=""
+operation_parameters_collection_type["updateSettings:::enable_digest_emails"]=""
+operation_parameters_collection_type["updateSettings:::enable_marketing_emails"]=""
+operation_parameters_collection_type["updateSettings:::enable_login_emails"]=""
+operation_parameters_collection_type["updateSettings:::message_content_in_email_notifications"]=""
+operation_parameters_collection_type["updateSettings:::pm_content_in_desktop_notifications"]=""
+operation_parameters_collection_type["updateSettings:::wildcard_mentions_notify"]=""
+operation_parameters_collection_type["updateSettings:::desktop_icon_count_display"]=""
+operation_parameters_collection_type["updateSettings:::realm_name_in_notifications"]=""
+operation_parameters_collection_type["updateSettings:::presence_enabled"]=""
+operation_parameters_collection_type["updateSettings:::enter_sends"]=""
+operation_parameters_collection_type["updateStatus:::status_text"]=""
+operation_parameters_collection_type["updateStatus:::away"]=""
+operation_parameters_collection_type["updateStatus:::emoji_name"]=""
+operation_parameters_collection_type["updateStatus:::emoji_code"]=""
+operation_parameters_collection_type["updateStatus:::reaction_type"]=""
 operation_parameters_collection_type["updateUser:::user_id"]=""
 operation_parameters_collection_type["updateUser:::full_name"]=""
 operation_parameters_collection_type["updateUser:::role"]=""
@@ -1025,6 +1082,15 @@ read -r -d '' ops <<EOF
 EOF
 echo "  $ops" | column -t -s ';'
     echo ""
+    echo -e "${BOLD}${WHITE}[drafts]${OFF}"
+read -r -d '' ops <<EOF
+  ${CYAN}createDrafts${OFF};Create drafts
+  ${CYAN}deleteDraft${OFF};Delete a draft
+  ${CYAN}editDraft${OFF};Edit a draft
+  ${CYAN}getDrafts${OFF};Get drafts
+EOF
+echo "  $ops" | column -t -s ';'
+    echo ""
     echo -e "${BOLD}${WHITE}[messages]${OFF}"
 read -r -d '' ops <<EOF
   ${CYAN}addReaction${OFF};Add an emoji reaction
@@ -1077,9 +1143,11 @@ echo "  $ops" | column -t -s ';'
 read -r -d '' ops <<EOF
   ${CYAN}archiveStream${OFF};Archive a stream
   ${CYAN}createBigBlueButtonVideoCall${OFF};Create BigBlueButton video call
+  ${CYAN}deleteTopic${OFF};Delete a topic
   ${CYAN}getStreamId${OFF};Get stream ID
   ${CYAN}getStreamTopics${OFF};Get topics in a stream
   ${CYAN}getStreams${OFF};Get all streams
+  ${CYAN}getSubscribers${OFF};Get the subscribers of a stream
   ${CYAN}getSubscriptionStatus${OFF};Get subscription status
   ${CYAN}getSubscriptions${OFF};Get subscribed streams
   ${CYAN}muteTopic${OFF};Topic muting
@@ -1109,8 +1177,8 @@ read -r -d '' ops <<EOF
   ${CYAN}removeUserGroup${OFF};Delete a user group
   ${CYAN}setTypingStatus${OFF};Set \"typing\" status
   ${CYAN}unmuteUser${OFF};Unmute a user
-  ${CYAN}updateDisplaySettings${OFF};Update display settings
-  ${CYAN}updateNotificationSettings${OFF};Update notification settings
+  ${CYAN}updateSettings${OFF};Update settings
+  ${CYAN}updateStatus${OFF};Update your status
   ${CYAN}updateUser${OFF};Update a user
   ${CYAN}updateUserGroup${OFF};Update a user group
   ${CYAN}updateUserGroupMembers${OFF};Update user group members
@@ -1248,6 +1316,96 @@ See the 'require_email_format_usernames' parameter documented in
     echo -e "${BOLD}${WHITE}Responses${OFF}"
     code=200
     echo -e "${result_color_table[${code:0:1}]}  200;Valid credentials the client can use to access the Zulip API.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+}
+##############################################################################
+#
+# Print help for createDrafts operation
+#
+##############################################################################
+print_createDrafts_help() {
+    echo ""
+    echo -e "${BOLD}${WHITE}createDrafts - Create drafts${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e ""
+    echo -e "Create one or more drafts on the server. These drafts will be automatically
+synchronized to other clients via 'drafts' events.
+
+'POST {{ api_url }}/v1/drafts'" | paste -sd' ' | fold -sw 80
+    echo -e ""
+    echo -e "${BOLD}${WHITE}Parameters${OFF}"
+    echo -e "  * ${GREEN}drafts${OFF} ${BLUE}[array[Draft]]${OFF} ${CYAN}(default: null)${OFF} - A JSON-encoded list of containing new draft objects.${YELLOW} Specify as: drafts=value1 drafts=value2 drafts=...${OFF}" \
+        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo ""
+    echo -e "${BOLD}${WHITE}Responses${OFF}"
+    code=200
+    echo -e "${result_color_table[${code:0:1}]}  200;Success.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=400
+    echo -e "${result_color_table[${code:0:1}]}  400;Bad request.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+}
+##############################################################################
+#
+# Print help for deleteDraft operation
+#
+##############################################################################
+print_deleteDraft_help() {
+    echo ""
+    echo -e "${BOLD}${WHITE}deleteDraft - Delete a draft${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e ""
+    echo -e "Delete a single draft from the server. The deletion will be automatically
+synchronized to other clients via a 'drafts' event.
+
+'DELETE {{ api_url }}/v1/drafts/{draft_id}'" | paste -sd' ' | fold -sw 80
+    echo -e ""
+    echo -e "${BOLD}${WHITE}Parameters${OFF}"
+    echo -e "  * ${GREEN}draft_id${OFF} ${BLUE}[integer]${OFF} ${RED}(required)${OFF} ${CYAN}(default: null)${OFF} - The ID of the draft you want to delete. ${YELLOW}Specify as: draft_id=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo ""
+    echo -e "${BOLD}${WHITE}Responses${OFF}"
+    code=200
+    echo -e "${result_color_table[${code:0:1}]}  200;Success.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=404
+    echo -e "${result_color_table[${code:0:1}]}  404;Not Found.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+}
+##############################################################################
+#
+# Print help for editDraft operation
+#
+##############################################################################
+print_editDraft_help() {
+    echo ""
+    echo -e "${BOLD}${WHITE}editDraft - Edit a draft${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e ""
+    echo -e "Edit a draft on the server. The edit will be automatically
+synchronized to other clients via 'drafts' events.
+
+'PATCH {{ api_url }}/v1/drafts/{draft_id}'" | paste -sd' ' | fold -sw 80
+    echo -e ""
+    echo -e "${BOLD}${WHITE}Parameters${OFF}"
+    echo -e "  * ${GREEN}draft_id${OFF} ${BLUE}[integer]${OFF} ${RED}(required)${OFF} ${CYAN}(default: null)${OFF} - The ID of the draft to be edited. ${YELLOW}Specify as: draft_id=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}draft${OFF} ${BLUE}[Draft]${OFF} ${RED}(required)${OFF} ${CYAN}(default: null)${OFF} - A JSON-encoded object containing a replacement draft object for this ID.${YELLOW} Specify as: draft=value${OFF}" \
+        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo ""
+    echo -e "${BOLD}${WHITE}Responses${OFF}"
+    code=200
+    echo -e "${result_color_table[${code:0:1}]}  200;Success.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=404
+    echo -e "${result_color_table[${code:0:1}]}  404;Not Found.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+}
+##############################################################################
+#
+# Print help for getDrafts operation
+#
+##############################################################################
+print_getDrafts_help() {
+    echo ""
+    echo -e "${BOLD}${WHITE}getDrafts - Get drafts${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e ""
+    echo -e "Fetch all drafts for the current user.
+
+'GET {{ api_url }}/v1/drafts'" | paste -sd' ' | fold -sw 80
+    echo -e ""
+    echo ""
+    echo -e "${BOLD}${WHITE}Responses${OFF}"
+    code=200
+    echo -e "${result_color_table[${code:0:1}]}  200;Success.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
 ##############################################################################
 #
@@ -2084,8 +2242,9 @@ relevant to the format of responses sent by the server.
   client can handle the current API with null values for
   stream-level notification settings (which means the stream
   is not customized and should inherit the user's global
-  notification settings for stream messages).  New in Zulip
-  2.1.0; in earlier Zulip releases, stream-level
+  notification settings for stream messages).
+  <br />
+  New in Zulip 2.1.0; in earlier Zulip releases, stream-level
   notification settings were simple booleans.
 
 * 'bulk_message_deletion': Boolean for whether the client's
@@ -2093,7 +2252,9 @@ relevant to the format of responses sent by the server.
    updated to process the new bulk format (with a
    'message_ids', rather than a singleton 'message_id').
    Otherwise, the server will send 'delete_message' events
-   in a loop.  New in Zulip 3.0 (feature level 13).  This
+   in a loop.
+   <br />
+   New in Zulip 3.0 (feature level 13).  This
    capability is for backwards-compatibility; it will be
    required in a future server release.
 
@@ -2104,14 +2265,32 @@ relevant to the format of responses sent by the server.
    'avatar_url' field in the 'realm_user' at its sole discretion
    to optimize network performance.  This is an important optimization
    in organizations with 10,000s of users.
+   <br />
    New in Zulip 3.0 (feature level 18).
 
 * 'stream_typing_notifications': Boolean for whether the client
   supports stream typing notifications.
-
+  <br />
   New in Zulip 4.0 (feature level 58).  This capability is
   for backwards-compatibility; it will be required in a
-  future server release.${YELLOW} Specify as: client_capabilities=value${OFF}" \
+  future server release.
+
+* 'user_settings_object': Boolean for whether the client supports the modern
+  'user_settings' event type. If False, the server will additionally send the
+  legacy 'update_display_settings' and 'update_global_notifications' event
+  types for backwards-compatibility with clients that predate this API migration.
+  <br />
+  <br />
+  Because the feature level 89 API changes were merged together, clients can
+  safely make a request with this client capability and requesting all of the
+  'user_settings', 'update_display_settings', and
+  'update_global_notifications' event types, and get exactly one copy of
+  settings data on any server version. (And then use the 'zulip_feature_level'
+  in the '/register' response or the presence/absence of a 'user_settings' key
+  to determine where to look).
+  <br />
+  New in Zulip 5.0 (feature level 89).  This capability is for
+  backwards-compatibility; it will be removed in a future server release.${YELLOW} Specify as: client_capabilities=value${OFF}" \
         | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e "  * ${GREEN}fetch_event_types${OFF} ${BLUE}[array[string]]${OFF} ${CYAN}(default: null)${OFF} - Same as the 'event_types' parameter except that the values in
 'fetch_event_types' are used to fetch initial data. If
@@ -2520,6 +2699,34 @@ Requires BigBlueButton to be configured on the Zulip server." | paste -sd' ' | f
 }
 ##############################################################################
 #
+# Print help for deleteTopic operation
+#
+##############################################################################
+print_deleteTopic_help() {
+    echo ""
+    echo -e "${BOLD}${WHITE}deleteTopic - Delete a topic${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e ""
+    echo -e "Delete all messages in a topic.
+
+'POST {{ api_url }}/v1/streams/{stream_id}/delete_topic'
+
+Topics are a field on messages (not an independent
+data structure), so deleting all the messages in the topic
+deletes the topic from Zulip." | paste -sd' ' | fold -sw 80
+    echo -e ""
+    echo -e "${BOLD}${WHITE}Parameters${OFF}"
+    echo -e "  * ${GREEN}stream_id${OFF} ${BLUE}[integer]${OFF} ${RED}(required)${OFF} ${CYAN}(default: null)${OFF} - The ID of the stream to access. ${YELLOW}Specify as: stream_id=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}topic_name${OFF} ${BLUE}[string]${OFF} ${RED}(required)${OFF} ${CYAN}(default: null)${OFF} - The name of the topic to delete.${YELLOW} Specify as: topic_name=value${OFF}" \
+        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo ""
+    echo -e "${BOLD}${WHITE}Responses${OFF}"
+    code=200
+    echo -e "${result_color_table[${code:0:1}]}  200;Success.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=400
+    echo -e "${result_color_table[${code:0:1}]}  400;Error.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+}
+##############################################################################
+#
 # Print help for getStreamId operation
 #
 ##############################################################################
@@ -2591,6 +2798,28 @@ to use this parameter.${YELLOW} Specify as: include_all_active=value${OFF}" \
     echo -e "  * ${GREEN}include_owner_subscribed${OFF} ${BLUE}[boolean]${OFF} ${CYAN}(default: false)${OFF} - If the user is a bot, include all streams that the bot's owner is
 subscribed to.${YELLOW} Specify as: include_owner_subscribed=value${OFF}" \
         | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo ""
+    echo -e "${BOLD}${WHITE}Responses${OFF}"
+    code=200
+    echo -e "${result_color_table[${code:0:1}]}  200;Success.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=400
+    echo -e "${result_color_table[${code:0:1}]}  400;Bad request.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+}
+##############################################################################
+#
+# Print help for getSubscribers operation
+#
+##############################################################################
+print_getSubscribers_help() {
+    echo ""
+    echo -e "${BOLD}${WHITE}getSubscribers - Get the subscribers of a stream${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e ""
+    echo -e "Get all users subscribed to a stream.
+
+'Get {{ api_url }}/v1/streams/{stream_id}/members'" | paste -sd' ' | fold -sw 80
+    echo -e ""
+    echo -e "${BOLD}${WHITE}Parameters${OFF}"
+    echo -e "  * ${GREEN}stream_id${OFF} ${BLUE}[integer]${OFF} ${RED}(required)${OFF} ${CYAN}(default: null)${OFF} - The ID of the stream to access. ${YELLOW}Specify as: stream_id=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
     code=200
@@ -3438,31 +3667,77 @@ print_unmuteUser_help() {
 }
 ##############################################################################
 #
-# Print help for updateDisplaySettings operation
+# Print help for updateSettings operation
 #
 ##############################################################################
-print_updateDisplaySettings_help() {
+print_updateSettings_help() {
     echo ""
-    echo -e "${BOLD}${WHITE}updateDisplaySettings - Update display settings${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "${BOLD}${WHITE}updateSettings - Update settings${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
-    echo -e "This endpoint is used to edit the current user's user interface settings.
+    echo -e "This endpoint is used to edit the current user's settings.
 
-'PATCH {{ api_url }}/v1/settings/display'" | paste -sd' ' | fold -sw 80
+'PATCH {{ api_url }}/v1/settings'
+
+**Changes**: Prior to Zulip 5.0 (feature level 80), this
+endpoint only supported the 'full_name', 'email',
+'old_password', and 'new_password' parameters. Notification
+settings were managed by 'PATCH /settings/notifications', and
+all other settings by 'PATCH /settings/display'. The feature level
+80 migration to merge these endpoints did not change how request
+parameters are encoded. Note, however, that it did change the
+handling of any invalid parameters present in a request to change
+notification or display settings, since the merged endpoint uses
+the new response format that was introduced for '/settings' in
+Zulip 5.0 (feature level 78).
+
+The '/settings/display' and '/settings/notifications'
+endpoints are now deprecated aliases for this endpoint for
+backwards-compatibility, and will be removed once clients have
+migrated to use this endpoint." | paste -sd' ' | fold -sw 80
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}twenty_four_hour_time${OFF} ${BLUE}[boolean]${OFF} ${CYAN}(default: null)${OFF} - Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).${YELLOW} Specify as: twenty_four_hour_time=value${OFF}" \
+    echo -e "  * ${GREEN}full_name${OFF} ${BLUE}[string]${OFF} ${CYAN}(default: null)${OFF} - A new display name for the user.${YELLOW} Specify as: full_name=value${OFF}" \
+        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}email${OFF} ${BLUE}[string]${OFF} ${CYAN}(default: null)${OFF} - Asks the server to initiate a confirmation sequence to change the user's email
+address to the indicated value. The user will need to demonstrate control of the
+new email address by clicking a confirmation link sent to that address.${YELLOW} Specify as: email=value${OFF}" \
+        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}old_password${OFF} ${BLUE}[string]${OFF} ${CYAN}(default: null)${OFF} - The user's old Zulip password (or LDAP password, if LDAP authentication is in use).
+
+Required only when sending the 'new_password' parameter.${YELLOW} Specify as: old_password=value${OFF}" \
+        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}new_password${OFF} ${BLUE}[string]${OFF} ${CYAN}(default: null)${OFF} - The user's new Zulip password (or LDAP password, if LDAP authentication is in use).
+
+The 'old_password' parameter must be included in the request.${YELLOW} Specify as: new_password=value${OFF}" \
+        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}twenty_four_hour_time${OFF} ${BLUE}[boolean]${OFF} ${CYAN}(default: null)${OFF} - Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the 'PATCH /settings/display' endpoint.${YELLOW} Specify as: twenty_four_hour_time=value${OFF}" \
         | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e "  * ${GREEN}dense_mode${OFF} ${BLUE}[boolean]${OFF} ${CYAN}(default: null)${OFF} - This setting has no effect at present.  It is reserved for use in controlling
-the default font size in Zulip.${YELLOW} Specify as: dense_mode=value${OFF}" \
+the default font size in Zulip.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the 'PATCH /settings/display' endpoint.${YELLOW} Specify as: dense_mode=value${OFF}" \
         | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e "  * ${GREEN}starred_message_counts${OFF} ${BLUE}[boolean]${OFF} ${CYAN}(default: null)${OFF} - Whether clients should display the [number of starred
-messages](/help/star-a-message#display-the-number-of-starred-messages).${YELLOW} Specify as: starred_message_counts=value${OFF}" \
+messages](/help/star-a-message#display-the-number-of-starred-messages).
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the 'PATCH /settings/display' endpoint.${YELLOW} Specify as: starred_message_counts=value${OFF}" \
         | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e "  * ${GREEN}fluid_layout_width${OFF} ${BLUE}[boolean]${OFF} ${CYAN}(default: null)${OFF} - Whether to use the [maximum available screen width](/help/enable-full-width-display)
-for the web app's center panel (message feed, recent topics) on wide screens.${YELLOW} Specify as: fluid_layout_width=value${OFF}" \
+for the web app's center panel (message feed, recent topics) on wide screens.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the 'PATCH /settings/display' endpoint.${YELLOW} Specify as: fluid_layout_width=value${OFF}" \
         | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e "  * ${GREEN}high_contrast_mode${OFF} ${BLUE}[boolean]${OFF} ${CYAN}(default: null)${OFF} - This setting is reserved for use to control variations in Zulip's design
-to help visually impaired users.${YELLOW} Specify as: high_contrast_mode=value${OFF}" \
+to help visually impaired users.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the 'PATCH /settings/display' endpoint.${YELLOW} Specify as: high_contrast_mode=value${OFF}" \
         | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e "  * ${GREEN}color_scheme${OFF} ${BLUE}[integer]${OFF} ${CYAN}(default: null)${OFF} - Controls which [color theme](/help/night-mode) to use.
 
@@ -3471,10 +3746,25 @@ to help visually impaired users.${YELLOW} Specify as: high_contrast_mode=value${
 * 3 - Day mode
 
 Automatic detection is implementing using the standard 'prefers-color-scheme'
-media query.${YELLOW} Specify as: color_scheme=value${OFF}" \
+media query.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the 'PATCH /settings/display' endpoint.${YELLOW} Specify as: color_scheme=value${OFF}" \
+        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}enable_drafts_synchronization${OFF} ${BLUE}[boolean]${OFF} ${CYAN}(default: null)${OFF} - A boolean parameter to control whether synchronizing drafts is enabled for
+the user. When synchronization is disabled, all drafts stored in the server
+will be automatically deleted from the server.
+
+This does not do anything (like sending events) to delete local copies of
+drafts stored in clients.
+
+**Changes**: New in Zulip 5.0 (feature level 87).${YELLOW} Specify as: enable_drafts_synchronization=value${OFF}" \
         | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e "  * ${GREEN}translate_emoticons${OFF} ${BLUE}[boolean]${OFF} ${CYAN}(default: null)${OFF} - Whether to [translate emoticons to emoji](/help/enable-emoticon-translations)
-in messages the user sends.${YELLOW} Specify as: translate_emoticons=value${OFF}" \
+in messages the user sends.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the 'PATCH /settings/display' endpoint.${YELLOW} Specify as: translate_emoticons=value${OFF}" \
         | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e "  * ${GREEN}default_language${OFF} ${BLUE}[string]${OFF} ${CYAN}(default: null)${OFF} - What [default language](/help/change-your-language) to use for the account.
 
@@ -3483,7 +3773,10 @@ This controls both the Zulip UI as well as email notifications sent to the user.
 The value needs to be a standard language code that the Zulip server has
 translation data for; for example, '\"en\"' for English or '\"de\"' for German.
 
-**Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63).${YELLOW} Specify as: default_language=value${OFF}" \
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the 'PATCH /settings/display' endpoint.
+
+Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63).${YELLOW} Specify as: default_language=value${OFF}" \
         | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e "  * ${GREEN}default_view${OFF} ${BLUE}[string]${OFF} ${CYAN}(default: null)${OFF} - The [default view](/help/change-default-view) used when opening a new
 Zulip web app window or hitting the 'Esc' keyboard shortcut repeatedly.
@@ -3491,11 +3784,17 @@ Zulip web app window or hitting the 'Esc' keyboard shortcut repeatedly.
 * \"recent_topics\" - Recent topics view
 * \"all_messages\" - All messages view
 
-**Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64).${YELLOW} Specify as: default_view=value${OFF}" \
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the 'PATCH /settings/display' endpoint.
+
+Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).${YELLOW} Specify as: default_view=value${OFF}" \
         | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e "  * ${GREEN}left_side_userlist${OFF} ${BLUE}[boolean]${OFF} ${CYAN}(default: null)${OFF} - Whether the users list on left sidebar in narrow windows.
 
-This feature is not heavily used and is likely to be reworked.${YELLOW} Specify as: left_side_userlist=value${OFF}" \
+This feature is not heavily used and is likely to be reworked.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the 'PATCH /settings/display' endpoint.${YELLOW} Specify as: left_side_userlist=value${OFF}" \
         | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e "  * ${GREEN}emojiset${OFF} ${BLUE}[string]${OFF} ${CYAN}(default: null)${OFF} - The user's configured [emoji set](/help/emoji-and-emoticons#use-emoticons),
 used to display emoji to the user everything they appear in the UI.
@@ -3505,20 +3804,146 @@ used to display emoji to the user everything they appear in the UI.
 * \"twitter\" - Twitter
 * \"text\" - Plain text
 
-**Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64).${YELLOW} Specify as: emojiset=value${OFF}" \
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the 'PATCH /settings/display' endpoint.
+
+Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).${YELLOW} Specify as: emojiset=value${OFF}" \
         | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e "  * ${GREEN}demote_inactive_streams${OFF} ${BLUE}[integer]${OFF} ${CYAN}(default: null)${OFF} - Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.
 
 * 1 - Automatic
 * 2 - Always
-* 3 - Never${YELLOW} Specify as: demote_inactive_streams=value${OFF}" \
+* 3 - Never
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the 'PATCH /settings/display' endpoint.${YELLOW} Specify as: demote_inactive_streams=value${OFF}" \
         | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e "  * ${GREEN}timezone${OFF} ${BLUE}[string]${OFF} ${CYAN}(default: null)${OFF} - The user's [configured timezone](/help/change-your-timezone).
 
 Timezone values supported by the server are served at
 [/static/generated/timezones.json](/static/generated/timezones.json).
 
-**Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64).${YELLOW} Specify as: timezone=value${OFF}" \
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the 'PATCH /settings/display' endpoint.
+
+Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).${YELLOW} Specify as: timezone=value${OFF}" \
+        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}enable_stream_desktop_notifications${OFF} ${BLUE}[boolean]${OFF} ${CYAN}(default: null)${OFF} - Enable visual desktop notifications for stream messages.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the 'PATCH /settings/notifications' endpoint.${YELLOW} Specify as: enable_stream_desktop_notifications=value${OFF}" \
+        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}enable_stream_email_notifications${OFF} ${BLUE}[boolean]${OFF} ${CYAN}(default: null)${OFF} - Enable email notifications for stream messages.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the 'PATCH /settings/notifications' endpoint.${YELLOW} Specify as: enable_stream_email_notifications=value${OFF}" \
+        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}enable_stream_push_notifications${OFF} ${BLUE}[boolean]${OFF} ${CYAN}(default: null)${OFF} - Enable mobile notifications for stream messages.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the 'PATCH /settings/notifications' endpoint.${YELLOW} Specify as: enable_stream_push_notifications=value${OFF}" \
+        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}enable_stream_audible_notifications${OFF} ${BLUE}[boolean]${OFF} ${CYAN}(default: null)${OFF} - Enable audible desktop notifications for stream messages.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the 'PATCH /settings/notifications' endpoint.${YELLOW} Specify as: enable_stream_audible_notifications=value${OFF}" \
+        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}notification_sound${OFF} ${BLUE}[string]${OFF} ${CYAN}(default: null)${OFF} - Notification sound name.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the 'PATCH /settings/notifications' endpoint.
+
+Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63).${YELLOW} Specify as: notification_sound=value${OFF}" \
+        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}enable_desktop_notifications${OFF} ${BLUE}[boolean]${OFF} ${CYAN}(default: null)${OFF} - Enable visual desktop notifications for private messages and @-mentions.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the 'PATCH /settings/notifications' endpoint.${YELLOW} Specify as: enable_desktop_notifications=value${OFF}" \
+        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}enable_sounds${OFF} ${BLUE}[boolean]${OFF} ${CYAN}(default: null)${OFF} - Enable audible desktop notifications for private messages and
+@-mentions.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the 'PATCH /settings/notifications' endpoint.${YELLOW} Specify as: enable_sounds=value${OFF}" \
+        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}email_notifications_batching_period_seconds${OFF} ${BLUE}[integer]${OFF} ${CYAN}(default: null)${OFF} - The duration (in seconds) for which the server should wait to batch
+email notifications before sending them.
+
+**Changes**: New in Zulip 5.0 (feature level 82)${YELLOW} Specify as: email_notifications_batching_period_seconds=value${OFF}" \
+        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}enable_offline_email_notifications${OFF} ${BLUE}[boolean]${OFF} ${CYAN}(default: null)${OFF} - Enable email notifications for private messages and @-mentions received
+when the user is offline.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the 'PATCH /settings/notifications' endpoint.${YELLOW} Specify as: enable_offline_email_notifications=value${OFF}" \
+        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}enable_offline_push_notifications${OFF} ${BLUE}[boolean]${OFF} ${CYAN}(default: null)${OFF} - Enable mobile notification for private messages and @-mentions received
+when the user is offline.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the 'PATCH /settings/notifications' endpoint.${YELLOW} Specify as: enable_offline_push_notifications=value${OFF}" \
+        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}enable_online_push_notifications${OFF} ${BLUE}[boolean]${OFF} ${CYAN}(default: null)${OFF} - Enable mobile notification for private messages and @-mentions received
+when the user is online.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the 'PATCH /settings/notifications' endpoint.${YELLOW} Specify as: enable_online_push_notifications=value${OFF}" \
+        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}enable_digest_emails${OFF} ${BLUE}[boolean]${OFF} ${CYAN}(default: null)${OFF} - Enable digest emails when the user is away.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the 'PATCH /settings/notifications' endpoint.${YELLOW} Specify as: enable_digest_emails=value${OFF}" \
+        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}enable_marketing_emails${OFF} ${BLUE}[boolean]${OFF} ${CYAN}(default: null)${OFF} - Enable marketing emails. Has no function outside Zulip Cloud.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the 'PATCH /settings/notifications' endpoint.${YELLOW} Specify as: enable_marketing_emails=value${OFF}" \
+        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}enable_login_emails${OFF} ${BLUE}[boolean]${OFF} ${CYAN}(default: null)${OFF} - Enable email notifications for new logins to account.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the 'PATCH /settings/notifications' endpoint.${YELLOW} Specify as: enable_login_emails=value${OFF}" \
+        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}message_content_in_email_notifications${OFF} ${BLUE}[boolean]${OFF} ${CYAN}(default: null)${OFF} - Include the message's content in email notifications for new messages.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the 'PATCH /settings/notifications' endpoint.${YELLOW} Specify as: message_content_in_email_notifications=value${OFF}" \
+        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}pm_content_in_desktop_notifications${OFF} ${BLUE}[boolean]${OFF} ${CYAN}(default: null)${OFF} - Include content of private messages in desktop notifications.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the 'PATCH /settings/notifications' endpoint.${YELLOW} Specify as: pm_content_in_desktop_notifications=value${OFF}" \
+        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}wildcard_mentions_notify${OFF} ${BLUE}[boolean]${OFF} ${CYAN}(default: null)${OFF} - Whether wildcard mentions (E.g. @**all**) should send notifications
+like a personal mention.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the 'PATCH /settings/notifications' endpoint.${YELLOW} Specify as: wildcard_mentions_notify=value${OFF}" \
+        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}desktop_icon_count_display${OFF} ${BLUE}[integer]${OFF} ${CYAN}(default: null)${OFF} - Unread count summary (appears in desktop sidebar and browser tab)
+
+* 1 - All unreads
+* 2 - Private messages and mentions
+* 3 - None
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the 'PATCH /settings/notifications' endpoint.${YELLOW} Specify as: desktop_icon_count_display=value${OFF}" \
+        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}realm_name_in_notifications${OFF} ${BLUE}[boolean]${OFF} ${CYAN}(default: null)${OFF} - Include organization name in subject of message notification emails.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the 'PATCH /settings/notifications' endpoint.${YELLOW} Specify as: realm_name_in_notifications=value${OFF}" \
+        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}presence_enabled${OFF} ${BLUE}[boolean]${OFF} ${CYAN}(default: null)${OFF} - Display the presence status to other users when online.
+
+**Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by
+the 'PATCH /settings/notifications' endpoint.${YELLOW} Specify as: presence_enabled=value${OFF}" \
+        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}enter_sends${OFF} ${BLUE}[boolean]${OFF} ${CYAN}(default: null)${OFF} - Whether pressing Enter in the compose box sends a message
+(or saves a message edit).
+
+**Changes**: Before Zulip 5.0 (feature level 81), this setting was managed by
+the 'POST /users/me/enter-sends' endpoint, with the same parameter format.${YELLOW} Specify as: enter_sends=value${OFF}" \
         | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
@@ -3527,73 +3952,55 @@ Timezone values supported by the server are served at
 }
 ##############################################################################
 #
-# Print help for updateNotificationSettings operation
+# Print help for updateStatus operation
 #
 ##############################################################################
-print_updateNotificationSettings_help() {
+print_updateStatus_help() {
     echo ""
-    echo -e "${BOLD}${WHITE}updateNotificationSettings - Update notification settings${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "${BOLD}${WHITE}updateStatus - Update your status${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
-    echo -e "This endpoint is used to edit the user's global notification settings.
-See [this endpoint](/api/update-subscription-settings) for
-per-stream notification settings.
+    echo -e "Change your [status](/help/status-and-availability).
 
-'PATCH {{ api_url }}/v1/settings/notifications'" | paste -sd' ' | fold -sw 80
+'POST {{ api_url }}/v1/users/me/status'
+
+A request to this endpoint will only change the parameters passed.
+For example, passing just 'status_text' requests a change in the status
+text, but will leave the status emoji unchanged.
+
+Clients that wish to set the user's status to a specific value should
+pass all supported parameters." | paste -sd' ' | fold -sw 80
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}enable_stream_desktop_notifications${OFF} ${BLUE}[boolean]${OFF} ${CYAN}(default: null)${OFF} - Enable visual desktop notifications for stream messages.${YELLOW} Specify as: enable_stream_desktop_notifications=value${OFF}" \
-        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e "  * ${GREEN}enable_stream_email_notifications${OFF} ${BLUE}[boolean]${OFF} ${CYAN}(default: null)${OFF} - Enable email notifications for stream messages.${YELLOW} Specify as: enable_stream_email_notifications=value${OFF}" \
-        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e "  * ${GREEN}enable_stream_push_notifications${OFF} ${BLUE}[boolean]${OFF} ${CYAN}(default: null)${OFF} - Enable mobile notifications for stream messages.${YELLOW} Specify as: enable_stream_push_notifications=value${OFF}" \
-        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e "  * ${GREEN}enable_stream_audible_notifications${OFF} ${BLUE}[boolean]${OFF} ${CYAN}(default: null)${OFF} - Enable audible desktop notifications for stream messages.${YELLOW} Specify as: enable_stream_audible_notifications=value${OFF}" \
-        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e "  * ${GREEN}notification_sound${OFF} ${BLUE}[string]${OFF} ${CYAN}(default: null)${OFF} - Notification sound name.
+    echo -e "  * ${GREEN}status_text${OFF} ${BLUE}[string]${OFF} ${CYAN}(default: null)${OFF} - The text content of the status message. Sending the empty string
+will clear the user's status.
 
-**Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63).${YELLOW} Specify as: notification_sound=value${OFF}" \
+**Note**: The limit on the size of the message is 60 characters.${YELLOW} Specify as: status_text=value${OFF}" \
         | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e "  * ${GREEN}enable_desktop_notifications${OFF} ${BLUE}[boolean]${OFF} ${CYAN}(default: null)${OFF} - Enable visual desktop notifications for private messages and @-mentions.${YELLOW} Specify as: enable_desktop_notifications=value${OFF}" \
+    echo -e "  * ${GREEN}away${OFF} ${BLUE}[boolean]${OFF} ${CYAN}(default: null)${OFF} - Whether the user should be marked as \"away\".${YELLOW} Specify as: away=value${OFF}" \
         | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e "  * ${GREEN}enable_sounds${OFF} ${BLUE}[boolean]${OFF} ${CYAN}(default: null)${OFF} - Enable audible desktop notifications for private messages and
-@-mentions.${YELLOW} Specify as: enable_sounds=value${OFF}" \
+    echo -e "  * ${GREEN}emoji_name${OFF} ${BLUE}[string]${OFF} ${CYAN}(default: null)${OFF} - The name for the emoji to associate with this status.${YELLOW} Specify as: emoji_name=value${OFF}" \
         | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e "  * ${GREEN}enable_offline_email_notifications${OFF} ${BLUE}[boolean]${OFF} ${CYAN}(default: null)${OFF} - Enable email notifications for private messages and @-mentions received
-when the user is offline.${YELLOW} Specify as: enable_offline_email_notifications=value${OFF}" \
-        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e "  * ${GREEN}enable_offline_push_notifications${OFF} ${BLUE}[boolean]${OFF} ${CYAN}(default: null)${OFF} - Enable mobile notification for private messages and @-mentions received
-when the user is offline.${YELLOW} Specify as: enable_offline_push_notifications=value${OFF}" \
-        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e "  * ${GREEN}enable_online_push_notifications${OFF} ${BLUE}[boolean]${OFF} ${CYAN}(default: null)${OFF} - Enable mobile notification for private messages and @-mentions received
-when the user is online.${YELLOW} Specify as: enable_online_push_notifications=value${OFF}" \
-        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e "  * ${GREEN}enable_digest_emails${OFF} ${BLUE}[boolean]${OFF} ${CYAN}(default: null)${OFF} - Enable digest emails when the user is away.${YELLOW} Specify as: enable_digest_emails=value${OFF}" \
-        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e "  * ${GREEN}enable_marketing_emails${OFF} ${BLUE}[boolean]${OFF} ${CYAN}(default: null)${OFF} - Enable marketing emails. Has no function outside Zulip Cloud.${YELLOW} Specify as: enable_marketing_emails=value${OFF}" \
-        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e "  * ${GREEN}enable_login_emails${OFF} ${BLUE}[boolean]${OFF} ${CYAN}(default: null)${OFF} - Enable email notifications for new logins to account.${YELLOW} Specify as: enable_login_emails=value${OFF}" \
-        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e "  * ${GREEN}message_content_in_email_notifications${OFF} ${BLUE}[boolean]${OFF} ${CYAN}(default: null)${OFF} - Include the message's content in email notifications for new messages.${YELLOW} Specify as: message_content_in_email_notifications=value${OFF}" \
-        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e "  * ${GREEN}pm_content_in_desktop_notifications${OFF} ${BLUE}[boolean]${OFF} ${CYAN}(default: null)${OFF} - Include content of private messages in desktop notifications.${YELLOW} Specify as: pm_content_in_desktop_notifications=value${OFF}" \
-        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e "  * ${GREEN}wildcard_mentions_notify${OFF} ${BLUE}[boolean]${OFF} ${CYAN}(default: null)${OFF} - Whether wildcard mentions (E.g. @**all**) should send notifications
-like a personal mention.${YELLOW} Specify as: wildcard_mentions_notify=value${OFF}" \
-        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e "  * ${GREEN}desktop_icon_count_display${OFF} ${BLUE}[integer]${OFF} ${CYAN}(default: null)${OFF} - Unread count summary (appears in desktop sidebar and browser tab)
+    echo -e "  * ${GREEN}emoji_code${OFF} ${BLUE}[string]${OFF} ${CYAN}(default: null)${OFF} - A unique identifier, defining the specific emoji codepoint requested,
+within the namespace of the 'reaction_type'.
 
-* 1 - All unreads
-* 2 - Private messages and mentions
-* 3 - None${YELLOW} Specify as: desktop_icon_count_display=value${OFF}" \
+For example, for 'unicode_emoji', this will be an encoding of the
+Unicode codepoint; for 'realm_emoji', it'll be the ID of the realm emoji.${YELLOW} Specify as: emoji_code=value${OFF}" \
         | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e "  * ${GREEN}realm_name_in_notifications${OFF} ${BLUE}[boolean]${OFF} ${CYAN}(default: null)${OFF} - Include organization name in subject of message notification emails.${YELLOW} Specify as: realm_name_in_notifications=value${OFF}" \
-        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e "  * ${GREEN}presence_enabled${OFF} ${BLUE}[boolean]${OFF} ${CYAN}(default: null)${OFF} - Display the presence status to other users when online.${YELLOW} Specify as: presence_enabled=value${OFF}" \
+    echo -e "  * ${GREEN}reaction_type${OFF} ${BLUE}[string]${OFF} ${CYAN}(default: null)${OFF} - One of the following values:
+
+* 'unicode_emoji': Unicode emoji ('emoji_code' will be its Unicode
+  codepoint).
+* 'realm_emoji': [Custom emoji](/help/add-custom-emoji).
+  ('emoji_code' will be its ID).
+* 'zulip_extra_emoji': Special emoji included with Zulip.  Exists to
+  namespace the 'zulip' emoji.${YELLOW} Specify as: reaction_type=value${OFF}" \
         | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
     code=200
     echo -e "${result_color_table[${code:0:1}]}  200;Success.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    code=400
+    echo -e "${result_color_table[${code:0:1}]}  400;Success.${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
 ##############################################################################
 #
@@ -3766,6 +4173,150 @@ call_fetchApiKey() {
         exit 1
     fi
     local method="POST"
+    local headers_curl
+    headers_curl=$(header_arguments_to_curl)
+    if [[ -n $header_accept ]]; then
+        headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
+    fi
+
+    local basic_auth_option=""
+    if [[ -n $basic_auth_credential ]]; then
+        basic_auth_option="-u ${basic_auth_credential}"
+    fi
+    if [[ "$print_curl" = true ]]; then
+        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+    else
+        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+    fi
+}
+
+##############################################################################
+#
+# Call createDrafts operation
+#
+##############################################################################
+call_createDrafts() {
+    # ignore error about 'path_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
+    local path_parameter_names=()
+    # ignore error about 'query_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
+    local query_parameter_names=(drafts)
+    local path
+
+    if ! path=$(build_request_path "/api/v1/drafts" path_parameter_names query_parameter_names); then
+        ERROR_MSG=$path
+        exit 1
+    fi
+    local method="POST"
+    local headers_curl
+    headers_curl=$(header_arguments_to_curl)
+    if [[ -n $header_accept ]]; then
+        headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
+    fi
+
+    local basic_auth_option=""
+    if [[ -n $basic_auth_credential ]]; then
+        basic_auth_option="-u ${basic_auth_credential}"
+    fi
+    if [[ "$print_curl" = true ]]; then
+        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+    else
+        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+    fi
+}
+
+##############################################################################
+#
+# Call deleteDraft operation
+#
+##############################################################################
+call_deleteDraft() {
+    # ignore error about 'path_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
+    local path_parameter_names=(draft_id)
+    # ignore error about 'query_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
+    local query_parameter_names=()
+    local path
+
+    if ! path=$(build_request_path "/api/v1/drafts/{draft_id}" path_parameter_names query_parameter_names); then
+        ERROR_MSG=$path
+        exit 1
+    fi
+    local method="DELETE"
+    local headers_curl
+    headers_curl=$(header_arguments_to_curl)
+    if [[ -n $header_accept ]]; then
+        headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
+    fi
+
+    local basic_auth_option=""
+    if [[ -n $basic_auth_credential ]]; then
+        basic_auth_option="-u ${basic_auth_credential}"
+    fi
+    if [[ "$print_curl" = true ]]; then
+        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+    else
+        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+    fi
+}
+
+##############################################################################
+#
+# Call editDraft operation
+#
+##############################################################################
+call_editDraft() {
+    # ignore error about 'path_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
+    local path_parameter_names=(draft_id)
+    # ignore error about 'query_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
+    local query_parameter_names=(draft)
+    local path
+
+    if ! path=$(build_request_path "/api/v1/drafts/{draft_id}" path_parameter_names query_parameter_names); then
+        ERROR_MSG=$path
+        exit 1
+    fi
+    local method="PATCH"
+    local headers_curl
+    headers_curl=$(header_arguments_to_curl)
+    if [[ -n $header_accept ]]; then
+        headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
+    fi
+
+    local basic_auth_option=""
+    if [[ -n $basic_auth_credential ]]; then
+        basic_auth_option="-u ${basic_auth_credential}"
+    fi
+    if [[ "$print_curl" = true ]]; then
+        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+    else
+        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+    fi
+}
+
+##############################################################################
+#
+# Call getDrafts operation
+#
+##############################################################################
+call_getDrafts() {
+    # ignore error about 'path_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
+    local path_parameter_names=()
+    # ignore error about 'query_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
+    local query_parameter_names=()
+    local path
+
+    if ! path=$(build_request_path "/api/v1/drafts" path_parameter_names query_parameter_names); then
+        ERROR_MSG=$path
+        exit 1
+    fi
+    local method="GET"
     local headers_curl
     headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
@@ -5045,6 +5596,42 @@ call_createBigBlueButtonVideoCall() {
 
 ##############################################################################
 #
+# Call deleteTopic operation
+#
+##############################################################################
+call_deleteTopic() {
+    # ignore error about 'path_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
+    local path_parameter_names=(stream_id)
+    # ignore error about 'query_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
+    local query_parameter_names=(topic_name)
+    local path
+
+    if ! path=$(build_request_path "/api/v1/streams/{stream_id}/delete_topic" path_parameter_names query_parameter_names); then
+        ERROR_MSG=$path
+        exit 1
+    fi
+    local method="POST"
+    local headers_curl
+    headers_curl=$(header_arguments_to_curl)
+    if [[ -n $header_accept ]]; then
+        headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
+    fi
+
+    local basic_auth_option=""
+    if [[ -n $basic_auth_credential ]]; then
+        basic_auth_option="-u ${basic_auth_credential}"
+    fi
+    if [[ "$print_curl" = true ]]; then
+        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+    else
+        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+    fi
+}
+
+##############################################################################
+#
 # Call getStreamId operation
 #
 ##############################################################################
@@ -5130,6 +5717,42 @@ call_getStreams() {
     local path
 
     if ! path=$(build_request_path "/api/v1/streams" path_parameter_names query_parameter_names); then
+        ERROR_MSG=$path
+        exit 1
+    fi
+    local method="GET"
+    local headers_curl
+    headers_curl=$(header_arguments_to_curl)
+    if [[ -n $header_accept ]]; then
+        headers_curl="${headers_curl} -H 'Accept: ${header_accept}'"
+    fi
+
+    local basic_auth_option=""
+    if [[ -n $basic_auth_credential ]]; then
+        basic_auth_option="-u ${basic_auth_credential}"
+    fi
+    if [[ "$print_curl" = true ]]; then
+        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+    else
+        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+    fi
+}
+
+##############################################################################
+#
+# Call getSubscribers operation
+#
+##############################################################################
+call_getSubscribers() {
+    # ignore error about 'path_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
+    local path_parameter_names=(stream_id)
+    # ignore error about 'query_parameter_names' being unused; passed by reference
+    # shellcheck disable=SC2034
+    local query_parameter_names=()
+    local path
+
+    if ! path=$(build_request_path "/api/v1/streams/{stream_id}/members" path_parameter_names query_parameter_names); then
         ERROR_MSG=$path
         exit 1
     fi
@@ -6017,19 +6640,19 @@ call_unmuteUser() {
 
 ##############################################################################
 #
-# Call updateDisplaySettings operation
+# Call updateSettings operation
 #
 ##############################################################################
-call_updateDisplaySettings() {
+call_updateSettings() {
     # ignore error about 'path_parameter_names' being unused; passed by reference
     # shellcheck disable=SC2034
     local path_parameter_names=()
     # ignore error about 'query_parameter_names' being unused; passed by reference
     # shellcheck disable=SC2034
-    local query_parameter_names=(twenty_four_hour_time dense_mode starred_message_counts fluid_layout_width high_contrast_mode color_scheme translate_emoticons default_language default_view left_side_userlist emojiset demote_inactive_streams timezone)
+    local query_parameter_names=(full_name email old_password new_password twenty_four_hour_time dense_mode starred_message_counts fluid_layout_width high_contrast_mode color_scheme enable_drafts_synchronization translate_emoticons default_language default_view left_side_userlist emojiset demote_inactive_streams timezone enable_stream_desktop_notifications enable_stream_email_notifications enable_stream_push_notifications enable_stream_audible_notifications notification_sound enable_desktop_notifications enable_sounds email_notifications_batching_period_seconds enable_offline_email_notifications enable_offline_push_notifications enable_online_push_notifications enable_digest_emails enable_marketing_emails enable_login_emails message_content_in_email_notifications pm_content_in_desktop_notifications wildcard_mentions_notify desktop_icon_count_display realm_name_in_notifications presence_enabled enter_sends)
     local path
 
-    if ! path=$(build_request_path "/api/v1/settings/display" path_parameter_names query_parameter_names); then
+    if ! path=$(build_request_path "/api/v1/settings" path_parameter_names query_parameter_names); then
         ERROR_MSG=$path
         exit 1
     fi
@@ -6053,23 +6676,23 @@ call_updateDisplaySettings() {
 
 ##############################################################################
 #
-# Call updateNotificationSettings operation
+# Call updateStatus operation
 #
 ##############################################################################
-call_updateNotificationSettings() {
+call_updateStatus() {
     # ignore error about 'path_parameter_names' being unused; passed by reference
     # shellcheck disable=SC2034
     local path_parameter_names=()
     # ignore error about 'query_parameter_names' being unused; passed by reference
     # shellcheck disable=SC2034
-    local query_parameter_names=(enable_stream_desktop_notifications enable_stream_email_notifications enable_stream_push_notifications enable_stream_audible_notifications notification_sound enable_desktop_notifications enable_sounds enable_offline_email_notifications enable_offline_push_notifications enable_online_push_notifications enable_digest_emails enable_marketing_emails enable_login_emails message_content_in_email_notifications pm_content_in_desktop_notifications wildcard_mentions_notify desktop_icon_count_display realm_name_in_notifications presence_enabled)
+    local query_parameter_names=(status_text away emoji_name emoji_code reaction_type)
     local path
 
-    if ! path=$(build_request_path "/api/v1/settings/notifications" path_parameter_names query_parameter_names); then
+    if ! path=$(build_request_path "/api/v1/users/me/status" path_parameter_names query_parameter_names); then
         ERROR_MSG=$path
         exit 1
     fi
-    local method="PATCH"
+    local method="POST"
     local headers_curl
     headers_curl=$(header_arguments_to_curl)
     if [[ -n $header_accept ]]; then
@@ -6334,6 +6957,18 @@ case $key in
     fetchApiKey)
     operation="fetchApiKey"
     ;;
+    createDrafts)
+    operation="createDrafts"
+    ;;
+    deleteDraft)
+    operation="deleteDraft"
+    ;;
+    editDraft)
+    operation="editDraft"
+    ;;
+    getDrafts)
+    operation="getDrafts"
+    ;;
     addReaction)
     operation="addReaction"
     ;;
@@ -6439,6 +7074,9 @@ case $key in
     createBigBlueButtonVideoCall)
     operation="createBigBlueButtonVideoCall"
     ;;
+    deleteTopic)
+    operation="deleteTopic"
+    ;;
     getStreamId)
     operation="getStreamId"
     ;;
@@ -6447,6 +7085,9 @@ case $key in
     ;;
     getStreams)
     operation="getStreams"
+    ;;
+    getSubscribers)
+    operation="getSubscribers"
     ;;
     getSubscriptionStatus)
     operation="getSubscriptionStatus"
@@ -6520,11 +7161,11 @@ case $key in
     unmuteUser)
     operation="unmuteUser"
     ;;
-    updateDisplaySettings)
-    operation="updateDisplaySettings"
+    updateSettings)
+    operation="updateSettings"
     ;;
-    updateNotificationSettings)
-    operation="updateNotificationSettings"
+    updateStatus)
+    operation="updateStatus"
     ;;
     updateUser)
     operation="updateUser"
@@ -6620,6 +7261,18 @@ case $operation in
     ;;
     fetchApiKey)
     call_fetchApiKey
+    ;;
+    createDrafts)
+    call_createDrafts
+    ;;
+    deleteDraft)
+    call_deleteDraft
+    ;;
+    editDraft)
+    call_editDraft
+    ;;
+    getDrafts)
+    call_getDrafts
     ;;
     addReaction)
     call_addReaction
@@ -6726,6 +7379,9 @@ case $operation in
     createBigBlueButtonVideoCall)
     call_createBigBlueButtonVideoCall
     ;;
+    deleteTopic)
+    call_deleteTopic
+    ;;
     getStreamId)
     call_getStreamId
     ;;
@@ -6734,6 +7390,9 @@ case $operation in
     ;;
     getStreams)
     call_getStreams
+    ;;
+    getSubscribers)
+    call_getSubscribers
     ;;
     getSubscriptionStatus)
     call_getSubscriptionStatus
@@ -6807,11 +7466,11 @@ case $operation in
     unmuteUser)
     call_unmuteUser
     ;;
-    updateDisplaySettings)
-    call_updateDisplaySettings
+    updateSettings)
+    call_updateSettings
     ;;
-    updateNotificationSettings)
-    call_updateNotificationSettings
+    updateStatus)
+    call_updateStatus
     ;;
     updateUser)
     call_updateUser

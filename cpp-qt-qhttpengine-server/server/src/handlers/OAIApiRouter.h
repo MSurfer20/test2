@@ -25,6 +25,7 @@
 #include <qhttpengine/qobjecthandler.h>
 
 #include "OAIAuthenticationApiHandler.h"
+#include "OAIDraftsApiHandler.h"
 #include "OAIMessagesApiHandler.h"
 #include "OAIRealTimeEventsApiHandler.h"
 #include "OAIServerAndOrganizationsApiHandler.h"
@@ -68,6 +69,7 @@ public:
     void processRequest(QHttpEngine::Socket *socket);
     
     void setOAIAuthenticationApiHandler(QSharedPointer<OAIAuthenticationApiHandler> handler);
+    void setOAIDraftsApiHandler(QSharedPointer<OAIDraftsApiHandler> handler);
     void setOAIMessagesApiHandler(QSharedPointer<OAIMessagesApiHandler> handler);
     void setOAIRealTimeEventsApiHandler(QSharedPointer<OAIRealTimeEventsApiHandler> handler);
     void setOAIServerAndOrganizationsApiHandler(QSharedPointer<OAIServerAndOrganizationsApiHandler> handler);
@@ -83,6 +85,7 @@ private:
 
     
     QSharedPointer<OAIAuthenticationApiHandler> mOAIAuthenticationApiHandler;
+    QSharedPointer<OAIDraftsApiHandler> mOAIDraftsApiHandler;
     QSharedPointer<OAIMessagesApiHandler> mOAIMessagesApiHandler;
     QSharedPointer<OAIRealTimeEventsApiHandler> mOAIRealTimeEventsApiHandler;
     QSharedPointer<OAIServerAndOrganizationsApiHandler> mOAIServerAndOrganizationsApiHandler;

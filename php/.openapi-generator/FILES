@@ -5,6 +5,7 @@
 README.md
 composer.json
 docs/Api/AuthenticationApi.md
+docs/Api/DraftsApi.md
 docs/Api/MessagesApi.md
 docs/Api/RealTimeEventsApi.md
 docs/Api/ServerAndOrganizationsApi.md
@@ -33,10 +34,13 @@ docs/Model/CodedErrorBase.md
 docs/Model/CodedErrorBaseAllOf.md
 docs/Model/CustomProfileField.md
 docs/Model/DefaultStreamGroup.md
+docs/Model/Draft.md
+docs/Model/EmojiBase.md
 docs/Model/EmojiReaction.md
 docs/Model/EmojiReactionAllOf.md
 docs/Model/EmojiReactionBase.md
-docs/Model/EmojiReactionBaseUser.md
+docs/Model/EmojiReactionBaseAllOf.md
+docs/Model/EmojiReactionBaseAllOfUser.md
 docs/Model/GetMessages.md
 docs/Model/GetMessagesAllOf.md
 docs/Model/Hotspot.md
@@ -76,6 +80,7 @@ docs/Model/UserGroup.md
 docs/Model/UserNotAuthorizedError.md
 git_push.sh
 lib/Api/AuthenticationApi.php
+lib/Api/DraftsApi.php
 lib/Api/MessagesApi.php
 lib/Api/RealTimeEventsApi.php
 lib/Api/ServerAndOrganizationsApi.php
@@ -107,10 +112,13 @@ lib/Model/CodedErrorBase.php
 lib/Model/CodedErrorBaseAllOf.php
 lib/Model/CustomProfileField.php
 lib/Model/DefaultStreamGroup.php
+lib/Model/Draft.php
+lib/Model/EmojiBase.php
 lib/Model/EmojiReaction.php
 lib/Model/EmojiReactionAllOf.php
 lib/Model/EmojiReactionBase.php
-lib/Model/EmojiReactionBaseUser.php
+lib/Model/EmojiReactionBaseAllOf.php
+lib/Model/EmojiReactionBaseAllOfUser.php
 lib/Model/GetMessages.php
 lib/Model/GetMessagesAllOf.php
 lib/Model/Hotspot.php
@@ -152,6 +160,7 @@ lib/Model/UserNotAuthorizedError.php
 lib/ObjectSerializer.php
 phpunit.xml.dist
 test/Api/AuthenticationApiTest.php
+test/Api/DraftsApiTest.php
 test/Api/MessagesApiTest.php
 test/Api/RealTimeEventsApiTest.php
 test/Api/ServerAndOrganizationsApiTest.php
@@ -180,9 +189,12 @@ test/Model/CodedErrorBaseTest.php
 test/Model/CodedErrorTest.php
 test/Model/CustomProfileFieldTest.php
 test/Model/DefaultStreamGroupTest.php
+test/Model/DraftTest.php
+test/Model/EmojiBaseTest.php
 test/Model/EmojiReactionAllOfTest.php
+test/Model/EmojiReactionBaseAllOfTest.php
+test/Model/EmojiReactionBaseAllOfUserTest.php
 test/Model/EmojiReactionBaseTest.php
-test/Model/EmojiReactionBaseUserTest.php
 test/Model/EmojiReactionTest.php
 test/Model/GetMessagesAllOfTest.php
 test/Model/GetMessagesTest.php

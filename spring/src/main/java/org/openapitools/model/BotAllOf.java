@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  * Object containing details of a bot. 
  */
 @ApiModel(description = "Object containing details of a bot. ")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-08-08T20:46:01.944060Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-08-08T21:15:36.024879Z[Etc/UTC]")
 public class BotAllOf   {
   @JsonProperty("user_id")
   private JsonNullable<Object> userId = JsonNullable.undefined();

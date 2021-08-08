@@ -5,6 +5,7 @@ api/openapi.yaml
 config.js
 controllers/AuthenticationController.js
 controllers/Controller.js
+controllers/DraftsController.js
 controllers/MessagesController.js
 controllers/RealTimeEventsController.js
 controllers/ServerAndOrganizationsController.js
@@ -17,6 +18,7 @@ index.js
 logger.js
 package.json
 services/AuthenticationService.js
+services/DraftsService.js
 services/MessagesService.js
 services/RealTimeEventsService.js
 services/ServerAndOrganizationsService.js

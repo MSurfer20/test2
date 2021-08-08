@@ -1,5 +1,6 @@
 .openapi-generator-ignore
 Apis/AuthenticationApi.md
+Apis/DraftsApi.md
 Apis/MessagesApi.md
 Apis/RealTimeEventsApi.md
 Apis/ServerAndOrganizationsApi.md
@@ -28,10 +29,13 @@ Models/CodedErrorBase.md
 Models/CodedErrorBaseAllOf.md
 Models/CustomProfileField.md
 Models/DefaultStreamGroup.md
+Models/Draft.md
+Models/EmojiBase.md
 Models/EmojiReaction.md
 Models/EmojiReactionAllOf.md
 Models/EmojiReactionBase.md
-Models/EmojiReactionBaseUser.md
+Models/EmojiReactionBaseAllOf.md
+Models/EmojiReactionBaseAllOfUser.md
 Models/GetMessages.md
 Models/GetMessagesAllOf.md
 Models/Hotspot.md

@@ -40,7 +40,7 @@ class EmojiReactionBase(object):
         'emoji_name': 'str',
         'reaction_type': 'str',
         'user_id': 'int',
-        'user': 'EmojiReactionBaseUser'
+        'user': 'EmojiReactionBaseAllOfUser'
     }
 
     attribute_map = {
@@ -79,7 +79,7 @@ class EmojiReactionBase(object):
     def emoji_code(self):
         """Gets the emoji_code of this EmojiReactionBase.  # noqa: E501
 
-        A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint.   # noqa: E501
+        A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji.   # noqa: E501
 
         :return: The emoji_code of this EmojiReactionBase.  # noqa: E501
         :rtype: str
@@ -90,7 +90,7 @@ class EmojiReactionBase(object):
     def emoji_code(self, emoji_code):
         """Sets the emoji_code of this EmojiReactionBase.
 
-        A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint.   # noqa: E501
+        A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji.   # noqa: E501
 
         :param emoji_code: The emoji_code of this EmojiReactionBase.  # noqa: E501
         :type emoji_code: str
@@ -173,7 +173,7 @@ class EmojiReactionBase(object):
 
 
         :return: The user of this EmojiReactionBase.  # noqa: E501
-        :rtype: EmojiReactionBaseUser
+        :rtype: EmojiReactionBaseAllOfUser
         """
         return self._user
 
@@ -183,7 +183,7 @@ class EmojiReactionBase(object):
 
 
         :param user: The user of this EmojiReactionBase.  # noqa: E501
-        :type user: EmojiReactionBaseUser
+        :type user: EmojiReactionBaseAllOfUser
         """
 
         self._user = user

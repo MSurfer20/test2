@@ -308,6 +308,30 @@ CREATE TABLE IF NOT EXISTS `DefaultStreamGroup` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Dictionary containing details of a default stream group. ';
 
 --
+-- Table structure for table `Draft` generated from model 'Draft'
+-- A dictionary for representing a message draft. 
+--
+
+CREATE TABLE IF NOT EXISTS `Draft` (
+  `id` INT DEFAULT NULL COMMENT 'The unique ID of the draft. It will only used whenever the drafts are fetched. This field should not be specified when the draft is being created or edited. ',
+  `type` ENUM('', 'stream', 'private') NOT NULL COMMENT 'The type of the draft. Either unaddressed (empty string), \&quot;stream\&quot;, or \&quot;private\&quot; (for PMs and private group messages). ',
+  `to` JSON NOT NULL COMMENT 'An array of the tentative target audience IDs. For \&quot;stream\&quot; messages, this should contain exactly 1 ID, the ID of the target stream. For private messages, this should be an array of target user IDs. For unaddressed drafts, this is ignored, and clients should send an empty array. ',
+  `topic` TEXT NOT NULL COMMENT 'For stream message drafts, the tentative topic name. For private or unaddressed messages, this will be ignored and should ideally be the empty string. Should not contain null bytes. ',
+  `content` TEXT NOT NULL COMMENT 'The body of the draft. Should not contain null bytes. ',
+  `timestamp` DECIMAL(20, 9) DEFAULT NULL COMMENT 'A Unix timestamp (seconds only) representing when the draft was last edited. When creating a draft, this key need not be present and it will be filled in automatically by the server. '
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='A dictionary for representing a message draft. ';
+
+--
+-- Table structure for table `EmojiBase` generated from model 'EmojiBase'
+--
+
+CREATE TABLE IF NOT EXISTS `EmojiBase` (
+  `emoji_code` TEXT DEFAULT NULL COMMENT 'A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint; for &#x60;realm_emoji&#x60;, it&#39;ll be the ID of the realm emoji. ',
+  `emoji_name` TEXT DEFAULT NULL COMMENT 'Name of the emoji. ',
+  `reaction_type` TEXT DEFAULT NULL COMMENT 'One of the following values:  * &#x60;unicode_emoji&#x60;: Unicode emoji (&#x60;emoji_code&#x60; will be its Unicode   codepoint). * &#x60;realm_emoji&#x60;: [Custom emoji](/help/add-custom-emoji).   (&#x60;emoji_code&#x60; will be its ID). * &#x60;zulip_extra_emoji&#x60;: Special emoji included with Zulip.  Exists to   namespace the &#x60;zulip&#x60; emoji. '
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
 -- Table structure for table `EmojiReaction` generated from model 'EmojiReaction'
 --
 
@@ -336,7 +360,7 @@ CREATE TABLE IF NOT EXISTS `EmojiReaction_allOf` (
 --
 
 CREATE TABLE IF NOT EXISTS `EmojiReactionBase` (
-  `emoji_code` TEXT DEFAULT NULL COMMENT 'A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint. ',
+  `emoji_code` TEXT DEFAULT NULL COMMENT 'A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint; for &#x60;realm_emoji&#x60;, it&#39;ll be the ID of the realm emoji. ',
   `emoji_name` TEXT DEFAULT NULL COMMENT 'Name of the emoji. ',
   `reaction_type` TEXT DEFAULT NULL COMMENT 'One of the following values:  * &#x60;unicode_emoji&#x60;: Unicode emoji (&#x60;emoji_code&#x60; will be its Unicode   codepoint). * &#x60;realm_emoji&#x60;: [Custom emoji](/help/add-custom-emoji).   (&#x60;emoji_code&#x60; will be its ID). * &#x60;zulip_extra_emoji&#x60;: Special emoji included with Zulip.  Exists to   namespace the &#x60;zulip&#x60; emoji. ',
   `user_id` INT DEFAULT NULL COMMENT 'The ID of the user who added the reaction.  **Changes**: New in Zulip 3.0 (feature level 2). The &#x60;user&#x60; object is deprecated and will be removed in the future. ',
@@ -344,16 +368,25 @@ CREATE TABLE IF NOT EXISTS `EmojiReactionBase` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Table structure for table `EmojiReactionBase_user` generated from model 'EmojiReactionBaseUnderscoreuser'
--- Dictionary with data on the user who added the reaction, including the user ID as the &#x60;id&#x60; field.  **Note**: In the [events API](/api/get-events), this &#x60;user&#x60; dictionary confusing had the user ID in a field called &#x60;user_id&#x60; instead.  We recommend ignoring fields other than the user ID.  **Deprecated** and to be removed in a future release once core clients have migrated to use the &#x60;user_id&#x60; field. 
+-- Table structure for table `EmojiReactionBase_allOf` generated from model 'EmojiReactionBaseUnderscoreallOf'
 --
 
-CREATE TABLE IF NOT EXISTS `EmojiReactionBase_user` (
+CREATE TABLE IF NOT EXISTS `EmojiReactionBase_allOf` (
+  `user_id` INT DEFAULT NULL COMMENT 'The ID of the user who added the reaction.  **Changes**: New in Zulip 3.0 (feature level 2). The &#x60;user&#x60; object is deprecated and will be removed in the future. ',
+  `user` TEXT DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table `EmojiReactionBase_allOf_user` generated from model 'EmojiReactionBaseUnderscoreallOfUnderscoreuser'
+-- Whether the user is a mirror dummy. Dictionary with data on the user who added the reaction, including the user ID as the &#x60;id&#x60; field.  **Note**: In the [events API](/api/get-events), this &#x60;user&#x60; dictionary confusing had the user ID in a field called &#x60;user_id&#x60; instead.  We recommend ignoring fields other than the user ID.  **Deprecated** and to be removed in a future release once core clients have migrated to use the &#x60;user_id&#x60; field. 
+--
+
+CREATE TABLE IF NOT EXISTS `EmojiReactionBase_allOf_user` (
   `id` INT DEFAULT NULL COMMENT 'ID of the user. ',
   `email` TEXT DEFAULT NULL COMMENT 'Email of the user. ',
   `full_name` TEXT DEFAULT NULL COMMENT 'Full name of the user. ',
   `is_mirror_dummy` TINYINT(1) DEFAULT NULL COMMENT 'Whether the user is a mirror dummy. '
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Dictionary with data on the user who added the reaction, including the user ID as the &#x60;id&#x60; field.  **Note**: In the [events API](/api/get-events), this &#x60;user&#x60; dictionary confusing had the user ID in a field called &#x60;user_id&#x60; instead.  We recommend ignoring fields other than the user ID.  **Deprecated** and to be removed in a future release once core clients have migrated to use the &#x60;user_id&#x60; field. ';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Whether the user is a mirror dummy. Dictionary with data on the user who added the reaction, including the user ID as the &#x60;id&#x60; field.  **Note**: In the [events API](/api/get-events), this &#x60;user&#x60; dictionary confusing had the user ID in a field called &#x60;user_id&#x60; instead.  We recommend ignoring fields other than the user ID.  **Deprecated** and to be removed in a future release once core clients have migrated to use the &#x60;user_id&#x60; field. ';
 
 --
 -- Table structure for table `GetMessages` generated from model 'GetMessages'

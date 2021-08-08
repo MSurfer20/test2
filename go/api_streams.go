@@ -250,6 +250,137 @@ func (a *StreamsApiService) CreateBigBlueButtonVideoCallExecute(r ApiCreateBigBl
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+type ApiDeleteTopicRequest struct {
+	ctx _context.Context
+	ApiService *StreamsApiService
+	streamId int32
+	topicName *string
+}
+
+func (r ApiDeleteTopicRequest) TopicName(topicName string) ApiDeleteTopicRequest {
+	r.topicName = &topicName
+	return r
+}
+
+func (r ApiDeleteTopicRequest) Execute() (JsonSuccess, *_nethttp.Response, error) {
+	return r.ApiService.DeleteTopicExecute(r)
+}
+
+/*
+ * DeleteTopic Delete a topic
+ * Delete all messages in a topic.
+
+`POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`
+
+Topics are a field on messages (not an independent
+data structure), so deleting all the messages in the topic
+deletes the topic from Zulip.
+
+ * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param streamId The ID of the stream to access. 
+ * @return ApiDeleteTopicRequest
+ */
+func (a *StreamsApiService) DeleteTopic(ctx _context.Context, streamId int32) ApiDeleteTopicRequest {
+	return ApiDeleteTopicRequest{
+		ApiService: a,
+		ctx: ctx,
+		streamId: streamId,
+	}
+}
+
+/*
+ * Execute executes the request
+ * @return JsonSuccess
+ */
+func (a *StreamsApiService) DeleteTopicExecute(r ApiDeleteTopicRequest) (JsonSuccess, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarPostBody     interface{}
+		localVarFormFileName string
+		localVarFileName     string
+		localVarFileBytes    []byte
+		localVarReturnValue  JsonSuccess
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "StreamsApiService.DeleteTopic")
+	if err != nil {
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/streams/{stream_id}/delete_topic"
+	localVarPath = strings.Replace(localVarPath, "{"+"stream_id"+"}", _neturl.PathEscape(parameterToString(r.streamId, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if r.topicName == nil {
+		return localVarReturnValue, nil, reportError("topicName is required and must be specified")
+	}
+
+	localVarQueryParams.Add("topic_name", parameterToString(*r.topicName, ""))
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v JsonError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiGetStreamIdRequest struct {
 	ctx _context.Context
 	ApiService *StreamsApiService
@@ -631,6 +762,124 @@ func (a *StreamsApiService) GetStreamsExecute(r ApiGetStreamsRequest) (JsonSucce
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
 			var v CodedError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiGetSubscribersRequest struct {
+	ctx _context.Context
+	ApiService *StreamsApiService
+	streamId int32
+}
+
+
+func (r ApiGetSubscribersRequest) Execute() (JsonSuccessBase, *_nethttp.Response, error) {
+	return r.ApiService.GetSubscribersExecute(r)
+}
+
+/*
+ * GetSubscribers Get the subscribers of a stream
+ * Get all users subscribed to a stream.
+
+`Get {{ api_url }}/v1/streams/{stream_id}/members`
+
+ * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param streamId The ID of the stream to access. 
+ * @return ApiGetSubscribersRequest
+ */
+func (a *StreamsApiService) GetSubscribers(ctx _context.Context, streamId int32) ApiGetSubscribersRequest {
+	return ApiGetSubscribersRequest{
+		ApiService: a,
+		ctx: ctx,
+		streamId: streamId,
+	}
+}
+
+/*
+ * Execute executes the request
+ * @return JsonSuccessBase
+ */
+func (a *StreamsApiService) GetSubscribersExecute(r ApiGetSubscribersRequest) (JsonSuccessBase, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarFormFileName string
+		localVarFileName     string
+		localVarFileBytes    []byte
+		localVarReturnValue  JsonSuccessBase
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "StreamsApiService.GetSubscribers")
+	if err != nil {
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/streams/{stream_id}/members"
+	localVarPath = strings.Replace(localVarPath, "{"+"stream_id"+"}", _neturl.PathEscape(parameterToString(r.streamId, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v JsonError
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()

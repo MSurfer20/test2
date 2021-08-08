@@ -429,57 +429,36 @@ private class OASUsersApiTest {
     }
 
     /**
-     * Update display settings
+     * Update settings
      *
-     * This endpoint is used to edit the current user\&#39;s user interface settings.\n\n&#x60;PATCH {{ api_url }}/v1/settings/display&#x60;\n
+     * This endpoint is used to edit the current user\&#39;s settings.\n\n&#x60;PATCH {{ api_url }}/v1/settings&#x60;\n\n**Changes**: Prior to Zulip 5.0 (feature level 80), this\nendpoint only supported the &#x60;full_name&#x60;, &#x60;email&#x60;,\n&#x60;old_password&#x60;, and &#x60;new_password&#x60; parameters. Notification\nsettings were managed by &#x60;PATCH /settings/notifications&#x60;, and\nall other settings by &#x60;PATCH /settings/display&#x60;. The feature level\n80 migration to merge these endpoints did not change how request\nparameters are encoded. Note, however, that it did change the\nhandling of any invalid parameters present in a request to change\nnotification or display settings, since the merged endpoint uses\nthe new response format that was introduced for &#x60;/settings&#x60; in\nZulip 5.0 (feature level 78).\n\nThe &#x60;/settings/display&#x60; and &#x60;/settings/notifications&#x60;\nendpoints are now deprecated aliases for this endpoint for\nbackwards-compatibility, and will be removed once clients have\nmigrated to use this endpoint.\n
      */
     @isTest
-    private static void updateDisplaySettingsTest() {
+    private static void updateSettingsTest() {
         HttpResponse res = new HttpResponse();
         res.setStatusCode(200);
         res.setStatus('OK');
         Test.setMock(HttpCalloutMock.class, new OASResponseMock(res));
 
         Map<String, Object> params = new Map<String, Object>{
+            'fullName' => NewName,
+            'email' => newname@example.com,
+            'oldPassword' => old12345,
+            'newPassword' => new12345,
             'twentyFourHourTime' => true,
             'denseMode' => true,
             'starredMessageCounts' => true,
             'fluidLayoutWidth' => true,
             'highContrastMode' => true,
             'colorScheme' => '',
+            'enableDraftsSynchronization' => true,
             'translateEmoticons' => true,
             'defaultLanguage' => en,
             'defaultView' => all_messages,
             'leftSideUserlist' => true,
             'emojiset' => google,
             'demoteInactiveStreams' => '',
-            'timezone' => Asia/Kolkata
-        };
-
-        OASClient client;
-        OASUsersApi api;
-        OASJsonSuccessBase response;
-        OASJsonSuccessBase expectedResponse;
-        String js = '';
-
-        api = new OASUsersApi(new OASClient());
-
-        api.updateDisplaySettings(params);
-    }
-
-    /**
-     * Update notification settings
-     *
-     * This endpoint is used to edit the user\&#39;s global notification settings.\nSee [this endpoint](/api/update-subscription-settings) for\nper-stream notification settings.\n\n&#x60;PATCH {{ api_url }}/v1/settings/notifications&#x60;\n
-     */
-    @isTest
-    private static void updateNotificationSettingsTest() {
-        HttpResponse res = new HttpResponse();
-        res.setStatusCode(200);
-        res.setStatus('OK');
-        Test.setMock(HttpCalloutMock.class, new OASResponseMock(res));
-
-        Map<String, Object> params = new Map<String, Object>{
+            'timezone' => Asia/Kolkata,
             'enableStreamDesktopNotifications' => true,
             'enableStreamEmailNotifications' => true,
             'enableStreamPushNotifications' => true,
@@ -487,6 +466,7 @@ private class OASUsersApiTest {
             'notificationSound' => ding,
             'enableDesktopNotifications' => true,
             'enableSounds' => true,
+            'emailNotificationsBatchingPeriodSeconds' => 120,
             'enableOfflineEmailNotifications' => true,
             'enableOfflinePushNotifications' => true,
             'enableOnlinePushNotifications' => true,
@@ -498,7 +478,8 @@ private class OASUsersApiTest {
             'wildcardMentionsNotify' => true,
             'desktopIconCountDisplay' => '',
             'realmNameInNotifications' => true,
-            'presenceEnabled' => true
+            'presenceEnabled' => true,
+            'enterSends' => true
         };
 
         OASClient client;
@@ -509,7 +490,38 @@ private class OASUsersApiTest {
 
         api = new OASUsersApi(new OASClient());
 
-        api.updateNotificationSettings(params);
+        api.updateSettings(params);
+    }
+
+    /**
+     * Update your status
+     *
+     * Change your [status](/help/status-and-availability).\n\n&#x60;POST {{ api_url }}/v1/users/me/status&#x60;\n\nA request to this endpoint will only change the parameters passed.\nFor example, passing just &#x60;status_text&#x60; requests a change in the status\ntext, but will leave the status emoji unchanged.\n\nClients that wish to set the user\&#39;s status to a specific value should\npass all supported parameters.\n
+     */
+    @isTest
+    private static void updateStatusTest() {
+        HttpResponse res = new HttpResponse();
+        res.setStatusCode(200);
+        res.setStatus('OK');
+        Test.setMock(HttpCalloutMock.class, new OASResponseMock(res));
+
+        Map<String, Object> params = new Map<String, Object>{
+            'statusText' => on vacation,
+            'away' => true,
+            'emojiName' => car,
+            'emojiCode' => 1f697,
+            'reactionType' => unicode_emoji
+        };
+
+        OASClient client;
+        OASUsersApi api;
+        OASJsonSuccess response;
+        OASJsonSuccess expectedResponse;
+        String js = '';
+
+        api = new OASUsersApi(new OASClient());
+
+        api.updateStatus(params);
     }
 
     /**

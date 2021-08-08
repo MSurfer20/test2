@@ -7,6 +7,7 @@ git_push.sh
 lib/ZulipREST.hs
 lib/ZulipREST/API.hs
 lib/ZulipREST/API/Authentication.hs
+lib/ZulipREST/API/Drafts.hs
 lib/ZulipREST/API/Messages.hs
 lib/ZulipREST/API/RealTimeEvents.hs
 lib/ZulipREST/API/ServerAndOrganizations.hs

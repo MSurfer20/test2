@@ -90,6 +90,129 @@ public interface PathHandlerInterface {
     HttpHandler fetchApiKey();
 
     /**
+     * <p>Create drafts</p>
+     *
+     * <p>Create one or more drafts on the server. These drafts will be automatically synchronized to other clients via `drafts` events.  `POST {{ api_url }}/v1/drafts` </p>
+     *
+     * <p><b>Endpoint</b>: {@link Methods#POST POST} "/api/v1/drafts" (<i>privileged: false</i>)</p>
+     *
+     * <p><b>Request parameters</b>:</p>
+     * <ul>
+     * <li>
+     * <p>"<b>drafts</b>"
+     * <p>A JSON-encoded list of containing new draft objects. </p>
+     * <p>
+     * - Parameter type: <b>{@link java.util.List List} of {@link List&lt;Draft&gt;}</b><br/>
+     * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
+     * - Required: <b>false</b>
+     * </p>
+     * </li>
+     * </ul>
+     *
+     * <p><b>Produces</b>: [{mediaType=application/json}]</p>
+     * <p><b>Returns</b>: {@link JsonSuccess}</p>
+     *
+     * <p><b>Responses</b>:</p>
+     * <ul>
+     * <li><b>200 (success)</b>: Success.</li>
+     * <li><b>400 (client error)</b>: Bad request.</li>
+     * </ul>
+     */
+    @javax.annotation.Nonnull
+    HttpHandler createDrafts();
+
+    /**
+     * <p>Delete a draft</p>
+     *
+     * <p>Delete a single draft from the server. The deletion will be automatically synchronized to other clients via a `drafts` event.  `DELETE {{ api_url }}/v1/drafts/{draft_id}` </p>
+     *
+     * <p><b>Endpoint</b>: {@link Methods#DELETE DELETE} "/api/v1/drafts/{draft_id}" (<i>privileged: false</i>)</p>
+     *
+     * <p><b>Request parameters</b>:</p>
+     * <ul>
+     * <li>
+     * <p>"<b>draft_id</b>"
+     * <p>The ID of the draft you want to delete. </p>
+     * <p>
+     * - Parameter type: <b>{@link Integer}</b><br/>
+     * - Appears in: <b>{@link HttpServerExchange#getPathParameters Path}</b><br/>
+     * - Required: <b>true</b>
+     * </p>
+     * </li>
+     * </ul>
+     *
+     * <p><b>Produces</b>: [{mediaType=application/json}]</p>
+     * <p><b>Returns</b>: {@link JsonSuccess}</p>
+     *
+     * <p><b>Responses</b>:</p>
+     * <ul>
+     * <li><b>200 (success)</b>: Success.</li>
+     * <li><b>404 (client error)</b>: Not Found.</li>
+     * </ul>
+     */
+    @javax.annotation.Nonnull
+    HttpHandler deleteDraft();
+
+    /**
+     * <p>Edit a draft</p>
+     *
+     * <p>Edit a draft on the server. The edit will be automatically synchronized to other clients via `drafts` events.  `PATCH {{ api_url }}/v1/drafts/{draft_id}` </p>
+     *
+     * <p><b>Endpoint</b>: {@link Methods#PATCH PATCH} "/api/v1/drafts/{draft_id}" (<i>privileged: false</i>)</p>
+     *
+     * <p><b>Request parameters</b>:</p>
+     * <ul>
+     * <li>
+     * <p>"<b>draft_id</b>"
+     * <p>The ID of the draft to be edited. </p>
+     * <p>
+     * - Parameter type: <b>{@link Integer}</b><br/>
+     * - Appears in: <b>{@link HttpServerExchange#getPathParameters Path}</b><br/>
+     * - Required: <b>true</b>
+     * </p>
+     * </li>
+     * <li>
+     * <p>"<b>draft</b>"
+     * <p>A JSON-encoded object containing a replacement draft object for this ID. </p>
+     * <p>
+     * - Parameter type: <b>{@link Draft}</b><br/>
+     * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
+     * - Required: <b>true</b>
+     * </p>
+     * </li>
+     * </ul>
+     *
+     * <p><b>Produces</b>: [{mediaType=application/json}]</p>
+     * <p><b>Returns</b>: {@link JsonSuccess}</p>
+     *
+     * <p><b>Responses</b>:</p>
+     * <ul>
+     * <li><b>200 (success)</b>: Success.</li>
+     * <li><b>404 (client error)</b>: Not Found.</li>
+     * </ul>
+     */
+    @javax.annotation.Nonnull
+    HttpHandler editDraft();
+
+    /**
+     * <p>Get drafts</p>
+     *
+     * <p>Fetch all drafts for the current user.  `GET {{ api_url }}/v1/drafts` </p>
+     *
+     * <p><b>Endpoint</b>: {@link Methods#GET GET} "/api/v1/drafts" (<i>privileged: false</i>)</p>
+     *
+     * <p><b>Produces</b>: [{mediaType=application/json}]</p>
+     * <p><b>Returns</b>: {@link JsonSuccess}</p>
+     *
+     * <p><b>Responses</b>:</p>
+     * <ul>
+     * <li><b>200 (success)</b>: Success.</li>
+     * </ul>
+     */
+    @javax.annotation.Nonnull
+    HttpHandler getDrafts();
+
+    /**
      * <p>Add an emoji reaction</p>
      *
      * <p>Add an [emoji reaction](/help/emoji-reactions) to a message.  `POST {{ api_url }}/v1/messages/{message_id}/reactions` </p>
@@ -1039,7 +1162,7 @@ public interface PathHandlerInterface {
      * </li>
      * <li>
      * <p>"<b>client_capabilities</b>"
-     * <p>Dictionary containing details on features the client supports that are relevant to the format of responses sent by the server.  * `notification_settings_null`: Boolean for whether the   client can handle the current API with null values for   stream-level notification settings (which means the stream   is not customized and should inherit the user's global   notification settings for stream messages).  New in Zulip   2.1.0; in earlier Zulip releases, stream-level   notification settings were simple booleans.  * `bulk_message_deletion`: Boolean for whether the client's    handler for the `delete_message` event type has been    updated to process the new bulk format (with a    `message_ids`, rather than a singleton `message_id`).    Otherwise, the server will send `delete_message` events    in a loop.  New in Zulip 3.0 (feature level 13).  This    capability is for backwards-compatibility; it will be    required in a future server release.  * `user_avatar_url_field_optional`: Boolean for whether the    client required avatar URLs for all users, or supports    using `GET /avatar/{user_id}` to access user avatars.  If the    client has this capability, the server may skip sending a    `avatar_url` field in the `realm_user` at its sole discretion    to optimize network performance.  This is an important optimization    in organizations with 10,000s of users.    New in Zulip 3.0 (feature level 18).  * `stream_typing_notifications`: Boolean for whether the client   supports stream typing notifications.    New in Zulip 4.0 (feature level 58).  This capability is   for backwards-compatibility; it will be required in a   future server release. </p>
+     * <p>Dictionary containing details on features the client supports that are relevant to the format of responses sent by the server.  * `notification_settings_null`: Boolean for whether the   client can handle the current API with null values for   stream-level notification settings (which means the stream   is not customized and should inherit the user's global   notification settings for stream messages).   <br />   New in Zulip 2.1.0; in earlier Zulip releases, stream-level   notification settings were simple booleans.  * `bulk_message_deletion`: Boolean for whether the client's    handler for the `delete_message` event type has been    updated to process the new bulk format (with a    `message_ids`, rather than a singleton `message_id`).    Otherwise, the server will send `delete_message` events    in a loop.    <br />    New in Zulip 3.0 (feature level 13).  This    capability is for backwards-compatibility; it will be    required in a future server release.  * `user_avatar_url_field_optional`: Boolean for whether the    client required avatar URLs for all users, or supports    using `GET /avatar/{user_id}` to access user avatars.  If the    client has this capability, the server may skip sending a    `avatar_url` field in the `realm_user` at its sole discretion    to optimize network performance.  This is an important optimization    in organizations with 10,000s of users.    <br />    New in Zulip 3.0 (feature level 18).  * `stream_typing_notifications`: Boolean for whether the client   supports stream typing notifications.   <br />   New in Zulip 4.0 (feature level 58).  This capability is   for backwards-compatibility; it will be required in a   future server release.  * `user_settings_object`: Boolean for whether the client supports the modern   `user_settings` event type. If False, the server will additionally send the   legacy `update_display_settings` and `update_global_notifications` event   types for backwards-compatibility with clients that predate this API migration.   <br />   <br />   Because the feature level 89 API changes were merged together, clients can   safely make a request with this client capability and requesting all of the   `user_settings`, `update_display_settings`, and   `update_global_notifications` event types, and get exactly one copy of   settings data on any server version. (And then use the `zulip_feature_level`   in the `/register` response or the presence/absence of a `user_settings` key   to determine where to look).   <br />   New in Zulip 5.0 (feature level 89).  This capability is for   backwards-compatibility; it will be removed in a future server release. </p>
      * <p>
      * - Parameter type: <b>{@link Object}</b><br/>
      * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
@@ -1550,6 +1673,47 @@ public interface PathHandlerInterface {
     HttpHandler createBigBlueButtonVideoCall();
 
     /**
+     * <p>Delete a topic</p>
+     *
+     * <p>Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. </p>
+     *
+     * <p><b>Endpoint</b>: {@link Methods#POST POST} "/api/v1/streams/{stream_id}/delete_topic" (<i>privileged: false</i>)</p>
+     *
+     * <p><b>Request parameters</b>:</p>
+     * <ul>
+     * <li>
+     * <p>"<b>stream_id</b>"
+     * <p>The ID of the stream to access. </p>
+     * <p>
+     * - Parameter type: <b>{@link Integer}</b><br/>
+     * - Appears in: <b>{@link HttpServerExchange#getPathParameters Path}</b><br/>
+     * - Required: <b>true</b>
+     * </p>
+     * </li>
+     * <li>
+     * <p>"<b>topic_name</b>"
+     * <p>The name of the topic to delete. </p>
+     * <p>
+     * - Parameter type: <b>{@link String}</b><br/>
+     * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
+     * - Required: <b>true</b>
+     * </p>
+     * </li>
+     * </ul>
+     *
+     * <p><b>Produces</b>: [{mediaType=application/json}]</p>
+     * <p><b>Returns</b>: {@link JsonSuccess}</p>
+     *
+     * <p><b>Responses</b>:</p>
+     * <ul>
+     * <li><b>200 (success)</b>: Success.</li>
+     * <li><b>400 (client error)</b>: Error.</li>
+     * </ul>
+     */
+    @javax.annotation.Nonnull
+    HttpHandler deleteTopic();
+
+    /**
      * <p>Get stream ID</p>
      *
      * <p>Get the unique ID of a given stream.  `GET {{ api_url }}/v1/get_stream_id` </p>
@@ -1695,6 +1859,38 @@ public interface PathHandlerInterface {
      */
     @javax.annotation.Nonnull
     HttpHandler getStreams();
+
+    /**
+     * <p>Get the subscribers of a stream</p>
+     *
+     * <p>Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` </p>
+     *
+     * <p><b>Endpoint</b>: {@link Methods#GET GET} "/api/v1/streams/{stream_id}/members" (<i>privileged: false</i>)</p>
+     *
+     * <p><b>Request parameters</b>:</p>
+     * <ul>
+     * <li>
+     * <p>"<b>stream_id</b>"
+     * <p>The ID of the stream to access. </p>
+     * <p>
+     * - Parameter type: <b>{@link Integer}</b><br/>
+     * - Appears in: <b>{@link HttpServerExchange#getPathParameters Path}</b><br/>
+     * - Required: <b>true</b>
+     * </p>
+     * </li>
+     * </ul>
+     *
+     * <p><b>Produces</b>: [{mediaType=application/json}]</p>
+     * <p><b>Returns</b>: {@link JsonSuccessBase}</p>
+     *
+     * <p><b>Responses</b>:</p>
+     * <ul>
+     * <li><b>200 (success)</b>: Success.</li>
+     * <li><b>400 (client error)</b>: Bad request.</li>
+     * </ul>
+     */
+    @javax.annotation.Nonnull
+    HttpHandler getSubscribers();
 
     /**
      * <p>Get subscription status</p>
@@ -2702,17 +2898,53 @@ public interface PathHandlerInterface {
     HttpHandler unmuteUser();
 
     /**
-     * <p>Update display settings</p>
+     * <p>Update settings</p>
      *
-     * <p>This endpoint is used to edit the current user's user interface settings.  `PATCH {{ api_url }}/v1/settings/display` </p>
+     * <p>This endpoint is used to edit the current user's settings.  `PATCH {{ api_url }}/v1/settings`  **Changes**: Prior to Zulip 5.0 (feature level 80), this endpoint only supported the `full_name`, `email`, `old_password`, and `new_password` parameters. Notification settings were managed by `PATCH /settings/notifications`, and all other settings by `PATCH /settings/display`. The feature level 80 migration to merge these endpoints did not change how request parameters are encoded. Note, however, that it did change the handling of any invalid parameters present in a request to change notification or display settings, since the merged endpoint uses the new response format that was introduced for `/settings` in Zulip 5.0 (feature level 78).  The `/settings/display` and `/settings/notifications` endpoints are now deprecated aliases for this endpoint for backwards-compatibility, and will be removed once clients have migrated to use this endpoint. </p>
      *
-     * <p><b>Endpoint</b>: {@link Methods#PATCH PATCH} "/api/v1/settings/display" (<i>privileged: false</i>)</p>
+     * <p><b>Endpoint</b>: {@link Methods#PATCH PATCH} "/api/v1/settings" (<i>privileged: false</i>)</p>
      *
      * <p><b>Request parameters</b>:</p>
      * <ul>
      * <li>
+     * <p>"<b>full_name</b>"
+     * <p>A new display name for the user. </p>
+     * <p>
+     * - Parameter type: <b>{@link String}</b><br/>
+     * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
+     * - Required: <b>false</b>
+     * </p>
+     * </li>
+     * <li>
+     * <p>"<b>email</b>"
+     * <p>Asks the server to initiate a confirmation sequence to change the user's email address to the indicated value. The user will need to demonstrate control of the new email address by clicking a confirmation link sent to that address. </p>
+     * <p>
+     * - Parameter type: <b>{@link String}</b><br/>
+     * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
+     * - Required: <b>false</b>
+     * </p>
+     * </li>
+     * <li>
+     * <p>"<b>old_password</b>"
+     * <p>The user's old Zulip password (or LDAP password, if LDAP authentication is in use).  Required only when sending the `new_password` parameter. </p>
+     * <p>
+     * - Parameter type: <b>{@link String}</b><br/>
+     * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
+     * - Required: <b>false</b>
+     * </p>
+     * </li>
+     * <li>
+     * <p>"<b>new_password</b>"
+     * <p>The user's new Zulip password (or LDAP password, if LDAP authentication is in use).  The `old_password` parameter must be included in the request. </p>
+     * <p>
+     * - Parameter type: <b>{@link String}</b><br/>
+     * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
+     * - Required: <b>false</b>
+     * </p>
+     * </li>
+     * <li>
      * <p>"<b>twenty_four_hour_time</b>"
-     * <p>Whether time should be [displayed in 24-hour notation](/help/change-the-time-format). </p>
+     * <p>Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. </p>
      * <p>
      * - Parameter type: <b>{@link Boolean}</b><br/>
      * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
@@ -2721,7 +2953,7 @@ public interface PathHandlerInterface {
      * </li>
      * <li>
      * <p>"<b>dense_mode</b>"
-     * <p>This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip. </p>
+     * <p>This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. </p>
      * <p>
      * - Parameter type: <b>{@link Boolean}</b><br/>
      * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
@@ -2730,7 +2962,7 @@ public interface PathHandlerInterface {
      * </li>
      * <li>
      * <p>"<b>starred_message_counts</b>"
-     * <p>Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages). </p>
+     * <p>Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. </p>
      * <p>
      * - Parameter type: <b>{@link Boolean}</b><br/>
      * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
@@ -2739,7 +2971,7 @@ public interface PathHandlerInterface {
      * </li>
      * <li>
      * <p>"<b>fluid_layout_width</b>"
-     * <p>Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app's center panel (message feed, recent topics) on wide screens. </p>
+     * <p>Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app's center panel (message feed, recent topics) on wide screens.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. </p>
      * <p>
      * - Parameter type: <b>{@link Boolean}</b><br/>
      * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
@@ -2748,7 +2980,7 @@ public interface PathHandlerInterface {
      * </li>
      * <li>
      * <p>"<b>high_contrast_mode</b>"
-     * <p>This setting is reserved for use to control variations in Zulip's design to help visually impaired users. </p>
+     * <p>This setting is reserved for use to control variations in Zulip's design to help visually impaired users.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. </p>
      * <p>
      * - Parameter type: <b>{@link Boolean}</b><br/>
      * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
@@ -2757,7 +2989,7 @@ public interface PathHandlerInterface {
      * </li>
      * <li>
      * <p>"<b>color_scheme</b>"
-     * <p>Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard `prefers-color-scheme` media query. </p>
+     * <p>Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard `prefers-color-scheme` media query.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. </p>
      * <p>
      * - Parameter type: <b>{@link Integer}</b><br/>
      * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
@@ -2765,8 +2997,17 @@ public interface PathHandlerInterface {
      * </p>
      * </li>
      * <li>
+     * <p>"<b>enable_drafts_synchronization</b>"
+     * <p>A boolean parameter to control whether synchronizing drafts is enabled for the user. When synchronization is disabled, all drafts stored in the server will be automatically deleted from the server.  This does not do anything (like sending events) to delete local copies of drafts stored in clients.  **Changes**: New in Zulip 5.0 (feature level 87). </p>
+     * <p>
+     * - Parameter type: <b>{@link Boolean}</b><br/>
+     * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
+     * - Required: <b>false</b>
+     * </p>
+     * </li>
+     * <li>
      * <p>"<b>translate_emoticons</b>"
-     * <p>Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends. </p>
+     * <p>Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. </p>
      * <p>
      * - Parameter type: <b>{@link Boolean}</b><br/>
      * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
@@ -2775,7 +3016,7 @@ public interface PathHandlerInterface {
      * </li>
      * <li>
      * <p>"<b>default_language</b>"
-     * <p>What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, `\"en\"` for English or `\"de\"` for German.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63). </p>
+     * <p>What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, `\"en\"` for English or `\"de\"` for German.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63). </p>
      * <p>
      * - Parameter type: <b>{@link String}</b><br/>
      * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
@@ -2784,7 +3025,7 @@ public interface PathHandlerInterface {
      * </li>
      * <li>
      * <p>"<b>default_view</b>"
-     * <p>The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the `Esc` keyboard shortcut repeatedly.  * \"recent_topics\" - Recent topics view * \"all_messages\" - All messages view  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). </p>
+     * <p>The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the `Esc` keyboard shortcut repeatedly.  * \"recent_topics\" - Recent topics view * \"all_messages\" - All messages view  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). </p>
      * <p>
      * - Parameter type: <b>{@link String}</b><br/>
      * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
@@ -2793,7 +3034,7 @@ public interface PathHandlerInterface {
      * </li>
      * <li>
      * <p>"<b>left_side_userlist</b>"
-     * <p>Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked. </p>
+     * <p>Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. </p>
      * <p>
      * - Parameter type: <b>{@link Boolean}</b><br/>
      * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
@@ -2802,7 +3043,7 @@ public interface PathHandlerInterface {
      * </li>
      * <li>
      * <p>"<b>emojiset</b>"
-     * <p>The user's configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \"google\" - Google modern * \"google-blob\" - Google classic * \"twitter\" - Twitter * \"text\" - Plain text  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). </p>
+     * <p>The user's configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \"google\" - Google modern * \"google-blob\" - Google classic * \"twitter\" - Twitter * \"text\" - Plain text  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). </p>
      * <p>
      * - Parameter type: <b>{@link String}</b><br/>
      * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
@@ -2811,7 +3052,7 @@ public interface PathHandlerInterface {
      * </li>
      * <li>
      * <p>"<b>demote_inactive_streams</b>"
-     * <p>Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never </p>
+     * <p>Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. </p>
      * <p>
      * - Parameter type: <b>{@link Integer}</b><br/>
      * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
@@ -2820,9 +3061,198 @@ public interface PathHandlerInterface {
      * </li>
      * <li>
      * <p>"<b>timezone</b>"
-     * <p>The user's [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). </p>
+     * <p>The user's [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). </p>
      * <p>
      * - Parameter type: <b>{@link String}</b><br/>
+     * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
+     * - Required: <b>false</b>
+     * </p>
+     * </li>
+     * <li>
+     * <p>"<b>enable_stream_desktop_notifications</b>"
+     * <p>Enable visual desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. </p>
+     * <p>
+     * - Parameter type: <b>{@link Boolean}</b><br/>
+     * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
+     * - Required: <b>false</b>
+     * </p>
+     * </li>
+     * <li>
+     * <p>"<b>enable_stream_email_notifications</b>"
+     * <p>Enable email notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. </p>
+     * <p>
+     * - Parameter type: <b>{@link Boolean}</b><br/>
+     * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
+     * - Required: <b>false</b>
+     * </p>
+     * </li>
+     * <li>
+     * <p>"<b>enable_stream_push_notifications</b>"
+     * <p>Enable mobile notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. </p>
+     * <p>
+     * - Parameter type: <b>{@link Boolean}</b><br/>
+     * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
+     * - Required: <b>false</b>
+     * </p>
+     * </li>
+     * <li>
+     * <p>"<b>enable_stream_audible_notifications</b>"
+     * <p>Enable audible desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. </p>
+     * <p>
+     * - Parameter type: <b>{@link Boolean}</b><br/>
+     * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
+     * - Required: <b>false</b>
+     * </p>
+     * </li>
+     * <li>
+     * <p>"<b>notification_sound</b>"
+     * <p>Notification sound name.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63). </p>
+     * <p>
+     * - Parameter type: <b>{@link String}</b><br/>
+     * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
+     * - Required: <b>false</b>
+     * </p>
+     * </li>
+     * <li>
+     * <p>"<b>enable_desktop_notifications</b>"
+     * <p>Enable visual desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. </p>
+     * <p>
+     * - Parameter type: <b>{@link Boolean}</b><br/>
+     * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
+     * - Required: <b>false</b>
+     * </p>
+     * </li>
+     * <li>
+     * <p>"<b>enable_sounds</b>"
+     * <p>Enable audible desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. </p>
+     * <p>
+     * - Parameter type: <b>{@link Boolean}</b><br/>
+     * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
+     * - Required: <b>false</b>
+     * </p>
+     * </li>
+     * <li>
+     * <p>"<b>email_notifications_batching_period_seconds</b>"
+     * <p>The duration (in seconds) for which the server should wait to batch email notifications before sending them.  **Changes**: New in Zulip 5.0 (feature level 82) </p>
+     * <p>
+     * - Parameter type: <b>{@link Integer}</b><br/>
+     * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
+     * - Required: <b>false</b>
+     * </p>
+     * </li>
+     * <li>
+     * <p>"<b>enable_offline_email_notifications</b>"
+     * <p>Enable email notifications for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. </p>
+     * <p>
+     * - Parameter type: <b>{@link Boolean}</b><br/>
+     * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
+     * - Required: <b>false</b>
+     * </p>
+     * </li>
+     * <li>
+     * <p>"<b>enable_offline_push_notifications</b>"
+     * <p>Enable mobile notification for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. </p>
+     * <p>
+     * - Parameter type: <b>{@link Boolean}</b><br/>
+     * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
+     * - Required: <b>false</b>
+     * </p>
+     * </li>
+     * <li>
+     * <p>"<b>enable_online_push_notifications</b>"
+     * <p>Enable mobile notification for private messages and @-mentions received when the user is online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. </p>
+     * <p>
+     * - Parameter type: <b>{@link Boolean}</b><br/>
+     * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
+     * - Required: <b>false</b>
+     * </p>
+     * </li>
+     * <li>
+     * <p>"<b>enable_digest_emails</b>"
+     * <p>Enable digest emails when the user is away.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. </p>
+     * <p>
+     * - Parameter type: <b>{@link Boolean}</b><br/>
+     * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
+     * - Required: <b>false</b>
+     * </p>
+     * </li>
+     * <li>
+     * <p>"<b>enable_marketing_emails</b>"
+     * <p>Enable marketing emails. Has no function outside Zulip Cloud.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. </p>
+     * <p>
+     * - Parameter type: <b>{@link Boolean}</b><br/>
+     * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
+     * - Required: <b>false</b>
+     * </p>
+     * </li>
+     * <li>
+     * <p>"<b>enable_login_emails</b>"
+     * <p>Enable email notifications for new logins to account.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. </p>
+     * <p>
+     * - Parameter type: <b>{@link Boolean}</b><br/>
+     * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
+     * - Required: <b>false</b>
+     * </p>
+     * </li>
+     * <li>
+     * <p>"<b>message_content_in_email_notifications</b>"
+     * <p>Include the message's content in email notifications for new messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. </p>
+     * <p>
+     * - Parameter type: <b>{@link Boolean}</b><br/>
+     * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
+     * - Required: <b>false</b>
+     * </p>
+     * </li>
+     * <li>
+     * <p>"<b>pm_content_in_desktop_notifications</b>"
+     * <p>Include content of private messages in desktop notifications.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. </p>
+     * <p>
+     * - Parameter type: <b>{@link Boolean}</b><br/>
+     * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
+     * - Required: <b>false</b>
+     * </p>
+     * </li>
+     * <li>
+     * <p>"<b>wildcard_mentions_notify</b>"
+     * <p>Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. </p>
+     * <p>
+     * - Parameter type: <b>{@link Boolean}</b><br/>
+     * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
+     * - Required: <b>false</b>
+     * </p>
+     * </li>
+     * <li>
+     * <p>"<b>desktop_icon_count_display</b>"
+     * <p>Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. </p>
+     * <p>
+     * - Parameter type: <b>{@link Integer}</b><br/>
+     * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
+     * - Required: <b>false</b>
+     * </p>
+     * </li>
+     * <li>
+     * <p>"<b>realm_name_in_notifications</b>"
+     * <p>Include organization name in subject of message notification emails.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. </p>
+     * <p>
+     * - Parameter type: <b>{@link Boolean}</b><br/>
+     * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
+     * - Required: <b>false</b>
+     * </p>
+     * </li>
+     * <li>
+     * <p>"<b>presence_enabled</b>"
+     * <p>Display the presence status to other users when online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. </p>
+     * <p>
+     * - Parameter type: <b>{@link Boolean}</b><br/>
+     * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
+     * - Required: <b>false</b>
+     * </p>
+     * </li>
+     * <li>
+     * <p>"<b>enter_sends</b>"
+     * <p>Whether pressing Enter in the compose box sends a message (or saves a message edit).  **Changes**: Before Zulip 5.0 (feature level 81), this setting was managed by the `POST /users/me/enter-sends` endpoint, with the same parameter format. </p>
+     * <p>
+     * - Parameter type: <b>{@link Boolean}</b><br/>
      * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
      * - Required: <b>false</b>
      * </p>
@@ -2838,56 +3268,20 @@ public interface PathHandlerInterface {
      * </ul>
      */
     @javax.annotation.Nonnull
-    HttpHandler updateDisplaySettings();
+    HttpHandler updateSettings();
 
     /**
-     * <p>Update notification settings</p>
+     * <p>Update your status</p>
      *
-     * <p>This endpoint is used to edit the user's global notification settings. See [this endpoint](/api/update-subscription-settings) for per-stream notification settings.  `PATCH {{ api_url }}/v1/settings/notifications` </p>
+     * <p>Change your [status](/help/status-and-availability).  `POST {{ api_url }}/v1/users/me/status`  A request to this endpoint will only change the parameters passed. For example, passing just `status_text` requests a change in the status text, but will leave the status emoji unchanged.  Clients that wish to set the user's status to a specific value should pass all supported parameters. </p>
      *
-     * <p><b>Endpoint</b>: {@link Methods#PATCH PATCH} "/api/v1/settings/notifications" (<i>privileged: false</i>)</p>
+     * <p><b>Endpoint</b>: {@link Methods#POST POST} "/api/v1/users/me/status" (<i>privileged: false</i>)</p>
      *
      * <p><b>Request parameters</b>:</p>
      * <ul>
      * <li>
-     * <p>"<b>enable_stream_desktop_notifications</b>"
-     * <p>Enable visual desktop notifications for stream messages. </p>
-     * <p>
-     * - Parameter type: <b>{@link Boolean}</b><br/>
-     * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
-     * - Required: <b>false</b>
-     * </p>
-     * </li>
-     * <li>
-     * <p>"<b>enable_stream_email_notifications</b>"
-     * <p>Enable email notifications for stream messages. </p>
-     * <p>
-     * - Parameter type: <b>{@link Boolean}</b><br/>
-     * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
-     * - Required: <b>false</b>
-     * </p>
-     * </li>
-     * <li>
-     * <p>"<b>enable_stream_push_notifications</b>"
-     * <p>Enable mobile notifications for stream messages. </p>
-     * <p>
-     * - Parameter type: <b>{@link Boolean}</b><br/>
-     * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
-     * - Required: <b>false</b>
-     * </p>
-     * </li>
-     * <li>
-     * <p>"<b>enable_stream_audible_notifications</b>"
-     * <p>Enable audible desktop notifications for stream messages. </p>
-     * <p>
-     * - Parameter type: <b>{@link Boolean}</b><br/>
-     * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
-     * - Required: <b>false</b>
-     * </p>
-     * </li>
-     * <li>
-     * <p>"<b>notification_sound</b>"
-     * <p>Notification sound name.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63). </p>
+     * <p>"<b>status_text</b>"
+     * <p>The text content of the status message. Sending the empty string will clear the user's status.  **Note**: The limit on the size of the message is 60 characters. </p>
      * <p>
      * - Parameter type: <b>{@link String}</b><br/>
      * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
@@ -2895,8 +3289,8 @@ public interface PathHandlerInterface {
      * </p>
      * </li>
      * <li>
-     * <p>"<b>enable_desktop_notifications</b>"
-     * <p>Enable visual desktop notifications for private messages and @-mentions. </p>
+     * <p>"<b>away</b>"
+     * <p>Whether the user should be marked as \"away\". </p>
      * <p>
      * - Parameter type: <b>{@link Boolean}</b><br/>
      * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
@@ -2904,118 +3298,28 @@ public interface PathHandlerInterface {
      * </p>
      * </li>
      * <li>
-     * <p>"<b>enable_sounds</b>"
-     * <p>Enable audible desktop notifications for private messages and @-mentions. </p>
+     * <p>"<b>emoji_name</b>"
+     * <p>The name for the emoji to associate with this status. </p>
      * <p>
-     * - Parameter type: <b>{@link Boolean}</b><br/>
+     * - Parameter type: <b>{@link String}</b><br/>
      * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
      * - Required: <b>false</b>
      * </p>
      * </li>
      * <li>
-     * <p>"<b>enable_offline_email_notifications</b>"
-     * <p>Enable email notifications for private messages and @-mentions received when the user is offline. </p>
+     * <p>"<b>emoji_code</b>"
+     * <p>A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji. </p>
      * <p>
-     * - Parameter type: <b>{@link Boolean}</b><br/>
+     * - Parameter type: <b>{@link String}</b><br/>
      * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
      * - Required: <b>false</b>
      * </p>
      * </li>
      * <li>
-     * <p>"<b>enable_offline_push_notifications</b>"
-     * <p>Enable mobile notification for private messages and @-mentions received when the user is offline. </p>
+     * <p>"<b>reaction_type</b>"
+     * <p>One of the following values:  * `unicode_emoji`: Unicode emoji (`emoji_code` will be its Unicode   codepoint). * `realm_emoji`: [Custom emoji](/help/add-custom-emoji).   (`emoji_code` will be its ID). * `zulip_extra_emoji`: Special emoji included with Zulip.  Exists to   namespace the `zulip` emoji. </p>
      * <p>
-     * - Parameter type: <b>{@link Boolean}</b><br/>
-     * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
-     * - Required: <b>false</b>
-     * </p>
-     * </li>
-     * <li>
-     * <p>"<b>enable_online_push_notifications</b>"
-     * <p>Enable mobile notification for private messages and @-mentions received when the user is online. </p>
-     * <p>
-     * - Parameter type: <b>{@link Boolean}</b><br/>
-     * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
-     * - Required: <b>false</b>
-     * </p>
-     * </li>
-     * <li>
-     * <p>"<b>enable_digest_emails</b>"
-     * <p>Enable digest emails when the user is away. </p>
-     * <p>
-     * - Parameter type: <b>{@link Boolean}</b><br/>
-     * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
-     * - Required: <b>false</b>
-     * </p>
-     * </li>
-     * <li>
-     * <p>"<b>enable_marketing_emails</b>"
-     * <p>Enable marketing emails. Has no function outside Zulip Cloud. </p>
-     * <p>
-     * - Parameter type: <b>{@link Boolean}</b><br/>
-     * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
-     * - Required: <b>false</b>
-     * </p>
-     * </li>
-     * <li>
-     * <p>"<b>enable_login_emails</b>"
-     * <p>Enable email notifications for new logins to account. </p>
-     * <p>
-     * - Parameter type: <b>{@link Boolean}</b><br/>
-     * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
-     * - Required: <b>false</b>
-     * </p>
-     * </li>
-     * <li>
-     * <p>"<b>message_content_in_email_notifications</b>"
-     * <p>Include the message's content in email notifications for new messages. </p>
-     * <p>
-     * - Parameter type: <b>{@link Boolean}</b><br/>
-     * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
-     * - Required: <b>false</b>
-     * </p>
-     * </li>
-     * <li>
-     * <p>"<b>pm_content_in_desktop_notifications</b>"
-     * <p>Include content of private messages in desktop notifications. </p>
-     * <p>
-     * - Parameter type: <b>{@link Boolean}</b><br/>
-     * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
-     * - Required: <b>false</b>
-     * </p>
-     * </li>
-     * <li>
-     * <p>"<b>wildcard_mentions_notify</b>"
-     * <p>Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention. </p>
-     * <p>
-     * - Parameter type: <b>{@link Boolean}</b><br/>
-     * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
-     * - Required: <b>false</b>
-     * </p>
-     * </li>
-     * <li>
-     * <p>"<b>desktop_icon_count_display</b>"
-     * <p>Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None </p>
-     * <p>
-     * - Parameter type: <b>{@link Integer}</b><br/>
-     * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
-     * - Required: <b>false</b>
-     * </p>
-     * </li>
-     * <li>
-     * <p>"<b>realm_name_in_notifications</b>"
-     * <p>Include organization name in subject of message notification emails. </p>
-     * <p>
-     * - Parameter type: <b>{@link Boolean}</b><br/>
-     * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
-     * - Required: <b>false</b>
-     * </p>
-     * </li>
-     * <li>
-     * <p>"<b>presence_enabled</b>"
-     * <p>Display the presence status to other users when online. </p>
-     * <p>
-     * - Parameter type: <b>{@link Boolean}</b><br/>
+     * - Parameter type: <b>{@link String}</b><br/>
      * - Appears in: <b>{@link HttpServerExchange#getQueryParameters Query}</b><br/>
      * - Required: <b>false</b>
      * </p>
@@ -3023,15 +3327,16 @@ public interface PathHandlerInterface {
      * </ul>
      *
      * <p><b>Produces</b>: [{mediaType=application/json}]</p>
-     * <p><b>Returns</b>: {@link JsonSuccessBase}</p>
+     * <p><b>Returns</b>: {@link JsonSuccess}</p>
      *
      * <p><b>Responses</b>:</p>
      * <ul>
      * <li><b>200 (success)</b>: Success.</li>
+     * <li><b>400 (client error)</b>: Success.</li>
      * </ul>
      */
     @javax.annotation.Nonnull
-    HttpHandler updateNotificationSettings();
+    HttpHandler updateStatus();
 
     /**
      * <p>Update a user</p>

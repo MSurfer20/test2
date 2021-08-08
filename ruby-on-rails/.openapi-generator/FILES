@@ -7,6 +7,7 @@ app/channels/application_cable/channel.rb
 app/channels/application_cable/connection.rb
 app/controllers/application_controller.rb
 app/controllers/authentication_controller.rb
+app/controllers/drafts_controller.rb
 app/controllers/messages_controller.rb
 app/controllers/real_time_events_controller.rb
 app/controllers/server_and_organizations_controller.rb
@@ -38,10 +39,13 @@ app/models/coded_error_base.rb
 app/models/coded_error_base_all_of.rb
 app/models/custom_profile_field.rb
 app/models/default_stream_group.rb
+app/models/draft.rb
+app/models/emoji_base.rb
 app/models/emoji_reaction.rb
 app/models/emoji_reaction_all_of.rb
 app/models/emoji_reaction_base.rb
-app/models/emoji_reaction_base_user.rb
+app/models/emoji_reaction_base_all_of.rb
+app/models/emoji_reaction_base_all_of_user.rb
 app/models/get_messages.rb
 app/models/get_messages_all_of.rb
 app/models/hotspot.rb

@@ -226,26 +226,29 @@ func (s *UsersApiService) UnmuteUser(ctx context.Context, mutedUserId int32) (Im
 	return Response(http.StatusNotImplemented, nil), errors.New("UnmuteUser method not implemented")
 }
 
-// UpdateDisplaySettings - Update display settings
-func (s *UsersApiService) UpdateDisplaySettings(ctx context.Context, twentyFourHourTime bool, denseMode bool, starredMessageCounts bool, fluidLayoutWidth bool, highContrastMode bool, colorScheme int32, translateEmoticons bool, defaultLanguage string, defaultView string, leftSideUserlist bool, emojiset string, demoteInactiveStreams int32, timezone string) (ImplResponse, error) {
-	// TODO - update UpdateDisplaySettings with the required logic for this service method.
+// UpdateSettings - Update settings
+func (s *UsersApiService) UpdateSettings(ctx context.Context, fullName string, email string, oldPassword string, newPassword string, twentyFourHourTime bool, denseMode bool, starredMessageCounts bool, fluidLayoutWidth bool, highContrastMode bool, colorScheme int32, enableDraftsSynchronization bool, translateEmoticons bool, defaultLanguage string, defaultView string, leftSideUserlist bool, emojiset string, demoteInactiveStreams int32, timezone string, enableStreamDesktopNotifications bool, enableStreamEmailNotifications bool, enableStreamPushNotifications bool, enableStreamAudibleNotifications bool, notificationSound string, enableDesktopNotifications bool, enableSounds bool, emailNotificationsBatchingPeriodSeconds int32, enableOfflineEmailNotifications bool, enableOfflinePushNotifications bool, enableOnlinePushNotifications bool, enableDigestEmails bool, enableMarketingEmails bool, enableLoginEmails bool, messageContentInEmailNotifications bool, pmContentInDesktopNotifications bool, wildcardMentionsNotify bool, desktopIconCountDisplay int32, realmNameInNotifications bool, presenceEnabled bool, enterSends bool) (ImplResponse, error) {
+	// TODO - update UpdateSettings with the required logic for this service method.
 	// Add api_users_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 
 	//TODO: Uncomment the next line to return response Response(200, JsonSuccessBase{}) or use other options such as http.Ok ...
 	//return Response(200, JsonSuccessBase{}), nil
 
-	return Response(http.StatusNotImplemented, nil), errors.New("UpdateDisplaySettings method not implemented")
+	return Response(http.StatusNotImplemented, nil), errors.New("UpdateSettings method not implemented")
 }
 
-// UpdateNotificationSettings - Update notification settings
-func (s *UsersApiService) UpdateNotificationSettings(ctx context.Context, enableStreamDesktopNotifications bool, enableStreamEmailNotifications bool, enableStreamPushNotifications bool, enableStreamAudibleNotifications bool, notificationSound string, enableDesktopNotifications bool, enableSounds bool, enableOfflineEmailNotifications bool, enableOfflinePushNotifications bool, enableOnlinePushNotifications bool, enableDigestEmails bool, enableMarketingEmails bool, enableLoginEmails bool, messageContentInEmailNotifications bool, pmContentInDesktopNotifications bool, wildcardMentionsNotify bool, desktopIconCountDisplay int32, realmNameInNotifications bool, presenceEnabled bool) (ImplResponse, error) {
-	// TODO - update UpdateNotificationSettings with the required logic for this service method.
+// UpdateStatus - Update your status
+func (s *UsersApiService) UpdateStatus(ctx context.Context, statusText string, away bool, emojiName string, emojiCode string, reactionType string) (ImplResponse, error) {
+	// TODO - update UpdateStatus with the required logic for this service method.
 	// Add api_users_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 
-	//TODO: Uncomment the next line to return response Response(200, JsonSuccessBase{}) or use other options such as http.Ok ...
-	//return Response(200, JsonSuccessBase{}), nil
+	//TODO: Uncomment the next line to return response Response(200, JsonSuccess{}) or use other options such as http.Ok ...
+	//return Response(200, JsonSuccess{}), nil
 
-	return Response(http.StatusNotImplemented, nil), errors.New("UpdateNotificationSettings method not implemented")
+	//TODO: Uncomment the next line to return response Response(400, OneOfobjectobjectobjectobjectobjectobject{}) or use other options such as http.Ok ...
+	//return Response(400, OneOfobjectobjectobjectobjectobjectobject{}), nil
+
+	return Response(http.StatusNotImplemented, nil), errors.New("UpdateStatus method not implemented")
 }
 
 // UpdateUser - Update a user

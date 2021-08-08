@@ -12,8 +12,9 @@ import model.JsonSuccessBase
 import model.OasAnyTypeNotMapped
 import model.OneOfobjectobject
 import model.OneOfobjectobjectobject
+import model.OneOfobjectobjectobjectobjectobjectobject
 
-@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2021-08-08T20:45:49.166589Z[Etc/UTC]")
+@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2021-08-08T21:15:24.853051Z[Etc/UTC]")
 @Singleton
 class UsersApiController @Inject()(cc: ControllerComponents, api: UsersApi) extends AbstractController(cc) {
   /**
@@ -285,10 +286,18 @@ class UsersApiController @Inject()(cc: ControllerComponents, api: UsersApi) exte
   }
 
   /**
-    * PATCH /api/v1/settings/display?twentyFourHourTime=[value]&denseMode=[value]&starredMessageCounts=[value]&fluidLayoutWidth=[value]&highContrastMode=[value]&colorScheme=[value]&translateEmoticons=[value]&defaultLanguage=[value]&defaultView=[value]&leftSideUserlist=[value]&emojiset=[value]&demoteInactiveStreams=[value]&timezone=[value]
+    * PATCH /api/v1/settings?fullName=[value]&email=[value]&oldPassword=[value]&newPassword=[value]&twentyFourHourTime=[value]&denseMode=[value]&starredMessageCounts=[value]&fluidLayoutWidth=[value]&highContrastMode=[value]&colorScheme=[value]&enableDraftsSynchronization=[value]&translateEmoticons=[value]&defaultLanguage=[value]&defaultView=[value]&leftSideUserlist=[value]&emojiset=[value]&demoteInactiveStreams=[value]&timezone=[value]&enableStreamDesktopNotifications=[value]&enableStreamEmailNotifications=[value]&enableStreamPushNotifications=[value]&enableStreamAudibleNotifications=[value]&notificationSound=[value]&enableDesktopNotifications=[value]&enableSounds=[value]&emailNotificationsBatchingPeriodSeconds=[value]&enableOfflineEmailNotifications=[value]&enableOfflinePushNotifications=[value]&enableOnlinePushNotifications=[value]&enableDigestEmails=[value]&enableMarketingEmails=[value]&enableLoginEmails=[value]&messageContentInEmailNotifications=[value]&pmContentInDesktopNotifications=[value]&wildcardMentionsNotify=[value]&desktopIconCountDisplay=[value]&realmNameInNotifications=[value]&presenceEnabled=[value]&enterSends=[value]
     */
-  def updateDisplaySettings(): Action[AnyContent] = Action { request =>
+  def updateSettings(): Action[AnyContent] = Action { request =>
     def executeApi(): JsonSuccessBase = {
+      val fullName = request.getQueryString("full_name")
+        
+      val email = request.getQueryString("email")
+        
+      val oldPassword = request.getQueryString("old_password")
+        
+      val newPassword = request.getQueryString("new_password")
+        
       val twentyFourHourTime = request.getQueryString("twenty_four_hour_time")
         .map(value => value.toBoolean)
       val denseMode = request.getQueryString("dense_mode")
@@ -301,6 +310,8 @@ class UsersApiController @Inject()(cc: ControllerComponents, api: UsersApi) exte
         .map(value => value.toBoolean)
       val colorScheme = request.getQueryString("color_scheme")
         .map(value => value.toInt)
+      val enableDraftsSynchronization = request.getQueryString("enable_drafts_synchronization")
+        .map(value => value.toBoolean)
       val translateEmoticons = request.getQueryString("translate_emoticons")
         .map(value => value.toBoolean)
       val defaultLanguage = request.getQueryString("default_language")
@@ -315,19 +326,6 @@ class UsersApiController @Inject()(cc: ControllerComponents, api: UsersApi) exte
         .map(value => value.toInt)
       val timezone = request.getQueryString("timezone")
         
-      api.updateDisplaySettings(twentyFourHourTime, denseMode, starredMessageCounts, fluidLayoutWidth, highContrastMode, colorScheme, translateEmoticons, defaultLanguage, defaultView, leftSideUserlist, emojiset, demoteInactiveStreams, timezone)
-    }
-
-    val result = executeApi()
-    val json = Json.toJson(result)
-    Ok(json)
-  }
-
-  /**
-    * PATCH /api/v1/settings/notifications?enableStreamDesktopNotifications=[value]&enableStreamEmailNotifications=[value]&enableStreamPushNotifications=[value]&enableStreamAudibleNotifications=[value]&notificationSound=[value]&enableDesktopNotifications=[value]&enableSounds=[value]&enableOfflineEmailNotifications=[value]&enableOfflinePushNotifications=[value]&enableOnlinePushNotifications=[value]&enableDigestEmails=[value]&enableMarketingEmails=[value]&enableLoginEmails=[value]&messageContentInEmailNotifications=[value]&pmContentInDesktopNotifications=[value]&wildcardMentionsNotify=[value]&desktopIconCountDisplay=[value]&realmNameInNotifications=[value]&presenceEnabled=[value]
-    */
-  def updateNotificationSettings(): Action[AnyContent] = Action { request =>
-    def executeApi(): JsonSuccessBase = {
       val enableStreamDesktopNotifications = request.getQueryString("enable_stream_desktop_notifications")
         .map(value => value.toBoolean)
       val enableStreamEmailNotifications = request.getQueryString("enable_stream_email_notifications")
@@ -342,6 +340,8 @@ class UsersApiController @Inject()(cc: ControllerComponents, api: UsersApi) exte
         .map(value => value.toBoolean)
       val enableSounds = request.getQueryString("enable_sounds")
         .map(value => value.toBoolean)
+      val emailNotificationsBatchingPeriodSeconds = request.getQueryString("email_notifications_batching_period_seconds")
+        .map(value => value.toInt)
       val enableOfflineEmailNotifications = request.getQueryString("enable_offline_email_notifications")
         .map(value => value.toBoolean)
       val enableOfflinePushNotifications = request.getQueryString("enable_offline_push_notifications")
@@ -366,7 +366,32 @@ class UsersApiController @Inject()(cc: ControllerComponents, api: UsersApi) exte
         .map(value => value.toBoolean)
       val presenceEnabled = request.getQueryString("presence_enabled")
         .map(value => value.toBoolean)
-      api.updateNotificationSettings(enableStreamDesktopNotifications, enableStreamEmailNotifications, enableStreamPushNotifications, enableStreamAudibleNotifications, notificationSound, enableDesktopNotifications, enableSounds, enableOfflineEmailNotifications, enableOfflinePushNotifications, enableOnlinePushNotifications, enableDigestEmails, enableMarketingEmails, enableLoginEmails, messageContentInEmailNotifications, pmContentInDesktopNotifications, wildcardMentionsNotify, desktopIconCountDisplay, realmNameInNotifications, presenceEnabled)
+      val enterSends = request.getQueryString("enter_sends")
+        .map(value => value.toBoolean)
+      api.updateSettings(fullName, email, oldPassword, newPassword, twentyFourHourTime, denseMode, starredMessageCounts, fluidLayoutWidth, highContrastMode, colorScheme, enableDraftsSynchronization, translateEmoticons, defaultLanguage, defaultView, leftSideUserlist, emojiset, demoteInactiveStreams, timezone, enableStreamDesktopNotifications, enableStreamEmailNotifications, enableStreamPushNotifications, enableStreamAudibleNotifications, notificationSound, enableDesktopNotifications, enableSounds, emailNotificationsBatchingPeriodSeconds, enableOfflineEmailNotifications, enableOfflinePushNotifications, enableOnlinePushNotifications, enableDigestEmails, enableMarketingEmails, enableLoginEmails, messageContentInEmailNotifications, pmContentInDesktopNotifications, wildcardMentionsNotify, desktopIconCountDisplay, realmNameInNotifications, presenceEnabled, enterSends)
+    }
+
+    val result = executeApi()
+    val json = Json.toJson(result)
+    Ok(json)
+  }
+
+  /**
+    * POST /api/v1/users/me/status?statusText=[value]&away=[value]&emojiName=[value]&emojiCode=[value]&reactionType=[value]
+    */
+  def updateStatus(): Action[AnyContent] = Action { request =>
+    def executeApi(): JsonSuccess = {
+      val statusText = request.getQueryString("status_text")
+        
+      val away = request.getQueryString("away")
+        .map(value => value.toBoolean)
+      val emojiName = request.getQueryString("emoji_name")
+        
+      val emojiCode = request.getQueryString("emoji_code")
+        
+      val reactionType = request.getQueryString("reaction_type")
+        
+      api.updateStatus(statusText, away, emojiName, emojiCode, reactionType)
     }
 
     val result = executeApi()

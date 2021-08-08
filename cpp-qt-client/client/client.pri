@@ -24,9 +24,12 @@ HEADERS += \
     $${PWD}/OAICodedError_allOf.h \
     $${PWD}/OAICustomProfileField.h \
     $${PWD}/OAIDefaultStreamGroup.h \
+    $${PWD}/OAIDraft.h \
+    $${PWD}/OAIEmojiBase.h \
     $${PWD}/OAIEmojiReaction.h \
     $${PWD}/OAIEmojiReactionBase.h \
-    $${PWD}/OAIEmojiReactionBase_user.h \
+    $${PWD}/OAIEmojiReactionBase_allOf.h \
+    $${PWD}/OAIEmojiReactionBase_allOf_user.h \
     $${PWD}/OAIEmojiReaction_allOf.h \
     $${PWD}/OAIGetMessages.h \
     $${PWD}/OAIGetMessages_allOf.h \
@@ -67,6 +70,7 @@ HEADERS += \
     $${PWD}/OAIUser_allOf.h \
 # APIs
     $${PWD}/OAIAuthenticationApi.h \
+    $${PWD}/OAIDraftsApi.h \
     $${PWD}/OAIMessagesApi.h \
     $${PWD}/OAIRealTimeEventsApi.h \
     $${PWD}/OAIServerAndOrganizationsApi.h \
@@ -106,9 +110,12 @@ SOURCES += \
     $${PWD}/OAICodedError_allOf.cpp \
     $${PWD}/OAICustomProfileField.cpp \
     $${PWD}/OAIDefaultStreamGroup.cpp \
+    $${PWD}/OAIDraft.cpp \
+    $${PWD}/OAIEmojiBase.cpp \
     $${PWD}/OAIEmojiReaction.cpp \
     $${PWD}/OAIEmojiReactionBase.cpp \
-    $${PWD}/OAIEmojiReactionBase_user.cpp \
+    $${PWD}/OAIEmojiReactionBase_allOf.cpp \
+    $${PWD}/OAIEmojiReactionBase_allOf_user.cpp \
     $${PWD}/OAIEmojiReaction_allOf.cpp \
     $${PWD}/OAIGetMessages.cpp \
     $${PWD}/OAIGetMessages_allOf.cpp \
@@ -149,6 +156,7 @@ SOURCES += \
     $${PWD}/OAIUser_allOf.cpp \
 # APIs
     $${PWD}/OAIAuthenticationApi.cpp \
+    $${PWD}/OAIDraftsApi.cpp \
     $${PWD}/OAIMessagesApi.cpp \
     $${PWD}/OAIRealTimeEventsApi.cpp \
     $${PWD}/OAIServerAndOrganizationsApi.cpp \

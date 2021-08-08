@@ -70,10 +70,10 @@ public:
 	class SetTypingStatusResponse;
 	class UnmuteUserRequest;
 	class UnmuteUserResponse;
-	class UpdateDisplaySettingsRequest;
-	class UpdateDisplaySettingsResponse;
-	class UpdateNotificationSettingsRequest;
-	class UpdateNotificationSettingsResponse;
+	class UpdateSettingsRequest;
+	class UpdateSettingsResponse;
+	class UpdateStatusRequest;
+	class UpdateStatusResponse;
 	class UpdateUserRequest;
 	class UpdateUserResponse;
 	class UpdateUserGroupRequest;
@@ -97,8 +97,8 @@ public:
     DECLARE_DELEGATE_OneParam(FRemoveUserGroupDelegate, const RemoveUserGroupResponse&);
     DECLARE_DELEGATE_OneParam(FSetTypingStatusDelegate, const SetTypingStatusResponse&);
     DECLARE_DELEGATE_OneParam(FUnmuteUserDelegate, const UnmuteUserResponse&);
-    DECLARE_DELEGATE_OneParam(FUpdateDisplaySettingsDelegate, const UpdateDisplaySettingsResponse&);
-    DECLARE_DELEGATE_OneParam(FUpdateNotificationSettingsDelegate, const UpdateNotificationSettingsResponse&);
+    DECLARE_DELEGATE_OneParam(FUpdateSettingsDelegate, const UpdateSettingsResponse&);
+    DECLARE_DELEGATE_OneParam(FUpdateStatusDelegate, const UpdateStatusResponse&);
     DECLARE_DELEGATE_OneParam(FUpdateUserDelegate, const UpdateUserResponse&);
     DECLARE_DELEGATE_OneParam(FUpdateUserGroupDelegate, const UpdateUserGroupResponse&);
     DECLARE_DELEGATE_OneParam(FUpdateUserGroupMembersDelegate, const UpdateUserGroupMembersResponse&);
@@ -119,8 +119,8 @@ public:
     FHttpRequestPtr RemoveUserGroup(const RemoveUserGroupRequest& Request, const FRemoveUserGroupDelegate& Delegate = FRemoveUserGroupDelegate()) const;
     FHttpRequestPtr SetTypingStatus(const SetTypingStatusRequest& Request, const FSetTypingStatusDelegate& Delegate = FSetTypingStatusDelegate()) const;
     FHttpRequestPtr UnmuteUser(const UnmuteUserRequest& Request, const FUnmuteUserDelegate& Delegate = FUnmuteUserDelegate()) const;
-    FHttpRequestPtr UpdateDisplaySettings(const UpdateDisplaySettingsRequest& Request, const FUpdateDisplaySettingsDelegate& Delegate = FUpdateDisplaySettingsDelegate()) const;
-    FHttpRequestPtr UpdateNotificationSettings(const UpdateNotificationSettingsRequest& Request, const FUpdateNotificationSettingsDelegate& Delegate = FUpdateNotificationSettingsDelegate()) const;
+    FHttpRequestPtr UpdateSettings(const UpdateSettingsRequest& Request, const FUpdateSettingsDelegate& Delegate = FUpdateSettingsDelegate()) const;
+    FHttpRequestPtr UpdateStatus(const UpdateStatusRequest& Request, const FUpdateStatusDelegate& Delegate = FUpdateStatusDelegate()) const;
     FHttpRequestPtr UpdateUser(const UpdateUserRequest& Request, const FUpdateUserDelegate& Delegate = FUpdateUserDelegate()) const;
     FHttpRequestPtr UpdateUserGroup(const UpdateUserGroupRequest& Request, const FUpdateUserGroupDelegate& Delegate = FUpdateUserGroupDelegate()) const;
     FHttpRequestPtr UpdateUserGroupMembers(const UpdateUserGroupMembersRequest& Request, const FUpdateUserGroupMembersDelegate& Delegate = FUpdateUserGroupMembersDelegate()) const;
@@ -142,8 +142,8 @@ private:
     void OnRemoveUserGroupResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FRemoveUserGroupDelegate Delegate) const;
     void OnSetTypingStatusResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FSetTypingStatusDelegate Delegate) const;
     void OnUnmuteUserResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUnmuteUserDelegate Delegate) const;
-    void OnUpdateDisplaySettingsResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateDisplaySettingsDelegate Delegate) const;
-    void OnUpdateNotificationSettingsResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateNotificationSettingsDelegate Delegate) const;
+    void OnUpdateSettingsResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateSettingsDelegate Delegate) const;
+    void OnUpdateStatusResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateStatusDelegate Delegate) const;
     void OnUpdateUserResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateUserDelegate Delegate) const;
     void OnUpdateUserGroupResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateUserGroupDelegate Delegate) const;
     void OnUpdateUserGroupMembersResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateUserGroupMembersDelegate Delegate) const;

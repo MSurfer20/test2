@@ -136,6 +136,65 @@ class StreamsApi {
     );
   }
 
+  /// Delete a topic
+  ///
+  /// Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+  Future<Response<JsonSuccess>> deleteTopic(
+    int streamId,
+    String topicName, { 
+    CancelToken cancelToken,
+    Map<String, dynamic> headers,
+    Map<String, dynamic> extra,
+    ValidateStatus validateStatus,
+    ProgressCallback onSendProgress,
+    ProgressCallback onReceiveProgress,
+  }) async {
+    final _request = RequestOptions(
+      path: r'/streams/{stream_id}/delete_topic'.replaceAll('{' r'stream_id' '}', streamId.toString()),
+      method: 'POST',
+      headers: <String, dynamic>{
+        ...?headers,
+      },
+      queryParameters: <String, dynamic>{
+        r'topic_name': topicName,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[],
+        ...?extra,
+      },
+      validateStatus: validateStatus,
+      contentType: 'application/json',
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
+
+    dynamic _bodyData;
+
+    final _response = await _dio.request<dynamic>(
+      _request.path,
+      data: _bodyData,
+      options: _request,
+    );
+
+    const _responseType = FullType(JsonSuccess);
+    final _responseData = _serializers.deserialize(
+      _response.data,
+      specifiedType: _responseType,
+    ) as JsonSuccess;
+
+    return Response<JsonSuccess>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      request: _response.request,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
+  }
+
   /// Get stream ID
   ///
   /// Get the unique ID of a given stream.  `GET {{ api_url }}/v1/get_stream_id` 
@@ -279,6 +338,61 @@ class StreamsApi {
         if (includeAllActive != null) r'include_all_active': includeAllActive,
         if (includeDefault != null) r'include_default': includeDefault,
         if (includeOwnerSubscribed != null) r'include_owner_subscribed': includeOwnerSubscribed,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[],
+        ...?extra,
+      },
+      validateStatus: validateStatus,
+      contentType: 'application/json',
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
+
+    dynamic _bodyData;
+
+    final _response = await _dio.request<dynamic>(
+      _request.path,
+      data: _bodyData,
+      options: _request,
+    );
+
+    const _responseType = FullType(JsonSuccessBase);
+    final _responseData = _serializers.deserialize(
+      _response.data,
+      specifiedType: _responseType,
+    ) as JsonSuccessBase;
+
+    return Response<JsonSuccessBase>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      request: _response.request,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
+  }
+
+  /// Get the subscribers of a stream
+  ///
+  /// Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` 
+  Future<Response<JsonSuccessBase>> getSubscribers(
+    int streamId, { 
+    CancelToken cancelToken,
+    Map<String, dynamic> headers,
+    Map<String, dynamic> extra,
+    ValidateStatus validateStatus,
+    ProgressCallback onSendProgress,
+    ProgressCallback onReceiveProgress,
+  }) async {
+    final _request = RequestOptions(
+      path: r'/streams/{stream_id}/members'.replaceAll('{' r'stream_id' '}', streamId.toString()),
+      method: 'GET',
+      headers: <String, dynamic>{
+        ...?headers,
       },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[],

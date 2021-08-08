@@ -55,6 +55,24 @@ public:
     createBigBlueButtonVideoCall(
     );
     /**
+    * Delete a topic.
+    *
+    * Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+    * \param streamId The ID of the stream to access.  *Required*
+    * \param topicName The name of the topic to delete.  *Required*
+    */
+    Response<
+                JsonSuccess
+        >
+    deleteTopic(
+            
+            int streamId
+            , 
+            
+            std::string topicName
+            
+    );
+    /**
     * Get stream ID.
     *
     * Get the unique ID of a given stream.  `GET {{ api_url }}/v1/get_stream_id` 
@@ -114,6 +132,20 @@ public:
             , 
             
             bool includeOwnerSubscribed
+            
+    );
+    /**
+    * Get the subscribers of a stream.
+    *
+    * Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` 
+    * \param streamId The ID of the stream to access.  *Required*
+    */
+    Response<
+                JsonSuccessBase
+        >
+    getSubscribers(
+            
+            int streamId
             
     );
     /**

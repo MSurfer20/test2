@@ -69,8 +69,8 @@ class EmojiReaction {
      */
     #user_id;
     /**
-     * @member {EmojiReactionBaseUser} user
-     * @type {EmojiReactionBaseUser}
+     * @member {EmojiReactionBaseAllOfUser} user
+     * @type {EmojiReactionBaseAllOfUser}
      */
     #user;
     /**

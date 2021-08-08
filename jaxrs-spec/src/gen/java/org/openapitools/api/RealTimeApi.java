@@ -15,7 +15,7 @@ import javax.validation.Valid;
 
 @Path("/real-time")
 @Api(description = "the real-time API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-08T20:42:36.410808Z[Etc/UTC]")public class RealTimeApi {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-08T21:12:25.585041Z[Etc/UTC]")public class RealTimeApi {
 
     @POST
     @ApiOperation(value = "", notes = "(Ignored) ", response = Void.class, tags={ "real_time_events" })

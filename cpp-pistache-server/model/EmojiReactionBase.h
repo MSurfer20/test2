@@ -19,8 +19,10 @@
 #define EmojiReactionBase_H_
 
 
+#include "EmojiReactionBase_allOf.h"
+#include "EmojiBase.h"
+#include "EmojiReactionBase_allOf_user.h"
 #include <string>
-#include "EmojiReactionBase_user.h"
 #include <nlohmann/json.hpp>
 
 namespace org::openapitools::server::model
@@ -60,7 +62,7 @@ public:
     /// EmojiReactionBase members
 
     /// <summary>
-    /// A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint. 
+    /// A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint; for &#x60;realm_emoji&#x60;, it&#39;ll be the ID of the realm emoji. 
     /// </summary>
     std::string getEmojiCode() const;
     void setEmojiCode(std::string const& value);
@@ -90,8 +92,8 @@ public:
     /// <summary>
     /// 
     /// </summary>
-    EmojiReactionBase_user getUser() const;
-    void setUser(EmojiReactionBase_user const& value);
+    EmojiReactionBase_allOf_user getUser() const;
+    void setUser(EmojiReactionBase_allOf_user const& value);
     bool userIsSet() const;
     void unsetUser();
 
@@ -106,7 +108,7 @@ protected:
     bool m_Reaction_typeIsSet;
     int32_t m_User_id;
     bool m_User_idIsSet;
-    EmojiReactionBase_user m_User;
+    EmojiReactionBase_allOf_user m_User;
     bool m_UserIsSet;
     
 };

@@ -146,27 +146,26 @@ export default {
         },
 
         // @return JsonSuccessBase
-        UpdateDisplaySettings: ($twentyFourHourTime, $denseMode, $starredMessageCounts, $fluidLayoutWidth, $highContrastMode, $colorScheme, $translateEmoticons, $defaultLanguage, $defaultView, $leftSideUserlist, $emojiset, $demoteInactiveStreams, $timezone) => {
+        UpdateSettings: ($fullName, $email, $oldPassword, $newPassword, $twentyFourHourTime, $denseMode, $starredMessageCounts, $fluidLayoutWidth, $highContrastMode, $colorScheme, $enableDraftsSynchronization, $translateEmoticons, $defaultLanguage, $defaultView, $leftSideUserlist, $emojiset, $demoteInactiveStreams, $timezone, $enableStreamDesktopNotifications, $enableStreamEmailNotifications, $enableStreamPushNotifications, $enableStreamAudibleNotifications, $notificationSound, $enableDesktopNotifications, $enableSounds, $emailNotificationsBatchingPeriodSeconds, $enableOfflineEmailNotifications, $enableOfflinePushNotifications, $enableOnlinePushNotifications, $enableDigestEmails, $enableMarketingEmails, $enableLoginEmails, $messageContentInEmailNotifications, $pmContentInDesktopNotifications, $wildcardMentionsNotify, $desktopIconCountDisplay, $realmNameInNotifications, $presenceEnabled, $enterSends) => {
             return {
+                "fullName": "NewName",
+                "email": "newname@example.com",
+                "oldPassword": "old12345",
+                "newPassword": "new12345",
                 "twentyFourHourTime": "true",
                 "denseMode": "true",
                 "starredMessageCounts": "true",
                 "fluidLayoutWidth": "true",
                 "highContrastMode": "true",
                 "colorScheme": "56",
+                "enableDraftsSynchronization": "true",
                 "translateEmoticons": "true",
                 "defaultLanguage": "en",
                 "defaultView": "all_messages",
                 "leftSideUserlist": "true",
                 "emojiset": "google",
                 "demoteInactiveStreams": "56",
-                "timezone": "Asia/Kolkata"
-            };
-        },
-
-        // @return JsonSuccessBase
-        UpdateNotificationSettings: ($enableStreamDesktopNotifications, $enableStreamEmailNotifications, $enableStreamPushNotifications, $enableStreamAudibleNotifications, $notificationSound, $enableDesktopNotifications, $enableSounds, $enableOfflineEmailNotifications, $enableOfflinePushNotifications, $enableOnlinePushNotifications, $enableDigestEmails, $enableMarketingEmails, $enableLoginEmails, $messageContentInEmailNotifications, $pmContentInDesktopNotifications, $wildcardMentionsNotify, $desktopIconCountDisplay, $realmNameInNotifications, $presenceEnabled) => {
-            return {
+                "timezone": "Asia/Kolkata",
                 "enableStreamDesktopNotifications": "true",
                 "enableStreamEmailNotifications": "true",
                 "enableStreamPushNotifications": "true",
@@ -174,6 +173,7 @@ export default {
                 "notificationSound": "ding",
                 "enableDesktopNotifications": "true",
                 "enableSounds": "true",
+                "emailNotificationsBatchingPeriodSeconds": "120",
                 "enableOfflineEmailNotifications": "true",
                 "enableOfflinePushNotifications": "true",
                 "enableOnlinePushNotifications": "true",
@@ -185,7 +185,19 @@ export default {
                 "wildcardMentionsNotify": "true",
                 "desktopIconCountDisplay": "56",
                 "realmNameInNotifications": "true",
-                "presenceEnabled": "true"
+                "presenceEnabled": "true",
+                "enterSends": "true"
+            };
+        },
+
+        // @return JsonSuccess
+        UpdateStatus: ($statusText, $away, $emojiName, $emojiCode, $reactionType) => {
+            return {
+                "statusText": "on vacation",
+                "away": "true",
+                "emojiName": "car",
+                "emojiCode": "1f697",
+                "reactionType": "unicode_emoji"
             };
         },
 

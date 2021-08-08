@@ -29,6 +29,9 @@ interface StreamsApi  {
     /* createBigBlueButtonVideoCall
      * Create BigBlueButton video call */
     suspend fun createBigBlueButtonVideoCall(context:OperationRequest):Response<JsonSuccessBase>
+    /* deleteTopic
+     * Delete a topic */
+    suspend fun deleteTopic(streamId:kotlin.Int?,topicName:kotlin.String?,context:OperationRequest):Response<JsonSuccess>
     /* getStreamId
      * Get stream ID */
     suspend fun getStreamId(stream:kotlin.String?,context:OperationRequest):Response<JsonSuccessBase>
@@ -38,6 +41,9 @@ interface StreamsApi  {
     /* getStreams
      * Get all streams */
     suspend fun getStreams(includePublic:kotlin.Boolean?,includeWebPublic:kotlin.Boolean?,includeSubscribed:kotlin.Boolean?,includeAllActive:kotlin.Boolean?,includeDefault:kotlin.Boolean?,includeOwnerSubscribed:kotlin.Boolean?,context:OperationRequest):Response<JsonSuccessBase>
+    /* getSubscribers
+     * Get the subscribers of a stream */
+    suspend fun getSubscribers(streamId:kotlin.Int?,context:OperationRequest):Response<JsonSuccessBase>
     /* getSubscriptionStatus
      * Get subscription status */
     suspend fun getSubscriptionStatus(userId:kotlin.Int?,streamId:kotlin.Int?,context:OperationRequest):Response<JsonSuccessBase>

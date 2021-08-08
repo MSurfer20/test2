@@ -1,6 +1,8 @@
 .openapi-generator-ignore
 AuthenticationApi.csv
 AuthenticationApi.jmx
+DraftsApi.csv
+DraftsApi.jmx
 MessagesApi.csv
 MessagesApi.jmx
 RealTimeEventsApi.csv

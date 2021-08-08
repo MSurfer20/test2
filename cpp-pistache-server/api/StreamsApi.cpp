@@ -35,9 +35,11 @@ void StreamsApi::setupRoutes() {
 
     Routes::Delete(*router, base + "/streams/:stream_id", Routes::bind(&StreamsApi::archive_stream_handler, this));
     Routes::Get(*router, base + "/calls/bigbluebutton/create", Routes::bind(&StreamsApi::create_big_blue_button_video_call_handler, this));
+    Routes::Post(*router, base + "/streams/:stream_id/delete_topic", Routes::bind(&StreamsApi::delete_topic_handler, this));
     Routes::Get(*router, base + "/get_stream_id", Routes::bind(&StreamsApi::get_stream_id_handler, this));
     Routes::Get(*router, base + "/users/me/:stream_id/topics", Routes::bind(&StreamsApi::get_stream_topics_handler, this));
     Routes::Get(*router, base + "/streams", Routes::bind(&StreamsApi::get_streams_handler, this));
+    Routes::Get(*router, base + "/streams/:stream_id/members", Routes::bind(&StreamsApi::get_subscribers_handler, this));
     Routes::Get(*router, base + "/users/:user_id/subscriptions/:stream_id", Routes::bind(&StreamsApi::get_subscription_status_handler, this));
     Routes::Get(*router, base + "/users/me/subscriptions", Routes::bind(&StreamsApi::get_subscriptions_handler, this));
     Routes::Patch(*router, base + "/users/me/subscriptions/muted_topics", Routes::bind(&StreamsApi::mute_topic_handler, this));
@@ -97,6 +99,38 @@ void StreamsApi::create_big_blue_button_video_call_handler(const Pistache::Rest:
 
     try {
         this->create_big_blue_button_video_call(response);
+    } catch (Pistache::Http::HttpError &e) {
+        response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
+        return;
+    } catch (std::exception &e) {
+        const std::pair<Pistache::Http::Code, std::string> errorInfo = this->handleOperationException(e);
+        response.send(errorInfo.first, errorInfo.second);
+        return;
+    }
+
+    } catch (std::exception &e) {
+        response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
+    }
+
+}
+void StreamsApi::delete_topic_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
+    try {
+
+    // Getting the path params
+    auto streamId = request.param(":streamId").as<int32_t>();
+    
+    // Getting the query params
+    auto topicNameQuery = request.query().get("topic_name");
+    Pistache::Optional<std::string> topicName;
+    if(!topicNameQuery.isEmpty()){
+        std::string valueQuery_instance;
+        if(fromStringValue(topicNameQuery.get(), valueQuery_instance)){
+            topicName = Pistache::Some(valueQuery_instance);
+        }
+    }
+    
+    try {
+        this->delete_topic(streamId, topicName, response);
     } catch (Pistache::Http::HttpError &e) {
         response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
         return;
@@ -219,6 +253,28 @@ void StreamsApi::get_streams_handler(const Pistache::Rest::Request &request, Pis
     
     try {
         this->get_streams(includePublic, includeWebPublic, includeSubscribed, includeAllActive, includeDefault, includeOwnerSubscribed, response);
+    } catch (Pistache::Http::HttpError &e) {
+        response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
+        return;
+    } catch (std::exception &e) {
+        const std::pair<Pistache::Http::Code, std::string> errorInfo = this->handleOperationException(e);
+        response.send(errorInfo.first, errorInfo.second);
+        return;
+    }
+
+    } catch (std::exception &e) {
+        response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
+    }
+
+}
+void StreamsApi::get_subscribers_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
+    try {
+
+    // Getting the path params
+    auto streamId = request.param(":streamId").as<int32_t>();
+    
+    try {
+        this->get_subscribers(streamId, response);
     } catch (Pistache::Http::HttpError &e) {
         response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
         return;

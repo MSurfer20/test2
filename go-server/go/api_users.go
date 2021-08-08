@@ -127,16 +127,16 @@ func (c *UsersApiController) Routes() Routes {
 			c.UnmuteUser,
 		},
 		{
-			"UpdateDisplaySettings",
+			"UpdateSettings",
 			strings.ToUpper("Patch"),
-			"/api/v1/settings/display",
-			c.UpdateDisplaySettings,
+			"/api/v1/settings",
+			c.UpdateSettings,
 		},
 		{
-			"UpdateNotificationSettings",
-			strings.ToUpper("Patch"),
-			"/api/v1/settings/notifications",
-			c.UpdateNotificationSettings,
+			"UpdateStatus",
+			strings.ToUpper("Post"),
+			"/api/v1/users/me/status",
+			c.UpdateStatus,
 		},
 		{
 			"UpdateUser",
@@ -461,9 +461,13 @@ func (c *UsersApiController) UnmuteUser(w http.ResponseWriter, r *http.Request) 
 
 }
 
-// UpdateDisplaySettings - Update display settings
-func (c *UsersApiController) UpdateDisplaySettings(w http.ResponseWriter, r *http.Request) {
+// UpdateSettings - Update settings
+func (c *UsersApiController) UpdateSettings(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
+	fullName := query.Get("full_name")
+	email := query.Get("email")
+	oldPassword := query.Get("old_password")
+	newPassword := query.Get("new_password")
 	twentyFourHourTime, err := parseBoolParameter(query.Get("twenty_four_hour_time"))
 	if err != nil {
 		w.WriteHeader(500)
@@ -494,6 +498,11 @@ func (c *UsersApiController) UpdateDisplaySettings(w http.ResponseWriter, r *htt
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
+	enableDraftsSynchronization, err := parseBoolParameter(query.Get("enable_drafts_synchronization"))
+	if err != nil {
+		w.WriteHeader(500)
+		return
+	}
 	translateEmoticons, err := parseBoolParameter(query.Get("translate_emoticons"))
 	if err != nil {
 		w.WriteHeader(500)
@@ -513,20 +522,6 @@ func (c *UsersApiController) UpdateDisplaySettings(w http.ResponseWriter, r *htt
 		return
 	}
 	timezone := query.Get("timezone")
-	result, err := c.service.UpdateDisplaySettings(r.Context(), twentyFourHourTime, denseMode, starredMessageCounts, fluidLayoutWidth, highContrastMode, colorScheme, translateEmoticons, defaultLanguage, defaultView, leftSideUserlist, emojiset, demoteInactiveStreams, timezone)
-	// If an error occurred, encode the error with the status code
-	if err != nil {
-		EncodeJSONResponse(err.Error(), &result.Code, w)
-		return
-	}
-	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, w)
-
-}
-
-// UpdateNotificationSettings - Update notification settings
-func (c *UsersApiController) UpdateNotificationSettings(w http.ResponseWriter, r *http.Request) {
-	query := r.URL.Query()
 	enableStreamDesktopNotifications, err := parseBoolParameter(query.Get("enable_stream_desktop_notifications"))
 	if err != nil {
 		w.WriteHeader(500)
@@ -556,6 +551,11 @@ func (c *UsersApiController) UpdateNotificationSettings(w http.ResponseWriter, r
 	enableSounds, err := parseBoolParameter(query.Get("enable_sounds"))
 	if err != nil {
 		w.WriteHeader(500)
+		return
+	}
+	emailNotificationsBatchingPeriodSeconds, err := parseInt32Parameter(query.Get("email_notifications_batching_period_seconds"), false)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 	enableOfflineEmailNotifications, err := parseBoolParameter(query.Get("enable_offline_email_notifications"))
@@ -618,7 +618,35 @@ func (c *UsersApiController) UpdateNotificationSettings(w http.ResponseWriter, r
 		w.WriteHeader(500)
 		return
 	}
-	result, err := c.service.UpdateNotificationSettings(r.Context(), enableStreamDesktopNotifications, enableStreamEmailNotifications, enableStreamPushNotifications, enableStreamAudibleNotifications, notificationSound, enableDesktopNotifications, enableSounds, enableOfflineEmailNotifications, enableOfflinePushNotifications, enableOnlinePushNotifications, enableDigestEmails, enableMarketingEmails, enableLoginEmails, messageContentInEmailNotifications, pmContentInDesktopNotifications, wildcardMentionsNotify, desktopIconCountDisplay, realmNameInNotifications, presenceEnabled)
+	enterSends, err := parseBoolParameter(query.Get("enter_sends"))
+	if err != nil {
+		w.WriteHeader(500)
+		return
+	}
+	result, err := c.service.UpdateSettings(r.Context(), fullName, email, oldPassword, newPassword, twentyFourHourTime, denseMode, starredMessageCounts, fluidLayoutWidth, highContrastMode, colorScheme, enableDraftsSynchronization, translateEmoticons, defaultLanguage, defaultView, leftSideUserlist, emojiset, demoteInactiveStreams, timezone, enableStreamDesktopNotifications, enableStreamEmailNotifications, enableStreamPushNotifications, enableStreamAudibleNotifications, notificationSound, enableDesktopNotifications, enableSounds, emailNotificationsBatchingPeriodSeconds, enableOfflineEmailNotifications, enableOfflinePushNotifications, enableOnlinePushNotifications, enableDigestEmails, enableMarketingEmails, enableLoginEmails, messageContentInEmailNotifications, pmContentInDesktopNotifications, wildcardMentionsNotify, desktopIconCountDisplay, realmNameInNotifications, presenceEnabled, enterSends)
+	// If an error occurred, encode the error with the status code
+	if err != nil {
+		EncodeJSONResponse(err.Error(), &result.Code, w)
+		return
+	}
+	// If no error, encode the body and the result code
+	EncodeJSONResponse(result.Body, &result.Code, w)
+
+}
+
+// UpdateStatus - Update your status
+func (c *UsersApiController) UpdateStatus(w http.ResponseWriter, r *http.Request) {
+	query := r.URL.Query()
+	statusText := query.Get("status_text")
+	away, err := parseBoolParameter(query.Get("away"))
+	if err != nil {
+		w.WriteHeader(500)
+		return
+	}
+	emojiName := query.Get("emoji_name")
+	emojiCode := query.Get("emoji_code")
+	reactionType := query.Get("reaction_type")
+	result, err := c.service.UpdateStatus(r.Context(), statusText, away, emojiName, emojiCode, reactionType)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		EncodeJSONResponse(err.Error(), &result.Code, w)

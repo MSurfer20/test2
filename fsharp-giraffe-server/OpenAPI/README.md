@@ -25,9 +25,9 @@ The following models have been auto-generated from the provided OpenAPI schema:
 - model/MissingArgumentErrorAllOfModel.fs
 - model/CodedErrorBaseModel.fs
 - model/MessagesBaseTopicLinksModel.fs
-- model/EmojiReactionAllOfModel.fs
+- model/EmojiBaseModel.fs
 - model/MessagesAllOfModel.fs
-- model/EmojiReactionBaseUserModel.fs
+- model/EmojiReactionBaseAllOfUserModel.fs
 - model/JsonSuccessBaseAllOfModel.fs
 - model/CodedErrorModel.fs
 - model/JsonSuccessAllOfModel.fs
@@ -39,14 +39,17 @@ The following models have been auto-generated from the provided OpenAPI schema:
 - model/InvalidMessageErrorAllOfModel.fs
 - model/InvalidMessageErrorModel.fs
 - model/InvalidApiKeyErrorModel.fs
-- model/EmojiReactionBaseModel.fs
+- model/EmojiReactionBaseAllOfModel.fs
 - model/HotspotModel.fs
 - model/GetMessagesAllOfModel.fs
+- model/EmojiReactionAllOfModel.fs
+- model/EmojiReactionBaseModel.fs
 - model/EmojiReactionModel.fs
 - model/MessagesBaseModel.fs
 - model/MessagesModel.fs
 - model/InlineResponse200Model.fs
 - model/GetMessagesModel.fs
+- model/DraftModel.fs
 - model/BasicStreamAllOfModel.fs
 - model/CustomProfileFieldModel.fs
 - model/NonExistingStreamErrorModel.fs
@@ -80,6 +83,7 @@ Handlers have been auto-generated from the operations specified in the OpenAPI s
 Types have been generated for the URL, query, form, header and cookie parameters passed to each handler in the following files:
 
 - api/AuthenticationApiHandlerParams.fs
+- api/DraftsApiHandlerParams.fs
 - api/MessagesApiHandlerParams.fs
 - api/RealTimeEventsApiHandlerParams.fs
 - api/ServerAndOrganizationsApiHandlerParams.fs
@@ -92,6 +96,7 @@ Types have been generated for the URL, query, form, header and cookie parameters
 Handlers will attempt to bind parameters to the applicable type and pass to a Service specific to that Handler. Service interfaces have been generated as follows:
 
 - api/AuthenticationApiServiceInterface.fs
+- api/DraftsApiServiceInterface.fs
 - api/MessagesApiServiceInterface.fs
 - api/RealTimeEventsApiServiceInterface.fs
 - api/ServerAndOrganizationsApiServiceInterface.fs
@@ -161,6 +166,7 @@ If you have any suggestions for customizing this, please file an issue.
 Stubbed service implementations of those interfaces have been generated as follows:
 
 - impl/AuthenticationApiService.fs
+- impl/DraftsApiService.fs
 - impl/MessagesApiService.fs
 - impl/RealTimeEventsApiService.fs
 - impl/ServerAndOrganizationsApiService.fs

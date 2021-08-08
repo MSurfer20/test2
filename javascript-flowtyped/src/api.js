@@ -1102,6 +1102,78 @@ export type DefaultStreamGroup = {
 }
 
 
+
+            export type DraftTypeEnum = '' | 'stream' | 'private';
+/**
+ * A dictionary for representing a message draft. 
+ * @export
+ */
+export type Draft = {
+    /**
+     * The unique ID of the draft. It will only used whenever the drafts are fetched. This field should not be specified when the draft is being created or edited. 
+     * @type {number}
+     * @memberof Draft
+     */
+    id?: number;
+    /**
+     * The type of the draft. Either unaddressed (empty string), \"stream\", or \"private\" (for PMs and private group messages). 
+     * @type {string}
+     * @memberof Draft
+     */
+    type: DraftTypeEnum;
+    /**
+     * An array of the tentative target audience IDs. For \"stream\" messages, this should contain exactly 1 ID, the ID of the target stream. For private messages, this should be an array of target user IDs. For unaddressed drafts, this is ignored, and clients should send an empty array. 
+     * @type {Array<number>}
+     * @memberof Draft
+     */
+    to: Array<number>;
+    /**
+     * For stream message drafts, the tentative topic name. For private or unaddressed messages, this will be ignored and should ideally be the empty string. Should not contain null bytes. 
+     * @type {string}
+     * @memberof Draft
+     */
+    topic: string;
+    /**
+     * The body of the draft. Should not contain null bytes. 
+     * @type {string}
+     * @memberof Draft
+     */
+    content: string;
+    /**
+     * A Unix timestamp (seconds only) representing when the draft was last edited. When creating a draft, this key need not be present and it will be filled in automatically by the server. 
+     * @type {number}
+     * @memberof Draft
+     */
+    timestamp?: number;
+}
+
+
+/**
+ * 
+ * @export
+ */
+export type EmojiBase = {
+    /**
+     * A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it\'ll be the ID of the realm emoji. 
+     * @type {string}
+     * @memberof EmojiBase
+     */
+    emoji_code?: string;
+    /**
+     * Name of the emoji. 
+     * @type {string}
+     * @memberof EmojiBase
+     */
+    emoji_name?: string;
+    /**
+     * One of the following values:  * `unicode_emoji`: Unicode emoji (`emoji_code` will be its Unicode   codepoint). * `realm_emoji`: [Custom emoji](/help/add-custom-emoji).   (`emoji_code` will be its ID). * `zulip_extra_emoji`: Special emoji included with Zulip.  Exists to   namespace the `zulip` emoji. 
+     * @type {string}
+     * @memberof EmojiBase
+     */
+    reaction_type?: string;
+}
+
+
 /**
  * 
  * @export
@@ -1184,7 +1256,7 @@ export type EmojiReactionAllOf = {
  */
 export type EmojiReactionBase = {
     /**
-     * A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint. 
+     * A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it\'ll be the ID of the realm emoji. 
      * @type {string}
      * @memberof EmojiReactionBase
      */
@@ -1209,40 +1281,60 @@ export type EmojiReactionBase = {
     user_id?: number;
     /**
      * 
-     * @type {EmojiReactionBaseUser}
+     * @type {EmojiReactionBaseAllOfUser}
      * @memberof EmojiReactionBase
      */
-    user?: EmojiReactionBaseUser;
+    user?: EmojiReactionBaseAllOfUser;
 }
 
 
 /**
- * Dictionary with data on the user who added the reaction, including the user ID as the `id` field.  **Note**: In the [events API](/api/get-events), this `user` dictionary confusing had the user ID in a field called `user_id` instead.  We recommend ignoring fields other than the user ID.  **Deprecated** and to be removed in a future release once core clients have migrated to use the `user_id` field. 
+ * 
  * @export
  */
-export type EmojiReactionBaseUser = {
+export type EmojiReactionBaseAllOf = {
+    /**
+     * The ID of the user who added the reaction.  **Changes**: New in Zulip 3.0 (feature level 2). The `user` object is deprecated and will be removed in the future. 
+     * @type {number}
+     * @memberof EmojiReactionBaseAllOf
+     */
+    user_id?: number;
+    /**
+     * 
+     * @type {EmojiReactionBaseAllOfUser}
+     * @memberof EmojiReactionBaseAllOf
+     */
+    user?: EmojiReactionBaseAllOfUser;
+}
+
+
+/**
+ * Whether the user is a mirror dummy. Dictionary with data on the user who added the reaction, including the user ID as the `id` field.  **Note**: In the [events API](/api/get-events), this `user` dictionary confusing had the user ID in a field called `user_id` instead.  We recommend ignoring fields other than the user ID.  **Deprecated** and to be removed in a future release once core clients have migrated to use the `user_id` field. 
+ * @export
+ */
+export type EmojiReactionBaseAllOfUser = {
     /**
      * ID of the user. 
      * @type {number}
-     * @memberof EmojiReactionBaseUser
+     * @memberof EmojiReactionBaseAllOfUser
      */
     id?: number;
     /**
      * Email of the user. 
      * @type {string}
-     * @memberof EmojiReactionBaseUser
+     * @memberof EmojiReactionBaseAllOfUser
      */
     email?: string;
     /**
      * Full name of the user. 
      * @type {string}
-     * @memberof EmojiReactionBaseUser
+     * @memberof EmojiReactionBaseAllOfUser
      */
     full_name?: string;
     /**
      * Whether the user is a mirror dummy. 
      * @type {boolean}
-     * @memberof EmojiReactionBaseUser
+     * @memberof EmojiReactionBaseAllOfUser
      */
     is_mirror_dummy?: boolean;
 }
@@ -3311,6 +3403,206 @@ export const AuthenticationApi = function(configuration?: Configuration, fetch: 
 
 
 /**
+ * DraftsApi - fetch parameter creator
+ * @export
+ */
+export const DraftsApiFetchParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * Create one or more drafts on the server. These drafts will be automatically synchronized to other clients via `drafts` events.  `POST {{ api_url }}/v1/drafts` 
+         * @summary Create drafts
+         * @throws {RequiredError}
+         */
+        createDrafts(drafts?: Array<Draft>, options: RequestOptions): FetchArgs {
+            const localVarPath = `/drafts`;
+            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarRequestOptions: RequestOptions = Object.assign({}, { method: 'POST' }, options);
+            const localVarHeaderParameter = {};
+            const localVarQueryParameter = {};
+
+            if (drafts) {
+                localVarQueryParameter['drafts'] = drafts;
+            }
+
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            localVarUrlObj.search = null;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+
+            return {
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Delete a single draft from the server. The deletion will be automatically synchronized to other clients via a `drafts` event.  `DELETE {{ api_url }}/v1/drafts/{draft_id}` 
+         * @summary Delete a draft
+         * @throws {RequiredError}
+         */
+        deleteDraft(draftId: number, options: RequestOptions): FetchArgs {
+            // verify required parameter 'draftId' is not null or undefined
+            if (draftId === null || draftId === undefined) {
+                throw new RequiredError('draftId','Required parameter draftId was null or undefined when calling deleteDraft.');
+            }
+            const localVarPath = `/drafts/{draft_id}`
+                .replace(`{${"draft_id"}}`, encodeURIComponent(String(draftId)));
+            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarRequestOptions: RequestOptions = Object.assign({}, { method: 'DELETE' }, options);
+            const localVarHeaderParameter = {};
+            const localVarQueryParameter = {};
+
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            localVarUrlObj.search = null;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+
+            return {
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Edit a draft on the server. The edit will be automatically synchronized to other clients via `drafts` events.  `PATCH {{ api_url }}/v1/drafts/{draft_id}` 
+         * @summary Edit a draft
+         * @throws {RequiredError}
+         */
+        editDraft(draftId: number, draft: Draft, options: RequestOptions): FetchArgs {
+            // verify required parameter 'draftId' is not null or undefined
+            if (draftId === null || draftId === undefined) {
+                throw new RequiredError('draftId','Required parameter draftId was null or undefined when calling editDraft.');
+            }
+            // verify required parameter 'draft' is not null or undefined
+            if (draft === null || draft === undefined) {
+                throw new RequiredError('draft','Required parameter draft was null or undefined when calling editDraft.');
+            }
+            const localVarPath = `/drafts/{draft_id}`
+                .replace(`{${"draft_id"}}`, encodeURIComponent(String(draftId)));
+            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarRequestOptions: RequestOptions = Object.assign({}, { method: 'PATCH' }, options);
+            const localVarHeaderParameter = {};
+            const localVarQueryParameter = {};
+
+            if (draft !== undefined) {
+                localVarQueryParameter['draft'] = ((draft:any):string);
+            }
+
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            localVarUrlObj.search = null;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+
+            return {
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Fetch all drafts for the current user.  `GET {{ api_url }}/v1/drafts` 
+         * @summary Get drafts
+         * @throws {RequiredError}
+         */
+        getDrafts(options: RequestOptions): FetchArgs {
+            const localVarPath = `/drafts`;
+            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarRequestOptions: RequestOptions = Object.assign({}, { method: 'GET' }, options);
+            const localVarHeaderParameter = {};
+            const localVarQueryParameter = {};
+
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            localVarUrlObj.search = null;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+
+            return {
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+export type DraftsApiType = { 
+    createDrafts(drafts?: Array<Draft>, options?: RequestOptions): Promise<JsonSuccess & Object>,
+
+    deleteDraft(draftId: number, options?: RequestOptions): Promise<JsonSuccess>,
+
+    editDraft(draftId: number, draft: Draft, options?: RequestOptions): Promise<JsonSuccess>,
+
+    getDrafts(options?: RequestOptions): Promise<JsonSuccess & Object>,
+}
+
+/**
+ * DraftsApi - factory function to inject configuration 
+ * @export
+ */
+export const DraftsApi = function(configuration?: Configuration, fetch: FetchAPI = portableFetch): DraftsApiType {
+    const basePath: string = (configuration && configuration.basePath) || BASE_PATH;
+    return {
+        /**
+         * Create one or more drafts on the server. These drafts will be automatically synchronized to other clients via `drafts` events.  `POST {{ api_url }}/v1/drafts` 
+         * @summary Create drafts
+         * @throws {RequiredError}
+         */
+        createDrafts(drafts?: Array<Draft>, options?: RequestOptions = {}): Promise<JsonSuccess & Object> {
+            const localVarFetchArgs = DraftsApiFetchParamCreator(configuration).createDrafts(drafts, options);
+            return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                } else {
+                    throw response;
+                }
+            });
+        },
+        /**
+         * Delete a single draft from the server. The deletion will be automatically synchronized to other clients via a `drafts` event.  `DELETE {{ api_url }}/v1/drafts/{draft_id}` 
+         * @summary Delete a draft
+         * @throws {RequiredError}
+         */
+        deleteDraft(draftId: number, options?: RequestOptions = {}): Promise<JsonSuccess> {
+            const localVarFetchArgs = DraftsApiFetchParamCreator(configuration).deleteDraft(draftId, options);
+            return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                } else {
+                    throw response;
+                }
+            });
+        },
+        /**
+         * Edit a draft on the server. The edit will be automatically synchronized to other clients via `drafts` events.  `PATCH {{ api_url }}/v1/drafts/{draft_id}` 
+         * @summary Edit a draft
+         * @throws {RequiredError}
+         */
+        editDraft(draftId: number, draft: Draft, options?: RequestOptions = {}): Promise<JsonSuccess> {
+            const localVarFetchArgs = DraftsApiFetchParamCreator(configuration).editDraft(draftId, draft, options);
+            return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                } else {
+                    throw response;
+                }
+            });
+        },
+        /**
+         * Fetch all drafts for the current user.  `GET {{ api_url }}/v1/drafts` 
+         * @summary Get drafts
+         * @throws {RequiredError}
+         */
+        getDrafts(options?: RequestOptions = {}): Promise<JsonSuccess & Object> {
+            const localVarFetchArgs = DraftsApiFetchParamCreator(configuration).getDrafts(options);
+            return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                } else {
+                    throw response;
+                }
+            });
+        },
+    }
+};
+
+
+/**
  * MessagesApi - fetch parameter creator
  * @export
  */
@@ -5141,6 +5433,41 @@ export const StreamsApiFetchParamCreator = function (configuration?: Configurati
             };
         },
         /**
+         * Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+         * @summary Delete a topic
+         * @throws {RequiredError}
+         */
+        deleteTopic(streamId: number, topicName: string, options: RequestOptions): FetchArgs {
+            // verify required parameter 'streamId' is not null or undefined
+            if (streamId === null || streamId === undefined) {
+                throw new RequiredError('streamId','Required parameter streamId was null or undefined when calling deleteTopic.');
+            }
+            // verify required parameter 'topicName' is not null or undefined
+            if (topicName === null || topicName === undefined) {
+                throw new RequiredError('topicName','Required parameter topicName was null or undefined when calling deleteTopic.');
+            }
+            const localVarPath = `/streams/{stream_id}/delete_topic`
+                .replace(`{${"stream_id"}}`, encodeURIComponent(String(streamId)));
+            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarRequestOptions: RequestOptions = Object.assign({}, { method: 'POST' }, options);
+            const localVarHeaderParameter = {};
+            const localVarQueryParameter = {};
+
+            if (topicName !== undefined) {
+                localVarQueryParameter['topic_name'] = ((topicName:any):string);
+            }
+
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            localVarUrlObj.search = null;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+
+            return {
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Get the unique ID of a given stream.  `GET {{ api_url }}/v1/get_stream_id` 
          * @summary Get stream ID
          * @throws {RequiredError}
@@ -5232,6 +5559,33 @@ export const StreamsApiFetchParamCreator = function (configuration?: Configurati
             if (includeOwnerSubscribed !== undefined) {
                 localVarQueryParameter['include_owner_subscribed'] = ((includeOwnerSubscribed:any):string);
             }
+
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            localVarUrlObj.search = null;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+
+            return {
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` 
+         * @summary Get the subscribers of a stream
+         * @throws {RequiredError}
+         */
+        getSubscribers(streamId: number, options: RequestOptions): FetchArgs {
+            // verify required parameter 'streamId' is not null or undefined
+            if (streamId === null || streamId === undefined) {
+                throw new RequiredError('streamId','Required parameter streamId was null or undefined when calling getSubscribers.');
+            }
+            const localVarPath = `/streams/{stream_id}/members`
+                .replace(`{${"stream_id"}}`, encodeURIComponent(String(streamId)));
+            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarRequestOptions: RequestOptions = Object.assign({}, { method: 'GET' }, options);
+            const localVarHeaderParameter = {};
+            const localVarQueryParameter = {};
 
             localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
@@ -5562,11 +5916,15 @@ export type StreamsApiType = {
 
     createBigBlueButtonVideoCall(options?: RequestOptions): Promise<JsonSuccessBase & Object>,
 
+    deleteTopic(streamId: number, topicName: string, options?: RequestOptions): Promise<JsonSuccess>,
+
     getStreamId(stream: string, options?: RequestOptions): Promise<JsonSuccessBase & Object>,
 
     getStreamTopics(streamId: number, options?: RequestOptions): Promise<JsonSuccessBase & Object>,
 
     getStreams(includePublic?: boolean, includeWebPublic?: boolean, includeSubscribed?: boolean, includeAllActive?: boolean, includeDefault?: boolean, includeOwnerSubscribed?: boolean, options?: RequestOptions): Promise<JsonSuccessBase & Object>,
+
+    getSubscribers(streamId: number, options?: RequestOptions): Promise<JsonSuccessBase & Object>,
 
     getSubscriptionStatus(userId: number, streamId: number, options?: RequestOptions): Promise<JsonSuccessBase & Object>,
 
@@ -5623,6 +5981,21 @@ export const StreamsApi = function(configuration?: Configuration, fetch: FetchAP
             });
         },
         /**
+         * Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+         * @summary Delete a topic
+         * @throws {RequiredError}
+         */
+        deleteTopic(streamId: number, topicName: string, options?: RequestOptions = {}): Promise<JsonSuccess> {
+            const localVarFetchArgs = StreamsApiFetchParamCreator(configuration).deleteTopic(streamId, topicName, options);
+            return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                } else {
+                    throw response;
+                }
+            });
+        },
+        /**
          * Get the unique ID of a given stream.  `GET {{ api_url }}/v1/get_stream_id` 
          * @summary Get stream ID
          * @throws {RequiredError}
@@ -5659,6 +6032,21 @@ export const StreamsApi = function(configuration?: Configuration, fetch: FetchAP
          */
         getStreams(includePublic?: boolean, includeWebPublic?: boolean, includeSubscribed?: boolean, includeAllActive?: boolean, includeDefault?: boolean, includeOwnerSubscribed?: boolean, options?: RequestOptions = {}): Promise<JsonSuccessBase & Object> {
             const localVarFetchArgs = StreamsApiFetchParamCreator(configuration).getStreams(includePublic, includeWebPublic, includeSubscribed, includeAllActive, includeDefault, includeOwnerSubscribed, options);
+            return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                } else {
+                    throw response;
+                }
+            });
+        },
+        /**
+         * Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` 
+         * @summary Get the subscribers of a stream
+         * @throws {RequiredError}
+         */
+        getSubscribers(streamId: number, options?: RequestOptions = {}): Promise<JsonSuccessBase & Object> {
+            const localVarFetchArgs = StreamsApiFetchParamCreator(configuration).getSubscribers(streamId, options);
             return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
                     return response.json();
@@ -6286,16 +6674,32 @@ export const UsersApiFetchParamCreator = function (configuration?: Configuration
             };
         },
         /**
-         * This endpoint is used to edit the current user\'s user interface settings.  `PATCH {{ api_url }}/v1/settings/display` 
-         * @summary Update display settings
+         * This endpoint is used to edit the current user\'s settings.  `PATCH {{ api_url }}/v1/settings`  **Changes**: Prior to Zulip 5.0 (feature level 80), this endpoint only supported the `full_name`, `email`, `old_password`, and `new_password` parameters. Notification settings were managed by `PATCH /settings/notifications`, and all other settings by `PATCH /settings/display`. The feature level 80 migration to merge these endpoints did not change how request parameters are encoded. Note, however, that it did change the handling of any invalid parameters present in a request to change notification or display settings, since the merged endpoint uses the new response format that was introduced for `/settings` in Zulip 5.0 (feature level 78).  The `/settings/display` and `/settings/notifications` endpoints are now deprecated aliases for this endpoint for backwards-compatibility, and will be removed once clients have migrated to use this endpoint. 
+         * @summary Update settings
          * @throws {RequiredError}
          */
-        updateDisplaySettings(twentyFourHourTime?: boolean, denseMode?: boolean, starredMessageCounts?: boolean, fluidLayoutWidth?: boolean, highContrastMode?: boolean, colorScheme?: 1 | 2 | 3, translateEmoticons?: boolean, defaultLanguage?: string, defaultView?: string, leftSideUserlist?: boolean, emojiset?: string, demoteInactiveStreams?: 1 | 2 | 3, timezone?: string, options: RequestOptions): FetchArgs {
-            const localVarPath = `/settings/display`;
+        updateSettings(fullName?: string, email?: string, oldPassword?: string, newPassword?: string, twentyFourHourTime?: boolean, denseMode?: boolean, starredMessageCounts?: boolean, fluidLayoutWidth?: boolean, highContrastMode?: boolean, colorScheme?: 1 | 2 | 3, enableDraftsSynchronization?: boolean, translateEmoticons?: boolean, defaultLanguage?: string, defaultView?: string, leftSideUserlist?: boolean, emojiset?: string, demoteInactiveStreams?: 1 | 2 | 3, timezone?: string, enableStreamDesktopNotifications?: boolean, enableStreamEmailNotifications?: boolean, enableStreamPushNotifications?: boolean, enableStreamAudibleNotifications?: boolean, notificationSound?: string, enableDesktopNotifications?: boolean, enableSounds?: boolean, emailNotificationsBatchingPeriodSeconds?: number, enableOfflineEmailNotifications?: boolean, enableOfflinePushNotifications?: boolean, enableOnlinePushNotifications?: boolean, enableDigestEmails?: boolean, enableMarketingEmails?: boolean, enableLoginEmails?: boolean, messageContentInEmailNotifications?: boolean, pmContentInDesktopNotifications?: boolean, wildcardMentionsNotify?: boolean, desktopIconCountDisplay?: 1 | 2 | 3, realmNameInNotifications?: boolean, presenceEnabled?: boolean, enterSends?: boolean, options: RequestOptions): FetchArgs {
+            const localVarPath = `/settings`;
             const localVarUrlObj = url.parse(localVarPath, true);
             const localVarRequestOptions: RequestOptions = Object.assign({}, { method: 'PATCH' }, options);
             const localVarHeaderParameter = {};
             const localVarQueryParameter = {};
+
+            if (fullName !== undefined) {
+                localVarQueryParameter['full_name'] = ((fullName:any):string);
+            }
+
+            if (email !== undefined) {
+                localVarQueryParameter['email'] = ((email:any):string);
+            }
+
+            if (oldPassword !== undefined) {
+                localVarQueryParameter['old_password'] = ((oldPassword:any):string);
+            }
+
+            if (newPassword !== undefined) {
+                localVarQueryParameter['new_password'] = ((newPassword:any):string);
+            }
 
             if (twentyFourHourTime !== undefined) {
                 localVarQueryParameter['twenty_four_hour_time'] = ((twentyFourHourTime:any):string);
@@ -6319,6 +6723,10 @@ export const UsersApiFetchParamCreator = function (configuration?: Configuration
 
             if (colorScheme !== undefined) {
                 localVarQueryParameter['color_scheme'] = ((colorScheme:any):string);
+            }
+
+            if (enableDraftsSynchronization !== undefined) {
+                localVarQueryParameter['enable_drafts_synchronization'] = ((enableDraftsSynchronization:any):string);
             }
 
             if (translateEmoticons !== undefined) {
@@ -6349,28 +6757,6 @@ export const UsersApiFetchParamCreator = function (configuration?: Configuration
                 localVarQueryParameter['timezone'] = ((timezone:any):string);
             }
 
-            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            localVarUrlObj.search = null;
-            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
-
-            return {
-                url: url.format(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * This endpoint is used to edit the user\'s global notification settings. See [this endpoint](/api/update-subscription-settings) for per-stream notification settings.  `PATCH {{ api_url }}/v1/settings/notifications` 
-         * @summary Update notification settings
-         * @throws {RequiredError}
-         */
-        updateNotificationSettings(enableStreamDesktopNotifications?: boolean, enableStreamEmailNotifications?: boolean, enableStreamPushNotifications?: boolean, enableStreamAudibleNotifications?: boolean, notificationSound?: string, enableDesktopNotifications?: boolean, enableSounds?: boolean, enableOfflineEmailNotifications?: boolean, enableOfflinePushNotifications?: boolean, enableOnlinePushNotifications?: boolean, enableDigestEmails?: boolean, enableMarketingEmails?: boolean, enableLoginEmails?: boolean, messageContentInEmailNotifications?: boolean, pmContentInDesktopNotifications?: boolean, wildcardMentionsNotify?: boolean, desktopIconCountDisplay?: 1 | 2 | 3, realmNameInNotifications?: boolean, presenceEnabled?: boolean, options: RequestOptions): FetchArgs {
-            const localVarPath = `/settings/notifications`;
-            const localVarUrlObj = url.parse(localVarPath, true);
-            const localVarRequestOptions: RequestOptions = Object.assign({}, { method: 'PATCH' }, options);
-            const localVarHeaderParameter = {};
-            const localVarQueryParameter = {};
-
             if (enableStreamDesktopNotifications !== undefined) {
                 localVarQueryParameter['enable_stream_desktop_notifications'] = ((enableStreamDesktopNotifications:any):string);
             }
@@ -6397,6 +6783,10 @@ export const UsersApiFetchParamCreator = function (configuration?: Configuration
 
             if (enableSounds !== undefined) {
                 localVarQueryParameter['enable_sounds'] = ((enableSounds:any):string);
+            }
+
+            if (emailNotificationsBatchingPeriodSeconds !== undefined) {
+                localVarQueryParameter['email_notifications_batching_period_seconds'] = ((emailNotificationsBatchingPeriodSeconds:any):string);
             }
 
             if (enableOfflineEmailNotifications !== undefined) {
@@ -6445,6 +6835,52 @@ export const UsersApiFetchParamCreator = function (configuration?: Configuration
 
             if (presenceEnabled !== undefined) {
                 localVarQueryParameter['presence_enabled'] = ((presenceEnabled:any):string);
+            }
+
+            if (enterSends !== undefined) {
+                localVarQueryParameter['enter_sends'] = ((enterSends:any):string);
+            }
+
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            localVarUrlObj.search = null;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+
+            return {
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Change your [status](/help/status-and-availability).  `POST {{ api_url }}/v1/users/me/status`  A request to this endpoint will only change the parameters passed. For example, passing just `status_text` requests a change in the status text, but will leave the status emoji unchanged.  Clients that wish to set the user\'s status to a specific value should pass all supported parameters. 
+         * @summary Update your status
+         * @throws {RequiredError}
+         */
+        updateStatus(statusText?: string, away?: boolean, emojiName?: string, emojiCode?: string, reactionType?: string, options: RequestOptions): FetchArgs {
+            const localVarPath = `/users/me/status`;
+            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarRequestOptions: RequestOptions = Object.assign({}, { method: 'POST' }, options);
+            const localVarHeaderParameter = {};
+            const localVarQueryParameter = {};
+
+            if (statusText !== undefined) {
+                localVarQueryParameter['status_text'] = ((statusText:any):string);
+            }
+
+            if (away !== undefined) {
+                localVarQueryParameter['away'] = ((away:any):string);
+            }
+
+            if (emojiName !== undefined) {
+                localVarQueryParameter['emoji_name'] = ((emojiName:any):string);
+            }
+
+            if (emojiCode !== undefined) {
+                localVarQueryParameter['emoji_code'] = ((emojiCode:any):string);
+            }
+
+            if (reactionType !== undefined) {
+                localVarQueryParameter['reaction_type'] = ((reactionType:any):string);
             }
 
             localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
@@ -6610,9 +7046,9 @@ export type UsersApiType = {
 
     unmuteUser(mutedUserId: number, options?: RequestOptions): Promise<JsonSuccess>,
 
-    updateDisplaySettings(twentyFourHourTime?: boolean, denseMode?: boolean, starredMessageCounts?: boolean, fluidLayoutWidth?: boolean, highContrastMode?: boolean, colorScheme?: 1 | 2 | 3, translateEmoticons?: boolean, defaultLanguage?: string, defaultView?: string, leftSideUserlist?: boolean, emojiset?: string, demoteInactiveStreams?: 1 | 2 | 3, timezone?: string, options?: RequestOptions): Promise<JsonSuccessBase & Object>,
+    updateSettings(fullName?: string, email?: string, oldPassword?: string, newPassword?: string, twentyFourHourTime?: boolean, denseMode?: boolean, starredMessageCounts?: boolean, fluidLayoutWidth?: boolean, highContrastMode?: boolean, colorScheme?: 1 | 2 | 3, enableDraftsSynchronization?: boolean, translateEmoticons?: boolean, defaultLanguage?: string, defaultView?: string, leftSideUserlist?: boolean, emojiset?: string, demoteInactiveStreams?: 1 | 2 | 3, timezone?: string, enableStreamDesktopNotifications?: boolean, enableStreamEmailNotifications?: boolean, enableStreamPushNotifications?: boolean, enableStreamAudibleNotifications?: boolean, notificationSound?: string, enableDesktopNotifications?: boolean, enableSounds?: boolean, emailNotificationsBatchingPeriodSeconds?: number, enableOfflineEmailNotifications?: boolean, enableOfflinePushNotifications?: boolean, enableOnlinePushNotifications?: boolean, enableDigestEmails?: boolean, enableMarketingEmails?: boolean, enableLoginEmails?: boolean, messageContentInEmailNotifications?: boolean, pmContentInDesktopNotifications?: boolean, wildcardMentionsNotify?: boolean, desktopIconCountDisplay?: 1 | 2 | 3, realmNameInNotifications?: boolean, presenceEnabled?: boolean, enterSends?: boolean, options?: RequestOptions): Promise<JsonSuccessBase & Object>,
 
-    updateNotificationSettings(enableStreamDesktopNotifications?: boolean, enableStreamEmailNotifications?: boolean, enableStreamPushNotifications?: boolean, enableStreamAudibleNotifications?: boolean, notificationSound?: string, enableDesktopNotifications?: boolean, enableSounds?: boolean, enableOfflineEmailNotifications?: boolean, enableOfflinePushNotifications?: boolean, enableOnlinePushNotifications?: boolean, enableDigestEmails?: boolean, enableMarketingEmails?: boolean, enableLoginEmails?: boolean, messageContentInEmailNotifications?: boolean, pmContentInDesktopNotifications?: boolean, wildcardMentionsNotify?: boolean, desktopIconCountDisplay?: 1 | 2 | 3, realmNameInNotifications?: boolean, presenceEnabled?: boolean, options?: RequestOptions): Promise<JsonSuccessBase & Object>,
+    updateStatus(statusText?: string, away?: boolean, emojiName?: string, emojiCode?: string, reactionType?: string, options?: RequestOptions): Promise<JsonSuccess>,
 
     updateUser(userId: number, fullName?: string, role?: number, profileData?: Array<Object>, options?: RequestOptions): Promise<JsonSuccess>,
 
@@ -6869,12 +7305,12 @@ export const UsersApi = function(configuration?: Configuration, fetch: FetchAPI 
             });
         },
         /**
-         * This endpoint is used to edit the current user\'s user interface settings.  `PATCH {{ api_url }}/v1/settings/display` 
-         * @summary Update display settings
+         * This endpoint is used to edit the current user\'s settings.  `PATCH {{ api_url }}/v1/settings`  **Changes**: Prior to Zulip 5.0 (feature level 80), this endpoint only supported the `full_name`, `email`, `old_password`, and `new_password` parameters. Notification settings were managed by `PATCH /settings/notifications`, and all other settings by `PATCH /settings/display`. The feature level 80 migration to merge these endpoints did not change how request parameters are encoded. Note, however, that it did change the handling of any invalid parameters present in a request to change notification or display settings, since the merged endpoint uses the new response format that was introduced for `/settings` in Zulip 5.0 (feature level 78).  The `/settings/display` and `/settings/notifications` endpoints are now deprecated aliases for this endpoint for backwards-compatibility, and will be removed once clients have migrated to use this endpoint. 
+         * @summary Update settings
          * @throws {RequiredError}
          */
-        updateDisplaySettings(twentyFourHourTime?: boolean, denseMode?: boolean, starredMessageCounts?: boolean, fluidLayoutWidth?: boolean, highContrastMode?: boolean, colorScheme?: 1 | 2 | 3, translateEmoticons?: boolean, defaultLanguage?: string, defaultView?: string, leftSideUserlist?: boolean, emojiset?: string, demoteInactiveStreams?: 1 | 2 | 3, timezone?: string, options?: RequestOptions = {}): Promise<JsonSuccessBase & Object> {
-            const localVarFetchArgs = UsersApiFetchParamCreator(configuration).updateDisplaySettings(twentyFourHourTime, denseMode, starredMessageCounts, fluidLayoutWidth, highContrastMode, colorScheme, translateEmoticons, defaultLanguage, defaultView, leftSideUserlist, emojiset, demoteInactiveStreams, timezone, options);
+        updateSettings(fullName?: string, email?: string, oldPassword?: string, newPassword?: string, twentyFourHourTime?: boolean, denseMode?: boolean, starredMessageCounts?: boolean, fluidLayoutWidth?: boolean, highContrastMode?: boolean, colorScheme?: 1 | 2 | 3, enableDraftsSynchronization?: boolean, translateEmoticons?: boolean, defaultLanguage?: string, defaultView?: string, leftSideUserlist?: boolean, emojiset?: string, demoteInactiveStreams?: 1 | 2 | 3, timezone?: string, enableStreamDesktopNotifications?: boolean, enableStreamEmailNotifications?: boolean, enableStreamPushNotifications?: boolean, enableStreamAudibleNotifications?: boolean, notificationSound?: string, enableDesktopNotifications?: boolean, enableSounds?: boolean, emailNotificationsBatchingPeriodSeconds?: number, enableOfflineEmailNotifications?: boolean, enableOfflinePushNotifications?: boolean, enableOnlinePushNotifications?: boolean, enableDigestEmails?: boolean, enableMarketingEmails?: boolean, enableLoginEmails?: boolean, messageContentInEmailNotifications?: boolean, pmContentInDesktopNotifications?: boolean, wildcardMentionsNotify?: boolean, desktopIconCountDisplay?: 1 | 2 | 3, realmNameInNotifications?: boolean, presenceEnabled?: boolean, enterSends?: boolean, options?: RequestOptions = {}): Promise<JsonSuccessBase & Object> {
+            const localVarFetchArgs = UsersApiFetchParamCreator(configuration).updateSettings(fullName, email, oldPassword, newPassword, twentyFourHourTime, denseMode, starredMessageCounts, fluidLayoutWidth, highContrastMode, colorScheme, enableDraftsSynchronization, translateEmoticons, defaultLanguage, defaultView, leftSideUserlist, emojiset, demoteInactiveStreams, timezone, enableStreamDesktopNotifications, enableStreamEmailNotifications, enableStreamPushNotifications, enableStreamAudibleNotifications, notificationSound, enableDesktopNotifications, enableSounds, emailNotificationsBatchingPeriodSeconds, enableOfflineEmailNotifications, enableOfflinePushNotifications, enableOnlinePushNotifications, enableDigestEmails, enableMarketingEmails, enableLoginEmails, messageContentInEmailNotifications, pmContentInDesktopNotifications, wildcardMentionsNotify, desktopIconCountDisplay, realmNameInNotifications, presenceEnabled, enterSends, options);
             return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
                     return response.json();
@@ -6884,12 +7320,12 @@ export const UsersApi = function(configuration?: Configuration, fetch: FetchAPI 
             });
         },
         /**
-         * This endpoint is used to edit the user\'s global notification settings. See [this endpoint](/api/update-subscription-settings) for per-stream notification settings.  `PATCH {{ api_url }}/v1/settings/notifications` 
-         * @summary Update notification settings
+         * Change your [status](/help/status-and-availability).  `POST {{ api_url }}/v1/users/me/status`  A request to this endpoint will only change the parameters passed. For example, passing just `status_text` requests a change in the status text, but will leave the status emoji unchanged.  Clients that wish to set the user\'s status to a specific value should pass all supported parameters. 
+         * @summary Update your status
          * @throws {RequiredError}
          */
-        updateNotificationSettings(enableStreamDesktopNotifications?: boolean, enableStreamEmailNotifications?: boolean, enableStreamPushNotifications?: boolean, enableStreamAudibleNotifications?: boolean, notificationSound?: string, enableDesktopNotifications?: boolean, enableSounds?: boolean, enableOfflineEmailNotifications?: boolean, enableOfflinePushNotifications?: boolean, enableOnlinePushNotifications?: boolean, enableDigestEmails?: boolean, enableMarketingEmails?: boolean, enableLoginEmails?: boolean, messageContentInEmailNotifications?: boolean, pmContentInDesktopNotifications?: boolean, wildcardMentionsNotify?: boolean, desktopIconCountDisplay?: 1 | 2 | 3, realmNameInNotifications?: boolean, presenceEnabled?: boolean, options?: RequestOptions = {}): Promise<JsonSuccessBase & Object> {
-            const localVarFetchArgs = UsersApiFetchParamCreator(configuration).updateNotificationSettings(enableStreamDesktopNotifications, enableStreamEmailNotifications, enableStreamPushNotifications, enableStreamAudibleNotifications, notificationSound, enableDesktopNotifications, enableSounds, enableOfflineEmailNotifications, enableOfflinePushNotifications, enableOnlinePushNotifications, enableDigestEmails, enableMarketingEmails, enableLoginEmails, messageContentInEmailNotifications, pmContentInDesktopNotifications, wildcardMentionsNotify, desktopIconCountDisplay, realmNameInNotifications, presenceEnabled, options);
+        updateStatus(statusText?: string, away?: boolean, emojiName?: string, emojiCode?: string, reactionType?: string, options?: RequestOptions = {}): Promise<JsonSuccess> {
+            const localVarFetchArgs = UsersApiFetchParamCreator(configuration).updateStatus(statusText, away, emojiName, emojiCode, reactionType, options);
             return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
                     return response.json();
@@ -7010,6 +7446,8 @@ export const WebhooksApi = function(configuration?: Configuration, fetch: FetchA
 
 export type ApiTypes = { 
     AuthenticationApi: AuthenticationApiType,
+
+    DraftsApi: DraftsApiType,
 
     MessagesApi: MessagesApiType,
 

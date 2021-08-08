@@ -236,14 +236,20 @@ class ApiClient {
           return CustomProfileField.fromJson(value);
         case 'DefaultStreamGroup':
           return DefaultStreamGroup.fromJson(value);
+        case 'Draft':
+          return Draft.fromJson(value);
+        case 'EmojiBase':
+          return EmojiBase.fromJson(value);
         case 'EmojiReaction':
           return EmojiReaction.fromJson(value);
         case 'EmojiReactionAllOf':
           return EmojiReactionAllOf.fromJson(value);
         case 'EmojiReactionBase':
           return EmojiReactionBase.fromJson(value);
-        case 'EmojiReactionBaseUser':
-          return EmojiReactionBaseUser.fromJson(value);
+        case 'EmojiReactionBaseAllOf':
+          return EmojiReactionBaseAllOf.fromJson(value);
+        case 'EmojiReactionBaseAllOfUser':
+          return EmojiReactionBaseAllOfUser.fromJson(value);
         case 'GetMessages':
           return GetMessages.fromJson(value);
         case 'GetMessagesAllOf':

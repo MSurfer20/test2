@@ -15,7 +15,7 @@ To see how to make this your own, look here:
 [README]((https://openapi-generator.tech))
 
 - API version: 1.0.0
-- Build date: 2021-08-08T20:45:16.710337Z[Etc/UTC]
+- Build date: 2021-08-08T21:14:55.013789Z[Etc/UTC]
 
 For more information, please visit [https://zulip.com](https://zulip.com)
 
@@ -64,6 +64,9 @@ To run a client, follow one of the following simple steps:
 ```
 cargo run --example client DevFetchApiKey
 cargo run --example client FetchApiKey
+cargo run --example client CreateDrafts
+cargo run --example client DeleteDraft
+cargo run --example client GetDrafts
 cargo run --example client AddReaction
 cargo run --example client CheckMessagesMatchNarrow
 cargo run --example client DeleteMessage
@@ -99,9 +102,11 @@ cargo run --example client UpdateLinkifier
 cargo run --example client UploadCustomEmoji
 cargo run --example client ArchiveStream
 cargo run --example client CreateBigBlueButtonVideoCall
+cargo run --example client DeleteTopic
 cargo run --example client GetStreamId
 cargo run --example client GetStreamTopics
 cargo run --example client GetStreams
+cargo run --example client GetSubscribers
 cargo run --example client GetSubscriptionStatus
 cargo run --example client GetSubscriptions
 cargo run --example client MuteTopic
@@ -126,8 +131,8 @@ cargo run --example client ReactivateUser
 cargo run --example client RemoveUserGroup
 cargo run --example client SetTypingStatus
 cargo run --example client UnmuteUser
-cargo run --example client UpdateDisplaySettings
-cargo run --example client UpdateNotificationSettings
+cargo run --example client UpdateSettings
+cargo run --example client UpdateStatus
 cargo run --example client UpdateUser
 cargo run --example client UpdateUserGroup
 cargo run --example client UpdateUserGroupMembers
@@ -165,76 +170,82 @@ All URIs are relative to *https://example.zulipchat.com/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**dev_fetch_api_key**](docs/authentication_api.md#dev_fetch_api_key) | **POST** /dev_fetch_api_key | Fetch an API key (development only)
-[**fetch_api_key**](docs/authentication_api.md#fetch_api_key) | **POST** /fetch_api_key | Fetch an API key (production)
-[**add_reaction**](docs/messages_api.md#add_reaction) | **POST** /messages/{message_id}/reactions | Add an emoji reaction
-[**check_messages_match_narrow**](docs/messages_api.md#check_messages_match_narrow) | **GET** /messages/matches_narrow | Check if messages match a narrow
-[**delete_message**](docs/messages_api.md#delete_message) | **DELETE** /messages/{message_id} | Delete a message
-[**get_file_temporary_url**](docs/messages_api.md#get_file_temporary_url) | **GET** /user_uploads/{realm_id_str}/{filename} | Get public temporary URL
-[**get_message_history**](docs/messages_api.md#get_message_history) | **GET** /messages/{message_id}/history | Get a message's edit history
-[**get_messages**](docs/messages_api.md#get_messages) | **GET** /messages | Get messages
-[**get_raw_message**](docs/messages_api.md#get_raw_message) | **GET** /messages/{message_id} | Get a message's raw Markdown
-[**mark_all_as_read**](docs/messages_api.md#mark_all_as_read) | **POST** /mark_all_as_read | Mark all messages as read
-[**mark_stream_as_read**](docs/messages_api.md#mark_stream_as_read) | **POST** /mark_stream_as_read | Mark messages in a stream as read
-[**mark_topic_as_read**](docs/messages_api.md#mark_topic_as_read) | **POST** /mark_topic_as_read | Mark messages in a topic as read
-[**remove_reaction**](docs/messages_api.md#remove_reaction) | **DELETE** /messages/{message_id}/reactions | Remove an emoji reaction
-[**render_message**](docs/messages_api.md#render_message) | **POST** /messages/render | Render message
-[**send_message**](docs/messages_api.md#send_message) | **POST** /messages | Send a message
-[**update_message**](docs/messages_api.md#update_message) | **PATCH** /messages/{message_id} | Edit a message
-[**update_message_flags**](docs/messages_api.md#update_message_flags) | **POST** /messages/flags | Update personal message flags
-[**upload_file**](docs/messages_api.md#upload_file) | **POST** /user_uploads | Upload a file
-[**delete_queue**](docs/real_time_events_api.md#delete_queue) | **DELETE** /events | Delete an event queue
-[**get_events**](docs/real_time_events_api.md#get_events) | **GET** /events | Get events from an event queue
+[**dev-fetch-api-key**](docs/authentication_api.md#dev-fetch-api-key) | **POST** /dev_fetch_api_key | Fetch an API key (development only)
+[**fetch-api-key**](docs/authentication_api.md#fetch-api-key) | **POST** /fetch_api_key | Fetch an API key (production)
+[**create-drafts**](docs/drafts_api.md#create-drafts) | **POST** /drafts | Create drafts
+[**delete-draft**](docs/drafts_api.md#delete-draft) | **DELETE** /drafts/{draft_id} | Delete a draft
+[**edit-draft**](docs/drafts_api.md#edit-draft) | **PATCH** /drafts/{draft_id} | Edit a draft
+[**get-drafts**](docs/drafts_api.md#get-drafts) | **GET** /drafts | Get drafts
+[**add-reaction**](docs/messages_api.md#add-reaction) | **POST** /messages/{message_id}/reactions | Add an emoji reaction
+[**check-messages-match-narrow**](docs/messages_api.md#check-messages-match-narrow) | **GET** /messages/matches_narrow | Check if messages match a narrow
+[**delete-message**](docs/messages_api.md#delete-message) | **DELETE** /messages/{message_id} | Delete a message
+[**get-file-temporary-url**](docs/messages_api.md#get-file-temporary-url) | **GET** /user_uploads/{realm_id_str}/{filename} | Get public temporary URL
+[**get-message-history**](docs/messages_api.md#get-message-history) | **GET** /messages/{message_id}/history | Get a message's edit history
+[**get-messages**](docs/messages_api.md#get-messages) | **GET** /messages | Get messages
+[**get-raw-message**](docs/messages_api.md#get-raw-message) | **GET** /messages/{message_id} | Get a message's raw Markdown
+[**mark-all-as-read**](docs/messages_api.md#mark-all-as-read) | **POST** /mark_all_as_read | Mark all messages as read
+[**mark-stream-as-read**](docs/messages_api.md#mark-stream-as-read) | **POST** /mark_stream_as_read | Mark messages in a stream as read
+[**mark-topic-as-read**](docs/messages_api.md#mark-topic-as-read) | **POST** /mark_topic_as_read | Mark messages in a topic as read
+[**remove-reaction**](docs/messages_api.md#remove-reaction) | **DELETE** /messages/{message_id}/reactions | Remove an emoji reaction
+[**render-message**](docs/messages_api.md#render-message) | **POST** /messages/render | Render message
+[**send-message**](docs/messages_api.md#send-message) | **POST** /messages | Send a message
+[**update-message**](docs/messages_api.md#update-message) | **PATCH** /messages/{message_id} | Edit a message
+[**update-message-flags**](docs/messages_api.md#update-message-flags) | **POST** /messages/flags | Update personal message flags
+[**upload-file**](docs/messages_api.md#upload-file) | **POST** /user_uploads | Upload a file
+[**delete-queue**](docs/real_time_events_api.md#delete-queue) | **DELETE** /events | Delete an event queue
+[**get-events**](docs/real_time_events_api.md#get-events) | **GET** /events | Get events from an event queue
 [****](docs/real_time_events_api.md#) | **POST** /real-time | 
-[**register_queue**](docs/real_time_events_api.md#register_queue) | **POST** /register | Register an event queue
-[**rest_error_handling**](docs/real_time_events_api.md#rest_error_handling) | **POST** /rest-error-handling | Error handling
-[**add_code_playground**](docs/server_and_organizations_api.md#add_code_playground) | **POST** /realm/playgrounds | Add a code playground
-[**add_linkifier**](docs/server_and_organizations_api.md#add_linkifier) | **POST** /realm/filters | Add a linkifier
-[**create_custom_profile_field**](docs/server_and_organizations_api.md#create_custom_profile_field) | **POST** /realm/profile_fields | Create a custom profile field
-[**get_custom_emoji**](docs/server_and_organizations_api.md#get_custom_emoji) | **GET** /realm/emoji | Get all custom emoji
-[**get_custom_profile_fields**](docs/server_and_organizations_api.md#get_custom_profile_fields) | **GET** /realm/profile_fields | Get all custom profile fields
-[**get_linkifiers**](docs/server_and_organizations_api.md#get_linkifiers) | **GET** /realm/linkifiers | Get linkifiers
-[**get_server_settings**](docs/server_and_organizations_api.md#get_server_settings) | **GET** /server_settings | Get server settings
-[**remove_code_playground**](docs/server_and_organizations_api.md#remove_code_playground) | **DELETE** /realm/playgrounds/{playground_id} | Remove a code playground
-[**remove_linkifier**](docs/server_and_organizations_api.md#remove_linkifier) | **DELETE** /realm/filters/{filter_id} | Remove a linkifier
-[**reorder_custom_profile_fields**](docs/server_and_organizations_api.md#reorder_custom_profile_fields) | **PATCH** /realm/profile_fields | Reorder custom profile fields
-[**update_linkifier**](docs/server_and_organizations_api.md#update_linkifier) | **PATCH** /realm/filters/{filter_id} | Update a linkifier
-[**upload_custom_emoji**](docs/server_and_organizations_api.md#upload_custom_emoji) | **POST** /realm/emoji/{emoji_name} | Upload custom emoji
-[**archive_stream**](docs/streams_api.md#archive_stream) | **DELETE** /streams/{stream_id} | Archive a stream
-[**create_big_blue_button_video_call**](docs/streams_api.md#create_big_blue_button_video_call) | **GET** /calls/bigbluebutton/create | Create BigBlueButton video call
-[**get_stream_id**](docs/streams_api.md#get_stream_id) | **GET** /get_stream_id | Get stream ID
-[**get_stream_topics**](docs/streams_api.md#get_stream_topics) | **GET** /users/me/{stream_id}/topics | Get topics in a stream
-[**get_streams**](docs/streams_api.md#get_streams) | **GET** /streams | Get all streams
-[**get_subscription_status**](docs/streams_api.md#get_subscription_status) | **GET** /users/{user_id}/subscriptions/{stream_id} | Get subscription status
-[**get_subscriptions**](docs/streams_api.md#get_subscriptions) | **GET** /users/me/subscriptions | Get subscribed streams
-[**mute_topic**](docs/streams_api.md#mute_topic) | **PATCH** /users/me/subscriptions/muted_topics | Topic muting
+[**register-queue**](docs/real_time_events_api.md#register-queue) | **POST** /register | Register an event queue
+[**rest-error-handling**](docs/real_time_events_api.md#rest-error-handling) | **POST** /rest-error-handling | Error handling
+[**add-code-playground**](docs/server_and_organizations_api.md#add-code-playground) | **POST** /realm/playgrounds | Add a code playground
+[**add-linkifier**](docs/server_and_organizations_api.md#add-linkifier) | **POST** /realm/filters | Add a linkifier
+[**create-custom-profile-field**](docs/server_and_organizations_api.md#create-custom-profile-field) | **POST** /realm/profile_fields | Create a custom profile field
+[**get-custom-emoji**](docs/server_and_organizations_api.md#get-custom-emoji) | **GET** /realm/emoji | Get all custom emoji
+[**get-custom-profile-fields**](docs/server_and_organizations_api.md#get-custom-profile-fields) | **GET** /realm/profile_fields | Get all custom profile fields
+[**get-linkifiers**](docs/server_and_organizations_api.md#get-linkifiers) | **GET** /realm/linkifiers | Get linkifiers
+[**get-server-settings**](docs/server_and_organizations_api.md#get-server-settings) | **GET** /server_settings | Get server settings
+[**remove-code-playground**](docs/server_and_organizations_api.md#remove-code-playground) | **DELETE** /realm/playgrounds/{playground_id} | Remove a code playground
+[**remove-linkifier**](docs/server_and_organizations_api.md#remove-linkifier) | **DELETE** /realm/filters/{filter_id} | Remove a linkifier
+[**reorder-custom-profile-fields**](docs/server_and_organizations_api.md#reorder-custom-profile-fields) | **PATCH** /realm/profile_fields | Reorder custom profile fields
+[**update-linkifier**](docs/server_and_organizations_api.md#update-linkifier) | **PATCH** /realm/filters/{filter_id} | Update a linkifier
+[**upload-custom-emoji**](docs/server_and_organizations_api.md#upload-custom-emoji) | **POST** /realm/emoji/{emoji_name} | Upload custom emoji
+[**archive-stream**](docs/streams_api.md#archive-stream) | **DELETE** /streams/{stream_id} | Archive a stream
+[**create-big-blue-button-video-call**](docs/streams_api.md#create-big-blue-button-video-call) | **GET** /calls/bigbluebutton/create | Create BigBlueButton video call
+[**delete-topic**](docs/streams_api.md#delete-topic) | **POST** /streams/{stream_id}/delete_topic | Delete a topic
+[**get-stream-id**](docs/streams_api.md#get-stream-id) | **GET** /get_stream_id | Get stream ID
+[**get-stream-topics**](docs/streams_api.md#get-stream-topics) | **GET** /users/me/{stream_id}/topics | Get topics in a stream
+[**get-streams**](docs/streams_api.md#get-streams) | **GET** /streams | Get all streams
+[**get-subscribers**](docs/streams_api.md#get-subscribers) | **GET** /streams/{stream_id}/members | Get the subscribers of a stream
+[**get-subscription-status**](docs/streams_api.md#get-subscription-status) | **GET** /users/{user_id}/subscriptions/{stream_id} | Get subscription status
+[**get-subscriptions**](docs/streams_api.md#get-subscriptions) | **GET** /users/me/subscriptions | Get subscribed streams
+[**mute-topic**](docs/streams_api.md#mute-topic) | **PATCH** /users/me/subscriptions/muted_topics | Topic muting
 [**subscribe**](docs/streams_api.md#subscribe) | **POST** /users/me/subscriptions | Subscribe to a stream
 [**unsubscribe**](docs/streams_api.md#unsubscribe) | **DELETE** /users/me/subscriptions | Unsubscribe from a stream
-[**update_stream**](docs/streams_api.md#update_stream) | **PATCH** /streams/{stream_id} | Update a stream
-[**update_subscription_settings**](docs/streams_api.md#update_subscription_settings) | **POST** /users/me/subscriptions/properties | Update subscription settings
-[**update_subscriptions**](docs/streams_api.md#update_subscriptions) | **PATCH** /users/me/subscriptions | Update subscriptions
-[**create_user**](docs/users_api.md#create_user) | **POST** /users | Create a user
-[**create_user_group**](docs/users_api.md#create_user_group) | **POST** /user_groups/create | Create a user group
-[**deactivate_own_user**](docs/users_api.md#deactivate_own_user) | **DELETE** /users/me | Deactivate own user
-[**deactivate_user**](docs/users_api.md#deactivate_user) | **DELETE** /users/{user_id} | Deactivate a user
-[**get_attachments**](docs/users_api.md#get_attachments) | **GET** /attachments | Get attachments
-[**get_own_user**](docs/users_api.md#get_own_user) | **GET** /users/me | Get own user
-[**get_user**](docs/users_api.md#get_user) | **GET** /users/{user_id} | Get a user
-[**get_user_by_email**](docs/users_api.md#get_user_by_email) | **GET** /users/{email} | Get a user by email
-[**get_user_groups**](docs/users_api.md#get_user_groups) | **GET** /user_groups | Get user groups
-[**get_user_presence**](docs/users_api.md#get_user_presence) | **GET** /users/{user_id_or_email}/presence | Get user presence
-[**get_users**](docs/users_api.md#get_users) | **GET** /users | Get all users
-[**mute_user**](docs/users_api.md#mute_user) | **POST** /users/me/muted_users/{muted_user_id} | Mute a user
-[**reactivate_user**](docs/users_api.md#reactivate_user) | **POST** /users/{user_id}/reactivate | Reactivate a user
-[**remove_user_group**](docs/users_api.md#remove_user_group) | **DELETE** /user_groups/{user_group_id} | Delete a user group
-[**set_typing_status**](docs/users_api.md#set_typing_status) | **POST** /typing | Set \"typing\" status
-[**unmute_user**](docs/users_api.md#unmute_user) | **DELETE** /users/me/muted_users/{muted_user_id} | Unmute a user
-[**update_display_settings**](docs/users_api.md#update_display_settings) | **PATCH** /settings/display | Update display settings
-[**update_notification_settings**](docs/users_api.md#update_notification_settings) | **PATCH** /settings/notifications | Update notification settings
-[**update_user**](docs/users_api.md#update_user) | **PATCH** /users/{user_id} | Update a user
-[**update_user_group**](docs/users_api.md#update_user_group) | **PATCH** /user_groups/{user_group_id} | Update a user group
-[**update_user_group_members**](docs/users_api.md#update_user_group_members) | **POST** /user_groups/{user_group_id}/members | Update user group members
-[**zulip_outgoing_webhooks**](docs/webhooks_api.md#zulip_outgoing_webhooks) | **POST** /zulip-outgoing-webhook | Outgoing webhooks
+[**update-stream**](docs/streams_api.md#update-stream) | **PATCH** /streams/{stream_id} | Update a stream
+[**update-subscription-settings**](docs/streams_api.md#update-subscription-settings) | **POST** /users/me/subscriptions/properties | Update subscription settings
+[**update-subscriptions**](docs/streams_api.md#update-subscriptions) | **PATCH** /users/me/subscriptions | Update subscriptions
+[**create-user**](docs/users_api.md#create-user) | **POST** /users | Create a user
+[**create-user-group**](docs/users_api.md#create-user-group) | **POST** /user_groups/create | Create a user group
+[**deactivate-own-user**](docs/users_api.md#deactivate-own-user) | **DELETE** /users/me | Deactivate own user
+[**deactivate-user**](docs/users_api.md#deactivate-user) | **DELETE** /users/{user_id} | Deactivate a user
+[**get-attachments**](docs/users_api.md#get-attachments) | **GET** /attachments | Get attachments
+[**get-own-user**](docs/users_api.md#get-own-user) | **GET** /users/me | Get own user
+[**get-user**](docs/users_api.md#get-user) | **GET** /users/{user_id} | Get a user
+[**get-user-by-email**](docs/users_api.md#get-user-by-email) | **GET** /users/{email} | Get a user by email
+[**get-user-groups**](docs/users_api.md#get-user-groups) | **GET** /user_groups | Get user groups
+[**get-user-presence**](docs/users_api.md#get-user-presence) | **GET** /users/{user_id_or_email}/presence | Get user presence
+[**get-users**](docs/users_api.md#get-users) | **GET** /users | Get all users
+[**mute-user**](docs/users_api.md#mute-user) | **POST** /users/me/muted_users/{muted_user_id} | Mute a user
+[**reactivate-user**](docs/users_api.md#reactivate-user) | **POST** /users/{user_id}/reactivate | Reactivate a user
+[**remove-user-group**](docs/users_api.md#remove-user-group) | **DELETE** /user_groups/{user_group_id} | Delete a user group
+[**set-typing-status**](docs/users_api.md#set-typing-status) | **POST** /typing | Set \"typing\" status
+[**unmute-user**](docs/users_api.md#unmute-user) | **DELETE** /users/me/muted_users/{muted_user_id} | Unmute a user
+[**update-settings**](docs/users_api.md#update-settings) | **PATCH** /settings | Update settings
+[**update-status**](docs/users_api.md#update-status) | **POST** /users/me/status | Update your status
+[**update-user**](docs/users_api.md#update-user) | **PATCH** /users/{user_id} | Update a user
+[**update-user-group**](docs/users_api.md#update-user-group) | **PATCH** /user_groups/{user_group_id} | Update a user group
+[**update-user-group-members**](docs/users_api.md#update-user-group-members) | **POST** /user_groups/{user_group_id}/members | Update user group members
+[**zulip-outgoing-webhooks**](docs/webhooks_api.md#zulip-outgoing-webhooks) | **POST** /zulip-outgoing-webhook | Outgoing webhooks
 
 
 ## Documentation For Models
@@ -261,10 +272,13 @@ Method | HTTP request | Description
  - [CodedErrorBaseAllOf](docs/CodedErrorBaseAllOf.md)
  - [CustomProfileField](docs/CustomProfileField.md)
  - [DefaultStreamGroup](docs/DefaultStreamGroup.md)
+ - [Draft](docs/Draft.md)
+ - [EmojiBase](docs/EmojiBase.md)
  - [EmojiReaction](docs/EmojiReaction.md)
  - [EmojiReactionAllOf](docs/EmojiReactionAllOf.md)
  - [EmojiReactionBase](docs/EmojiReactionBase.md)
- - [EmojiReactionBaseUser](docs/EmojiReactionBaseUser.md)
+ - [EmojiReactionBaseAllOf](docs/EmojiReactionBaseAllOf.md)
+ - [EmojiReactionBaseAllOfUser](docs/EmojiReactionBaseAllOfUser.md)
  - [EventIdSchema](docs/EventIdSchema.md)
  - [EventTypeSchema](docs/EventTypeSchema.md)
  - [GetMessages](docs/GetMessages.md)

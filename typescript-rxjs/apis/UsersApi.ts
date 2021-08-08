@@ -80,23 +80,25 @@ export interface UnmuteUserRequest {
     mutedUserId: number;
 }
 
-export interface UpdateDisplaySettingsRequest {
+export interface UpdateSettingsRequest {
+    fullName?: string;
+    email?: string;
+    oldPassword?: string;
+    newPassword?: string;
     twentyFourHourTime?: boolean;
     denseMode?: boolean;
     starredMessageCounts?: boolean;
     fluidLayoutWidth?: boolean;
     highContrastMode?: boolean;
-    colorScheme?: UpdateDisplaySettingsColorSchemeEnum;
+    colorScheme?: UpdateSettingsColorSchemeEnum;
+    enableDraftsSynchronization?: boolean;
     translateEmoticons?: boolean;
     defaultLanguage?: string;
     defaultView?: string;
     leftSideUserlist?: boolean;
     emojiset?: string;
-    demoteInactiveStreams?: UpdateDisplaySettingsDemoteInactiveStreamsEnum;
+    demoteInactiveStreams?: UpdateSettingsDemoteInactiveStreamsEnum;
     timezone?: string;
-}
-
-export interface UpdateNotificationSettingsRequest {
     enableStreamDesktopNotifications?: boolean;
     enableStreamEmailNotifications?: boolean;
     enableStreamPushNotifications?: boolean;
@@ -104,6 +106,7 @@ export interface UpdateNotificationSettingsRequest {
     notificationSound?: string;
     enableDesktopNotifications?: boolean;
     enableSounds?: boolean;
+    emailNotificationsBatchingPeriodSeconds?: number;
     enableOfflineEmailNotifications?: boolean;
     enableOfflinePushNotifications?: boolean;
     enableOnlinePushNotifications?: boolean;
@@ -113,9 +116,18 @@ export interface UpdateNotificationSettingsRequest {
     messageContentInEmailNotifications?: boolean;
     pmContentInDesktopNotifications?: boolean;
     wildcardMentionsNotify?: boolean;
-    desktopIconCountDisplay?: UpdateNotificationSettingsDesktopIconCountDisplayEnum;
+    desktopIconCountDisplay?: UpdateSettingsDesktopIconCountDisplayEnum;
     realmNameInNotifications?: boolean;
     presenceEnabled?: boolean;
+    enterSends?: boolean;
+}
+
+export interface UpdateStatusRequest {
+    statusText?: string;
+    away?: boolean;
+    emojiName?: string;
+    emojiCode?: string;
+    reactionType?: string;
 }
 
 export interface UpdateUserRequest {
@@ -420,21 +432,26 @@ export class UsersApi extends BaseAPI {
     };
 
     /**
-     * This endpoint is used to edit the current user\'s user interface settings.  `PATCH {{ api_url }}/v1/settings/display` 
-     * Update display settings
+     * This endpoint is used to edit the current user\'s settings.  `PATCH {{ api_url }}/v1/settings`  **Changes**: Prior to Zulip 5.0 (feature level 80), this endpoint only supported the `full_name`, `email`, `old_password`, and `new_password` parameters. Notification settings were managed by `PATCH /settings/notifications`, and all other settings by `PATCH /settings/display`. The feature level 80 migration to merge these endpoints did not change how request parameters are encoded. Note, however, that it did change the handling of any invalid parameters present in a request to change notification or display settings, since the merged endpoint uses the new response format that was introduced for `/settings` in Zulip 5.0 (feature level 78).  The `/settings/display` and `/settings/notifications` endpoints are now deprecated aliases for this endpoint for backwards-compatibility, and will be removed once clients have migrated to use this endpoint. 
+     * Update settings
      */
-    updateDisplaySettings({ twentyFourHourTime, denseMode, starredMessageCounts, fluidLayoutWidth, highContrastMode, colorScheme, translateEmoticons, defaultLanguage, defaultView, leftSideUserlist, emojiset, demoteInactiveStreams, timezone }: UpdateDisplaySettingsRequest): Observable<JsonSuccessBase & object>
-    updateDisplaySettings({ twentyFourHourTime, denseMode, starredMessageCounts, fluidLayoutWidth, highContrastMode, colorScheme, translateEmoticons, defaultLanguage, defaultView, leftSideUserlist, emojiset, demoteInactiveStreams, timezone }: UpdateDisplaySettingsRequest, opts?: OperationOpts): Observable<RawAjaxResponse<JsonSuccessBase & object>>
-    updateDisplaySettings({ twentyFourHourTime, denseMode, starredMessageCounts, fluidLayoutWidth, highContrastMode, colorScheme, translateEmoticons, defaultLanguage, defaultView, leftSideUserlist, emojiset, demoteInactiveStreams, timezone }: UpdateDisplaySettingsRequest, opts?: OperationOpts): Observable<JsonSuccessBase & object | RawAjaxResponse<JsonSuccessBase & object>> {
+    updateSettings({ fullName, email, oldPassword, newPassword, twentyFourHourTime, denseMode, starredMessageCounts, fluidLayoutWidth, highContrastMode, colorScheme, enableDraftsSynchronization, translateEmoticons, defaultLanguage, defaultView, leftSideUserlist, emojiset, demoteInactiveStreams, timezone, enableStreamDesktopNotifications, enableStreamEmailNotifications, enableStreamPushNotifications, enableStreamAudibleNotifications, notificationSound, enableDesktopNotifications, enableSounds, emailNotificationsBatchingPeriodSeconds, enableOfflineEmailNotifications, enableOfflinePushNotifications, enableOnlinePushNotifications, enableDigestEmails, enableMarketingEmails, enableLoginEmails, messageContentInEmailNotifications, pmContentInDesktopNotifications, wildcardMentionsNotify, desktopIconCountDisplay, realmNameInNotifications, presenceEnabled, enterSends }: UpdateSettingsRequest): Observable<JsonSuccessBase & object>
+    updateSettings({ fullName, email, oldPassword, newPassword, twentyFourHourTime, denseMode, starredMessageCounts, fluidLayoutWidth, highContrastMode, colorScheme, enableDraftsSynchronization, translateEmoticons, defaultLanguage, defaultView, leftSideUserlist, emojiset, demoteInactiveStreams, timezone, enableStreamDesktopNotifications, enableStreamEmailNotifications, enableStreamPushNotifications, enableStreamAudibleNotifications, notificationSound, enableDesktopNotifications, enableSounds, emailNotificationsBatchingPeriodSeconds, enableOfflineEmailNotifications, enableOfflinePushNotifications, enableOnlinePushNotifications, enableDigestEmails, enableMarketingEmails, enableLoginEmails, messageContentInEmailNotifications, pmContentInDesktopNotifications, wildcardMentionsNotify, desktopIconCountDisplay, realmNameInNotifications, presenceEnabled, enterSends }: UpdateSettingsRequest, opts?: OperationOpts): Observable<RawAjaxResponse<JsonSuccessBase & object>>
+    updateSettings({ fullName, email, oldPassword, newPassword, twentyFourHourTime, denseMode, starredMessageCounts, fluidLayoutWidth, highContrastMode, colorScheme, enableDraftsSynchronization, translateEmoticons, defaultLanguage, defaultView, leftSideUserlist, emojiset, demoteInactiveStreams, timezone, enableStreamDesktopNotifications, enableStreamEmailNotifications, enableStreamPushNotifications, enableStreamAudibleNotifications, notificationSound, enableDesktopNotifications, enableSounds, emailNotificationsBatchingPeriodSeconds, enableOfflineEmailNotifications, enableOfflinePushNotifications, enableOnlinePushNotifications, enableDigestEmails, enableMarketingEmails, enableLoginEmails, messageContentInEmailNotifications, pmContentInDesktopNotifications, wildcardMentionsNotify, desktopIconCountDisplay, realmNameInNotifications, presenceEnabled, enterSends }: UpdateSettingsRequest, opts?: OperationOpts): Observable<JsonSuccessBase & object | RawAjaxResponse<JsonSuccessBase & object>> {
 
         const query: HttpQuery = {};
 
+        if (fullName != null) { query['full_name'] = fullName; }
+        if (email != null) { query['email'] = email; }
+        if (oldPassword != null) { query['old_password'] = oldPassword; }
+        if (newPassword != null) { query['new_password'] = newPassword; }
         if (twentyFourHourTime != null) { query['twenty_four_hour_time'] = twentyFourHourTime; }
         if (denseMode != null) { query['dense_mode'] = denseMode; }
         if (starredMessageCounts != null) { query['starred_message_counts'] = starredMessageCounts; }
         if (fluidLayoutWidth != null) { query['fluid_layout_width'] = fluidLayoutWidth; }
         if (highContrastMode != null) { query['high_contrast_mode'] = highContrastMode; }
         if (colorScheme != null) { query['color_scheme'] = colorScheme; }
+        if (enableDraftsSynchronization != null) { query['enable_drafts_synchronization'] = enableDraftsSynchronization; }
         if (translateEmoticons != null) { query['translate_emoticons'] = translateEmoticons; }
         if (defaultLanguage != null) { query['default_language'] = defaultLanguage; }
         if (defaultView != null) { query['default_view'] = defaultView; }
@@ -442,24 +459,6 @@ export class UsersApi extends BaseAPI {
         if (emojiset != null) { query['emojiset'] = emojiset; }
         if (demoteInactiveStreams != null) { query['demote_inactive_streams'] = demoteInactiveStreams; }
         if (timezone != null) { query['timezone'] = timezone; }
-
-        return this.request<JsonSuccessBase & object>({
-            url: '/settings/display',
-            method: 'PATCH',
-            query,
-        }, opts?.responseOpts);
-    };
-
-    /**
-     * This endpoint is used to edit the user\'s global notification settings. See [this endpoint](/api/update-subscription-settings) for per-stream notification settings.  `PATCH {{ api_url }}/v1/settings/notifications` 
-     * Update notification settings
-     */
-    updateNotificationSettings({ enableStreamDesktopNotifications, enableStreamEmailNotifications, enableStreamPushNotifications, enableStreamAudibleNotifications, notificationSound, enableDesktopNotifications, enableSounds, enableOfflineEmailNotifications, enableOfflinePushNotifications, enableOnlinePushNotifications, enableDigestEmails, enableMarketingEmails, enableLoginEmails, messageContentInEmailNotifications, pmContentInDesktopNotifications, wildcardMentionsNotify, desktopIconCountDisplay, realmNameInNotifications, presenceEnabled }: UpdateNotificationSettingsRequest): Observable<JsonSuccessBase & object>
-    updateNotificationSettings({ enableStreamDesktopNotifications, enableStreamEmailNotifications, enableStreamPushNotifications, enableStreamAudibleNotifications, notificationSound, enableDesktopNotifications, enableSounds, enableOfflineEmailNotifications, enableOfflinePushNotifications, enableOnlinePushNotifications, enableDigestEmails, enableMarketingEmails, enableLoginEmails, messageContentInEmailNotifications, pmContentInDesktopNotifications, wildcardMentionsNotify, desktopIconCountDisplay, realmNameInNotifications, presenceEnabled }: UpdateNotificationSettingsRequest, opts?: OperationOpts): Observable<RawAjaxResponse<JsonSuccessBase & object>>
-    updateNotificationSettings({ enableStreamDesktopNotifications, enableStreamEmailNotifications, enableStreamPushNotifications, enableStreamAudibleNotifications, notificationSound, enableDesktopNotifications, enableSounds, enableOfflineEmailNotifications, enableOfflinePushNotifications, enableOnlinePushNotifications, enableDigestEmails, enableMarketingEmails, enableLoginEmails, messageContentInEmailNotifications, pmContentInDesktopNotifications, wildcardMentionsNotify, desktopIconCountDisplay, realmNameInNotifications, presenceEnabled }: UpdateNotificationSettingsRequest, opts?: OperationOpts): Observable<JsonSuccessBase & object | RawAjaxResponse<JsonSuccessBase & object>> {
-
-        const query: HttpQuery = {};
-
         if (enableStreamDesktopNotifications != null) { query['enable_stream_desktop_notifications'] = enableStreamDesktopNotifications; }
         if (enableStreamEmailNotifications != null) { query['enable_stream_email_notifications'] = enableStreamEmailNotifications; }
         if (enableStreamPushNotifications != null) { query['enable_stream_push_notifications'] = enableStreamPushNotifications; }
@@ -467,6 +466,7 @@ export class UsersApi extends BaseAPI {
         if (notificationSound != null) { query['notification_sound'] = notificationSound; }
         if (enableDesktopNotifications != null) { query['enable_desktop_notifications'] = enableDesktopNotifications; }
         if (enableSounds != null) { query['enable_sounds'] = enableSounds; }
+        if (emailNotificationsBatchingPeriodSeconds != null) { query['email_notifications_batching_period_seconds'] = emailNotificationsBatchingPeriodSeconds; }
         if (enableOfflineEmailNotifications != null) { query['enable_offline_email_notifications'] = enableOfflineEmailNotifications; }
         if (enableOfflinePushNotifications != null) { query['enable_offline_push_notifications'] = enableOfflinePushNotifications; }
         if (enableOnlinePushNotifications != null) { query['enable_online_push_notifications'] = enableOnlinePushNotifications; }
@@ -479,10 +479,34 @@ export class UsersApi extends BaseAPI {
         if (desktopIconCountDisplay != null) { query['desktop_icon_count_display'] = desktopIconCountDisplay; }
         if (realmNameInNotifications != null) { query['realm_name_in_notifications'] = realmNameInNotifications; }
         if (presenceEnabled != null) { query['presence_enabled'] = presenceEnabled; }
+        if (enterSends != null) { query['enter_sends'] = enterSends; }
 
         return this.request<JsonSuccessBase & object>({
-            url: '/settings/notifications',
+            url: '/settings',
             method: 'PATCH',
+            query,
+        }, opts?.responseOpts);
+    };
+
+    /**
+     * Change your [status](/help/status-and-availability).  `POST {{ api_url }}/v1/users/me/status`  A request to this endpoint will only change the parameters passed. For example, passing just `status_text` requests a change in the status text, but will leave the status emoji unchanged.  Clients that wish to set the user\'s status to a specific value should pass all supported parameters. 
+     * Update your status
+     */
+    updateStatus({ statusText, away, emojiName, emojiCode, reactionType }: UpdateStatusRequest): Observable<JsonSuccess>
+    updateStatus({ statusText, away, emojiName, emojiCode, reactionType }: UpdateStatusRequest, opts?: OperationOpts): Observable<RawAjaxResponse<JsonSuccess>>
+    updateStatus({ statusText, away, emojiName, emojiCode, reactionType }: UpdateStatusRequest, opts?: OperationOpts): Observable<JsonSuccess | RawAjaxResponse<JsonSuccess>> {
+
+        const query: HttpQuery = {};
+
+        if (statusText != null) { query['status_text'] = statusText; }
+        if (away != null) { query['away'] = away; }
+        if (emojiName != null) { query['emoji_name'] = emojiName; }
+        if (emojiCode != null) { query['emoji_code'] = emojiCode; }
+        if (reactionType != null) { query['reaction_type'] = reactionType; }
+
+        return this.request<JsonSuccess>({
+            url: '/users/me/status',
+            method: 'POST',
             query,
         }, opts?.responseOpts);
     };
@@ -575,7 +599,7 @@ export enum SetTypingStatusTypeEnum {
  * @export
  * @enum {string}
  */
-export enum UpdateDisplaySettingsColorSchemeEnum {
+export enum UpdateSettingsColorSchemeEnum {
     NUMBER_1 = 1,
     NUMBER_2 = 2,
     NUMBER_3 = 3
@@ -584,7 +608,7 @@ export enum UpdateDisplaySettingsColorSchemeEnum {
  * @export
  * @enum {string}
  */
-export enum UpdateDisplaySettingsDemoteInactiveStreamsEnum {
+export enum UpdateSettingsDemoteInactiveStreamsEnum {
     NUMBER_1 = 1,
     NUMBER_2 = 2,
     NUMBER_3 = 3
@@ -593,7 +617,7 @@ export enum UpdateDisplaySettingsDemoteInactiveStreamsEnum {
  * @export
  * @enum {string}
  */
-export enum UpdateNotificationSettingsDesktopIconCountDisplayEnum {
+export enum UpdateSettingsDesktopIconCountDisplayEnum {
     NUMBER_1 = 1,
     NUMBER_2 = 2,
     NUMBER_3 = 3

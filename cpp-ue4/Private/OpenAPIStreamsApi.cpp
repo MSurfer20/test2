@@ -186,6 +186,33 @@ void OpenAPIStreamsApi::OnCreateBigBlueButtonVideoCallResponse(FHttpRequestPtr H
 	Delegate.ExecuteIfBound(Response);
 }
 
+FHttpRequestPtr OpenAPIStreamsApi::DeleteTopic(const DeleteTopicRequest& Request, const FDeleteTopicDelegate& Delegate /*= FDeleteTopicDelegate()*/) const
+{
+	if (!IsValid())
+		return nullptr;
+
+	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
+	HttpRequest->SetURL(*(Url + Request.ComputePath()));
+
+	for(const auto& It : AdditionalHeaderParams)
+	{
+		HttpRequest->SetHeader(It.Key, It.Value);
+	}
+
+	Request.SetupHttpRequest(HttpRequest);
+	
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIStreamsApi::OnDeleteTopicResponse, Delegate);
+	HttpRequest->ProcessRequest();
+	return HttpRequest;
+}
+
+void OpenAPIStreamsApi::OnDeleteTopicResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteTopicDelegate Delegate) const
+{
+	DeleteTopicResponse Response;
+	HandleResponse(HttpResponse, bSucceeded, Response);
+	Delegate.ExecuteIfBound(Response);
+}
+
 FHttpRequestPtr OpenAPIStreamsApi::GetStreamId(const GetStreamIdRequest& Request, const FGetStreamIdDelegate& Delegate /*= FGetStreamIdDelegate()*/) const
 {
 	if (!IsValid())
@@ -263,6 +290,33 @@ FHttpRequestPtr OpenAPIStreamsApi::GetStreams(const GetStreamsRequest& Request, 
 void OpenAPIStreamsApi::OnGetStreamsResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetStreamsDelegate Delegate) const
 {
 	GetStreamsResponse Response;
+	HandleResponse(HttpResponse, bSucceeded, Response);
+	Delegate.ExecuteIfBound(Response);
+}
+
+FHttpRequestPtr OpenAPIStreamsApi::GetSubscribers(const GetSubscribersRequest& Request, const FGetSubscribersDelegate& Delegate /*= FGetSubscribersDelegate()*/) const
+{
+	if (!IsValid())
+		return nullptr;
+
+	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
+	HttpRequest->SetURL(*(Url + Request.ComputePath()));
+
+	for(const auto& It : AdditionalHeaderParams)
+	{
+		HttpRequest->SetHeader(It.Key, It.Value);
+	}
+
+	Request.SetupHttpRequest(HttpRequest);
+	
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIStreamsApi::OnGetSubscribersResponse, Delegate);
+	HttpRequest->ProcessRequest();
+	return HttpRequest;
+}
+
+void OpenAPIStreamsApi::OnGetSubscribersResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetSubscribersDelegate Delegate) const
+{
+	GetSubscribersResponse Response;
 	HandleResponse(HttpResponse, bSucceeded, Response);
 	Delegate.ExecuteIfBound(Response);
 }

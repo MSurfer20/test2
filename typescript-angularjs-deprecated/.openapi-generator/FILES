@@ -2,6 +2,7 @@
 .openapi-generator-ignore
 api.module.ts
 api/AuthenticationApi.ts
+api/DraftsApi.ts
 api/MessagesApi.ts
 api/RealTimeEventsApi.ts
 api/ServerAndOrganizationsApi.ts
@@ -33,10 +34,13 @@ model/CodedErrorBase.ts
 model/CodedErrorBaseAllOf.ts
 model/CustomProfileField.ts
 model/DefaultStreamGroup.ts
+model/Draft.ts
+model/EmojiBase.ts
 model/EmojiReaction.ts
 model/EmojiReactionAllOf.ts
 model/EmojiReactionBase.ts
-model/EmojiReactionBaseUser.ts
+model/EmojiReactionBaseAllOf.ts
+model/EmojiReactionBaseAllOfUser.ts
 model/GetMessages.ts
 model/GetMessagesAllOf.ts
 model/Hotspot.ts

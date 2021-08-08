@@ -41,6 +41,10 @@ fun Route.StreamsApi() {
         call.respond(HttpStatusCode.NotImplemented)
     }
 
+    post<Paths.deleteTopic> {
+        call.respond(HttpStatusCode.NotImplemented)
+    }
+
     get<Paths.getStreamId> {
         call.respond(HttpStatusCode.NotImplemented)
     }
@@ -50,6 +54,10 @@ fun Route.StreamsApi() {
     }
 
     get<Paths.getStreams> {
+        call.respond(HttpStatusCode.NotImplemented)
+    }
+
+    get<Paths.getSubscribers> {
         call.respond(HttpStatusCode.NotImplemented)
     }
 

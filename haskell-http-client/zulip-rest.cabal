@@ -65,6 +65,7 @@ library
       ZulipREST
       ZulipREST.API
       ZulipREST.API.Authentication
+      ZulipREST.API.Drafts
       ZulipREST.API.Messages
       ZulipREST.API.RealTimeEvents
       ZulipREST.API.ServerAndOrganizations

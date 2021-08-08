@@ -25,7 +25,7 @@ import java.util.List;
  * @author pkmst
  *
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPKMSTServerCodegen", date = "2021-08-08T20:41:48.646080Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPKMSTServerCodegen", date = "2021-08-08T21:11:40.512025Z[Etc/UTC]")
 @Api(value = "Streams", description = "the Streams API")
 public interface StreamsApi {
 
@@ -48,6 +48,17 @@ public interface StreamsApi {
         produces = { "application/json" }
     )
     ResponseEntity<JsonSuccessBase> createBigBlueButtonVideoCall( @RequestHeader(value = "Accept", required = false) String accept) throws Exception;
+
+
+    @ApiOperation(value = "Delete a topic", notes = "Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. ", response = JsonSuccess.class, tags={ "streams", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Success.", response = JsonSuccess.class),
+        @ApiResponse(code = 400, message = "Error.", response = JsonError.class) })
+    @PostMapping(
+        value = "/streams/{stream_id}/delete_topic",
+        produces = { "application/json" }
+    )
+    ResponseEntity<JsonSuccess> deleteTopic(@ApiParam(value = "The ID of the stream to access. ",required=true ) @PathVariable("stream_id") Integer streamId,@ApiParam(value = "The name of the topic to delete. ", required = true)  @RequestParam(value = "topic_name", required = true) String topicName, @RequestHeader(value = "Accept", required = false) String accept) throws Exception;
 
 
     @ApiOperation(value = "Get stream ID", notes = "Get the unique ID of a given stream.  `GET {{ api_url }}/v1/get_stream_id` ", response = JsonSuccessBase.class, tags={ "streams", })
@@ -81,6 +92,17 @@ public interface StreamsApi {
         produces = { "application/json" }
     )
     ResponseEntity<JsonSuccessBase> getStreams(@ApiParam(value = "Include all public streams. ", defaultValue = "true")  @RequestParam(value = "include_public", required = false, defaultValue="true") Boolean includePublic,@ApiParam(value = "Include all web public streams. ", defaultValue = "false")  @RequestParam(value = "include_web_public", required = false, defaultValue="false") Boolean includeWebPublic,@ApiParam(value = "Include all streams that the user is subscribed to. ", defaultValue = "true")  @RequestParam(value = "include_subscribed", required = false, defaultValue="true") Boolean includeSubscribed,@ApiParam(value = "Include all active streams. The user must have administrative privileges to use this parameter. ", defaultValue = "false")  @RequestParam(value = "include_all_active", required = false, defaultValue="false") Boolean includeAllActive,@ApiParam(value = "Include all default streams for the user's realm. ", defaultValue = "false")  @RequestParam(value = "include_default", required = false, defaultValue="false") Boolean includeDefault,@ApiParam(value = "If the user is a bot, include all streams that the bot's owner is subscribed to. ", defaultValue = "false")  @RequestParam(value = "include_owner_subscribed", required = false, defaultValue="false") Boolean includeOwnerSubscribed, @RequestHeader(value = "Accept", required = false) String accept) throws Exception;
+
+
+    @ApiOperation(value = "Get the subscribers of a stream", notes = "Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` ", response = JsonSuccessBase.class, tags={ "streams", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Success.", response = JsonSuccessBase.class),
+        @ApiResponse(code = 400, message = "Bad request.", response = JsonError.class) })
+    @GetMapping(
+        value = "/streams/{stream_id}/members",
+        produces = { "application/json" }
+    )
+    ResponseEntity<JsonSuccessBase> getSubscribers(@ApiParam(value = "The ID of the stream to access. ",required=true ) @PathVariable("stream_id") Integer streamId, @RequestHeader(value = "Accept", required = false) String accept) throws Exception;
 
 
     @ApiOperation(value = "Get subscription status", notes = "Check whether a user is subscribed to a stream.  `GET {{ api_url }}/v1/users/{user_id}/subscriptions/{stream_id}`  **Changes**: New in Zulip 3.0 (feature level 11). ", response = JsonSuccessBase.class, tags={ "streams", })

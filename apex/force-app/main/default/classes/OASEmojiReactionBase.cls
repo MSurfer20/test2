@@ -13,9 +13,9 @@
 /**
  * OASEmojiReactionBase
  */
-public class OASEmojiReactionBase implements OAS.MappedProperties {
+public class OASEmojiReactionBase implements OASEmojiBase, OASEmojiReactionBaseAllOf, OAS.MappedProperties {
     /**
-     * A unique identifier, defining the specific emoji codepoint requested,\nwithin the namespace of the `reaction_type`.\n\nFor example, for `unicode_emoji`, this will be an encoding of the\nUnicode codepoint.\n
+     * A unique identifier, defining the specific emoji codepoint requested,\nwithin the namespace of the `reaction_type`.\n\nFor example, for `unicode_emoji`, this will be an encoding of the\nUnicode codepoint; for `realm_emoji`, it\'ll be the ID of the realm emoji.\n
      * @return emojiCode
      */
     public String emojiCode { get; set; }
@@ -42,7 +42,7 @@ public class OASEmojiReactionBase implements OAS.MappedProperties {
      * Get user
      * @return user
      */
-    public OASEmojiReactionBaseUser user { get; set; }
+    public OASEmojiReactionBaseAllOfUser user { get; set; }
 
     private static final Map<String, String> propertyMappings = new Map<String, String>{
         'emoji_code' => 'emojiCode',
@@ -94,7 +94,7 @@ public class OASEmojiReactionBase implements OAS.MappedProperties {
           emojiReactionBase.emojiName = '';
           emojiReactionBase.reactionType = '';
           emojiReactionBase.userId = 0;
-          emojiReactionBase.user = OASEmojiReactionBaseUser.getExample();
+          emojiReactionBase.user = OASEmojiReactionBaseAllOfUser.getExample();
         return emojiReactionBase;
     }
 

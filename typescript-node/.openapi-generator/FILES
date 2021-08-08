@@ -3,6 +3,7 @@
 api.ts
 api/apis.ts
 api/authenticationApi.ts
+api/draftsApi.ts
 api/messagesApi.ts
 api/realTimeEventsApi.ts
 api/serverAndOrganizationsApi.ts
@@ -32,10 +33,13 @@ model/codedErrorBase.ts
 model/codedErrorBaseAllOf.ts
 model/customProfileField.ts
 model/defaultStreamGroup.ts
+model/draft.ts
+model/emojiBase.ts
 model/emojiReaction.ts
 model/emojiReactionAllOf.ts
 model/emojiReactionBase.ts
-model/emojiReactionBaseUser.ts
+model/emojiReactionBaseAllOf.ts
+model/emojiReactionBaseAllOfUser.ts
 model/getMessages.ts
 model/getMessagesAllOf.ts
 model/hotspot.ts

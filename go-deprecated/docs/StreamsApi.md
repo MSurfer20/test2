@@ -6,9 +6,11 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**ArchiveStream**](StreamsApi.md#ArchiveStream) | **Delete** /streams/{stream_id} | Archive a stream
 [**CreateBigBlueButtonVideoCall**](StreamsApi.md#CreateBigBlueButtonVideoCall) | **Get** /calls/bigbluebutton/create | Create BigBlueButton video call
+[**DeleteTopic**](StreamsApi.md#DeleteTopic) | **Post** /streams/{stream_id}/delete_topic | Delete a topic
 [**GetStreamId**](StreamsApi.md#GetStreamId) | **Get** /get_stream_id | Get stream ID
 [**GetStreamTopics**](StreamsApi.md#GetStreamTopics) | **Get** /users/me/{stream_id}/topics | Get topics in a stream
 [**GetStreams**](StreamsApi.md#GetStreams) | **Get** /streams | Get all streams
+[**GetSubscribers**](StreamsApi.md#GetSubscribers) | **Get** /streams/{stream_id}/members | Get the subscribers of a stream
 [**GetSubscriptionStatus**](StreamsApi.md#GetSubscriptionStatus) | **Get** /users/{user_id}/subscriptions/{stream_id} | Get subscription status
 [**GetSubscriptions**](StreamsApi.md#GetSubscriptions) | **Get** /users/me/subscriptions | Get subscribed streams
 [**MuteTopic**](StreamsApi.md#MuteTopic) | **Patch** /users/me/subscriptions/muted_topics | Topic muting
@@ -69,6 +71,41 @@ This endpoint does not need any parameter.
 ### Return type
 
 [**JsonSuccessBase**](JsonSuccessBase.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## DeleteTopic
+
+> JsonSuccess DeleteTopic(ctx, streamId, topicName)
+
+Delete a topic
+
+Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+
+### Required Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**streamId** | **int32**| The ID of the stream to access.  | 
+**topicName** | **string**| The name of the topic to delete.  | 
+
+### Return type
+
+[**JsonSuccess**](JsonSuccess.md)
 
 ### Authorization
 
@@ -181,6 +218,40 @@ Name | Type | Description  | Notes
  **includeAllActive** | **optional.Bool**| Include all active streams. The user must have administrative privileges to use this parameter.  | [default to false]
  **includeDefault** | **optional.Bool**| Include all default streams for the user&#39;s realm.  | [default to false]
  **includeOwnerSubscribed** | **optional.Bool**| If the user is a bot, include all streams that the bot&#39;s owner is subscribed to.  | [default to false]
+
+### Return type
+
+[**JsonSuccessBase**](JsonSuccessBase.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GetSubscribers
+
+> JsonSuccessBase GetSubscribers(ctx, streamId)
+
+Get the subscribers of a stream
+
+Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` 
+
+### Required Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**streamId** | **int32**| The ID of the stream to access.  | 
 
 ### Return type
 

@@ -5,6 +5,7 @@ import org.openapitools.server.api.model.CodedError
 import org.openapitools.server.api.model.JsonError
 import org.openapitools.server.api.model.JsonSuccess
 import org.openapitools.server.api.model.JsonSuccessBase
+import org.openapitools.server.api.model.OneOfLessThanObjectCommaObjectCommaObjectCommaObjectCommaObjectCommaObjectGreaterThan
 import org.openapitools.server.api.model.OneOfLessThanObjectCommaObjectCommaObjectGreaterThan
 import org.openapitools.server.api.model.OneOfLessThanObjectCommaObjectGreaterThan
 import io.vertx.core.Vertx
@@ -71,12 +72,12 @@ interface UsersApi  {
     /* unmuteUser
      * Unmute a user */
     suspend fun unmuteUser(mutedUserId:kotlin.Int?,context:OperationRequest):Response<JsonSuccess>
-    /* updateDisplaySettings
-     * Update display settings */
-    suspend fun updateDisplaySettings(twentyFourHourTime:kotlin.Boolean?,denseMode:kotlin.Boolean?,starredMessageCounts:kotlin.Boolean?,fluidLayoutWidth:kotlin.Boolean?,highContrastMode:kotlin.Boolean?,colorScheme:kotlin.Int?,translateEmoticons:kotlin.Boolean?,defaultLanguage:kotlin.String?,defaultView:kotlin.String?,leftSideUserlist:kotlin.Boolean?,emojiset:kotlin.String?,demoteInactiveStreams:kotlin.Int?,timezone:kotlin.String?,context:OperationRequest):Response<JsonSuccessBase>
-    /* updateNotificationSettings
-     * Update notification settings */
-    suspend fun updateNotificationSettings(enableStreamDesktopNotifications:kotlin.Boolean?,enableStreamEmailNotifications:kotlin.Boolean?,enableStreamPushNotifications:kotlin.Boolean?,enableStreamAudibleNotifications:kotlin.Boolean?,notificationSound:kotlin.String?,enableDesktopNotifications:kotlin.Boolean?,enableSounds:kotlin.Boolean?,enableOfflineEmailNotifications:kotlin.Boolean?,enableOfflinePushNotifications:kotlin.Boolean?,enableOnlinePushNotifications:kotlin.Boolean?,enableDigestEmails:kotlin.Boolean?,enableMarketingEmails:kotlin.Boolean?,enableLoginEmails:kotlin.Boolean?,messageContentInEmailNotifications:kotlin.Boolean?,pmContentInDesktopNotifications:kotlin.Boolean?,wildcardMentionsNotify:kotlin.Boolean?,desktopIconCountDisplay:kotlin.Int?,realmNameInNotifications:kotlin.Boolean?,presenceEnabled:kotlin.Boolean?,context:OperationRequest):Response<JsonSuccessBase>
+    /* updateSettings
+     * Update settings */
+    suspend fun updateSettings(fullName:kotlin.String?,email:kotlin.String?,oldPassword:kotlin.String?,newPassword:kotlin.String?,twentyFourHourTime:kotlin.Boolean?,denseMode:kotlin.Boolean?,starredMessageCounts:kotlin.Boolean?,fluidLayoutWidth:kotlin.Boolean?,highContrastMode:kotlin.Boolean?,colorScheme:kotlin.Int?,enableDraftsSynchronization:kotlin.Boolean?,translateEmoticons:kotlin.Boolean?,defaultLanguage:kotlin.String?,defaultView:kotlin.String?,leftSideUserlist:kotlin.Boolean?,emojiset:kotlin.String?,demoteInactiveStreams:kotlin.Int?,timezone:kotlin.String?,enableStreamDesktopNotifications:kotlin.Boolean?,enableStreamEmailNotifications:kotlin.Boolean?,enableStreamPushNotifications:kotlin.Boolean?,enableStreamAudibleNotifications:kotlin.Boolean?,notificationSound:kotlin.String?,enableDesktopNotifications:kotlin.Boolean?,enableSounds:kotlin.Boolean?,emailNotificationsBatchingPeriodSeconds:kotlin.Int?,enableOfflineEmailNotifications:kotlin.Boolean?,enableOfflinePushNotifications:kotlin.Boolean?,enableOnlinePushNotifications:kotlin.Boolean?,enableDigestEmails:kotlin.Boolean?,enableMarketingEmails:kotlin.Boolean?,enableLoginEmails:kotlin.Boolean?,messageContentInEmailNotifications:kotlin.Boolean?,pmContentInDesktopNotifications:kotlin.Boolean?,wildcardMentionsNotify:kotlin.Boolean?,desktopIconCountDisplay:kotlin.Int?,realmNameInNotifications:kotlin.Boolean?,presenceEnabled:kotlin.Boolean?,enterSends:kotlin.Boolean?,context:OperationRequest):Response<JsonSuccessBase>
+    /* updateStatus
+     * Update your status */
+    suspend fun updateStatus(statusText:kotlin.String?,away:kotlin.Boolean?,emojiName:kotlin.String?,emojiCode:kotlin.String?,reactionType:kotlin.String?,context:OperationRequest):Response<JsonSuccess>
     /* updateUser
      * Update a user */
     suspend fun updateUser(userId:kotlin.Int?,fullName:kotlin.String?,role:kotlin.Int?,profileData:kotlin.Array<kotlin.Any>?,context:OperationRequest):Response<JsonSuccess>

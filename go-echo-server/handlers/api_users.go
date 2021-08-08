@@ -133,16 +133,16 @@ func (c *Container) UnmuteUser(ctx echo.Context) error {
 }
 
 
-// UpdateDisplaySettings - Update display settings
-func (c *Container) UpdateDisplaySettings(ctx echo.Context) error {
+// UpdateSettings - Update settings
+func (c *Container) UpdateSettings(ctx echo.Context) error {
     return ctx.JSON(http.StatusOK, models.HelloWorld {
         Message: "Hello World",
     })
 }
 
 
-// UpdateNotificationSettings - Update notification settings
-func (c *Container) UpdateNotificationSettings(ctx echo.Context) error {
+// UpdateStatus - Update your status
+func (c *Container) UpdateStatus(ctx echo.Context) error {
     return ctx.JSON(http.StatusOK, models.HelloWorld {
         Message: "Hello World",
     })

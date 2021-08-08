@@ -13,10 +13,12 @@
             [zulip-rest-api.specs.json-success-base :refer :all]
             [zulip-rest-api.specs.user-not-authorized-error :refer :all]
             [zulip-rest-api.specs.basic-bot :refer :all]
+            [zulip-rest-api.specs.emoji-base :refer :all]
             [zulip-rest-api.specs.get-messages :refer :all]
             [zulip-rest-api.specs.json-success-base-all-of :refer :all]
             [zulip-rest-api.specs.add-subscriptions-response-all-of :refer :all]
             [zulip-rest-api.specs.realm-domain :refer :all]
+            [zulip-rest-api.specs.draft :refer :all]
             [zulip-rest-api.specs.emoji-reaction-all-of :refer :all]
             [zulip-rest-api.specs.rate-limited-error :refer :all]
             [zulip-rest-api.specs.presence :refer :all]
@@ -51,11 +53,12 @@
             [zulip-rest-api.specs.inline-response-200 :refer :all]
             [zulip-rest-api.specs.attachments-messages :refer :all]
             [zulip-rest-api.specs.coded-error-base :refer :all]
+            [zulip-rest-api.specs.emoji-reaction-base-all-of-user :refer :all]
             [zulip-rest-api.specs.realm-emoji :refer :all]
             [zulip-rest-api.specs.json-response-base :refer :all]
             [zulip-rest-api.specs.basic-bot-base :refer :all]
             [zulip-rest-api.specs.user-base :refer :all]
-            [zulip-rest-api.specs.emoji-reaction-base-user :refer :all]
+            [zulip-rest-api.specs.emoji-reaction-base-all-of :refer :all]
             [zulip-rest-api.specs.basic-stream :refer :all]
             [zulip-rest-api.specs.get-messages-all-of :refer :all]
             [zulip-rest-api.specs.json-error-base :refer :all]
@@ -718,65 +721,109 @@ for additional design details on Zulip's typing notifications protocol."
        res)))
 
 
-(defn-spec update-display-settings-with-http-info any?
-  "Update display settings
-  This endpoint is used to edit the current user's user interface settings.
+(defn-spec update-settings-with-http-info any?
+  "Update settings
+  This endpoint is used to edit the current user's settings.
 
-`PATCH {{ api_url }}/v1/settings/display`"
-  ([] (update-display-settings-with-http-info nil))
-  ([{:keys [twenty_four_hour_time dense_mode starred_message_counts fluid_layout_width high_contrast_mode color_scheme translate_emoticons default_language default_view left_side_userlist emojiset demote_inactive_streams timezone]} (s/map-of keyword? any?)]
-   (call-api "/settings/display" :patch
+`PATCH {{ api_url }}/v1/settings`
+
+**Changes**: Prior to Zulip 5.0 (feature level 80), this
+endpoint only supported the `full_name`, `email`,
+`old_password`, and `new_password` parameters. Notification
+settings were managed by `PATCH /settings/notifications`, and
+all other settings by `PATCH /settings/display`. The feature level
+80 migration to merge these endpoints did not change how request
+parameters are encoded. Note, however, that it did change the
+handling of any invalid parameters present in a request to change
+notification or display settings, since the merged endpoint uses
+the new response format that was introduced for `/settings` in
+Zulip 5.0 (feature level 78).
+
+The `/settings/display` and `/settings/notifications`
+endpoints are now deprecated aliases for this endpoint for
+backwards-compatibility, and will be removed once clients have
+migrated to use this endpoint."
+  ([] (update-settings-with-http-info nil))
+  ([{:keys [full_name email old_password new_password twenty_four_hour_time dense_mode starred_message_counts fluid_layout_width high_contrast_mode color_scheme enable_drafts_synchronization translate_emoticons default_language default_view left_side_userlist emojiset demote_inactive_streams timezone enable_stream_desktop_notifications enable_stream_email_notifications enable_stream_push_notifications enable_stream_audible_notifications notification_sound enable_desktop_notifications enable_sounds email_notifications_batching_period_seconds enable_offline_email_notifications enable_offline_push_notifications enable_online_push_notifications enable_digest_emails enable_marketing_emails enable_login_emails message_content_in_email_notifications pm_content_in_desktop_notifications wildcard_mentions_notify desktop_icon_count_display realm_name_in_notifications presence_enabled enter_sends]} (s/map-of keyword? any?)]
+   (call-api "/settings" :patch
              {:path-params   {}
               :header-params {}
-              :query-params  {"twenty_four_hour_time" twenty_four_hour_time "dense_mode" dense_mode "starred_message_counts" starred_message_counts "fluid_layout_width" fluid_layout_width "high_contrast_mode" high_contrast_mode "color_scheme" color_scheme "translate_emoticons" translate_emoticons "default_language" default_language "default_view" default_view "left_side_userlist" left_side_userlist "emojiset" emojiset "demote_inactive_streams" demote_inactive_streams "timezone" timezone }
+              :query-params  {"full_name" full_name "email" email "old_password" old_password "new_password" new_password "twenty_four_hour_time" twenty_four_hour_time "dense_mode" dense_mode "starred_message_counts" starred_message_counts "fluid_layout_width" fluid_layout_width "high_contrast_mode" high_contrast_mode "color_scheme" color_scheme "enable_drafts_synchronization" enable_drafts_synchronization "translate_emoticons" translate_emoticons "default_language" default_language "default_view" default_view "left_side_userlist" left_side_userlist "emojiset" emojiset "demote_inactive_streams" demote_inactive_streams "timezone" timezone "enable_stream_desktop_notifications" enable_stream_desktop_notifications "enable_stream_email_notifications" enable_stream_email_notifications "enable_stream_push_notifications" enable_stream_push_notifications "enable_stream_audible_notifications" enable_stream_audible_notifications "notification_sound" notification_sound "enable_desktop_notifications" enable_desktop_notifications "enable_sounds" enable_sounds "email_notifications_batching_period_seconds" email_notifications_batching_period_seconds "enable_offline_email_notifications" enable_offline_email_notifications "enable_offline_push_notifications" enable_offline_push_notifications "enable_online_push_notifications" enable_online_push_notifications "enable_digest_emails" enable_digest_emails "enable_marketing_emails" enable_marketing_emails "enable_login_emails" enable_login_emails "message_content_in_email_notifications" message_content_in_email_notifications "pm_content_in_desktop_notifications" pm_content_in_desktop_notifications "wildcard_mentions_notify" wildcard_mentions_notify "desktop_icon_count_display" desktop_icon_count_display "realm_name_in_notifications" realm_name_in_notifications "presence_enabled" presence_enabled "enter_sends" enter_sends }
               :form-params   {}
               :content-types []
               :accepts       ["application/json"]
               :auth-names    []})))
 
-(defn-spec update-display-settings json-success-base-spec
-  "Update display settings
-  This endpoint is used to edit the current user's user interface settings.
+(defn-spec update-settings json-success-base-spec
+  "Update settings
+  This endpoint is used to edit the current user's settings.
 
-`PATCH {{ api_url }}/v1/settings/display`"
-  ([] (update-display-settings nil))
+`PATCH {{ api_url }}/v1/settings`
+
+**Changes**: Prior to Zulip 5.0 (feature level 80), this
+endpoint only supported the `full_name`, `email`,
+`old_password`, and `new_password` parameters. Notification
+settings were managed by `PATCH /settings/notifications`, and
+all other settings by `PATCH /settings/display`. The feature level
+80 migration to merge these endpoints did not change how request
+parameters are encoded. Note, however, that it did change the
+handling of any invalid parameters present in a request to change
+notification or display settings, since the merged endpoint uses
+the new response format that was introduced for `/settings` in
+Zulip 5.0 (feature level 78).
+
+The `/settings/display` and `/settings/notifications`
+endpoints are now deprecated aliases for this endpoint for
+backwards-compatibility, and will be removed once clients have
+migrated to use this endpoint."
+  ([] (update-settings nil))
   ([optional-params any?]
-   (let [res (:data (update-display-settings-with-http-info optional-params))]
+   (let [res (:data (update-settings-with-http-info optional-params))]
      (if (:decode-models *api-context*)
         (st/decode json-success-base-spec res st/string-transformer)
         res))))
 
 
-(defn-spec update-notification-settings-with-http-info any?
-  "Update notification settings
-  This endpoint is used to edit the user's global notification settings.
-See [this endpoint](/api/update-subscription-settings) for
-per-stream notification settings.
+(defn-spec update-status-with-http-info any?
+  "Update your status
+  Change your [status](/help/status-and-availability).
 
-`PATCH {{ api_url }}/v1/settings/notifications`"
-  ([] (update-notification-settings-with-http-info nil))
-  ([{:keys [enable_stream_desktop_notifications enable_stream_email_notifications enable_stream_push_notifications enable_stream_audible_notifications notification_sound enable_desktop_notifications enable_sounds enable_offline_email_notifications enable_offline_push_notifications enable_online_push_notifications enable_digest_emails enable_marketing_emails enable_login_emails message_content_in_email_notifications pm_content_in_desktop_notifications wildcard_mentions_notify desktop_icon_count_display realm_name_in_notifications presence_enabled]} (s/map-of keyword? any?)]
-   (call-api "/settings/notifications" :patch
+`POST {{ api_url }}/v1/users/me/status`
+
+A request to this endpoint will only change the parameters passed.
+For example, passing just `status_text` requests a change in the status
+text, but will leave the status emoji unchanged.
+
+Clients that wish to set the user's status to a specific value should
+pass all supported parameters."
+  ([] (update-status-with-http-info nil))
+  ([{:keys [status_text away emoji_name emoji_code reaction_type]} (s/map-of keyword? any?)]
+   (call-api "/users/me/status" :post
              {:path-params   {}
               :header-params {}
-              :query-params  {"enable_stream_desktop_notifications" enable_stream_desktop_notifications "enable_stream_email_notifications" enable_stream_email_notifications "enable_stream_push_notifications" enable_stream_push_notifications "enable_stream_audible_notifications" enable_stream_audible_notifications "notification_sound" notification_sound "enable_desktop_notifications" enable_desktop_notifications "enable_sounds" enable_sounds "enable_offline_email_notifications" enable_offline_email_notifications "enable_offline_push_notifications" enable_offline_push_notifications "enable_online_push_notifications" enable_online_push_notifications "enable_digest_emails" enable_digest_emails "enable_marketing_emails" enable_marketing_emails "enable_login_emails" enable_login_emails "message_content_in_email_notifications" message_content_in_email_notifications "pm_content_in_desktop_notifications" pm_content_in_desktop_notifications "wildcard_mentions_notify" wildcard_mentions_notify "desktop_icon_count_display" desktop_icon_count_display "realm_name_in_notifications" realm_name_in_notifications "presence_enabled" presence_enabled }
+              :query-params  {"status_text" status_text "away" away "emoji_name" emoji_name "emoji_code" emoji_code "reaction_type" reaction_type }
               :form-params   {}
               :content-types []
               :accepts       ["application/json"]
               :auth-names    []})))
 
-(defn-spec update-notification-settings json-success-base-spec
-  "Update notification settings
-  This endpoint is used to edit the user's global notification settings.
-See [this endpoint](/api/update-subscription-settings) for
-per-stream notification settings.
+(defn-spec update-status json-success-spec
+  "Update your status
+  Change your [status](/help/status-and-availability).
 
-`PATCH {{ api_url }}/v1/settings/notifications`"
-  ([] (update-notification-settings nil))
+`POST {{ api_url }}/v1/users/me/status`
+
+A request to this endpoint will only change the parameters passed.
+For example, passing just `status_text` requests a change in the status
+text, but will leave the status emoji unchanged.
+
+Clients that wish to set the user's status to a specific value should
+pass all supported parameters."
+  ([] (update-status nil))
   ([optional-params any?]
-   (let [res (:data (update-notification-settings-with-http-info optional-params))]
+   (let [res (:data (update-status-with-http-info optional-params))]
      (if (:decode-models *api-context*)
-        (st/decode json-success-base-spec res st/string-transformer)
+        (st/decode json-success-spec res st/string-transformer)
         res))))
 
 

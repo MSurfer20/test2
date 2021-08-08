@@ -94,6 +94,20 @@ class StreamsApiTest extends TestCase
     }
 
     /**
+     * Test case for deleteTopic
+     *
+     * Delete a topic.
+     *
+     * @covers ::deleteTopic
+     */
+    public function testDeleteTopic()
+    {
+        $this->markTestIncomplete(
+            'Test of "deleteTopic" method has not been implemented yet.'
+        );
+    }
+
+    /**
      * Test case for getStreamId
      *
      * Get stream ID.
@@ -132,6 +146,20 @@ class StreamsApiTest extends TestCase
     {
         $this->markTestIncomplete(
             'Test of "getStreams" method has not been implemented yet.'
+        );
+    }
+
+    /**
+     * Test case for getSubscribers
+     *
+     * Get the subscribers of a stream.
+     *
+     * @covers ::getSubscribers
+     */
+    public function testGetSubscribers()
+    {
+        $this->markTestIncomplete(
+            'Test of "getSubscribers" method has not been implemented yet.'
         );
     }
 

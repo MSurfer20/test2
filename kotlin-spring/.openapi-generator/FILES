@@ -8,6 +8,7 @@ src/main/kotlin/org/openapitools/api/ApiUtil.kt
 src/main/kotlin/org/openapitools/api/AttachmentsApi.kt
 src/main/kotlin/org/openapitools/api/CallsApi.kt
 src/main/kotlin/org/openapitools/api/DevFetchApiKeyApi.kt
+src/main/kotlin/org/openapitools/api/DraftsApi.kt
 src/main/kotlin/org/openapitools/api/EventsApi.kt
 src/main/kotlin/org/openapitools/api/Exceptions.kt
 src/main/kotlin/org/openapitools/api/FetchApiKeyApi.kt
@@ -50,10 +51,13 @@ src/main/kotlin/org/openapitools/model/CodedErrorBase.kt
 src/main/kotlin/org/openapitools/model/CodedErrorBaseAllOf.kt
 src/main/kotlin/org/openapitools/model/CustomProfileField.kt
 src/main/kotlin/org/openapitools/model/DefaultStreamGroup.kt
+src/main/kotlin/org/openapitools/model/Draft.kt
+src/main/kotlin/org/openapitools/model/EmojiBase.kt
 src/main/kotlin/org/openapitools/model/EmojiReaction.kt
 src/main/kotlin/org/openapitools/model/EmojiReactionAllOf.kt
 src/main/kotlin/org/openapitools/model/EmojiReactionBase.kt
-src/main/kotlin/org/openapitools/model/EmojiReactionBaseUser.kt
+src/main/kotlin/org/openapitools/model/EmojiReactionBaseAllOf.kt
+src/main/kotlin/org/openapitools/model/EmojiReactionBaseAllOfUser.kt
 src/main/kotlin/org/openapitools/model/GetMessages.kt
 src/main/kotlin/org/openapitools/model/GetMessagesAllOf.kt
 src/main/kotlin/org/openapitools/model/Hotspot.kt
@@ -95,6 +99,7 @@ src/main/resources/application.yaml
 src/test/kotlin/org/openapitools/api/AttachmentsApiTest.kt
 src/test/kotlin/org/openapitools/api/CallsApiTest.kt
 src/test/kotlin/org/openapitools/api/DevFetchApiKeyApiTest.kt
+src/test/kotlin/org/openapitools/api/DraftsApiTest.kt
 src/test/kotlin/org/openapitools/api/EventsApiTest.kt
 src/test/kotlin/org/openapitools/api/FetchApiKeyApiTest.kt
 src/test/kotlin/org/openapitools/api/GetStreamIdApiTest.kt

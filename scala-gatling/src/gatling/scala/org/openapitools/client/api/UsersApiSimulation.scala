@@ -72,8 +72,8 @@ class UsersApiSimulation extends Simulation {
     val removeUserGroupPerSecond = config.getDouble("performance.operationsPerSecond.removeUserGroup") * rateMultiplier * instanceMultiplier
     val setTypingStatusPerSecond = config.getDouble("performance.operationsPerSecond.setTypingStatus") * rateMultiplier * instanceMultiplier
     val unmuteUserPerSecond = config.getDouble("performance.operationsPerSecond.unmuteUser") * rateMultiplier * instanceMultiplier
-    val updateDisplaySettingsPerSecond = config.getDouble("performance.operationsPerSecond.updateDisplaySettings") * rateMultiplier * instanceMultiplier
-    val updateNotificationSettingsPerSecond = config.getDouble("performance.operationsPerSecond.updateNotificationSettings") * rateMultiplier * instanceMultiplier
+    val updateSettingsPerSecond = config.getDouble("performance.operationsPerSecond.updateSettings") * rateMultiplier * instanceMultiplier
+    val updateStatusPerSecond = config.getDouble("performance.operationsPerSecond.updateStatus") * rateMultiplier * instanceMultiplier
     val updateUserPerSecond = config.getDouble("performance.operationsPerSecond.updateUser") * rateMultiplier * instanceMultiplier
     val updateUserGroupPerSecond = config.getDouble("performance.operationsPerSecond.updateUserGroup") * rateMultiplier * instanceMultiplier
     val updateUserGroupMembersPerSecond = config.getDouble("performance.operationsPerSecond.updateUserGroupMembers") * rateMultiplier * instanceMultiplier
@@ -81,34 +81,34 @@ class UsersApiSimulation extends Simulation {
     val scenarioBuilders: mutable.MutableList[PopulationBuilder] = new mutable.MutableList[PopulationBuilder]()
 
     // Set up CSV feeders
-    val create_userQUERYFeeder = csv(userDataDirectory + File.separator + "createUser-queryParams.csv").random
-    val create_user_groupQUERYFeeder = csv(userDataDirectory + File.separator + "createUserGroup-queryParams.csv").random
-    val deactivate_userPATHFeeder = csv(userDataDirectory + File.separator + "deactivateUser-pathParams.csv").random
-    val get_userQUERYFeeder = csv(userDataDirectory + File.separator + "getUser-queryParams.csv").random
-    val get_userPATHFeeder = csv(userDataDirectory + File.separator + "getUser-pathParams.csv").random
-    val get_user_by_emailQUERYFeeder = csv(userDataDirectory + File.separator + "getUserByEmail-queryParams.csv").random
-    val get_user_by_emailPATHFeeder = csv(userDataDirectory + File.separator + "getUserByEmail-pathParams.csv").random
-    val get_user_presencePATHFeeder = csv(userDataDirectory + File.separator + "getUserPresence-pathParams.csv").random
-    val get_usersQUERYFeeder = csv(userDataDirectory + File.separator + "getUsers-queryParams.csv").random
-    val mute_userPATHFeeder = csv(userDataDirectory + File.separator + "muteUser-pathParams.csv").random
-    val reactivate_userPATHFeeder = csv(userDataDirectory + File.separator + "reactivateUser-pathParams.csv").random
-    val remove_user_groupPATHFeeder = csv(userDataDirectory + File.separator + "removeUserGroup-pathParams.csv").random
-    val set_typing_statusQUERYFeeder = csv(userDataDirectory + File.separator + "setTypingStatus-queryParams.csv").random
-    val unmute_userPATHFeeder = csv(userDataDirectory + File.separator + "unmuteUser-pathParams.csv").random
-    val update_display_settingsQUERYFeeder = csv(userDataDirectory + File.separator + "updateDisplaySettings-queryParams.csv").random
-    val update_notification_settingsQUERYFeeder = csv(userDataDirectory + File.separator + "updateNotificationSettings-queryParams.csv").random
-    val update_userQUERYFeeder = csv(userDataDirectory + File.separator + "updateUser-queryParams.csv").random
-    val update_userPATHFeeder = csv(userDataDirectory + File.separator + "updateUser-pathParams.csv").random
-    val update_user_groupQUERYFeeder = csv(userDataDirectory + File.separator + "updateUserGroup-queryParams.csv").random
-    val update_user_groupPATHFeeder = csv(userDataDirectory + File.separator + "updateUserGroup-pathParams.csv").random
-    val update_user_group_membersQUERYFeeder = csv(userDataDirectory + File.separator + "updateUserGroupMembers-queryParams.csv").random
-    val update_user_group_membersPATHFeeder = csv(userDataDirectory + File.separator + "updateUserGroupMembers-pathParams.csv").random
+    val create-userQUERYFeeder = csv(userDataDirectory + File.separator + "createUser-queryParams.csv").random
+    val create-user-groupQUERYFeeder = csv(userDataDirectory + File.separator + "createUserGroup-queryParams.csv").random
+    val deactivate-userPATHFeeder = csv(userDataDirectory + File.separator + "deactivateUser-pathParams.csv").random
+    val get-userQUERYFeeder = csv(userDataDirectory + File.separator + "getUser-queryParams.csv").random
+    val get-userPATHFeeder = csv(userDataDirectory + File.separator + "getUser-pathParams.csv").random
+    val get-user-by-emailQUERYFeeder = csv(userDataDirectory + File.separator + "getUserByEmail-queryParams.csv").random
+    val get-user-by-emailPATHFeeder = csv(userDataDirectory + File.separator + "getUserByEmail-pathParams.csv").random
+    val get-user-presencePATHFeeder = csv(userDataDirectory + File.separator + "getUserPresence-pathParams.csv").random
+    val get-usersQUERYFeeder = csv(userDataDirectory + File.separator + "getUsers-queryParams.csv").random
+    val mute-userPATHFeeder = csv(userDataDirectory + File.separator + "muteUser-pathParams.csv").random
+    val reactivate-userPATHFeeder = csv(userDataDirectory + File.separator + "reactivateUser-pathParams.csv").random
+    val remove-user-groupPATHFeeder = csv(userDataDirectory + File.separator + "removeUserGroup-pathParams.csv").random
+    val set-typing-statusQUERYFeeder = csv(userDataDirectory + File.separator + "setTypingStatus-queryParams.csv").random
+    val unmute-userPATHFeeder = csv(userDataDirectory + File.separator + "unmuteUser-pathParams.csv").random
+    val update-settingsQUERYFeeder = csv(userDataDirectory + File.separator + "updateSettings-queryParams.csv").random
+    val update-statusQUERYFeeder = csv(userDataDirectory + File.separator + "updateStatus-queryParams.csv").random
+    val update-userQUERYFeeder = csv(userDataDirectory + File.separator + "updateUser-queryParams.csv").random
+    val update-userPATHFeeder = csv(userDataDirectory + File.separator + "updateUser-pathParams.csv").random
+    val update-user-groupQUERYFeeder = csv(userDataDirectory + File.separator + "updateUserGroup-queryParams.csv").random
+    val update-user-groupPATHFeeder = csv(userDataDirectory + File.separator + "updateUserGroup-pathParams.csv").random
+    val update-user-group-membersQUERYFeeder = csv(userDataDirectory + File.separator + "updateUserGroupMembers-queryParams.csv").random
+    val update-user-group-membersPATHFeeder = csv(userDataDirectory + File.separator + "updateUserGroupMembers-pathParams.csv").random
 
     // Setup all scenarios
 
     
     val scncreateUser = scenario("createUserSimulation")
-        .feed(create_userQUERYFeeder)
+        .feed(create-userQUERYFeeder)
         .exec(http("createUser")
         .httpRequest("POST","/users")
         .queryParam("email","${email}")
@@ -125,7 +125,7 @@ class UsersApiSimulation extends Simulation {
 
     
     val scncreateUserGroup = scenario("createUserGroupSimulation")
-        .feed(create_user_groupQUERYFeeder)
+        .feed(create-user-groupQUERYFeeder)
         .exec(http("createUserGroup")
         .httpRequest("POST","/user_groups/create")
         .queryParam("name","${name}")
@@ -155,7 +155,7 @@ class UsersApiSimulation extends Simulation {
 
     
     val scndeactivateUser = scenario("deactivateUserSimulation")
-        .feed(deactivate_userPATHFeeder)
+        .feed(deactivate-userPATHFeeder)
         .exec(http("deactivateUser")
         .httpRequest("DELETE","/users/${user_id}")
 )
@@ -195,8 +195,8 @@ class UsersApiSimulation extends Simulation {
 
     
     val scngetUser = scenario("getUserSimulation")
-        .feed(get_userQUERYFeeder)
-        .feed(get_userPATHFeeder)
+        .feed(get-userQUERYFeeder)
+        .feed(get-userPATHFeeder)
         .exec(http("getUser")
         .httpRequest("GET","/users/${user_id}")
         .queryParam("client_gravatar","${client_gravatar}")
@@ -212,8 +212,8 @@ class UsersApiSimulation extends Simulation {
 
     
     val scngetUserByEmail = scenario("getUserByEmailSimulation")
-        .feed(get_user_by_emailQUERYFeeder)
-        .feed(get_user_by_emailPATHFeeder)
+        .feed(get-user-by-emailQUERYFeeder)
+        .feed(get-user-by-emailPATHFeeder)
         .exec(http("getUserByEmail")
         .httpRequest("GET","/users/${email}")
         .queryParam("client_gravatar","${client_gravatar}")
@@ -242,7 +242,7 @@ class UsersApiSimulation extends Simulation {
 
     
     val scngetUserPresence = scenario("getUserPresenceSimulation")
-        .feed(get_user_presencePATHFeeder)
+        .feed(get-user-presencePATHFeeder)
         .exec(http("getUserPresence")
         .httpRequest("GET","/users/${user_id_or_email}/presence")
 )
@@ -256,7 +256,7 @@ class UsersApiSimulation extends Simulation {
 
     
     val scngetUsers = scenario("getUsersSimulation")
-        .feed(get_usersQUERYFeeder)
+        .feed(get-usersQUERYFeeder)
         .exec(http("getUsers")
         .httpRequest("GET","/users")
         .queryParam("client_gravatar","${client_gravatar}")
@@ -272,7 +272,7 @@ class UsersApiSimulation extends Simulation {
 
     
     val scnmuteUser = scenario("muteUserSimulation")
-        .feed(mute_userPATHFeeder)
+        .feed(mute-userPATHFeeder)
         .exec(http("muteUser")
         .httpRequest("POST","/users/me/muted_users/${muted_user_id}")
 )
@@ -286,7 +286,7 @@ class UsersApiSimulation extends Simulation {
 
     
     val scnreactivateUser = scenario("reactivateUserSimulation")
-        .feed(reactivate_userPATHFeeder)
+        .feed(reactivate-userPATHFeeder)
         .exec(http("reactivateUser")
         .httpRequest("POST","/users/${user_id}/reactivate")
 )
@@ -300,7 +300,7 @@ class UsersApiSimulation extends Simulation {
 
     
     val scnremoveUserGroup = scenario("removeUserGroupSimulation")
-        .feed(remove_user_groupPATHFeeder)
+        .feed(remove-user-groupPATHFeeder)
         .exec(http("removeUserGroup")
         .httpRequest("DELETE","/user_groups/${user_group_id}")
 )
@@ -314,7 +314,7 @@ class UsersApiSimulation extends Simulation {
 
     
     val scnsetTypingStatus = scenario("setTypingStatusSimulation")
-        .feed(set_typing_statusQUERYFeeder)
+        .feed(set-typing-statusQUERYFeeder)
         .exec(http("setTypingStatus")
         .httpRequest("POST","/typing")
         .queryParam("type","${type}")
@@ -332,7 +332,7 @@ class UsersApiSimulation extends Simulation {
 
     
     val scnunmuteUser = scenario("unmuteUserSimulation")
-        .feed(unmute_userPATHFeeder)
+        .feed(unmute-userPATHFeeder)
         .exec(http("unmuteUser")
         .httpRequest("DELETE","/users/me/muted_users/${muted_user_id}")
 )
@@ -345,69 +345,81 @@ class UsersApiSimulation extends Simulation {
     )
 
     
-    val scnupdateDisplaySettings = scenario("updateDisplaySettingsSimulation")
-        .feed(update_display_settingsQUERYFeeder)
-        .exec(http("updateDisplaySettings")
-        .httpRequest("PATCH","/settings/display")
-        .queryParam("default_view","${default_view}")
-        .queryParam("starred_message_counts","${starred_message_counts}")
-        .queryParam("high_contrast_mode","${high_contrast_mode}")
-        .queryParam("translate_emoticons","${translate_emoticons}")
-        .queryParam("timezone","${timezone}")
-        .queryParam("fluid_layout_width","${fluid_layout_width}")
+    val scnupdateSettings = scenario("updateSettingsSimulation")
+        .feed(update-settingsQUERYFeeder)
+        .exec(http("updateSettings")
+        .httpRequest("PATCH","/settings")
+        .queryParam("enable_offline_push_notifications","${enable_offline_push_notifications}")
         .queryParam("demote_inactive_streams","${demote_inactive_streams}")
-        .queryParam("twenty_four_hour_time","${twenty_four_hour_time}")
-        .queryParam("default_language","${default_language}")
-        .queryParam("emojiset","${emojiset}")
-        .queryParam("left_side_userlist","${left_side_userlist}")
+        .queryParam("notification_sound","${notification_sound}")
+        .queryParam("enable_digest_emails","${enable_digest_emails}")
+        .queryParam("translate_emoticons","${translate_emoticons}")
+        .queryParam("enable_online_push_notifications","${enable_online_push_notifications}")
+        .queryParam("enable_drafts_synchronization","${enable_drafts_synchronization}")
+        .queryParam("email","${email}")
+        .queryParam("timezone","${timezone}")
         .queryParam("dense_mode","${dense_mode}")
+        .queryParam("left_side_userlist","${left_side_userlist}")
+        .queryParam("enable_offline_email_notifications","${enable_offline_email_notifications}")
+        .queryParam("presence_enabled","${presence_enabled}")
+        .queryParam("high_contrast_mode","${high_contrast_mode}")
+        .queryParam("full_name","${full_name}")
+        .queryParam("emojiset","${emojiset}")
         .queryParam("color_scheme","${color_scheme}")
+        .queryParam("enable_stream_push_notifications","${enable_stream_push_notifications}")
+        .queryParam("enable_sounds","${enable_sounds}")
+        .queryParam("enable_stream_email_notifications","${enable_stream_email_notifications}")
+        .queryParam("desktop_icon_count_display","${desktop_icon_count_display}")
+        .queryParam("message_content_in_email_notifications","${message_content_in_email_notifications}")
+        .queryParam("default_view","${default_view}")
+        .queryParam("enable_login_emails","${enable_login_emails}")
+        .queryParam("new_password","${new_password}")
+        .queryParam("enable_desktop_notifications","${enable_desktop_notifications}")
+        .queryParam("pm_content_in_desktop_notifications","${pm_content_in_desktop_notifications}")
+        .queryParam("enter_sends","${enter_sends}")
+        .queryParam("twenty_four_hour_time","${twenty_four_hour_time}")
+        .queryParam("starred_message_counts","${starred_message_counts}")
+        .queryParam("enable_marketing_emails","${enable_marketing_emails}")
+        .queryParam("fluid_layout_width","${fluid_layout_width}")
+        .queryParam("enable_stream_desktop_notifications","${enable_stream_desktop_notifications}")
+        .queryParam("enable_stream_audible_notifications","${enable_stream_audible_notifications}")
+        .queryParam("old_password","${old_password}")
+        .queryParam("realm_name_in_notifications","${realm_name_in_notifications}")
+        .queryParam("default_language","${default_language}")
+        .queryParam("wildcard_mentions_notify","${wildcard_mentions_notify}")
+        .queryParam("email_notifications_batching_period_seconds","${email_notifications_batching_period_seconds}")
 )
 
-    // Run scnupdateDisplaySettings with warm up and reach a constant rate for entire duration
-    scenarioBuilders += scnupdateDisplaySettings.inject(
-        rampUsersPerSec(1) to(updateDisplaySettingsPerSecond) during(rampUpSeconds),
-        constantUsersPerSec(updateDisplaySettingsPerSecond) during(durationSeconds),
-        rampUsersPerSec(updateDisplaySettingsPerSecond) to(1) during(rampDownSeconds)
+    // Run scnupdateSettings with warm up and reach a constant rate for entire duration
+    scenarioBuilders += scnupdateSettings.inject(
+        rampUsersPerSec(1) to(updateSettingsPerSecond) during(rampUpSeconds),
+        constantUsersPerSec(updateSettingsPerSecond) during(durationSeconds),
+        rampUsersPerSec(updateSettingsPerSecond) to(1) during(rampDownSeconds)
     )
 
     
-    val scnupdateNotificationSettings = scenario("updateNotificationSettingsSimulation")
-        .feed(update_notification_settingsQUERYFeeder)
-        .exec(http("updateNotificationSettings")
-        .httpRequest("PATCH","/settings/notifications")
-        .queryParam("enable_stream_desktop_notifications","${enable_stream_desktop_notifications}")
-        .queryParam("enable_stream_audible_notifications","${enable_stream_audible_notifications}")
-        .queryParam("message_content_in_email_notifications","${message_content_in_email_notifications}")
-        .queryParam("enable_sounds","${enable_sounds}")
-        .queryParam("presence_enabled","${presence_enabled}")
-        .queryParam("enable_offline_push_notifications","${enable_offline_push_notifications}")
-        .queryParam("enable_offline_email_notifications","${enable_offline_email_notifications}")
-        .queryParam("realm_name_in_notifications","${realm_name_in_notifications}")
-        .queryParam("notification_sound","${notification_sound}")
-        .queryParam("pm_content_in_desktop_notifications","${pm_content_in_desktop_notifications}")
-        .queryParam("enable_online_push_notifications","${enable_online_push_notifications}")
-        .queryParam("enable_marketing_emails","${enable_marketing_emails}")
-        .queryParam("enable_stream_email_notifications","${enable_stream_email_notifications}")
-        .queryParam("enable_desktop_notifications","${enable_desktop_notifications}")
-        .queryParam("desktop_icon_count_display","${desktop_icon_count_display}")
-        .queryParam("wildcard_mentions_notify","${wildcard_mentions_notify}")
-        .queryParam("enable_digest_emails","${enable_digest_emails}")
-        .queryParam("enable_login_emails","${enable_login_emails}")
-        .queryParam("enable_stream_push_notifications","${enable_stream_push_notifications}")
+    val scnupdateStatus = scenario("updateStatusSimulation")
+        .feed(update-statusQUERYFeeder)
+        .exec(http("updateStatus")
+        .httpRequest("POST","/users/me/status")
+        .queryParam("away","${away}")
+        .queryParam("emoji_name","${emoji_name}")
+        .queryParam("status_text","${status_text}")
+        .queryParam("reaction_type","${reaction_type}")
+        .queryParam("emoji_code","${emoji_code}")
 )
 
-    // Run scnupdateNotificationSettings with warm up and reach a constant rate for entire duration
-    scenarioBuilders += scnupdateNotificationSettings.inject(
-        rampUsersPerSec(1) to(updateNotificationSettingsPerSecond) during(rampUpSeconds),
-        constantUsersPerSec(updateNotificationSettingsPerSecond) during(durationSeconds),
-        rampUsersPerSec(updateNotificationSettingsPerSecond) to(1) during(rampDownSeconds)
+    // Run scnupdateStatus with warm up and reach a constant rate for entire duration
+    scenarioBuilders += scnupdateStatus.inject(
+        rampUsersPerSec(1) to(updateStatusPerSecond) during(rampUpSeconds),
+        constantUsersPerSec(updateStatusPerSecond) during(durationSeconds),
+        rampUsersPerSec(updateStatusPerSecond) to(1) during(rampDownSeconds)
     )
 
     
     val scnupdateUser = scenario("updateUserSimulation")
-        .feed(update_userQUERYFeeder)
-        .feed(update_userPATHFeeder)
+        .feed(update-userQUERYFeeder)
+        .feed(update-userPATHFeeder)
         .exec(http("updateUser")
         .httpRequest("PATCH","/users/${user_id}")
         .queryParam("role","${role}")
@@ -424,8 +436,8 @@ class UsersApiSimulation extends Simulation {
 
     
     val scnupdateUserGroup = scenario("updateUserGroupSimulation")
-        .feed(update_user_groupQUERYFeeder)
-        .feed(update_user_groupPATHFeeder)
+        .feed(update-user-groupQUERYFeeder)
+        .feed(update-user-groupPATHFeeder)
         .exec(http("updateUserGroup")
         .httpRequest("PATCH","/user_groups/${user_group_id}")
         .queryParam("name","${name}")
@@ -441,8 +453,8 @@ class UsersApiSimulation extends Simulation {
 
     
     val scnupdateUserGroupMembers = scenario("updateUserGroupMembersSimulation")
-        .feed(update_user_group_membersQUERYFeeder)
-        .feed(update_user_group_membersPATHFeeder)
+        .feed(update-user-group-membersQUERYFeeder)
+        .feed(update-user-group-membersPATHFeeder)
         .exec(http("updateUserGroupMembers")
         .httpRequest("POST","/user_groups/${user_group_id}/members")
         .queryParam("delete","${delete}")

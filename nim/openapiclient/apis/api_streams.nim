@@ -59,6 +59,16 @@ proc createBigBlueButtonVideoCall*(httpClient: HttpClient): (Option[JsonSuccessB
   constructResult[JsonSuccessBase](response)
 
 
+proc deleteTopic*(httpClient: HttpClient, streamId: int, topicName: string): (Option[JsonSuccess], Response) =
+  ## Delete a topic
+  let query_for_api_call = encodeQuery([
+    ("topic_name", $topicName), # The name of the topic to delete. 
+  ])
+
+  let response = httpClient.post(basepath & fmt"/streams/{stream_id}/delete_topic" & "?" & query_for_api_call)
+  constructResult[JsonSuccess](response)
+
+
 proc getStreamId*(httpClient: HttpClient, stream: string): (Option[JsonSuccessBase], Response) =
   ## Get stream ID
   let query_for_api_call = encodeQuery([
@@ -88,6 +98,13 @@ proc getStreams*(httpClient: HttpClient, includePublic: bool, includeWebPublic: 
   ])
 
   let response = httpClient.get(basepath & "/streams" & "?" & query_for_api_call)
+  constructResult[JsonSuccessBase](response)
+
+
+proc getSubscribers*(httpClient: HttpClient, streamId: int): (Option[JsonSuccessBase], Response) =
+  ## Get the subscribers of a stream
+
+  let response = httpClient.get(basepath & fmt"/streams/{stream_id}/members")
   constructResult[JsonSuccessBase](response)
 
 

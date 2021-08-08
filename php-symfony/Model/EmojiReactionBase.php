@@ -42,7 +42,7 @@ use JMS\Serializer\Annotation\SerializedName;
 class EmojiReactionBase 
 {
         /**
-     * A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint.
+     * A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint; for &#x60;realm_emoji&#x60;, it&#39;ll be the ID of the realm emoji.
      *
      * @var string|null
      * @SerializedName("emoji_code")
@@ -82,10 +82,10 @@ class EmojiReactionBase
     protected $userId;
 
     /**
-     * @var OpenAPI\Server\Model\EmojiReactionBaseUser|null
+     * @var OpenAPI\Server\Model\EmojiReactionBaseAllOfUser|null
      * @SerializedName("user")
-     * @Assert\Type("OpenAPI\Server\Model\EmojiReactionBaseUser")
-     * @Type("OpenAPI\Server\Model\EmojiReactionBaseUser")
+     * @Assert\Type("OpenAPI\Server\Model\EmojiReactionBaseAllOfUser")
+     * @Type("OpenAPI\Server\Model\EmojiReactionBaseAllOfUser")
      */
     protected $user;
 
@@ -115,7 +115,7 @@ class EmojiReactionBase
     /**
      * Sets emojiCode.
      *
-     * @param string|null $emojiCode  A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint.
+     * @param string|null $emojiCode  A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji.
      *
      * @return $this
      */
@@ -201,9 +201,9 @@ class EmojiReactionBase
     /**
      * Gets user.
      *
-     * @return OpenAPI\Server\Model\EmojiReactionBaseUser|null
+     * @return OpenAPI\Server\Model\EmojiReactionBaseAllOfUser|null
      */
-    public function getUser(): ?EmojiReactionBaseUser
+    public function getUser(): ?EmojiReactionBaseAllOfUser
     {
         return $this->user;
     }
@@ -211,11 +211,11 @@ class EmojiReactionBase
     /**
      * Sets user.
      *
-     * @param OpenAPI\Server\Model\EmojiReactionBaseUser|null $user
+     * @param OpenAPI\Server\Model\EmojiReactionBaseAllOfUser|null $user
      *
      * @return $this
      */
-    public function setUser(EmojiReactionBaseUser $user = null)
+    public function setUser(EmojiReactionBaseAllOfUser $user = null)
     {
         $this->user = $user;
 

@@ -77,6 +77,27 @@ object StreamsApi {
     } yield resp
   }
   
+  def deleteTopic(host: String, streamId: Integer, topicName: String)(implicit topicNameQuery: QueryParam[String]): Task[JsonSuccess] = {
+    implicit val returnTypeDecoder: EntityDecoder[JsonSuccess] = jsonOf[JsonSuccess]
+
+    val path = "/streams/{stream_id}/delete_topic".replaceAll("\\{" + "stream_id" + "\\}",escape(streamId.toString))
+    
+    val httpMethod = Method.POST
+    val contentType = `Content-Type`(MediaType.`application/json`)
+    val headers = Headers(
+      )
+    val queryParams = Query(
+      ("topicName", Some(topic_nameQuery.toParamString(topic_name))))
+
+    for {
+      uri           <- Task.fromDisjunction(Uri.fromString(host + path))
+      uriWithParams =  uri.copy(query = queryParams)
+      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType))
+      resp          <- client.expect[JsonSuccess](req)
+
+    } yield resp
+  }
+  
   def getStreamId(host: String, stream: String)(implicit streamQuery: QueryParam[String]): Task[JsonSuccessBase] = {
     implicit val returnTypeDecoder: EntityDecoder[JsonSuccessBase] = jsonOf[JsonSuccessBase]
 
@@ -130,6 +151,27 @@ object StreamsApi {
       )
     val queryParams = Query(
       ("includePublic", Some(include_publicQuery.toParamString(include_public))), ("includeWebPublic", Some(include_web_publicQuery.toParamString(include_web_public))), ("includeSubscribed", Some(include_subscribedQuery.toParamString(include_subscribed))), ("includeAllActive", Some(include_all_activeQuery.toParamString(include_all_active))), ("includeDefault", Some(include_defaultQuery.toParamString(include_default))), ("includeOwnerSubscribed", Some(include_owner_subscribedQuery.toParamString(include_owner_subscribed))))
+
+    for {
+      uri           <- Task.fromDisjunction(Uri.fromString(host + path))
+      uriWithParams =  uri.copy(query = queryParams)
+      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType))
+      resp          <- client.expect[JsonSuccessBase](req)
+
+    } yield resp
+  }
+  
+  def getSubscribers(host: String, streamId: Integer): Task[JsonSuccessBase] = {
+    implicit val returnTypeDecoder: EntityDecoder[JsonSuccessBase] = jsonOf[JsonSuccessBase]
+
+    val path = "/streams/{stream_id}/members".replaceAll("\\{" + "stream_id" + "\\}",escape(streamId.toString))
+    
+    val httpMethod = Method.GET
+    val contentType = `Content-Type`(MediaType.`application/json`)
+    val headers = Headers(
+      )
+    val queryParams = Query(
+      )
 
     for {
       uri           <- Task.fromDisjunction(Uri.fromString(host + path))
@@ -357,6 +399,27 @@ class HttpServiceStreamsApi(service: HttpService) {
     } yield resp
   }
   
+  def deleteTopic(streamId: Integer, topicName: String)(implicit topicNameQuery: QueryParam[String]): Task[JsonSuccess] = {
+    implicit val returnTypeDecoder: EntityDecoder[JsonSuccess] = jsonOf[JsonSuccess]
+
+    val path = "/streams/{stream_id}/delete_topic".replaceAll("\\{" + "stream_id" + "\\}",escape(streamId.toString))
+    
+    val httpMethod = Method.POST
+    val contentType = `Content-Type`(MediaType.`application/json`)
+    val headers = Headers(
+      )
+    val queryParams = Query(
+      ("topicName", Some(topic_nameQuery.toParamString(topic_name))))
+
+    for {
+      uri           <- Task.fromDisjunction(Uri.fromString(path))
+      uriWithParams =  uri.copy(query = queryParams)
+      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType))
+      resp          <- client.expect[JsonSuccess](req)
+
+    } yield resp
+  }
+  
   def getStreamId(stream: String)(implicit streamQuery: QueryParam[String]): Task[JsonSuccessBase] = {
     implicit val returnTypeDecoder: EntityDecoder[JsonSuccessBase] = jsonOf[JsonSuccessBase]
 
@@ -410,6 +473,27 @@ class HttpServiceStreamsApi(service: HttpService) {
       )
     val queryParams = Query(
       ("includePublic", Some(include_publicQuery.toParamString(include_public))), ("includeWebPublic", Some(include_web_publicQuery.toParamString(include_web_public))), ("includeSubscribed", Some(include_subscribedQuery.toParamString(include_subscribed))), ("includeAllActive", Some(include_all_activeQuery.toParamString(include_all_active))), ("includeDefault", Some(include_defaultQuery.toParamString(include_default))), ("includeOwnerSubscribed", Some(include_owner_subscribedQuery.toParamString(include_owner_subscribed))))
+
+    for {
+      uri           <- Task.fromDisjunction(Uri.fromString(path))
+      uriWithParams =  uri.copy(query = queryParams)
+      req           =  Request(method = httpMethod, uri = uriWithParams, headers = headers.put(contentType))
+      resp          <- client.expect[JsonSuccessBase](req)
+
+    } yield resp
+  }
+  
+  def getSubscribers(streamId: Integer): Task[JsonSuccessBase] = {
+    implicit val returnTypeDecoder: EntityDecoder[JsonSuccessBase] = jsonOf[JsonSuccessBase]
+
+    val path = "/streams/{stream_id}/members".replaceAll("\\{" + "stream_id" + "\\}",escape(streamId.toString))
+    
+    val httpMethod = Method.GET
+    val contentType = `Content-Type`(MediaType.`application/json`)
+    val headers = Headers(
+      )
+    val queryParams = Query(
+      )
 
     for {
       uri           <- Task.fromDisjunction(Uri.fromString(path))

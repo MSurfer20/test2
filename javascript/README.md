@@ -124,6 +124,10 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *ZulipRestApi.AuthenticationApi* | [**devFetchApiKey**](docs/AuthenticationApi.md#devFetchApiKey) | **POST** /dev_fetch_api_key | Fetch an API key (development only)
 *ZulipRestApi.AuthenticationApi* | [**fetchApiKey**](docs/AuthenticationApi.md#fetchApiKey) | **POST** /fetch_api_key | Fetch an API key (production)
+*ZulipRestApi.DraftsApi* | [**createDrafts**](docs/DraftsApi.md#createDrafts) | **POST** /drafts | Create drafts
+*ZulipRestApi.DraftsApi* | [**deleteDraft**](docs/DraftsApi.md#deleteDraft) | **DELETE** /drafts/{draft_id} | Delete a draft
+*ZulipRestApi.DraftsApi* | [**editDraft**](docs/DraftsApi.md#editDraft) | **PATCH** /drafts/{draft_id} | Edit a draft
+*ZulipRestApi.DraftsApi* | [**getDrafts**](docs/DraftsApi.md#getDrafts) | **GET** /drafts | Get drafts
 *ZulipRestApi.MessagesApi* | [**addReaction**](docs/MessagesApi.md#addReaction) | **POST** /messages/{message_id}/reactions | Add an emoji reaction
 *ZulipRestApi.MessagesApi* | [**checkMessagesMatchNarrow**](docs/MessagesApi.md#checkMessagesMatchNarrow) | **GET** /messages/matches_narrow | Check if messages match a narrow
 *ZulipRestApi.MessagesApi* | [**deleteMessage**](docs/MessagesApi.md#deleteMessage) | **DELETE** /messages/{message_id} | Delete a message
@@ -159,9 +163,11 @@ Class | Method | HTTP request | Description
 *ZulipRestApi.ServerAndOrganizationsApi* | [**uploadCustomEmoji**](docs/ServerAndOrganizationsApi.md#uploadCustomEmoji) | **POST** /realm/emoji/{emoji_name} | Upload custom emoji
 *ZulipRestApi.StreamsApi* | [**archiveStream**](docs/StreamsApi.md#archiveStream) | **DELETE** /streams/{stream_id} | Archive a stream
 *ZulipRestApi.StreamsApi* | [**createBigBlueButtonVideoCall**](docs/StreamsApi.md#createBigBlueButtonVideoCall) | **GET** /calls/bigbluebutton/create | Create BigBlueButton video call
+*ZulipRestApi.StreamsApi* | [**deleteTopic**](docs/StreamsApi.md#deleteTopic) | **POST** /streams/{stream_id}/delete_topic | Delete a topic
 *ZulipRestApi.StreamsApi* | [**getStreamId**](docs/StreamsApi.md#getStreamId) | **GET** /get_stream_id | Get stream ID
 *ZulipRestApi.StreamsApi* | [**getStreamTopics**](docs/StreamsApi.md#getStreamTopics) | **GET** /users/me/{stream_id}/topics | Get topics in a stream
 *ZulipRestApi.StreamsApi* | [**getStreams**](docs/StreamsApi.md#getStreams) | **GET** /streams | Get all streams
+*ZulipRestApi.StreamsApi* | [**getSubscribers**](docs/StreamsApi.md#getSubscribers) | **GET** /streams/{stream_id}/members | Get the subscribers of a stream
 *ZulipRestApi.StreamsApi* | [**getSubscriptionStatus**](docs/StreamsApi.md#getSubscriptionStatus) | **GET** /users/{user_id}/subscriptions/{stream_id} | Get subscription status
 *ZulipRestApi.StreamsApi* | [**getSubscriptions**](docs/StreamsApi.md#getSubscriptions) | **GET** /users/me/subscriptions | Get subscribed streams
 *ZulipRestApi.StreamsApi* | [**muteTopic**](docs/StreamsApi.md#muteTopic) | **PATCH** /users/me/subscriptions/muted_topics | Topic muting
@@ -186,8 +192,8 @@ Class | Method | HTTP request | Description
 *ZulipRestApi.UsersApi* | [**removeUserGroup**](docs/UsersApi.md#removeUserGroup) | **DELETE** /user_groups/{user_group_id} | Delete a user group
 *ZulipRestApi.UsersApi* | [**setTypingStatus**](docs/UsersApi.md#setTypingStatus) | **POST** /typing | Set \&quot;typing\&quot; status
 *ZulipRestApi.UsersApi* | [**unmuteUser**](docs/UsersApi.md#unmuteUser) | **DELETE** /users/me/muted_users/{muted_user_id} | Unmute a user
-*ZulipRestApi.UsersApi* | [**updateDisplaySettings**](docs/UsersApi.md#updateDisplaySettings) | **PATCH** /settings/display | Update display settings
-*ZulipRestApi.UsersApi* | [**updateNotificationSettings**](docs/UsersApi.md#updateNotificationSettings) | **PATCH** /settings/notifications | Update notification settings
+*ZulipRestApi.UsersApi* | [**updateSettings**](docs/UsersApi.md#updateSettings) | **PATCH** /settings | Update settings
+*ZulipRestApi.UsersApi* | [**updateStatus**](docs/UsersApi.md#updateStatus) | **POST** /users/me/status | Update your status
 *ZulipRestApi.UsersApi* | [**updateUser**](docs/UsersApi.md#updateUser) | **PATCH** /users/{user_id} | Update a user
 *ZulipRestApi.UsersApi* | [**updateUserGroup**](docs/UsersApi.md#updateUserGroup) | **PATCH** /user_groups/{user_group_id} | Update a user group
 *ZulipRestApi.UsersApi* | [**updateUserGroupMembers**](docs/UsersApi.md#updateUserGroupMembers) | **POST** /user_groups/{user_group_id}/members | Update user group members
@@ -218,10 +224,13 @@ Class | Method | HTTP request | Description
  - [ZulipRestApi.CodedErrorBaseAllOf](docs/CodedErrorBaseAllOf.md)
  - [ZulipRestApi.CustomProfileField](docs/CustomProfileField.md)
  - [ZulipRestApi.DefaultStreamGroup](docs/DefaultStreamGroup.md)
+ - [ZulipRestApi.Draft](docs/Draft.md)
+ - [ZulipRestApi.EmojiBase](docs/EmojiBase.md)
  - [ZulipRestApi.EmojiReaction](docs/EmojiReaction.md)
  - [ZulipRestApi.EmojiReactionAllOf](docs/EmojiReactionAllOf.md)
  - [ZulipRestApi.EmojiReactionBase](docs/EmojiReactionBase.md)
- - [ZulipRestApi.EmojiReactionBaseUser](docs/EmojiReactionBaseUser.md)
+ - [ZulipRestApi.EmojiReactionBaseAllOf](docs/EmojiReactionBaseAllOf.md)
+ - [ZulipRestApi.EmojiReactionBaseAllOfUser](docs/EmojiReactionBaseAllOfUser.md)
  - [ZulipRestApi.GetMessages](docs/GetMessages.md)
  - [ZulipRestApi.GetMessagesAllOf](docs/GetMessagesAllOf.md)
  - [ZulipRestApi.Hotspot](docs/Hotspot.md)

@@ -82,6 +82,35 @@ bool createBigBlueButtonVideoCallAsync(char * accessToken,
 	, void* userData);
 
 
+/*! \brief Delete a topic. *Synchronous*
+ *
+ * Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+ * \param streamId The ID of the stream to access.  *Required*
+ * \param topicName The name of the topic to delete.  *Required*
+ * \param handler The callback function to be invoked on completion. *Required*
+ * \param accessToken The Authorization token. *Required*
+ * \param userData The user data to be passed to the callback function.
+ */
+bool deleteTopicSync(char * accessToken,
+	int streamId, std::string topicName, 
+	void(* handler)(JsonSuccess, Error, void* )
+	, void* userData);
+
+/*! \brief Delete a topic. *Asynchronous*
+ *
+ * Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+ * \param streamId The ID of the stream to access.  *Required*
+ * \param topicName The name of the topic to delete.  *Required*
+ * \param handler The callback function to be invoked on completion. *Required*
+ * \param accessToken The Authorization token. *Required*
+ * \param userData The user data to be passed to the callback function.
+ */
+bool deleteTopicAsync(char * accessToken,
+	int streamId, std::string topicName, 
+	void(* handler)(JsonSuccess, Error, void* )
+	, void* userData);
+
+
 /*! \brief Get stream ID. *Synchronous*
  *
  * Get the unique ID of a given stream.  `GET {{ api_url }}/v1/get_stream_id` 
@@ -169,6 +198,33 @@ bool getStreamsSync(char * accessToken,
  */
 bool getStreamsAsync(char * accessToken,
 	bool includePublic, bool includeWebPublic, bool includeSubscribed, bool includeAllActive, bool includeDefault, bool includeOwnerSubscribed, 
+	void(* handler)(JsonSuccessBase, Error, void* )
+	, void* userData);
+
+
+/*! \brief Get the subscribers of a stream. *Synchronous*
+ *
+ * Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` 
+ * \param streamId The ID of the stream to access.  *Required*
+ * \param handler The callback function to be invoked on completion. *Required*
+ * \param accessToken The Authorization token. *Required*
+ * \param userData The user data to be passed to the callback function.
+ */
+bool getSubscribersSync(char * accessToken,
+	int streamId, 
+	void(* handler)(JsonSuccessBase, Error, void* )
+	, void* userData);
+
+/*! \brief Get the subscribers of a stream. *Asynchronous*
+ *
+ * Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` 
+ * \param streamId The ID of the stream to access.  *Required*
+ * \param handler The callback function to be invoked on completion. *Required*
+ * \param accessToken The Authorization token. *Required*
+ * \param userData The user data to be passed to the callback function.
+ */
+bool getSubscribersAsync(char * accessToken,
+	int streamId, 
 	void(* handler)(JsonSuccessBase, Error, void* )
 	, void* userData);
 

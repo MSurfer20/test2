@@ -11,7 +11,9 @@
 */
 package org.openapitools.server.api.model
 
-import org.openapitools.server.api.model.EmojiReactionBaseUser
+import org.openapitools.server.api.model.EmojiBase
+import org.openapitools.server.api.model.EmojiReactionBaseAllOf
+import org.openapitools.server.api.model.EmojiReactionBaseAllOfUser
 
         
 import com.google.gson.annotations.SerializedName
@@ -19,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonInclude
 /**
  * 
- * @param emojiCode A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint. 
+ * @param emojiCode A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji. 
  * @param emojiName Name of the emoji. 
  * @param reactionType One of the following values:  * `unicode_emoji`: Unicode emoji (`emoji_code` will be its Unicode   codepoint). * `realm_emoji`: [Custom emoji](/help/add-custom-emoji).   (`emoji_code` will be its ID). * `zulip_extra_emoji`: Special emoji included with Zulip.  Exists to   namespace the `zulip` emoji. 
  * @param userId The ID of the user who added the reaction.  **Changes**: New in Zulip 3.0 (feature level 2). The `user` object is deprecated and will be removed in the future. 
@@ -28,7 +30,7 @@ import com.fasterxml.jackson.annotation.JsonInclude
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class EmojiReactionBase (
-    /* A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint.  */
+    /* A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji.  */
     val emojiCode: kotlin.String? = null,
     /* Name of the emoji.  */
     val emojiName: kotlin.String? = null,
@@ -36,7 +38,7 @@ data class EmojiReactionBase (
     val reactionType: kotlin.String? = null,
     /* The ID of the user who added the reaction.  **Changes**: New in Zulip 3.0 (feature level 2). The `user` object is deprecated and will be removed in the future.  */
     val userId: kotlin.Int? = null,
-    val user: EmojiReactionBaseUser? = null
+    val user: EmojiReactionBaseAllOfUser? = null
 ) {
 
 }

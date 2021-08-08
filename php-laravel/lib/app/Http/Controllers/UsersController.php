@@ -51,14 +51,14 @@ class UsersController extends Controller
         return response('How about implementing getAttachments as a get method ?');
     }
     /**
-     * Operation updateDisplaySettings
+     * Operation updateSettings
      *
-     * Update display settings.
+     * Update settings.
      *
      *
      * @return Http response
      */
-    public function updateDisplaySettings()
+    public function updateSettings()
     {
         $input = Request::all();
 
@@ -66,6 +66,14 @@ class UsersController extends Controller
 
 
         //not path params validation
+        $fullName = $input['fullName'];
+
+        $email = $input['email'];
+
+        $oldPassword = $input['oldPassword'];
+
+        $newPassword = $input['newPassword'];
+
         $twentyFourHourTime = $input['twentyFourHourTime'];
 
         $denseMode = $input['denseMode'];
@@ -77,6 +85,8 @@ class UsersController extends Controller
         $highContrastMode = $input['highContrastMode'];
 
         $colorScheme = $input['colorScheme'];
+
+        $enableDraftsSynchronization = $input['enableDraftsSynchronization'];
 
         $translateEmoticons = $input['translateEmoticons'];
 
@@ -92,25 +102,6 @@ class UsersController extends Controller
 
         $timezone = $input['timezone'];
 
-
-        return response('How about implementing updateDisplaySettings as a patch method ?');
-    }
-    /**
-     * Operation updateNotificationSettings
-     *
-     * Update notification settings.
-     *
-     *
-     * @return Http response
-     */
-    public function updateNotificationSettings()
-    {
-        $input = Request::all();
-
-        //path params validation
-
-
-        //not path params validation
         $enableStreamDesktopNotifications = $input['enableStreamDesktopNotifications'];
 
         $enableStreamEmailNotifications = $input['enableStreamEmailNotifications'];
@@ -124,6 +115,8 @@ class UsersController extends Controller
         $enableDesktopNotifications = $input['enableDesktopNotifications'];
 
         $enableSounds = $input['enableSounds'];
+
+        $emailNotificationsBatchingPeriodSeconds = $input['emailNotificationsBatchingPeriodSeconds'];
 
         $enableOfflineEmailNotifications = $input['enableOfflineEmailNotifications'];
 
@@ -149,8 +142,10 @@ class UsersController extends Controller
 
         $presenceEnabled = $input['presenceEnabled'];
 
+        $enterSends = $input['enterSends'];
 
-        return response('How about implementing updateNotificationSettings as a patch method ?');
+
+        return response('How about implementing updateSettings as a patch method ?');
     }
     /**
      * Operation setTypingStatus
@@ -432,6 +427,35 @@ class UsersController extends Controller
         //not path params validation
 
         return response('How about implementing unmuteUser as a delete method ?');
+    }
+    /**
+     * Operation updateStatus
+     *
+     * Update your status.
+     *
+     *
+     * @return Http response
+     */
+    public function updateStatus()
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+        $statusText = $input['statusText'];
+
+        $away = $input['away'];
+
+        $emojiName = $input['emojiName'];
+
+        $emojiCode = $input['emojiCode'];
+
+        $reactionType = $input['reactionType'];
+
+
+        return response('How about implementing updateStatus as a post method ?');
     }
     /**
      * Operation getUserByEmail

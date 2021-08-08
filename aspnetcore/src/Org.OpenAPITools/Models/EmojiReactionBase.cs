@@ -27,9 +27,9 @@ namespace Org.OpenAPITools.Models
     public partial class EmojiReactionBase : IEquatable<EmojiReactionBase>
     {
         /// <summary>
-        /// A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint. 
+        /// A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint; for &#x60;realm_emoji&#x60;, it&#39;ll be the ID of the realm emoji. 
         /// </summary>
-        /// <value>A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint. </value>
+        /// <value>A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint; for &#x60;realm_emoji&#x60;, it&#39;ll be the ID of the realm emoji. </value>
         [DataMember(Name="emoji_code", EmitDefaultValue=false)]
         public string EmojiCode { get; set; }
 
@@ -58,7 +58,7 @@ namespace Org.OpenAPITools.Models
         /// Gets or Sets User
         /// </summary>
         [DataMember(Name="user", EmitDefaultValue=false)]
-        public EmojiReactionBaseUser User { get; set; }
+        public EmojiReactionBaseAllOfUser User { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

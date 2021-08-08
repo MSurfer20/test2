@@ -23,6 +23,7 @@ open OpenAPI.Model.JsonSuccess
 open OpenAPI.Model.JsonSuccessBase
 open OpenAPI.Model.OneOfobjectobject
 open OpenAPI.Model.OneOfobjectobjectobject
+open OpenAPI.Model.OneOfobjectobjectobjectobjectobjectobject
 
 module UsersApiHandlerTests =
 
@@ -439,14 +440,14 @@ module UsersApiHandlerTests =
       }
 
   [<Fact>]
-  let ``UpdateDisplaySettings - Update display settings returns 200 where Success`` () =
+  let ``UpdateSettings - Update settings returns 200 where Success`` () =
     task {
       use server = new TestServer(createHost())
       use client = server.CreateClient()
 
       // add your setup code here
 
-      let path = "/api/v1/settings/display" + "?twentyFourHourTime=ADDME&denseMode=ADDME&starredMessageCounts=ADDME&fluidLayoutWidth=ADDME&highContrastMode=ADDME&colorScheme=ADDME&translateEmoticons=ADDME&defaultLanguage=ADDME&defaultView=ADDME&leftSideUserlist=ADDME&emojiset=ADDME&demoteInactiveStreams=ADDME&timezone=ADDME"
+      let path = "/api/v1/settings" + "?fullName=ADDME&email=ADDME&oldPassword=ADDME&newPassword=ADDME&twentyFourHourTime=ADDME&denseMode=ADDME&starredMessageCounts=ADDME&fluidLayoutWidth=ADDME&highContrastMode=ADDME&colorScheme=ADDME&enableDraftsSynchronization=ADDME&translateEmoticons=ADDME&defaultLanguage=ADDME&defaultView=ADDME&leftSideUserlist=ADDME&emojiset=ADDME&demoteInactiveStreams=ADDME&timezone=ADDME&enableStreamDesktopNotifications=ADDME&enableStreamEmailNotifications=ADDME&enableStreamPushNotifications=ADDME&enableStreamAudibleNotifications=ADDME&notificationSound=ADDME&enableDesktopNotifications=ADDME&enableSounds=ADDME&emailNotificationsBatchingPeriodSeconds=ADDME&enableOfflineEmailNotifications=ADDME&enableOfflinePushNotifications=ADDME&enableOnlinePushNotifications=ADDME&enableDigestEmails=ADDME&enableMarketingEmails=ADDME&enableLoginEmails=ADDME&messageContentInEmailNotifications=ADDME&pmContentInDesktopNotifications=ADDME&wildcardMentionsNotify=ADDME&desktopIconCountDisplay=ADDME&realmNameInNotifications=ADDME&presenceEnabled=ADDME&enterSends=ADDME"
 
       HttpPatch client path
         |> isStatus (enum<HttpStatusCode>(200))
@@ -456,17 +457,34 @@ module UsersApiHandlerTests =
       }
 
   [<Fact>]
-  let ``UpdateNotificationSettings - Update notification settings returns 200 where Success.`` () =
+  let ``UpdateStatus - Update your status returns 200 where Success.`` () =
     task {
       use server = new TestServer(createHost())
       use client = server.CreateClient()
 
       // add your setup code here
 
-      let path = "/api/v1/settings/notifications" + "?enableStreamDesktopNotifications=ADDME&enableStreamEmailNotifications=ADDME&enableStreamPushNotifications=ADDME&enableStreamAudibleNotifications=ADDME&notificationSound=ADDME&enableDesktopNotifications=ADDME&enableSounds=ADDME&enableOfflineEmailNotifications=ADDME&enableOfflinePushNotifications=ADDME&enableOnlinePushNotifications=ADDME&enableDigestEmails=ADDME&enableMarketingEmails=ADDME&enableLoginEmails=ADDME&messageContentInEmailNotifications=ADDME&pmContentInDesktopNotifications=ADDME&wildcardMentionsNotify=ADDME&desktopIconCountDisplay=ADDME&realmNameInNotifications=ADDME&presenceEnabled=ADDME"
+      let path = "/api/v1/users/me/status" + "?statusText=ADDME&away=ADDME&emojiName=ADDME&emojiCode=ADDME&reactionType=ADDME"
 
-      HttpPatch client path
+      HttpPost client path
         |> isStatus (enum<HttpStatusCode>(200))
+        |> readText
+        |> shouldEqual "TESTME"
+        |> ignore
+      }
+
+  [<Fact>]
+  let ``UpdateStatus - Update your status returns 400 where Success.`` () =
+    task {
+      use server = new TestServer(createHost())
+      use client = server.CreateClient()
+
+      // add your setup code here
+
+      let path = "/api/v1/users/me/status" + "?statusText=ADDME&away=ADDME&emojiName=ADDME&emojiCode=ADDME&reactionType=ADDME"
+
+      HttpPost client path
+        |> isStatus (enum<HttpStatusCode>(400))
         |> readText
         |> shouldEqual "TESTME"
         |> ignore

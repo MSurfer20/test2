@@ -117,6 +117,10 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *OAIAuthenticationApi* | [**devFetchApiKey**](OAIAuthenticationApi.md#devFetchApiKey) | **POST** /dev_fetch_api_key | Fetch an API key (development only)
 *OAIAuthenticationApi* | [**fetchApiKey**](OAIAuthenticationApi.md#fetchApiKey) | **POST** /fetch_api_key | Fetch an API key (production)
+*OAIDraftsApi* | [**createDrafts**](OAIDraftsApi.md#createDrafts) | **POST** /drafts | Create drafts
+*OAIDraftsApi* | [**deleteDraft**](OAIDraftsApi.md#deleteDraft) | **DELETE** /drafts/{draft_id} | Delete a draft
+*OAIDraftsApi* | [**editDraft**](OAIDraftsApi.md#editDraft) | **PATCH** /drafts/{draft_id} | Edit a draft
+*OAIDraftsApi* | [**getDrafts**](OAIDraftsApi.md#getDrafts) | **GET** /drafts | Get drafts
 *OAIMessagesApi* | [**addReaction**](OAIMessagesApi.md#addReaction) | **POST** /messages/{message_id}/reactions | Add an emoji reaction
 *OAIMessagesApi* | [**checkMessagesMatchNarrow**](OAIMessagesApi.md#checkMessagesMatchNarrow) | **GET** /messages/matches_narrow | Check if messages match a narrow
 *OAIMessagesApi* | [**deleteMessage**](OAIMessagesApi.md#deleteMessage) | **DELETE** /messages/{message_id} | Delete a message
@@ -152,9 +156,11 @@ Class | Method | HTTP request | Description
 *OAIServerAndOrganizationsApi* | [**uploadCustomEmoji**](OAIServerAndOrganizationsApi.md#uploadCustomEmoji) | **POST** /realm/emoji/{emoji_name} | Upload custom emoji
 *OAIStreamsApi* | [**archiveStream**](OAIStreamsApi.md#archiveStream) | **DELETE** /streams/{stream_id} | Archive a stream
 *OAIStreamsApi* | [**createBigBlueButtonVideoCall**](OAIStreamsApi.md#createBigBlueButtonVideoCall) | **GET** /calls/bigbluebutton/create | Create BigBlueButton video call
+*OAIStreamsApi* | [**deleteTopic**](OAIStreamsApi.md#deleteTopic) | **POST** /streams/{stream_id}/delete_topic | Delete a topic
 *OAIStreamsApi* | [**getStreamId**](OAIStreamsApi.md#getStreamId) | **GET** /get_stream_id | Get stream ID
 *OAIStreamsApi* | [**getStreamTopics**](OAIStreamsApi.md#getStreamTopics) | **GET** /users/me/{stream_id}/topics | Get topics in a stream
 *OAIStreamsApi* | [**getStreams**](OAIStreamsApi.md#getStreams) | **GET** /streams | Get all streams
+*OAIStreamsApi* | [**getSubscribers**](OAIStreamsApi.md#getSubscribers) | **GET** /streams/{stream_id}/members | Get the subscribers of a stream
 *OAIStreamsApi* | [**getSubscriptionStatus**](OAIStreamsApi.md#getSubscriptionStatus) | **GET** /users/{user_id}/subscriptions/{stream_id} | Get subscription status
 *OAIStreamsApi* | [**getSubscriptions**](OAIStreamsApi.md#getSubscriptions) | **GET** /users/me/subscriptions | Get subscribed streams
 *OAIStreamsApi* | [**muteTopic**](OAIStreamsApi.md#muteTopic) | **PATCH** /users/me/subscriptions/muted_topics | Topic muting
@@ -179,8 +185,8 @@ Class | Method | HTTP request | Description
 *OAIUsersApi* | [**removeUserGroup**](OAIUsersApi.md#removeUserGroup) | **DELETE** /user_groups/{user_group_id} | Delete a user group
 *OAIUsersApi* | [**setTypingStatus**](OAIUsersApi.md#setTypingStatus) | **POST** /typing | Set \&quot;typing\&quot; status
 *OAIUsersApi* | [**unmuteUser**](OAIUsersApi.md#unmuteUser) | **DELETE** /users/me/muted_users/{muted_user_id} | Unmute a user
-*OAIUsersApi* | [**updateDisplaySettings**](OAIUsersApi.md#updateDisplaySettings) | **PATCH** /settings/display | Update display settings
-*OAIUsersApi* | [**updateNotificationSettings**](OAIUsersApi.md#updateNotificationSettings) | **PATCH** /settings/notifications | Update notification settings
+*OAIUsersApi* | [**updateSettings**](OAIUsersApi.md#updateSettings) | **PATCH** /settings | Update settings
+*OAIUsersApi* | [**updateStatus**](OAIUsersApi.md#updateStatus) | **POST** /users/me/status | Update your status
 *OAIUsersApi* | [**updateUser**](OAIUsersApi.md#updateUser) | **PATCH** /users/{user_id} | Update a user
 *OAIUsersApi* | [**updateUserGroup**](OAIUsersApi.md#updateUserGroup) | **PATCH** /user_groups/{user_group_id} | Update a user group
 *OAIUsersApi* | [**updateUserGroupMembers**](OAIUsersApi.md#updateUserGroupMembers) | **POST** /user_groups/{user_group_id}/members | Update user group members
@@ -211,9 +217,12 @@ Class | Method | HTTP request | Description
  - [OAICodedError_allOf](OAICodedError_allOf.md)
  - [OAICustomProfileField](OAICustomProfileField.md)
  - [OAIDefaultStreamGroup](OAIDefaultStreamGroup.md)
+ - [OAIDraft](OAIDraft.md)
+ - [OAIEmojiBase](OAIEmojiBase.md)
  - [OAIEmojiReaction](OAIEmojiReaction.md)
  - [OAIEmojiReactionBase](OAIEmojiReactionBase.md)
- - [OAIEmojiReactionBase_user](OAIEmojiReactionBase_user.md)
+ - [OAIEmojiReactionBase_allOf](OAIEmojiReactionBase_allOf.md)
+ - [OAIEmojiReactionBase_allOf_user](OAIEmojiReactionBase_allOf_user.md)
  - [OAIEmojiReaction_allOf](OAIEmojiReaction_allOf.md)
  - [OAIGetMessages](OAIGetMessages.md)
  - [OAIGetMessages_allOf](OAIGetMessages_allOf.md)

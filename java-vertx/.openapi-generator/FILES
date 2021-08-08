@@ -25,10 +25,13 @@ src/main/java/org/openapitools/server/api/model/CodedErrorBase.java
 src/main/java/org/openapitools/server/api/model/CodedErrorBaseAllOf.java
 src/main/java/org/openapitools/server/api/model/CustomProfileField.java
 src/main/java/org/openapitools/server/api/model/DefaultStreamGroup.java
+src/main/java/org/openapitools/server/api/model/Draft.java
+src/main/java/org/openapitools/server/api/model/EmojiBase.java
 src/main/java/org/openapitools/server/api/model/EmojiReaction.java
 src/main/java/org/openapitools/server/api/model/EmojiReactionAllOf.java
 src/main/java/org/openapitools/server/api/model/EmojiReactionBase.java
-src/main/java/org/openapitools/server/api/model/EmojiReactionBaseUser.java
+src/main/java/org/openapitools/server/api/model/EmojiReactionBaseAllOf.java
+src/main/java/org/openapitools/server/api/model/EmojiReactionBaseAllOfUser.java
 src/main/java/org/openapitools/server/api/model/GetMessages.java
 src/main/java/org/openapitools/server/api/model/GetMessagesAllOf.java
 src/main/java/org/openapitools/server/api/model/Hotspot.java
@@ -69,6 +72,9 @@ src/main/java/org/openapitools/server/api/model/UserNotAuthorizedError.java
 src/main/java/org/openapitools/server/api/verticle/AuthenticationApi.java
 src/main/java/org/openapitools/server/api/verticle/AuthenticationApiException.java
 src/main/java/org/openapitools/server/api/verticle/AuthenticationApiVerticle.java
+src/main/java/org/openapitools/server/api/verticle/DraftsApi.java
+src/main/java/org/openapitools/server/api/verticle/DraftsApiException.java
+src/main/java/org/openapitools/server/api/verticle/DraftsApiVerticle.java
 src/main/java/org/openapitools/server/api/verticle/MessagesApi.java
 src/main/java/org/openapitools/server/api/verticle/MessagesApiException.java
 src/main/java/org/openapitools/server/api/verticle/MessagesApiVerticle.java

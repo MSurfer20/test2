@@ -5,7 +5,9 @@
 
 // ignore_for_file: unused_import
 
-import 'package:openapi/model/emoji_reaction_base_user.dart';
+import 'package:openapi/model/emoji_reaction_base_all_of_user.dart';
+import 'package:openapi/model/emoji_reaction_base_all_of.dart';
+import 'package:openapi/model/emoji_base.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -13,7 +15,7 @@ part 'emoji_reaction_base.g.dart';
 
 abstract class EmojiReactionBase implements Built<EmojiReactionBase, EmojiReactionBaseBuilder> {
 
-    /// A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint. 
+    /// A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji. 
     @nullable
     @BuiltValueField(wireName: r'emoji_code')
     String get emojiCode;
@@ -35,7 +37,7 @@ abstract class EmojiReactionBase implements Built<EmojiReactionBase, EmojiReacti
 
     @nullable
     @BuiltValueField(wireName: r'user')
-    EmojiReactionBaseUser get user;
+    EmojiReactionBaseAllOfUser get user;
 
     EmojiReactionBase._();
 
@@ -86,7 +88,7 @@ class _$EmojiReactionBaseSerializer implements StructuredSerializer<EmojiReactio
             result
                 ..add(r'user')
                 ..add(serializers.serialize(object.user,
-                    specifiedType: const FullType(EmojiReactionBaseUser)));
+                    specifiedType: const FullType(EmojiReactionBaseAllOfUser)));
         }
         return result;
     }
@@ -120,7 +122,7 @@ class _$EmojiReactionBaseSerializer implements StructuredSerializer<EmojiReactio
                     break;
                 case r'user':
                     result.user.replace(serializers.deserialize(value,
-                        specifiedType: const FullType(EmojiReactionBaseUser)) as EmojiReactionBaseUser);
+                        specifiedType: const FullType(EmojiReactionBaseAllOfUser)) as EmojiReactionBaseAllOfUser);
                     break;
             }
         }

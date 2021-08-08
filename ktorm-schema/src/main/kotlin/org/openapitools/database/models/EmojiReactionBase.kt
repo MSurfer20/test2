@@ -19,14 +19,14 @@ import .*
 
 /**
  * 
- * @param emojiCode A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint. 
+ * @param emojiCode A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji. 
  * @param emojiName Name of the emoji. 
  * @param reactionType One of the following values:  * `unicode_emoji`: Unicode emoji (`emoji_code` will be its Unicode   codepoint). * `realm_emoji`: [Custom emoji](/help/add-custom-emoji).   (`emoji_code` will be its ID). * `zulip_extra_emoji`: Special emoji included with Zulip.  Exists to   namespace the `zulip` emoji. 
  * @param userId The ID of the user who added the reaction.  **Changes**: New in Zulip 3.0 (feature level 2). The `user` object is deprecated and will be removed in the future. 
  * @param user 
  */
 object EmojiReactionBases : BaseTable<EmojiReactionBase>("EmojiReactionBase") {
-    val emojiCode = text("emoji_code") /* null */ /* A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint.  */
+    val emojiCode = text("emoji_code") /* null */ /* A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji.  */
     val emojiName = text("emoji_name") /* null */ /* Name of the emoji.  */
     val reactionType = text("reaction_type") /* null */ /* One of the following values:  * `unicode_emoji`: Unicode emoji (`emoji_code` will be its Unicode   codepoint). * `realm_emoji`: [Custom emoji](/help/add-custom-emoji).   (`emoji_code` will be its ID). * `zulip_extra_emoji`: Special emoji included with Zulip.  Exists to   namespace the `zulip` emoji.  */
     val userId = int("user_id") /* null */ /* The ID of the user who added the reaction.  **Changes**: New in Zulip 3.0 (feature level 2). The `user` object is deprecated and will be removed in the future.  */
@@ -37,11 +37,11 @@ object EmojiReactionBases : BaseTable<EmojiReactionBase>("EmojiReactionBase") {
      * Create an entity of type EmojiReactionBase from the model
      */
     override fun doCreateEntity(row: QueryRowSet, withReferences: Boolean) = EmojiReactionBase(
-        emojiCode = row[emojiCode]  /* kotlin.String? */ /* A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint.  */,
+        emojiCode = row[emojiCode]  /* kotlin.String? */ /* A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji.  */,
         emojiName = row[emojiName]  /* kotlin.String? */ /* Name of the emoji.  */,
         reactionType = row[reactionType]  /* kotlin.String? */ /* One of the following values:  * `unicode_emoji`: Unicode emoji (`emoji_code` will be its Unicode   codepoint). * `realm_emoji`: [Custom emoji](/help/add-custom-emoji).   (`emoji_code` will be its ID). * `zulip_extra_emoji`: Special emoji included with Zulip.  Exists to   namespace the `zulip` emoji.  */,
         userId = row[userId]  /* kotlin.Int? */ /* The ID of the user who added the reaction.  **Changes**: New in Zulip 3.0 (feature level 2). The `user` object is deprecated and will be removed in the future.  */,
-        user = EmojiReactionBaseUsers.createEntity(row, withReferences) /* EmojiReactionBaseUser? */
+        user = EmojiReactionBaseAllOfUsers.createEntity(row, withReferences) /* EmojiReactionBaseAllOfUser? */
     )
 
     /**

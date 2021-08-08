@@ -26,10 +26,13 @@ CodedErrorBase : org.openapitools.model.CodedErrorBase
 CodedErrorBaseAllOf : org.openapitools.model.CodedErrorBaseAllOf
 CustomProfileField : org.openapitools.model.CustomProfileField
 DefaultStreamGroup : org.openapitools.model.DefaultStreamGroup
+Draft : org.openapitools.model.Draft
+EmojiBase : org.openapitools.model.EmojiBase
 EmojiReaction : org.openapitools.model.EmojiReaction
 EmojiReactionAllOf : org.openapitools.model.EmojiReactionAllOf
 EmojiReactionBase : org.openapitools.model.EmojiReactionBase
-EmojiReactionBaseUser : org.openapitools.model.EmojiReactionBaseUser
+EmojiReactionBaseAllOf : org.openapitools.model.EmojiReactionBaseAllOf
+EmojiReactionBaseAllOfUser : org.openapitools.model.EmojiReactionBaseAllOfUser
 GetMessages : org.openapitools.model.GetMessages
 GetMessagesAllOf : org.openapitools.model.GetMessagesAllOf
 Hotspot : org.openapitools.model.Hotspot

@@ -986,20 +986,20 @@ module
       return JsonSuccess.from_json(data), status_code, headers
     end
 
-    # Update display settings
-    # This endpoint is used to edit the current user's user interface settings.  `PATCH {{ api_url }}/v1/settings/display` 
+    # Update settings
+    # This endpoint is used to edit the current user's settings.  `PATCH {{ api_url }}/v1/settings`  **Changes**: Prior to Zulip 5.0 (feature level 80), this endpoint only supported the `full_name`, `email`, `old_password`, and `new_password` parameters. Notification settings were managed by `PATCH /settings/notifications`, and all other settings by `PATCH /settings/display`. The feature level 80 migration to merge these endpoints did not change how request parameters are encoded. Note, however, that it did change the handling of any invalid parameters present in a request to change notification or display settings, since the merged endpoint uses the new response format that was introduced for `/settings` in Zulip 5.0 (feature level 78).  The `/settings/display` and `/settings/notifications` endpoints are now deprecated aliases for this endpoint for backwards-compatibility, and will be removed once clients have migrated to use this endpoint. 
     # @return [JsonSuccessBase]
-    def update_display_settings(twenty_four_hour_time : Bool?, dense_mode : Bool?, starred_message_counts : Bool?, fluid_layout_width : Bool?, high_contrast_mode : Bool?, color_scheme : Int32?, translate_emoticons : Bool?, default_language : String?, default_view : String?, left_side_userlist : Bool?, emojiset : String?, demote_inactive_streams : Int32?, timezone : String?)
-      data, _status_code, _headers = update_display_settings_with_http_info(twenty_four_hour_time, dense_mode, starred_message_counts, fluid_layout_width, high_contrast_mode, color_scheme, translate_emoticons, default_language, default_view, left_side_userlist, emojiset, demote_inactive_streams, timezone)
+    def update_settings(full_name : String?, email : String?, old_password : String?, new_password : String?, twenty_four_hour_time : Bool?, dense_mode : Bool?, starred_message_counts : Bool?, fluid_layout_width : Bool?, high_contrast_mode : Bool?, color_scheme : Int32?, enable_drafts_synchronization : Bool?, translate_emoticons : Bool?, default_language : String?, default_view : String?, left_side_userlist : Bool?, emojiset : String?, demote_inactive_streams : Int32?, timezone : String?, enable_stream_desktop_notifications : Bool?, enable_stream_email_notifications : Bool?, enable_stream_push_notifications : Bool?, enable_stream_audible_notifications : Bool?, notification_sound : String?, enable_desktop_notifications : Bool?, enable_sounds : Bool?, email_notifications_batching_period_seconds : Int32?, enable_offline_email_notifications : Bool?, enable_offline_push_notifications : Bool?, enable_online_push_notifications : Bool?, enable_digest_emails : Bool?, enable_marketing_emails : Bool?, enable_login_emails : Bool?, message_content_in_email_notifications : Bool?, pm_content_in_desktop_notifications : Bool?, wildcard_mentions_notify : Bool?, desktop_icon_count_display : Int32?, realm_name_in_notifications : Bool?, presence_enabled : Bool?, enter_sends : Bool?)
+      data, _status_code, _headers = update_settings_with_http_info(full_name, email, old_password, new_password, twenty_four_hour_time, dense_mode, starred_message_counts, fluid_layout_width, high_contrast_mode, color_scheme, enable_drafts_synchronization, translate_emoticons, default_language, default_view, left_side_userlist, emojiset, demote_inactive_streams, timezone, enable_stream_desktop_notifications, enable_stream_email_notifications, enable_stream_push_notifications, enable_stream_audible_notifications, notification_sound, enable_desktop_notifications, enable_sounds, email_notifications_batching_period_seconds, enable_offline_email_notifications, enable_offline_push_notifications, enable_online_push_notifications, enable_digest_emails, enable_marketing_emails, enable_login_emails, message_content_in_email_notifications, pm_content_in_desktop_notifications, wildcard_mentions_notify, desktop_icon_count_display, realm_name_in_notifications, presence_enabled, enter_sends)
       data
     end
 
-    # Update display settings
-    # This endpoint is used to edit the current user&#39;s user interface settings.  &#x60;PATCH {{ api_url }}/v1/settings/display&#x60; 
+    # Update settings
+    # This endpoint is used to edit the current user&#39;s settings.  &#x60;PATCH {{ api_url }}/v1/settings&#x60;  **Changes**: Prior to Zulip 5.0 (feature level 80), this endpoint only supported the &#x60;full_name&#x60;, &#x60;email&#x60;, &#x60;old_password&#x60;, and &#x60;new_password&#x60; parameters. Notification settings were managed by &#x60;PATCH /settings/notifications&#x60;, and all other settings by &#x60;PATCH /settings/display&#x60;. The feature level 80 migration to merge these endpoints did not change how request parameters are encoded. Note, however, that it did change the handling of any invalid parameters present in a request to change notification or display settings, since the merged endpoint uses the new response format that was introduced for &#x60;/settings&#x60; in Zulip 5.0 (feature level 78).  The &#x60;/settings/display&#x60; and &#x60;/settings/notifications&#x60; endpoints are now deprecated aliases for this endpoint for backwards-compatibility, and will be removed once clients have migrated to use this endpoint. 
     # @return [Array<(JsonSuccessBase, Integer, Hash)>] JsonSuccessBase data, response status code and response headers
-    def update_display_settings_with_http_info(twenty_four_hour_time : Bool?, dense_mode : Bool?, starred_message_counts : Bool?, fluid_layout_width : Bool?, high_contrast_mode : Bool?, color_scheme : Int32?, translate_emoticons : Bool?, default_language : String?, default_view : String?, left_side_userlist : Bool?, emojiset : String?, demote_inactive_streams : Int32?, timezone : String?)
+    def update_settings_with_http_info(full_name : String?, email : String?, old_password : String?, new_password : String?, twenty_four_hour_time : Bool?, dense_mode : Bool?, starred_message_counts : Bool?, fluid_layout_width : Bool?, high_contrast_mode : Bool?, color_scheme : Int32?, enable_drafts_synchronization : Bool?, translate_emoticons : Bool?, default_language : String?, default_view : String?, left_side_userlist : Bool?, emojiset : String?, demote_inactive_streams : Int32?, timezone : String?, enable_stream_desktop_notifications : Bool?, enable_stream_email_notifications : Bool?, enable_stream_push_notifications : Bool?, enable_stream_audible_notifications : Bool?, notification_sound : String?, enable_desktop_notifications : Bool?, enable_sounds : Bool?, email_notifications_batching_period_seconds : Int32?, enable_offline_email_notifications : Bool?, enable_offline_push_notifications : Bool?, enable_online_push_notifications : Bool?, enable_digest_emails : Bool?, enable_marketing_emails : Bool?, enable_login_emails : Bool?, message_content_in_email_notifications : Bool?, pm_content_in_desktop_notifications : Bool?, wildcard_mentions_notify : Bool?, desktop_icon_count_display : Int32?, realm_name_in_notifications : Bool?, presence_enabled : Bool?, enter_sends : Bool?)
       if @api_client.config.debugging
-        Log.debug {"Calling API: UsersApi.update_display_settings ..."}
+        Log.debug {"Calling API: UsersApi.update_settings ..."}
       end
       allowable_values = ["1", "2", "3"]
       if @api_client.config.client_side_validation && color_scheme && !allowable_values.includes?(color_scheme)
@@ -1009,17 +1009,26 @@ module
       if @api_client.config.client_side_validation && demote_inactive_streams && !allowable_values.includes?(demote_inactive_streams)
         raise ArgumentError.new("invalid value for \"demote_inactive_streams\", must be one of #{allowable_values}")
       end
+      allowable_values = ["1", "2", "3"]
+      if @api_client.config.client_side_validation && desktop_icon_count_display && !allowable_values.includes?(desktop_icon_count_display)
+        raise ArgumentError.new("invalid value for \"desktop_icon_count_display\", must be one of #{allowable_values}")
+      end
       # resource path
-      local_var_path = "/settings/display"
+      local_var_path = "/settings"
 
       # query parameters
       query_params = Hash(String, String).new
+      query_params["full_name"] = full_name
+      query_params["email"] = email
+      query_params["old_password"] = old_password
+      query_params["new_password"] = new_password
       query_params["twenty_four_hour_time"] = twenty_four_hour_time
       query_params["dense_mode"] = dense_mode
       query_params["starred_message_counts"] = starred_message_counts
       query_params["fluid_layout_width"] = fluid_layout_width
       query_params["high_contrast_mode"] = high_contrast_mode
       query_params["color_scheme"] = color_scheme
+      query_params["enable_drafts_synchronization"] = enable_drafts_synchronization
       query_params["translate_emoticons"] = translate_emoticons
       query_params["default_language"] = default_language
       query_params["default_view"] = default_view
@@ -1027,63 +1036,6 @@ module
       query_params["emojiset"] = emojiset
       query_params["demote_inactive_streams"] = demote_inactive_streams
       query_params["timezone"] = timezone
-
-      # header parameters
-      header_params = Hash(String, String).new
-      # HTTP header "Accept" (if needed)
-      header_params["Accept"] = @api_client.select_header_accept(["application/json"])
-
-      # form parameters
-      form_params = Hash(Symbol, String).new
-
-      # http body (model)
-      post_body = nil
-
-      # return_type
-      return_type = "JsonSuccessBase"
-
-      # auth_names
-      auth_names = [] of String
-
-      data, status_code, headers = @api_client.call_api(:PATCH,
-                                                        local_var_path,
-                                                        :"UsersApi.update_display_settings",
-                                                        return_type,
-                                                        post_body,
-                                                        auth_names,
-                                                        header_params,
-                                                        query_params,
-                                                        form_params)
-      if @api_client.config.debugging
-        Log.debug {"API called: UsersApi#update_display_settings\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
-      end
-      return JsonSuccessBase.from_json(data), status_code, headers
-    end
-
-    # Update notification settings
-    # This endpoint is used to edit the user's global notification settings. See [this endpoint](/api/update-subscription-settings) for per-stream notification settings.  `PATCH {{ api_url }}/v1/settings/notifications` 
-    # @return [JsonSuccessBase]
-    def update_notification_settings(enable_stream_desktop_notifications : Bool?, enable_stream_email_notifications : Bool?, enable_stream_push_notifications : Bool?, enable_stream_audible_notifications : Bool?, notification_sound : String?, enable_desktop_notifications : Bool?, enable_sounds : Bool?, enable_offline_email_notifications : Bool?, enable_offline_push_notifications : Bool?, enable_online_push_notifications : Bool?, enable_digest_emails : Bool?, enable_marketing_emails : Bool?, enable_login_emails : Bool?, message_content_in_email_notifications : Bool?, pm_content_in_desktop_notifications : Bool?, wildcard_mentions_notify : Bool?, desktop_icon_count_display : Int32?, realm_name_in_notifications : Bool?, presence_enabled : Bool?)
-      data, _status_code, _headers = update_notification_settings_with_http_info(enable_stream_desktop_notifications, enable_stream_email_notifications, enable_stream_push_notifications, enable_stream_audible_notifications, notification_sound, enable_desktop_notifications, enable_sounds, enable_offline_email_notifications, enable_offline_push_notifications, enable_online_push_notifications, enable_digest_emails, enable_marketing_emails, enable_login_emails, message_content_in_email_notifications, pm_content_in_desktop_notifications, wildcard_mentions_notify, desktop_icon_count_display, realm_name_in_notifications, presence_enabled)
-      data
-    end
-
-    # Update notification settings
-    # This endpoint is used to edit the user&#39;s global notification settings. See [this endpoint](/api/update-subscription-settings) for per-stream notification settings.  &#x60;PATCH {{ api_url }}/v1/settings/notifications&#x60; 
-    # @return [Array<(JsonSuccessBase, Integer, Hash)>] JsonSuccessBase data, response status code and response headers
-    def update_notification_settings_with_http_info(enable_stream_desktop_notifications : Bool?, enable_stream_email_notifications : Bool?, enable_stream_push_notifications : Bool?, enable_stream_audible_notifications : Bool?, notification_sound : String?, enable_desktop_notifications : Bool?, enable_sounds : Bool?, enable_offline_email_notifications : Bool?, enable_offline_push_notifications : Bool?, enable_online_push_notifications : Bool?, enable_digest_emails : Bool?, enable_marketing_emails : Bool?, enable_login_emails : Bool?, message_content_in_email_notifications : Bool?, pm_content_in_desktop_notifications : Bool?, wildcard_mentions_notify : Bool?, desktop_icon_count_display : Int32?, realm_name_in_notifications : Bool?, presence_enabled : Bool?)
-      if @api_client.config.debugging
-        Log.debug {"Calling API: UsersApi.update_notification_settings ..."}
-      end
-      allowable_values = ["1", "2", "3"]
-      if @api_client.config.client_side_validation && desktop_icon_count_display && !allowable_values.includes?(desktop_icon_count_display)
-        raise ArgumentError.new("invalid value for \"desktop_icon_count_display\", must be one of #{allowable_values}")
-      end
-      # resource path
-      local_var_path = "/settings/notifications"
-
-      # query parameters
-      query_params = Hash(String, String).new
       query_params["enable_stream_desktop_notifications"] = enable_stream_desktop_notifications
       query_params["enable_stream_email_notifications"] = enable_stream_email_notifications
       query_params["enable_stream_push_notifications"] = enable_stream_push_notifications
@@ -1091,6 +1043,7 @@ module
       query_params["notification_sound"] = notification_sound
       query_params["enable_desktop_notifications"] = enable_desktop_notifications
       query_params["enable_sounds"] = enable_sounds
+      query_params["email_notifications_batching_period_seconds"] = email_notifications_batching_period_seconds
       query_params["enable_offline_email_notifications"] = enable_offline_email_notifications
       query_params["enable_offline_push_notifications"] = enable_offline_push_notifications
       query_params["enable_online_push_notifications"] = enable_online_push_notifications
@@ -1103,6 +1056,7 @@ module
       query_params["desktop_icon_count_display"] = desktop_icon_count_display
       query_params["realm_name_in_notifications"] = realm_name_in_notifications
       query_params["presence_enabled"] = presence_enabled
+      query_params["enter_sends"] = enter_sends
 
       # header parameters
       header_params = Hash(String, String).new
@@ -1123,7 +1077,7 @@ module
 
       data, status_code, headers = @api_client.call_api(:PATCH,
                                                         local_var_path,
-                                                        :"UsersApi.update_notification_settings",
+                                                        :"UsersApi.update_settings",
                                                         return_type,
                                                         post_body,
                                                         auth_names,
@@ -1131,9 +1085,67 @@ module
                                                         query_params,
                                                         form_params)
       if @api_client.config.debugging
-        Log.debug {"API called: UsersApi#update_notification_settings\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
+        Log.debug {"API called: UsersApi#update_settings\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
       end
       return JsonSuccessBase.from_json(data), status_code, headers
+    end
+
+    # Update your status
+    # Change your [status](/help/status-and-availability).  `POST {{ api_url }}/v1/users/me/status`  A request to this endpoint will only change the parameters passed. For example, passing just `status_text` requests a change in the status text, but will leave the status emoji unchanged.  Clients that wish to set the user's status to a specific value should pass all supported parameters. 
+    # @return [JsonSuccess]
+    def update_status(status_text : String?, away : Bool?, emoji_name : String?, emoji_code : String?, reaction_type : String?)
+      data, _status_code, _headers = update_status_with_http_info(status_text, away, emoji_name, emoji_code, reaction_type)
+      data
+    end
+
+    # Update your status
+    # Change your [status](/help/status-and-availability).  &#x60;POST {{ api_url }}/v1/users/me/status&#x60;  A request to this endpoint will only change the parameters passed. For example, passing just &#x60;status_text&#x60; requests a change in the status text, but will leave the status emoji unchanged.  Clients that wish to set the user&#39;s status to a specific value should pass all supported parameters. 
+    # @return [Array<(JsonSuccess, Integer, Hash)>] JsonSuccess data, response status code and response headers
+    def update_status_with_http_info(status_text : String?, away : Bool?, emoji_name : String?, emoji_code : String?, reaction_type : String?)
+      if @api_client.config.debugging
+        Log.debug {"Calling API: UsersApi.update_status ..."}
+      end
+      # resource path
+      local_var_path = "/users/me/status"
+
+      # query parameters
+      query_params = Hash(String, String).new
+      query_params["status_text"] = status_text
+      query_params["away"] = away
+      query_params["emoji_name"] = emoji_name
+      query_params["emoji_code"] = emoji_code
+      query_params["reaction_type"] = reaction_type
+
+      # header parameters
+      header_params = Hash(String, String).new
+      # HTTP header "Accept" (if needed)
+      header_params["Accept"] = @api_client.select_header_accept(["application/json"])
+
+      # form parameters
+      form_params = Hash(Symbol, String).new
+
+      # http body (model)
+      post_body = nil
+
+      # return_type
+      return_type = "JsonSuccess"
+
+      # auth_names
+      auth_names = [] of String
+
+      data, status_code, headers = @api_client.call_api(:POST,
+                                                        local_var_path,
+                                                        :"UsersApi.update_status",
+                                                        return_type,
+                                                        post_body,
+                                                        auth_names,
+                                                        header_params,
+                                                        query_params,
+                                                        form_params)
+      if @api_client.config.debugging
+        Log.debug {"API called: UsersApi#update_status\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
+      end
+      return JsonSuccess.from_json(data), status_code, headers
     end
 
     # Update a user

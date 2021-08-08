@@ -20,8 +20,8 @@ Method | HTTP request | Description
 [**removeUserGroup**](OAIUsersApi.md#removeusergroup) | **DELETE** /user_groups/{user_group_id} | Delete a user group
 [**setTypingStatus**](OAIUsersApi.md#settypingstatus) | **POST** /typing | Set \&quot;typing\&quot; status
 [**unmuteUser**](OAIUsersApi.md#unmuteuser) | **DELETE** /users/me/muted_users/{muted_user_id} | Unmute a user
-[**updateDisplaySettings**](OAIUsersApi.md#updatedisplaysettings) | **PATCH** /settings/display | Update display settings
-[**updateNotificationSettings**](OAIUsersApi.md#updatenotificationsettings) | **PATCH** /settings/notifications | Update notification settings
+[**updateSettings**](OAIUsersApi.md#updatesettings) | **PATCH** /settings | Update settings
+[**updateStatus**](OAIUsersApi.md#updatestatus) | **POST** /users/me/status | Update your status
 [**updateUser**](OAIUsersApi.md#updateuser) | **PATCH** /users/{user_id} | Update a user
 [**updateUserGroup**](OAIUsersApi.md#updateusergroup) | **PATCH** /user_groups/{user_group_id} | Update a user group
 [**updateUserGroupMembers**](OAIUsersApi.md#updateusergroupmembers) | **POST** /user_groups/{user_group_id}/members | Update user group members
@@ -859,14 +859,19 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **updateDisplaySettings**
+# **updateSettings**
 ```objc
--(NSURLSessionTask*) updateDisplaySettingsWithTwentyFourHourTime: (NSNumber*) twentyFourHourTime
+-(NSURLSessionTask*) updateSettingsWithFullName: (NSString*) fullName
+    email: (NSString*) email
+    oldPassword: (NSString*) oldPassword
+    varNewPassword: (NSString*) varNewPassword
+    twentyFourHourTime: (NSNumber*) twentyFourHourTime
     denseMode: (NSNumber*) denseMode
     starredMessageCounts: (NSNumber*) starredMessageCounts
     fluidLayoutWidth: (NSNumber*) fluidLayoutWidth
     highContrastMode: (NSNumber*) highContrastMode
     colorScheme: (NSNumber*) colorScheme
+    enableDraftsSynchronization: (NSNumber*) enableDraftsSynchronization
     translateEmoticons: (NSNumber*) translateEmoticons
     defaultLanguage: (NSString*) defaultLanguage
     defaultView: (NSString*) defaultView
@@ -874,39 +879,91 @@ No authorization required
     emojiset: (NSString*) emojiset
     demoteInactiveStreams: (NSNumber*) demoteInactiveStreams
     timezone: (NSString*) timezone
+    enableStreamDesktopNotifications: (NSNumber*) enableStreamDesktopNotifications
+    enableStreamEmailNotifications: (NSNumber*) enableStreamEmailNotifications
+    enableStreamPushNotifications: (NSNumber*) enableStreamPushNotifications
+    enableStreamAudibleNotifications: (NSNumber*) enableStreamAudibleNotifications
+    notificationSound: (NSString*) notificationSound
+    enableDesktopNotifications: (NSNumber*) enableDesktopNotifications
+    enableSounds: (NSNumber*) enableSounds
+    emailNotificationsBatchingPeriodSeconds: (NSNumber*) emailNotificationsBatchingPeriodSeconds
+    enableOfflineEmailNotifications: (NSNumber*) enableOfflineEmailNotifications
+    enableOfflinePushNotifications: (NSNumber*) enableOfflinePushNotifications
+    enableOnlinePushNotifications: (NSNumber*) enableOnlinePushNotifications
+    enableDigestEmails: (NSNumber*) enableDigestEmails
+    enableMarketingEmails: (NSNumber*) enableMarketingEmails
+    enableLoginEmails: (NSNumber*) enableLoginEmails
+    messageContentInEmailNotifications: (NSNumber*) messageContentInEmailNotifications
+    pmContentInDesktopNotifications: (NSNumber*) pmContentInDesktopNotifications
+    wildcardMentionsNotify: (NSNumber*) wildcardMentionsNotify
+    desktopIconCountDisplay: (NSNumber*) desktopIconCountDisplay
+    realmNameInNotifications: (NSNumber*) realmNameInNotifications
+    presenceEnabled: (NSNumber*) presenceEnabled
+    enterSends: (NSNumber*) enterSends
         completionHandler: (void (^)(OAIJsonSuccessBase* output, NSError* error)) handler;
 ```
 
-Update display settings
+Update settings
 
-This endpoint is used to edit the current user's user interface settings.  `PATCH {{ api_url }}/v1/settings/display` 
+This endpoint is used to edit the current user's settings.  `PATCH {{ api_url }}/v1/settings`  **Changes**: Prior to Zulip 5.0 (feature level 80), this endpoint only supported the `full_name`, `email`, `old_password`, and `new_password` parameters. Notification settings were managed by `PATCH /settings/notifications`, and all other settings by `PATCH /settings/display`. The feature level 80 migration to merge these endpoints did not change how request parameters are encoded. Note, however, that it did change the handling of any invalid parameters present in a request to change notification or display settings, since the merged endpoint uses the new response format that was introduced for `/settings` in Zulip 5.0 (feature level 78).  The `/settings/display` and `/settings/notifications` endpoints are now deprecated aliases for this endpoint for backwards-compatibility, and will be removed once clients have migrated to use this endpoint. 
 
 ### Example 
 ```objc
 
-NSNumber* twentyFourHourTime = true; // Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).  (optional)
-NSNumber* denseMode = true; // This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip.  (optional)
-NSNumber* starredMessageCounts = true; // Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages).  (optional)
-NSNumber* fluidLayoutWidth = true; // Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app's center panel (message feed, recent topics) on wide screens.  (optional)
-NSNumber* highContrastMode = true; // This setting is reserved for use to control variations in Zulip's design to help visually impaired users.  (optional)
-NSNumber* colorScheme = @56; // Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard `prefers-color-scheme` media query.  (optional)
-NSNumber* translateEmoticons = true; // Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends.  (optional)
-NSString* defaultLanguage = en; // What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, `\"en\"` for English or `\"de\"` for German.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63).  (optional)
-NSString* defaultView = all_messages; // The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the `Esc` keyboard shortcut repeatedly.  * \"recent_topics\" - Recent topics view * \"all_messages\" - All messages view  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64).  (optional)
-NSNumber* leftSideUserlist = true; // Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.  (optional)
-NSString* emojiset = google; // The user's configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \"google\" - Google modern * \"google-blob\" - Google classic * \"twitter\" - Twitter * \"text\" - Plain text  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64).  (optional)
-NSNumber* demoteInactiveStreams = @56; // Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never  (optional)
-NSString* timezone = Asia/Kolkata; // The user's [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64).  (optional)
+NSString* fullName = NewName; // A new display name for the user.  (optional)
+NSString* email = newname@example.com; // Asks the server to initiate a confirmation sequence to change the user's email address to the indicated value. The user will need to demonstrate control of the new email address by clicking a confirmation link sent to that address.  (optional)
+NSString* oldPassword = old12345; // The user's old Zulip password (or LDAP password, if LDAP authentication is in use).  Required only when sending the `new_password` parameter.  (optional)
+NSString* varNewPassword = new12345; // The user's new Zulip password (or LDAP password, if LDAP authentication is in use).  The `old_password` parameter must be included in the request.  (optional)
+NSNumber* twentyFourHourTime = true; // Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  (optional)
+NSNumber* denseMode = true; // This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  (optional)
+NSNumber* starredMessageCounts = true; // Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  (optional)
+NSNumber* fluidLayoutWidth = true; // Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app's center panel (message feed, recent topics) on wide screens.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  (optional)
+NSNumber* highContrastMode = true; // This setting is reserved for use to control variations in Zulip's design to help visually impaired users.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  (optional)
+NSNumber* colorScheme = @56; // Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard `prefers-color-scheme` media query.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  (optional)
+NSNumber* enableDraftsSynchronization = true; // A boolean parameter to control whether synchronizing drafts is enabled for the user. When synchronization is disabled, all drafts stored in the server will be automatically deleted from the server.  This does not do anything (like sending events) to delete local copies of drafts stored in clients.  **Changes**: New in Zulip 5.0 (feature level 87).  (optional)
+NSNumber* translateEmoticons = true; // Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  (optional)
+NSString* defaultLanguage = en; // What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, `\"en\"` for English or `\"de\"` for German.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63).  (optional)
+NSString* defaultView = all_messages; // The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the `Esc` keyboard shortcut repeatedly.  * \"recent_topics\" - Recent topics view * \"all_messages\" - All messages view  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).  (optional)
+NSNumber* leftSideUserlist = true; // Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  (optional)
+NSString* emojiset = google; // The user's configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \"google\" - Google modern * \"google-blob\" - Google classic * \"twitter\" - Twitter * \"text\" - Plain text  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).  (optional)
+NSNumber* demoteInactiveStreams = @56; // Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  (optional)
+NSString* timezone = Asia/Kolkata; // The user's [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).  (optional)
+NSNumber* enableStreamDesktopNotifications = true; // Enable visual desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  (optional)
+NSNumber* enableStreamEmailNotifications = true; // Enable email notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  (optional)
+NSNumber* enableStreamPushNotifications = true; // Enable mobile notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  (optional)
+NSNumber* enableStreamAudibleNotifications = true; // Enable audible desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  (optional)
+NSString* notificationSound = ding; // Notification sound name.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63).  (optional)
+NSNumber* enableDesktopNotifications = true; // Enable visual desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  (optional)
+NSNumber* enableSounds = true; // Enable audible desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  (optional)
+NSNumber* emailNotificationsBatchingPeriodSeconds = 120; // The duration (in seconds) for which the server should wait to batch email notifications before sending them.  **Changes**: New in Zulip 5.0 (feature level 82)  (optional)
+NSNumber* enableOfflineEmailNotifications = true; // Enable email notifications for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  (optional)
+NSNumber* enableOfflinePushNotifications = true; // Enable mobile notification for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  (optional)
+NSNumber* enableOnlinePushNotifications = true; // Enable mobile notification for private messages and @-mentions received when the user is online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  (optional)
+NSNumber* enableDigestEmails = true; // Enable digest emails when the user is away.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  (optional)
+NSNumber* enableMarketingEmails = true; // Enable marketing emails. Has no function outside Zulip Cloud.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  (optional)
+NSNumber* enableLoginEmails = true; // Enable email notifications for new logins to account.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  (optional)
+NSNumber* messageContentInEmailNotifications = true; // Include the message's content in email notifications for new messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  (optional)
+NSNumber* pmContentInDesktopNotifications = true; // Include content of private messages in desktop notifications.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  (optional)
+NSNumber* wildcardMentionsNotify = true; // Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  (optional)
+NSNumber* desktopIconCountDisplay = @56; // Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  (optional)
+NSNumber* realmNameInNotifications = true; // Include organization name in subject of message notification emails.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  (optional)
+NSNumber* presenceEnabled = true; // Display the presence status to other users when online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  (optional)
+NSNumber* enterSends = true; // Whether pressing Enter in the compose box sends a message (or saves a message edit).  **Changes**: Before Zulip 5.0 (feature level 81), this setting was managed by the `POST /users/me/enter-sends` endpoint, with the same parameter format.  (optional)
 
 OAIUsersApi*apiInstance = [[OAIUsersApi alloc] init];
 
-// Update display settings
-[apiInstance updateDisplaySettingsWithTwentyFourHourTime:twentyFourHourTime
+// Update settings
+[apiInstance updateSettingsWithFullName:fullName
+              email:email
+              oldPassword:oldPassword
+              varNewPassword:varNewPassword
+              twentyFourHourTime:twentyFourHourTime
               denseMode:denseMode
               starredMessageCounts:starredMessageCounts
               fluidLayoutWidth:fluidLayoutWidth
               highContrastMode:highContrastMode
               colorScheme:colorScheme
+              enableDraftsSynchronization:enableDraftsSynchronization
               translateEmoticons:translateEmoticons
               defaultLanguage:defaultLanguage
               defaultView:defaultView
@@ -914,12 +971,33 @@ OAIUsersApi*apiInstance = [[OAIUsersApi alloc] init];
               emojiset:emojiset
               demoteInactiveStreams:demoteInactiveStreams
               timezone:timezone
+              enableStreamDesktopNotifications:enableStreamDesktopNotifications
+              enableStreamEmailNotifications:enableStreamEmailNotifications
+              enableStreamPushNotifications:enableStreamPushNotifications
+              enableStreamAudibleNotifications:enableStreamAudibleNotifications
+              notificationSound:notificationSound
+              enableDesktopNotifications:enableDesktopNotifications
+              enableSounds:enableSounds
+              emailNotificationsBatchingPeriodSeconds:emailNotificationsBatchingPeriodSeconds
+              enableOfflineEmailNotifications:enableOfflineEmailNotifications
+              enableOfflinePushNotifications:enableOfflinePushNotifications
+              enableOnlinePushNotifications:enableOnlinePushNotifications
+              enableDigestEmails:enableDigestEmails
+              enableMarketingEmails:enableMarketingEmails
+              enableLoginEmails:enableLoginEmails
+              messageContentInEmailNotifications:messageContentInEmailNotifications
+              pmContentInDesktopNotifications:pmContentInDesktopNotifications
+              wildcardMentionsNotify:wildcardMentionsNotify
+              desktopIconCountDisplay:desktopIconCountDisplay
+              realmNameInNotifications:realmNameInNotifications
+              presenceEnabled:presenceEnabled
+              enterSends:enterSends
           completionHandler: ^(OAIJsonSuccessBase* output, NSError* error) {
                         if (output) {
                             NSLog(@"%@", output);
                         }
                         if (error) {
-                            NSLog(@"Error calling OAIUsersApi->updateDisplaySettings: %@", error);
+                            NSLog(@"Error calling OAIUsersApi->updateSettings: %@", error);
                         }
                     }];
 ```
@@ -928,19 +1006,45 @@ OAIUsersApi*apiInstance = [[OAIUsersApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **twentyFourHourTime** | **NSNumber***| Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).  | [optional] 
- **denseMode** | **NSNumber***| This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip.  | [optional] 
- **starredMessageCounts** | **NSNumber***| Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages).  | [optional] 
- **fluidLayoutWidth** | **NSNumber***| Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app&#39;s center panel (message feed, recent topics) on wide screens.  | [optional] 
- **highContrastMode** | **NSNumber***| This setting is reserved for use to control variations in Zulip&#39;s design to help visually impaired users.  | [optional] 
- **colorScheme** | **NSNumber***| Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard &#x60;prefers-color-scheme&#x60; media query.  | [optional] 
- **translateEmoticons** | **NSNumber***| Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends.  | [optional] 
- **defaultLanguage** | **NSString***| What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, &#x60;\&quot;en\&quot;&#x60; for English or &#x60;\&quot;de\&quot;&#x60; for German.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63).  | [optional] 
- **defaultView** | **NSString***| The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the &#x60;Esc&#x60; keyboard shortcut repeatedly.  * \&quot;recent_topics\&quot; - Recent topics view * \&quot;all_messages\&quot; - All messages view  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64).  | [optional] 
- **leftSideUserlist** | **NSNumber***| Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.  | [optional] 
- **emojiset** | **NSString***| The user&#39;s configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \&quot;google\&quot; - Google modern * \&quot;google-blob\&quot; - Google classic * \&quot;twitter\&quot; - Twitter * \&quot;text\&quot; - Plain text  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64).  | [optional] 
- **demoteInactiveStreams** | **NSNumber***| Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never  | [optional] 
- **timezone** | **NSString***| The user&#39;s [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64).  | [optional] 
+ **fullName** | **NSString***| A new display name for the user.  | [optional] 
+ **email** | **NSString***| Asks the server to initiate a confirmation sequence to change the user&#39;s email address to the indicated value. The user will need to demonstrate control of the new email address by clicking a confirmation link sent to that address.  | [optional] 
+ **oldPassword** | **NSString***| The user&#39;s old Zulip password (or LDAP password, if LDAP authentication is in use).  Required only when sending the &#x60;new_password&#x60; parameter.  | [optional] 
+ **varNewPassword** | **NSString***| The user&#39;s new Zulip password (or LDAP password, if LDAP authentication is in use).  The &#x60;old_password&#x60; parameter must be included in the request.  | [optional] 
+ **twentyFourHourTime** | **NSNumber***| Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  | [optional] 
+ **denseMode** | **NSNumber***| This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  | [optional] 
+ **starredMessageCounts** | **NSNumber***| Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  | [optional] 
+ **fluidLayoutWidth** | **NSNumber***| Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app&#39;s center panel (message feed, recent topics) on wide screens.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  | [optional] 
+ **highContrastMode** | **NSNumber***| This setting is reserved for use to control variations in Zulip&#39;s design to help visually impaired users.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  | [optional] 
+ **colorScheme** | **NSNumber***| Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard &#x60;prefers-color-scheme&#x60; media query.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  | [optional] 
+ **enableDraftsSynchronization** | **NSNumber***| A boolean parameter to control whether synchronizing drafts is enabled for the user. When synchronization is disabled, all drafts stored in the server will be automatically deleted from the server.  This does not do anything (like sending events) to delete local copies of drafts stored in clients.  **Changes**: New in Zulip 5.0 (feature level 87).  | [optional] 
+ **translateEmoticons** | **NSNumber***| Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  | [optional] 
+ **defaultLanguage** | **NSString***| What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, &#x60;\&quot;en\&quot;&#x60; for English or &#x60;\&quot;de\&quot;&#x60; for German.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63).  | [optional] 
+ **defaultView** | **NSString***| The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the &#x60;Esc&#x60; keyboard shortcut repeatedly.  * \&quot;recent_topics\&quot; - Recent topics view * \&quot;all_messages\&quot; - All messages view  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).  | [optional] 
+ **leftSideUserlist** | **NSNumber***| Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  | [optional] 
+ **emojiset** | **NSString***| The user&#39;s configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \&quot;google\&quot; - Google modern * \&quot;google-blob\&quot; - Google classic * \&quot;twitter\&quot; - Twitter * \&quot;text\&quot; - Plain text  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).  | [optional] 
+ **demoteInactiveStreams** | **NSNumber***| Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  | [optional] 
+ **timezone** | **NSString***| The user&#39;s [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/display&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64).  | [optional] 
+ **enableStreamDesktopNotifications** | **NSNumber***| Enable visual desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  | [optional] 
+ **enableStreamEmailNotifications** | **NSNumber***| Enable email notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  | [optional] 
+ **enableStreamPushNotifications** | **NSNumber***| Enable mobile notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  | [optional] 
+ **enableStreamAudibleNotifications** | **NSNumber***| Enable audible desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  | [optional] 
+ **notificationSound** | **NSString***| Notification sound name.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63).  | [optional] 
+ **enableDesktopNotifications** | **NSNumber***| Enable visual desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  | [optional] 
+ **enableSounds** | **NSNumber***| Enable audible desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  | [optional] 
+ **emailNotificationsBatchingPeriodSeconds** | **NSNumber***| The duration (in seconds) for which the server should wait to batch email notifications before sending them.  **Changes**: New in Zulip 5.0 (feature level 82)  | [optional] 
+ **enableOfflineEmailNotifications** | **NSNumber***| Enable email notifications for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  | [optional] 
+ **enableOfflinePushNotifications** | **NSNumber***| Enable mobile notification for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  | [optional] 
+ **enableOnlinePushNotifications** | **NSNumber***| Enable mobile notification for private messages and @-mentions received when the user is online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  | [optional] 
+ **enableDigestEmails** | **NSNumber***| Enable digest emails when the user is away.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  | [optional] 
+ **enableMarketingEmails** | **NSNumber***| Enable marketing emails. Has no function outside Zulip Cloud.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  | [optional] 
+ **enableLoginEmails** | **NSNumber***| Enable email notifications for new logins to account.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  | [optional] 
+ **messageContentInEmailNotifications** | **NSNumber***| Include the message&#39;s content in email notifications for new messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  | [optional] 
+ **pmContentInDesktopNotifications** | **NSNumber***| Include content of private messages in desktop notifications.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  | [optional] 
+ **wildcardMentionsNotify** | **NSNumber***| Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  | [optional] 
+ **desktopIconCountDisplay** | **NSNumber***| Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  | [optional] 
+ **realmNameInNotifications** | **NSNumber***| Include organization name in subject of message notification emails.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  | [optional] 
+ **presenceEnabled** | **NSNumber***| Display the presence status to other users when online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the &#x60;PATCH /settings/notifications&#x60; endpoint.  | [optional] 
+ **enterSends** | **NSNumber***| Whether pressing Enter in the compose box sends a message (or saves a message edit).  **Changes**: Before Zulip 5.0 (feature level 81), this setting was managed by the &#x60;POST /users/me/enter-sends&#x60; endpoint, with the same parameter format.  | [optional] 
 
 ### Return type
 
@@ -957,85 +1061,43 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **updateNotificationSettings**
+# **updateStatus**
 ```objc
--(NSURLSessionTask*) updateNotificationSettingsWithEnableStreamDesktopNotifications: (NSNumber*) enableStreamDesktopNotifications
-    enableStreamEmailNotifications: (NSNumber*) enableStreamEmailNotifications
-    enableStreamPushNotifications: (NSNumber*) enableStreamPushNotifications
-    enableStreamAudibleNotifications: (NSNumber*) enableStreamAudibleNotifications
-    notificationSound: (NSString*) notificationSound
-    enableDesktopNotifications: (NSNumber*) enableDesktopNotifications
-    enableSounds: (NSNumber*) enableSounds
-    enableOfflineEmailNotifications: (NSNumber*) enableOfflineEmailNotifications
-    enableOfflinePushNotifications: (NSNumber*) enableOfflinePushNotifications
-    enableOnlinePushNotifications: (NSNumber*) enableOnlinePushNotifications
-    enableDigestEmails: (NSNumber*) enableDigestEmails
-    enableMarketingEmails: (NSNumber*) enableMarketingEmails
-    enableLoginEmails: (NSNumber*) enableLoginEmails
-    messageContentInEmailNotifications: (NSNumber*) messageContentInEmailNotifications
-    pmContentInDesktopNotifications: (NSNumber*) pmContentInDesktopNotifications
-    wildcardMentionsNotify: (NSNumber*) wildcardMentionsNotify
-    desktopIconCountDisplay: (NSNumber*) desktopIconCountDisplay
-    realmNameInNotifications: (NSNumber*) realmNameInNotifications
-    presenceEnabled: (NSNumber*) presenceEnabled
-        completionHandler: (void (^)(OAIJsonSuccessBase* output, NSError* error)) handler;
+-(NSURLSessionTask*) updateStatusWithStatusText: (NSString*) statusText
+    away: (NSNumber*) away
+    emojiName: (NSString*) emojiName
+    emojiCode: (NSString*) emojiCode
+    reactionType: (NSString*) reactionType
+        completionHandler: (void (^)(OAIJsonSuccess* output, NSError* error)) handler;
 ```
 
-Update notification settings
+Update your status
 
-This endpoint is used to edit the user's global notification settings. See [this endpoint](/api/update-subscription-settings) for per-stream notification settings.  `PATCH {{ api_url }}/v1/settings/notifications` 
+Change your [status](/help/status-and-availability).  `POST {{ api_url }}/v1/users/me/status`  A request to this endpoint will only change the parameters passed. For example, passing just `status_text` requests a change in the status text, but will leave the status emoji unchanged.  Clients that wish to set the user's status to a specific value should pass all supported parameters. 
 
 ### Example 
 ```objc
 
-NSNumber* enableStreamDesktopNotifications = true; // Enable visual desktop notifications for stream messages.  (optional)
-NSNumber* enableStreamEmailNotifications = true; // Enable email notifications for stream messages.  (optional)
-NSNumber* enableStreamPushNotifications = true; // Enable mobile notifications for stream messages.  (optional)
-NSNumber* enableStreamAudibleNotifications = true; // Enable audible desktop notifications for stream messages.  (optional)
-NSString* notificationSound = ding; // Notification sound name.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63).  (optional)
-NSNumber* enableDesktopNotifications = true; // Enable visual desktop notifications for private messages and @-mentions.  (optional)
-NSNumber* enableSounds = true; // Enable audible desktop notifications for private messages and @-mentions.  (optional)
-NSNumber* enableOfflineEmailNotifications = true; // Enable email notifications for private messages and @-mentions received when the user is offline.  (optional)
-NSNumber* enableOfflinePushNotifications = true; // Enable mobile notification for private messages and @-mentions received when the user is offline.  (optional)
-NSNumber* enableOnlinePushNotifications = true; // Enable mobile notification for private messages and @-mentions received when the user is online.  (optional)
-NSNumber* enableDigestEmails = true; // Enable digest emails when the user is away.  (optional)
-NSNumber* enableMarketingEmails = true; // Enable marketing emails. Has no function outside Zulip Cloud.  (optional)
-NSNumber* enableLoginEmails = true; // Enable email notifications for new logins to account.  (optional)
-NSNumber* messageContentInEmailNotifications = true; // Include the message's content in email notifications for new messages.  (optional)
-NSNumber* pmContentInDesktopNotifications = true; // Include content of private messages in desktop notifications.  (optional)
-NSNumber* wildcardMentionsNotify = true; // Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention.  (optional)
-NSNumber* desktopIconCountDisplay = @56; // Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None  (optional)
-NSNumber* realmNameInNotifications = true; // Include organization name in subject of message notification emails.  (optional)
-NSNumber* presenceEnabled = true; // Display the presence status to other users when online.  (optional)
+NSString* statusText = on vacation; // The text content of the status message. Sending the empty string will clear the user's status.  **Note**: The limit on the size of the message is 60 characters.  (optional)
+NSNumber* away = true; // Whether the user should be marked as \"away\".  (optional)
+NSString* emojiName = car; // The name for the emoji to associate with this status.  (optional)
+NSString* emojiCode = 1f697; // A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji.  (optional)
+NSString* reactionType = unicode_emoji; // One of the following values:  * `unicode_emoji`: Unicode emoji (`emoji_code` will be its Unicode   codepoint). * `realm_emoji`: [Custom emoji](/help/add-custom-emoji).   (`emoji_code` will be its ID). * `zulip_extra_emoji`: Special emoji included with Zulip.  Exists to   namespace the `zulip` emoji.  (optional)
 
 OAIUsersApi*apiInstance = [[OAIUsersApi alloc] init];
 
-// Update notification settings
-[apiInstance updateNotificationSettingsWithEnableStreamDesktopNotifications:enableStreamDesktopNotifications
-              enableStreamEmailNotifications:enableStreamEmailNotifications
-              enableStreamPushNotifications:enableStreamPushNotifications
-              enableStreamAudibleNotifications:enableStreamAudibleNotifications
-              notificationSound:notificationSound
-              enableDesktopNotifications:enableDesktopNotifications
-              enableSounds:enableSounds
-              enableOfflineEmailNotifications:enableOfflineEmailNotifications
-              enableOfflinePushNotifications:enableOfflinePushNotifications
-              enableOnlinePushNotifications:enableOnlinePushNotifications
-              enableDigestEmails:enableDigestEmails
-              enableMarketingEmails:enableMarketingEmails
-              enableLoginEmails:enableLoginEmails
-              messageContentInEmailNotifications:messageContentInEmailNotifications
-              pmContentInDesktopNotifications:pmContentInDesktopNotifications
-              wildcardMentionsNotify:wildcardMentionsNotify
-              desktopIconCountDisplay:desktopIconCountDisplay
-              realmNameInNotifications:realmNameInNotifications
-              presenceEnabled:presenceEnabled
-          completionHandler: ^(OAIJsonSuccessBase* output, NSError* error) {
+// Update your status
+[apiInstance updateStatusWithStatusText:statusText
+              away:away
+              emojiName:emojiName
+              emojiCode:emojiCode
+              reactionType:reactionType
+          completionHandler: ^(OAIJsonSuccess* output, NSError* error) {
                         if (output) {
                             NSLog(@"%@", output);
                         }
                         if (error) {
-                            NSLog(@"Error calling OAIUsersApi->updateNotificationSettings: %@", error);
+                            NSLog(@"Error calling OAIUsersApi->updateStatus: %@", error);
                         }
                     }];
 ```
@@ -1044,29 +1106,15 @@ OAIUsersApi*apiInstance = [[OAIUsersApi alloc] init];
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **enableStreamDesktopNotifications** | **NSNumber***| Enable visual desktop notifications for stream messages.  | [optional] 
- **enableStreamEmailNotifications** | **NSNumber***| Enable email notifications for stream messages.  | [optional] 
- **enableStreamPushNotifications** | **NSNumber***| Enable mobile notifications for stream messages.  | [optional] 
- **enableStreamAudibleNotifications** | **NSNumber***| Enable audible desktop notifications for stream messages.  | [optional] 
- **notificationSound** | **NSString***| Notification sound name.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63).  | [optional] 
- **enableDesktopNotifications** | **NSNumber***| Enable visual desktop notifications for private messages and @-mentions.  | [optional] 
- **enableSounds** | **NSNumber***| Enable audible desktop notifications for private messages and @-mentions.  | [optional] 
- **enableOfflineEmailNotifications** | **NSNumber***| Enable email notifications for private messages and @-mentions received when the user is offline.  | [optional] 
- **enableOfflinePushNotifications** | **NSNumber***| Enable mobile notification for private messages and @-mentions received when the user is offline.  | [optional] 
- **enableOnlinePushNotifications** | **NSNumber***| Enable mobile notification for private messages and @-mentions received when the user is online.  | [optional] 
- **enableDigestEmails** | **NSNumber***| Enable digest emails when the user is away.  | [optional] 
- **enableMarketingEmails** | **NSNumber***| Enable marketing emails. Has no function outside Zulip Cloud.  | [optional] 
- **enableLoginEmails** | **NSNumber***| Enable email notifications for new logins to account.  | [optional] 
- **messageContentInEmailNotifications** | **NSNumber***| Include the message&#39;s content in email notifications for new messages.  | [optional] 
- **pmContentInDesktopNotifications** | **NSNumber***| Include content of private messages in desktop notifications.  | [optional] 
- **wildcardMentionsNotify** | **NSNumber***| Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention.  | [optional] 
- **desktopIconCountDisplay** | **NSNumber***| Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None  | [optional] 
- **realmNameInNotifications** | **NSNumber***| Include organization name in subject of message notification emails.  | [optional] 
- **presenceEnabled** | **NSNumber***| Display the presence status to other users when online.  | [optional] 
+ **statusText** | **NSString***| The text content of the status message. Sending the empty string will clear the user&#39;s status.  **Note**: The limit on the size of the message is 60 characters.  | [optional] 
+ **away** | **NSNumber***| Whether the user should be marked as \&quot;away\&quot;.  | [optional] 
+ **emojiName** | **NSString***| The name for the emoji to associate with this status.  | [optional] 
+ **emojiCode** | **NSString***| A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint; for &#x60;realm_emoji&#x60;, it&#39;ll be the ID of the realm emoji.  | [optional] 
+ **reactionType** | **NSString***| One of the following values:  * &#x60;unicode_emoji&#x60;: Unicode emoji (&#x60;emoji_code&#x60; will be its Unicode   codepoint). * &#x60;realm_emoji&#x60;: [Custom emoji](/help/add-custom-emoji).   (&#x60;emoji_code&#x60; will be its ID). * &#x60;zulip_extra_emoji&#x60;: Special emoji included with Zulip.  Exists to   namespace the &#x60;zulip&#x60; emoji.  | [optional] 
 
 ### Return type
 
-[**OAIJsonSuccessBase***](OAIJsonSuccessBase.md)
+[**OAIJsonSuccess***](OAIJsonSuccess.md)
 
 ### Authorization
 

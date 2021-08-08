@@ -17,7 +17,7 @@ import java.util.Map;
 public class WebhooksApiVerticle extends AbstractVerticle {
     static final Logger LOGGER = LoggerFactory.getLogger(WebhooksApiVerticle.class);
     
-    static final String ZULIP_OUTGOING_WEBHOOKS_SERVICE_ID = "zulip_outgoing_webhooks";
+    static final String ZULIP-OUTGOING-WEBHOOKS_SERVICE_ID = "zulip-outgoing-webhooks";
     
     final WebhooksApi service;
 
@@ -34,21 +34,21 @@ public class WebhooksApiVerticle extends AbstractVerticle {
     @Override
     public void start() throws Exception {
         
-        //Consumer for zulip_outgoing_webhooks
-        vertx.eventBus().<JsonObject> consumer(ZULIP_OUTGOING_WEBHOOKS_SERVICE_ID).handler(message -> {
+        //Consumer for zulip-outgoing-webhooks
+        vertx.eventBus().<JsonObject> consumer(ZULIP-OUTGOING-WEBHOOKS_SERVICE_ID).handler(message -> {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
-                String serviceId = "zulip_outgoing_webhooks";
+                String serviceId = "zulip-outgoing-webhooks";
                 service.zulipOutgoingWebhooks(result -> {
                     if (result.succeeded())
                         message.reply(new JsonObject(Json.encode(result.result())).encodePrettily());
                     else {
                         Throwable cause = result.cause();
-                        manageError(message, cause, "zulip_outgoing_webhooks");
+                        manageError(message, cause, "zulip-outgoing-webhooks");
                     }
                 });
             } catch (Exception e) {
-                logUnexpectedError("zulip_outgoing_webhooks", e);
+                logUnexpectedError("zulip-outgoing-webhooks", e);
                 message.fail(MainApiException.INTERNAL_SERVER_ERROR.getStatusCode(), MainApiException.INTERNAL_SERVER_ERROR.getStatusMessage());
             }
         });

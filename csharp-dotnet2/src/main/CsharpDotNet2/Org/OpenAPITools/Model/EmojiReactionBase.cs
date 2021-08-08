@@ -13,9 +13,9 @@ namespace Org.OpenAPITools.Model {
   [DataContract]
   public class EmojiReactionBase {
     /// <summary>
-    /// A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint. 
+    /// A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji. 
     /// </summary>
-    /// <value>A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint. </value>
+    /// <value>A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji. </value>
     [DataMember(Name="emoji_code", EmitDefaultValue=false)]
     [JsonProperty(PropertyName = "emoji_code")]
     public string EmojiCode { get; set; }
@@ -49,7 +49,7 @@ namespace Org.OpenAPITools.Model {
     /// </summary>
     [DataMember(Name="user", EmitDefaultValue=false)]
     [JsonProperty(PropertyName = "user")]
-    public EmojiReactionBaseUser User { get; set; }
+    public EmojiReactionBaseAllOfUser User { get; set; }
 
 
     /// <summary>

@@ -177,7 +177,7 @@ allowed_methods(
 allowed_methods(
     Req,
     State = #state{
-        operation_id = 'UpdateDisplaySettings'
+        operation_id = 'UpdateSettings'
     }
 ) ->
     {[<<"PATCH">>], Req, State};
@@ -185,10 +185,10 @@ allowed_methods(
 allowed_methods(
     Req,
     State = #state{
-        operation_id = 'UpdateNotificationSettings'
+        operation_id = 'UpdateStatus'
     }
 ) ->
-    {[<<"PATCH">>], Req, State};
+    {[<<"POST">>], Req, State};
 
 allowed_methods(
     Req,
@@ -404,7 +404,7 @@ valid_content_headers(
 valid_content_headers(
     Req0,
     State = #state{
-        operation_id = 'UpdateDisplaySettings'
+        operation_id = 'UpdateSettings'
     }
 ) ->
     Headers = [],
@@ -414,7 +414,7 @@ valid_content_headers(
 valid_content_headers(
     Req0,
     State = #state{
-        operation_id = 'UpdateNotificationSettings'
+        operation_id = 'UpdateStatus'
     }
 ) ->
     Headers = [],

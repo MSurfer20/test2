@@ -9,7 +9,7 @@ namespace app\Models;
  */
 class EmojiReactionBase {
 
-    /** @var string $emojiCode A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint.*/
+    /** @var string $emojiCode A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint; for &#x60;realm_emoji&#x60;, it&#39;ll be the ID of the realm emoji.*/
     private $emojiCode;
 
     /** @var string $emojiName Name of the emoji.*/
@@ -21,7 +21,7 @@ class EmojiReactionBase {
     /** @var int $userId The ID of the user who added the reaction.  **Changes**: New in Zulip 3.0 (feature level 2). The &#x60;user&#x60; object is deprecated and will be removed in the future.*/
     private $userId;
 
-    /** @var \app\Models\EmojiReactionBaseUser $user */
+    /** @var \app\Models\EmojiReactionBaseAllOfUser $user */
     private $user;
 
 }

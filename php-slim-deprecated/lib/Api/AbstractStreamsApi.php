@@ -99,6 +99,30 @@ abstract class AbstractStreamsApi
     }
 
     /**
+     * POST deleteTopic
+     * Summary: Delete a topic
+     * Notes: Delete all messages in a topic.  &#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip.
+     * Output-Formats: [application/json]
+     *
+     * @param ServerRequestInterface $request  Request
+     * @param ResponseInterface      $response Response
+     * @param array|null             $args     Path arguments
+     *
+     * @return ResponseInterface
+     * @throws Exception to force implementation class to override this method
+     */
+    public function deleteTopic(ServerRequestInterface $request, ResponseInterface $response, array $args)
+    {
+        $streamId = $args['stream_id'];
+        $queryParams = $request->getQueryParams();
+        $topicName = $request->getQueryParam('topic_name');
+        $message = "How about implementing deleteTopic as a POST method in OpenAPIServer\Api\StreamsApi class?";
+        throw new Exception($message);
+
+        return $response->write($message)->withStatus(501);
+    }
+
+    /**
      * GET getStreamId
      * Summary: Get stream ID
      * Notes: Get the unique ID of a given stream.  &#x60;GET {{ api_url }}/v1/get_stream_id&#x60;
@@ -166,6 +190,28 @@ abstract class AbstractStreamsApi
         $includeDefault = $request->getQueryParam('include_default');
         $includeOwnerSubscribed = $request->getQueryParam('include_owner_subscribed');
         $message = "How about implementing getStreams as a GET method in OpenAPIServer\Api\StreamsApi class?";
+        throw new Exception($message);
+
+        return $response->write($message)->withStatus(501);
+    }
+
+    /**
+     * GET getSubscribers
+     * Summary: Get the subscribers of a stream
+     * Notes: Get all users subscribed to a stream.  &#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60;
+     * Output-Formats: [application/json]
+     *
+     * @param ServerRequestInterface $request  Request
+     * @param ResponseInterface      $response Response
+     * @param array|null             $args     Path arguments
+     *
+     * @return ResponseInterface
+     * @throws Exception to force implementation class to override this method
+     */
+    public function getSubscribers(ServerRequestInterface $request, ResponseInterface $response, array $args)
+    {
+        $streamId = $args['stream_id'];
+        $message = "How about implementing getSubscribers as a GET method in OpenAPIServer\Api\StreamsApi class?";
         throw new Exception($message);
 
         return $response->write($message)->withStatus(501);

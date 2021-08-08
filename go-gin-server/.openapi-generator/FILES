@@ -3,6 +3,7 @@ Dockerfile
 api/openapi.yaml
 go/README.md
 go/api_authentication.go
+go/api_drafts.go
 go/api_messages.go
 go/api_real_time_events.go
 go/api_server_and_organizations.go
@@ -31,10 +32,13 @@ go/model_coded_error_base.go
 go/model_coded_error_base_all_of.go
 go/model_custom_profile_field.go
 go/model_default_stream_group.go
+go/model_draft.go
+go/model_emoji_base.go
 go/model_emoji_reaction.go
 go/model_emoji_reaction_all_of.go
 go/model_emoji_reaction_base.go
-go/model_emoji_reaction_base_user.go
+go/model_emoji_reaction_base_all_of.go
+go/model_emoji_reaction_base_all_of_user.go
 go/model_get_messages.go
 go/model_get_messages_all_of.go
 go/model_hotspot.go

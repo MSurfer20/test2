@@ -59,6 +59,23 @@ async def create_big_blue_button_video_call(
     ...
 
 
+@router.post(
+    "/streams/{stream_id}/delete_topic",
+    responses={
+        200: {"model": JsonSuccess, "description": "Success."},
+        400: {"model": JsonError, "description": "Error."},
+    },
+    tags=["streams"],
+    summary="Delete a topic",
+)
+async def delete_topic(
+    stream_id: int = Path(None, description="The ID of the stream to access. "),
+    topic_name: str = Query(None, description="The name of the topic to delete. "),
+) -> JsonSuccess:
+    """Delete all messages in a topic.  &#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. """
+    ...
+
+
 @router.get(
     "/get_stream_id",
     responses={
@@ -109,6 +126,22 @@ async def get_streams(
     include_owner_subscribed: bool = Query(False, description="If the user is a bot, include all streams that the bot&#39;s owner is subscribed to. "),
 ) -> JsonSuccessBase:
     """Get all streams that the user has access to.  &#x60;GET {{ api_url }}/v1/streams&#x60; """
+    ...
+
+
+@router.get(
+    "/streams/{stream_id}/members",
+    responses={
+        200: {"model": JsonSuccessBase, "description": "Success."},
+        400: {"model": JsonError, "description": "Bad request."},
+    },
+    tags=["streams"],
+    summary="Get the subscribers of a stream",
+)
+async def get_subscribers(
+    stream_id: int = Path(None, description="The ID of the stream to access. "),
+) -> JsonSuccessBase:
+    """Get all users subscribed to a stream.  &#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60; """
     ...
 
 

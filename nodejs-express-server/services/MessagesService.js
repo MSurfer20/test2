@@ -11,7 +11,7 @@ const Service = require('./Service');
 * reactionUnderscoretype String If an app is adding/removing a vote on an existing reaction, it should pass this parameter using the value the server provided for the existing reaction for specificity.  Supported values:  * `unicode_emoji`: Unicode emoji (`emoji_code` will be its Unicode codepoint). * `realm_emoji`: Custom emoji. (`emoji_code` will be its ID). * `zulip_extra_emoji`: Special emoji included with Zulip.  Exists to    namespace the `zulip` emoji.  **Changes**: In Zulip 3.0 (feature level 2), this become optional for [custom emoji](/help/add-custom-emoji); previously, this endpoint assumed `unicode_emoji` if this parameter was not specified.  (optional)
 * returns JsonSuccess
 * */
-const add_reaction = ({ messageUnderscoreid, emojiUnderscorename, emojiUnderscorecode, reactionUnderscoretype }) => new Promise(
+const addReaction = ({ messageUnderscoreid, emojiUnderscorename, emojiUnderscorecode, reactionUnderscoretype }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -36,7 +36,7 @@ const add_reaction = ({ messageUnderscoreid, emojiUnderscorename, emojiUnderscor
 * narrow List A structure defining the narrow to check against. See how to [construct a narrow](/api/construct-narrow).
 * returns oas_any_type_not_mapped
 * */
-const check_messages_match_narrow = ({ msgUnderscoreids, narrow }) => new Promise(
+const checkMessagesMatchNarrow = ({ msgUnderscoreids, narrow }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -58,7 +58,7 @@ const check_messages_match_narrow = ({ msgUnderscoreids, narrow }) => new Promis
 * messageUnderscoreid Integer The target message's ID. 
 * returns JsonSuccess
 * */
-const delete_message = ({ messageUnderscoreid }) => new Promise(
+const deleteMessage = ({ messageUnderscoreid }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -80,7 +80,7 @@ const delete_message = ({ messageUnderscoreid }) => new Promise(
 * filename String Path to the URL. 
 * returns JsonSuccessBase
 * */
-const get_file_temporary_url = ({ realmUnderscoreidUnderscorestr, filename }) => new Promise(
+const getFileTemporaryUrl = ({ realmUnderscoreidUnderscorestr, filename }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -102,7 +102,7 @@ const get_file_temporary_url = ({ realmUnderscoreidUnderscorestr, filename }) =>
 * messageUnderscoreid Integer The target message's ID. 
 * returns JsonSuccessBase
 * */
-const get_message_history = ({ messageUnderscoreid }) => new Promise(
+const getMessageHistory = ({ messageUnderscoreid }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -129,7 +129,7 @@ const get_message_history = ({ messageUnderscoreid }) => new Promise(
 * useUnderscorefirstUnderscoreunreadUnderscoreanchor Boolean Legacy way to specify `anchor=\"first_unread\"` in Zulip 2.1.x and older.  Whether to use the (computed by the server) first unread message matching the narrow as the `anchor`.  Mutually exclusive with `anchor`.  **Changes**: Deprecated in Zulip 3.0, replaced by `anchor=\"first_unread\"` instead.  (optional)
 * returns JsonSuccessBase
 * */
-const get_messages = ({ numUnderscorebefore, numUnderscoreafter, anchor, narrow, clientUnderscoregravatar, applyUnderscoremarkdown, useUnderscorefirstUnderscoreunreadUnderscoreanchor }) => new Promise(
+const getMessages = ({ numUnderscorebefore, numUnderscoreafter, anchor, narrow, clientUnderscoregravatar, applyUnderscoremarkdown, useUnderscorefirstUnderscoreunreadUnderscoreanchor }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -156,7 +156,7 @@ const get_messages = ({ numUnderscorebefore, numUnderscoreafter, anchor, narrow,
 * messageUnderscoreid Integer The target message's ID. 
 * returns JsonSuccessBase
 * */
-const get_raw_message = ({ messageUnderscoreid }) => new Promise(
+const getRawMessage = ({ messageUnderscoreid }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -176,7 +176,7 @@ const get_raw_message = ({ messageUnderscoreid }) => new Promise(
 *
 * returns JsonSuccess
 * */
-const mark_all_as_read = () => new Promise(
+const markAllAsRead = () => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -196,7 +196,7 @@ const mark_all_as_read = () => new Promise(
 * streamUnderscoreid Integer The ID of the stream to access. 
 * returns JsonSuccess
 * */
-const mark_stream_as_read = ({ streamUnderscoreid }) => new Promise(
+const markStreamAsRead = ({ streamUnderscoreid }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -218,7 +218,7 @@ const mark_stream_as_read = ({ streamUnderscoreid }) => new Promise(
 * topicUnderscorename String The name of the topic whose messages should be marked as read. 
 * returns JsonSuccess
 * */
-const mark_topic_as_read = ({ streamUnderscoreid, topicUnderscorename }) => new Promise(
+const markTopicAsRead = ({ streamUnderscoreid, topicUnderscorename }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -243,7 +243,7 @@ const mark_topic_as_read = ({ streamUnderscoreid, topicUnderscorename }) => new 
 * reactionUnderscoretype String If an app is adding/removing a vote on an existing reaction, it should pass this parameter using the value the server provided for the existing reaction for specificity.  Supported values:  * `unicode_emoji`: Unicode emoji (`emoji_code` will be its Unicode codepoint). * `realm_emoji`: Custom emoji. (`emoji_code` will be its ID). * `zulip_extra_emoji`: Special emoji included with Zulip.  Exists to    namespace the `zulip` emoji.  **Changes**: In Zulip 3.0 (feature level 2), this become optional for [custom emoji](/help/add-custom-emoji); previously, this endpoint assumed `unicode_emoji` if this parameter was not specified.  (optional)
 * returns JsonSuccess
 * */
-const remove_reaction = ({ messageUnderscoreid, emojiUnderscorename, emojiUnderscorecode, reactionUnderscoretype }) => new Promise(
+const removeReaction = ({ messageUnderscoreid, emojiUnderscorename, emojiUnderscorecode, reactionUnderscoretype }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -267,7 +267,7 @@ const remove_reaction = ({ messageUnderscoreid, emojiUnderscorename, emojiUnders
 * content String The content of the message. Maximum message size of 10000 bytes. 
 * returns JsonSuccessBase
 * */
-const render_message = ({ content }) => new Promise(
+const renderMessage = ({ content }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -293,7 +293,7 @@ const render_message = ({ content }) => new Promise(
 * localUnderscoreid String For clients supporting local echo, a unique string-format identifier chosen freely by the client; the server will pass it back to the client without inspecting it, as described in the `queue_id` description.  (optional)
 * returns JsonSuccessBase
 * */
-const send_message = ({ type, to, content, topic, queueUnderscoreid, localUnderscoreid }) => new Promise(
+const sendMessage = ({ type, to, content, topic, queueUnderscoreid, localUnderscoreid }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -325,7 +325,7 @@ const send_message = ({ type, to, content, topic, queueUnderscoreid, localUnders
 * streamUnderscoreid Integer The stream ID to move the message(s) to, to request moving messages to another stream.  Should only be sent when changing the stream, and will throw an error if the target message is not a stream message.  (optional)
 * returns JsonSuccess
 * */
-const update_message = ({ messageUnderscoreid, topic, propagateUnderscoremode, sendUnderscorenotificationUnderscoretoUnderscoreoldUnderscorethread, sendUnderscorenotificationUnderscoretoUnderscorenewUnderscorethread, content, streamUnderscoreid }) => new Promise(
+const updateMessage = ({ messageUnderscoreid, topic, propagateUnderscoremode, sendUnderscorenotificationUnderscoretoUnderscoreoldUnderscorethread, sendUnderscorenotificationUnderscoretoUnderscorenewUnderscorethread, content, streamUnderscoreid }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -354,7 +354,7 @@ const update_message = ({ messageUnderscoreid, topic, propagateUnderscoremode, s
 * flag String The flag that should be added/removed. 
 * returns JsonSuccessBase
 * */
-const update_message_flags = ({ messages, op, flag }) => new Promise(
+const updateMessageFlags = ({ messages, op, flag }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -377,7 +377,7 @@ const update_message_flags = ({ messages, op, flag }) => new Promise(
 * filename File  (optional)
 * returns JsonSuccessBase
 * */
-const upload_file = ({ filename }) => new Promise(
+const uploadFile = ({ filename }) => new Promise(
   async (resolve, reject) => {
     try {
       resolve(Service.successResponse({
@@ -393,20 +393,20 @@ const upload_file = ({ filename }) => new Promise(
 );
 
 module.exports = {
-  add_reaction,
-  check_messages_match_narrow,
-  delete_message,
-  get_file_temporary_url,
-  get_message_history,
-  get_messages,
-  get_raw_message,
-  mark_all_as_read,
-  mark_stream_as_read,
-  mark_topic_as_read,
-  remove_reaction,
-  render_message,
-  send_message,
-  update_message,
-  update_message_flags,
-  upload_file,
+  addReaction,
+  checkMessagesMatchNarrow,
+  deleteMessage,
+  getFileTemporaryUrl,
+  getMessageHistory,
+  getMessages,
+  getRawMessage,
+  markAllAsRead,
+  markStreamAsRead,
+  markTopicAsRead,
+  removeReaction,
+  renderMessage,
+  sendMessage,
+  updateMessage,
+  updateMessageFlags,
+  uploadFile,
 };

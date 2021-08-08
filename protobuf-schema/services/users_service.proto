@@ -20,6 +20,7 @@ import public "models/json_success.proto";
 import public "models/json_success_base.proto";
 import public "models/one_ofobjectobject.proto";
 import public "models/one_ofobjectobjectobject.proto";
+import public "models/one_ofobjectobjectobjectobjectobjectobject.proto";
 import public "models/todo_object_mapping.proto";
 
 service UsersService {
@@ -55,9 +56,9 @@ service UsersService {
 
   rpc UnmuteUser (UnmuteUserRequest) returns (JsonSuccess);
 
-  rpc UpdateDisplaySettings (UpdateDisplaySettingsRequest) returns (JsonSuccessBase);
+  rpc UpdateSettings (UpdateSettingsRequest) returns (JsonSuccessBase);
 
-  rpc UpdateNotificationSettings (UpdateNotificationSettingsRequest) returns (JsonSuccessBase);
+  rpc UpdateStatus (UpdateStatusRequest) returns (JsonSuccess);
 
   rpc UpdateUser (UpdateUserRequest) returns (JsonSuccess);
 
@@ -163,75 +164,99 @@ message UnmuteUserRequest {
 
 }
 
-message UpdateDisplaySettingsRequest {
-  // Whether time should be [displayed in 24-hour notation](/help/change-the-time-format). 
-  bool twentyFourHourTime = 1;
-  // This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip. 
-  bool denseMode = 2;
-  // Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages). 
-  bool starredMessageCounts = 3;
-  // Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app's center panel (message feed, recent topics) on wide screens. 
-  bool fluidLayoutWidth = 4;
-  // This setting is reserved for use to control variations in Zulip's design to help visually impaired users. 
-  bool highContrastMode = 5;
-  // Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard `prefers-color-scheme` media query. 
-  int32 colorScheme = 6;
-  // Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends. 
-  bool translateEmoticons = 7;
-  // What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, `\"en\"` for English or `\"de\"` for German.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63). 
-  string defaultLanguage = 8;
-  // The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the `Esc` keyboard shortcut repeatedly.  * \"recent_topics\" - Recent topics view * \"all_messages\" - All messages view  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). 
-  string defaultView = 9;
-  // Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked. 
-  bool leftSideUserlist = 10;
-  // The user's configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \"google\" - Google modern * \"google-blob\" - Google classic * \"twitter\" - Twitter * \"text\" - Plain text  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). 
-  string emojiset = 11;
-  // Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never 
-  int32 demoteInactiveStreams = 12;
-  // The user's [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 64). 
-  string timezone = 13;
+message UpdateSettingsRequest {
+  // A new display name for the user. 
+  string fullName = 1;
+  // Asks the server to initiate a confirmation sequence to change the user's email address to the indicated value. The user will need to demonstrate control of the new email address by clicking a confirmation link sent to that address. 
+  string email = 2;
+  // The user's old Zulip password (or LDAP password, if LDAP authentication is in use).  Required only when sending the `new_password` parameter. 
+  string oldPassword = 3;
+  // The user's new Zulip password (or LDAP password, if LDAP authentication is in use).  The `old_password` parameter must be included in the request. 
+  string newPassword = 4;
+  // Whether time should be [displayed in 24-hour notation](/help/change-the-time-format).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+  bool twentyFourHourTime = 5;
+  // This setting has no effect at present.  It is reserved for use in controlling the default font size in Zulip.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+  bool denseMode = 6;
+  // Whether clients should display the [number of starred messages](/help/star-a-message#display-the-number-of-starred-messages).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+  bool starredMessageCounts = 7;
+  // Whether to use the [maximum available screen width](/help/enable-full-width-display) for the web app's center panel (message feed, recent topics) on wide screens.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+  bool fluidLayoutWidth = 8;
+  // This setting is reserved for use to control variations in Zulip's design to help visually impaired users.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+  bool highContrastMode = 9;
+  // Controls which [color theme](/help/night-mode) to use.  * 1 - Automatic * 2 - Night mode * 3 - Day mode  Automatic detection is implementing using the standard `prefers-color-scheme` media query.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+  int32 colorScheme = 10;
+  // A boolean parameter to control whether synchronizing drafts is enabled for the user. When synchronization is disabled, all drafts stored in the server will be automatically deleted from the server.  This does not do anything (like sending events) to delete local copies of drafts stored in clients.  **Changes**: New in Zulip 5.0 (feature level 87). 
+  bool enableDraftsSynchronization = 11;
+  // Whether to [translate emoticons to emoji](/help/enable-emoticon-translations) in messages the user sends.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+  bool translateEmoticons = 12;
+  // What [default language](/help/change-your-language) to use for the account.  This controls both the Zulip UI as well as email notifications sent to the user.  The value needs to be a standard language code that the Zulip server has translation data for; for example, `\"en\"` for English or `\"de\"` for German.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63). 
+  string defaultLanguage = 13;
+  // The [default view](/help/change-default-view) used when opening a new Zulip web app window or hitting the `Esc` keyboard shortcut repeatedly.  * \"recent_topics\" - Recent topics view * \"all_messages\" - All messages view  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). 
+  string defaultView = 14;
+  // Whether the users list on left sidebar in narrow windows.  This feature is not heavily used and is likely to be reworked.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+  bool leftSideUserlist = 15;
+  // The user's configured [emoji set](/help/emoji-and-emoticons#use-emoticons), used to display emoji to the user everything they appear in the UI.  * \"google\" - Google modern * \"google-blob\" - Google classic * \"twitter\" - Twitter * \"text\" - Plain text  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). 
+  string emojiset = 16;
+  // Whether to [demote inactive streams](/help/manage-inactive-streams) in the left sidebar.  * 1 - Automatic * 2 - Always * 3 - Never  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint. 
+  int32 demoteInactiveStreams = 17;
+  // The user's [configured timezone](/help/change-your-timezone).  Timezone values supported by the server are served at [/static/generated/timezones.json](/static/generated/timezones.json).  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/display` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 64). 
+  string timezone = 18;
+  // Enable visual desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+  bool enableStreamDesktopNotifications = 19;
+  // Enable email notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+  bool enableStreamEmailNotifications = 20;
+  // Enable mobile notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+  bool enableStreamPushNotifications = 21;
+  // Enable audible desktop notifications for stream messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+  bool enableStreamAudibleNotifications = 22;
+  // Notification sound name.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint.  Unnecessary JSON-encoding of this parameter was removed in Zulip 4.0 (feature level 63). 
+  string notificationSound = 23;
+  // Enable visual desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+  bool enableDesktopNotifications = 24;
+  // Enable audible desktop notifications for private messages and @-mentions.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+  bool enableSounds = 25;
+  // The duration (in seconds) for which the server should wait to batch email notifications before sending them.  **Changes**: New in Zulip 5.0 (feature level 82) 
+  int32 emailNotificationsBatchingPeriodSeconds = 26;
+  // Enable email notifications for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+  bool enableOfflineEmailNotifications = 27;
+  // Enable mobile notification for private messages and @-mentions received when the user is offline.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+  bool enableOfflinePushNotifications = 28;
+  // Enable mobile notification for private messages and @-mentions received when the user is online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+  bool enableOnlinePushNotifications = 29;
+  // Enable digest emails when the user is away.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+  bool enableDigestEmails = 30;
+  // Enable marketing emails. Has no function outside Zulip Cloud.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+  bool enableMarketingEmails = 31;
+  // Enable email notifications for new logins to account.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+  bool enableLoginEmails = 32;
+  // Include the message's content in email notifications for new messages.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+  bool messageContentInEmailNotifications = 33;
+  // Include content of private messages in desktop notifications.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+  bool pmContentInDesktopNotifications = 34;
+  // Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+  bool wildcardMentionsNotify = 35;
+  // Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+  int32 desktopIconCountDisplay = 36;
+  // Include organization name in subject of message notification emails.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+  bool realmNameInNotifications = 37;
+  // Display the presence status to other users when online.  **Changes**: Before Zulip 5.0 (feature level 80), this setting was managed by the `PATCH /settings/notifications` endpoint. 
+  bool presenceEnabled = 38;
+  // Whether pressing Enter in the compose box sends a message (or saves a message edit).  **Changes**: Before Zulip 5.0 (feature level 81), this setting was managed by the `POST /users/me/enter-sends` endpoint, with the same parameter format. 
+  bool enterSends = 39;
 
 }
 
-message UpdateNotificationSettingsRequest {
-  // Enable visual desktop notifications for stream messages. 
-  bool enableStreamDesktopNotifications = 1;
-  // Enable email notifications for stream messages. 
-  bool enableStreamEmailNotifications = 2;
-  // Enable mobile notifications for stream messages. 
-  bool enableStreamPushNotifications = 3;
-  // Enable audible desktop notifications for stream messages. 
-  bool enableStreamAudibleNotifications = 4;
-  // Notification sound name.  **Changes**: Removed unnecessary JSON-encoding of parameter in Zulip 4.0 (feature level 63). 
-  string notificationSound = 5;
-  // Enable visual desktop notifications for private messages and @-mentions. 
-  bool enableDesktopNotifications = 6;
-  // Enable audible desktop notifications for private messages and @-mentions. 
-  bool enableSounds = 7;
-  // Enable email notifications for private messages and @-mentions received when the user is offline. 
-  bool enableOfflineEmailNotifications = 8;
-  // Enable mobile notification for private messages and @-mentions received when the user is offline. 
-  bool enableOfflinePushNotifications = 9;
-  // Enable mobile notification for private messages and @-mentions received when the user is online. 
-  bool enableOnlinePushNotifications = 10;
-  // Enable digest emails when the user is away. 
-  bool enableDigestEmails = 11;
-  // Enable marketing emails. Has no function outside Zulip Cloud. 
-  bool enableMarketingEmails = 12;
-  // Enable email notifications for new logins to account. 
-  bool enableLoginEmails = 13;
-  // Include the message's content in email notifications for new messages. 
-  bool messageContentInEmailNotifications = 14;
-  // Include content of private messages in desktop notifications. 
-  bool pmContentInDesktopNotifications = 15;
-  // Whether wildcard mentions (E.g. @**all**) should send notifications like a personal mention. 
-  bool wildcardMentionsNotify = 16;
-  // Unread count summary (appears in desktop sidebar and browser tab)  * 1 - All unreads * 2 - Private messages and mentions * 3 - None 
-  int32 desktopIconCountDisplay = 17;
-  // Include organization name in subject of message notification emails. 
-  bool realmNameInNotifications = 18;
-  // Display the presence status to other users when online. 
-  bool presenceEnabled = 19;
+message UpdateStatusRequest {
+  // The text content of the status message. Sending the empty string will clear the user's status.  **Note**: The limit on the size of the message is 60 characters. 
+  string statusText = 1;
+  // Whether the user should be marked as \"away\". 
+  bool away = 2;
+  // The name for the emoji to associate with this status. 
+  string emojiName = 3;
+  // A unique identifier, defining the specific emoji codepoint requested, within the namespace of the `reaction_type`.  For example, for `unicode_emoji`, this will be an encoding of the Unicode codepoint; for `realm_emoji`, it'll be the ID of the realm emoji. 
+  string emojiCode = 4;
+  // One of the following values:  * `unicode_emoji`: Unicode emoji (`emoji_code` will be its Unicode   codepoint). * `realm_emoji`: [Custom emoji](/help/add-custom-emoji).   (`emoji_code` will be its ID). * `zulip_extra_emoji`: Special emoji included with Zulip.  Exists to   namespace the `zulip` emoji. 
+  string reactionType = 5;
 
 }
 

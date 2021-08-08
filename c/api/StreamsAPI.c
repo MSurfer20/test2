@@ -206,6 +206,110 @@ end:
 
 }
 
+// Delete a topic
+//
+// Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+//
+json_success_t*
+StreamsAPI_deleteTopic(apiClient_t *apiClient, int stream_id , char * topic_name )
+{
+    list_t    *localVarQueryParameters = list_create();
+    list_t    *localVarHeaderParameters = NULL;
+    list_t    *localVarFormParameters = NULL;
+    list_t *localVarHeaderType = list_create();
+    list_t *localVarContentType = NULL;
+    char      *localVarBodyParameters = NULL;
+
+    // create the path
+    long sizeOfPath = strlen("/streams/{stream_id}/delete_topic")+1;
+    char *localVarPath = malloc(sizeOfPath);
+    snprintf(localVarPath, sizeOfPath, "/streams/{stream_id}/delete_topic");
+
+
+    // Path Params
+    long sizeOfPathParams_stream_id =  + strlen("{ stream_id }");
+    if(stream_id == 0){
+        goto end;
+    }
+    char* localVarToReplace_stream_id = malloc(sizeOfPathParams_stream_id);
+    snprintf(localVarToReplace_stream_id, sizeOfPathParams_stream_id, "{%s}", "stream_id");
+
+    char localVarBuff_stream_id[256];
+    intToStr(localVarBuff_stream_id, stream_id);
+
+    localVarPath = strReplace(localVarPath, localVarToReplace_stream_id, localVarBuff_stream_id);
+
+
+
+
+    // query parameters
+    char *keyQuery_topic_name = NULL;
+    char * valueQuery_topic_name = NULL;
+    keyValuePair_t *keyPairQuery_topic_name = 0;
+    if (topic_name)
+    {
+        keyQuery_topic_name = strdup("topic_name");
+        valueQuery_topic_name = strdup((topic_name));
+        keyPairQuery_topic_name = keyValuePair_create(keyQuery_topic_name, valueQuery_topic_name);
+        list_addElement(localVarQueryParameters,keyPairQuery_topic_name);
+    }
+    list_addElement(localVarHeaderType,"application/json"); //produces
+    apiClient_invoke(apiClient,
+                    localVarPath,
+                    localVarQueryParameters,
+                    localVarHeaderParameters,
+                    localVarFormParameters,
+                    localVarHeaderType,
+                    localVarContentType,
+                    localVarBodyParameters,
+                    "POST");
+
+    if (apiClient->response_code == 200) {
+        printf("%s\n","Success.");
+    }
+    if (apiClient->response_code == 400) {
+        printf("%s\n","Error.");
+    }
+    //nonprimitive not container
+    cJSON *StreamsAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
+    json_success_t *elementToReturn = json_success_parseFromJSON(StreamsAPIlocalVarJSON);
+    cJSON_Delete(StreamsAPIlocalVarJSON);
+    if(elementToReturn == NULL) {
+        // return 0;
+    }
+
+    //return type
+    if (apiClient->dataReceived) {
+        free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
+        apiClient->dataReceivedLen = 0;
+    }
+    list_free(localVarQueryParameters);
+    
+    
+    list_free(localVarHeaderType);
+    
+    free(localVarPath);
+    free(localVarToReplace_stream_id);
+    if(keyQuery_topic_name){
+        free(keyQuery_topic_name);
+        keyQuery_topic_name = NULL;
+    }
+    if(valueQuery_topic_name){
+        free(valueQuery_topic_name);
+        valueQuery_topic_name = NULL;
+    }
+    if(keyPairQuery_topic_name){
+        keyValuePair_free(keyPairQuery_topic_name);
+        keyPairQuery_topic_name = NULL;
+    }
+    return elementToReturn;
+end:
+    free(localVarPath);
+    return NULL;
+
+}
+
 // Get stream ID
 //
 // Get the unique ID of a given stream.  `GET {{ api_url }}/v1/get_stream_id` 
@@ -583,6 +687,86 @@ StreamsAPI_getStreams(apiClient_t *apiClient, int include_public , int include_w
         keyValuePair_free(keyPairQuery_include_owner_subscribed);
         keyPairQuery_include_owner_subscribed = NULL;
     }
+    return elementToReturn;
+end:
+    free(localVarPath);
+    return NULL;
+
+}
+
+// Get the subscribers of a stream
+//
+// Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` 
+//
+json_success_base_t*
+StreamsAPI_getSubscribers(apiClient_t *apiClient, int stream_id )
+{
+    list_t    *localVarQueryParameters = NULL;
+    list_t    *localVarHeaderParameters = NULL;
+    list_t    *localVarFormParameters = NULL;
+    list_t *localVarHeaderType = list_create();
+    list_t *localVarContentType = NULL;
+    char      *localVarBodyParameters = NULL;
+
+    // create the path
+    long sizeOfPath = strlen("/streams/{stream_id}/members")+1;
+    char *localVarPath = malloc(sizeOfPath);
+    snprintf(localVarPath, sizeOfPath, "/streams/{stream_id}/members");
+
+
+    // Path Params
+    long sizeOfPathParams_stream_id =  + strlen("{ stream_id }");
+    if(stream_id == 0){
+        goto end;
+    }
+    char* localVarToReplace_stream_id = malloc(sizeOfPathParams_stream_id);
+    snprintf(localVarToReplace_stream_id, sizeOfPathParams_stream_id, "{%s}", "stream_id");
+
+    char localVarBuff_stream_id[256];
+    intToStr(localVarBuff_stream_id, stream_id);
+
+    localVarPath = strReplace(localVarPath, localVarToReplace_stream_id, localVarBuff_stream_id);
+
+
+
+    list_addElement(localVarHeaderType,"application/json"); //produces
+    apiClient_invoke(apiClient,
+                    localVarPath,
+                    localVarQueryParameters,
+                    localVarHeaderParameters,
+                    localVarFormParameters,
+                    localVarHeaderType,
+                    localVarContentType,
+                    localVarBodyParameters,
+                    "GET");
+
+    if (apiClient->response_code == 200) {
+        printf("%s\n","Success.");
+    }
+    if (apiClient->response_code == 400) {
+        printf("%s\n","Bad request.");
+    }
+    //nonprimitive not container
+    cJSON *StreamsAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
+    json_success_base_t *elementToReturn = json_success_base_parseFromJSON(StreamsAPIlocalVarJSON);
+    cJSON_Delete(StreamsAPIlocalVarJSON);
+    if(elementToReturn == NULL) {
+        // return 0;
+    }
+
+    //return type
+    if (apiClient->dataReceived) {
+        free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
+        apiClient->dataReceivedLen = 0;
+    }
+    
+    
+    
+    list_free(localVarHeaderType);
+    
+    free(localVarPath);
+    free(localVarToReplace_stream_id);
     return elementToReturn;
 end:
     free(localVarPath);

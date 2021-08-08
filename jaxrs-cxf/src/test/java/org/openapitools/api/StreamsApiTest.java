@@ -101,6 +101,25 @@ public class StreamsApiTest {
     }
     
     /**
+     * Delete a topic
+     *
+     * Delete all messages in a topic.  &#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void deleteTopicTest() {
+        Integer streamId = null;
+        String topicName = null;
+        //JsonSuccess response = api.deleteTopic(streamId, topicName);
+        //assertNotNull(response);
+        // TODO: test validations
+        
+        
+    }
+    
+    /**
      * Get stream ID
      *
      * Get the unique ID of a given stream.  &#x60;GET {{ api_url }}/v1/get_stream_id&#x60; 
@@ -153,6 +172,24 @@ public class StreamsApiTest {
         Boolean includeDefault = null;
         Boolean includeOwnerSubscribed = null;
         //JsonSuccessBase response = api.getStreams(includePublic, includeWebPublic, includeSubscribed, includeAllActive, includeDefault, includeOwnerSubscribed);
+        //assertNotNull(response);
+        // TODO: test validations
+        
+        
+    }
+    
+    /**
+     * Get the subscribers of a stream
+     *
+     * Get all users subscribed to a stream.  &#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60; 
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void getSubscribersTest() {
+        Integer streamId = null;
+        //JsonSuccessBase response = api.getSubscribers(streamId);
         //assertNotNull(response);
         // TODO: test validations
         

@@ -29,7 +29,7 @@ import com.typesafe.config.Config;
 
 import openapitools.OpenAPIUtils.ApiAction;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", date = "2021-08-08T20:41:53.018098Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", date = "2021-08-08T21:11:44.583112Z[Etc/UTC]")
 public class StreamsApiController extends Controller {
     private final StreamsApiControllerImpInterface imp;
     private final ObjectMapper mapper;
@@ -50,6 +50,18 @@ public class StreamsApiController extends Controller {
     @ApiAction
     public Result createBigBlueButtonVideoCall(Http.Request request) throws Exception {
         return imp.createBigBlueButtonVideoCallHttp(request);
+    }
+
+    @ApiAction
+    public Result deleteTopic(Http.Request request, Integer streamId) throws Exception {
+        String valuetopicName = request.getQueryString("topic_name");
+        String topicName;
+        if (valuetopicName != null) {
+            topicName = valuetopicName;
+        } else {
+            throw new IllegalArgumentException("'topic_name' parameter is required");
+        }
+        return imp.deleteTopicHttp(request, streamId, topicName);
     }
 
     @ApiAction
@@ -114,6 +126,11 @@ public class StreamsApiController extends Controller {
             includeOwnerSubscribed = false;
         }
         return imp.getStreamsHttp(request, includePublic, includeWebPublic, includeSubscribed, includeAllActive, includeDefault, includeOwnerSubscribed);
+    }
+
+    @ApiAction
+    public Result getSubscribers(Http.Request request, Integer streamId) throws Exception {
+        return imp.getSubscribersHttp(request, streamId);
     }
 
     @ApiAction

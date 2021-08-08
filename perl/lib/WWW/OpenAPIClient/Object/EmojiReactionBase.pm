@@ -30,7 +30,9 @@ use Log::Any qw($log);
 use Date::Parse;
 use DateTime;
 
-use WWW::OpenAPIClient::Object::EmojiReactionBaseUser;
+use WWW::OpenAPIClient::Object::EmojiBase;
+use WWW::OpenAPIClient::Object::EmojiReactionBaseAllOf;
+use WWW::OpenAPIClient::Object::EmojiReactionBaseAllOfUser;
 
 use base ("Class::Accessor", "Class::Data::Inheritable");
 
@@ -165,7 +167,7 @@ __PACKAGE__->method_documentation({
     'emoji_code' => {
         datatype => 'string',
         base_name => 'emoji_code',
-        description => 'A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint. ',
+        description => 'A unique identifier, defining the specific emoji codepoint requested, within the namespace of the &#x60;reaction_type&#x60;.  For example, for &#x60;unicode_emoji&#x60;, this will be an encoding of the Unicode codepoint; for &#x60;realm_emoji&#x60;, it&#39;ll be the ID of the realm emoji. ',
         format => '',
         read_only => '',
             },
@@ -191,7 +193,7 @@ __PACKAGE__->method_documentation({
         read_only => '',
             },
     'user' => {
-        datatype => 'EmojiReactionBaseUser',
+        datatype => 'EmojiReactionBaseAllOfUser',
         base_name => 'user',
         description => '',
         format => '',
@@ -204,7 +206,7 @@ __PACKAGE__->openapi_types( {
     'emoji_name' => 'string',
     'reaction_type' => 'string',
     'user_id' => 'int',
-    'user' => 'EmojiReactionBaseUser'
+    'user' => 'EmojiReactionBaseAllOfUser'
 } );
 
 __PACKAGE__->attribute_map( {

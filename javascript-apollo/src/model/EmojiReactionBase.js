@@ -12,7 +12,9 @@
  */
 
 import ApiClient from '../ApiClient';
-import EmojiReactionBaseUser from './EmojiReactionBaseUser';
+import EmojiBase from './EmojiBase';
+import EmojiReactionBaseAllOf from './EmojiReactionBaseAllOf';
+import EmojiReactionBaseAllOfUser from './EmojiReactionBaseAllOfUser';
 
 /**
  * The EmojiReactionBase model module.
@@ -41,19 +43,46 @@ class EmojiReactionBase {
      */
     user_id;
     /**
-     * @member {EmojiReactionBaseUser} user
-     * @type {EmojiReactionBaseUser}
+     * @member {EmojiReactionBaseAllOfUser} user
+     * @type {EmojiReactionBaseAllOfUser}
      */
     user;
 
+    /**
+     * @member {String} emoji_code
+     * @type {String}
+     */
+    #emoji_code;
+    /**
+     * @member {String} emoji_name
+     * @type {String}
+     */
+    #emoji_name;
+    /**
+     * @member {String} reaction_type
+     * @type {String}
+     */
+    #reaction_type;
+    /**
+     * @member {Number} user_id
+     * @type {Number}
+     */
+    #user_id;
+    /**
+     * @member {EmojiReactionBaseAllOfUser} user
+     * @type {EmojiReactionBaseAllOfUser}
+     */
+    #user;
     
 
     /**
      * Constructs a new <code>EmojiReactionBase</code>.
      * @alias module:model/EmojiReactionBase
+     * @implements module:model/EmojiBase
+     * @implements module:model/EmojiReactionBaseAllOf
      */
     constructor() { 
-        
+        EmojiBase.initialize(this);EmojiReactionBaseAllOf.initialize(this);
         EmojiReactionBase.initialize(this);
     }
 
@@ -75,6 +104,8 @@ class EmojiReactionBase {
     static constructFromObject(data, obj) {
         if (data) {
             obj = obj || new EmojiReactionBase();
+            EmojiBase.constructFromObject(data, obj);
+            EmojiReactionBaseAllOf.constructFromObject(data, obj);
 
             if (data.hasOwnProperty('emoji_code')) {
                 obj['emoji_code'] = ApiClient.convertToType(data['emoji_code'], 'String');
@@ -89,7 +120,7 @@ class EmojiReactionBase {
                 obj['user_id'] = ApiClient.convertToType(data['user_id'], 'Number');
             }
             if (data.hasOwnProperty('user')) {
-                obj['user'] = EmojiReactionBaseUser.constructFromObject(data['user']);
+                obj['user'] = EmojiReactionBaseAllOfUser.constructFromObject(data['user']);
             }
         }
         return obj;

@@ -6,9 +6,11 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**Invoke-ArchiveStream**](StreamsApi.md#Invoke-ArchiveStream) | **DELETE** /streams/{stream_id} | Archive a stream
 [**New-BigBlueButtonVideoCall**](StreamsApi.md#New-BigBlueButtonVideoCall) | **GET** /calls/bigbluebutton/create | Create BigBlueButton video call
+[**Invoke-DeleteTopic**](StreamsApi.md#Invoke-DeleteTopic) | **POST** /streams/{stream_id}/delete_topic | Delete a topic
 [**Get-StreamId**](StreamsApi.md#Get-StreamId) | **GET** /get_stream_id | Get stream ID
 [**Get-StreamTopics**](StreamsApi.md#Get-StreamTopics) | **GET** /users/me/{stream_id}/topics | Get topics in a stream
 [**Get-Streams**](StreamsApi.md#Get-Streams) | **GET** /streams | Get all streams
+[**Get-Subscribers**](StreamsApi.md#Get-Subscribers) | **GET** /streams/{stream_id}/members | Get the subscribers of a stream
 [**Get-SubscriptionStatus**](StreamsApi.md#Get-SubscriptionStatus) | **GET** /users/{user_id}/subscriptions/{stream_id} | Get subscription status
 [**Get-Subscriptions**](StreamsApi.md#Get-Subscriptions) | **GET** /users/me/subscriptions | Get subscribed streams
 [**Invoke-MuteTopic**](StreamsApi.md#Invoke-MuteTopic) | **PATCH** /users/me/subscriptions/muted_topics | Topic muting
@@ -88,6 +90,52 @@ This endpoint does not need any parameter.
 ### Return type
 
 [**JsonSuccessBase**](JsonSuccessBase.md) (PSCustomObject)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a name="Invoke-DeleteTopic"></a>
+# **Invoke-DeleteTopic**
+> JsonSuccess Invoke-DeleteTopic<br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-StreamId] <Int32><br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-TopicName] <String><br>
+
+Delete a topic
+
+Delete all messages in a topic.  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+
+### Example
+```powershell
+$StreamId = 1 # Int32 | The ID of the stream to access. 
+$TopicName = "new coffee machine" # String | The name of the topic to delete. 
+
+# Delete a topic
+try {
+    $Result = Invoke-DeleteTopic -StreamId $StreamId -TopicName $TopicName
+} catch {
+    Write-Host ("Exception occured when calling Invoke-DeleteTopic: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **StreamId** | **Int32**| The ID of the stream to access.  | 
+ **TopicName** | **String**| The name of the topic to delete.  | 
+
+### Return type
+
+[**JsonSuccess**](JsonSuccess.md) (PSCustomObject)
 
 ### Authorization
 
@@ -228,6 +276,49 @@ Name | Type | Description  | Notes
  **IncludeAllActive** | **Boolean**| Include all active streams. The user must have administrative privileges to use this parameter.  | [optional] [default to $false]
  **IncludeDefault** | **Boolean**| Include all default streams for the user&#39;s realm.  | [optional] [default to $false]
  **IncludeOwnerSubscribed** | **Boolean**| If the user is a bot, include all streams that the bot&#39;s owner is subscribed to.  | [optional] [default to $false]
+
+### Return type
+
+[**JsonSuccessBase**](JsonSuccessBase.md) (PSCustomObject)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a name="Get-Subscribers"></a>
+# **Get-Subscribers**
+> JsonSuccessBase Get-Subscribers<br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-StreamId] <Int32><br>
+
+Get the subscribers of a stream
+
+Get all users subscribed to a stream.  `Get {{ api_url }}/v1/streams/{stream_id}/members` 
+
+### Example
+```powershell
+$StreamId = 1 # Int32 | The ID of the stream to access. 
+
+# Get the subscribers of a stream
+try {
+    $Result = Get-Subscribers -StreamId $StreamId
+} catch {
+    Write-Host ("Exception occured when calling Get-Subscribers: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **StreamId** | **Int32**| The ID of the stream to access.  | 
 
 ### Return type
 

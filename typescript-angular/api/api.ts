@@ -1,5 +1,7 @@
 export * from './authentication.service';
 import { AuthenticationService } from './authentication.service';
+export * from './drafts.service';
+import { DraftsService } from './drafts.service';
 export * from './messages.service';
 import { MessagesService } from './messages.service';
 export * from './realTimeEvents.service';
@@ -12,4 +14,4 @@ export * from './users.service';
 import { UsersService } from './users.service';
 export * from './webhooks.service';
 import { WebhooksService } from './webhooks.service';
-export const APIS = [AuthenticationService, MessagesService, RealTimeEventsService, ServerAndOrganizationsService, StreamsService, UsersService, WebhooksService];
+export const APIS = [AuthenticationService, DraftsService, MessagesService, RealTimeEventsService, ServerAndOrganizationsService, StreamsService, UsersService, WebhooksService];

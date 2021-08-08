@@ -81,6 +81,85 @@ package body .Clients is
       .Models.Deserialize (Reply, "", Result);
    end Fetch_Api_Key;
 
+   --  Create drafts
+   --  Create one or more drafts on the server. These drafts will be automatically
+   --  synchronized to other clients via `drafts` events.
+   --  
+   --  `POST {{ api_url }}/v1/drafts`
+   procedure Create_Drafts
+      (Client : in out Client_Type;
+       Drafts : in .Models.Draft_Type_Vectors.Vector;
+       Result : out .Models.JsonSuccess_Type) is
+      URI   : Swagger.Clients.URI_Type;
+      Reply : Swagger.Value_Type;
+   begin
+      Client.Set_Accept ((1 => Swagger.Clients.APPLICATION_JSON));
+
+      URI.Add_Param ("drafts", Drafts);
+      URI.Set_Path ("/drafts");
+      Client.Call (Swagger.Clients.POST, URI, Reply);
+      .Models.Deserialize (Reply, "", Result);
+   end Create_Drafts;
+
+   --  Delete a draft
+   --  Delete a single draft from the server. The deletion will be automatically
+   --  synchronized to other clients via a `drafts` event.
+   --  
+   --  `DELETE {{ api_url }}/v1/drafts/{draft_id}`
+   procedure Delete_Draft
+      (Client : in out Client_Type;
+       Draft_Id : in Integer;
+       Result : out .Models.JsonSuccess_Type) is
+      URI   : Swagger.Clients.URI_Type;
+      Reply : Swagger.Value_Type;
+   begin
+      Client.Set_Accept ((1 => Swagger.Clients.APPLICATION_JSON));
+
+      URI.Set_Path ("/drafts/{draft_id}");
+      URI.Set_Path_Param ("draft_id", Swagger.To_String (Draft_Id));
+      Client.Call (Swagger.Clients.DELETE, URI, Reply);
+      .Models.Deserialize (Reply, "", Result);
+   end Delete_Draft;
+
+   --  Edit a draft
+   --  Edit a draft on the server. The edit will be automatically
+   --  synchronized to other clients via `drafts` events.
+   --  
+   --  `PATCH {{ api_url }}/v1/drafts/{draft_id}`
+   procedure Edit_Draft
+      (Client : in out Client_Type;
+       Draft_Id : in Integer;
+       Draft : in .Models..Models.Draft_Type;
+       Result : out .Models.JsonSuccess_Type) is
+      URI   : Swagger.Clients.URI_Type;
+      Reply : Swagger.Value_Type;
+   begin
+      Client.Set_Accept ((1 => Swagger.Clients.APPLICATION_JSON));
+
+      URI.Add_Param ("draft", Draft);
+      URI.Set_Path ("/drafts/{draft_id}");
+      URI.Set_Path_Param ("draft_id", Swagger.To_String (Draft_Id));
+      Client.Call (Swagger.Clients.PATCH, URI, Reply);
+      .Models.Deserialize (Reply, "", Result);
+   end Edit_Draft;
+
+   --  Get drafts
+   --  Fetch all drafts for the current user.
+   --  
+   --  `GET {{ api_url }}/v1/drafts`
+   procedure Get_Drafts
+      (Client : in out Client_Type;
+       Result : out .Models.JsonSuccess_Type) is
+      URI   : Swagger.Clients.URI_Type;
+      Reply : Swagger.Value_Type;
+   begin
+      Client.Set_Accept ((1 => Swagger.Clients.APPLICATION_JSON));
+
+      URI.Set_Path ("/drafts");
+      Client.Call (Swagger.Clients.GET, URI, Reply);
+      .Models.Deserialize (Reply, "", Result);
+   end Get_Drafts;
+
    --  Add an emoji reaction
    --  Add an [emoji reaction](/help/emoji-reactions) to a message.
    --  
@@ -985,6 +1064,31 @@ package body .Clients is
       .Models.Deserialize (Reply, "", Result);
    end Create_Big_Blue_Button_Video_Call;
 
+   --  Delete a topic
+   --  Delete all messages in a topic.
+   --  
+   --  `POST {{ api_url }}/v1/streams/{stream_id}/delete_topic`
+   --  
+   --  Topics are a field on messages (not an independent
+   --  data structure), so deleting all the messages in the topic
+   --  deletes the topic from Zulip.
+   procedure Delete_Topic
+      (Client : in out Client_Type;
+       Stream_Id : in Integer;
+       Topic_Name : in Swagger.UString;
+       Result : out .Models.JsonSuccess_Type) is
+      URI   : Swagger.Clients.URI_Type;
+      Reply : Swagger.Value_Type;
+   begin
+      Client.Set_Accept ((1 => Swagger.Clients.APPLICATION_JSON));
+
+      URI.Add_Param ("topic_name", Topic_Name);
+      URI.Set_Path ("/streams/{stream_id}/delete_topic");
+      URI.Set_Path_Param ("stream_id", Swagger.To_String (Stream_Id));
+      Client.Call (Swagger.Clients.POST, URI, Reply);
+      .Models.Deserialize (Reply, "", Result);
+   end Delete_Topic;
+
    --  Get stream ID
    --  Get the unique ID of a given stream.
    --  
@@ -1051,6 +1155,25 @@ package body .Clients is
       Client.Call (Swagger.Clients.GET, URI, Reply);
       .Models.Deserialize (Reply, "", Result);
    end Get_Streams;
+
+   --  Get the subscribers of a stream
+   --  Get all users subscribed to a stream.
+   --  
+   --  `Get {{ api_url }}/v1/streams/{stream_id}/members`
+   procedure Get_Subscribers
+      (Client : in out Client_Type;
+       Stream_Id : in Integer;
+       Result : out .Models.JsonSuccessBase_Type) is
+      URI   : Swagger.Clients.URI_Type;
+      Reply : Swagger.Value_Type;
+   begin
+      Client.Set_Accept ((1 => Swagger.Clients.APPLICATION_JSON));
+
+      URI.Set_Path ("/streams/{stream_id}/members");
+      URI.Set_Path_Param ("stream_id", Swagger.To_String (Stream_Id));
+      Client.Call (Swagger.Clients.GET, URI, Reply);
+      .Models.Deserialize (Reply, "", Result);
+   end Get_Subscribers;
 
    --  Get subscription status
    --  Check whether a user is subscribed to a stream.
@@ -1676,18 +1799,40 @@ package body .Clients is
       .Models.Deserialize (Reply, "", Result);
    end Unmute_User;
 
-   --  Update display settings
-   --  This endpoint is used to edit the current user's user interface settings.
+   --  Update settings
+   --  This endpoint is used to edit the current user's settings.
    --  
-   --  `PATCH {{ api_url }}/v1/settings/display`
-   procedure Update_Display_Settings
+   --  `PATCH {{ api_url }}/v1/settings`
+   --  
+   --  **Changes**: Prior to Zulip 5.0 (feature level 80), this
+   --  endpoint only supported the `full_name`, `email`,
+   --  `old_password`, and `new_password` parameters. Notification
+   --  settings were managed by `PATCH /settings/notifications`, and
+   --  all other settings by `PATCH /settings/display`. The feature level
+   --  80 migration to merge these endpoints did not change how request
+   --  parameters are encoded. Note, however, that it did change the
+   --  handling of any invalid parameters present in a request to change
+   --  notification or display settings, since the merged endpoint uses
+   --  the new response format that was introduced for `/settings` in
+   --  Zulip 5.0 (feature level 78).
+   --  
+   --  The `/settings/display` and `/settings/notifications`
+   --  endpoints are now deprecated aliases for this endpoint for
+   --  backwards-compatibility, and will be removed once clients have
+   --  migrated to use this endpoint.
+   procedure Update_Settings
       (Client : in out Client_Type;
+       Full_Name : in Swagger.Nullable_UString;
+       Email : in Swagger.Nullable_UString;
+       Old_Password : in Swagger.Nullable_UString;
+       New_Password : in Swagger.Nullable_UString;
        Twenty_Four_Hour_Time : in Swagger.Nullable_Boolean;
        Dense_Mode : in Swagger.Nullable_Boolean;
        Starred_Message_Counts : in Swagger.Nullable_Boolean;
        Fluid_Layout_Width : in Swagger.Nullable_Boolean;
        High_Contrast_Mode : in Swagger.Nullable_Boolean;
        Color_Scheme : in Swagger.Nullable_Integer;
+       Enable_Drafts_Synchronization : in Swagger.Nullable_Boolean;
        Translate_Emoticons : in Swagger.Nullable_Boolean;
        Default_Language : in Swagger.Nullable_UString;
        Default_View : in Swagger.Nullable_UString;
@@ -1695,38 +1840,6 @@ package body .Clients is
        Emojiset : in Swagger.Nullable_UString;
        Demote_Inactive_Streams : in Swagger.Nullable_Integer;
        Timezone : in Swagger.Nullable_UString;
-       Result : out .Models.JsonSuccessBase_Type) is
-      URI   : Swagger.Clients.URI_Type;
-      Reply : Swagger.Value_Type;
-   begin
-      Client.Set_Accept ((1 => Swagger.Clients.APPLICATION_JSON));
-
-      URI.Add_Param ("twenty_four_hour_time", Twenty_Four_Hour_Time);
-      URI.Add_Param ("dense_mode", Dense_Mode);
-      URI.Add_Param ("starred_message_counts", Starred_Message_Counts);
-      URI.Add_Param ("fluid_layout_width", Fluid_Layout_Width);
-      URI.Add_Param ("high_contrast_mode", High_Contrast_Mode);
-      URI.Add_Param ("color_scheme", Color_Scheme);
-      URI.Add_Param ("translate_emoticons", Translate_Emoticons);
-      URI.Add_Param ("default_language", Default_Language);
-      URI.Add_Param ("default_view", Default_View);
-      URI.Add_Param ("left_side_userlist", Left_Side_Userlist);
-      URI.Add_Param ("emojiset", Emojiset);
-      URI.Add_Param ("demote_inactive_streams", Demote_Inactive_Streams);
-      URI.Add_Param ("timezone", Timezone);
-      URI.Set_Path ("/settings/display");
-      Client.Call (Swagger.Clients.PATCH, URI, Reply);
-      .Models.Deserialize (Reply, "", Result);
-   end Update_Display_Settings;
-
-   --  Update notification settings
-   --  This endpoint is used to edit the user's global notification settings.
-   --  See [this endpoint](/api/update-subscription-settings) for
-   --  per-stream notification settings.
-   --  
-   --  `PATCH {{ api_url }}/v1/settings/notifications`
-   procedure Update_Notification_Settings
-      (Client : in out Client_Type;
        Enable_Stream_Desktop_Notifications : in Swagger.Nullable_Boolean;
        Enable_Stream_Email_Notifications : in Swagger.Nullable_Boolean;
        Enable_Stream_Push_Notifications : in Swagger.Nullable_Boolean;
@@ -1734,6 +1847,7 @@ package body .Clients is
        Notification_Sound : in Swagger.Nullable_UString;
        Enable_Desktop_Notifications : in Swagger.Nullable_Boolean;
        Enable_Sounds : in Swagger.Nullable_Boolean;
+       Email_Notifications_Batching_Period_Seconds : in Swagger.Nullable_Integer;
        Enable_Offline_Email_Notifications : in Swagger.Nullable_Boolean;
        Enable_Offline_Push_Notifications : in Swagger.Nullable_Boolean;
        Enable_Online_Push_Notifications : in Swagger.Nullable_Boolean;
@@ -1746,12 +1860,31 @@ package body .Clients is
        Desktop_Icon_Count_Display : in Swagger.Nullable_Integer;
        Realm_Name_In_Notifications : in Swagger.Nullable_Boolean;
        Presence_Enabled : in Swagger.Nullable_Boolean;
+       Enter_Sends : in Swagger.Nullable_Boolean;
        Result : out .Models.JsonSuccessBase_Type) is
       URI   : Swagger.Clients.URI_Type;
       Reply : Swagger.Value_Type;
    begin
       Client.Set_Accept ((1 => Swagger.Clients.APPLICATION_JSON));
 
+      URI.Add_Param ("full_name", Full_Name);
+      URI.Add_Param ("email", Email);
+      URI.Add_Param ("old_password", Old_Password);
+      URI.Add_Param ("new_password", New_Password);
+      URI.Add_Param ("twenty_four_hour_time", Twenty_Four_Hour_Time);
+      URI.Add_Param ("dense_mode", Dense_Mode);
+      URI.Add_Param ("starred_message_counts", Starred_Message_Counts);
+      URI.Add_Param ("fluid_layout_width", Fluid_Layout_Width);
+      URI.Add_Param ("high_contrast_mode", High_Contrast_Mode);
+      URI.Add_Param ("color_scheme", Color_Scheme);
+      URI.Add_Param ("enable_drafts_synchronization", Enable_Drafts_Synchronization);
+      URI.Add_Param ("translate_emoticons", Translate_Emoticons);
+      URI.Add_Param ("default_language", Default_Language);
+      URI.Add_Param ("default_view", Default_View);
+      URI.Add_Param ("left_side_userlist", Left_Side_Userlist);
+      URI.Add_Param ("emojiset", Emojiset);
+      URI.Add_Param ("demote_inactive_streams", Demote_Inactive_Streams);
+      URI.Add_Param ("timezone", Timezone);
       URI.Add_Param ("enable_stream_desktop_notifications", Enable_Stream_Desktop_Notifications);
       URI.Add_Param ("enable_stream_email_notifications", Enable_Stream_Email_Notifications);
       URI.Add_Param ("enable_stream_push_notifications", Enable_Stream_Push_Notifications);
@@ -1759,6 +1892,7 @@ package body .Clients is
       URI.Add_Param ("notification_sound", Notification_Sound);
       URI.Add_Param ("enable_desktop_notifications", Enable_Desktop_Notifications);
       URI.Add_Param ("enable_sounds", Enable_Sounds);
+      URI.Add_Param ("email_notifications_batching_period_seconds", Email_Notifications_Batching_Period_Seconds);
       URI.Add_Param ("enable_offline_email_notifications", Enable_Offline_Email_Notifications);
       URI.Add_Param ("enable_offline_push_notifications", Enable_Offline_Push_Notifications);
       URI.Add_Param ("enable_online_push_notifications", Enable_Online_Push_Notifications);
@@ -1771,10 +1905,45 @@ package body .Clients is
       URI.Add_Param ("desktop_icon_count_display", Desktop_Icon_Count_Display);
       URI.Add_Param ("realm_name_in_notifications", Realm_Name_In_Notifications);
       URI.Add_Param ("presence_enabled", Presence_Enabled);
-      URI.Set_Path ("/settings/notifications");
+      URI.Add_Param ("enter_sends", Enter_Sends);
+      URI.Set_Path ("/settings");
       Client.Call (Swagger.Clients.PATCH, URI, Reply);
       .Models.Deserialize (Reply, "", Result);
-   end Update_Notification_Settings;
+   end Update_Settings;
+
+   --  Update your status
+   --  Change your [status](/help/status-and-availability).
+   --  
+   --  `POST {{ api_url }}/v1/users/me/status`
+   --  
+   --  A request to this endpoint will only change the parameters passed.
+   --  For example, passing just `status_text` requests a change in the status
+   --  text, but will leave the status emoji unchanged.
+   --  
+   --  Clients that wish to set the user's status to a specific value should
+   --  pass all supported parameters.
+   procedure Update_Status
+      (Client : in out Client_Type;
+       Status_Text : in Swagger.Nullable_UString;
+       Away : in Swagger.Nullable_Boolean;
+       Emoji_Name : in Swagger.Nullable_UString;
+       Emoji_Code : in Swagger.Nullable_UString;
+       Reaction_Type : in Swagger.Nullable_UString;
+       Result : out .Models.JsonSuccess_Type) is
+      URI   : Swagger.Clients.URI_Type;
+      Reply : Swagger.Value_Type;
+   begin
+      Client.Set_Accept ((1 => Swagger.Clients.APPLICATION_JSON));
+
+      URI.Add_Param ("status_text", Status_Text);
+      URI.Add_Param ("away", Away);
+      URI.Add_Param ("emoji_name", Emoji_Name);
+      URI.Add_Param ("emoji_code", Emoji_Code);
+      URI.Add_Param ("reaction_type", Reaction_Type);
+      URI.Set_Path ("/users/me/status");
+      Client.Call (Swagger.Clients.POST, URI, Reply);
+      .Models.Deserialize (Reply, "", Result);
+   end Update_Status;
 
    --  Update a user
    --  Administrative endpoint to update the details of another user in the organization.

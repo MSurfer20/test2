@@ -24,6 +24,7 @@
 #include "OAIObject.h"
 #include "OAIOneOfobjectobject.h"
 #include "OAIOneOfobjectobjectobject.h"
+#include "OAIOneOfobjectobjectobjectobjectobjectobject.h"
 #include <QString>
 
 #include <QObject>
@@ -147,12 +148,17 @@ public:
     void unmuteUser(const qint32 &muted_user_id);
 
     /**
+    * @param[in]  full_name QString [optional]
+    * @param[in]  email QString [optional]
+    * @param[in]  old_password QString [optional]
+    * @param[in]  new_password QString [optional]
     * @param[in]  twenty_four_hour_time bool [optional]
     * @param[in]  dense_mode bool [optional]
     * @param[in]  starred_message_counts bool [optional]
     * @param[in]  fluid_layout_width bool [optional]
     * @param[in]  high_contrast_mode bool [optional]
     * @param[in]  color_scheme qint32 [optional]
+    * @param[in]  enable_drafts_synchronization bool [optional]
     * @param[in]  translate_emoticons bool [optional]
     * @param[in]  default_language QString [optional]
     * @param[in]  default_view QString [optional]
@@ -160,10 +166,6 @@ public:
     * @param[in]  emojiset QString [optional]
     * @param[in]  demote_inactive_streams qint32 [optional]
     * @param[in]  timezone QString [optional]
-    */
-    void updateDisplaySettings(const ::OpenAPI::OptionalParam<bool> &twenty_four_hour_time = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<bool> &dense_mode = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<bool> &starred_message_counts = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<bool> &fluid_layout_width = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<bool> &high_contrast_mode = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<qint32> &color_scheme = ::OpenAPI::OptionalParam<qint32>(), const ::OpenAPI::OptionalParam<bool> &translate_emoticons = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<QString> &default_language = ::OpenAPI::OptionalParam<QString>(), const ::OpenAPI::OptionalParam<QString> &default_view = ::OpenAPI::OptionalParam<QString>(), const ::OpenAPI::OptionalParam<bool> &left_side_userlist = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<QString> &emojiset = ::OpenAPI::OptionalParam<QString>(), const ::OpenAPI::OptionalParam<qint32> &demote_inactive_streams = ::OpenAPI::OptionalParam<qint32>(), const ::OpenAPI::OptionalParam<QString> &timezone = ::OpenAPI::OptionalParam<QString>());
-
-    /**
     * @param[in]  enable_stream_desktop_notifications bool [optional]
     * @param[in]  enable_stream_email_notifications bool [optional]
     * @param[in]  enable_stream_push_notifications bool [optional]
@@ -171,6 +173,7 @@ public:
     * @param[in]  notification_sound QString [optional]
     * @param[in]  enable_desktop_notifications bool [optional]
     * @param[in]  enable_sounds bool [optional]
+    * @param[in]  email_notifications_batching_period_seconds qint32 [optional]
     * @param[in]  enable_offline_email_notifications bool [optional]
     * @param[in]  enable_offline_push_notifications bool [optional]
     * @param[in]  enable_online_push_notifications bool [optional]
@@ -183,8 +186,18 @@ public:
     * @param[in]  desktop_icon_count_display qint32 [optional]
     * @param[in]  realm_name_in_notifications bool [optional]
     * @param[in]  presence_enabled bool [optional]
+    * @param[in]  enter_sends bool [optional]
     */
-    void updateNotificationSettings(const ::OpenAPI::OptionalParam<bool> &enable_stream_desktop_notifications = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<bool> &enable_stream_email_notifications = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<bool> &enable_stream_push_notifications = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<bool> &enable_stream_audible_notifications = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<QString> &notification_sound = ::OpenAPI::OptionalParam<QString>(), const ::OpenAPI::OptionalParam<bool> &enable_desktop_notifications = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<bool> &enable_sounds = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<bool> &enable_offline_email_notifications = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<bool> &enable_offline_push_notifications = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<bool> &enable_online_push_notifications = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<bool> &enable_digest_emails = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<bool> &enable_marketing_emails = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<bool> &enable_login_emails = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<bool> &message_content_in_email_notifications = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<bool> &pm_content_in_desktop_notifications = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<bool> &wildcard_mentions_notify = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<qint32> &desktop_icon_count_display = ::OpenAPI::OptionalParam<qint32>(), const ::OpenAPI::OptionalParam<bool> &realm_name_in_notifications = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<bool> &presence_enabled = ::OpenAPI::OptionalParam<bool>());
+    void updateSettings(const ::OpenAPI::OptionalParam<QString> &full_name = ::OpenAPI::OptionalParam<QString>(), const ::OpenAPI::OptionalParam<QString> &email = ::OpenAPI::OptionalParam<QString>(), const ::OpenAPI::OptionalParam<QString> &old_password = ::OpenAPI::OptionalParam<QString>(), const ::OpenAPI::OptionalParam<QString> &new_password = ::OpenAPI::OptionalParam<QString>(), const ::OpenAPI::OptionalParam<bool> &twenty_four_hour_time = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<bool> &dense_mode = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<bool> &starred_message_counts = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<bool> &fluid_layout_width = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<bool> &high_contrast_mode = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<qint32> &color_scheme = ::OpenAPI::OptionalParam<qint32>(), const ::OpenAPI::OptionalParam<bool> &enable_drafts_synchronization = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<bool> &translate_emoticons = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<QString> &default_language = ::OpenAPI::OptionalParam<QString>(), const ::OpenAPI::OptionalParam<QString> &default_view = ::OpenAPI::OptionalParam<QString>(), const ::OpenAPI::OptionalParam<bool> &left_side_userlist = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<QString> &emojiset = ::OpenAPI::OptionalParam<QString>(), const ::OpenAPI::OptionalParam<qint32> &demote_inactive_streams = ::OpenAPI::OptionalParam<qint32>(), const ::OpenAPI::OptionalParam<QString> &timezone = ::OpenAPI::OptionalParam<QString>(), const ::OpenAPI::OptionalParam<bool> &enable_stream_desktop_notifications = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<bool> &enable_stream_email_notifications = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<bool> &enable_stream_push_notifications = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<bool> &enable_stream_audible_notifications = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<QString> &notification_sound = ::OpenAPI::OptionalParam<QString>(), const ::OpenAPI::OptionalParam<bool> &enable_desktop_notifications = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<bool> &enable_sounds = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<qint32> &email_notifications_batching_period_seconds = ::OpenAPI::OptionalParam<qint32>(), const ::OpenAPI::OptionalParam<bool> &enable_offline_email_notifications = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<bool> &enable_offline_push_notifications = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<bool> &enable_online_push_notifications = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<bool> &enable_digest_emails = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<bool> &enable_marketing_emails = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<bool> &enable_login_emails = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<bool> &message_content_in_email_notifications = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<bool> &pm_content_in_desktop_notifications = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<bool> &wildcard_mentions_notify = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<qint32> &desktop_icon_count_display = ::OpenAPI::OptionalParam<qint32>(), const ::OpenAPI::OptionalParam<bool> &realm_name_in_notifications = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<bool> &presence_enabled = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<bool> &enter_sends = ::OpenAPI::OptionalParam<bool>());
+
+    /**
+    * @param[in]  status_text QString [optional]
+    * @param[in]  away bool [optional]
+    * @param[in]  emoji_name QString [optional]
+    * @param[in]  emoji_code QString [optional]
+    * @param[in]  reaction_type QString [optional]
+    */
+    void updateStatus(const ::OpenAPI::OptionalParam<QString> &status_text = ::OpenAPI::OptionalParam<QString>(), const ::OpenAPI::OptionalParam<bool> &away = ::OpenAPI::OptionalParam<bool>(), const ::OpenAPI::OptionalParam<QString> &emoji_name = ::OpenAPI::OptionalParam<QString>(), const ::OpenAPI::OptionalParam<QString> &emoji_code = ::OpenAPI::OptionalParam<QString>(), const ::OpenAPI::OptionalParam<QString> &reaction_type = ::OpenAPI::OptionalParam<QString>());
 
     /**
     * @param[in]  user_id qint32 [required]
@@ -239,8 +252,8 @@ private:
     void removeUserGroupCallback(OAIHttpRequestWorker *worker);
     void setTypingStatusCallback(OAIHttpRequestWorker *worker);
     void unmuteUserCallback(OAIHttpRequestWorker *worker);
-    void updateDisplaySettingsCallback(OAIHttpRequestWorker *worker);
-    void updateNotificationSettingsCallback(OAIHttpRequestWorker *worker);
+    void updateSettingsCallback(OAIHttpRequestWorker *worker);
+    void updateStatusCallback(OAIHttpRequestWorker *worker);
     void updateUserCallback(OAIHttpRequestWorker *worker);
     void updateUserGroupCallback(OAIHttpRequestWorker *worker);
     void updateUserGroupMembersCallback(OAIHttpRequestWorker *worker);
@@ -263,8 +276,8 @@ signals:
     void removeUserGroupSignal(OAIJsonSuccess summary);
     void setTypingStatusSignal(OAIJsonSuccess summary);
     void unmuteUserSignal(OAIJsonSuccess summary);
-    void updateDisplaySettingsSignal(OAIJsonSuccessBase summary);
-    void updateNotificationSettingsSignal(OAIJsonSuccessBase summary);
+    void updateSettingsSignal(OAIJsonSuccessBase summary);
+    void updateStatusSignal(OAIJsonSuccess summary);
     void updateUserSignal(OAIJsonSuccess summary);
     void updateUserGroupSignal(OAIJsonSuccess summary);
     void updateUserGroupMembersSignal(OAIJsonSuccess summary);
@@ -285,8 +298,8 @@ signals:
     void removeUserGroupSignalFull(OAIHttpRequestWorker *worker, OAIJsonSuccess summary);
     void setTypingStatusSignalFull(OAIHttpRequestWorker *worker, OAIJsonSuccess summary);
     void unmuteUserSignalFull(OAIHttpRequestWorker *worker, OAIJsonSuccess summary);
-    void updateDisplaySettingsSignalFull(OAIHttpRequestWorker *worker, OAIJsonSuccessBase summary);
-    void updateNotificationSettingsSignalFull(OAIHttpRequestWorker *worker, OAIJsonSuccessBase summary);
+    void updateSettingsSignalFull(OAIHttpRequestWorker *worker, OAIJsonSuccessBase summary);
+    void updateStatusSignalFull(OAIHttpRequestWorker *worker, OAIJsonSuccess summary);
     void updateUserSignalFull(OAIHttpRequestWorker *worker, OAIJsonSuccess summary);
     void updateUserGroupSignalFull(OAIHttpRequestWorker *worker, OAIJsonSuccess summary);
     void updateUserGroupMembersSignalFull(OAIHttpRequestWorker *worker, OAIJsonSuccess summary);
@@ -307,8 +320,8 @@ signals:
     void removeUserGroupSignalE(OAIJsonSuccess summary, QNetworkReply::NetworkError error_type, QString error_str);
     void setTypingStatusSignalE(OAIJsonSuccess summary, QNetworkReply::NetworkError error_type, QString error_str);
     void unmuteUserSignalE(OAIJsonSuccess summary, QNetworkReply::NetworkError error_type, QString error_str);
-    void updateDisplaySettingsSignalE(OAIJsonSuccessBase summary, QNetworkReply::NetworkError error_type, QString error_str);
-    void updateNotificationSettingsSignalE(OAIJsonSuccessBase summary, QNetworkReply::NetworkError error_type, QString error_str);
+    void updateSettingsSignalE(OAIJsonSuccessBase summary, QNetworkReply::NetworkError error_type, QString error_str);
+    void updateStatusSignalE(OAIJsonSuccess summary, QNetworkReply::NetworkError error_type, QString error_str);
     void updateUserSignalE(OAIJsonSuccess summary, QNetworkReply::NetworkError error_type, QString error_str);
     void updateUserGroupSignalE(OAIJsonSuccess summary, QNetworkReply::NetworkError error_type, QString error_str);
     void updateUserGroupMembersSignalE(OAIJsonSuccess summary, QNetworkReply::NetworkError error_type, QString error_str);
@@ -329,8 +342,8 @@ signals:
     void removeUserGroupSignalEFull(OAIHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
     void setTypingStatusSignalEFull(OAIHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
     void unmuteUserSignalEFull(OAIHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
-    void updateDisplaySettingsSignalEFull(OAIHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
-    void updateNotificationSettingsSignalEFull(OAIHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
+    void updateSettingsSignalEFull(OAIHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
+    void updateStatusSignalEFull(OAIHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
     void updateUserSignalEFull(OAIHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
     void updateUserGroupSignalEFull(OAIHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
     void updateUserGroupMembersSignalEFull(OAIHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);

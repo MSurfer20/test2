@@ -42,12 +42,16 @@ public:
 	class ArchiveStreamResponse;
 	class CreateBigBlueButtonVideoCallRequest;
 	class CreateBigBlueButtonVideoCallResponse;
+	class DeleteTopicRequest;
+	class DeleteTopicResponse;
 	class GetStreamIdRequest;
 	class GetStreamIdResponse;
 	class GetStreamTopicsRequest;
 	class GetStreamTopicsResponse;
 	class GetStreamsRequest;
 	class GetStreamsResponse;
+	class GetSubscribersRequest;
+	class GetSubscribersResponse;
 	class GetSubscriptionStatusRequest;
 	class GetSubscriptionStatusResponse;
 	class GetSubscriptionsRequest;
@@ -67,9 +71,11 @@ public:
 	
     DECLARE_DELEGATE_OneParam(FArchiveStreamDelegate, const ArchiveStreamResponse&);
     DECLARE_DELEGATE_OneParam(FCreateBigBlueButtonVideoCallDelegate, const CreateBigBlueButtonVideoCallResponse&);
+    DECLARE_DELEGATE_OneParam(FDeleteTopicDelegate, const DeleteTopicResponse&);
     DECLARE_DELEGATE_OneParam(FGetStreamIdDelegate, const GetStreamIdResponse&);
     DECLARE_DELEGATE_OneParam(FGetStreamTopicsDelegate, const GetStreamTopicsResponse&);
     DECLARE_DELEGATE_OneParam(FGetStreamsDelegate, const GetStreamsResponse&);
+    DECLARE_DELEGATE_OneParam(FGetSubscribersDelegate, const GetSubscribersResponse&);
     DECLARE_DELEGATE_OneParam(FGetSubscriptionStatusDelegate, const GetSubscriptionStatusResponse&);
     DECLARE_DELEGATE_OneParam(FGetSubscriptionsDelegate, const GetSubscriptionsResponse&);
     DECLARE_DELEGATE_OneParam(FMuteTopicDelegate, const MuteTopicResponse&);
@@ -81,9 +87,11 @@ public:
     
     FHttpRequestPtr ArchiveStream(const ArchiveStreamRequest& Request, const FArchiveStreamDelegate& Delegate = FArchiveStreamDelegate()) const;
     FHttpRequestPtr CreateBigBlueButtonVideoCall(const CreateBigBlueButtonVideoCallRequest& Request, const FCreateBigBlueButtonVideoCallDelegate& Delegate = FCreateBigBlueButtonVideoCallDelegate()) const;
+    FHttpRequestPtr DeleteTopic(const DeleteTopicRequest& Request, const FDeleteTopicDelegate& Delegate = FDeleteTopicDelegate()) const;
     FHttpRequestPtr GetStreamId(const GetStreamIdRequest& Request, const FGetStreamIdDelegate& Delegate = FGetStreamIdDelegate()) const;
     FHttpRequestPtr GetStreamTopics(const GetStreamTopicsRequest& Request, const FGetStreamTopicsDelegate& Delegate = FGetStreamTopicsDelegate()) const;
     FHttpRequestPtr GetStreams(const GetStreamsRequest& Request, const FGetStreamsDelegate& Delegate = FGetStreamsDelegate()) const;
+    FHttpRequestPtr GetSubscribers(const GetSubscribersRequest& Request, const FGetSubscribersDelegate& Delegate = FGetSubscribersDelegate()) const;
     FHttpRequestPtr GetSubscriptionStatus(const GetSubscriptionStatusRequest& Request, const FGetSubscriptionStatusDelegate& Delegate = FGetSubscriptionStatusDelegate()) const;
     FHttpRequestPtr GetSubscriptions(const GetSubscriptionsRequest& Request, const FGetSubscriptionsDelegate& Delegate = FGetSubscriptionsDelegate()) const;
     FHttpRequestPtr MuteTopic(const MuteTopicRequest& Request, const FMuteTopicDelegate& Delegate = FMuteTopicDelegate()) const;
@@ -96,9 +104,11 @@ public:
 private:
     void OnArchiveStreamResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FArchiveStreamDelegate Delegate) const;
     void OnCreateBigBlueButtonVideoCallResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateBigBlueButtonVideoCallDelegate Delegate) const;
+    void OnDeleteTopicResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteTopicDelegate Delegate) const;
     void OnGetStreamIdResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetStreamIdDelegate Delegate) const;
     void OnGetStreamTopicsResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetStreamTopicsDelegate Delegate) const;
     void OnGetStreamsResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetStreamsDelegate Delegate) const;
+    void OnGetSubscribersResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetSubscribersDelegate Delegate) const;
     void OnGetSubscriptionStatusResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetSubscriptionStatusDelegate Delegate) const;
     void OnGetSubscriptionsResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetSubscriptionsDelegate Delegate) const;
     void OnMuteTopicResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FMuteTopicDelegate Delegate) const;

@@ -279,6 +279,135 @@ public class StreamsApi {
         return localVarCall;
     }
     /**
+     * Build call for deleteTopic
+     * @param streamId The ID of the stream to access.  (required)
+     * @param topicName The name of the topic to delete.  (required)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Success. </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Error. </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call deleteTopicCall(Integer streamId, String topicName, final ApiCallback _callback) throws ApiException {
+        Object localVarPostBody = null;
+
+        // create path and map variables
+        String localVarPath = "/streams/{stream_id}/delete_topic"
+            .replaceAll("\\{" + "stream_id" + "\\}", localVarApiClient.escapeString(streamId.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        if (topicName != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("topic_name", topicName));
+        }
+
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        String[] localVarAuthNames = new String[] {  };
+        return localVarApiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call deleteTopicValidateBeforeCall(Integer streamId, String topicName, final ApiCallback _callback) throws ApiException {
+        
+        // verify the required parameter 'streamId' is set
+        if (streamId == null) {
+            throw new ApiException("Missing the required parameter 'streamId' when calling deleteTopic(Async)");
+        }
+        
+        // verify the required parameter 'topicName' is set
+        if (topicName == null) {
+            throw new ApiException("Missing the required parameter 'topicName' when calling deleteTopic(Async)");
+        }
+        
+
+        okhttp3.Call localVarCall = deleteTopicCall(streamId, topicName, _callback);
+        return localVarCall;
+
+    }
+
+    /**
+     * Delete a topic
+     * Delete all messages in a topic.  &#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+     * @param streamId The ID of the stream to access.  (required)
+     * @param topicName The name of the topic to delete.  (required)
+     * @return JsonSuccess
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Success. </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Error. </td><td>  -  </td></tr>
+     </table>
+     */
+    public JsonSuccess deleteTopic(Integer streamId, String topicName) throws ApiException {
+        ApiResponse<JsonSuccess> localVarResp = deleteTopicWithHttpInfo(streamId, topicName);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Delete a topic
+     * Delete all messages in a topic.  &#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+     * @param streamId The ID of the stream to access.  (required)
+     * @param topicName The name of the topic to delete.  (required)
+     * @return ApiResponse&lt;JsonSuccess&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Success. </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Error. </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<JsonSuccess> deleteTopicWithHttpInfo(Integer streamId, String topicName) throws ApiException {
+        okhttp3.Call localVarCall = deleteTopicValidateBeforeCall(streamId, topicName, null);
+        Type localVarReturnType = new TypeToken<JsonSuccess>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Delete a topic (asynchronously)
+     * Delete all messages in a topic.  &#x60;POST {{ api_url }}/v1/streams/{stream_id}/delete_topic&#x60;  Topics are a field on messages (not an independent data structure), so deleting all the messages in the topic deletes the topic from Zulip. 
+     * @param streamId The ID of the stream to access.  (required)
+     * @param topicName The name of the topic to delete.  (required)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Success. </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Error. </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call deleteTopicAsync(Integer streamId, String topicName, final ApiCallback<JsonSuccess> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = deleteTopicValidateBeforeCall(streamId, topicName, _callback);
+        Type localVarReturnType = new TypeToken<JsonSuccess>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
      * Build call for getStreamId
      * @param stream The name of the stream to access.  (required)
      * @param _callback Callback for upload/download progress
@@ -663,6 +792,122 @@ public class StreamsApi {
     public okhttp3.Call getStreamsAsync(Boolean includePublic, Boolean includeWebPublic, Boolean includeSubscribed, Boolean includeAllActive, Boolean includeDefault, Boolean includeOwnerSubscribed, final ApiCallback<JsonSuccessBase> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = getStreamsValidateBeforeCall(includePublic, includeWebPublic, includeSubscribed, includeAllActive, includeDefault, includeOwnerSubscribed, _callback);
+        Type localVarReturnType = new TypeToken<JsonSuccessBase>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for getSubscribers
+     * @param streamId The ID of the stream to access.  (required)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Success. </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Bad request. </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call getSubscribersCall(Integer streamId, final ApiCallback _callback) throws ApiException {
+        Object localVarPostBody = null;
+
+        // create path and map variables
+        String localVarPath = "/streams/{stream_id}/members"
+            .replaceAll("\\{" + "stream_id" + "\\}", localVarApiClient.escapeString(streamId.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        String[] localVarAuthNames = new String[] {  };
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call getSubscribersValidateBeforeCall(Integer streamId, final ApiCallback _callback) throws ApiException {
+        
+        // verify the required parameter 'streamId' is set
+        if (streamId == null) {
+            throw new ApiException("Missing the required parameter 'streamId' when calling getSubscribers(Async)");
+        }
+        
+
+        okhttp3.Call localVarCall = getSubscribersCall(streamId, _callback);
+        return localVarCall;
+
+    }
+
+    /**
+     * Get the subscribers of a stream
+     * Get all users subscribed to a stream.  &#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60; 
+     * @param streamId The ID of the stream to access.  (required)
+     * @return JsonSuccessBase
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Success. </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Bad request. </td><td>  -  </td></tr>
+     </table>
+     */
+    public JsonSuccessBase getSubscribers(Integer streamId) throws ApiException {
+        ApiResponse<JsonSuccessBase> localVarResp = getSubscribersWithHttpInfo(streamId);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Get the subscribers of a stream
+     * Get all users subscribed to a stream.  &#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60; 
+     * @param streamId The ID of the stream to access.  (required)
+     * @return ApiResponse&lt;JsonSuccessBase&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Success. </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Bad request. </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<JsonSuccessBase> getSubscribersWithHttpInfo(Integer streamId) throws ApiException {
+        okhttp3.Call localVarCall = getSubscribersValidateBeforeCall(streamId, null);
+        Type localVarReturnType = new TypeToken<JsonSuccessBase>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Get the subscribers of a stream (asynchronously)
+     * Get all users subscribed to a stream.  &#x60;Get {{ api_url }}/v1/streams/{stream_id}/members&#x60; 
+     * @param streamId The ID of the stream to access.  (required)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Success. </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Bad request. </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call getSubscribersAsync(Integer streamId, final ApiCallback<JsonSuccessBase> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = getSubscribersValidateBeforeCall(streamId, _callback);
         Type localVarReturnType = new TypeToken<JsonSuccessBase>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;

@@ -60,10 +60,13 @@ set(SRCS
     model/coded_error_base_all_of.c
     model/custom_profile_field.c
     model/default_stream_group.c
+    model/draft.c
+    model/emoji_base.c
     model/emoji_reaction.c
     model/emoji_reaction_all_of.c
     model/emoji_reaction_base.c
-    model/emoji_reaction_base_user.c
+    model/emoji_reaction_base_all_of.c
+    model/emoji_reaction_base_all_of_user.c
     model/get_messages.c
     model/get_messages_all_of.c
     model/hotspot.c
@@ -102,6 +105,7 @@ set(SRCS
     model/user_group.c
     model/user_not_authorized_error.c
     api/AuthenticationAPI.c
+    api/DraftsAPI.c
     api/MessagesAPI.c
     api/RealTimeEventsAPI.c
     api/ServerAndOrganizationsAPI.c
@@ -140,10 +144,13 @@ set(HDRS
     model/coded_error_base_all_of.h
     model/custom_profile_field.h
     model/default_stream_group.h
+    model/draft.h
+    model/emoji_base.h
     model/emoji_reaction.h
     model/emoji_reaction_all_of.h
     model/emoji_reaction_base.h
-    model/emoji_reaction_base_user.h
+    model/emoji_reaction_base_all_of.h
+    model/emoji_reaction_base_all_of_user.h
     model/get_messages.h
     model/get_messages_all_of.h
     model/hotspot.h
@@ -182,6 +189,7 @@ set(HDRS
     model/user_group.h
     model/user_not_authorized_error.h
     api/AuthenticationAPI.h
+    api/DraftsAPI.h
     api/MessagesAPI.h
     api/RealTimeEventsAPI.h
     api/ServerAndOrganizationsAPI.h
@@ -207,6 +215,7 @@ set(HDRS "")
 ## set source files
 #set(SRCS
 #    unit-tests/manual-AuthenticationAPI.c
+#    unit-tests/manual-DraftsAPI.c
 #    unit-tests/manual-MessagesAPI.c
 #    unit-tests/manual-RealTimeEventsAPI.c
 #    unit-tests/manual-ServerAndOrganizationsAPI.c

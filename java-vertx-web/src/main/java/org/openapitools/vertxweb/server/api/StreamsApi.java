@@ -19,9 +19,11 @@ import java.util.Map;
 public interface StreamsApi  {
     Future<ApiResponse<JsonSuccess>> archiveStream(Integer streamId);
     Future<ApiResponse<JsonSuccessBase>> createBigBlueButtonVideoCall();
+    Future<ApiResponse<JsonSuccess>> deleteTopic(Integer streamId, String topicName);
     Future<ApiResponse<JsonSuccessBase>> getStreamId(String stream);
     Future<ApiResponse<JsonSuccessBase>> getStreamTopics(Integer streamId);
     Future<ApiResponse<JsonSuccessBase>> getStreams(Boolean includePublic, Boolean includeWebPublic, Boolean includeSubscribed, Boolean includeAllActive, Boolean includeDefault, Boolean includeOwnerSubscribed);
+    Future<ApiResponse<JsonSuccessBase>> getSubscribers(Integer streamId);
     Future<ApiResponse<JsonSuccessBase>> getSubscriptionStatus(Integer userId, Integer streamId);
     Future<ApiResponse<JsonSuccessBase>> getSubscriptions(Boolean includeSubscribers);
     Future<ApiResponse<JsonSuccess>> muteTopic(String topic, String op, String stream, Integer streamId);

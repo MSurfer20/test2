@@ -29,6 +29,13 @@ describe("streams_api", function()
     end)
   end)
 
+  -- unit tests for delete_topic
+  describe("delete_topic test", function()
+    it("should work", function()
+      -- TODO assertion here: http://olivinelabs.com/busted/#asserts
+    end)
+  end)
+
   -- unit tests for get_stream_id
   describe("get_stream_id test", function()
     it("should work", function()
@@ -45,6 +52,13 @@ describe("streams_api", function()
 
   -- unit tests for get_streams
   describe("get_streams test", function()
+    it("should work", function()
+      -- TODO assertion here: http://olivinelabs.com/busted/#asserts
+    end)
+  end)
+
+  -- unit tests for get_subscribers
+  describe("get_subscribers test", function()
     it("should work", function()
       -- TODO assertion here: http://olivinelabs.com/busted/#asserts
     end)

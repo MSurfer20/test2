@@ -30,10 +30,13 @@ import openapiclient/models/model_coded_error_base
 import openapiclient/models/model_coded_error_base_all_of
 import openapiclient/models/model_custom_profile_field
 import openapiclient/models/model_default_stream_group
+import openapiclient/models/model_draft
+import openapiclient/models/model_emoji_base
 import openapiclient/models/model_emoji_reaction
 import openapiclient/models/model_emoji_reaction_all_of
 import openapiclient/models/model_emoji_reaction_base
-import openapiclient/models/model_emoji_reaction_base_user
+import openapiclient/models/model_emoji_reaction_base_all_of
+import openapiclient/models/model_emoji_reaction_base_all_of_user
 import openapiclient/models/model_get_messages
 import openapiclient/models/model_get_messages_all_of
 import openapiclient/models/model_hotspot
@@ -94,10 +97,13 @@ export model_coded_error_base
 export model_coded_error_base_all_of
 export model_custom_profile_field
 export model_default_stream_group
+export model_draft
+export model_emoji_base
 export model_emoji_reaction
 export model_emoji_reaction_all_of
 export model_emoji_reaction_base
-export model_emoji_reaction_base_user
+export model_emoji_reaction_base_all_of
+export model_emoji_reaction_base_all_of_user
 export model_get_messages
 export model_get_messages_all_of
 export model_hotspot
@@ -138,6 +144,7 @@ export model_user_not_authorized_error
 
 # APIs
 import openapiclient/apis/api_authentication
+import openapiclient/apis/api_drafts
 import openapiclient/apis/api_messages
 import openapiclient/apis/api_real_time_events
 import openapiclient/apis/api_server_and_organizations
@@ -146,6 +153,7 @@ import openapiclient/apis/api_users
 import openapiclient/apis/api_webhooks
 
 export api_authentication
+export api_drafts
 export api_messages
 export api_real_time_events
 export api_server_and_organizations

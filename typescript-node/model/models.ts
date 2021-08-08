@@ -22,10 +22,13 @@ export * from './codedErrorBase';
 export * from './codedErrorBaseAllOf';
 export * from './customProfileField';
 export * from './defaultStreamGroup';
+export * from './draft';
+export * from './emojiBase';
 export * from './emojiReaction';
 export * from './emojiReactionAllOf';
 export * from './emojiReactionBase';
-export * from './emojiReactionBaseUser';
+export * from './emojiReactionBaseAllOf';
+export * from './emojiReactionBaseAllOfUser';
 export * from './getMessages';
 export * from './getMessagesAllOf';
 export * from './hotspot';
@@ -99,10 +102,13 @@ import { CodedErrorBase } from './codedErrorBase';
 import { CodedErrorBaseAllOf } from './codedErrorBaseAllOf';
 import { CustomProfileField } from './customProfileField';
 import { DefaultStreamGroup } from './defaultStreamGroup';
+import { Draft } from './draft';
+import { EmojiBase } from './emojiBase';
 import { EmojiReaction } from './emojiReaction';
 import { EmojiReactionAllOf } from './emojiReactionAllOf';
 import { EmojiReactionBase } from './emojiReactionBase';
-import { EmojiReactionBaseUser } from './emojiReactionBaseUser';
+import { EmojiReactionBaseAllOf } from './emojiReactionBaseAllOf';
+import { EmojiReactionBaseAllOfUser } from './emojiReactionBaseAllOfUser';
 import { GetMessages } from './getMessages';
 import { GetMessagesAllOf } from './getMessagesAllOf';
 import { Hotspot } from './hotspot';
@@ -154,6 +160,7 @@ let primitives = [
                  ];
 
 let enumsMap: {[index: string]: any} = {
+        "Draft.TypeEnum": Draft.TypeEnum,
         "JsonErrorBase.ResultEnum": JsonErrorBase.ResultEnum,
         "JsonErrorBaseAllOf.ResultEnum": JsonErrorBaseAllOf.ResultEnum,
         "JsonSuccessBase.ResultEnum": JsonSuccessBase.ResultEnum,
@@ -186,10 +193,13 @@ let typeMap: {[index: string]: any} = {
     "CodedErrorBaseAllOf": CodedErrorBaseAllOf,
     "CustomProfileField": CustomProfileField,
     "DefaultStreamGroup": DefaultStreamGroup,
+    "Draft": Draft,
+    "EmojiBase": EmojiBase,
     "EmojiReaction": EmojiReaction,
     "EmojiReactionAllOf": EmojiReactionAllOf,
     "EmojiReactionBase": EmojiReactionBase,
-    "EmojiReactionBaseUser": EmojiReactionBaseUser,
+    "EmojiReactionBaseAllOf": EmojiReactionBaseAllOf,
+    "EmojiReactionBaseAllOfUser": EmojiReactionBaseAllOfUser,
     "GetMessages": GetMessages,
     "GetMessagesAllOf": GetMessagesAllOf,
     "Hotspot": Hotspot,
