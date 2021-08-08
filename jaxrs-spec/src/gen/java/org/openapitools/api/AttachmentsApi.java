@@ -15,7 +15,7 @@ import javax.validation.Valid;
 
 @Path("/attachments")
 @Api(description = "the attachments API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-08T20:40:13.248583Z[Etc/UTC]")public class AttachmentsApi {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-08T20:42:36.410808Z[Etc/UTC]")public class AttachmentsApi {
 
     @GET
     @Produces({ "application/json" })

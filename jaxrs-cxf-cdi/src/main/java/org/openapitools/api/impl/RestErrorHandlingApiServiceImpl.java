@@ -18,7 +18,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
 @RequestScoped
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen", date = "2021-08-08T20:39:57.951599Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen", date = "2021-08-08T20:42:18.771666Z[Etc/UTC]")
 public class RestErrorHandlingApiServiceImpl implements RestErrorHandlingApiService {
       @Override
       public Response restErrorHandling(SecurityContext securityContext) {

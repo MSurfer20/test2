@@ -41,7 +41,7 @@ import javax.validation.Valid;
   Bot.JSON_PROPERTY_BOT_TYPE,
   Bot.JSON_PROPERTY_IS_ACTIVE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2021-08-08T20:40:02.257444Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2021-08-08T20:42:23.370561Z[Etc/UTC]")
 public class Bot   {
   public static final String JSON_PROPERTY_USER_ID = "user_id";
   @JsonProperty(JSON_PROPERTY_USER_ID)

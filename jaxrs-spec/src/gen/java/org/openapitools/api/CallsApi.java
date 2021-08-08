@@ -15,7 +15,7 @@ import javax.validation.Valid;
 
 @Path("/calls/bigbluebutton/create")
 @Api(description = "the calls API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-08T20:40:13.248583Z[Etc/UTC]")public class CallsApi {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-08T20:42:36.410808Z[Etc/UTC]")public class CallsApi {
 
     @GET
     @Produces({ "application/json" })

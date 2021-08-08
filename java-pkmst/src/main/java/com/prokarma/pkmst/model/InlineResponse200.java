@@ -16,7 +16,7 @@ import io.swagger.annotations.ApiModelProperty;
  */
 @ApiModel(description = "This is an example of the JSON payload that the Zulip server will `POST` to your server ")
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPKMSTServerCodegen", date = "2021-08-08T20:39:33.025212Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPKMSTServerCodegen", date = "2021-08-08T20:41:48.646080Z[Etc/UTC]")
 public class InlineResponse200   {
   @JsonProperty("bot_email")
   private String botEmail;

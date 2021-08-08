@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
 /**
  * InvalidMessageError
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-08-08T20:43:06.633496Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-08-08T20:46:01.944060Z[Etc/UTC]")
 public class InvalidMessageError   {
   @JsonProperty("result")
   private JsonNullable<Object> result = JsonNullable.undefined();

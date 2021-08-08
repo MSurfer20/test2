@@ -13,7 +13,7 @@ import org.openapitools.model.*;
 import org.openapitools.model.JsonError;
 import org.openapitools.model.JsonSuccess;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen", date = "2021-08-08T20:39:25.891737Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen", date = "2021-08-08T20:41:39.775381Z[Etc/UTC]")
 public class TypingController  {
   /** 
    * Uncomment and implement as you see fit.  These operations will map

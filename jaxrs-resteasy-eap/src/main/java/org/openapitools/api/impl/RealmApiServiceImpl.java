@@ -16,7 +16,7 @@ import java.io.InputStream;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyEapServerCodegen", date = "2021-08-08T20:40:09.617193Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyEapServerCodegen", date = "2021-08-08T20:42:32.152989Z[Etc/UTC]")
 public class RealmApiServiceImpl implements RealmApi {
       public Response addCodePlayground(String name,String pygmentsLanguage,String urlPrefix,SecurityContext securityContext) {
       // do some magic!

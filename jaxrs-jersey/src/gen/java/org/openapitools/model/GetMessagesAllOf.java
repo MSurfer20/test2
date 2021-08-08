@@ -52,7 +52,7 @@ import javax.validation.Valid;
   GetMessagesAllOf.JSON_PROPERTY_MATCH_CONTENT,
   GetMessagesAllOf.JSON_PROPERTY_MATCH_SUBJECT
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2021-08-08T20:40:02.257444Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2021-08-08T20:42:23.370561Z[Etc/UTC]")
 public class GetMessagesAllOf   {
   public static final String JSON_PROPERTY_AVATAR_URL = "avatar_url";
   @JsonProperty(JSON_PROPERTY_AVATAR_URL)

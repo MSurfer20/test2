@@ -10,7 +10,7 @@ import model.OasAnyTypeNotMapped
 import model.OneOfobjectobject
 import model.OneOfobjectobjectobject
 
-@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2021-08-08T20:42:55.656112Z[Etc/UTC]")
+@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2021-08-08T20:45:49.166589Z[Etc/UTC]")
 trait UsersApi {
   /**
     * Create a user

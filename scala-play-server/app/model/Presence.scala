@@ -9,7 +9,7 @@ import play.api.libs.json._
   * @param timestamp The UNIX timestamp of when this client sent the user's presence to the server with the precision of a second. 
   * @param pushable Whether the client is capable of showing mobile/push notifications to the user. 
   */
-@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2021-08-08T20:42:55.656112Z[Etc/UTC]")
+@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2021-08-08T20:45:49.166589Z[Etc/UTC]")
 case class Presence(
   client: Option[String],
   status: Option[Presence.Status.Value],

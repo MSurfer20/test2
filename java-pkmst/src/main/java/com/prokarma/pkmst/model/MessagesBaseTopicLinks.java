@@ -14,7 +14,7 @@ import io.swagger.annotations.ApiModelProperty;
  * MessagesBaseTopicLinks
  */
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPKMSTServerCodegen", date = "2021-08-08T20:39:33.025212Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPKMSTServerCodegen", date = "2021-08-08T20:41:48.646080Z[Etc/UTC]")
 public class MessagesBaseTopicLinks   {
   @JsonProperty("text")
   private String text;

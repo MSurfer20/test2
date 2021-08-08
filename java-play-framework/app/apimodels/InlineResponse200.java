@@ -9,7 +9,7 @@ import javax.validation.constraints.*;
 /**
  * This is an example of the JSON payload that the Zulip server will &#x60;POST&#x60; to your server 
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", date = "2021-08-08T20:39:36.686816Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", date = "2021-08-08T20:41:53.018098Z[Etc/UTC]")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class InlineResponse200   {
   @JsonProperty("bot_email")

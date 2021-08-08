@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 import javax.validation.constraints.*;
 import io.swagger.annotations.*;
 
-@ApiModel(description="Dictionary containing details of a single hotspot. ")@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyServerCodegen", date = "2021-08-08T20:40:06.005587Z[Etc/UTC]")
+@ApiModel(description="Dictionary containing details of a single hotspot. ")@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyServerCodegen", date = "2021-08-08T20:42:27.763537Z[Etc/UTC]")
 public class Hotspot   {
   
   private BigDecimal delay;

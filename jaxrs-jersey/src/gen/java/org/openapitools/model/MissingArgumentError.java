@@ -33,7 +33,7 @@ import javax.validation.Valid;
   MissingArgumentError.JSON_PROPERTY_CODE,
   MissingArgumentError.JSON_PROPERTY_VAR_NAME
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2021-08-08T20:40:02.257444Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2021-08-08T20:42:23.370561Z[Etc/UTC]")
 public class MissingArgumentError   {
   public static final String JSON_PROPERTY_RESULT = "result";
   @JsonProperty(JSON_PROPERTY_RESULT)

@@ -16,7 +16,7 @@ import javax.validation.Valid;
 
 @Path("/typing")
 @Api(description = "the typing API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-08T20:40:13.248583Z[Etc/UTC]")public class TypingApi {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-08T20:42:36.410808Z[Etc/UTC]")public class TypingApi {
 
     @POST
     @Produces({ "application/json" })

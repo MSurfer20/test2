@@ -32,7 +32,7 @@ import javax.validation.Valid;
 
 
 @io.swagger.annotations.Api(description = "the rest-error-handling API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2021-08-08T20:40:02.257444Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2021-08-08T20:42:23.370561Z[Etc/UTC]")
 public class RestErrorHandlingApi  {
    private final RestErrorHandlingApiService delegate;
 

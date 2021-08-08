@@ -17,7 +17,7 @@ import java.util.List;
  * BasicBotBase
  */
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPKMSTServerCodegen", date = "2021-08-08T20:39:33.025212Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPKMSTServerCodegen", date = "2021-08-08T20:41:48.646080Z[Etc/UTC]")
 public class BasicBotBase   {
   @JsonProperty("user_id")
   private Integer userId;

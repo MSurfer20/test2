@@ -6,7 +6,7 @@ import play.api.libs.json._
 import play.api.mvc._
 import model.ApiKeyResponse
 
-@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2021-08-08T20:42:55.656112Z[Etc/UTC]")
+@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2021-08-08T20:45:49.166589Z[Etc/UTC]")
 @Singleton
 class AuthenticationApiController @Inject()(cc: ControllerComponents, api: AuthenticationApi) extends AbstractController(cc) {
   /**

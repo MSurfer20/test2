@@ -17,7 +17,7 @@ import java.util.Map;
  **/
 
 @ApiModel(description = "A dictionary containing basic data on a given Zulip user. ")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen", date = "2021-08-08T20:39:25.891737Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen", date = "2021-08-08T20:41:39.775381Z[Etc/UTC]")
 public class UserBase   {
   @JsonProperty("email")
   private String email;

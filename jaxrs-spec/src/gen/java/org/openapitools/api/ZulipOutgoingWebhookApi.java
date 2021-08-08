@@ -15,7 +15,7 @@ import javax.validation.Valid;
 
 @Path("/zulip-outgoing-webhook")
 @Api(description = "the zulip-outgoing-webhook API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-08T20:40:13.248583Z[Etc/UTC]")public class ZulipOutgoingWebhookApi {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-08T20:42:36.410808Z[Etc/UTC]")public class ZulipOutgoingWebhookApi {
 
     @POST
     @Produces({ "application/json" })

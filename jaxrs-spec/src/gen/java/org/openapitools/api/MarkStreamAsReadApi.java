@@ -15,7 +15,7 @@ import javax.validation.Valid;
 
 @Path("/mark_stream_as_read")
 @Api(description = "the mark_stream_as_read API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-08T20:40:13.248583Z[Etc/UTC]")public class MarkStreamAsReadApi {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-08T20:42:36.410808Z[Etc/UTC]")public class MarkStreamAsReadApi {
 
     @POST
     @Produces({ "application/json" })

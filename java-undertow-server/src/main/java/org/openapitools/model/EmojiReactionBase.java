@@ -21,7 +21,7 @@ import org.openapitools.model.EmojiReactionBaseUser;
 
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaUndertowServerCodegen", date = "2021-08-08T20:39:40.345387Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaUndertowServerCodegen", date = "2021-08-08T20:41:57.310585Z[Etc/UTC]")
 public class EmojiReactionBase   {
   
   private String emojiCode;

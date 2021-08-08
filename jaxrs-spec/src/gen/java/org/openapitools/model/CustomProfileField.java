@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Dictionary containing the details of a custom profile field configured for this organization. 
  **/
 @ApiModel(description = "Dictionary containing the details of a custom profile field configured for this organization. ")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-08T20:40:13.248583Z[Etc/UTC]")public class CustomProfileField   {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-08T20:42:36.410808Z[Etc/UTC]")public class CustomProfileField   {
   
   private @Valid Integer id;
   private @Valid Integer type;

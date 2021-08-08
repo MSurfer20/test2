@@ -33,7 +33,7 @@ import javax.validation.Valid;
   Hotspot.JSON_PROPERTY_TITLE,
   Hotspot.JSON_PROPERTY_DESCRIPTION
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2021-08-08T20:40:02.257444Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2021-08-08T20:42:23.370561Z[Etc/UTC]")
 public class Hotspot   {
   public static final String JSON_PROPERTY_DELAY = "delay";
   @JsonProperty(JSON_PROPERTY_DELAY)

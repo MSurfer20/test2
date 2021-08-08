@@ -16,7 +16,7 @@ import org.openapitools.model.JsonSuccess;
 import org.openapitools.model.JsonSuccessBase;
 import org.openapitools.model.OneOfstringinteger;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen", date = "2021-08-08T20:39:25.891737Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen", date = "2021-08-08T20:41:39.775381Z[Etc/UTC]")
 public class StreamsController  {
   /** 
    * Uncomment and implement as you see fit.  These operations will map
