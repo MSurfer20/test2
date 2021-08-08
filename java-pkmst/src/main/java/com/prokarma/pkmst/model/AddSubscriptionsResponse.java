@@ -20,7 +20,7 @@ import java.util.Map;
  * AddSubscriptionsResponse
  */
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPKMSTServerCodegen", date = "2021-08-08T21:11:34.287957Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPKMSTServerCodegen", date = "2021-08-08T21:19:29.098714Z[Etc/UTC]")
 public class AddSubscriptionsResponse   {
   @JsonProperty("result")
   private Object result = null;

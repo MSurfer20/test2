@@ -24,7 +24,7 @@ import java.math.BigDecimal;
  */
 
 @ApiModel(description = "Object containing details about a realm export. ")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaUndertowServerCodegen", date = "2021-08-08T21:11:42.902469Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaUndertowServerCodegen", date = "2021-08-08T21:19:37.133192Z[Etc/UTC]")
 public class RealmExport   {
   
   private Integer id;

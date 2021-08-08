@@ -41,7 +41,7 @@ import javax.validation.Valid;
   BasicStream.JSON_PROPERTY_FIRST_MESSAGE_ID,
   BasicStream.JSON_PROPERTY_IS_ANNOUNCEMENT_ONLY
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2021-08-08T21:12:08.960239Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2021-08-08T21:20:01.120158Z[Etc/UTC]")
 public class BasicStream   {
   public static final String JSON_PROPERTY_STREAM_ID = "stream_id";
   @JsonProperty(JSON_PROPERTY_STREAM_ID)

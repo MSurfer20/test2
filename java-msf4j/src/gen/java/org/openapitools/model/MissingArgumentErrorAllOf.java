@@ -10,7 +10,7 @@ import io.swagger.annotations.ApiModelProperty;
  * ## Missing request parameter(s)  A typical failed JSON response for when a required request parameter is not supplied 
  */
 @ApiModel(description = "## Missing request parameter(s)  A typical failed JSON response for when a required request parameter is not supplied ")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", date = "2021-08-08T21:11:29.842761Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", date = "2021-08-08T21:19:24.930319Z[Etc/UTC]")
 public class MissingArgumentErrorAllOf   {
   @JsonProperty("result")
   private Object result = null;

@@ -31,7 +31,7 @@ import org.openapitools.client.model.BasicStream;
  * Dictionary containing details of a default stream group. 
  */
 @ApiModel(description = "Dictionary containing details of a default stream group. ")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-08-08T21:11:16.602637Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-08-08T21:19:12.385396Z[Etc/UTC]")
 public class DefaultStreamGroup {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)

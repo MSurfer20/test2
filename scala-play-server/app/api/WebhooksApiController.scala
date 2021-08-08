@@ -6,7 +6,7 @@ import play.api.libs.json._
 import play.api.mvc._
 import model.InlineResponse200
 
-@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2021-08-08T21:15:31.623147Z[Etc/UTC]")
+@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2021-08-08T21:23:09.886767Z[Etc/UTC]")
 @Singleton
 class WebhooksApiController @Inject()(cc: ControllerComponents, api: WebhooksApi) extends AbstractController(cc) {
   /**

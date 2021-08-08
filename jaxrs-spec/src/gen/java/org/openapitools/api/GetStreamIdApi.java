@@ -16,7 +16,7 @@ import javax.validation.Valid;
 
 @Path("/get_stream_id")
 @Api(description = "the get_stream_id API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-08T21:12:21.729821Z[Etc/UTC]")public class GetStreamIdApi {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-08T21:20:13.432792Z[Etc/UTC]")public class GetStreamIdApi {
 
     @GET
     @Produces({ "application/json" })

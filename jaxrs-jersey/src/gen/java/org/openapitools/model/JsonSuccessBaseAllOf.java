@@ -30,7 +30,7 @@ import javax.validation.Valid;
   JsonSuccessBaseAllOf.JSON_PROPERTY_RESULT,
   JsonSuccessBaseAllOf.JSON_PROPERTY_MSG
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2021-08-08T21:12:08.960239Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2021-08-08T21:20:01.120158Z[Etc/UTC]")
 public class JsonSuccessBaseAllOf   {
   /**
    * Gets or Sets result

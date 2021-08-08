@@ -15,7 +15,7 @@ import org.openapitools.model.OneOfstringarray;
  * Object containing details of the message. 
  */
 @ApiModel(description = "Object containing details of the message. ")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", date = "2021-08-08T21:11:29.842761Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", date = "2021-08-08T21:19:24.930319Z[Etc/UTC]")
 public class MessagesBase   {
   @JsonProperty("avatar_url")
   private String avatarUrl;

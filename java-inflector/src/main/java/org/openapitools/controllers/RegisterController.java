@@ -13,7 +13,7 @@ import org.openapitools.model.*;
 import org.openapitools.model.JsonSuccessBase;
 import java.util.List;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen", date = "2021-08-08T21:11:25.445184Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen", date = "2021-08-08T21:19:21.039467Z[Etc/UTC]")
 public class RegisterController  {
   /** 
    * Uncomment and implement as you see fit.  These operations will map

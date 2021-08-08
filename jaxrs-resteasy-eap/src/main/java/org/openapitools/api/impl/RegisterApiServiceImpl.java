@@ -14,7 +14,7 @@ import java.io.InputStream;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyEapServerCodegen", date = "2021-08-08T21:12:17.426219Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyEapServerCodegen", date = "2021-08-08T21:20:09.368890Z[Etc/UTC]")
 public class RegisterApiServiceImpl implements RegisterApi {
       public Response registerQueue(Boolean applyMarkdown,Boolean clientGravatar,Boolean slimPresence,List<String> eventTypes,Boolean allPublicStreams,Boolean includeSubscribers,Object clientCapabilities,List<String> fetchEventTypes,List<List<String>> narrow,SecurityContext securityContext) {
       // do some magic!

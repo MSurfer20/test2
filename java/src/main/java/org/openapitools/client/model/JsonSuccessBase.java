@@ -29,7 +29,7 @@ import org.openapitools.client.model.JsonSuccessBaseAllOf;
 /**
  * JsonSuccessBase
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-08-08T21:11:16.602637Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-08-08T21:19:12.385396Z[Etc/UTC]")
 public class JsonSuccessBase {
   /**
    * Gets or Sets result

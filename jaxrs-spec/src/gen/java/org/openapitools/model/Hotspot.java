@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Dictionary containing details of a single hotspot. 
  **/
 @ApiModel(description = "Dictionary containing details of a single hotspot. ")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-08T21:12:21.729821Z[Etc/UTC]")public class Hotspot   {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-08T21:20:13.432792Z[Etc/UTC]")public class Hotspot   {
   
   private @Valid BigDecimal delay;
   private @Valid String name;

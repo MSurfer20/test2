@@ -16,7 +16,7 @@ import javax.validation.Valid;
 
 @Path("/register")
 @Api(description = "the register API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-08T21:12:21.729821Z[Etc/UTC]")public class RegisterApi {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-08T21:20:13.432792Z[Etc/UTC]")public class RegisterApi {
 
     @POST
     @Produces({ "application/json" })

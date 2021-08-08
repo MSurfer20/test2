@@ -28,7 +28,7 @@ import java.io.IOException;
  * Object containing basic details about the stream. 
  */
 @ApiModel(description = "Object containing basic details about the stream. ")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-08-08T21:11:16.602637Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-08-08T21:19:12.385396Z[Etc/UTC]")
 public class BasicStreamBase {
   public static final String SERIALIZED_NAME_STREAM_ID = "stream_id";
   @SerializedName(SERIALIZED_NAME_STREAM_ID)

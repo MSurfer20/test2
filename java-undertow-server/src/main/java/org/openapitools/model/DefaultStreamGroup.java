@@ -26,7 +26,7 @@ import org.openapitools.model.BasicStream;
  */
 
 @ApiModel(description = "Dictionary containing details of a default stream group. ")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaUndertowServerCodegen", date = "2021-08-08T21:11:42.902469Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaUndertowServerCodegen", date = "2021-08-08T21:19:37.133192Z[Etc/UTC]")
 public class DefaultStreamGroup   {
   
   private String name;

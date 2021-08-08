@@ -16,7 +16,7 @@ import javax.validation.constraints.*;
 /**
  * AddSubscriptionsResponseAllOf
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-08-08T21:15:43.843274Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-08-08T21:23:21.107359Z[Etc/UTC]")
 public class AddSubscriptionsResponseAllOf   {
   @JsonProperty("result")
   private JsonNullable<Object> result = JsonNullable.undefined();

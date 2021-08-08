@@ -14,7 +14,7 @@ import java.io.File;
 import org.openapitools.model.JsonSuccess;
 import org.openapitools.model.JsonSuccessBase;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen", date = "2021-08-08T21:11:25.445184Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen", date = "2021-08-08T21:19:21.039467Z[Etc/UTC]")
 public class RealmController  {
   /** 
    * Uncomment and implement as you see fit.  These operations will map

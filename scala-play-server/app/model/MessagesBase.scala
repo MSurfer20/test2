@@ -24,7 +24,7 @@ import play.api.libs.json._
   * @param timestamp The UNIX timestamp for when the message was sent, in UTC seconds. 
   * @param `type` The type of the message: `stream` or `private`. 
   */
-@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2021-08-08T21:15:31.623147Z[Etc/UTC]")
+@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2021-08-08T21:23:09.886767Z[Etc/UTC]")
 case class MessagesBase(
   avatarUrl: Option[String],
   client: Option[String],

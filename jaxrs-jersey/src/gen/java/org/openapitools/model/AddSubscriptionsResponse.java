@@ -38,7 +38,7 @@ import javax.validation.Valid;
   AddSubscriptionsResponse.JSON_PROPERTY_ALREADY_SUBSCRIBED,
   AddSubscriptionsResponse.JSON_PROPERTY_UNAUTHORIZED
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2021-08-08T21:12:08.960239Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2021-08-08T21:20:01.120158Z[Etc/UTC]")
 public class AddSubscriptionsResponse   {
   public static final String JSON_PROPERTY_RESULT = "result";
   @JsonProperty(JSON_PROPERTY_RESULT)

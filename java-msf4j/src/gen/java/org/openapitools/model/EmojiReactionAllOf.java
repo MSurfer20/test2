@@ -9,7 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * EmojiReactionAllOf
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", date = "2021-08-08T21:11:29.842761Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", date = "2021-08-08T21:19:24.930319Z[Etc/UTC]")
 public class EmojiReactionAllOf   {
   @JsonProperty("emoji_code")
   private Object emojiCode = null;

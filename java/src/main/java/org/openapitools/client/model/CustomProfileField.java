@@ -28,7 +28,7 @@ import java.io.IOException;
  * Dictionary containing the details of a custom profile field configured for this organization. 
  */
 @ApiModel(description = "Dictionary containing the details of a custom profile field configured for this organization. ")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-08-08T21:11:16.602637Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-08-08T21:19:12.385396Z[Etc/UTC]")
 public class CustomProfileField {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
