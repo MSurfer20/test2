@@ -27,7 +27,7 @@ import java.io.IOException;
 /**
  * BasicBotAllOf
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-08-08T21:11:23.880435Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-08-08T21:11:16.602637Z[Etc/UTC]")
 public class BasicBotAllOf {
   public static final String SERIALIZED_NAME_USER_ID = "user_id";
   @SerializedName(SERIALIZED_NAME_USER_ID)

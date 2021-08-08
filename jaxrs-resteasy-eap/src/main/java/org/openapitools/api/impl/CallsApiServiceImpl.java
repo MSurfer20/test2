@@ -13,7 +13,7 @@ import java.io.InputStream;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyEapServerCodegen", date = "2021-08-08T21:12:21.563950Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyEapServerCodegen", date = "2021-08-08T21:12:17.426219Z[Etc/UTC]")
 public class CallsApiServiceImpl implements CallsApi {
       public Response createBigBlueButtonVideoCall(SecurityContext securityContext) {
       // do some magic!

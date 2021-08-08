@@ -33,7 +33,7 @@ import org.openapitools.client.model.OneOfstringarray;
  * Object containing details of the message. 
  */
 @ApiModel(description = "Object containing details of the message. ")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-08-08T21:11:23.880435Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-08-08T21:11:16.602637Z[Etc/UTC]")
 public class MessagesBase {
   public static final String SERIALIZED_NAME_AVATAR_URL = "avatar_url";
   @SerializedName(SERIALIZED_NAME_AVATAR_URL)

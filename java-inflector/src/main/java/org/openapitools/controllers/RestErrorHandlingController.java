@@ -14,7 +14,7 @@ import org.openapitools.model.OneOfInvalidApiKeyErrorMissingArgumentErrorUserNot
 import org.openapitools.model.OneOfRateLimitedError;
 import org.openapitools.model.OneOfUserDeactivatedErrorRealmDeactivatedError;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen", date = "2021-08-08T21:11:32.310747Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen", date = "2021-08-08T21:11:25.445184Z[Etc/UTC]")
 public class RestErrorHandlingController  {
   /** 
    * Uncomment and implement as you see fit.  These operations will map

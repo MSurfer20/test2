@@ -27,7 +27,7 @@ import java.util.Map;
  */
 
 @ApiModel(description = "A dictionary containing basic data on a given Zulip user. ")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaUndertowServerCodegen", date = "2021-08-08T21:11:48.795765Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaUndertowServerCodegen", date = "2021-08-08T21:11:42.902469Z[Etc/UTC]")
 public class UserBase   {
   
   private String email;

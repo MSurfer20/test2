@@ -9,7 +9,7 @@ import model.Draft
 import model.JsonError
 import model.JsonSuccess
 
-@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2021-08-08T21:15:24.853051Z[Etc/UTC]")
+@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2021-08-08T21:15:31.623147Z[Etc/UTC]")
 @Singleton
 class DraftsApiController @Inject()(cc: ControllerComponents, api: DraftsApi) extends AbstractController(cc) {
   /**

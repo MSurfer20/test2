@@ -24,7 +24,7 @@ import java.math.BigDecimal;
  */
 
 @ApiModel(description = "Dictionary containing details of a single hotspot. ")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaUndertowServerCodegen", date = "2021-08-08T21:11:48.795765Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaUndertowServerCodegen", date = "2021-08-08T21:11:42.902469Z[Etc/UTC]")
 public class Hotspot   {
   
   private BigDecimal delay;

@@ -12,7 +12,7 @@ import org.openapitools.model.BasicBotBase;
 
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen", date = "2021-08-08T21:11:32.310747Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen", date = "2021-08-08T21:11:25.445184Z[Etc/UTC]")
 public class BasicBot   {
   @JsonProperty("user_id")
   private Object userId = null;

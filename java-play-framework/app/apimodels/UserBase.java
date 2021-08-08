@@ -11,7 +11,7 @@ import javax.validation.constraints.*;
 /**
  * A dictionary containing basic data on a given Zulip user. 
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", date = "2021-08-08T21:11:44.583112Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", date = "2021-08-08T21:11:38.527546Z[Etc/UTC]")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class UserBase   {
   @JsonProperty("email")

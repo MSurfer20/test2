@@ -21,7 +21,7 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-08-08T21:15:36.024879Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-08-08T21:15:43.843274Z[Etc/UTC]")
 @Validated
 @Api(value = "mark_stream_as_read", description = "the mark_stream_as_read API")
 public interface MarkStreamAsReadApi {

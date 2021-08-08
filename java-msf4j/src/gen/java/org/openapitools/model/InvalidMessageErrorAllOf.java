@@ -9,7 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * InvalidMessageErrorAllOf
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", date = "2021-08-08T21:11:36.575393Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", date = "2021-08-08T21:11:29.842761Z[Etc/UTC]")
 public class InvalidMessageErrorAllOf   {
   @JsonProperty("result")
   private Object result = null;

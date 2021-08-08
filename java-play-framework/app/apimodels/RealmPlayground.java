@@ -8,7 +8,7 @@ import javax.validation.constraints.*;
 /**
  * Object containing details about a realm playground. 
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", date = "2021-08-08T21:11:44.583112Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", date = "2021-08-08T21:11:38.527546Z[Etc/UTC]")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class RealmPlayground   {
   @JsonProperty("id")

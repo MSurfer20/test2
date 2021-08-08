@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * This is an example of the JSON payload that the Zulip server will &#x60;POST&#x60; to your server 
  **/
 @ApiModel(description = "This is an example of the JSON payload that the Zulip server will `POST` to your server ")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-08T21:12:25.585041Z[Etc/UTC]")public class InlineResponse200   {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-08T21:12:21.729821Z[Etc/UTC]")public class InlineResponse200   {
   
   private @Valid String botEmail;
   private @Valid String botFullName;

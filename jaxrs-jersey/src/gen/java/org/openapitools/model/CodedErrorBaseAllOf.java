@@ -30,7 +30,7 @@ import javax.validation.Valid;
   CodedErrorBaseAllOf.JSON_PROPERTY_MSG,
   CodedErrorBaseAllOf.JSON_PROPERTY_CODE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2021-08-08T21:12:13.281187Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2021-08-08T21:12:08.960239Z[Etc/UTC]")
 public class CodedErrorBaseAllOf   {
   public static final String JSON_PROPERTY_RESULT = "result";
   @JsonProperty(JSON_PROPERTY_RESULT)

@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Object containing details about a realm export. 
  **/
 @ApiModel(description = "Object containing details about a realm export. ")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-08T21:12:25.585041Z[Etc/UTC]")public class RealmExport   {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-08T21:12:21.729821Z[Etc/UTC]")public class RealmExport   {
   
   private @Valid Integer id;
   private @Valid Integer actingUserId;

@@ -29,7 +29,7 @@ import org.openapitools.client.model.MessagesBase;
  * This is an example of the JSON payload that the Zulip server will &#x60;POST&#x60; to your server 
  */
 @ApiModel(description = "This is an example of the JSON payload that the Zulip server will `POST` to your server ")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-08-08T21:11:23.880435Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-08-08T21:11:16.602637Z[Etc/UTC]")
 public class InlineResponse200 {
   public static final String SERIALIZED_NAME_BOT_EMAIL = "bot_email";
   @SerializedName(SERIALIZED_NAME_BOT_EMAIL)

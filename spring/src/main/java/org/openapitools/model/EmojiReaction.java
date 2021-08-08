@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
 /**
  * EmojiReaction
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-08-08T21:15:36.024879Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-08-08T21:15:43.843274Z[Etc/UTC]")
 public class EmojiReaction   {
   @JsonProperty("emoji_code")
   private JsonNullable<Object> emojiCode = JsonNullable.undefined();

@@ -14,7 +14,7 @@ import model.OneOfobjectobject
 import model.OneOfstringinteger
 import play.api.libs.Files.TemporaryFile
 
-@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2021-08-08T21:15:24.853051Z[Etc/UTC]")
+@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2021-08-08T21:15:31.623147Z[Etc/UTC]")
 @Singleton
 class MessagesApiController @Inject()(cc: ControllerComponents, api: MessagesApi) extends AbstractController(cc) {
   /**

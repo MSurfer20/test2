@@ -11,7 +11,7 @@ import org.openapitools.model.CodedError;
 
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen", date = "2021-08-08T21:11:32.310747Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen", date = "2021-08-08T21:11:25.445184Z[Etc/UTC]")
 public class RealmDeactivatedError   {
   @JsonProperty("result")
   private Object result = null;

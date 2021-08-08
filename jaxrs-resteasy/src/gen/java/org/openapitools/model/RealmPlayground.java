@@ -9,7 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 import javax.validation.constraints.*;
 import io.swagger.annotations.*;
 
-@ApiModel(description="Object containing details about a realm playground. ")@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyServerCodegen", date = "2021-08-08T21:12:17.400215Z[Etc/UTC]")
+@ApiModel(description="Object containing details about a realm playground. ")@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyServerCodegen", date = "2021-08-08T21:12:13.402057Z[Etc/UTC]")
 public class RealmPlayground   {
   
   private Integer id;

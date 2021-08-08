@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * ## Missing request parameter(s)  A typical failed JSON response for when a required request parameter is not supplied 
  **/
 @ApiModel(description = "## Missing request parameter(s)  A typical failed JSON response for when a required request parameter is not supplied ")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-08T21:12:25.585041Z[Etc/UTC]")public class MissingArgumentErrorAllOf   {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-08T21:12:21.729821Z[Etc/UTC]")public class MissingArgumentErrorAllOf   {
   
   private @Valid Object result = null;
   private @Valid Object msg = null;

@@ -38,7 +38,7 @@ import javax.validation.Valid;
   BasicBot.JSON_PROPERTY_OWNER_ID,
   BasicBot.JSON_PROPERTY_SERVICES
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2021-08-08T21:12:13.281187Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2021-08-08T21:12:08.960239Z[Etc/UTC]")
 public class BasicBot   {
   public static final String JSON_PROPERTY_USER_ID = "user_id";
   @JsonProperty(JSON_PROPERTY_USER_ID)

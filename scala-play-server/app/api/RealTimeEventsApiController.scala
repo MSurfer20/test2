@@ -12,7 +12,7 @@ import model.OneOfInvalidApiKeyErrorMissingArgumentErrorUserNotAuthorizedError
 import model.OneOfRateLimitedError
 import model.OneOfUserDeactivatedErrorRealmDeactivatedError
 
-@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2021-08-08T21:15:24.853051Z[Etc/UTC]")
+@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2021-08-08T21:15:31.623147Z[Etc/UTC]")
 @Singleton
 class RealTimeEventsApiController @Inject()(cc: ControllerComponents, api: RealTimeEventsApi) extends AbstractController(cc) {
   /**

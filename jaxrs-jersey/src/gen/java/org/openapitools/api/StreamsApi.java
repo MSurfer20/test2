@@ -34,7 +34,7 @@ import javax.validation.Valid;
 
 
 @io.swagger.annotations.Api(description = "the streams API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2021-08-08T21:12:13.281187Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2021-08-08T21:12:08.960239Z[Etc/UTC]")
 public class StreamsApi  {
    private final StreamsApiService delegate;
 

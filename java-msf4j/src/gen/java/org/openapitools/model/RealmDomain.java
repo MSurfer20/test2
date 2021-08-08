@@ -10,7 +10,7 @@ import io.swagger.annotations.ApiModelProperty;
  * Object containing details of the newly added domain. 
  */
 @ApiModel(description = "Object containing details of the newly added domain. ")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", date = "2021-08-08T21:11:36.575393Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", date = "2021-08-08T21:11:29.842761Z[Etc/UTC]")
 public class RealmDomain   {
   @JsonProperty("domain")
   private String domain;

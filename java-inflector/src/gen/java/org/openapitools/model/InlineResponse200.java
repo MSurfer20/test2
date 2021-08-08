@@ -14,7 +14,7 @@ import org.openapitools.model.MessagesBase;
  **/
 
 @ApiModel(description = "This is an example of the JSON payload that the Zulip server will `POST` to your server ")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen", date = "2021-08-08T21:11:32.310747Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen", date = "2021-08-08T21:11:25.445184Z[Etc/UTC]")
 public class InlineResponse200   {
   @JsonProperty("bot_email")
   private String botEmail;

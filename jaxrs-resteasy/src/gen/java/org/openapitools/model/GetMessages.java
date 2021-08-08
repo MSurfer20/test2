@@ -13,7 +13,7 @@ import org.openapitools.model.MessagesBase;
 import javax.validation.constraints.*;
 import io.swagger.annotations.*;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyServerCodegen", date = "2021-08-08T21:12:17.400215Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyServerCodegen", date = "2021-08-08T21:12:13.402057Z[Etc/UTC]")
 public class GetMessages   {
   
   private Object avatarUrl = null;

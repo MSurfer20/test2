@@ -12,7 +12,7 @@ import org.openapitools.model.*;
 
 import org.openapitools.model.ApiKeyResponse;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen", date = "2021-08-08T21:11:32.310747Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen", date = "2021-08-08T21:11:25.445184Z[Etc/UTC]")
 public class FetchApiKeyController  {
   /** 
    * Uncomment and implement as you see fit.  These operations will map

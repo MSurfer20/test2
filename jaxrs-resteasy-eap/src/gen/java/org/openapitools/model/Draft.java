@@ -13,7 +13,7 @@ import java.util.List;
 import javax.validation.constraints.*;
 import io.swagger.annotations.*;
 
-@ApiModel(description="A dictionary for representing a message draft. ")@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyEapServerCodegen", date = "2021-08-08T21:12:21.563950Z[Etc/UTC]")
+@ApiModel(description="A dictionary for representing a message draft. ")@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyEapServerCodegen", date = "2021-08-08T21:12:17.426219Z[Etc/UTC]")
 public class Draft   {
   
 

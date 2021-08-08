@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Dictionary containing details of a file uploaded by a user. 
  **/
 @ApiModel(description = "Dictionary containing details of a file uploaded by a user. ")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-08T21:12:25.585041Z[Etc/UTC]")public class Attachments   {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-08T21:12:21.729821Z[Etc/UTC]")public class Attachments   {
   
   private @Valid Integer id;
   private @Valid String name;

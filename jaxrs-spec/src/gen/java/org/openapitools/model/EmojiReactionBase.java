@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-08T21:12:25.585041Z[Etc/UTC]")public class EmojiReactionBase   {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-08T21:12:21.729821Z[Etc/UTC]")public class EmojiReactionBase   {
   
   private @Valid String emojiCode;
   private @Valid String emojiName;
