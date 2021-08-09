@@ -16,7 +16,7 @@ import javax.validation.constraints.*;
 /**
  * GetMessages
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-08-08T21:23:21.107359Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-08-09T21:37:26.812648Z[Etc/UTC]")
 public class GetMessages   {
   @JsonProperty("avatar_url")
   private JsonNullable<Object> avatarUrl = JsonNullable.undefined();

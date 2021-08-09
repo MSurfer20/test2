@@ -19,7 +19,7 @@ import java.io.InputStream;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.validation.constraints.*;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2021-08-08T21:20:01.120158Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2021-08-09T21:34:02.517112Z[Etc/UTC]")
 public abstract class StreamsApiService {
     public abstract Response archiveStream(Integer streamId,SecurityContext securityContext) throws NotFoundException;
     public abstract Response deleteTopic(Integer streamId, @NotNull String topicName,SecurityContext securityContext) throws NotFoundException;

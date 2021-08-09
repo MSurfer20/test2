@@ -2,7 +2,7 @@
 
 Zulip REST API
 - API version: 1.0.0
-  - Build date: 2021-08-08T21:19:12.385396Z[Etc/UTC]
+  - Build date: 2021-08-09T21:33:13.791847Z[Etc/UTC]
 
 Powerful open source group chat
 

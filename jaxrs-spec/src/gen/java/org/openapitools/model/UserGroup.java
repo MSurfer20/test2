@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Object containing the user group&#39;s attributes. 
  **/
 @ApiModel(description = "Object containing the user group's attributes. ")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-08T21:20:13.432792Z[Etc/UTC]")public class UserGroup   {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-09T21:34:15.269802Z[Etc/UTC]")public class UserGroup   {
   
   private @Valid String name;
   private @Valid String description;

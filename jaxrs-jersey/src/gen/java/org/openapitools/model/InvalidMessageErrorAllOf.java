@@ -30,7 +30,7 @@ import javax.validation.Valid;
   InvalidMessageErrorAllOf.JSON_PROPERTY_MSG,
   InvalidMessageErrorAllOf.JSON_PROPERTY_RAW_CONTENT
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2021-08-08T21:20:01.120158Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2021-08-09T21:34:02.517112Z[Etc/UTC]")
 public class InvalidMessageErrorAllOf   {
   public static final String JSON_PROPERTY_RESULT = "result";
   @JsonProperty(JSON_PROPERTY_RESULT)

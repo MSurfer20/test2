@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Object containing details of a bot. 
  **/
 @ApiModel(description = "Object containing details of a bot. ")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-08T21:20:13.432792Z[Etc/UTC]")public class BotAllOf   {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-09T21:34:15.269802Z[Etc/UTC]")public class BotAllOf   {
   
   private @Valid Object userId = null;
   private @Valid Object fullName = null;

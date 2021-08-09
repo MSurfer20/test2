@@ -24,7 +24,7 @@ import io.swagger.annotations.ApiModelProperty;
  */
 
 @ApiModel(description = "`{client_name}`: Object containing the details of the user's presence on a particular platform with the client's platform name being the object key. ")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaUndertowServerCodegen", date = "2021-08-08T21:19:37.133192Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaUndertowServerCodegen", date = "2021-08-09T21:33:38.242195Z[Etc/UTC]")
 public class Presence   {
   
   private String client;

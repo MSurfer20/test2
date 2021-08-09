@@ -27,7 +27,7 @@ import java.io.IOException;
 /**
  * EmojiBase
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-08-08T21:19:12.385396Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-08-09T21:33:13.791847Z[Etc/UTC]")
 public class EmojiBase {
   public static final String SERIALIZED_NAME_EMOJI_CODE = "emoji_code";
   @SerializedName(SERIALIZED_NAME_EMOJI_CODE)

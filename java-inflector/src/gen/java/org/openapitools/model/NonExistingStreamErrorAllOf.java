@@ -10,7 +10,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen", date = "2021-08-08T21:19:21.039467Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen", date = "2021-08-09T21:33:21.953019Z[Etc/UTC]")
 public class NonExistingStreamErrorAllOf   {
   @JsonProperty("result")
   private Object result = null;

@@ -13,7 +13,7 @@ import play.api.libs.Files.TemporaryFile
 /**
   * Provides a default implementation for [[MessagesApi]].
   */
-@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2021-08-08T21:23:09.886767Z[Etc/UTC]")
+@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2021-08-09T21:37:15.417726Z[Etc/UTC]")
 class MessagesApiImpl extends MessagesApi {
   /**
     * @inheritdoc

@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * A dictionary for representing a message draft. 
  **/
 @ApiModel(description = "A dictionary for representing a message draft. ")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-08T21:20:13.432792Z[Etc/UTC]")public class Draft   {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-09T21:34:15.269802Z[Etc/UTC]")public class Draft   {
   
   private @Valid Integer id;
 

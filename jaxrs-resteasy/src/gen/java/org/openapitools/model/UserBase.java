@@ -13,7 +13,7 @@ import java.util.Map;
 import javax.validation.constraints.*;
 import io.swagger.annotations.*;
 
-@ApiModel(description="A dictionary containing basic data on a given Zulip user. ")@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyServerCodegen", date = "2021-08-08T21:20:05.336070Z[Etc/UTC]")
+@ApiModel(description="A dictionary containing basic data on a given Zulip user. ")@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyServerCodegen", date = "2021-08-09T21:34:06.844189Z[Etc/UTC]")
 public class UserBase   {
   
   private String email;

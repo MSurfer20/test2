@@ -30,7 +30,7 @@ import javax.validation.Valid;
   EmojiReactionBaseAllOf.JSON_PROPERTY_USER_ID,
   EmojiReactionBaseAllOf.JSON_PROPERTY_USER
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2021-08-08T21:20:01.120158Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2021-08-09T21:34:02.517112Z[Etc/UTC]")
 public class EmojiReactionBaseAllOf   {
   public static final String JSON_PROPERTY_USER_ID = "user_id";
   @JsonProperty(JSON_PROPERTY_USER_ID)

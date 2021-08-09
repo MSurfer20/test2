@@ -29,7 +29,7 @@ import javax.validation.Valid;
   AttachmentsMessages.JSON_PROPERTY_DATE_SENT,
   AttachmentsMessages.JSON_PROPERTY_ID
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2021-08-08T21:20:01.120158Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2021-08-09T21:34:02.517112Z[Etc/UTC]")
 public class AttachmentsMessages   {
   public static final String JSON_PROPERTY_DATE_SENT = "date_sent";
   @JsonProperty(JSON_PROPERTY_DATE_SENT)

@@ -12,7 +12,7 @@ import java.util.LinkedHashSet;
 import java.io.FileInputStream;
 import play.libs.Files.TemporaryFile;
 import javax.validation.constraints.*;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", date = "2021-08-08T21:19:33.131185Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", date = "2021-08-09T21:33:34.002001Z[Etc/UTC]")
 public class ServerAndOrganizationsApiControllerImp extends ServerAndOrganizationsApiControllerImpInterface {
     @Override
     public JsonSuccessBase addCodePlayground(Http.Request request, @NotNull String name, @NotNull String pygmentsLanguage, @NotNull String urlPrefix) throws Exception {

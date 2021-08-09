@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Object containing details of the message. 
  **/
 @ApiModel(description = "Object containing details of the message. ")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-08T21:20:13.432792Z[Etc/UTC]")public class MessagesBase   {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-09T21:34:15.269802Z[Etc/UTC]")public class MessagesBase   {
   
   private @Valid String avatarUrl;
   private @Valid String client;

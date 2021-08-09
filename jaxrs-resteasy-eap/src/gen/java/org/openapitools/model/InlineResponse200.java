@@ -10,7 +10,7 @@ import org.openapitools.model.MessagesBase;
 import javax.validation.constraints.*;
 import io.swagger.annotations.*;
 
-@ApiModel(description="This is an example of the JSON payload that the Zulip server will `POST` to your server ")@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyEapServerCodegen", date = "2021-08-08T21:20:09.368890Z[Etc/UTC]")
+@ApiModel(description="This is an example of the JSON payload that the Zulip server will `POST` to your server ")@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyEapServerCodegen", date = "2021-08-09T21:34:11.247626Z[Etc/UTC]")
 public class InlineResponse200   {
   
 

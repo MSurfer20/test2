@@ -12,7 +12,7 @@ import javax.validation.constraints.*;
 /**
  * BasicStreamAllOf
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-08-08T21:23:21.107359Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-08-09T21:37:26.812648Z[Etc/UTC]")
 public class BasicStreamAllOf   {
   @JsonProperty("stream_id")
   private JsonNullable<Object> streamId = JsonNullable.undefined();

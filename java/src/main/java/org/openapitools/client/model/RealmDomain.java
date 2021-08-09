@@ -28,7 +28,7 @@ import java.io.IOException;
  * Object containing details of the newly added domain. 
  */
 @ApiModel(description = "Object containing details of the newly added domain. ")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-08-08T21:19:12.385396Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-08-09T21:33:13.791847Z[Etc/UTC]")
 public class RealmDomain {
   public static final String SERIALIZED_NAME_DOMAIN = "domain";
   @SerializedName(SERIALIZED_NAME_DOMAIN)

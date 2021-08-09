@@ -11,7 +11,7 @@ import model.OneOfobjectobject
 import model.OneOfstringinteger
 import play.api.libs.Files.TemporaryFile
 
-@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2021-08-08T21:23:09.886767Z[Etc/UTC]")
+@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2021-08-09T21:37:15.417726Z[Etc/UTC]")
 trait MessagesApi {
   /**
     * Add an emoji reaction
