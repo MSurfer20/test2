@@ -8,7 +8,7 @@ import play.api.libs.Files.TemporaryFile
 /**
   * Provides a default implementation for [[ServerAndOrganizationsApi]].
   */
-@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2021-08-09T21:37:15.417726Z[Etc/UTC]")
+@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2021-08-10T11:47:30.086135Z[Etc/UTC]")
 class ServerAndOrganizationsApiImpl extends ServerAndOrganizationsApi {
   /**
     * @inheritdoc

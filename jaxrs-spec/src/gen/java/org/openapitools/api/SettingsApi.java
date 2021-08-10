@@ -15,7 +15,7 @@ import javax.validation.Valid;
 
 @Path("/settings")
 @Api(description = "the settings API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-09T21:34:15.269802Z[Etc/UTC]")public class SettingsApi {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-10T11:44:56.462938Z[Etc/UTC]")public class SettingsApi {
 
     @PATCH
     @Produces({ "application/json" })

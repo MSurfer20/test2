@@ -31,7 +31,7 @@ import java.util.Map;
 /**
  * AddSubscriptionsResponseAllOf
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-08-09T21:33:13.791847Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-08-10T11:44:04.874947Z[Etc/UTC]")
 public class AddSubscriptionsResponseAllOf {
   public static final String SERIALIZED_NAME_RESULT = "result";
   @SerializedName(SERIALIZED_NAME_RESULT)

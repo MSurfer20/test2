@@ -9,7 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 import javax.validation.constraints.*;
 import io.swagger.annotations.*;
 
-@ApiModel(description="`{emoji_id}`: Object containing details about the emoji with  the specified ID. It has the following properties: ")@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyServerCodegen", date = "2021-08-09T21:34:06.844189Z[Etc/UTC]")
+@ApiModel(description="`{emoji_id}`: Object containing details about the emoji with  the specified ID. It has the following properties: ")@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyServerCodegen", date = "2021-08-10T11:44:49.803797Z[Etc/UTC]")
 public class RealmEmoji   {
   
   private String id;

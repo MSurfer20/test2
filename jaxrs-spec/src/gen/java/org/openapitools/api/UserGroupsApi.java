@@ -17,7 +17,7 @@ import javax.validation.Valid;
 
 @Path("/user_groups")
 @Api(description = "the user_groups API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-09T21:34:15.269802Z[Etc/UTC]")public class UserGroupsApi {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-10T11:44:56.462938Z[Etc/UTC]")public class UserGroupsApi {
 
     @POST
     @Path("/create")

@@ -6,7 +6,7 @@ import play.api.libs.json._
   * ## Missing request parameter(s)  A typical failed JSON response for when a required request parameter is not supplied 
   * @param varName It contains the information about the missing parameter. 
   */
-@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2021-08-09T21:37:15.417726Z[Etc/UTC]")
+@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2021-08-10T11:47:30.086135Z[Etc/UTC]")
 case class MissingArgumentErrorAllOf(
   result: Option[OasAnyTypeNotMapped],
   msg: Option[OasAnyTypeNotMapped],

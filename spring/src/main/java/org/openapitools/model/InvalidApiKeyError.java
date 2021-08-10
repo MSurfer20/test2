@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
 /**
  * InvalidApiKeyError
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-08-09T21:37:26.812648Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-08-10T11:47:39.922565Z[Etc/UTC]")
 public class InvalidApiKeyError   {
   @JsonProperty("result")
   private JsonNullable<Object> result = JsonNullable.undefined();

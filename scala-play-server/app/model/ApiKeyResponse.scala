@@ -7,7 +7,7 @@ import play.api.libs.json._
   * @param apiKey The API key that can be used to authenticate as the requested user. 
   * @param email The email address of the user who owns the API key 
   */
-@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2021-08-09T21:37:15.417726Z[Etc/UTC]")
+@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2021-08-10T11:47:30.086135Z[Etc/UTC]")
 case class ApiKeyResponse(
   result: OasAnyTypeNotMapped,
   msg: OasAnyTypeNotMapped,

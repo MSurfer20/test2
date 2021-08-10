@@ -9,7 +9,7 @@ import play.api.libs.json._
   * @param pygmentsLanguage The name of the Pygments language lexer for that programming language. 
   * @param urlPrefix The url prefix for the playground. 
   */
-@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2021-08-09T21:37:15.417726Z[Etc/UTC]")
+@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2021-08-10T11:47:30.086135Z[Etc/UTC]")
 case class RealmPlayground(
   id: Option[Int],
   name: Option[String],

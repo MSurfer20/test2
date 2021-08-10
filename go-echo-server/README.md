@@ -14,7 +14,7 @@ To see how to make this your own, look here:
 [README](https://openapi-generator.tech)
 
 - API version: 1.0.0
-- Build date: 2021-08-09T21:32:18.910732Z[Etc/UTC]
+- Build date: 2021-08-10T11:43:18.933677Z[Etc/UTC]
 For more information, please visit [https://zulip.com](https://zulip.com)
 
 ### Running the server

@@ -31,7 +31,7 @@ import javax.validation.Valid;
   UserDeactivatedError.JSON_PROPERTY_MSG,
   UserDeactivatedError.JSON_PROPERTY_CODE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2021-08-09T21:34:02.517112Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2021-08-10T11:44:46.274064Z[Etc/UTC]")
 public class UserDeactivatedError   {
   public static final String JSON_PROPERTY_RESULT = "result";
   @JsonProperty(JSON_PROPERTY_RESULT)

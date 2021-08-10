@@ -9,7 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * BasicStreamAllOf
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", date = "2021-08-09T21:33:26.116785Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", date = "2021-08-10T11:44:15.430476Z[Etc/UTC]")
 public class BasicStreamAllOf   {
   @JsonProperty("stream_id")
   private Object streamId = null;

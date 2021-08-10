@@ -13,7 +13,7 @@ import org.openapitools.model.EmojiReactionBaseAllOfUser;
 
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen", date = "2021-08-09T21:33:21.953019Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen", date = "2021-08-10T11:44:11.915572Z[Etc/UTC]")
 public class EmojiReactionBase   {
   @JsonProperty("emoji_code")
   private String emojiCode;

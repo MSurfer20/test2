@@ -17,7 +17,7 @@ import java.io.InputStream;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyEapServerCodegen", date = "2021-08-09T21:34:11.247626Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyEapServerCodegen", date = "2021-08-10T11:44:53.197679Z[Etc/UTC]")
 public class StreamsApiServiceImpl implements StreamsApi {
       public Response archiveStream(Integer streamId,SecurityContext securityContext) {
       // do some magic!

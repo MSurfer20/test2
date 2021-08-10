@@ -20,7 +20,7 @@ import org.openapitools.model.OneOfobjectobjectobject;
 import org.openapitools.model.OneOfobjectobjectobjectobjectobjectobject;
 import org.openapitools.model.OneOfstringinteger;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen", date = "2021-08-09T21:33:21.953019Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen", date = "2021-08-10T11:44:11.915572Z[Etc/UTC]")
 public class UsersController  {
   /** 
    * Uncomment and implement as you see fit.  These operations will map

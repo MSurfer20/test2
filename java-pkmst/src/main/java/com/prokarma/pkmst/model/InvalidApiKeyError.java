@@ -15,7 +15,7 @@ import io.swagger.annotations.ApiModelProperty;
  * InvalidApiKeyError
  */
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPKMSTServerCodegen", date = "2021-08-09T21:33:29.972302Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPKMSTServerCodegen", date = "2021-08-10T11:44:18.948405Z[Etc/UTC]")
 public class InvalidApiKeyError   {
   @JsonProperty("result")
   private Object result = null;

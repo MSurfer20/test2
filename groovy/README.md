@@ -7,7 +7,7 @@ This Groovy package, using the [http-builder-ng library](https://http-builder-ng
 
 - API version: 1.0.0
 - Package version: 1.0.0
-- Build date: 2021-08-09T21:32:38.254691Z[Etc/UTC]
+- Build date: 2021-08-10T11:43:35.054775Z[Etc/UTC]
 - Build package: org.openapitools.codegen.languages.GroovyClientCodegen
 For more information, please visit [https://zulip.com](https://zulip.com)
 

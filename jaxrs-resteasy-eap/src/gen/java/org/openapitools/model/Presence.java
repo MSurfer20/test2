@@ -10,7 +10,7 @@ import io.swagger.annotations.ApiModelProperty;
 import javax.validation.constraints.*;
 import io.swagger.annotations.*;
 
-@ApiModel(description="`{client_name}`: Object containing the details of the user's presence on a particular platform with the client's platform name being the object key. ")@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyEapServerCodegen", date = "2021-08-09T21:34:11.247626Z[Etc/UTC]")
+@ApiModel(description="`{client_name}`: Object containing the details of the user's presence on a particular platform with the client's platform name being the object key. ")@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyEapServerCodegen", date = "2021-08-10T11:44:53.197679Z[Etc/UTC]")
 public class Presence   {
   
 
