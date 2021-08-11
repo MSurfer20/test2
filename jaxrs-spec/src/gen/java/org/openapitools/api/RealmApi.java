@@ -17,7 +17,7 @@ import javax.validation.Valid;
 
 @Path("/realm")
 @Api(description = "the realm API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-10T11:44:56.462938Z[Etc/UTC]")public class RealmApi {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class RealmApi {
 
     @POST
     @Path("/playgrounds")

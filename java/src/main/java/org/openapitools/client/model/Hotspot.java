@@ -29,7 +29,7 @@ import java.math.BigDecimal;
  * Dictionary containing details of a single hotspot. 
  */
 @ApiModel(description = "Dictionary containing details of a single hotspot. ")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2021-08-10T11:44:04.874947Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Hotspot {
   public static final String SERIALIZED_NAME_DELAY = "delay";
   @SerializedName(SERIALIZED_NAME_DELAY)

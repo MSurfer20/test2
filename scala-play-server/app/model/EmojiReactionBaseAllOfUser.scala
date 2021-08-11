@@ -9,7 +9,7 @@ import play.api.libs.json._
   * @param fullName Full name of the user. 
   * @param isMirrorDummy Whether the user is a mirror dummy. 
   */
-@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2021-08-10T11:47:30.086135Z[Etc/UTC]")
+@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"))
 case class EmojiReactionBaseAllOfUser(
   id: Option[Int],
   email: Option[String],

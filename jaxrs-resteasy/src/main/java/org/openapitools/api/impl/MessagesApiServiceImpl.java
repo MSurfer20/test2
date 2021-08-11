@@ -21,7 +21,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
 @RequestScoped
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyServerCodegen", date = "2021-08-10T11:44:49.803797Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyServerCodegen")
 public class MessagesApiServiceImpl implements MessagesApiService {
       public Response addReaction(Integer messageId,String emojiName,String emojiCode,String reactionType,SecurityContext securityContext)
       throws NotFoundException {

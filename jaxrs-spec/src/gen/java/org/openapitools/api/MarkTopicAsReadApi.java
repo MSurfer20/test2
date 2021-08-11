@@ -15,7 +15,7 @@ import javax.validation.Valid;
 
 @Path("/mark_topic_as_read")
 @Api(description = "the mark_topic_as_read API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-10T11:44:56.462938Z[Etc/UTC]")public class MarkTopicAsReadApi {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class MarkTopicAsReadApi {
 
     @POST
     @Produces({ "application/json" })

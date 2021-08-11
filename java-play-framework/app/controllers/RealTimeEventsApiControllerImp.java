@@ -16,7 +16,7 @@ import java.util.LinkedHashSet;
 import java.io.FileInputStream;
 import play.libs.Files.TemporaryFile;
 import javax.validation.constraints.*;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", date = "2021-08-10T11:44:22.210302Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class RealTimeEventsApiControllerImp extends RealTimeEventsApiControllerImpInterface {
     @Override
     public JsonSuccess deleteQueue(Http.Request request, @NotNull String queueId) throws Exception {

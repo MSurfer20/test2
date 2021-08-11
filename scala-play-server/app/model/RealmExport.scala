@@ -12,7 +12,7 @@ import play.api.libs.json._
   * @param exportUrl The URL of the export. `null` if there's no URL. 
   * @param pending Whether the export is pending or not. 
   */
-@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2021-08-10T11:47:30.086135Z[Etc/UTC]")
+@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"))
 case class RealmExport(
   id: Option[Int],
   actingUserId: Option[Int],

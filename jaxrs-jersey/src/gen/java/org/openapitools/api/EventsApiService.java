@@ -17,7 +17,7 @@ import java.io.InputStream;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.validation.constraints.*;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2021-08-10T11:44:46.274064Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public abstract class EventsApiService {
     public abstract Response deleteQueue( @NotNull String queueId,SecurityContext securityContext) throws NotFoundException;
     public abstract Response getEvents( @NotNull String queueId,Integer lastEventId,Boolean dontBlock,SecurityContext securityContext) throws NotFoundException;

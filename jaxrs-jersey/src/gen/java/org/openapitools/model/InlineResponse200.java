@@ -35,7 +35,7 @@ import javax.validation.Valid;
   InlineResponse200.JSON_PROPERTY_TOKEN,
   InlineResponse200.JSON_PROPERTY_MESSAGE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2021-08-10T11:44:46.274064Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class InlineResponse200   {
   public static final String JSON_PROPERTY_BOT_EMAIL = "bot_email";
   @JsonProperty(JSON_PROPERTY_BOT_EMAIL)

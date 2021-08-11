@@ -15,7 +15,7 @@ import javax.validation.Valid;
 
 @Path("/dev_fetch_api_key")
 @Api(description = "the dev_fetch_api_key API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-10T11:44:56.462938Z[Etc/UTC]")public class DevFetchApiKeyApi {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class DevFetchApiKeyApi {
 
     @POST
     @Produces({ "application/json" })

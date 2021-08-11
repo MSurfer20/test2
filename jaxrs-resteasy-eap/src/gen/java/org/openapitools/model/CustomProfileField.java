@@ -9,7 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 import javax.validation.constraints.*;
 import io.swagger.annotations.*;
 
-@ApiModel(description="Dictionary containing the details of a custom profile field configured for this organization. ")@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyEapServerCodegen", date = "2021-08-10T11:44:53.197679Z[Etc/UTC]")
+@ApiModel(description="Dictionary containing the details of a custom profile field configured for this organization. ")@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyEapServerCodegen")
 public class CustomProfileField   {
   
 

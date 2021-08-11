@@ -13,7 +13,7 @@ import model.NonExistingStreamError
 import model.OneOfobjectobject
 import model.OneOfstringinteger
 
-@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2021-08-10T11:47:30.086135Z[Etc/UTC]")
+@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"))
 @Singleton
 class StreamsApiController @Inject()(cc: ControllerComponents, api: StreamsApi) extends AbstractController(cc) {
   /**

@@ -1,1 +1,1 @@
-client_gravatar,slim_presence,apply_markdown,narrow,all_public_streams,fetch_event_types,include_subscribers,client_capabilities,event_types
+event_types,all_public_streams,apply_markdown,slim_presence,include_subscribers,client_gravatar,narrow,client_capabilities,fetch_event_types

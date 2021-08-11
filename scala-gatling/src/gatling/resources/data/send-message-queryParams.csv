@@ -1,1 +1,1 @@
-content,local_id,topic,queue_id,type,to
+local_id,topic,queue_id,type,content,to

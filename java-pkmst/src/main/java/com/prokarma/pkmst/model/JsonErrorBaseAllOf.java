@@ -15,7 +15,7 @@ import io.swagger.annotations.ApiModelProperty;
  * JsonErrorBaseAllOf
  */
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPKMSTServerCodegen", date = "2021-08-10T11:44:18.948405Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPKMSTServerCodegen")
 public class JsonErrorBaseAllOf   {
   /**
    * Gets or Sets result

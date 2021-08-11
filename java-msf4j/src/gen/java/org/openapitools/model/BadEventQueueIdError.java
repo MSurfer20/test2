@@ -11,7 +11,7 @@ import org.openapitools.model.CodedErrorBase;
 /**
  * BadEventQueueIdError
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", date = "2021-08-10T11:44:15.430476Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
 public class BadEventQueueIdError   {
   @JsonProperty("result")
   private Object result = null;

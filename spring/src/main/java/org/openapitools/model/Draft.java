@@ -17,7 +17,7 @@ import javax.validation.constraints.*;
  * A dictionary for representing a message draft. 
  */
 @ApiModel(description = "A dictionary for representing a message draft. ")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-08-10T11:47:39.922565Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Draft   {
   @JsonProperty("id")
   private Integer id;

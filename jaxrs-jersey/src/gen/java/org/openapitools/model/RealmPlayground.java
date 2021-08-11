@@ -32,7 +32,7 @@ import javax.validation.Valid;
   RealmPlayground.JSON_PROPERTY_PYGMENTS_LANGUAGE,
   RealmPlayground.JSON_PROPERTY_URL_PREFIX
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2021-08-10T11:44:46.274064Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class RealmPlayground   {
   public static final String JSON_PROPERTY_ID = "id";
   @JsonProperty(JSON_PROPERTY_ID)

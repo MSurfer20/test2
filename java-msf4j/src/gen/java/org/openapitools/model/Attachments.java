@@ -13,7 +13,7 @@ import org.openapitools.model.AttachmentsMessages;
  * Dictionary containing details of a file uploaded by a user. 
  */
 @ApiModel(description = "Dictionary containing details of a file uploaded by a user. ")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", date = "2021-08-10T11:44:15.430476Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
 public class Attachments   {
   @JsonProperty("id")
   private Integer id;

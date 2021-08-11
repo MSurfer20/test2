@@ -12,7 +12,7 @@ import org.openapitools.model.MessagesBase;
 
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen", date = "2021-08-10T11:44:11.915572Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen")
 public class Messages   {
   @JsonProperty("avatar_url")
   private Object avatarUrl = null;

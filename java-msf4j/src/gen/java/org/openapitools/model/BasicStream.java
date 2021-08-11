@@ -11,7 +11,7 @@ import org.openapitools.model.BasicStreamBase;
 /**
  * BasicStream
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", date = "2021-08-10T11:44:15.430476Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
 public class BasicStream   {
   @JsonProperty("stream_id")
   private Object streamId = null;

@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
  * Dictionary containing details of a single hotspot. 
  */
 @ApiModel(description = "Dictionary containing details of a single hotspot. ")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-08-10T11:47:39.922565Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Hotspot   {
   @JsonProperty("delay")
   private BigDecimal delay;

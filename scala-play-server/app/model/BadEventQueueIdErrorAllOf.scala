@@ -6,7 +6,7 @@ import play.api.libs.json._
   * Represents the Swagger definition for BadEventQueueIdError_allOf.
   * @param queueId The string that identifies the invalid event queue. 
   */
-@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2021-08-10T11:47:30.086135Z[Etc/UTC]")
+@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"))
 case class BadEventQueueIdErrorAllOf(
   result: Option[OasAnyTypeNotMapped],
   msg: Option[OasAnyTypeNotMapped],

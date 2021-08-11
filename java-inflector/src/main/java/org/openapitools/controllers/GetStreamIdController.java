@@ -13,7 +13,7 @@ import org.openapitools.model.*;
 import org.openapitools.model.CodedError;
 import org.openapitools.model.JsonSuccessBase;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen", date = "2021-08-10T11:44:11.915572Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen")
 public class GetStreamIdController  {
   /** 
    * Uncomment and implement as you see fit.  These operations will map

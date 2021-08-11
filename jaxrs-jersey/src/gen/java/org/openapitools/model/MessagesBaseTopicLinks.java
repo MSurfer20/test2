@@ -29,7 +29,7 @@ import javax.validation.Valid;
   MessagesBaseTopicLinks.JSON_PROPERTY_TEXT,
   MessagesBaseTopicLinks.JSON_PROPERTY_URL
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2021-08-10T11:44:46.274064Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class MessagesBaseTopicLinks   {
   public static final String JSON_PROPERTY_TEXT = "text";
   @JsonProperty(JSON_PROPERTY_TEXT)

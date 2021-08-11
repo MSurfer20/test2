@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  * Object containing basic details about the stream. 
  */
 @ApiModel(description = "Object containing basic details about the stream. ")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-08-10T11:47:39.922565Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class BasicStreamBase   {
   @JsonProperty("stream_id")
   private Integer streamId;

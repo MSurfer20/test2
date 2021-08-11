@@ -14,7 +14,7 @@ import java.util.List;
  * A dictionary for representing a message draft. 
  */
 @ApiModel(description = "A dictionary for representing a message draft. ")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", date = "2021-08-10T11:44:15.430476Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
 public class Draft   {
   @JsonProperty("id")
   private Integer id;

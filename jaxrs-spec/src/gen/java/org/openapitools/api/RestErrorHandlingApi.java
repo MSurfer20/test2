@@ -17,7 +17,7 @@ import javax.validation.Valid;
 
 @Path("/rest-error-handling")
 @Api(description = "the rest-error-handling API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-10T11:44:56.462938Z[Etc/UTC]")public class RestErrorHandlingApi {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class RestErrorHandlingApi {
 
     @POST
     @Produces({ "application/json" })

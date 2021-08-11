@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  * Object containing details of the newly added domain. 
  */
 @ApiModel(description = "Object containing details of the newly added domain. ")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-08-10T11:47:39.922565Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class RealmDomain   {
   @JsonProperty("domain")
   private String domain;

@@ -18,7 +18,7 @@ import javax.validation.constraints.*;
  * Object containing details of the message. 
  */
 @ApiModel(description = "Object containing details of the message. ")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-08-10T11:47:39.922565Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class MessagesBase   {
   @JsonProperty("avatar_url")
   private JsonNullable<String> avatarUrl = JsonNullable.undefined();

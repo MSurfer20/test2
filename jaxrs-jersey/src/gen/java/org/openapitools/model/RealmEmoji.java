@@ -33,7 +33,7 @@ import javax.validation.Valid;
   RealmEmoji.JSON_PROPERTY_DEACTIVATED,
   RealmEmoji.JSON_PROPERTY_AUTHOR_ID
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2021-08-10T11:44:46.274064Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class RealmEmoji   {
   public static final String JSON_PROPERTY_ID = "id";
   @JsonProperty(JSON_PROPERTY_ID)

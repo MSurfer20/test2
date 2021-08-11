@@ -12,7 +12,7 @@ import java.util.List;
  * Object containing the user group&#39;s attributes. 
  */
 @ApiModel(description = "Object containing the user group's attributes. ")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", date = "2021-08-10T11:44:15.430476Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
 public class UserGroup   {
   @JsonProperty("name")
   private String name;

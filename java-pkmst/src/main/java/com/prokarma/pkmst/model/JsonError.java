@@ -16,7 +16,7 @@ import io.swagger.annotations.ApiModelProperty;
  * JsonError
  */
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPKMSTServerCodegen", date = "2021-08-10T11:44:18.948405Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPKMSTServerCodegen")
 public class JsonError   {
   @JsonProperty("result")
   private Object result = null;

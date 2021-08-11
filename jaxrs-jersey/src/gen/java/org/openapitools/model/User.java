@@ -47,7 +47,7 @@ import javax.validation.Valid;
   User.JSON_PROPERTY_DELIVERY_EMAIL,
   User.JSON_PROPERTY_PROFILE_DATA
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2021-08-10T11:44:46.274064Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class User   {
   public static final String JSON_PROPERTY_EMAIL = "email";
   @JsonProperty(JSON_PROPERTY_EMAIL)

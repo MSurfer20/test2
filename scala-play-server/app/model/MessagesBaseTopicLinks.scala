@@ -7,7 +7,7 @@ import play.api.libs.json._
   * @param text The original link text present in the topic. 
   * @param url The expanded target url which the link points to. 
   */
-@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2021-08-10T11:47:30.086135Z[Etc/UTC]")
+@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"))
 case class MessagesBaseTopicLinks(
   text: Option[String],
   url: Option[String]

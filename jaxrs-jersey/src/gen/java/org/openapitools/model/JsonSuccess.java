@@ -31,7 +31,7 @@ import javax.validation.Valid;
   JsonSuccess.JSON_PROPERTY_RESULT,
   JsonSuccess.JSON_PROPERTY_MSG
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2021-08-10T11:44:46.274064Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class JsonSuccess   {
   public static final String JSON_PROPERTY_RESULT = "result";
   @JsonProperty(JSON_PROPERTY_RESULT)

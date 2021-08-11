@@ -15,7 +15,7 @@ import javax.validation.constraints.*;
  * Object containing the user group&#39;s attributes. 
  */
 @ApiModel(description = "Object containing the user group's attributes. ")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-08-10T11:47:39.922565Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class UserGroup   {
   @JsonProperty("name")
   private String name;

@@ -9,7 +9,7 @@ import javax.validation.constraints.*;
 /**
  * Dictionary containing details of a single hotspot. 
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", date = "2021-08-10T11:44:22.210302Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Hotspot   {
   @JsonProperty("delay")

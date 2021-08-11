@@ -6,7 +6,7 @@ import model.JsonSuccess
 import model.JsonSuccessBase
 import play.api.libs.Files.TemporaryFile
 
-@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2021-08-10T11:47:30.086135Z[Etc/UTC]")
+@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"))
 trait ServerAndOrganizationsApi {
   /**
     * Add a code playground

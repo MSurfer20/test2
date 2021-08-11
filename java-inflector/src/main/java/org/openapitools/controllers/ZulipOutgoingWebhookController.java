@@ -12,7 +12,7 @@ import org.openapitools.model.*;
 
 import org.openapitools.model.InlineResponse200;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen", date = "2021-08-10T11:44:11.915572Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen")
 public class ZulipOutgoingWebhookController  {
   /** 
    * Uncomment and implement as you see fit.  These operations will map

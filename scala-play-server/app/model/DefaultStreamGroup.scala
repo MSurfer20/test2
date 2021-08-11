@@ -9,7 +9,7 @@ import play.api.libs.json._
   * @param id id of the default stream group. 
   * @param streams Array containing details about the streams in the default stream group. 
   */
-@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2021-08-10T11:47:30.086135Z[Etc/UTC]")
+@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"))
 case class DefaultStreamGroup(
   name: Option[String],
   description: Option[String],

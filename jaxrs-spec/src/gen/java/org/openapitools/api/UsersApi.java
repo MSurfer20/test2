@@ -23,7 +23,7 @@ import javax.validation.Valid;
 
 @Path("/users")
 @Api(description = "the users API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", date = "2021-08-10T11:44:56.462938Z[Etc/UTC]")public class UsersApi {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class UsersApi {
 
     @POST
     @Produces({ "application/json" })

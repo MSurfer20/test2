@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  * ## Missing request parameter(s)  A typical failed JSON response for when a required request parameter is not supplied 
  */
 @ApiModel(description = "## Missing request parameter(s)  A typical failed JSON response for when a required request parameter is not supplied ")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-08-10T11:47:39.922565Z[Etc/UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class MissingArgumentErrorAllOf   {
   @JsonProperty("result")
   private JsonNullable<Object> result = JsonNullable.undefined();

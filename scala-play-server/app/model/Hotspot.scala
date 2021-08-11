@@ -9,7 +9,7 @@ import play.api.libs.json._
   * @param title The title of the hotspot, as will be displayed to the user. 
   * @param description The description of the hotspot, as will be displayed to the user. 
   */
-@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2021-08-10T11:47:30.086135Z[Etc/UTC]")
+@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"))
 case class Hotspot(
   delay: Option[BigDecimal],
   name: Option[String],

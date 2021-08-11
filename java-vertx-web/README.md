@@ -1,4 +1,3 @@
-Project generated on : 2021-08-10T11:44:32.284758Z[Etc/UTC]
 
 ## Getting Started
 
