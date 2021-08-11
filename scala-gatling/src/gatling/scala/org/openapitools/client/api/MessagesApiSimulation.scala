@@ -119,8 +119,8 @@ class MessagesApiSimulation extends Simulation {
         .feed(check-messages-match-narrowQUERYFeeder)
         .exec(http("checkMessagesMatchNarrow")
         .httpRequest("GET","/messages/matches_narrow")
-        .queryParam("msg_ids","${msg_ids}")
         .queryParam("narrow","${narrow}")
+        .queryParam("msg_ids","${msg_ids}")
 )
 
     // Run scncheckMessagesMatchNarrow with warm up and reach a constant rate for entire duration
@@ -177,13 +177,13 @@ class MessagesApiSimulation extends Simulation {
         .feed(get-messagesQUERYFeeder)
         .exec(http("getMessages")
         .httpRequest("GET","/messages")
+        .queryParam("narrow","${narrow}")
+        .queryParam("num_after","${num_after}")
+        .queryParam("use_first_unread_anchor","${use_first_unread_anchor}")
+        .queryParam("apply_markdown","${apply_markdown}")
         .queryParam("client_gravatar","${client_gravatar}")
         .queryParam("anchor","${anchor}")
         .queryParam("num_before","${num_before}")
-        .queryParam("num_after","${num_after}")
-        .queryParam("narrow","${narrow}")
-        .queryParam("apply_markdown","${apply_markdown}")
-        .queryParam("use_first_unread_anchor","${use_first_unread_anchor}")
 )
 
     // Run scngetMessages with warm up and reach a constant rate for entire duration
@@ -289,12 +289,12 @@ class MessagesApiSimulation extends Simulation {
         .feed(send-messageQUERYFeeder)
         .exec(http("sendMessage")
         .httpRequest("POST","/messages")
-        .queryParam("content","${content}")
-        .queryParam("type","${type}")
-        .queryParam("to","${to}")
+        .queryParam("local_id","${local_id}")
         .queryParam("topic","${topic}")
         .queryParam("queue_id","${queue_id}")
-        .queryParam("local_id","${local_id}")
+        .queryParam("type","${type}")
+        .queryParam("content","${content}")
+        .queryParam("to","${to}")
 )
 
     // Run scnsendMessage with warm up and reach a constant rate for entire duration
@@ -310,12 +310,12 @@ class MessagesApiSimulation extends Simulation {
         .feed(update-messagePATHFeeder)
         .exec(http("updateMessage")
         .httpRequest("PATCH","/messages/${message_id}")
-        .queryParam("propagate_mode","${propagate_mode}")
-        .queryParam("content","${content}")
-        .queryParam("stream_id","${stream_id}")
         .queryParam("topic","${topic}")
-        .queryParam("send_notification_to_old_thread","${send_notification_to_old_thread}")
+        .queryParam("propagate_mode","${propagate_mode}")
         .queryParam("send_notification_to_new_thread","${send_notification_to_new_thread}")
+        .queryParam("stream_id","${stream_id}")
+        .queryParam("send_notification_to_old_thread","${send_notification_to_old_thread}")
+        .queryParam("content","${content}")
 )
 
     // Run scnupdateMessage with warm up and reach a constant rate for entire duration
@@ -330,9 +330,9 @@ class MessagesApiSimulation extends Simulation {
         .feed(update-message-flagsQUERYFeeder)
         .exec(http("updateMessageFlags")
         .httpRequest("POST","/messages/flags")
-        .queryParam("op","${op}")
         .queryParam("messages","${messages}")
         .queryParam("flag","${flag}")
+        .queryParam("op","${op}")
 )
 
     // Run scnupdateMessageFlags with warm up and reach a constant rate for entire duration

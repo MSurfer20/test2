@@ -1,1 +1,1 @@
-propagate_mode,content,stream_id,topic,send_notification_to_old_thread,send_notification_to_new_thread
+topic,propagate_mode,send_notification_to_new_thread,stream_id,send_notification_to_old_thread,content
