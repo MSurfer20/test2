@@ -1,1 +1,1 @@
-is_announcement_only,description,is_private,message_retention_days,new_name,stream_post_policy,history_public_to_subscribers
+is_announcement_only,history_public_to_subscribers,stream_post_policy,is_private,message_retention_days,description,new_name

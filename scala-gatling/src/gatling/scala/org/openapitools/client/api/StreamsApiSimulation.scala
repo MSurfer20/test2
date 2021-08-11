@@ -174,9 +174,9 @@ class StreamsApiSimulation extends Simulation {
         .queryParam("include_public","${include_public}")
         .queryParam("include_all_active","${include_all_active}")
         .queryParam("include_owner_subscribed","${include_owner_subscribed}")
-        .queryParam("include_subscribed","${include_subscribed}")
-        .queryParam("include_default","${include_default}")
         .queryParam("include_web_public","${include_web_public}")
+        .queryParam("include_default","${include_default}")
+        .queryParam("include_subscribed","${include_subscribed}")
 )
 
     // Run scngetStreams with warm up and reach a constant rate for entire duration
@@ -234,10 +234,10 @@ class StreamsApiSimulation extends Simulation {
         .feed(mute-topicQUERYFeeder)
         .exec(http("muteTopic")
         .httpRequest("PATCH","/users/me/subscriptions/muted_topics")
+        .queryParam("topic","${topic}")
+        .queryParam("stream_id","${stream_id}")
         .queryParam("stream","${stream}")
         .queryParam("op","${op}")
-        .queryParam("stream_id","${stream_id}")
-        .queryParam("topic","${topic}")
 )
 
     // Run scnmuteTopic with warm up and reach a constant rate for entire duration
@@ -252,14 +252,14 @@ class StreamsApiSimulation extends Simulation {
         .feed(subscribeQUERYFeeder)
         .exec(http("subscribe")
         .httpRequest("POST","/users/me/subscriptions")
-        .queryParam("authorization_errors_fatal","${authorization_errors_fatal}")
-        .queryParam("message_retention_days","${message_retention_days}")
         .queryParam("principals","${principals}")
-        .queryParam("subscriptions","${subscriptions}")
+        .queryParam("history_public_to_subscribers","${history_public_to_subscribers}")
+        .queryParam("announce","${announce}")
         .queryParam("stream_post_policy","${stream_post_policy}")
         .queryParam("invite_only","${invite_only}")
-        .queryParam("announce","${announce}")
-        .queryParam("history_public_to_subscribers","${history_public_to_subscribers}")
+        .queryParam("subscriptions","${subscriptions}")
+        .queryParam("message_retention_days","${message_retention_days}")
+        .queryParam("authorization_errors_fatal","${authorization_errors_fatal}")
 )
 
     // Run scnsubscribe with warm up and reach a constant rate for entire duration
@@ -274,8 +274,8 @@ class StreamsApiSimulation extends Simulation {
         .feed(unsubscribeQUERYFeeder)
         .exec(http("unsubscribe")
         .httpRequest("DELETE","/users/me/subscriptions")
-        .queryParam("subscriptions","${subscriptions}")
         .queryParam("principals","${principals}")
+        .queryParam("subscriptions","${subscriptions}")
 )
 
     // Run scnunsubscribe with warm up and reach a constant rate for entire duration
@@ -292,12 +292,12 @@ class StreamsApiSimulation extends Simulation {
         .exec(http("updateStream")
         .httpRequest("PATCH","/streams/${stream_id}")
         .queryParam("is_announcement_only","${is_announcement_only}")
-        .queryParam("description","${description}")
+        .queryParam("history_public_to_subscribers","${history_public_to_subscribers}")
+        .queryParam("stream_post_policy","${stream_post_policy}")
         .queryParam("is_private","${is_private}")
         .queryParam("message_retention_days","${message_retention_days}")
+        .queryParam("description","${description}")
         .queryParam("new_name","${new_name}")
-        .queryParam("stream_post_policy","${stream_post_policy}")
-        .queryParam("history_public_to_subscribers","${history_public_to_subscribers}")
 )
 
     // Run scnupdateStream with warm up and reach a constant rate for entire duration

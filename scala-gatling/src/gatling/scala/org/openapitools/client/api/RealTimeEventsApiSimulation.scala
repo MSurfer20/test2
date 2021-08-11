@@ -92,9 +92,9 @@ class RealTimeEventsApiSimulation extends Simulation {
         .feed(get-eventsQUERYFeeder)
         .exec(http("getEvents")
         .httpRequest("GET","/events")
-        .queryParam("last_event_id","${last_event_id}")
-        .queryParam("dont_block","${dont_block}")
         .queryParam("queue_id","${queue_id}")
+        .queryParam("dont_block","${dont_block}")
+        .queryParam("last_event_id","${last_event_id}")
 )
 
     // Run scngetEvents with warm up and reach a constant rate for entire duration
@@ -126,15 +126,15 @@ class RealTimeEventsApiSimulation extends Simulation {
         .feed(register-queueQUERYFeeder)
         .exec(http("registerQueue")
         .httpRequest("POST","/register")
-        .queryParam("client_gravatar","${client_gravatar}")
-        .queryParam("slim_presence","${slim_presence}")
         .queryParam("event_types","${event_types}")
-        .queryParam("client_capabilities","${client_capabilities}")
-        .queryParam("include_subscribers","${include_subscribers}")
         .queryParam("all_public_streams","${all_public_streams}")
-        .queryParam("narrow","${narrow}")
-        .queryParam("fetch_event_types","${fetch_event_types}")
         .queryParam("apply_markdown","${apply_markdown}")
+        .queryParam("slim_presence","${slim_presence}")
+        .queryParam("include_subscribers","${include_subscribers}")
+        .queryParam("client_gravatar","${client_gravatar}")
+        .queryParam("narrow","${narrow}")
+        .queryParam("client_capabilities","${client_capabilities}")
+        .queryParam("fetch_event_types","${fetch_event_types}")
 )
 
     // Run scnregisterQueue with warm up and reach a constant rate for entire duration
