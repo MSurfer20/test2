@@ -90,8 +90,8 @@ class ServerAndOrganizationsApiSimulation extends Simulation {
         .exec(http("addCodePlayground")
         .httpRequest("POST","/realm/playgrounds")
         .queryParam("url_prefix","${url_prefix}")
-        .queryParam("pygments_language","${pygments_language}")
         .queryParam("name","${name}")
+        .queryParam("pygments_language","${pygments_language}")
 )
 
     // Run scnaddCodePlayground with warm up and reach a constant rate for entire duration
@@ -106,8 +106,8 @@ class ServerAndOrganizationsApiSimulation extends Simulation {
         .feed(add-linkifierQUERYFeeder)
         .exec(http("addLinkifier")
         .httpRequest("POST","/realm/filters")
-        .queryParam("url_format_string","${url_format_string}")
         .queryParam("pattern","${pattern}")
+        .queryParam("url_format_string","${url_format_string}")
 )
 
     // Run scnaddLinkifier with warm up and reach a constant rate for entire duration
@@ -123,9 +123,9 @@ class ServerAndOrganizationsApiSimulation extends Simulation {
         .exec(http("createCustomProfileField")
         .httpRequest("POST","/realm/profile_fields")
         .queryParam("hint","${hint}")
-        .queryParam("name","${name}")
         .queryParam("field_data","${field_data}")
         .queryParam("field_type","${field_type}")
+        .queryParam("name","${name}")
 )
 
     // Run scncreateCustomProfileField with warm up and reach a constant rate for entire duration
@@ -236,8 +236,8 @@ class ServerAndOrganizationsApiSimulation extends Simulation {
         .feed(update-linkifierPATHFeeder)
         .exec(http("updateLinkifier")
         .httpRequest("PATCH","/realm/filters/${filter_id}")
-        .queryParam("url_format_string","${url_format_string}")
         .queryParam("pattern","${pattern}")
+        .queryParam("url_format_string","${url_format_string}")
 )
 
     // Run scnupdateLinkifier with warm up and reach a constant rate for entire duration
