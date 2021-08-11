@@ -9,7 +9,7 @@
     <Version>1.0.0</Version>
     <AssemblyName>Org.OpenAPITools</AssemblyName>
     <PackageId>Org.OpenAPITools</PackageId>
-    <UserSecretsId>ceab6f5b-77f6-49a2-b934-7df9f6d8e3e7</UserSecretsId>
+    <UserSecretsId>e6648f0b-5e2e-42f2-91d5-06687af3601e</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..</DockerfileContext>
   </PropertyGroup>

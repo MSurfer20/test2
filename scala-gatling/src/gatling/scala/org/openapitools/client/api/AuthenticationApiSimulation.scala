@@ -87,8 +87,8 @@ class AuthenticationApiSimulation extends Simulation {
         .feed(fetch-api-keyQUERYFeeder)
         .exec(http("fetchApiKey")
         .httpRequest("POST","/fetch_api_key")
-        .queryParam("password","${password}")
         .queryParam("username","${username}")
+        .queryParam("password","${password}")
 )
 
     // Run scnfetchApiKey with warm up and reach a constant rate for entire duration
